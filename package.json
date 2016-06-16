@@ -1,5 +1,5 @@
 {
-  "name": "learning-platform",
+  "name": "prendus-learning-platform",
   "version": "0.0.0",
   "description": "The tool to create and upload videos and quizzes",
   "scripts": {
@@ -9,9 +9,9 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+ssh://git@github.com:bmackley/prendus_learning.git"
+    "url": "git+ssh://git@github.com:bmackley/prendus-learning-platform.git"
   },
-  "homepage": "https://github.com/bmackley/prendus_learning#readme",
+  "homepage": "https://github.com/bmackley/prendus-learning-platform",
   "dependencies": {},
   "devDependencies": {
     "http-server": "^0.9.0",
