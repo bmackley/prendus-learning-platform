@@ -20,7 +20,7 @@ export function rootReducer(state = InitialState, action) {
         }
         case Actions.getConcepts.type: {
             const newState = Object.assign({}, state);
-            newState.concepts = action;
+            newState.concepts = action.concepts;
             return newState;
         }
         default: {
