@@ -18,6 +18,7 @@
     "paper-elements": "PolymerElements/paper-elements#^1.0.7",
     "carbon-route": "PolymerElements/carbon-route#^0.8.5",
     "video-upload": "https://bmackley@bitbucket.org/prendus/video-upload-component.git",
-    "app-route": "PolymerElements/app-route#^0.9.1"
+    "app-route": "PolymerElements/app-route#^0.9.1",
+    "paper-date-picker": "polymer-paper-date-picker#^1.1.4"
   }
 }

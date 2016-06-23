@@ -4,15 +4,16 @@
 <link rel="import" href="/components/elements.html">
 
 <dom-module id="app-element">
+  <p> hello world </p>
   <style>
     /* CSS rules for your element */
   </style>
   <template>
-    <!--<redux-store root-reducer="[[rootReducer]]"></redux-store>
+    <redux-store root-reducer="[[rootReducer]]"></redux-store>
     <navbar-element></navbar-element>
-    <router-element></router-element>-->
+    <router-element></router-element>
   </template>
   <script>
-    System.import('app-element.ts');
+    System.import('components/app-element/app-element.ts');
   </script>
 </dom-module>

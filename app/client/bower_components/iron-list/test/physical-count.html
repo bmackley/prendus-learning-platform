@@ -35,6 +35,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     </template>
   </test-fixture>
 
+
   <script>
 
     suite('dynamic physical count', function() {
@@ -48,16 +49,13 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
       test('increase pool size', function(done) {
         setTimeout(function() {
-          list.scrollTop = 0;
-
           var lastItem = getLastItemFromList(list);
           var lastItemHeight = lastItem.offsetHeight;
-          var expectedFinalItem = container.listHeight/lastItemHeight - 1;
+          var expectedFinalItem = container.listHeight/lastItemHeight;
 
           assert.equal(list.offsetHeight, container.listHeight);
           assert.equal(lastItemHeight, 2);
-          assert.isTrue(isFullOfItems(list));
-          assert.equal(lastItem.textContent, expectedFinalItem);
+          assert.equal(getLastItemFromList(list).textContent, expectedFinalItem);
           done();
         }, 100);
       });
@@ -69,35 +67,25 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       setup(function() {
         container = fixture('trivialListSmall');
         list = container.list;
-        list.style.display = 'none';
         list.items = buildDataSet(200);
       });
 
       test('increase pool size after resizing the list', function(done) {
         flush(function() {
-          list.style.display = '';
-          assert.notEqual(getFirstItemFromList(list).textContent, '0', 'Item should not be rendered');
-
           list.fire('iron-resize');
+          setTimeout(function() {
+            var lastItem = getLastItemFromList(list);
+            var lastItemHeight = lastItem.offsetHeight;
+            var expectedFinalItem = container.listHeight/lastItemHeight;
 
-          flush(function() {
-            assert.equal(getFirstItemFromList(list).textContent, '0', 'Item should be rendered');
+            assert.equal(list.offsetHeight, container.listHeight);
+            assert.equal(lastItemHeight, 2);
+            assert.equal(getLastItemFromList(list).textContent, expectedFinalItem);
             done();
-          });
-        });
-      });
-
-      test('pool should not increase if the list has no size', function(done) {
-        container.style.display = 'none';
-        list.fire('iron-resize');
-        
-        flush(function() {
-          assert.isFalse(list._increasePoolIfNeeded());
-          done();
+          }, 100);
         });
       });
     });
-
   </script>
 
 </body>
