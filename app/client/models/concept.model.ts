@@ -8,7 +8,6 @@ const save = async (id, data) => {
         return id;
     }
     else {
-        console.log('model save')
         const path = conceptPath;
         //figure out what happens when an error is returned
         const newConcept =  await FirebaseService.push(path, data);
