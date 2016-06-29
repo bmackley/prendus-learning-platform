@@ -8,26 +8,42 @@ listeners: {
 },
 // //mapStateToThis works with event changes.  If it changes somewhere else in the app, it will update here.
 mapStateToThis: function(e) {
-    if(e.detail.state.deletedConcept){//works because if the deleted concept is not there, it won't fire in the if statement
-      for(var i = 0; i < this.concepts.length; i++){
-        if(this.concepts[i].key === e.detail.state.deletedConcept){
-          this.splice('concepts', i, 1)
-        }
+    this.concepts = []
+    if(e.detail.state.concepts){
+      for(let key in e.detail.state.concepts){
+        this.push('concepts', e.detail.state.concepts[key])
       }
-    }
-    if(this.concepts.length === 0){
-      console.log(e.detail.state.concepts)
-      if(e.detail.state.concepts){
-        for(let key in e.detail.state.concepts){
-          this.push('concepts', e.detail.state.concepts[key])
-        }
+      function compare(a,b) {
+        if (a.pos < b.pos)
+          return -1;
+        if (a.pos > b.pos)
+          return 1;
+        return 0;
       }
+      this.concepts.sort(compare);
     }
-    if(e.detail.state.newConcept){
-      if(this.concepts.length === e.detail.state.newConcept.pos){
-        this.push('concepts', e.detail.state.newConcept)
-      }
-    }
+    // if(e.detail.state.deletedConcept){//works because if the deleted concept is not there, it won't fire in the if statement
+    //   for(var i = 0; i < this.concepts.length; i++){
+    //     if(this.concepts[i].key === e.detail.state.deletedConcept){
+    //       this.splice('concepts', i, 1)
+    //     }
+    //   }
+    // }
+    // if(this.concepts.length === 0){
+    //   console.log(e.detail.state.concepts)
+    //   if(e.detail.state.concepts){
+    //     for(let key in e.detail.state.concepts){
+    //       this.push('concepts', e.detail.state.concepts[key])
+    //     }
+    //   }
+    // }
+    // console.log('new Concept', e.detail.state.newConcept)
+    // if(e.detail.state.newConcept){
+    //
+    //   if(this.concepts.length === e.detail.state.newConcept.pos){
+    //     this.push('concepts', e.detail.state.newConcept)
+    //   }
+    // }
 },
 addConcept: function(e){
   addDialog.open();
@@ -79,17 +95,17 @@ properties: {
     },
     courses: {
       type: Array,
-      value: [{title: 'Course Title', instructor: 'Instructor Name', startDate: Date.now(), endDate: Date.now()}]
+      value: [{title: 'Course Title', instructor: 'Instructor Name', startDate: {month: new Date().getMonth(), day: new Date().getDate(), year: new Date().getFullYear()}, endDate: Date.now()}]
     },
-    concepts: {
-      type: Array,
-      value: []
-      //value: [{title: 'Concept 1', pos: 1, Creator: 'Username 1', videos: {title: 'Concept1 Video'}}, {title: 'Concept 2', pos: 2, Creator: 'Username 2', videos: {title: 'Concept2 Video'}}, {title: 'Concept 3', pos: 3, Creator: 'Username 3', videos: {title: 'Concept3 Video'}}]
-    }
+    // concepts: {
+    //   type: Array,
+    //   value: []
+    //   //value: [{title: 'Concept 1', pos: 1, Creator: 'Username 1', videos: {title: 'Concept1 Video'}}, {title: 'Concept 2', pos: 2, Creator: 'Username 2', videos: {title: 'Concept2 Video'}}, {title: 'Concept 3', pos: 3, Creator: 'Username 3', videos: {title: 'Concept3 Video'}}]
+    // }
   },
 ready: function(e){
   FirebaseService.init("AIzaSyANTSoOA6LZZDxM7vqIlAl37B7IqWL-6MY", "prendus.firebaseapp.com", "https://prendus.firebaseio.com", "prendus.appspot.com", "Prendus");
-  console.log('in the ready')
+  console.log('course element')
   var initialState = {
       temp: 'initial temp'
   };

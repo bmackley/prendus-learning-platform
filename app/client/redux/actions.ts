@@ -2,18 +2,39 @@ import {FirebaseService} from '../node_modules/prendus-services/firebase.service
 import {ClassModel} from '../models/class.model.ts'
 import {ConceptModel} from '../models/concept.model.ts'
 
-const setCurrentUser = {
-    type: 'SET_CURRENT_USER',
+const createUser = {
+    type: 'CREATE_USER',
     execute: async (context, email, password) => {
         try {
-          const success = await FirebaseService.logInUser(email, password);
+          const success = await FirebaseService.createUserWithEmailAndPassword(email, password);
           context.action = {
             type: Actions.setCurrentUser.type,
             email: success.email
           };
         }catch(error){
-          //with errors try dispatching an action to handle the error
-          return error;
+          console.log(error);
+          context.action = {
+            type: Actions.displayError.type,
+            error: error,
+          };
+        }
+    }
+};
+const setCurrentUser = {
+    type: 'SET_CURRENT_USER',
+    execute: async (context, email, password) => {
+        try {
+          const success = await FirebaseService.logInUserWithEmailAndPassword(email, password);
+          context.action = {
+            type: Actions.setCurrentUser.type,
+            email: success.email
+          };
+        }catch(error){
+          context.action = {
+            type: Actions.displayError.type,
+            error: error,
+            message: "User not found",
+          };
         }
     }
 };
@@ -22,11 +43,11 @@ const checkUserAuth = {
     execute: async (context) => {
         try {
           console.log('Check User Auth Actions')
-          const success = await FirebaseService.currentUser();
-          console.log(success)
+          const success = await FirebaseService.getLoggedInUser();
+          console.log('success', success)
           context.action = {
             type: Actions.checkUserAuth.type,
-            email: success
+            email: success.email
           };
         }catch(error){
           //with errors try dispatching an action to handle the error
@@ -67,22 +88,10 @@ const getConcepts = {
     execute: async (context) => {
         try {
           const modelConcepts = await ConceptModel.getConcepts();
-          const concepts = []
-          for(const key in modelConcepts){
-              concepts.push(modelConcepts[key])
-          }
-          for(let i, len = modelConcepts.length; i < len; i++){
-            modelConcepts[i]
-          }
-          function compare(a,b){
-            if(a.pos < b.pos)return -1;
-            if(a.pos > b.pos)return 1;
-            return 0;
-          }
-          concepts.sort(compare)
+          console.log(modelConcepts)
           context.action = {
               type: Actions.getConcepts.type,
-              concepts: concepts,
+              concepts: modelConcepts,
           }
         }catch(error){
           return(error)
@@ -110,6 +119,9 @@ const orderConcepts = {
         await ConceptModel.orderConcepts(conceptsArray);
     }
 };
+const displayError = {
+    type: 'DISPLAY_ERROR',
+};
 
 export const Actions = {
     setCurrentUser,
@@ -119,4 +131,6 @@ export const Actions = {
     deleteConcept,
     orderConcepts,
     addConcept,
+    displayError,
+    createUser,
 };

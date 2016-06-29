@@ -11,5 +11,9 @@ export const InitialState = {
       // pos: 0,
       // creator: '',
       // subjects: [],
-    }
+    },
+    error: {
+      message: '',
+    },
+    newConcept: '',
 };

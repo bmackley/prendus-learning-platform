@@ -8,6 +8,22 @@ export function rootReducer(state = InitialState, action) {
             newState.currentUser.email = action.email;
             return newState;
         }
+        case Actions.checkUserAuth.type: {
+          console.log('Reducer action user auth', action)
+          const newState = Object.assign({}, state);
+          newState.currentUser.email = action.email;
+          return newState;
+        }
+        case Actions.addConcept.type: {
+          console.log('reducers add concept', action)
+          const newState = Object.assign({}, state);
+          console.log('new state', state)
+          newState.concepts[action.key] = action;
+          console.log("reducers add concept new state1 ", newState)
+          newState.newConcept = newState.concepts[action.key];
+          console.log("reducers add concept new state 2", newState)
+          return newState;
+        }
         case Actions.setConcepts.type: {
             const newState = Object.assign({}, state);
             newState.concepts = {
@@ -22,6 +38,22 @@ export function rootReducer(state = InitialState, action) {
             const newState = Object.assign({}, state);
             newState.concepts = action.concepts;
             return newState;
+        }
+        case Actions.deleteConcept.type: {
+
+          const newState = Object.assign({}, state);
+          console.log('key', action.key)
+          console.log('concepts', state )
+          delete newState.concepts[action.conceptKey];
+          newState.deletedConcept = action.conceptKey;
+          console.log('Delete old State', state)
+          console.log('Delete new State', newState)
+          return newState;
+        }
+        case Actions.displayError.type: {
+          const newState = Object.assign({}, state);
+          newState.error.message = action.error.message;
+          return newState;
         }
         default: {
             return state;
