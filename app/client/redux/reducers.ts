@@ -42,12 +42,8 @@ export function rootReducer(state = InitialState, action) {
         case Actions.deleteConcept.type: {
 
           const newState = Object.assign({}, state);
-          console.log('key', action.key)
-          console.log('concepts', state )
           delete newState.concepts[action.conceptKey];
           newState.deletedConcept = action.conceptKey;
-          console.log('Delete old State', state)
-          console.log('Delete new State', newState)
           return newState;
         }
         case Actions.displayError.type: {
