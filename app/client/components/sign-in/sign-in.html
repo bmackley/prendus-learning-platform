@@ -2,8 +2,11 @@
 <html>
 <head>
     <link href="../../bower_components/polymer/polymer.html" rel="import">
-    <link href="../../bower_components/polymer-redux-store/redux-store.html" rel="import">
-    <!-- Element Imports -->
+    <link rel="import" href="../../bower_components/polymer-redux-store/redux-store.html">
+    <link rel="import" href="../../bower_components/paper-toast/paper-toast.html">
+    <link rel="import" href="../../bower_components/paper-input/paper-input.html">
+    <link rel="import" href="../../bower_components/paper-toast/paper-toast.html">
+    <link rel="import" href="../../bower_components/paper-card/paper-card.html">
 </head>
 
 <dom-module id="sign-in">
@@ -13,30 +16,32 @@
       :host {
         display: block;
       }
-
-      #loginForm{
-        width: 33%;
-      }
-      @media (max-width: 1200px) {
-        #loginForm{
-          width: 66%;
-          margin-left: 16%;
+      #loginFormCard, #toastTarget{
+          width: 33%;
         }
-      }
-      @media (max-width: 600px) {
-        #loginForm{
-          width: 95%;
-          margin-left: 2%;
+        @media (max-width: 1200px) {
+          #loginFormCard, #toastTarget{
+            width: 66%;
+          }
         }
-      }
+        @media (max-width: 600px) {
+          #loginFormCard, #toastTarget{
+            width: 95%;
+          }
+        }
+        #loginToast {
+          --paper-toast-background-color: red;
+        }
     </style>
   </style>
   <template>
     <!-- local DOM for your element -->
     <redux-store action="[[action]]"></redux-store>
     <center>
-      <paper-card id = "loginForm" heading ="Login">
-          <form is="iron-form" method="get" action="/" id="basic">
+      <paper-toast id="loginToast" verticalAlign="top" text=[[loginFormToastText]]></paper-toast>
+      <paper-card id = "loginFormCard" heading ="Login">
+        <div>
+          <form is="iron-form" method="get" action="/" id="loginForm">
             <paper-input name="email" id = "loginEmail" label="Email" required auto-validate></paper-input>
             <paper-input name="password" id = "loginPassword" label="Password" type="password" required auto-validate></paper-input>
             <div class="output"></div>
@@ -44,9 +49,11 @@
             <paper-button raised id="signin-submit">Submit</paper-button>
             <br>
             <br>
+            <a href= "#"> Reset Password </a>
           </form>
         </div>
       </paper-card>
+      <center><div id="toastTarget" style = "margin-left: -28px; height: 60px;"></div></center>
     </center>
   </template>
 </dom-module>
