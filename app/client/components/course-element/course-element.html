@@ -1,26 +1,19 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <link href="../../bower_components/polymer/polymer.html" rel="import">
-    <link href="../../bower_components/polymer/polymer.html" rel="import">
-    <link href="../../bower_components/iron-icons/editor-icons.html" rel="import">
-    <link href="../../bower_components/iron-collapse/iron-collapse.html" rel="import">
-    <link href="../../bower_components/iron-flex-layout/iron-flex-layout.html" rel="import">
-    <link href="../../bower_components/iron-flex-layout/iron-flex-layout-classes.html" rel="import">
-    <link href="../../bower_components/paper-dialog/paper-dialog.html" rel="import">
-    <link href="../../bower_components/paper-dialog-behavior/paper-dialog-behavior.html" rel="import">
-    <link href="../../bower_components/paper-dialog-behavior/paper-dialog-shared-styles.html" rel="import">
-    <link href="../../bower_components/paper-item/paper-icon-item.html" rel="import">
-    <link href="../../bower_components/paper-header-panel/paper-header-panel.html" rel="import">
-    <link href="../../bower_components/paper-spinner/paper-spinner.html" rel="import">
-    <link href="../../bower_components/paper-date-picker/paper-date-picker.html" rel="import">
-    <link href="../../bower_components/polymer-redux-store/redux-store.html" rel="import">
-    <link href="../../bower_components/Sortable/Sortable.html" rel="import">
-    <script src="../../bower_components/moment/min/moment-with-locales.min.js"></script>
-    <!-- <script src ="../../redux/initial-state.ts"></script>
-    <script src ="../../models/concept.ts"></script> -->
-    <!-- Element Imports -->
-</head>
+<link href="../../bower_components/polymer/polymer.html" rel="import">
+<link href="../../bower_components/polymer/polymer.html" rel="import">
+<link href="../../bower_components/iron-icons/editor-icons.html" rel="import">
+<link href="../../bower_components/iron-collapse/iron-collapse.html" rel="import">
+<link href="../../bower_components/iron-flex-layout/iron-flex-layout.html" rel="import">
+<link href="../../bower_components/iron-flex-layout/iron-flex-layout-classes.html" rel="import">
+<link href="../../bower_components/paper-dialog/paper-dialog.html" rel="import">
+<link href="../../bower_components/paper-dialog-behavior/paper-dialog-behavior.html" rel="import">
+<link href="../../bower_components/paper-dialog-behavior/paper-dialog-shared-styles.html" rel="import">
+<link href="../../bower_components/paper-item/paper-icon-item.html" rel="import">
+<link href="../../bower_components/paper-header-panel/paper-header-panel.html" rel="import">
+<link href="../../bower_components/paper-spinner/paper-spinner.html" rel="import">
+<link href="../../bower_components/paper-date-picker/paper-date-picker.html" rel="import">
+<link href="../../bower_components/polymer-redux-store/redux-store.html" rel="import">
+<link href="../../bower_components/Sortable/Sortable.html" rel="import">
+<script src="../../bower_components/moment/min/moment-with-locales.min.js"></script>
 
 <dom-module id="course-element">
   <style>
@@ -54,12 +47,10 @@
             <paper-button dialog-confirm>OK</paper-button>
           </div>
         </paper-dialog>
-        <iron-icon icon="icons:delete" item-icon on-click="DatePicker"></iron-icon>
+        <iron-icon icon="icons:date-range" item-icon on-click="DatePicker"></iron-icon>
+
         <h1 contenteditable="true">
-          {{item.startDate}}
-        </h1>
-        <h1 contenteditable="true">
-          {{item.endDate}}
+          <iron-icon icon="icons:date-range" item-icon on-click="DatePicker"></iron-icon>{{item.startDate.month}}/{{item.startDate.day}}/{{item.startDate.year}}
         </h1>
         <sortable-js on-sort="sortableEnded">
             <template id="conceptsList" is="dom-repeat" items={{concepts}}>
