@@ -8,7 +8,9 @@ listeners: {
 },
 // //mapStateToThis works with event changes.  If it changes somewhere else in the app, it will update here.
 mapStateToThis: function(e) {
+
     this.concepts = []
+    this.username = e.detail.state.currentUser.email;
     if(e.detail.state.concepts){
       for(let key in e.detail.state.concepts){
         this.push('concepts', e.detail.state.concepts[key])
@@ -22,28 +24,6 @@ mapStateToThis: function(e) {
       }
       this.concepts.sort(compare);
     }
-    // if(e.detail.state.deletedConcept){//works because if the deleted concept is not there, it won't fire in the if statement
-    //   for(var i = 0; i < this.concepts.length; i++){
-    //     if(this.concepts[i].key === e.detail.state.deletedConcept){
-    //       this.splice('concepts', i, 1)
-    //     }
-    //   }
-    // }
-    // if(this.concepts.length === 0){
-    //   console.log(e.detail.state.concepts)
-    //   if(e.detail.state.concepts){
-    //     for(let key in e.detail.state.concepts){
-    //       this.push('concepts', e.detail.state.concepts[key])
-    //     }
-    //   }
-    // }
-    // console.log('new Concept', e.detail.state.newConcept)
-    // if(e.detail.state.newConcept){
-    //
-    //   if(this.concepts.length === e.detail.state.newConcept.pos){
-    //     this.push('concepts', e.detail.state.newConcept)
-    //   }
-    // }
 },
 addConcept: function(e){
   addDialog.open();
