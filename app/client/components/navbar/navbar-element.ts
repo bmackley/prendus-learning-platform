@@ -24,6 +24,11 @@ Polymer({
     const btn = document.querySelector("iron-dropdown");
     btn.open()
   },
+  logOutUser: function(e){
+    console.log('dropdown', e);
+    const btn = document.querySelector("iron-dropdown");
+    btn.open()
+  },
   properties: {
       username: {
         type: String,
