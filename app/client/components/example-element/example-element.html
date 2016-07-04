@@ -1,25 +1,12 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <link href="../../bower_components/polymer/polymer.html" rel="import">
-    <!-- Element Imports -->
-</head>
+<link href="../../bower_components/polymer/polymer.html" rel="import">
 
-<dom-module id="element-name">
+<dom-module id="example-element">
   <style>
     /* CSS rules for your element */
   </style>
   <template>
-    <!-- local DOM for your element -->
-    ...
+    <redux-store on-statechange="mapStateToThis" action="[[action]]"></redux-store>
+    
   </template>
+  <script>System.import('components/example-element/example-element.ts');</script>
 </dom-module>
-<script>
-  Polymer({
-    is: "element-name",
-    properties: {
-      },
-    ready: function(e){
-    }
-  });
-</script>

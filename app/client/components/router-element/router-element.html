@@ -1,14 +1,9 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <link href="../../bower_components/polymer/polymer.html" rel="import">
-    <!--Import all of the elements that need to be routed -- >
-    <link rel="import" href="../sign-in/sign-in.html">
-    <link rel="import" href="../sign-up/sign-up.html">
-    <link rel="import" href="../class-element/class-element.html">
-    <link rel="import" href="../homepage-element/index-element.html">
-    <!-- Element Imports -->
-</head>
+<link href="../../bower_components/polymer/polymer.html" rel="import">
+<link rel="import" href="../sign-in/sign-in.html">
+<link rel="import" href="../sign-up/sign-up.html">
+<link rel="import" href="../course-element/course-element.html">
+<link rel="import" href="../homepage-element/index-element.html">
+<link rel="import" href="../profile-element/profile-element.html">
 
 <dom-module id="router-element">
   <style>
@@ -31,6 +26,8 @@
       </sign-up>
       <course-element data-page = "createcourse">
       </course-element>
+      <profile-element data-page = "profile">
+      </profile-element>
       <index-element data-page = "index">
       </index-element>
     </iron-pages>
