@@ -1,6 +1,7 @@
 import {FirebaseService} from '../node_modules/prendus-services/firebase.service.ts'
-import {ClassModel} from '../models/class.model.ts'
+import {CourseModel} from '../models/course.model.ts'
 import {ConceptModel} from '../models/concept.model.ts'
+import {UserModel} from '../models/user.model.ts'
 
 const createUser = {
     type: 'CREATE_USER',
@@ -25,9 +26,12 @@ const setCurrentUser = {
     execute: async (context, email, password) => {
         try {
           const success = await FirebaseService.logInUserWithEmailAndPassword(email, password);
+          const userData = await UserModel.getById(success.uid);
           context.action = {
             type: Actions.setCurrentUser.type,
-            email: success.email
+            email: success.email,
+            firstName: userData.firstName,
+            lastName: userData.lastName,
           };
         }catch(error){
           context.action = {
@@ -38,16 +42,39 @@ const setCurrentUser = {
         }
     }
 };
+const updateUser = {
+  type: 'UPDATE_USER',
+  execute: async (context, userData) => {
+    try {
+      const userSuccess = await UserModel.save(userData);
+      console.log('update user actions', userSuccess)
+      context.action = {
+        type: Actions.updateUser.type,
+        user: userData,
+      };
+    }catch(error){
+      context.action = {
+        type: Actions.displayError.type,
+        error: error,
+        message: error.message,
+      };
+    }
+  }
+};
 const checkUserAuth = {
     type: 'CHECK_USER_AUTH',
     execute: async (context) => {
         try {
           console.log('Check User Auth Actions')
           const success = await FirebaseService.getLoggedInUser();
+          const userData = await UserModel.getById(success.uid);
           console.log('success', success)
+          console.log('userData', userData)
           context.action = {
             type: Actions.checkUserAuth.type,
-            email: success.email
+            email: success.email,
+            firstName: userData.firstName,
+            lastName: userData.lastName,
           };
         }catch(error){
           //with errors try dispatching an action to handle the error
@@ -119,6 +146,18 @@ const orderConcepts = {
         await ConceptModel.orderConcepts(conceptsArray);
     }
 };
+const logOutUser = {
+    type: 'LOGOUT_USER',
+    execute: async (context) => {
+      console.log('logging the user out')
+      await FirebaseService.logOutUser();
+      console.log('user has been logged out actions')
+      context.action = {
+        type: Actions.logOutUser.type,
+        user: '',
+      }
+    }
+};
 const displayError = {
     type: 'DISPLAY_ERROR',
 };
@@ -133,4 +172,6 @@ export const Actions = {
     addConcept,
     displayError,
     createUser,
+    logOutUser,
+    updateUser,
 };

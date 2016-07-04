@@ -12,6 +12,8 @@ export function rootReducer(state = InitialState, action) {
           console.log('Reducer action user auth', action)
           const newState = Object.assign({}, state);
           newState.currentUser.email = action.email;
+          newState.currentUser.firstName = action.firstName;
+          newState.currentUser.lastName = action.lastName;
           return newState;
         }
         case Actions.addConcept.type: {
@@ -40,7 +42,6 @@ export function rootReducer(state = InitialState, action) {
             return newState;
         }
         case Actions.deleteConcept.type: {
-
           const newState = Object.assign({}, state);
           console.log('key', action.key)
           console.log('concepts', state )
@@ -48,6 +49,17 @@ export function rootReducer(state = InitialState, action) {
           newState.deletedConcept = action.conceptKey;
           console.log('Delete old State', state)
           console.log('Delete new State', newState)
+          return newState;
+        }
+        case Actions.logOutUser.type: {
+          const newState = Object.assign({}, state);
+          console.log('user has been logged out actions')
+          newState.currentUser = {uid: '', username: '', permissions: ''};
+          return newState;
+        }
+        case Actions.updateUser.type: {
+          const newState = Object.assign({}, state);
+          newState.currentUser = {firstName: action.firstName, lastname: action.lastName, username: action.email};
           return newState;
         }
         case Actions.displayError.type: {
