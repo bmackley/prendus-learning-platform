@@ -1,7 +1,14 @@
 <link href="../../bower_components/polymer/polymer.html" rel="import">
+
+<link rel="import" href="../../bower_components/app-route/app-route.html">
+<link rel="import" href="../../bower_components/app-route/app-location.html">
+
+<link href="../../bower_components/iron-pages/iron-pages.html" rel="import">
+<link href="../../bower_components/iron-selector/iron-selector.html" rel="import">
 <link rel="import" href="../sign-in/sign-in.html">
 <link rel="import" href="../sign-up/sign-up.html">
 <link rel="import" href="../course-element/course-element.html">
+<link rel="import" href="../course-element/course-homepage-element.html">
 <link rel="import" href="../homepage-element/index-element.html">
 <link rel="import" href="../profile-element/profile-element.html">
 
@@ -11,6 +18,7 @@
   </style>
   <template>
     <!-- local DOM for your element -->
+    <redux-store on-statechange="mapStateToThis" action="[[action]]"></redux-store>
     <app-location route="{{route}}"></app-location>
     <app-route
         route="{{route}}"
@@ -19,7 +27,7 @@
         tail="{{pageTail}}"
         active ="{{pageActive}}">
     </app-route>
-    <iron-pages selected="{{pageData.page}}" attr-for-selected ="data-page">
+    <iron-pages selected="{{pageData.page}}" category="{{pageData.page}}" attr-for-selected ="data-page">
       <sign-in data-page = "login" >
       </sign-in>
       <sign-up data-page = "signup">

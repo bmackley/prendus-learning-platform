@@ -14,6 +14,7 @@ export function rootReducer(state = InitialState, action) {
           newState.currentUser.email = action.email;
           newState.currentUser.firstName = action.firstName;
           newState.currentUser.lastName = action.lastName;
+          newState.currentUser.institution = action.institution;
           return newState;
         }
         case Actions.addConcept.type: {
@@ -62,8 +63,14 @@ export function rootReducer(state = InitialState, action) {
           newState.currentUser = {firstName: action.firstName, lastname: action.lastName, username: action.email};
           return newState;
         }
+        case Actions.setURL.type: {
+          const newState = Object.assign({}, state);
+          newState.URL = action.URL;
+          return newState;
+        }
         case Actions.displayError.type: {
           const newState = Object.assign({}, state);
+          console.log(action.error)
           newState.error.message = action.error.message;
           return newState;
         }

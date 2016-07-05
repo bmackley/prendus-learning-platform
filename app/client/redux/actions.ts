@@ -26,7 +26,7 @@ const setCurrentUser = {
     execute: async (context, email, password) => {
         try {
           const success = await FirebaseService.logInUserWithEmailAndPassword(email, password);
-          const userData = await UserModel.getById(success.uid);
+          const userData = await UserModel.getById(success.uid); //sets ancillary user data such as name, institution, etc.
           context.action = {
             type: Actions.setCurrentUser.type,
             email: success.email,
@@ -46,7 +46,7 @@ const updateUser = {
   type: 'UPDATE_USER',
   execute: async (context, userData) => {
     try {
-      const userSuccess = await UserModel.save(userData);
+      const userSuccess = await UserModel.saveMetaData(userData);
       console.log('update user actions', userSuccess)
       context.action = {
         type: Actions.updateUser.type,
@@ -67,18 +67,21 @@ const checkUserAuth = {
         try {
           console.log('Check User Auth Actions')
           const success = await FirebaseService.getLoggedInUser();
+          console.log('success', success.uid)
           const userData = await UserModel.getById(success.uid);
-          console.log('success', success)
           console.log('userData', userData)
           context.action = {
             type: Actions.checkUserAuth.type,
             email: success.email,
             firstName: userData.firstName,
             lastName: userData.lastName,
+            institution: userData.institution,
           };
         }catch(error){
-          //with errors try dispatching an action to handle the error
-          return error;
+          context.action = {
+            type: Actions.displayError.type,
+            error: error,
+          };
         }
     }
 };
@@ -89,7 +92,10 @@ const setConcepts = {
           const conceptSuccess = await ConceptModel.save(null, newConcept);
           context.action = newConcept;
         }catch(error){
-          return(error)
+          context.action = {
+            type: Actions.displayError.type,
+            error: error,
+          };
         }
     }
 };
@@ -106,7 +112,10 @@ const addConcept = {
               title: newConcept.title
           }
         }catch(error){
-          return(error)
+          context.action = {
+            type: Actions.displayError.type,
+            error: error,
+          };
         }
     }
 };
@@ -121,8 +130,38 @@ const getConcepts = {
               concepts: modelConcepts,
           }
         }catch(error){
-          return(error)
+          context.action = {
+            type: Actions.displayError.type,
+            error: error,
+          };
         }
+    }
+};
+const getCourse = {
+    type: 'GET_COURSE',
+    execute: async (context) => {
+        try {
+          const modelCourse = await ConceptModel.getCourse();
+          console.log('model course', modelCourse)
+          context.action = {
+              type: Actions.getCourse.type,
+              course: modelCourse,
+          }
+        }catch(error){
+          context.action = {
+            type: Actions.displayError.type,
+            error: error,
+          };
+        }
+    }
+};
+const setURL = {
+    type: 'SET_URL',
+    execute: async (context, URL) => {
+      context.action = {
+        type: Actions.getCourse.type,
+        URL: URL,
+      }
     }
 };
 const deleteConcept = {
@@ -135,7 +174,10 @@ const deleteConcept = {
               conceptKey: key,
           }
         }catch(error){
-          return(error)
+          context.action = {
+            type: Actions.displayError.type,
+            error: error,
+          };
         }
     }
 };
@@ -174,4 +216,5 @@ export const Actions = {
     createUser,
     logOutUser,
     updateUser,
+    setURL,
 };

@@ -1,7 +1,8 @@
 import {FirebaseService} from '../node_modules/prendus-services/firebase.service.ts'
 
 const conceptPath = 'concept/';
-const save = async (id, data) => {
+const coursePath = 'course/'
+const save = async (id: any, data: {}) => {
     if (id) {
         const path = conceptPath + id;
         await FirebaseService.set(path, data);
@@ -27,6 +28,11 @@ const getConcepts = async () => {
       firebaseConcepts[key].key = key;
     }
     return firebaseConcepts;
+};
+const getCourse = async () => {
+    const path = coursePath;
+    const firebaseCourse = await FirebaseService.get(path);
+    return firebaseCourse;
 };
 const deleteConcept = async (key) => {
     const path = conceptPath + key;
