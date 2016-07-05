@@ -1,6 +1,7 @@
 import {FirebaseService} from '../node_modules/prendus-services/firebase.service.ts'
-import {ClassModel} from '../models/class.model.ts'
+import {CourseModel} from '../models/course.model.ts'
 import {ConceptModel} from '../models/concept.model.ts'
+import {UserModel} from '../models/user.model.ts'
 
 const createUser = {
     type: 'CREATE_USER',
@@ -25,9 +26,12 @@ const setCurrentUser = {
     execute: async (context, email, password) => {
         try {
           const success = await FirebaseService.logInUserWithEmailAndPassword(email, password);
+          const userData = await UserModel.getById(success.uid); //sets ancillary user data such as name, institution, etc.
           context.action = {
             type: Actions.setCurrentUser.type,
-            email: success.email
+            email: success.email,
+            firstName: userData.firstName,
+            lastName: userData.lastName,
           };
         }catch(error){
           context.action = {
@@ -38,20 +42,46 @@ const setCurrentUser = {
         }
     }
 };
+const updateUser = {
+  type: 'UPDATE_USER',
+  execute: async (context, userData) => {
+    try {
+      const userSuccess = await UserModel.saveMetaData(userData);
+      console.log('update user actions', userSuccess)
+      context.action = {
+        type: Actions.updateUser.type,
+        user: userData,
+      };
+    }catch(error){
+      context.action = {
+        type: Actions.displayError.type,
+        error: error,
+        message: error.message,
+      };
+    }
+  }
+};
 const checkUserAuth = {
     type: 'CHECK_USER_AUTH',
     execute: async (context) => {
         try {
           console.log('Check User Auth Actions')
           const success = await FirebaseService.getLoggedInUser();
-          console.log('success', success)
+          console.log('success', success.uid)
+          const userData = await UserModel.getById(success.uid);
+          console.log('userData', userData)
           context.action = {
             type: Actions.checkUserAuth.type,
-            email: success.email
+            email: success.email,
+            firstName: userData.firstName,
+            lastName: userData.lastName,
+            institution: userData.institution,
           };
         }catch(error){
-          //with errors try dispatching an action to handle the error
-          return error;
+          context.action = {
+            type: Actions.displayError.type,
+            error: error,
+          };
         }
     }
 };
@@ -62,7 +92,10 @@ const setConcepts = {
           const conceptSuccess = await ConceptModel.save(null, newConcept);
           context.action = newConcept;
         }catch(error){
-          return(error)
+          context.action = {
+            type: Actions.displayError.type,
+            error: error,
+          };
         }
     }
 };
@@ -79,7 +112,10 @@ const addConcept = {
               title: newConcept.title
           }
         }catch(error){
-          return(error)
+          context.action = {
+            type: Actions.displayError.type,
+            error: error,
+          };
         }
     }
 };
@@ -94,8 +130,38 @@ const getConcepts = {
               concepts: modelConcepts,
           }
         }catch(error){
-          return(error)
+          context.action = {
+            type: Actions.displayError.type,
+            error: error,
+          };
         }
+    }
+};
+const getCourse = {
+    type: 'GET_COURSE',
+    execute: async (context) => {
+        try {
+          const modelCourse = await ConceptModel.getCourse();
+          console.log('model course', modelCourse)
+          context.action = {
+              type: Actions.getCourse.type,
+              course: modelCourse,
+          }
+        }catch(error){
+          context.action = {
+            type: Actions.displayError.type,
+            error: error,
+          };
+        }
+    }
+};
+const setURL = {
+    type: 'SET_URL',
+    execute: async (context, URL) => {
+      context.action = {
+        type: Actions.getCourse.type,
+        URL: URL,
+      }
     }
 };
 const deleteConcept = {
@@ -108,7 +174,10 @@ const deleteConcept = {
               conceptKey: key,
           }
         }catch(error){
-          return(error)
+          context.action = {
+            type: Actions.displayError.type,
+            error: error,
+          };
         }
     }
 };
@@ -117,6 +186,18 @@ const orderConcepts = {
     execute: async (context, conceptsArray) => {
         //thre use cases: Reorder concepts, delete a concept
         await ConceptModel.orderConcepts(conceptsArray);
+    }
+};
+const logOutUser = {
+    type: 'LOGOUT_USER',
+    execute: async (context) => {
+      console.log('logging the user out')
+      await FirebaseService.logOutUser();
+      console.log('user has been logged out actions')
+      context.action = {
+        type: Actions.logOutUser.type,
+        user: '',
+      }
     }
 };
 const displayError = {
@@ -133,4 +214,7 @@ export const Actions = {
     addConcept,
     displayError,
     createUser,
+    logOutUser,
+    updateUser,
+    setURL,
 };

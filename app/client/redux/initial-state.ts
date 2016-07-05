@@ -1,6 +1,9 @@
 export const InitialState = {
     currentUser: {
       uid: '',
+      firstName: '',
+      lastName: '',
+      institution: '',
       email: '',
       permissions: '',
     },
@@ -16,4 +19,6 @@ export const InitialState = {
       message: '',
     },
     newConcept: '',
+    deletedConcept: '',
+    URL: '',
 };
