@@ -1,4 +1,8 @@
 <link href="../../bower_components/polymer/polymer.html" rel="import">
+<link rel="import" href="../../bower_components/paper-listbox/paper-listbox.html">
+<link rel="import" href="../../bower_components/paper-item/paper-item.html">
+
+<link rel="import" href="../../bower_components/iron-dropdown/iron-dropdown.html">
 
 <dom-module id="navbar-element">
   <style>
@@ -12,27 +16,19 @@
           <paper-icon-button icon="menu"></paper-icon-button>
           <span id ="index" on-tap="changeURL" style ="cursor: pointer; cursor: hand;"> <span class="title" >Prendus</span></span>
           <span class="title"></span>
-          <!-- <paper-dropdown-menu label="username">
-            <paper-listbox class="dropdown-content">
-              <paper-item>Croissant</paper-item>
-              <paper-item>Donut</paper-item>
-              <paper-item>Financier</paper-item>
-              <paper-item>Madeleine</paper-item>
-            </paper-listbox>
-          </paper-dropdown-menu> -->
           <template is="dom-if" if="{{username}}">
             <div on-tap="openDropdown" >{{username}} </div>
             <div>
-              <iron-dropdown vertical-align="top" horizontal-align="right" noOverlap withBackdrop>
-                <paper-listbox class="dropdown-content">
-                  <paper-item>Croissant</paper-item>
-                  <paper-item>Donut</paper-item>
-                  <paper-item>Financier</paper-item>
-                  <paper-item>Madeleine</paper-item>
+              <iron-dropdown vertical-align="top" horizontal-align="right" noAutoFocus>
+                <paper-listbox class="dropdown-content" >
+                  <paper-item><paper-button class="route" id="profile" on-tap="changeURL">Account</paper-button></paper-item>
+                  <paper-item><paper-button class="route" id="course" on-tap="changeURL">Courses</paper-button></paper-item>
+                  <paper-item><paper-button class="route" id="profile" on-tap="changeURL">Dashboards</paper-button></paper-item>
+                  <paper-item><paper-button class="route" id="profile" on-tap="changeURL">Settings</paper-button></paper-item>
+                  <paper-item><paper-button class="route" id="login" on-tap="logOutUser">Logout</paper-button></paper-item>
                 </paper-listbox>
               </iron-dropdown>
             </div>
-            <paper-button class="route" id="login" on-tap="logoutUser">Logout</paper-button>
           </template>
           <template is="dom-if" if="{{!username}}">
             <paper-button class="route" id="login" on-tap="changeURL">Login</paper-button>
@@ -41,5 +37,5 @@
         </paper-toolbar>
     </paper-header-panel>
   </template>
+  <script>System.import('components/navbar/navbar-element.ts');</script>
 </dom-module>
-<script>System.import('components/navbar/navbar-element.ts');</script>

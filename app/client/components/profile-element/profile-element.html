@@ -1,0 +1,55 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/iron-form/iron-form.html">
+<link rel="import" href="../../bower_components/iron-input/iron-input.html" >
+<link rel="import" href="../../bower_components/paper-card/paper-card.html">
+
+<dom-module id="profile-element">
+  <style>
+    :host {
+      display: block;
+    }
+    #profileFormCard{
+        width: 33%;
+      }
+      @media (max-width: 1200px) {
+        #profileFormCard{
+          width: 66%;
+        }
+      }
+      @media (max-width: 600px) {
+        #profileFormCard{
+          width: 95%;
+        }
+      }
+      #profileFormCard {
+        --paper-toast-background-color: red;
+      }
+  </style>
+  <template>
+    <redux-store on-statechange="mapStateToThis" action="[[action]]"></redux-store>
+    <paper-toast id="updateProfileToast" verticalAlign="top" text=[[updateProfileToast]]></paper-toast>
+    <center>
+      <paper-card id = "profileFormCard" heading ="Update Profile">
+        <form is="iron-form" id="form" method="post" action="/form/handler">
+          <paper-input name="firstName" id="firstName" label="First Name" value="[[firstName]]"></paper-input>
+          <paper-input name="lastName" id="lastName" label="Last Name" value="[[lastName]]"></paper-input>
+          <paper-input name="Intitution" id="institution" label="Institution (school)" value="[[institution]]"></paper-input>
+          <paper-input name="Email" id="updateEmail" label="Email" required value="[[email]]"></paper-input>
+          <paper-button raised on-tap="changeProfile">Submit</paper-button>
+        </form>
+      </paper-card>
+    </center>
+    <center><div id="toastTarget" style = "margin-left: -28px; height: 60px;"></div></center>
+    <paper-dialog id="confirmEmailChange">
+    <h2>You're Changing Your Email</h2>
+    <paper-dialog-scrollable>
+      The new email is different than your current email. Are you sure you want to change your email on the account?
+    </paper-dialog-scrollable>
+    <div class="buttons">
+      <paper-button dialog-dismiss>Cancel</paper-button>
+      <paper-button dialog-confirm>Conctinue</paper-button>
+    </div>
+  </paper-dialog>
+  </template>
+  <script>System.import('components/profile-element/profile-element.ts');</script>
+</dom-module>

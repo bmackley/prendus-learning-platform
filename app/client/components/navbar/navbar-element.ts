@@ -2,11 +2,9 @@ import {Actions} from '../../redux/actions.ts';
 import {rootReducer} from '../../redux/reducers.ts';
 import {FirebaseService} from '../../node_modules/prendus-services/firebase.service.ts'; // This doesnt work in the app element for some reason.  Does it have to be in the same element that gets called?
 
-
 Polymer({
   is: "navbar-element",
   listeners: {
-
   },
   mapStateToThis: function(e) {
     console.log('map state in navbar working')
@@ -20,9 +18,11 @@ Polymer({
     this.fire('location-changed', {}, {node: window});
   },
   openDropdown: function(e){
-    console.log('dropdown', e);
     const btn = document.querySelector("iron-dropdown");
     btn.open()
+  },
+  logOutUser: function(e){
+    Actions.logOutUser.execute(this);
   },
   properties: {
       username: {
