@@ -3,6 +3,7 @@ export const InitialState = {
       uid: '',
       firstName: '',
       lastName: '',
+      institution: '',
       email: '',
       permissions: '',
     },
@@ -19,4 +20,5 @@ export const InitialState = {
     },
     newConcept: '',
     deletedConcept: '',
+    URL: '',
 };
