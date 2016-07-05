@@ -7,28 +7,28 @@ Polymer({
   mapStateToThis: function(e) {
     this.firstName = e.detail.state.currentUser.firstName;
     this.lastName = e.detail.state.currentUser.lastName;
+    this.institution = e.detail.state.currentUser.institution;
+    this.pastEmail = e.detail.state.currentUser.email;
     this.email = e.detail.state.currentUser.email;
     console.log('sign in mapstate s', e.detail)
-    if(e.detail.state.error.message){
-      this.loginFormToastText = e.detail.state.error.message;
-      this.$.loginToast.open();
-      const cards = document.querySelector("paper-card");
-      console.log('DisplayError')
-      console.log(e.detail.state.error.message)
-    }
   },
   changeProfile: function(e) {
     console.log(e)
     console.log(this.$.firstName.value)
     console.log(this.$.lastName.value)
-    console.log(this.$.updateEmail.value)
+    console.log('form email', this.$.updateEmail.value)
+    console.log('saved email', this.email)
 
     let submitValue = {
       firstName: this.$.firstName.value,
       lastName: this.$.lastName.value,
+      institution: this.$.institution.value,
+      email:  this.$.updateEmail.value,
     }
-    if(this.$.updateEmail.value != this.email){
-      submitValue.email =  this.$.updateEmail.value
+    if(this.$.updateEmail.value != this.pastEmail){
+      //Do a confirmation box
+      console.log('email is different')
+      this.$.confirmEmailChange.open();
     }
     Actions.updateUser.execute(this, submitValue)
   },

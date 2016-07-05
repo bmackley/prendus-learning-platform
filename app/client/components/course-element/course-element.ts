@@ -89,6 +89,8 @@ ready: function(e){
   var initialState = {
       temp: 'initial temp'
   };
+  //Doesn't work yet Actions.getCourse.execute(this)
+  //Need to save the course before being able to get the course. 
   Actions.getConcepts.execute(this);
 }
 });
