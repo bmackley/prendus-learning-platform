@@ -15,9 +15,6 @@ Polymer({
       this.loginFormToastText = e.detail.state.error.message;
       this.$.loginToast.open();
       const cards = document.querySelector("paper-card");
-      console.log(cards);
-      // cards.show()
-      //loginToast.show();
       console.log('DisplayError')
       console.log(e.detail.state.error.message)
     }
