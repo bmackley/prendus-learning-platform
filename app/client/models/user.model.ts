@@ -17,15 +17,28 @@ const save = async (id: string, data: any) => {
 const saveMetaData = async (data: {}) => {
     const loggedInUser = await FirebaseService.getLoggedInUser(); //Not sure if we should do this here, or somewhere else
     //Save
-    // if(data.email){
-    //   const uid = await FirebaseService.updateUserProfile(loggedInUser, userEmail)
-    //   console.log(uid);
-    // }
-    //Get logged in user here, or do it
-
+    if(data.email){
+      const msg = await FirebaseService.updateUserProfile(loggedInUser, data.email)
+      console.log('error', msg)
+      if(msg != 'success'){
+        console.log('error', msg)
+        return {type: 'error', error: msg};
+      }
+    }
     const newPath = `${userPath}${loggedInUser.uid}/metaData`;
     console.log('users path', newPath)
-    FirebaseService.set(newPath, data)
+    try{
+      FirebaseService.update(newPath, data)
+      return {type: 'data', data: data};
+    }catch(error){
+      return {type: 'error', error: error};
+    };
+    try{
+      FirebaseService.set(newPath, data)
+      return {type: 'data', data: data};
+    }catch(error){
+      return {type: 'error', error: error};
+    }
 };
 
 const getById = async (id) => {
