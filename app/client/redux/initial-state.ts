@@ -18,6 +18,9 @@ export const InitialState = {
     error: {
       message: '',
     },
+    success: {
+      message: '',
+    },
     newConcept: '',
     deletedConcept: '',
     URL: '',

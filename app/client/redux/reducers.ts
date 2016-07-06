@@ -2,6 +2,12 @@ import {InitialState} from './initial-state.ts';
 import {Actions} from './actions.ts';
 
 export function rootReducer(state = InitialState, action) {
+    state.error.message = '';
+    if(action.successMessage){
+      state.success.message = action.successMessage
+    }else{
+      state.success.message = '';
+    }
     switch(action.type) {
         case Actions.setCurrentUser.type: {
             const newState = Object.assign({}, state);
@@ -60,7 +66,8 @@ export function rootReducer(state = InitialState, action) {
         }
         case Actions.updateUser.type: {
           const newState = Object.assign({}, state);
-          newState.currentUser = {firstName: action.firstName, lastname: action.lastName, username: action.email};
+          console.log('Action', action)
+          newState.currentUser = {firstName: action.user.firstName, lastName: action.user.lastName, institution: action.user.institution, email: action.user.email};
           return newState;
         }
         case Actions.setURL.type: {
