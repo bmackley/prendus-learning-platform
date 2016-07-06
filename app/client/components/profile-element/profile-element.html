@@ -2,32 +2,42 @@
 <link rel="import" href="../../bower_components/iron-form/iron-form.html">
 <link rel="import" href="../../bower_components/iron-input/iron-input.html" >
 <link rel="import" href="../../bower_components/paper-card/paper-card.html">
+<link rel="import" href="../../bower_components/paper-toast/paper-toast.html">
 
 <dom-module id="profile-element">
   <style>
     :host {
       display: block;
     }
-    #profileFormCard{
+    #profileFormCard, #toastTarget{
         width: 33%;
       }
       @media (max-width: 1200px) {
-        #profileFormCard{
+        #profileFormCard, #toastTarget{
           width: 66%;
         }
       }
       @media (max-width: 600px) {
-        #profileFormCard{
+        #profileFormCard, #toastTarget{
           width: 95%;
         }
       }
       #profileFormCard {
         --paper-toast-background-color: red;
       }
+      paper-button.cancel:hover {
+        color: red;
+      }
+      paper-button.confirm:hover {
+        color: green;
+      }
+      #updateProfileToast {
+        --paper-toast-background-color: red;
+      }
   </style>
   <template>
     <redux-store on-statechange="mapStateToThis" action="[[action]]"></redux-store>
-    <paper-toast id="updateProfileToast" verticalAlign="top" text=[[updateProfileToast]]></paper-toast>
+    <paper-toast id="updateProfileToast" duration="5000" verticalAlign="top" text=[[updateProfileToastText]]></paper-toast>
     <center>
       <paper-card id = "profileFormCard" heading ="Update Profile">
         <form is="iron-form" id="form" method="post" action="/form/handler">
@@ -38,16 +48,16 @@
           <paper-button raised on-tap="changeProfile">Submit</paper-button>
         </form>
       </paper-card>
+      <center><div id="toastTarget" style = "height: 70px;"></div></center>
     </center>
-    <center><div id="toastTarget" style = "margin-left: -28px; height: 60px;"></div></center>
-    <paper-dialog id="confirmEmailChange">
+    <paper-dialog id="confirmEmailChange" modal on-iron-overlay-closed="closeOverlay">
     <h2>You're Changing Your Email</h2>
     <paper-dialog-scrollable>
       The new email is different than your current email. Are you sure you want to change your email on the account?
     </paper-dialog-scrollable>
     <div class="buttons">
-      <paper-button dialog-dismiss>Cancel</paper-button>
-      <paper-button dialog-confirm>Conctinue</paper-button>
+      <paper-button class="cancel" dialog-dismiss>Cancel</paper-button>
+      <paper-button class = "confirm" dialog-confirm>Continue</paper-button>
     </div>
   </paper-dialog>
   </template>

@@ -45,45 +45,45 @@ const setCurrentUser = {
 const updateUser = {
   type: 'UPDATE_USER',
   execute: async (context, userData) => {
-    try {
-      const userSuccess = await UserModel.saveMetaData(userData);
-      console.log('update user actions', userSuccess)
+    const userSuccess = await UserModel.saveMetaData(userData);
+    if(userSuccess.type === 'error'){
+      context.action = {
+        type: Actions.displayError.type,
+        error: userSuccess.error,
+        message: userSuccess.error.message,
+      };
+    }else{
       context.action = {
         type: Actions.updateUser.type,
-        user: userData,
+        user: userSuccess.data,
+        successMessage: 'Your profile information has been updated',
+      };
+    }//else
+  }//execute
+};
+const checkUserAuth = {
+  type: 'CHECK_USER_AUTH',
+  execute: async (context) => {
+    try {
+      console.log('Check User Auth Actions')
+      const success = await FirebaseService.getLoggedInUser();
+      console.log('success', success.uid)
+      const userData = await UserModel.getById(success.uid);
+      console.log('userData', userData)
+      context.action = {
+        type: Actions.checkUserAuth.type,
+        email: success.email,
+        firstName: userData.firstName,
+        lastName: userData.lastName,
+        institution: userData.institution,
       };
     }catch(error){
       context.action = {
         type: Actions.displayError.type,
         error: error,
-        message: error.message,
       };
     }
   }
-};
-const checkUserAuth = {
-    type: 'CHECK_USER_AUTH',
-    execute: async (context) => {
-        try {
-          console.log('Check User Auth Actions')
-          const success = await FirebaseService.getLoggedInUser();
-          console.log('success', success.uid)
-          const userData = await UserModel.getById(success.uid);
-          console.log('userData', userData)
-          context.action = {
-            type: Actions.checkUserAuth.type,
-            email: success.email,
-            firstName: userData.firstName,
-            lastName: userData.lastName,
-            institution: userData.institution,
-          };
-        }catch(error){
-          context.action = {
-            type: Actions.displayError.type,
-            error: error,
-          };
-        }
-    }
 };
 const setConcepts = {
     type: 'SET_CONCEPTS',
