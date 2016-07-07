@@ -31,13 +31,17 @@
       paper-button.confirm:hover {
         color: green;
       }
-      #updateProfileToast {
+      #updateProfileErrorToast {
         --paper-toast-background-color: red;
+      }
+      #updateProfileSuccessToast {
+        --paper-toast-background-color: green;
       }
   </style>
   <template>
     <redux-store on-statechange="mapStateToThis" action="[[action]]"></redux-store>
-    <paper-toast id="updateProfileToast" duration="5000" verticalAlign="top" text=[[updateProfileToastText]]></paper-toast>
+    <paper-toast id="updateProfileErrorToast" duration="5000" verticalAlign="top" text=[[updateProfileErrorToastText]]></paper-toast>
+    <paper-toast id="updateProfileSuccessToast" duration="5000" verticalAlign="top" text=[[updateProfileSuccessToastText]]></paper-toast>
     <center>
       <paper-card id = "profileFormCard" heading ="Update Profile">
         <form is="iron-form" id="form" method="post" action="/form/handler">
