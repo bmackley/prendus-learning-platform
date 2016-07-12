@@ -19,7 +19,6 @@ const save = async (userPath: string, data: User) => {
   }catch(error){
     throw error;
   }
-
 };
 const saveFirebaseUser = async (loggedInUser: any, email: string) => {
   try{
@@ -31,7 +30,6 @@ const saveFirebaseUser = async (loggedInUser: any, email: string) => {
 const saveMetaData = async (userID: string, data: UserMetaData) => {
   try{
     const newPath = `${dataPath}${userID}/metaData`;
-    console.log('users path', newPath)
     FirebaseService.update(newPath, data)
     return data;
   }catch(error){
@@ -42,7 +40,6 @@ const saveMetaData = async (userID: string, data: UserMetaData) => {
 const getById = async (id: string, path: string) => {
   try{
     const newPath = `${dataPath}${id}/${path}`
-    console.log('getbyidusersath', newPath)
     const userData = await FirebaseService.get(newPath);
     return userData;
   }catch(error){
