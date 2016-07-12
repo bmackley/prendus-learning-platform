@@ -13,6 +13,7 @@
 <link href="/bower_components/polymer-redux-store/redux-store.html" rel="import">
 <link href="/bower_components/paper-input/paper-input.html" rel="import">
 <link href="/bower_components/Sortable/Sortable.html" rel="import">
+<link href="../concept-video-container/concept-video-container.component.html" rel="import">
 <script src="/bower_components/moment/min/moment-with-locales.min.js"></script>
 
 <link href="course-homepage-element.html" rel="import">
@@ -82,9 +83,8 @@
                       <div class = "flex-horizontal" id = "videosContainer">
                         <paper-header-panel mode="seamed">
                           <paper-toolbar><h1>Videos</h1></paper-toolbar>
-                          <div class="paper-header">standard</div>
-                          <div class="content fit">content fits 100% below the header</div>
                         </paper-header-panel>
+                        <prendus-concept-video-container concept-id="[[item.key]]"></prendus-concept-video-container>
                       </div>
                       <div class = "flex-horizontal" id = "quizzesContainer">
                         <paper-header-panel mode="seamed">

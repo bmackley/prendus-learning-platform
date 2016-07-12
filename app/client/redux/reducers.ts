@@ -75,6 +75,13 @@ export function rootReducer(state = InitialState, action) {
         newState.currentUser = newUser;
         return newState;
       }
+      case 'LOAD_CONCEPT_VIDEOS': {
+          const newState = Object.assign({}, state);
+
+          newState.conceptVideos = action.videos;
+
+          return newState;
+      }
       default: {
           return state;
       }

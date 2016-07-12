@@ -1,0 +1,14 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/polymer-redux-store/redux-store.html">
+
+<dom-module id="prendus-concept-video-container">
+    <template>
+        <redux-store on-statechange="mapStateToThis" action="[[action]]"></redux-store>
+
+        <template is="dom-repeat" items="[[videos]]">
+            <div>[[item.title]]</div>
+        </template>
+    </template>
+
+    <script>System.import('components/concept-video-container/concept-video-container.component.ts');</script>
+</dom-module>

@@ -24,4 +24,5 @@ export const InitialState = {
     newConcept: '',
     deletedConcept: '',
     URL: '',
+    conceptVideos: []
 };
