@@ -1,5 +1,5 @@
 import {Actions} from '../../redux/actions.ts';
-import {FirebaseService} from '../../node_modules/prendus-services/firebase.service.ts';
+import {FirebaseService} from '../../node_modules/prendus-services/services/firebase.service.ts';
 
 Polymer({
 is: "course-element",

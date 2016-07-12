@@ -3,6 +3,7 @@
   "version": "0.0.0",
   "dependencies": {
     "es-no-build": "0.0.3",
-    "prendus-services": "git+ssh://git@github.com/lastmjs/prendus-services.git#ben"
+    "prendus-services": "git+ssh://git@github.com/lastmjs/prendus-services.git#ben",
+    "video-viewer-component": "git+ssh://git@github.com/lastmjs/video-viewer-component.git"
   }
 }
