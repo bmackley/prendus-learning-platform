@@ -21,10 +21,11 @@ export function rootReducer(state = InitialState, action) {
       case Actions.checkUserAuth.type: {
         console.log('Reducer action user auth', action)
         const newState = Object.assign({}, state);
-        newState.currentUser.email = action.email;
-        newState.currentUser.firstName = action.firstName;
-        newState.currentUser.lastName = action.lastName;
-        newState.currentUser.institution = action.institution;
+        newState.currentUser = action.currentUser;
+        // newState.currentUser.email = action.email;
+        // newState.currentUser.firstName = action.firstName;
+        // newState.currentUser.lastName = action.lastName;
+        // newState.currentUser.institution = action.institution;
         return newState;
       }
       case Actions.addConcept.type: {
@@ -68,14 +69,10 @@ export function rootReducer(state = InitialState, action) {
         newState.currentUser = {uid: '', username: '', permissions: ''};
         return newState;
       }
-      case Actions.updateUser.type: {
+      case Actions.updateUserMetaData.type: {
         const newState = Object.assign({}, state);
-        newState.currentUser = action.user;
-        return newState;
-      }
-      case Actions.setURL.type: {
-        const newState = Object.assign({}, state);
-        newState.URL = action.URL;
+        const newUser = Object.assign(newState.currentUser, action.user);
+        newState.currentUser = newUser;
         return newState;
       }
       default: {

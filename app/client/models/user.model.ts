@@ -1,57 +1,58 @@
 import {FirebaseService} from '../node_modules/prendus-services/firebase.service.ts'
+import {UserMetaData} from '../node_modules/prendus-services/interfaces/user-meta-data.interface.ts';
+import {User} from '../node_modules/prendus-services/interfaces/user.interface.ts';
 
-const userPath = 'users/';
-const save = async (id: string, data: any): Promise<void> => {
-    if (id) {
-        const path = userPath + id;
-        await FirebaseService.set(path, data);
-        return id;
+
+const dataPath = 'users/';
+const save = async (userPath: string, data: User) => {
+  try{
+    if (userPath) {
+      const path = dataPath + userPath;
+      await FirebaseService.update(path, data);
+      return data;
     }
     else {
-        const path = userPath;
-        //figure out what happens when an error is returned
-        const newConcept =  await FirebaseService.push(path, data);
-        return newConcept;
+      const path = dataPath;
+      const newUser =  await FirebaseService.push(path, data);
+      return newUser;
     }
+  }catch(error){
+    throw error;
+  }
+
 };
-const saveMetaData = async (data: {}): Promise<void> => {
-  const loggedInUser = await FirebaseService.getLoggedInUser(); //Not sure if we should do this here, or somewhere else
-  //Save
-  if(data.runEmail){
-    console.log('in the users model running the email')
-    try{
-      const msg = await FirebaseService.updateUserProfile(loggedInUser, data.email)
-    }catch(error){
-      console.log('in the user model throwing the error')
-      throw error;
-    }
-  }
-  if(data.password){
-    delete data.password;
-  }
-  const newPath = `${userPath}${loggedInUser.uid}/metaData`;
-  console.log('users path', newPath)
+const saveFirebaseUser = async (loggedInUser: any, email: string) => {
   try{
-    FirebaseService.set(newPath, data)
+    await FirebaseService.updateUserProfile(loggedInUser, email)
+  }catch(error){
+    throw error;
+  }
+};
+const saveMetaData = async (userID: string, data: UserMetaData) => {
+  try{
+    const newPath = `${dataPath}${userID}/metaData`;
+    console.log('users path', newPath)
+    FirebaseService.update(newPath, data)
     return data;
   }catch(error){
     throw error;
   }
 };
 
-const getById = async (id) : Promise<void> => {
-    const path = `${userPath}${id}/metaData`
-    console.log('getbyidusersath', path)
-    const userData = await FirebaseService.get(path);
+const getById = async (id: string, path: string) => {
+  try{
+    const newPath = `${dataPath}${id}/${path}`
+    console.log('getbyidusersath', newPath)
+    const userData = await FirebaseService.get(newPath);
     return userData;
-};
-const getUsers = async () => {
-    const path = userPath;
+  }catch(error){
+    throw error;
+  }
 };
 
 export const UserModel = {
     save,
-    getById,
-    getUsers,
+    saveFirebaseUser,
     saveMetaData,
+    getById,
 }
