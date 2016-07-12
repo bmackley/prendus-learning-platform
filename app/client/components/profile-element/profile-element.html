@@ -1,33 +1,50 @@
 <link rel="import" href="../../bower_components/polymer/polymer.html">
+
 <link rel="import" href="../../bower_components/iron-form/iron-form.html">
 <link rel="import" href="../../bower_components/iron-input/iron-input.html" >
 <link rel="import" href="../../bower_components/paper-card/paper-card.html">
+<link rel="import" href="../../bower_components/paper-input/paper-input.html">
+<link rel="import" href="../../bower_components/paper-toast/paper-toast.html">
+<link rel="import" href="../../bower_components/paper-dialog/paper-dialog.html" >
 
 <dom-module id="profile-element">
   <style>
     :host {
       display: block;
     }
-    #profileFormCard{
+    #profileFormCard, #toastTarget{
         width: 33%;
       }
       @media (max-width: 1200px) {
-        #profileFormCard{
+        #profileFormCard, #toastTarget{
           width: 66%;
         }
       }
       @media (max-width: 600px) {
-        #profileFormCard{
+        #profileFormCard, #toastTarget{
           width: 95%;
         }
       }
       #profileFormCard {
         --paper-toast-background-color: red;
       }
+      paper-button.cancel:hover {
+        color: red;
+      }
+      paper-button.confirm:hover {
+        color: green;
+      }
+      #updateProfileErrorToast {
+        --paper-toast-background-color: red;
+      }
+      #updateProfileSuccessToast {
+        --paper-toast-background-color: green;
+      }
   </style>
   <template>
     <redux-store on-statechange="mapStateToThis" action="[[action]]"></redux-store>
-    <paper-toast id="updateProfileToast" verticalAlign="top" text=[[updateProfileToast]]></paper-toast>
+    <paper-toast id="updateProfileErrorToast" duration="5000" verticalAlign="top" text=[[updateProfileErrorToastText]]></paper-toast>
+    <paper-toast id="updateProfileSuccessToast" duration="5000" verticalAlign="top" text=[[updateProfileSuccessToastText]]></paper-toast>
     <center>
       <paper-card id = "profileFormCard" heading ="Update Profile">
         <form is="iron-form" id="form" method="post" action="/form/handler">
@@ -38,16 +55,17 @@
           <paper-button raised on-tap="changeProfile">Submit</paper-button>
         </form>
       </paper-card>
+      <center><div id="toastTarget" style = "height: 70px;"></div></center>
     </center>
-    <center><div id="toastTarget" style = "margin-left: -28px; height: 60px;"></div></center>
-    <paper-dialog id="confirmEmailChange">
-    <h2>You're Changing Your Email</h2>
+    <paper-dialog id="confirmEmailChange" modal on-iron-overlay-closed="closeOverlay">
+    <h2>Password Verification</h2>
     <paper-dialog-scrollable>
-      The new email is different than your current email. Are you sure you want to change your email on the account?
+      You are changing your email. Your account password is needed to perform this function.
+      <paper-input type= "password" name="password" id="changeEmailPassword" label="Password"></paper-input>
     </paper-dialog-scrollable>
     <div class="buttons">
-      <paper-button dialog-dismiss>Cancel</paper-button>
-      <paper-button dialog-confirm>Conctinue</paper-button>
+      <paper-button class="cancel" dialog-dismiss>Cancel</paper-button>
+      <paper-button class = "confirm" dialog-confirm>Continue</paper-button>
     </div>
   </paper-dialog>
   </template>

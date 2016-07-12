@@ -1,4 +1,4 @@
-import {FirebaseService} from '../node_modules/prendus-services/firebase.service.ts'
+import {FirebaseService} from '../node_modules/prendus-services/services/firebase.service.ts';
 
 const conceptPath = 'concept/';
 const save = async (id, data) => {
