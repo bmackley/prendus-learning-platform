@@ -58,9 +58,10 @@
       <center><div id="toastTarget" style = "height: 70px;"></div></center>
     </center>
     <paper-dialog id="confirmEmailChange" modal on-iron-overlay-closed="closeOverlay">
-    <h2>You're Changing Your Email</h2>
+    <h2>Password Verification</h2>
     <paper-dialog-scrollable>
-      The new email is different than your current email. Are you sure you want to change your email on the account?
+      You are changing your email. Your account password is needed to perform this function.
+      <paper-input type= "password" name="password" id="changeEmailPassword" label="Password"></paper-input>
     </paper-dialog-scrollable>
     <div class="buttons">
       <paper-button class="cancel" dialog-dismiss>Cancel</paper-button>
