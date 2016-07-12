@@ -9,13 +9,12 @@ Polymer({
     const userData = {
       //get this to go through the actions.
       email: this.$.formEmail.value,
-      password: this.$.formPassword.value,
       firstName: this.$.firstName.value,
       lastName: this.$.lastName.value,
       institution: this.$.institution.value,
     }
     try {
-        await Actions.createUser.execute(this, userData);
+        await Actions.createUser.execute(this, userData, this.$.formPassword.value);
         this.$.formEmail.value = '';
         this.$.formPassword.value = '';
         this.$.retypePassword.value = ''

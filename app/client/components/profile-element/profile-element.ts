@@ -1,4 +1,5 @@
 import {Actions} from '../../redux/actions.ts';
+import {FirebaseService} from '../node_modules/prendus-services/firebase.service.ts'
 
 Polymer({
   is: "profile-element",
@@ -11,6 +12,7 @@ Polymer({
     this.institution = e.detail.state.currentUser.institution;
     this.pastEmail = e.detail.state.currentUser.email;
     this.email = e.detail.state.currentUser.email;
+    this.uid = e.detail.state.currentUser.uid;
   },
   changeProfile: async function(e) {
     if(this.$.updateEmail.value != this.pastEmail){
@@ -20,10 +22,9 @@ Polymer({
         firstName: this.$.firstName.value,
         lastName: this.$.lastName.value,
         institution: this.$.institution.value,
-        email:  this.$.updateEmail.value,
       }
       try{
-        await Actions.updateUser.execute(this, submitValue);
+        await Actions.updateUserMetaData.execute(this, this.uid, submitValue);
         this.updateProfileSuccessToastText = 'Profile Successfully Updated';
         this.$.updateProfileSuccessToast.open();
       }
@@ -35,20 +36,20 @@ Polymer({
 
   },
   closeOverlay: async function(e){
+    this.$.changeEmailPassword.value = '';
     if(e.detail.confirmed === true){
-      let submitValue = {
-        firstName: this.$.firstName.value,
-        lastName: this.$.lastName.value,
-        institution: this.$.institution.value,
-        email:  this.$.updateEmail.value,
-        runEmail: true,
-      }
-      try{
-        await Actions.updateUser.execute(this, submitValue);
-        this.updateProfileSuccessToastText = 'Profile Updated Successfully';
+      try {
+        let submitValue = {
+          firstName: this.$.firstName.value,
+          lastName: this.$.lastName.value,
+          institution: this.$.institution.value,
+          email:  this.$.updateEmail.value,
+        }
+        await Actions.updateUserEmail.execute(this, this.pastEmail, this.$.changeEmailPassword.value, submitValue.email);
+        await Actions.updateUserMetaData.execute(this, this.uid, submitValue);
+        this.updateProfileSuccessToastText = 'Profile & Email Updated Successfully';
         this.$.updateProfileSuccessToast.open();
-      }
-      catch(error){
+      }catch(error){
         this.updateProfileErrorToastText = error.message;
         this.$.updateProfileErrorToast.open();
       }
@@ -60,8 +61,5 @@ Polymer({
   ready: function(e){
     this.$.updateProfileErrorToast.fitInto = this.$.toastTarget;
     this.$.updateProfileSuccessToast.fitInto = this.$.toastTarget;
-    // this.$.form.addEventListener('iron-form-presubmit', function(event) {
-    //   event.preventDefault();
-    // });
   }
 });
