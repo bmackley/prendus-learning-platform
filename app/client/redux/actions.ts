@@ -1,7 +1,17 @@
-import {FirebaseService} from '../node_modules/prendus-services/services/firebase.service.ts'
-import {CourseModel} from '../models/course.model.ts'
-import {ConceptModel} from '../models/concept.model.ts'
-import {UserModel} from '../node_modules/prendus-services/models/user.model.ts'
+import {FirebaseService} from '../node_modules/prendus-services/services/firebase.service.ts';
+import {CourseModel} from '../models/course.model.ts';
+import {ConceptModel} from '../models/concept.model.ts';
+import {UserModel} from '../node_modules/prendus-services/models/user.model.ts';
+import {VideoModel} from '../node_modules/prendus-services/models/video.model.ts';
+
+const loadConceptVideos = async (context, conceptId: string) => {
+    const videos = await VideoModel.getAllByConcept(conceptId);
+
+    context.action = {
+        type: 'LOAD_CONCEPT_VIDEOS',
+        videos: videos
+    };
+};
 
 const createUser = {
   type: 'CREATE_USER',
@@ -206,4 +216,5 @@ export const Actions = {
     logOutUser,
     updateUserEmail,
     updateUserMetaData,
+    loadConceptVideos
 };
