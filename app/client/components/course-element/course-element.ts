@@ -1,5 +1,5 @@
 import {Actions} from '../../redux/actions.ts';
-import {FirebaseService} from '../../node_modules/prendus-services/firebase.service.ts';
+import {FirebaseService} from '../../node_modules/prendus-services/services/firebase.service.ts';
 
 Polymer({
 is: "course-element",
@@ -69,6 +69,9 @@ sortableEnded: function(e){
   }
 },
 properties: {
+    subdomain: {
+      type: Object
+    },
     title: {
       type: String,
       value: 'Course Name'
@@ -84,13 +87,16 @@ properties: {
     // }
   },
 ready: function(e){
+  setTimeout(()=>{
+    console.log(this.subdomain)
+  }, 5000);
   FirebaseService.init("AIzaSyANTSoOA6LZZDxM7vqIlAl37B7IqWL-6MY", "prendus.firebaseapp.com", "https://prendus.firebaseio.com", "prendus.appspot.com", "Prendus");
   console.log('course element')
   var initialState = {
       temp: 'initial temp'
   };
   //Doesn't work yet Actions.getCourse.execute(this)
-  //Need to save the course before being able to get the course. 
+  //Need to save the course before being able to get the course.
   Actions.getConcepts.execute(this);
 }
 });

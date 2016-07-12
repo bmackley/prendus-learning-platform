@@ -3,6 +3,9 @@
 <dom-module id="course-homepage-element">
   <style>
     /* CSS rules for your element */
+    :host {
+      display: none;
+    }
   </style>
   <template>
     <redux-store on-statechange="mapStateToThis" action="[[action]]"></redux-store>

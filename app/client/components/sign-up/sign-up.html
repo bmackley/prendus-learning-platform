@@ -1,11 +1,8 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <link href="../../bower_components/polymer/polymer.html" rel="import">
-    <!-- <link rel="import" href="../../bower_components/gold-email-input/gold-email-input.html"> -->
-    <!-- <link rel="import" href="../../bower_components/firebase-element/firebase-auth.html"> -->
-    <!-- Element Imports -->
-</head>
+<link href="../../bower_components/polymer/polymer.html" rel="import">
+<link rel="import" href="../../bower_components/polymer-redux-store/redux-store.html">
+<link rel="import" href="../../bower_components/paper-toast/paper-toast.html">
+<link rel="import" href="../../bower_components/paper-input/paper-input.html">
+<link rel="import" href="../../bower_components/paper-card/paper-card.html">
 
 <dom-module id="sign-up">
   <style>
@@ -14,37 +11,46 @@
       :host {
         display: block;
       }
-      #signupForm{
-        width: 33%;
+      #signupForm, #toastTarget{
+        width: 38%;
       }
       @media (max-width: 1200px) {
-        #signupForm{
+        #signupForm, #toastTarget{
           float: left;
-          width: 66%;
+          width: 70%;
           margin-left: 16%;
         }
       }
       @media (max-width: 600px) {
-        #signupForm{
+        #signupForm, #toastTarget{
           width: 95%;
           margin-left: 2%;
         }
+      }
+      #signUpToast {
+        --paper-toast-background-color: red;
       }
     </style>
   </style>
   <template>
     <!-- local DOM for your element -->
     <center>
+      <redux-store on-statechange="mapStateToThis" action="[[action]]"></redux-store>
+      <paper-toast id="signUpToast" verticalAlign="top" text=[[signUpToastText]]></paper-toast>
       <paper-card id = "signupForm" heading ="Create Account">
           <form is="iron-form" method="get" action="/createclass" id="signupFormlocater">
             <paper-input name="email" id = "formEmail" label="Email" required auto-validate></paper-input>
             <paper-input name="password" id = "formPassword"label="Password" type="password" required auto-validate></paper-input>
-            <paper-input name="verify_password" label="Retype password" type="password" required auto-validate></paper-input>
+            <paper-input name="verify_password" id= "retypePassword" label="Retype password" type="password" required auto-validate></paper-input>
+            <paper-input name="firstName" id="firstName" label="First Name"></paper-input>
+            <paper-input name="lastName" id="lastName" label="Last Name"></paper-input>
+            <paper-input name="Intitution" id="institution" label="Institution (school)"></paper-input>
             <div class="output"></div>
             <paper-button raised id="signup-submit">Submit</paper-button>
           </form>
         </div>
       </paper-card>
+      <center><div id="toastTarget" style = "margin-left: -28px; height: 60px;"></div></center>
     </center>
   </template>
 </dom-module>

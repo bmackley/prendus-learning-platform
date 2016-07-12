@@ -1,6 +1,6 @@
 import {Actions} from '../../redux/actions.ts';
 import {rootReducer} from '../../redux/reducers.ts';
-import {FirebaseService} from '../../node_modules/prendus-services/firebase.service.ts'; // This doesnt work in the app element for some reason.  Does it have to be in the same element that gets called?
+import {FirebaseService} from '../../node_modules/prendus-services/services/firebase.service.ts';
 
 Polymer({
   is: "navbar-element",
