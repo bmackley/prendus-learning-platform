@@ -9,11 +9,11 @@ const createUser = {
     try {
       const success = await FirebaseService.createUserWithEmailAndPassword(data.email, password);
       const loggedInUser = await FirebaseService.logInUserWithEmailAndPassword(data.email, password);
-      const userSuccess = await UserModel.saveMetaData(loggedInUser.uid, data);
-      userSuccess.email = loggedInUser.email
+      await UserModel.updateMetaData(loggedInUser.uid, data);
+      data.email = loggedInUser.email
       context.action = {
         type: Actions.createUser.type,
-        currentUser: userSuccess,
+        currentUser: data,
       };
     }catch(error){
       throw error;
@@ -25,7 +25,7 @@ const loginUser = {
     execute: async (context, email, password) => {
         try {
           const loggedInUser = await FirebaseService.logInUserWithEmailAndPassword(email, password);
-          let userData = await UserModel.getById(loggedInUser.uid, 'metaData'); //sets ancillary user data such as name, institution, etc.
+          let userData = await UserModel.getMetaDataById(loggedInUser.uid); //sets ancillary user data such as name, institution, etc.
           userData.uid = loggedInUser.uid;
           console.log('actions userData', userData)
           context.action = {
@@ -43,7 +43,7 @@ const updateUserEmail = {
   execute: async (context, pastEmail, password, newEmail) => {
     try{
       const loggedInUser = await FirebaseService.logInUserWithEmailAndPassword(pastEmail, password);
-      await UserModel.saveFirebaseUser(loggedInUser, newEmail);
+      await UserModel.updateFirebaseUser(loggedInUser, newEmail);
     }catch(error){
       throw error;
     }
@@ -71,7 +71,7 @@ const checkUserAuth = {
       const loggedInUser = await FirebaseService.getLoggedInUser();
       if(loggedInUser){
         let userData = await UserModel.getById(loggedInUser.uid, 'metaData');
-        userData.uid = loggedInUser.uid; //Don't think this is the right way to do it.
+        userData.uid = loggedInUser.uid; //OK because its being created here.
         console.log('userData', userData)
         context.action = {
           type: Actions.checkUserAuth.type,
