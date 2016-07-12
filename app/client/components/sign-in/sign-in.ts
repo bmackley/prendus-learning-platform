@@ -6,23 +6,22 @@ Polymer({
   listeners: {
     'signin-submit.tap': 'loginTap'
   },
-  loginTap: function(e){
-    Actions.setCurrentUser.execute(this, this.$.loginEmail.value, this.$.loginPassword.value);
-  },
-  mapStateToThis: function(e) {
-    console.log('sign in mapstate s', e.detail)
-    if(e.detail.state.error.message){
-      this.loginFormToastText = e.detail.state.error.message;
-      this.$.loginToast.open();
-      const cards = document.querySelector("paper-card");
-      console.log('DisplayError')
-      console.log(e.detail.state.error.message)
-    }
-    else{
+  loginTap: async function(e){
+    try{
+      await Actions.loginUser.execute(this, this.$.loginEmail.value, this.$.loginPassword.value);
+      //Is setting things to null to clear them out the best practice?
+      this.$.loginEmail.value = '';
+      this.$.loginPassword.value = '';
       let location = 'createcourse'
       window.history.pushState({}, '', location);
       this.fire('location-changed', {}, {node: window});
+    }catch(error){
+      this.loginFormToastText = error.message;
+      this.$.loginToast.open();
     }
+  },
+  mapStateToThis: function(e) {
+
   },
   properties: {
 

@@ -1,102 +1,97 @@
-import {FirebaseService} from '../node_modules/prendus-services/firebase.service.ts'
+import {FirebaseService} from '../node_modules/prendus-services/services/firebase.service.ts'
 import {CourseModel} from '../models/course.model.ts'
 import {ConceptModel} from '../models/concept.model.ts'
-import {UserModel} from '../models/user.model.ts'
+import {UserModel} from '../node_modules/prendus-services/models/user.model.ts'
 
 const createUser = {
-    type: 'CREATE_USER',
-    execute: async (context, email, password) => {
-        try {
-          const success = await FirebaseService.createUserWithEmailAndPassword(email, password);
-          context.action = {
-            type: Actions.setCurrentUser.type,
-            email: success.email
-          };
-        }catch(error){
-          console.log(error);
-          context.action = {
-            type: Actions.displayError.type,
-            error: error,
-          };
-        }
-    }
-};
-const setCurrentUser = {
-    type: 'SET_CURRENT_USER',
-    execute: async (context, email, password) => {
-        try {
-          const success = await FirebaseService.logInUserWithEmailAndPassword(email, password);
-          const userData = await UserModel.getById(success.uid); //sets ancillary user data such as name, institution, etc.
-          context.action = {
-            type: Actions.setCurrentUser.type,
-            email: success.email,
-            firstName: userData.firstName,
-            lastName: userData.lastName,
-          };
-        }catch(error){
-          context.action = {
-            type: Actions.displayError.type,
-            error: error,
-            message: "User not found",
-          };
-        }
-    }
-};
-const updateUser = {
-  type: 'UPDATE_USER',
-  execute: async (context, userData) => {
+  type: 'CREATE_USER',
+  execute: async (context, data, password) => {
     try {
-      const userSuccess = await UserModel.saveMetaData(userData);
-      console.log('update user actions', userSuccess)
+      const success = await FirebaseService.createUserWithEmailAndPassword(data.email, password);
+      const loggedInUser = await FirebaseService.logInUserWithEmailAndPassword(data.email, password);
+      await UserModel.updateMetaData(loggedInUser.uid, data);
+      data.email = loggedInUser.email
       context.action = {
-        type: Actions.updateUser.type,
-        user: userData,
+        type: Actions.createUser.type,
+        currentUser: data,
       };
     }catch(error){
+      throw error;
+    }
+  }
+};
+const loginUser = {
+    type: 'LOGIN_USER',
+    execute: async (context, email, password) => {
+        try {
+          const loggedInUser = await FirebaseService.logInUserWithEmailAndPassword(email, password);
+          let userData = await UserModel.getMetaDataById(loggedInUser.uid); //sets ancillary user data such as name, institution, etc.
+          userData.uid = loggedInUser.uid;
+          context.action = {
+            type: Actions.loginUser.type,
+            currentUser : userData,
+          };
+        }catch(error){
+          console.log('in the action throwing the error')
+          throw error;
+        }
+    }
+};
+const updateUserEmail = {
+  type: 'UPDATE_USER_PROFILE',
+  execute: async (context, pastEmail, password, newEmail) => {
+    try{
+      console.log('actions password', password)
+      const loggedInUser = await FirebaseService.logInUserWithEmailAndPassword(pastEmail, password);
+      console.log('loggedInUser', loggedInUser)
+      await UserModel.updateFirebaseUser(loggedInUser, newEmail);
+    }catch(error){
+      throw error;
+    }
+  }
+};
+const updateUserMetaData = {
+  type: 'UPDATE_USER_META_DATA',
+  execute: async (context, uid, metaData) => {
+    await UserModel.updateMetaData(uid, metaData);
+    try{
       context.action = {
-        type: Actions.displayError.type,
-        error: error,
-        message: error.message,
+        type: Actions.updateUserMetaData.type,
+        user: metaData,
       };
+    }catch(error){
+      throw error;
     }
   }
 };
 const checkUserAuth = {
-    type: 'CHECK_USER_AUTH',
-    execute: async (context) => {
-        try {
-          console.log('Check User Auth Actions')
-          const success = await FirebaseService.getLoggedInUser();
-          console.log('success', success.uid)
-          const userData = await UserModel.getById(success.uid);
-          console.log('userData', userData)
-          context.action = {
-            type: Actions.checkUserAuth.type,
-            email: success.email,
-            firstName: userData.firstName,
-            lastName: userData.lastName,
-            institution: userData.institution,
-          };
-        }catch(error){
-          context.action = {
-            type: Actions.displayError.type,
-            error: error,
-          };
-        }
+  type: 'CHECK_USER_AUTH',
+  execute: async (context) => {
+    try {
+      const loggedInUser = await FirebaseService.getLoggedInUser();
+      if(loggedInUser){
+        let userData = await UserModel.getMetaDataById(loggedInUser.uid, 'metaData');
+        userData.uid = loggedInUser.uid; //OK because its being created here.
+        console.log('userData', userData)
+        context.action = {
+          type: Actions.checkUserAuth.type,
+          currentUser: userData,
+        };
+      }
+    }catch(error){
+      throw error;
     }
+  }
 };
 const setConcepts = {
     type: 'SET_CONCEPTS',
     execute: async (context, newConcept) => {
-        try {
-          const conceptSuccess = await ConceptModel.save(null, newConcept);
-          context.action = newConcept;
-        }catch(error){
-          context.action = {
-            type: Actions.displayError.type,
-            error: error,
-          };
-        }
+      try {
+        const conceptSuccess = await ConceptModel.save(null, newConcept);
+        context.action = newConcept;
+      }catch(error){
+        throw error;
+      }
     }
 };
 const addConcept = {
@@ -112,10 +107,8 @@ const addConcept = {
               title: newConcept.title
           }
         }catch(error){
-          context.action = {
-            type: Actions.displayError.type,
-            error: error,
-          };
+          console.log('add concept error ', error)
+          throw error;
         }
     }
 };
@@ -130,10 +123,8 @@ const getConcepts = {
               concepts: modelConcepts,
           }
         }catch(error){
-          context.action = {
-            type: Actions.displayError.type,
-            error: error,
-          };
+          console.log('get concepts error ', error)
+          throw error;
         }
     }
 };
@@ -148,10 +139,8 @@ const getCourse = {
               course: modelCourse,
           }
         }catch(error){
-          context.action = {
-            type: Actions.displayError.type,
-            error: error,
-          };
+          console.log('get Course error ', error)
+          throw error;
         }
     }
 };
@@ -205,7 +194,7 @@ const displayError = {
 };
 
 export const Actions = {
-    setCurrentUser,
+    loginUser,
     checkUserAuth,
     setConcepts,
     getConcepts,
@@ -215,6 +204,6 @@ export const Actions = {
     displayError,
     createUser,
     logOutUser,
-    updateUser,
-    setURL,
+    updateUserEmail,
+    updateUserMetaData,
 };

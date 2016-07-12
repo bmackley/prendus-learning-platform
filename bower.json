@@ -1,8 +1,9 @@
 {
-  "name": "video-component",
-  "description": "Custom HTML5 video player that responds to events",
+  "name": "learning-platform-component",
+  "description": "An outcome management system and instrucitonal materials generation tool",
   "authors": [
-    "Jordan Last <jordan.michael.last@gmail.com>"
+    "Jordan Last <jordan.michael.last@gmail.com>",
+    "Ben Mackley <benjaminmackley@gmail.com>"
   ],
   "ignore": [
     "**/.*",
