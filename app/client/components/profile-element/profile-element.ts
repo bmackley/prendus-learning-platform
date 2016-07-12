@@ -1,12 +1,11 @@
 import {Actions} from '../../redux/actions.ts';
-import {FirebaseService} from '../node_modules/prendus-services/firebase.service.ts'
+import {FirebaseService} from '../../node_modules/prendus-services/services/firebase.service.ts';
 
 Polymer({
   is: "profile-element",
   listeners: {
   },
   mapStateToThis: function(e) {
-    //this.currentUser = e.detail.state.currentUser
     this.firstName = e.detail.state.currentUser.firstName;
     this.lastName = e.detail.state.currentUser.lastName;
     this.institution = e.detail.state.currentUser.institution;
@@ -36,7 +35,6 @@ Polymer({
 
   },
   closeOverlay: async function(e){
-    this.$.changeEmailPassword.value = '';
     if(e.detail.confirmed === true){
       try {
         let submitValue = {
@@ -45,6 +43,7 @@ Polymer({
           institution: this.$.institution.value,
           email:  this.$.updateEmail.value,
         }
+        console.log('password on form', this.$.changeEmailPassword.value)
         await Actions.updateUserEmail.execute(this, this.pastEmail, this.$.changeEmailPassword.value, submitValue.email);
         await Actions.updateUserMetaData.execute(this, this.uid, submitValue);
         this.updateProfileSuccessToastText = 'Profile & Email Updated Successfully';
@@ -54,6 +53,7 @@ Polymer({
         this.$.updateProfileErrorToast.open();
       }
     }
+    this.$.changeEmailPassword.value = ''; //need to clear the form
   },
   properties: {
   },

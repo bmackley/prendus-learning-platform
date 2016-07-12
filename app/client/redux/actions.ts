@@ -1,7 +1,7 @@
-import {FirebaseService} from '../node_modules/prendus-services/firebase.service.ts'
+import {FirebaseService} from '../node_modules/prendus-services/services/firebase.service.ts'
 import {CourseModel} from '../models/course.model.ts'
 import {ConceptModel} from '../models/concept.model.ts'
-import {UserModel} from '../models/user.model.ts'
+import {UserModel} from '../node_modules/prendus-services/models/user.model.ts'
 
 const createUser = {
   type: 'CREATE_USER',
@@ -27,7 +27,6 @@ const loginUser = {
           const loggedInUser = await FirebaseService.logInUserWithEmailAndPassword(email, password);
           let userData = await UserModel.getMetaDataById(loggedInUser.uid); //sets ancillary user data such as name, institution, etc.
           userData.uid = loggedInUser.uid;
-          console.log('actions userData', userData)
           context.action = {
             type: Actions.loginUser.type,
             currentUser : userData,
@@ -42,7 +41,9 @@ const updateUserEmail = {
   type: 'UPDATE_USER_PROFILE',
   execute: async (context, pastEmail, password, newEmail) => {
     try{
+      console.log('actions password', password)
       const loggedInUser = await FirebaseService.logInUserWithEmailAndPassword(pastEmail, password);
+      console.log('loggedInUser', loggedInUser)
       await UserModel.updateFirebaseUser(loggedInUser, newEmail);
     }catch(error){
       throw error;
@@ -52,12 +53,11 @@ const updateUserEmail = {
 const updateUserMetaData = {
   type: 'UPDATE_USER_META_DATA',
   execute: async (context, uid, metaData) => {
-    const userMetaDataPath = `${uid}/metaData`
-    const userMetaDataSuccess = await UserModel.save(userMetaDataPath, metaData);
+    await UserModel.updateMetaData(uid, metaData);
     try{
       context.action = {
         type: Actions.updateUserMetaData.type,
-        user: userMetaDataSuccess,
+        user: metaData,
       };
     }catch(error){
       throw error;
@@ -70,7 +70,7 @@ const checkUserAuth = {
     try {
       const loggedInUser = await FirebaseService.getLoggedInUser();
       if(loggedInUser){
-        let userData = await UserModel.getById(loggedInUser.uid, 'metaData');
+        let userData = await UserModel.getMetaDataById(loggedInUser.uid, 'metaData');
         userData.uid = loggedInUser.uid; //OK because its being created here.
         console.log('userData', userData)
         context.action = {

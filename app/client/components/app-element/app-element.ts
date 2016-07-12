@@ -1,4 +1,4 @@
-import {rootReducer} from '/../../redux/reducers.ts';
+import {rootReducer} from '../../redux/reducers.ts';
 
 Polymer({
   is: "app-element",
