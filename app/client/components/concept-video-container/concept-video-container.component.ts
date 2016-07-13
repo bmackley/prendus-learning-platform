@@ -29,6 +29,11 @@ class ConceptVideoContainerComponent {
         }
     }
 
+    addVideoClick(e) {
+        Actions.clearCurrentVideoInfo(this);
+        this.$.editVideoDialog.open();
+    }
+
     videoRowClick(e) {
         const id = e.model.item.id;
         const title = e.model.item.title;

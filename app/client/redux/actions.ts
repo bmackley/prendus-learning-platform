@@ -22,6 +22,12 @@ const setCurrentVideoInfo = (context, id: string, title: string, url: string) =>
     };
 };
 
+const clearCurrentVideoInfo = (context) => {
+    context.action = {
+        type: 'CLEAR_CURRENT_VIDEO_INFO'
+    };
+};
+
 const loadConceptVideos = async (context, conceptId: string) => {
     const videos = await VideoModel.getAllByConcept(conceptId);
 
@@ -236,5 +242,6 @@ export const Actions = {
     updateUserMetaData,
     loadConceptVideos,
     setCurrentVideoInfo,
-    saveVideo
+    saveVideo,
+    clearCurrentVideoInfo
 };
