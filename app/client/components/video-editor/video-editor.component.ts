@@ -10,10 +10,12 @@ class VideoEditorComponent {
                 type: String
             },
             title: {
-                type: String
+                type: String,
+                notify: true
             },
             url: {
-                type: String
+                type: String,
+                notify: true
             }
         };
     }
