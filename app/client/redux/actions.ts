@@ -6,16 +6,26 @@ import {VideoModel} from '../node_modules/prendus-services/models/video.model.ts
 import {Course} from '../node_modules/prendus-services/interfaces/course.interface.ts';
 
 const deleteVideo = async (context, id: string) => {
-    await VideoModel.removeById(id);
+    try {
+        await VideoModel.removeById(id);
+    }
+    catch(error) {
+        throw error;
+    }
 };
 
 const saveVideo = async (context, id: string, video: Video) => {
-    const newId = await VideoModel.createOrUpdate(id, video);
+    try {
+        const newId = await VideoModel.createOrUpdate(id, video);
 
-    context.action = {
-        type: 'SET_CURRENT_VIDEO_ID',
-        id: newId
-    };
+        context.action = {
+            type: 'SET_CURRENT_VIDEO_ID',
+            id: newId
+        };
+    }
+    catch(error) {
+        throw error;
+    }
 };
 
 const setCurrentVideoInfo = (context, id: string, title: string, url: string) => {
@@ -34,13 +44,18 @@ const clearCurrentVideoInfo = (context) => {
 };
 
 const loadConceptVideos = async (context, conceptId: string) => {
-    const videos = await VideoModel.getAllByConcept(conceptId);
+    try {
+        const videos = await VideoModel.getAllByConcept(conceptId);
 
-    context.action = {
-        type: 'LOAD_CONCEPT_VIDEOS',
-        videos,
-        conceptId
-    };
+        context.action = {
+            type: 'LOAD_CONCEPT_VIDEOS',
+            videos,
+            conceptId
+        };
+    }
+    catch(error) {
+        throw error;
+    }
 };
 
 const createUser = {
