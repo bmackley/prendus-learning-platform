@@ -18,6 +18,8 @@
             <prendus-video-editor id="videoEditor" title="[[currentVideoTitle]]" url="[[currentVideoUrl]]" on-save="saveVideo"></prendus-video-editor>
         </paper-dialog>
 
+        <button on-tap="addVideoClick">Add video</button>
+
         <template is="dom-repeat" items="[[videos]]">
             <div class="video-row" on-tap="videoRowClick">[[item.title]]</div>
         </template>
