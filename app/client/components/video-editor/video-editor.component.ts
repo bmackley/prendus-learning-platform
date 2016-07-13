@@ -42,7 +42,11 @@ class VideoEditorComponent {
         });
     }
 
-    updateSrc() {
+    updateTitle() {
+        this.title = this.$.titleInput.value;
+    }
+
+    updateUrl() {
         this.url = this.$.urlInput.value;
     }
 
