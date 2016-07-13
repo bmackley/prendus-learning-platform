@@ -3,6 +3,7 @@ import {CourseModel} from '../models/course.model.ts';
 import {ConceptModel} from '../models/concept.model.ts';
 import {UserModel} from '../node_modules/prendus-services/models/user.model.ts';
 import {VideoModel} from '../node_modules/prendus-services/models/video.model.ts';
+import {Course} from '../node_modules/prendus-services/interfaces/course.interface.ts';
 
 const deleteVideo = async (context, id: string) => {
     await VideoModel.removeById(id);
@@ -168,22 +169,22 @@ const getConcepts = {
     }
 };
 const addCourse = {
-    type: 'ADD_Course',
-    execute: async (context, newCourse) => {
-        try {
-          const conceptSuccess = await CourseModel.save(null, newConcept);
-          conceptsArray.conceptSuccess = newConcept;
-          context.action = {
-              type: Actions.addConcept.type,
-              key: conceptSuccess,
-              pos: newConcept.pos,
-              title: newConcept.title
-          }
-        }catch(error){
-          console.log('add concept error ', error)
-          throw error;
+  type: 'ADD_COURSE',
+  execute: async (context: any, newCourse: Course) => {
+      try {
+        const courseID = await CourseModel.createOrUpdate(null, newCourse);
+        const savedCourse = Object.assign({}, newCourse);
+        savedCourse.uid = courseID;
+        context.action = {
+            type: Actions.addCourse.type,
+            newCourse: savedCourse,
+            courseID: courseID,
         }
-    }
+      }catch(error){
+        console.log('add course error ', error)
+        throw error;
+      }
+  }
 };
 const getCourse = {
     type: 'GET_COURSE',
@@ -267,5 +268,6 @@ export const Actions = {
     setCurrentVideoInfo,
     saveVideo,
     clearCurrentVideoInfo,
-    deleteVideo
+    deleteVideo,
+    addCourse,
 };

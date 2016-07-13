@@ -5,8 +5,6 @@ Polymer({
   listeners: {
   },
   mapStateToThis: function(e) {
-    console.log('map state in course-homepage-element working')
-    console.log(e.detail.state.currentUser)
     this.username = e.detail.state.currentUser.email;
   },
   addCourse: function(e){
@@ -19,6 +17,7 @@ Polymer({
       addCourseDialog.close();
       let newCourse = {
         title: this.$.courseFormName.value,
+        creator: this.username,
       }
       Actions.addCourse.execute(this, newCourse, this.concepts);
     }
@@ -27,7 +26,7 @@ Polymer({
   },
   ready: function(e){
     console.log('course homepage')
-    //Check for authentication first in order to have the uid. 
+    //Check for authentication first in order to have the uid.
     //Actions.getCourses.execute(this)
   }
 });

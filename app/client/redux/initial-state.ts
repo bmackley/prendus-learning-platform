@@ -15,12 +15,7 @@ export const InitialState = {
       // creator: '',
       // subjects: [],
     },
-    error: {
-      message: '',
-    },
-    success: {
-      message: '',
-    },
+    courses: {},
     newConcept: '',
     deletedConcept: '',
     URL: '',

@@ -1,18 +1,17 @@
 import {FirebaseService} from '../node_modules/prendus-services/services/firebase.service.ts';
+import {Course} from '../node_modules/prendus-services/interfaces/course.interface.ts';
 
 const conceptPath = 'concept';
 const dataPath = 'course'
-const save = async (id: any, data: {}) => {
+const createOrUpdate = async (id: string, data: Course): Promise<string> => {
     if (id) {
-        const path = `${dataPath}/${id}`;
+        const path: string = `${dataPath}/${id}`;
         await FirebaseService.update(path, data);
         return id;
     }
     else {
-        const path = conceptPath;
-        //figure out what happens when an error is returned
-        const newCourse =  await FirebaseService.push(path, data);
-        return newConcept;
+        const path = dataPath;
+        return await FirebaseService.push(path, data);
     }
 };
 const getById = async (id) => {
@@ -47,7 +46,7 @@ const orderConcepts = async (conceptsArray) => {
 };
 
 export const CourseModel = {
-    save,
+    createOrUpdate,
     getById,
     getConcepts,
     deleteConcept,
