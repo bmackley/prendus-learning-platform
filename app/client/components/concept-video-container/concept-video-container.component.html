@@ -1,0 +1,29 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/polymer-redux-store/redux-store.html">
+<link rel="import" href="../../bower_components/paper-dialog/paper-dialog.html">
+<link rel="import" href="../video-editor/video-editor.component.html">
+
+<dom-module id="prendus-concept-video-container">
+    <template>
+        <style>
+            .video-row {
+                padding: 20px;
+                cursor: pointer;
+            }
+        </style>
+
+        <redux-store on-statechange="mapStateToThis" action="[[action]]"></redux-store>
+
+        <paper-dialog id="editVideoDialog" with-backdrop style="padding: 20px">
+            <prendus-video-editor id="videoEditor" video-id="[[currentVideoId]]" title="{{currentVideoTitle}}" url="{{currentVideoUrl}}" on-save="saveVideo" on-delete="deleteVideo"></prendus-video-editor>
+        </paper-dialog>
+
+        <button on-tap="addVideoClick">Add video</button>
+
+        <template is="dom-repeat" items="[[videos]]">
+            <div class="video-row" on-tap="videoRowClick">[[item.title]]</div>
+        </template>
+    </template>
+
+    <script>System.import('components/concept-video-container/concept-video-container.component.ts');</script>
+</dom-module>

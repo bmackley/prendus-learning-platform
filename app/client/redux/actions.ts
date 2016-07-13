@@ -1,7 +1,46 @@
-import {FirebaseService} from '../node_modules/prendus-services/services/firebase.service.ts'
-import {CourseModel} from '../models/course.model.ts'
-import {ConceptModel} from '../models/concept.model.ts'
-import {UserModel} from '../node_modules/prendus-services/models/user.model.ts'
+import {FirebaseService} from '../node_modules/prendus-services/services/firebase.service.ts';
+import {CourseModel} from '../models/course.model.ts';
+import {ConceptModel} from '../models/concept.model.ts';
+import {UserModel} from '../node_modules/prendus-services/models/user.model.ts';
+import {VideoModel} from '../node_modules/prendus-services/models/video.model.ts';
+
+const deleteVideo = async (context, id: string) => {
+    await VideoModel.removeById(id);
+};
+
+const saveVideo = async (context, id: string, video: Video) => {
+    const newId = await VideoModel.createOrUpdate(id, video);
+
+    context.action = {
+        type: 'SET_CURRENT_VIDEO_ID',
+        id: newId
+    };
+};
+
+const setCurrentVideoInfo = (context, id: string, title: string, url: string) => {
+    context.action = {
+        type: 'SET_CURRENT_VIDEO_INFO',
+        id,
+        title,
+        url
+    };
+};
+
+const clearCurrentVideoInfo = (context) => {
+    context.action = {
+        type: 'CLEAR_CURRENT_VIDEO_INFO'
+    };
+};
+
+const loadConceptVideos = async (context, conceptId: string) => {
+    const videos = await VideoModel.getAllByConcept(conceptId);
+
+    context.action = {
+        type: 'LOAD_CONCEPT_VIDEOS',
+        videos,
+        conceptId
+    };
+};
 
 const createUser = {
   type: 'CREATE_USER',
@@ -224,4 +263,9 @@ export const Actions = {
     logOutUser,
     updateUserEmail,
     updateUserMetaData,
+    loadConceptVideos,
+    setCurrentVideoInfo,
+    saveVideo,
+    clearCurrentVideoInfo,
+    deleteVideo
 };
