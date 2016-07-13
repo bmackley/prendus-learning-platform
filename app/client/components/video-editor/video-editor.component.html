@@ -1,0 +1,22 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/paper-input/paper-input.html">
+<link rel="import" href="../../bower_components/paper-button/paper-button.html">
+<link rel="import" href="../../bower_components/paper-toast/paper-toast.html">
+
+<dom-module id="prendus-video-editor">
+    <template>
+        <div style="display: flex; flex-direction: column">
+            <paper-input id="titleInput" label="video title" value="[[title]]"></paper-input>
+            <paper-input id="urlInput" label="video url" on-input="updateSrc" value="[[url]]"></paper-input>
+            <div style="display: flex; flex-direction: row; margin-bottom: 25px">
+                <paper-button on-tap="saveClick" raised>Save</paper-button>
+            </div>
+            <div style="display: flex; flex-direction: row; justify-content: center; align-items: center">
+                <video src="[[srcUrl]]" controls></video>
+            </div>
+        </div>
+        <paper-toast id="savedToast" text="Video saved"></paper-toast>
+    </template>
+
+    <script>System.import('components/video-editor/video-editor.component.ts');</script>
+</dom-module>
