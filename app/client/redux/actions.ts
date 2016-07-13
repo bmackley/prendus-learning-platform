@@ -128,6 +128,24 @@ const getConcepts = {
         }
     }
 };
+const addCourse = {
+    type: 'ADD_Course',
+    execute: async (context, newCourse) => {
+        try {
+          const conceptSuccess = await CourseModel.save(null, newConcept);
+          conceptsArray.conceptSuccess = newConcept;
+          context.action = {
+              type: Actions.addConcept.type,
+              key: conceptSuccess,
+              pos: newConcept.pos,
+              title: newConcept.title
+          }
+        }catch(error){
+          console.log('add concept error ', error)
+          throw error;
+        }
+    }
+};
 const getCourse = {
     type: 'GET_COURSE',
     execute: async (context) => {

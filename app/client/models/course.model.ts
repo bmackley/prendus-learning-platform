@@ -1,17 +1,17 @@
 import {FirebaseService} from '../node_modules/prendus-services/services/firebase.service.ts';
 
-const conceptPath = 'concept/';
-const coursePath = 'course/'
+const conceptPath = 'concept';
+const dataPath = 'course'
 const save = async (id: any, data: {}) => {
     if (id) {
-        const path = conceptPath + id;
-        await FirebaseService.set(path, data);
+        const path = `${dataPath}/${id}`;
+        await FirebaseService.update(path, data);
         return id;
     }
     else {
         const path = conceptPath;
         //figure out what happens when an error is returned
-        const newConcept =  await FirebaseService.push(path, data);
+        const newCourse =  await FirebaseService.push(path, data);
         return newConcept;
     }
 };
