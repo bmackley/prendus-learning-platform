@@ -1,7 +1,15 @@
-class VideoEditorComponent {
+export class VideoEditorComponent {
     public is: string;
-    public properties;
+    public properties: any;
     public videoId: string;
+    public $: {
+        savedToast: any,
+        titleInput: any,
+        urlInput: any
+    };
+    public fire: any;
+    public title: string;
+    public url: string;
 
     beforeRegister() {
         this.is = 'prendus-video-editor';

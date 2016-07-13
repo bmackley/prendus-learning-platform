@@ -2,6 +2,8 @@ import {InitialState} from './initial-state.ts';
 import {Actions} from './actions.ts';
 
 export function rootReducer(state = InitialState, action) {
+    console.log(action)
+
     if(action.successMessage){
       state.success.message = action.successMessage
     }else{
