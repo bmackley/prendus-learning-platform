@@ -4,6 +4,24 @@ import {ConceptModel} from '../models/concept.model.ts';
 import {UserModel} from '../node_modules/prendus-services/models/user.model.ts';
 import {VideoModel} from '../node_modules/prendus-services/models/video.model.ts';
 
+const saveVideo = async (context, id: string, video: Video) => {
+    const newId = await VideoModel.createOrUpdate(id, video);
+
+    context.action = {
+        type: 'SET_CURRENT_VIDEO_ID',
+        id: newId
+    };
+};
+
+const setCurrentVideoInfo = (context, id: string, title: string, url: string) => {
+    context.action = {
+        type: 'SET_CURRENT_VIDEO_INFO',
+        id,
+        title,
+        url
+    };
+};
+
 const loadConceptVideos = async (context, conceptId: string) => {
     const videos = await VideoModel.getAllByConcept(conceptId);
 
@@ -216,5 +234,7 @@ export const Actions = {
     logOutUser,
     updateUserEmail,
     updateUserMetaData,
-    loadConceptVideos
+    loadConceptVideos,
+    setCurrentVideoInfo,
+    saveVideo
 };

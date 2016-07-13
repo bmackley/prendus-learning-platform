@@ -82,6 +82,22 @@ export function rootReducer(state = InitialState, action) {
 
           return newState;
       }
+      case 'SET_CURRENT_VIDEO_INFO': {
+          const newState = Object.assign({}, state);
+
+          newState.currentConceptVideoId = action.id;
+          newState.currentConceptVideoTitle = action.title;
+          newState.currentConceptVideoUrl = action.url;
+
+          return newState;
+      }
+      case 'SET_CURRENT_VIDEO_ID': {
+          const newState = Object.assign({}, state);
+
+          newState.currentConceptVideoId = action.id;
+
+          return newState;
+      }
       default: {
           return state;
       }
