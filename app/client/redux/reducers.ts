@@ -78,7 +78,7 @@ export function rootReducer(state = InitialState, action) {
       case 'LOAD_CONCEPT_VIDEOS': {
           const newState = Object.assign({}, state);
 
-          newState.conceptVideos[action.componentId] = action.videos;
+          newState.conceptVideos[action.conceptId] = action.videos;
 
           return newState;
       }
