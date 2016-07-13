@@ -72,8 +72,6 @@ class ConceptVideoContainerComponent {
     mapStateToThis(e) {
         const state = e.detail.state;
 
-        console.log(state);
-
         this.videos = state.conceptVideos[this.componentId];
         this.currentVideoId = state.currentConceptVideoId;
         this.currentVideoTitle = state.currentConceptVideoTitle;
