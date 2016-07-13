@@ -32,7 +32,7 @@ class VideoEditorComponent {
     }
 
     updateSrc() {
-        this.srcUrl = this.$.urlInput.value;
+        this.url = this.$.urlInput.value;
     }
 
     indicateSaved() {

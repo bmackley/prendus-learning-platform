@@ -91,6 +91,15 @@ export function rootReducer(state = InitialState, action) {
 
           return newState;
       }
+      case 'CLEAR_CURRENT_VIDEO_INFO': {
+          const newState = Object.assign({}, state);
+
+          newState.currentConceptVideoId = null;
+          newState.currentConceptVideoTitle = '';
+          newState.currentConceptVideoUrl = '';
+
+          return newState;
+      }
       case 'SET_CURRENT_VIDEO_ID': {
           const newState = Object.assign({}, state);
 
