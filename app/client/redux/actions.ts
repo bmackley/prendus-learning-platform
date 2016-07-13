@@ -32,13 +32,13 @@ const clearCurrentVideoInfo = (context) => {
     };
 };
 
-const loadConceptVideos = async (context, componentId: string, conceptId: string) => {
+const loadConceptVideos = async (context, conceptId: string) => {
     const videos = await VideoModel.getAllByConcept(conceptId);
 
     context.action = {
         type: 'LOAD_CONCEPT_VIDEOS',
-        videos: videos,
-        componentId
+        videos,
+        conceptId
     };
 };
 

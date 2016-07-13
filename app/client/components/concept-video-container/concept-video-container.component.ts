@@ -1,6 +1,5 @@
 import {Video} from '../../node_modules/prendus-services/interfaces/video.interface.ts';
 import {Actions} from '../../redux/actions.ts';
-import {UtilitiesService} from '../../node_modules/prendus-services/services/utilities.service.ts';
 
 class ConceptVideoContainerComponent {
     public is: string;
@@ -11,7 +10,6 @@ class ConceptVideoContainerComponent {
     public currentVideoId: string;
     public currentVideoTitle: string;
     public currentVideoUrl: string;
-    public componentId: string;
 
     beforeRegister() {
         this.is = 'prendus-concept-video-container';
@@ -27,8 +25,7 @@ class ConceptVideoContainerComponent {
 
     async init() {
         if (this.conceptId) {
-            !this.componentId && (this.componentId = UtilitiesService.createUUID());
-            await Actions.loadConceptVideos(this, this.componentId, this.conceptId);
+            await Actions.loadConceptVideos(this, this.conceptId);
         }
     }
 
@@ -59,20 +56,20 @@ class ConceptVideoContainerComponent {
 
         await Actions.saveVideo(this, this.currentVideoId, video);
         this.$.videoEditor.indicateSaved();
-        await Actions.loadConceptVideos(this, this.componentId, this.conceptId);
+        await Actions.loadConceptVideos(this, this.conceptId);
     }
 
     async deleteVideo(e) {
         this.$.editVideoDialog.close();
         await Actions.deleteVideo(this, this.currentVideoId);
-        await Actions.loadConceptVideos(this, this.componentId, this.conceptId);
+        await Actions.loadConceptVideos(this, this.conceptId);
         Actions.clearCurrentVideoInfo(this);
     }
 
     mapStateToThis(e) {
         const state = e.detail.state;
 
-        this.videos = state.conceptVideos[this.componentId];
+        this.videos = state.conceptVideos[this.conceptId];
         this.currentVideoId = state.currentConceptVideoId;
         this.currentVideoTitle = state.currentConceptVideoTitle;
         this.currentVideoUrl = state.currentConceptVideoUrl;
