@@ -6,6 +6,9 @@ class VideoEditorComponent {
     beforeRegister() {
         this.is = 'prendus-video-editor';
         this.properties = {
+            videoId: {
+                type: String
+            },
             title: {
                 type: String
             },
@@ -26,6 +29,14 @@ class VideoEditorComponent {
         this.fire('save', {
             title,
             url
+        }, {
+            bubbles: false
+        });
+    }
+
+    deleteClick() {
+        this.fire('delete', {
+
         }, {
             bubbles: false
         });

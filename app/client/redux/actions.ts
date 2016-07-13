@@ -4,6 +4,10 @@ import {ConceptModel} from '../models/concept.model.ts';
 import {UserModel} from '../node_modules/prendus-services/models/user.model.ts';
 import {VideoModel} from '../node_modules/prendus-services/models/video.model.ts';
 
+const deleteVideo = async (context, id: string) => {
+    await VideoModel.removeById(id);
+};
+
 const saveVideo = async (context, id: string, video: Video) => {
     const newId = await VideoModel.createOrUpdate(id, video);
 
@@ -243,5 +247,6 @@ export const Actions = {
     loadConceptVideos,
     setCurrentVideoInfo,
     saveVideo,
-    clearCurrentVideoInfo
+    clearCurrentVideoInfo,
+    deleteVideo
 };
