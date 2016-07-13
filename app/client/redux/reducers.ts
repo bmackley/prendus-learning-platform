@@ -2,11 +2,6 @@ import {InitialState} from './initial-state.ts';
 import {Actions} from './actions.ts';
 
 export function rootReducer(state = InitialState, action) {
-    if(action.successMessage){
-      state.success.message = action.successMessage
-    }else{
-      state.success.message = '';
-    }
     switch(action.type) {
       case Actions.createUser.type: {
           const newState = Object.assign({}, state);
@@ -105,6 +100,12 @@ export function rootReducer(state = InitialState, action) {
 
           newState.currentConceptVideoId = action.id;
 
+          return newState;
+      }
+      case 'ADD_COURSE': {
+          const newState = Object.assign({}, state);
+          newState.courses[action.courseId] = action.newCourse;
+          //newState.currentConceptVideoId = action.newCourse;
           return newState;
       }
       default: {
