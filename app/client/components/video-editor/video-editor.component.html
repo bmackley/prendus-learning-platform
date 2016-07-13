@@ -5,6 +5,10 @@
 
 <dom-module id="prendus-video-editor">
     <template>
+        <template is="dom-if" if="[[videoId]]">
+            <button on-tap="deleteClick">Delete</button>
+        </template>
+
         <div style="display: flex; flex-direction: column">
             <paper-input id="titleInput" label="video title" value="[[title]]"></paper-input>
             <paper-input id="urlInput" label="video url" on-input="updateSrc" value="[[url]]"></paper-input>

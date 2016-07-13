@@ -59,8 +59,17 @@ class ConceptVideoContainerComponent {
         await Actions.loadConceptVideos(this, this.conceptId);
     }
 
+    async deleteVideo(e) {
+        this.$.editVideoDialog.close();
+        await Actions.deleteVideo(this, this.currentVideoId);
+        await Actions.loadConceptVideos(this, this.conceptId);
+        Actions.clearCurrentVideoInfo(this);
+    }
+
     mapStateToThis(e) {
         const state = e.detail.state;
+
+        console.log(state);
 
         this.videos = state.conceptVideos;
         this.currentVideoId = state.currentConceptVideoId;
