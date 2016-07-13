@@ -1,0 +1,26 @@
+<link href="../../bower_components/polymer/polymer.html" rel="import">
+
+<dom-module id="course-homepage">
+  <style>
+    /* CSS rules for your element */
+    :host {
+      display: block;
+    }
+  </style>
+  <template>
+    <redux-store on-statechange="mapStateToThis" action="[[action]]"></redux-store>
+    <paper-fab icon = "add" title = "Add" on-tap="addCourse"></paper-fab>
+    <paper-dialog id = "addCourseDialog" modal>
+      <h2>Create a Course</h2>
+      <div>
+        <!-- Look up Iron keys to change this -->
+      <paper-input name="name" label="Course Name" id ="courseFormName" required auto-validate></paper-input>
+      <paper-button dialog-dismiss>Cancel</paper-button>
+      <paper-button on-tap="addCourseFormDone">Next</paper-button>
+      </div>
+      <div class="buttons">
+      </div>
+    </paper-dialog>
+  </template>
+  <script>System.import('components/course-element/course-homepage.ts');</script>
+</dom-module>
