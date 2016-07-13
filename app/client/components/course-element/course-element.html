@@ -23,12 +23,7 @@
     :host {
       display: block;
     }
-    #classContent {
-      @apply(--layout-horizontal);
-    }
-    .flex-horizontal {
-      @apply(--layout-flex);
-    }
+
     /* CSS rules for your element */
   </style>
   <template>
@@ -92,6 +87,24 @@
                         <div class="paper-header">standard</div>
                         <div class="content fit">content fits 100% below the header</div>
                       </paper-header-panel>
+                    <iron-icon class = "end-justified"icon="editor:drag-handle" item-icon></iron-icon>
+                    <iron-icon class = "end-justified" id = {{item.key}} icon="icons:delete" item-icon on-click="deleteItem"></iron-icon>
+                  </paper-icon-item>
+                  <iron-collapse class="conceptToggle" id= "Concept{{item.pos}}">
+                    <div>
+                      <div id="videosContainer">
+                        <paper-header-panel mode="seamed">
+                          <paper-toolbar><h1>Videos</h1></paper-toolbar>
+                        </paper-header-panel>
+                        <prendus-concept-video-container concept-id="[[item.key]]"></prendus-concept-video-container>
+                      </div>
+                      <div id="quizzesContainer">
+                        <paper-header-panel mode="seamed">
+                          <paper-toolbar class ="subheading"><h1>Quizzes</h1></paper-toolbar>
+                          <div class="paper-header">standard</div>
+                          <div class="content fit">content fits 100% below the header</div>
+                        </paper-header-panel>
+                      </div>
                     </div>
                   </div>
                 </iron-collapse>
