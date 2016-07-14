@@ -1,7 +1,8 @@
 import {FirebaseService} from '../node_modules/prendus-services/services/firebase.service.ts';
+import {Concept} from '../node_modules/prendus-services/interfaces/concept.interface.ts';
 
 const conceptPath = 'concept/';
-const save = async (id, data) => {
+const save = async (id: string, data: Concept): Promise<string> => {
     if (id) {
         const path = conceptPath + id;
         await FirebaseService.set(path, data);
@@ -10,8 +11,8 @@ const save = async (id, data) => {
     else {
         const path = conceptPath;
         //figure out what happens when an error is returned
-        const newConcept =  await FirebaseService.push(path, data);
-        return newConcept;
+        const conceptId =  await FirebaseService.push(path, data);
+        return conceptId;
     }
 };
 const getById = async (id) => {
@@ -28,7 +29,7 @@ const getConcepts = async () => {
     }
     return firebaseConcepts;
 };
-const deleteConcept = async (key) => {
+const deleteConcept = async (key: string) => {
     const path = conceptPath + key;
     let conceptDelete = await FirebaseService.remove(path);
 };

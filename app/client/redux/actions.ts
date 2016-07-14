@@ -153,11 +153,11 @@ const addConcept = {
     type: 'ADD_CONCEPT',
     execute: async (context, newConcept, conceptsArray) => {
         try {
-          const conceptSuccess = await ConceptModel.save(null, newConcept);
+          const conceptId = await ConceptModel.save(null, newConcept);
           conceptsArray.conceptSuccess = newConcept;
           context.action = {
               type: Actions.addConcept.type,
-              key: conceptSuccess,
+              key: conceptId,
               pos: newConcept.pos,
               title: newConcept.title
           }
@@ -187,13 +187,13 @@ const addCourse = {
   type: 'ADD_COURSE',
   execute: async (context: any, newCourse: Course) => {
       try {
-        const courseID = await CourseModel.createOrUpdate(null, newCourse);
+        const courseId = await CourseModel.createOrUpdate(null, newCourse);
         const savedCourse = Object.assign({}, newCourse);
-        savedCourse.uid = courseID;
+        savedCourse.courseId = courseId;
         context.action = {
             type: Actions.addCourse.type,
             newCourse: savedCourse,
-            courseID: courseID,
+            courseId: courseId,
         }
       }catch(error){
         console.log('add course error ', error)
@@ -201,69 +201,56 @@ const addCourse = {
       }
   }
 };
-const getCourse = {
-    type: 'GET_COURSE',
-    execute: async (context) => {
-        try {
-          const modelCourse = await ConceptModel.getCourse();
-          console.log('model course', modelCourse)
-          context.action = {
-              type: Actions.getCourse.type,
-              course: modelCourse,
-          }
-        }catch(error){
-          console.log('get Course error ', error)
-          throw error;
-        }
-    }
-};
-const setURL = {
-    type: 'SET_URL',
-    execute: async (context, URL) => {
+const getCourses = {
+  type: 'GET_COURSES',
+  execute: async (context: any) => {
+    try {
+      const loggedInUser = await FirebaseService.getLoggedInUser(); //not sure if this is the best way to do this. The user isn't set in the ready, and this is the only way to ensure that its set?
+      const courses = await CourseModel.getCourses(loggedInUser.uid);
       context.action = {
-        type: Actions.getCourse.type,
-        URL: URL,
+          type: Actions.getCourses.type,
+          courses: courses,
       }
+    }catch(error){
+      throw error;
     }
+  }
 };
 const deleteConcept = {
-    type: 'DELETE_CONCEPT',
-    execute: async (context, key, conceptsArray) => {
-        try {
-          await ConceptModel.deleteConcept(key);
-          context.action = {
-              type: Actions.deleteConcept.type,
-              conceptKey: key,
-          }
-        }catch(error){
-          context.action = {
-            type: Actions.displayError.type,
-            error: error,
-          };
+  type: 'DELETE_CONCEPT',
+  execute: async (context, key, conceptsArray) => {
+      try {
+        await ConceptModel.deleteConcept(key);
+        context.action = {
+            type: Actions.deleteConcept.type,
+            conceptKey: key,
         }
-    }
+      }catch(error){
+        context.action = {
+          type: Actions.displayError.type,
+          error: error,
+        };
+      }
+  }
 };
 const orderConcepts = {
-    type: 'ORDER_CONCEPTS',
-    execute: async (context, conceptsArray) => {
-        //thre use cases: Reorder concepts, delete a concept
-        await ConceptModel.orderConcepts(conceptsArray);
-    }
+  type: 'ORDER_CONCEPTS',
+  execute: async (context, conceptsArray) => {
+      //thre use cases: Reorder concepts, delete a concept
+      await ConceptModel.orderConcepts(conceptsArray);
+  }
 };
 const logOutUser = {
-    type: 'LOGOUT_USER',
-    execute: async (context) => {
-      console.log('logging the user out')
-      await FirebaseService.logOutUser();
-      console.log('user has been logged out actions')
-      context.action = {
-        type: Actions.logOutUser.type,
-        user: '',
-      }
+  type: 'LOGOUT_USER',
+  execute: async (context) => {
+    console.log('logging the user out')
+    await FirebaseService.logOutUser();
+    console.log('user has been logged out actions')
+    context.action = {
+      type: Actions.logOutUser.type,
+      user: '',
     }
-};
-const displayError = {
-    type: 'DISPLAY_ERROR',
+  }
 };
 
 export const Actions = {
@@ -274,7 +261,6 @@ export const Actions = {
     deleteConcept,
     orderConcepts,
     addConcept,
-    displayError,
     createUser,
     logOutUser,
     updateUserEmail,
@@ -285,4 +271,5 @@ export const Actions = {
     clearCurrentVideoInfo,
     deleteVideo,
     addCourse,
+    getCourses,
 };
