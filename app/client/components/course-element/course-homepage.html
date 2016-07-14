@@ -1,4 +1,5 @@
 <link href="../../bower_components/polymer/polymer.html" rel="import">
+<link href="../../bower_components/paper-card/paper-card.html" rel="import">
 
 <dom-module id="course-homepage">
   <style>
@@ -9,8 +10,13 @@
   </style>
   <template>
     <redux-store on-statechange="mapStateToThis" action="[[action]]"></redux-store>
-    <template id="conceptsList" is="dom-repeat" items={{courses}}>
-        <h3 on-click="toggle" id= {{item.pos}} data-id$="{{item.creator}}">{{item.title}}</h3>
+    <template id="courseList" is="dom-repeat" items="[[courses]]">
+      <paper-card id= "[[item.courseId]]" heading="[[item.title]]">
+        <div class="card-content">Create a Description</div>
+        <div class="card-actions">
+          <paper-button>Edit</paper-button>  <!-- Go to page from here -->
+        </div>
+      </paper-card>
     </template>
     <paper-fab icon = "add" title = "Add" on-tap="addCourse"></paper-fab>
     <paper-dialog id = "addCourseDialog" modal>
