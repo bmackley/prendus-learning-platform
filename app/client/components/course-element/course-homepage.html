@@ -11,7 +11,6 @@
     <redux-store on-statechange="mapStateToThis" action="[[action]]"></redux-store>
     <template id="conceptsList" is="dom-repeat" items={{courses}}>
         <h3 on-click="toggle" id= {{item.pos}} data-id$="{{item.creator}}">{{item.title}}</h3>
-        <h3 on-click="toggle" id= {{item.pos}} data-id$="{{item.title}}">{{item.title}}</h3>
     </template>
     <paper-fab icon = "add" title = "Add" on-tap="addCourse"></paper-fab>
     <paper-dialog id = "addCourseDialog" modal>
