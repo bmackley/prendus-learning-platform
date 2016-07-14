@@ -102,7 +102,7 @@ export function rootReducer(state = InitialState, action) {
 
           return newState;
       }
-      case 'GET_COURSES': {
+      case 'GET_COURSES_BY_USER': {
         const newState = Object.assign({}, state);
         newState.courses = action.courses;
         //newState.currentConceptVideoId = action.newCourse;
@@ -110,7 +110,7 @@ export function rootReducer(state = InitialState, action) {
       }
       case 'ADD_COURSE': {
         const newState = Object.assign({}, state);
-        newState.courses[action.courseId] = action.newCourse;
+        newState.courses.push(action.newCourse);
         return newState;
       }
       default: {

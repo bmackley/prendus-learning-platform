@@ -189,11 +189,10 @@ const addCourse = {
       try {
         const courseId = await CourseModel.createOrUpdate(null, newCourse);
         const savedCourse = Object.assign({}, newCourse);
-        savedCourse.courseId = courseId;
+        // savedCourse.courseId = courseId;
         context.action = {
             type: Actions.addCourse.type,
             newCourse: savedCourse,
-            courseId: courseId,
         }
       }catch(error){
         console.log('add course error ', error)
@@ -201,14 +200,14 @@ const addCourse = {
       }
   }
 };
-const getCourses = {
-  type: 'GET_COURSES',
+const getCoursesByUser = {
   execute: async (context: any) => {
     try {
       const loggedInUser = await FirebaseService.getLoggedInUser(); //not sure if this is the best way to do this. The user isn't set in the ready, and this is the only way to ensure that its set?
-      const courses = await CourseModel.getCourses(loggedInUser.uid);
+      const courses = await CourseModel.getCoursesByUser(loggedInUser.uid);
+      console.log('actions get courses', courses)
       context.action = {
-          type: Actions.getCourses.type,
+          type: 'GET_COURSES_BY_USER',
           courses: courses,
       }
     }catch(error){
@@ -271,5 +270,5 @@ export const Actions = {
     clearCurrentVideoInfo,
     deleteVideo,
     addCourse,
-    getCourses,
+    getCoursesByUser,
 };
