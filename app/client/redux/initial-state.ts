@@ -9,7 +9,7 @@ export const InitialState = {
     },
     concepts: {
     },
-    courses: {},
+    courses: [],
     newConcept: '',
     deletedConcept: '',
     conceptVideos: {},

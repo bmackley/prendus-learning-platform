@@ -22,14 +22,14 @@ const getById = async (id) => {
     const concept = await FirebaseService.get(path);
     return concept;
 };
-const getCourses = async (uid: string) => {
+const getCoursesByUser = async (uid: string) => {
   //Maybe in the future look into loggin the courses into the user object. For now, not going to worry about it.
   // const userCoursesPath = `users/${id}/courses`
   // const firebaseUserCourses = FirebaseService.get(userCoursesPath);
   // console.log('firebase user courses', firebaseUserCourses);
     const path = dataPath;
     const firebaseCourses = await FirebaseService.getAllBy(path, 'creator', uid);
-    const firebaseCoursesArray = Object.keys(firebaseCourses).map(key => firebaseCourses[key])
+    const firebaseCoursesArray = Object.keys(firebaseCourses || {}).map(key => firebaseCourses[key])
     return firebaseCoursesArray;
 };
 const deleteConcept = async (key) => {
@@ -47,7 +47,7 @@ const orderConcepts = async (conceptsArray) => {
 export const CourseModel = {
     createOrUpdate,
     getById,
-    getCourses,
+    getCoursesByUser,
     deleteConcept,
     orderConcepts
 }
