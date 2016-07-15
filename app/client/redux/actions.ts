@@ -87,7 +87,6 @@ const loginUser = {
             currentUser : userData,
           };
         }catch(error){
-          console.log('in the action throwing the error')
           throw error;
         }
     }
@@ -96,9 +95,7 @@ const updateUserEmail = {
   type: 'UPDATE_USER_PROFILE',
   execute: async (context, pastEmail, password, newEmail) => {
     try{
-      console.log('actions password', password)
       const loggedInUser = await FirebaseService.logInUserWithEmailAndPassword(pastEmail, password);
-      console.log('loggedInUser', loggedInUser)
       await UserModel.updateFirebaseUser(loggedInUser, newEmail);
     }catch(error){
       throw error;
@@ -127,7 +124,6 @@ const checkUserAuth = {
       if(loggedInUser){
         let userData = await UserModel.getMetaDataById(loggedInUser.uid, 'metaData');
         userData.uid = loggedInUser.uid; //OK because its being created here.
-        console.log('userData', userData)
         context.action = {
           type: Actions.checkUserAuth.type,
           currentUser: userData,
@@ -150,52 +146,48 @@ const setConcepts = {
     }
 };
 const addConcept = {
-    type: 'ADD_CONCEPT',
-    execute: async (context, newConcept, conceptsArray) => {
-        try {
-          const conceptId = await ConceptModel.save(null, newConcept);
-          conceptsArray.conceptSuccess = newConcept;
-          context.action = {
-              type: Actions.addConcept.type,
-              key: conceptId,
-              pos: newConcept.pos,
-              title: newConcept.title
-          }
-        }catch(error){
-          console.log('add concept error ', error)
-          throw error;
-        }
+  type: 'ADD_CONCEPT',
+  execute: async (context, newConcept, conceptsArray) => {
+    try {
+      const conceptId = await ConceptModel.save(null, newConcept);
+      conceptsArray.conceptSuccess = newConcept;
+      context.action = {
+          type: Actions.addConcept.type,
+          key: conceptId,
+          pos: newConcept.pos,
+          title: newConcept.title
+      }
+    }catch(error){
+      throw error;
     }
+  }
 };
 const getConcepts = {
-    type: 'GET_CONCEPTS',
-    execute: async (context) => {
-        try {
-          const modelConcepts = await ConceptModel.getConcepts();
-          console.log(modelConcepts)
-          context.action = {
-              type: Actions.getConcepts.type,
-              concepts: modelConcepts,
-          }
-        }catch(error){
-          console.log('get concepts error ', error)
-          throw error;
-        }
+  type: 'GET_CONCEPTS',
+  execute: async (context) => {
+    try {
+      const modelConcepts = await ConceptModel.getConcepts();
+      context.action = {
+          type: Actions.getConcepts.type,
+          concepts: modelConcepts,
+      }
+    }catch(error){
+      throw error;
     }
+  }
 };
 const addCourse = {
   type: 'ADD_COURSE',
   execute: async (context: any, newCourse: Course) => {
       try {
         const courseId = await CourseModel.createOrUpdate(null, newCourse);
-        const savedCourse = Object.assign({}, newCourse);
-        // savedCourse.courseId = courseId;
+        let savedCourse = Object.assign({}, newCourse);
+        savedCourse.courseId = courseId;
         context.action = {
             type: Actions.addCourse.type,
             newCourse: savedCourse,
         }
       }catch(error){
-        console.log('add course error ', error)
         throw error;
       }
   }
@@ -204,11 +196,12 @@ const getCoursesByUser = {
   execute: async (context: any) => {
     try {
       const loggedInUser = await FirebaseService.getLoggedInUser(); //not sure if this is the best way to do this. The user isn't set in the ready, and this is the only way to ensure that its set?
-      const courses = await CourseModel.getCoursesByUser(loggedInUser.uid);
-      console.log('actions get courses', courses)
-      context.action = {
-          type: 'GET_COURSES_BY_USER',
-          courses: courses,
+      if(loggedInUser){
+        const courses = await CourseModel.getCoursesByUser(loggedInUser.uid);
+        context.action = {
+            type: 'GET_COURSES_BY_USER',
+            courses: courses,
+        }
       }
     }catch(error){
       throw error;
@@ -242,9 +235,8 @@ const orderConcepts = {
 const logOutUser = {
   type: 'LOGOUT_USER',
   execute: async (context) => {
-    console.log('logging the user out')
+    //Need to come up with a list of things to clear with the logout. Maybe have a clear everything function?
     await FirebaseService.logOutUser();
-    console.log('user has been logged out actions')
     context.action = {
       type: Actions.logOutUser.type,
       user: '',

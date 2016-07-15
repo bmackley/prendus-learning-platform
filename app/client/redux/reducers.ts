@@ -17,50 +17,34 @@ export function rootReducer(state = InitialState, action) {
         console.log('Reducer action user auth', action)
         const newState = Object.assign({}, state);
         newState.currentUser = action.currentUser;
-        // newState.currentUser.email = action.email;
-        // newState.currentUser.firstName = action.firstName;
-        // newState.currentUser.lastName = action.lastName;
-        // newState.currentUser.institution = action.institution;
         return newState;
       }
       case Actions.addConcept.type: {
-        console.log('reducers add concept', action)
         const newState = Object.assign({}, state);
-        console.log('new state', state)
         newState.concepts[action.key] = action;
-        console.log("reducers add concept new state1 ", newState)
         newState.newConcept = newState.concepts[action.key];
-        console.log("reducers add concept new state 2", newState)
         return newState;
       }
       case Actions.setConcepts.type: {
-          const newState = Object.assign({}, state);
-          newState.concepts = {
-              // uid: action.uid,
-              title: action.title,
-              // pos: action.pos,
-              // creator: action.creator
-          };
-          return newState;
+        const newState = Object.assign({}, state);
+        newState.concepts = {
+          title: action.title,
+        };
+        return newState;
       }
       case Actions.getConcepts.type: {
-          const newState = Object.assign({}, state);
-          newState.concepts = action.concepts;
-          return newState;
+        const newState = Object.assign({}, state);
+        newState.concepts = action.concepts;
+        return newState;
       }
       case Actions.deleteConcept.type: {
         const newState = Object.assign({}, state);
-        console.log('key', action.key)
-        console.log('concepts', state )
         delete newState.concepts[action.conceptKey];
         newState.deletedConcept = action.conceptKey;
-        console.log('Delete old State', state)
-        console.log('Delete new State', newState)
         return newState;
       }
       case Actions.logOutUser.type: {
         const newState = Object.assign({}, state);
-        console.log('user has been logged out actions')
         newState.currentUser = {uid: '', username: '', permissions: ''};
         return newState;
       }
@@ -72,34 +56,26 @@ export function rootReducer(state = InitialState, action) {
       }
       case 'LOAD_CONCEPT_VIDEOS': {
           const newState = Object.assign({}, state);
-
           newState.conceptVideos[action.conceptId] = action.videos;
-
           return newState;
       }
       case 'SET_CURRENT_VIDEO_INFO': {
           const newState = Object.assign({}, state);
-
           newState.currentConceptVideoId = action.id;
           newState.currentConceptVideoTitle = action.title;
           newState.currentConceptVideoUrl = action.url;
-
           return newState;
       }
       case 'CLEAR_CURRENT_VIDEO_INFO': {
           const newState = Object.assign({}, state);
-
           newState.currentConceptVideoId = null;
           newState.currentConceptVideoTitle = '';
           newState.currentConceptVideoUrl = '';
-
           return newState;
       }
       case 'SET_CURRENT_VIDEO_ID': {
           const newState = Object.assign({}, state);
-
           newState.currentConceptVideoId = action.id;
-
           return newState;
       }
       case 'GET_COURSES_BY_USER': {
@@ -110,7 +86,7 @@ export function rootReducer(state = InitialState, action) {
       }
       case 'ADD_COURSE': {
         const newState = Object.assign({}, state);
-        newState.courses.push(action.newCourse);
+        newState.courses = [...newState.courses, action.newCourse];
         return newState;
       }
       default: {

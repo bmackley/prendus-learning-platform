@@ -43,7 +43,6 @@ Polymer({
           institution: this.$.institution.value,
           email:  this.$.updateEmail.value,
         }
-        console.log('password on form', this.$.changeEmailPassword.value)
         await Actions.updateUserEmail.execute(this, this.pastEmail, this.$.changeEmailPassword.value, submitValue.email);
         await Actions.updateUserMetaData.execute(this, this.uid, submitValue);
         this.updateProfileSuccessToastText = 'Profile & Email Updated Successfully';
