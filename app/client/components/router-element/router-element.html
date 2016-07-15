@@ -32,7 +32,7 @@
       </sign-in>
       <sign-up data-page = "signup">
       </sign-up>
-      <course-element data-page = "createcourse" subdomain = "{{pageTail}}">
+      <course-element data-page = "createcourse" tail = "[[tail]]">
       </course-element>
       <course-homepage data-page = "courses">
       </course-homepage>
@@ -43,4 +43,4 @@
     </iron-pages>
   </template>
 </dom-module>
-<script>System.import('components/router-element/router-element.ts');</script>
+<script>System.import('/components/router-element/router-element.ts');</script>
