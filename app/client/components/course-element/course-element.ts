@@ -33,8 +33,6 @@ DatePicker: function(e){
 },
 dismissDatepicker: function(e){
   console.log(this.date)
-  console.log('dismiss Datepicker', e)
-  console.log(this.querySelector('paper-date-picker'))
 },
 deleteItem: function(e){
   const conceptsArray = this.concepts;
@@ -86,12 +84,7 @@ ready: function(e){
     console.log(this.subdomain)
   }, 5000);
   FirebaseService.init("AIzaSyANTSoOA6LZZDxM7vqIlAl37B7IqWL-6MY", "prendus.firebaseapp.com", "https://prendus.firebaseio.com", "prendus.appspot.com", "Prendus");
-  console.log('course element')
-  var initialState = {
-      temp: 'initial temp'
-  };
   //Doesn't work yet Actions.getCourse.execute(this)
-  //Need to save the course before being able to get the course.
   Actions.getConcepts.execute(this);
 }
 });

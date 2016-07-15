@@ -14,7 +14,6 @@ Polymer({
     this.username = e.detail.state.currentUser.email;
     this.uid = e.detail.state.currentUser.uid;
     this.courses = e.detail.state.courses
-    console.log('courses', e.detail.state)
   },
   addCourse: function(e){
     addCourseDialog.open();
@@ -29,14 +28,11 @@ Polymer({
         creator: this.uid,
       }
       Actions.addCourse.execute(this, newCourse);
-      console.log(this.courses)
     }
   },
   properties: {
   },
   ready: function(e){
-    console.log('course homepage')
-    //Check for authentication first in order to have the uid.
     Actions.getCoursesByUser.execute(this)
   }
 });
