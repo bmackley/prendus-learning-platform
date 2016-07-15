@@ -29,7 +29,11 @@ const getCoursesByUser = async (uid: string) => {
   // console.log('firebase user courses', firebaseUserCourses);
     const path = dataPath;
     const firebaseCourses = await FirebaseService.getAllBy(path, 'creator', uid);
-    const firebaseCoursesArray = Object.keys(firebaseCourses || {}).map(key => firebaseCourses[key])
+    const firebaseCoursesArray = Object.keys(firebaseCourses || {}).map(key => {
+      return Object.assign({}, firebaseCourses[key], {
+          id: key,
+      });
+    });
     return firebaseCoursesArray;
 };
 const deleteConcept = async (key) => {

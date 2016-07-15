@@ -10,8 +10,6 @@ export const InitialState = {
     concepts: {
     },
     courses: [],
-    newConcept: '',
-    deletedConcept: '',
     conceptVideos: {},
     currentConceptVideoId: '',
     currentConceptVideoTitle: '',
