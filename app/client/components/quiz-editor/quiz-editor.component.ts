@@ -55,6 +55,12 @@ class QuizEditorComponent {
         await Actions.loadQuizQuestionIds(this, this.quizId);
     }
 
+    async removeQuestionFromQuiz(e) {
+        const questionId = e.model.item;
+        await Actions.removeQuestionFromQuiz(this, this.quizId, questionId);
+        await Actions.loadQuizQuestionIds(this, this.quizId);
+    }
+
     mapStateToThis(e) {
         const state = e.detail.state;
 
