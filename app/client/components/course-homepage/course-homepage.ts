@@ -13,7 +13,19 @@ Polymer({
     }
     this.username = e.detail.state.currentUser.email;
     this.uid = e.detail.state.currentUser.uid;
-    this.courses = e.detail.state.courses
+  },
+  editCourse: function(e){
+    console.log('course e target', e.target)
+    console.log('course e target id', e.target.id)
+    console.log('course e target dataset', e.target.dataset.args)
+    try{
+      Actions.getCourseById.execute(this, e.target.id)
+      let location = '/courses/edit'
+      window.history.pushState({}, '', location);
+      this.fire('location-changed', {}, {node: window});
+    }catch(error){
+      console.log('Course Homepage Error', error)
+    }
   },
   addCourse: function(e){
     addCourseDialog.open();
@@ -34,10 +46,5 @@ Polymer({
   },
   ready: function(e){
     Actions.getCoursesByUser.execute(this)
-    setTimeout(() => {
-      console.log('course homepage route', this.route)
-      console.log('course homepage data', this.data)
-      console.log('course homepage data', this.id)
-    }, 5000);
   }
 });
