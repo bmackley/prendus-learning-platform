@@ -7,12 +7,9 @@ Polymer({
   listeners: {
   },
   mapStateToThis: function(e) {
-    console.log('map state in navbar working')
-    console.log(e.detail.state.currentUser)
     this.username = e.detail.state.currentUser.email;
   },
   changeURL: function(e){
-    console.log(e.target.id)
     let location = e.target.id
     window.history.pushState({}, '', location);
     this.fire('location-changed', {}, {node: window});
@@ -33,6 +30,5 @@ Polymer({
   ready: function(e){
     FirebaseService.init("AIzaSyANTSoOA6LZZDxM7vqIlAl37B7IqWL-6MY", "prendus.firebaseapp.com", "https://prendus.firebaseio.com", "prendus.appspot.com", "Prendus");
     Actions.checkUserAuth.execute(this);
-    console.log('navbar Element')
   }
 });

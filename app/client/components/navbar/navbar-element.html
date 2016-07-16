@@ -25,7 +25,7 @@
               <iron-dropdown vertical-align="top" horizontal-align="right" noAutoFocus>
                 <paper-listbox class="dropdown-content" >
                   <paper-item><paper-button class="route" id="profile" on-tap="changeURL">Account</paper-button></paper-item>
-                  <paper-item><paper-button class="route" id="course" on-tap="changeURL">Courses</paper-button></paper-item>
+                  <paper-item><paper-button class="route" id="courses" on-tap="changeURL">Courses</paper-button></paper-item>
                   <paper-item><paper-button class="route" id="profile" on-tap="changeURL">Dashboards</paper-button></paper-item>
                   <paper-item><paper-button class="route" id="profile" on-tap="changeURL">Settings</paper-button></paper-item>
                   <paper-item><paper-button class="route" id="login" on-tap="logOutUser">Logout</paper-button></paper-item>
@@ -40,5 +40,5 @@
         </paper-toolbar>
     </paper-header-panel>
   </template>
-  <script>System.import('components/navbar/navbar-element.ts');</script>
+  <script>System.import('/components/navbar/navbar-element.ts');</script>
 </dom-module>

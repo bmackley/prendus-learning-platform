@@ -1,0 +1,48 @@
+<link href="../../bower_components/polymer/polymer.html" rel="import">
+<link href="../../bower_components/paper-card/paper-card.html" rel="import">
+
+<link rel="import" href="/bower_components/app-route/app-location.html">
+<link href="/bower_components/iron-pages/iron-pages.html" rel="import">
+<link href="/bower_components/iron-selector/iron-selector.html" rel="import">
+
+<dom-module id="course-homepage">
+  <style>
+    /* CSS rules for your element */
+    :host {
+      display: block;
+    }
+  </style>
+  <template>
+    <app-route
+        route="{{tail}}"
+        pattern="/:page"
+        data="{{data}}"
+        tail="{{subroute}}">
+    </app-route>
+    <iron-pages selected="[[data.page]]" attr-for-selected="key">
+        <course-element key="edit" key="edit"></course-element>
+    </iron-pages>
+    <redux-store on-statechange="mapStateToThis" action="[[action]]"></redux-store>
+    <template id="courseList" is="dom-repeat" items="[[courses]]">
+      <paper-card id= "[[item.courseId]]" heading="[[item.title]]">
+        <div class="card-content">Create a Description</div>
+        <div class="card-actions">
+          <paper-button>Edit</paper-button>  <!-- Go to page from here -->
+        </div>
+      </paper-card>
+    </template>
+    <paper-fab icon = "add" title = "Add" on-tap="addCourse"></paper-fab>
+    <paper-dialog id = "addCourseDialog" modal>
+      <h2>Create a Course</h2>
+      <div>
+        <!-- Look up Iron keys to change this -->
+        <paper-input name="name" label="Course Name" id ="courseFormName" required auto-validate></paper-input>
+        <paper-button dialog-dismiss>Cancel</paper-button>
+        <paper-button on-tap="addCourseFormDone">Next</paper-button>
+      </div>
+      <div class="buttons">
+      </div>
+    </paper-dialog>
+  </template>
+  <script>System.import('/components/course-homepage/course-homepage.ts');</script>
+</dom-module>
