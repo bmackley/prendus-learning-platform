@@ -7,11 +7,20 @@ import {QuizModel} from '../node_modules/prendus-services/models/quiz.model.ts';
 import {Course} from '../node_modules/prendus-services/interfaces/course.interface.ts';
 
 const loadQuizQuestionIds = async (context: any, quizId: string) => {
+    const quizQuestionIds = await QuizModel.getAllQuestionIds(quizId);
 
+    context.action = {
+        type: 'LOAD_QUIZ_QUESTION_IDS',
+        quizQuestionIds
+    };
 };
 
 const addQuestionToQuiz = async (context: any, quizId: string, questionId: string) => {
     await QuizModel.addQuestion(quizId, questionId);
+};
+
+const removeQuestionFromQuiz = async (context: any, quizId: string, questionId: string) => {
+    await QuizModel.removeQuestion(quizId, questionId);
 };
 
 const loadUserQuestionIds = async (context: any, getQuestionIdsAjax: any) => {
@@ -286,5 +295,6 @@ export const Actions = {
     getCoursesByUser,
     loadUserQuestionIds,
     addQuestionToQuiz,
-    loadQuizQuestionIds
+    loadQuizQuestionIds,
+    removeQuestionFromQuiz
 };

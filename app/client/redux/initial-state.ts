@@ -14,5 +14,6 @@ export const InitialState = {
     currentConceptVideoId: '',
     currentConceptVideoTitle: '',
     currentConceptVideoUrl: '',
-    userQuestionIds: []
+    userQuestionIds: [],
+    quizQuestionIds: []
 };
