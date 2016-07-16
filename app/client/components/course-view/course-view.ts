@@ -85,6 +85,6 @@ ready: function(e){
   }, 5000);
   // FirebaseService.init("AIzaSyANTSoOA6LZZDxM7vqIlAl37B7IqWL-6MY", "prendus.firebaseapp.com", "https://prendus.firebaseio.com", "prendus.appspot.com", "Prendus");
   //Doesn't work yet Actions.getCourse.execute(this)
-  Actions.getConcepts.execute(this);
+  //Actions.getConcepts.execute(this);
 }
 });

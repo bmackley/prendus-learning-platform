@@ -8,11 +8,13 @@ listeners: {
 },
 // //mapStateToThis works with event changes.  If it changes somewhere else in the app, it will update here.
 mapStateToThis: function(e) {
-
-    this.concepts = []
+  console.log(e.detail.state)
+    this.concepts = [];
+    this.courseId = e.detail.state.currentCourse.id;
     this.username = e.detail.state.currentUser.email;
-    if(e.detail.state.concepts){
-      for(let key in e.detail.state.concepts){
+    this.uid = e.detail.state.currentUser.uid;
+    if(e.detail.state.courseConcepts){
+      for(let key in e.detail.state.courseConcepts){
         this.push('concepts', e.detail.state.concepts[key])
       }
       function compare(a,b) {
@@ -47,11 +49,15 @@ addConceptFormDone: function(e){
   if(this.$.conceptFormName.value){
     //close the dialog form if there has already been an input
     addDialog.close();
+    console.log(this.username)
+    console.log(this.uid)
+    console.log(this.courseId)
     let newConcept = {
+      creator: this.uid,
       title: this.$.conceptFormName.value,
       pos: this.concepts.length,
-    }
-    Actions.addConcept.execute(this, newConcept, this.concepts);
+    };
+    Actions.addConcept.execute(this, this.courseId, newConcept, this.concepts);
   }
 },
 sortableEnded: function(e){
@@ -80,11 +86,8 @@ properties: {
     },
   },
 ready: function(e){
-  setTimeout(()=>{
-    console.log(this.subdomain)
-  }, 5000);
   // FirebaseService.init("AIzaSyANTSoOA6LZZDxM7vqIlAl37B7IqWL-6MY", "prendus.firebaseapp.com", "https://prendus.firebaseio.com", "prendus.appspot.com", "Prendus");
   //Doesn't work yet Actions.getCourse.execute(this)
-  Actions.getConcepts.execute(this);
+  //Actions.getConcepts.execute(this);
 }
 });

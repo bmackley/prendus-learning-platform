@@ -147,9 +147,11 @@ const setConcepts = {
 };
 const addConcept = {
   type: 'ADD_CONCEPT',
-  execute: async (context, newConcept, conceptsArray) => {
+  execute: async (context, courseId, newConcept, conceptsArray) => {
     try {
+      console.log('actions courseId', courseId)
       const conceptId = await ConceptModel.save(null, newConcept);
+      const courseUpdate = await CourseModel.createCourseConcept(courseId, conceptId)
       conceptsArray.conceptSuccess = newConcept;
       context.action = {
           type: Actions.addConcept.type,
@@ -165,15 +167,15 @@ const addConcept = {
 const getConcepts = {
   type: 'GET_CONCEPTS',
   execute: async (context) => {
-    try {
-      const modelConcepts = await ConceptModel.getConcepts();
-      context.action = {
-          type: Actions.getConcepts.type,
-          concepts: modelConcepts,
-      }
-    }catch(error){
-      throw error;
-    }
+    // try {
+    //   const modelConcepts = await ConceptModel.getConcepts();
+    //   context.action = {
+    //       type: Actions.getConcepts.type,
+    //       concepts: modelConcepts,
+    //   }
+    // }catch(error){
+    //   throw error;
+    // }
   }
 };
 const addCourse = {
@@ -208,20 +210,35 @@ const getCoursesByUser = {
     }
   }
 };
+const getCourseById = {
+  execute: async (context: any, id: string) => {
+    try {
+      const course = await CourseModel.getById(id);
+      console.log('Actions get course by ID', course)
+      const courseConcepts = await ConceptModel.getConceptsByCourse(course.concepts)
+      context.action = {
+          type: 'GET_COURSE_BY_ID',
+          currentCourse: course,
+          currentCourseConcepts: courseConcepts,
+      }
+    }catch(error){
+      throw error;
+    }
+  }
+};
 const deleteConcept = {
   type: 'DELETE_CONCEPT',
   execute: async (context, key, conceptsArray) => {
       try {
         await ConceptModel.deleteConcept(key);
+        //figure out how to do this.
+        await ConceptModel.deleteCourseConcept(courseId, key);
         context.action = {
             type: Actions.deleteConcept.type,
             conceptKey: key,
         }
       }catch(error){
-        context.action = {
-          type: Actions.displayError.type,
-          error: error,
-        };
+        throw error;
       }
   }
 };
@@ -263,4 +280,5 @@ export const Actions = {
     deleteVideo,
     addCourse,
     getCoursesByUser,
+    getCourseById,
 };

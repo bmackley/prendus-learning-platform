@@ -13,21 +13,12 @@
     }
   </style>
   <template>
-    <app-route
-        route="{{tail}}"
-        pattern="/:page"
-        data="{{data}}"
-        tail="{{subroute}}">
-    </app-route>
-    <iron-pages selected="[[data.page]]" attr-for-selected="key">
-        <course-element key="edit" key="edit"></course-element>
-    </iron-pages>
     <redux-store on-statechange="mapStateToThis" action="[[action]]"></redux-store>
     <template id="courseList" is="dom-repeat" items="[[courses]]">
-      <paper-card id= "[[item.courseId]]" heading="[[item.title]]">
+      <paper-card heading="[[item.title]]">
         <div class="card-content">Create a Description</div>
         <div class="card-actions">
-          <paper-button>Edit</paper-button>  <!-- Go to page from here -->
+          <paper-button id="[[item.id]]" on-tap="editCourse">Edit</paper-button>  <!-- Go to page from here -->
         </div>
       </paper-card>
     </template>
