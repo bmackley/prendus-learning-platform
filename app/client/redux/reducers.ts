@@ -39,8 +39,8 @@ export function rootReducer(state = InitialState, action) {
       }
       case Actions.deleteConcept.type: {
         const newState = Object.assign({}, state);
+        //make this happen in the model
         delete newState.concepts[action.conceptKey];
-        newState.deletedConcept = action.conceptKey;
         return newState;
       }
       case Actions.logOutUser.type: {
@@ -81,6 +81,13 @@ export function rootReducer(state = InitialState, action) {
       case 'GET_COURSES_BY_USER': {
         const newState = Object.assign({}, state);
         newState.courses = action.courses;
+        //newState.currentConceptVideoId = action.newCourse;
+        return newState;
+      }
+      case 'GET_COURSE_BY_ID': {
+        const newState = Object.assign({}, state);
+        newState.currentCourse = action.currentCourse;
+        newState.courseConcepts = action.currentCourseConcepts;
         //newState.currentConceptVideoId = action.newCourse;
         return newState;
       }

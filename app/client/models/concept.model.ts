@@ -20,13 +20,19 @@ const getById = async (id) => {
     const concept = await FirebaseService.get(path);
     return concept;
 };
-const getConcepts = async () => {
-    const firebaseConcepts = await FirebaseService.get(dataPath);
+const getConceptsByCourse = async (courseConceptList) => {
+  //loop through all the concepts in the courseConceptList
+  let courseConcepts = [];
+  for(key in courseConceptList){
+    const path = `${dataPath}/${key}`
+    const firebaseConcepts = await FirebaseService.get(path);
     //order the concepts based on their position
     for (let key in firebaseConcepts){
-      firebaseConcepts[key].key = key;
+      courseConcepts[key] = firebaseConcepts[key]
+      courseConcepts[key].key = key;
     }
-    return firebaseConcepts;
+  }
+  return courseConcepts;
 };
 const deleteConcept = async (key: string) => {
     const path = `${dataPath}/${key}`;
@@ -43,7 +49,7 @@ const orderConcepts = async (conceptsArray) => {
 export const ConceptModel = {
     save,
     getById,
-    getConcepts,
+    getConceptsByCourse,
     deleteConcept,
     orderConcepts
 }
