@@ -1,8 +1,32 @@
 <link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/polymer-redux-store/redux-store.html">
+<link rel="import" href="../../bower_components/iron-ajax/iron-ajax.html">
+<link rel="import" href="../../bower_components/solutia-maxima-components/components/view-problem/view-problem.component.html">
 
 <dom-module id="prendus-quiz-editor">
     <template>
-        Prendus quiz editor
+        <redux-store on-statechange="mapStateToThis" action="[[action]]"></redux-store>
+        <iron-ajax id="getQuestionIdsAjax" method="get" url="[[endpointDomain]]/api/questionids/uid/[[jwt]]" handle-as="json"></iron-ajax>
+
+        <div style="display: flex; flex-direction: row">
+            <div style="display: flex; flex-direction: column; flex: 1">
+                <template is="dom-repeat" items="[[quizQuestionIds]]">
+                    <solutia-maxima-view-problem question-id="[[item]]" quiz-session-id="DEFAULT_QUIZ" jwt="[[jwt]]" concise></solutia-maxima-view-problem>
+                    <div style="display: flex; flex-direction: row; align-items: center; justify-content: center">
+                        <button on-click="removeQuestionFromQuiz">Remove</button>
+                    </div>
+                </template>
+            </div>
+
+            <div style="display: flex; flex-direction: column; flex: 1">
+                <template is="dom-repeat" items="[[userQuestionIds]]">
+                    <solutia-maxima-view-problem question-id="[[item]]" quiz-session-id="DEFAULT_QUIZ" jwt="[[jwt]]" concise></solutia-maxima-view-problem>
+                    <div style="display: flex; flex-direction: row; align-items: center; justify-content: center">
+                        <button on-click="addQuestionToQuiz">Add to quiz</button>
+                    </div>
+                </template>
+            </div>
+        </div>
     </template>
 
     <script>System.import('/components/quiz-editor/quiz-editor.component.ts');</script>

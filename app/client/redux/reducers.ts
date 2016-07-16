@@ -3,6 +3,11 @@ import {Actions} from './actions.ts';
 
 export function rootReducer(state = InitialState, action) {
     switch(action.type) {
+        case 'LOAD_USER_QUESTION_IDS': {
+            const newState = Object.assign({}, state);
+            newState.userQuestionIds = action.userQuestionIds;
+            return newState;
+        }
       case Actions.createUser.type: {
           const newState = Object.assign({}, state);
           newState.currentUser = action.currentUser;

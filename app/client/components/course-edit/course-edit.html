@@ -15,6 +15,7 @@
 <link href="/bower_components/Sortable/Sortable.html" rel="import">
 <link href="../concept-video-container/concept-video-container.component.html" rel="import">
 <script src="/bower_components/moment/min/moment-with-locales.min.js"></script>
+<link rel="import" href="../quiz-editor/quiz-editor.component.html">
 
 <dom-module id="course-edit">
   <style>
@@ -28,6 +29,8 @@
     <redux-store action="[[action]]"></redux-store>
     <redux-store on-statechange="mapStateToThis"></redux-store>
     <template is="dom-if" if="[[username]]">
+        <prendus-quiz-editor concept-id="-KKEm7hHcb25o3gVTGZ0" quiz-id="-KLSOe3PrBXGwqJau-2b"></prendus-quiz-editor>
+
       <template id="title" is="dom-repeat" items="[[courses]]">
         <course-title title="[[item.title]]" instructor="[[item.instructor]]">
           <h1 id ="courseTitle" contenteditable="true">

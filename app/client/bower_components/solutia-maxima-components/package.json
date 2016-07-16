@@ -1,0 +1,29 @@
+{
+  "name": "solutia-maxima-components",
+  "version": "0.0.1",
+  "description": "Front-end Solutia Maxima web components",
+  "scripts": {
+    "start": "node dev-init && http-server",
+    "test": "electron node_modules/scram-engine/main.js test/index.html -d -p 5051"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com:lastmjs/solutia-maxima-components.git"
+  },
+  "homepage": "https://github.com/lastmjs/solutia-maxima-components/#readme",
+  "devDependencies": {
+    "chai": "^3.5.0",
+    "electron-prebuilt": "1.2.3",
+    "es-no-build": "0.1.0",
+    "http-server": "0.9.0",
+    "mocha": "2.5.3",
+    "scram-engine": "0.2.2"
+  },
+  "dependencies": {
+    "codemirror": "5.16.0",
+    "jshint": "2.9.2",
+    "prendus-services": "git+ssh://git@github.com/lastmjs/prendus-services.git#jordan",
+    "quill": "^0.20.1",
+    "redux": "^3.5.2"
+  }
+}

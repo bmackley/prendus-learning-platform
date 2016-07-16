@@ -1,0 +1,18 @@
+<link rel="import" href="../../../polymer/polymer.html">
+
+<link rel="stylesheet" href="../../../../node_modules/codemirror/lib/codemirror.css">
+<link rel="stylesheet" href="../../../../node_modules/codemirror/addon/lint/lint.css">
+
+<script src="../../../../node_modules/codemirror/lib/codemirror.js"></script>
+<script src="../../../../node_modules/codemirror/mode/javascript/javascript.js"></script>
+<script src="../../../../node_modules/codemirror/addon/lint/lint.js"></script>
+<script src="../../../../node_modules/codemirror/addon/lint/javascript-lint.js"></script>
+<script src="../../../../node_modules/jshint/dist/jshint.js"></script>
+
+<dom-module id="solutia-maxima-code-editor">
+    <template>
+        <textarea id="smCodeMirrorTextarea"></textarea>
+    </template>
+
+    <script>System.import('/bower_components/solutia-maxima-components/components/code-editor/code-editor.component.ts');</script>
+</dom-module>

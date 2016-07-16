@@ -1,0 +1,45 @@
+<link rel="import" href="../../../polymer/polymer.html">
+
+<link rel="stylesheet" href="../../../../node_modules/quill/dist/quill.base.css">
+<link rel="stylesheet" href="../../../../node_modules/quill/dist/quill.snow.css">
+<script src="../../../../node_modules/quill/dist/quill.js"></script>
+
+<dom-module id="solutia-maxima-text-editor">
+    <template>
+        <div class="editor-container">
+            <div id="toolbar" class="toolbar">
+                <span class="ql-format-group">
+                    <span title="Bold" class="ql-format-button ql-bold"></span>
+                    <span class="ql-format-separator"></span>
+                    <span title="Italic" class="ql-format-button ql-italic"></span>
+                    <span class="ql-format-separator"></span>
+                    <span title="Underline" class="ql-format-button ql-underline"></span>
+                </span>
+
+                <span class="ql-format-group">
+                    <span title="Image" class="ql-format-button ql-image"></span>
+                </span>
+            </div>
+
+            <div id="editor" class="editor"></div>
+        </div>
+
+        <button on-click="showHTML">Show HTML</button>
+
+        <style>
+            .editor-container {
+                box-shadow: 0px 0px 1px black;
+            }
+
+            .toolbar {
+                border-bottom: 1px solid rgba(0, 0, 0, .25);
+            }
+
+            .editor {
+                height: 400px;
+            }
+        </style>
+    </template>
+
+    <script>System.import('/bower_components/solutia-maxima-components/components/text-editor/text-editor.component.ts');</script>
+</dom-module>
