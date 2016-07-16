@@ -8,22 +8,8 @@ export const InitialState = {
       permissions: '',
     },
     concepts: {
-      concept: {},
-      // uid: '',
-      // title: '',
-      // pos: 0,
-      // creator: '',
-      // subjects: [],
     },
-    error: {
-      message: '',
-    },
-    success: {
-      message: '',
-    },
-    newConcept: '',
-    deletedConcept: '',
-    URL: '',
+    courses: [],
     conceptVideos: {},
     currentConceptVideoId: '',
     currentConceptVideoTitle: '',

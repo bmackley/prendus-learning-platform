@@ -1,8 +1,8 @@
 import {Actions} from '../../redux/actions.ts';
-import {FirebaseService} from '../../node_modules/prendus-services/services/firebase.service.ts';
+// import {FirebaseService} from '../../node_modules/prendus-services/services/firebase.service.ts';
 
 Polymer({
-is: "course-element",
+is: "course-edit",
 listeners: {
 
 },
@@ -83,7 +83,7 @@ ready: function(e){
   setTimeout(()=>{
     console.log(this.subdomain)
   }, 5000);
-  //FirebaseService.init("AIzaSyANTSoOA6LZZDxM7vqIlAl37B7IqWL-6MY", "prendus.firebaseapp.com", "https://prendus.firebaseio.com", "prendus.appspot.com", "Prendus");
+  // FirebaseService.init("AIzaSyANTSoOA6LZZDxM7vqIlAl37B7IqWL-6MY", "prendus.firebaseapp.com", "https://prendus.firebaseio.com", "prendus.appspot.com", "Prendus");
   //Doesn't work yet Actions.getCourse.execute(this)
   Actions.getConcepts.execute(this);
 }
