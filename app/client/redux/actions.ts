@@ -3,7 +3,28 @@ import {CourseModel} from '../models/course.model.ts';
 import {ConceptModel} from '../models/concept.model.ts';
 import {UserModel} from '../node_modules/prendus-services/models/user.model.ts';
 import {VideoModel} from '../node_modules/prendus-services/models/video.model.ts';
+import {QuizModel} from '../node_modules/prendus-services/models/quiz.model.ts';
 import {Course} from '../node_modules/prendus-services/interfaces/course.interface.ts';
+
+const loadQuizQuestionIds = async (context: any, quizId: string) => {
+
+};
+
+const addQuestionToQuiz = async (context: any, quizId: string, questionId: string) => {
+    await QuizModel.addQuestion(quizId, questionId);
+};
+
+const loadUserQuestionIds = async (context: any, getQuestionIdsAjax: any) => {
+    const request = getQuestionIdsAjax.generateRequest();
+    await request.completes;
+
+    const userQuestionIds = request.response.questionIds;
+
+    context.action = {
+        type: 'LOAD_USER_QUESTION_IDS',
+        userQuestionIds
+    };
+};
 
 const deleteVideo = async (context, id: string) => {
     try {
@@ -263,4 +284,7 @@ export const Actions = {
     deleteVideo,
     addCourse,
     getCoursesByUser,
+    loadUserQuestionIds,
+    addQuestionToQuiz,
+    loadQuizQuestionIds
 };

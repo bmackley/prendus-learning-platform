@@ -13,5 +13,6 @@ export const InitialState = {
     conceptVideos: {},
     currentConceptVideoId: '',
     currentConceptVideoTitle: '',
-    currentConceptVideoUrl: ''
+    currentConceptVideoUrl: '',
+    userQuestionIds: []
 };
