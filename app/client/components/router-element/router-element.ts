@@ -10,7 +10,7 @@ Polymer({
   ready: function(e){
     console.log('route', this.route)
     console.log('page Data', this.pageData)
-    console.log('page tail', this.pageTail)
+    console.log('page tail', this.tail)
     console.log('page Active', this.pageActive)
   }
 });
