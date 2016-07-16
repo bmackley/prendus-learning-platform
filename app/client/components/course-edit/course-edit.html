@@ -27,17 +27,17 @@
   <template>
     <redux-store action="[[action]]"></redux-store>
     <redux-store on-statechange="mapStateToThis"></redux-store>
-    <template is="dom-if" if="{{username}}">
-      <template id="title" is="dom-repeat" items="{{courses}}">
-        <course-title title="{{item.title}}" instructor="{{item.instructor}}">
+    <template is="dom-if" if="[[username]]">
+      <template id="title" is="dom-repeat" items="[[courses]]">
+        <course-title title="[[item.title]]" instructor="[[item.instructor]]">
           <h1 id ="courseTitle" contenteditable="true">
-            {{item.title}}
+            [[item.title]]
           </h1>
           <h1 contenteditable="true">
-            {{item.instructor}}
+            [[item.instructor]]
           </h1>
           <paper-dialog id="selectDate" class="paper-date-picker-dialog" modal on-iron-overlay-closed="dismissDatepicker">
-            <paper-date-picker id="picker" date="{{date}}" min-date="September 1, 2016"></paper-date-picker>
+            <paper-date-picker id="picker" date="[[date]]" min-date="September 1, 2016"></paper-date-picker>
             <div class="buttons">
               <paper-button dialog-dismiss>Cancel</paper-button>
               <paper-button dialog-confirm>OK</paper-button>
@@ -45,24 +45,24 @@
           </paper-dialog>
           <h1 contenteditable="true">
             Start Date
-            <iron-icon icon="icons:date-range" item-icon on-click="DatePicker"></iron-icon>{{item.startDate.month}}/{{item.startDate.day}}/{{item.startDate.year}}
+            <iron-icon icon="icons:date-range" item-icon on-tap="DatePicker"></iron-icon>{{item.startDate.month}}/{{item.startDate.day}}/{{item.startDate.year}}
           </h1>
           <h1>
             End Date
-            <iron-icon icon="icons:date-range" item-icon on-click="DatePicker"></iron-icon>{{item.endDate.month}}/{{item.endDate.day}}/{{item.endDate.year}}
+            <iron-icon icon="icons:date-range" item-icon on-tap="DatePicker"></iron-icon>{{item.endDate.month}}/{{item.endDate.day}}/{{item.endDate.year}}
           </h1>
           <sortable-js on-sort="sortableEnded">
-            <template id="conceptsList" is="dom-repeat" items={{concepts}}>
+            <template id="conceptsList" is="dom-repeat" items=[[concepts]]>
               <div>
                 <!-- <paper-spinner></paper-spinner> Can't figure out how to get this-->
                 <paper-icon-item>
                   <div>
-                    <h3 on-click="toggle" id= {{item.pos}} data-id$="{{item.pos}}">{{item.title}}</h3>
+                    <h3 on-tap="toggle" id= {{item.pos}} data-id$="{{item.pos}}">{{item.title}}</h3>
                   </div>
                   <iron-icon class = "end-justified"icon="editor:drag-handle" item-icon></iron-icon>
-                  <iron-icon class = "end-justified" id = {{item.key}} icon="icons:delete" item-icon on-click="deleteItem"></iron-icon>
+                  <iron-icon class = "end-justified" id = {{item.key}} icon="icons:delete" item-icon on-tap="deleteItem"></iron-icon>
                 </paper-icon-item>
-                <iron-collapse class="conceptToggle" id= "Concept{{item.pos}}">
+                <iron-collapse class="conceptToggle" id= "Concept[[item.pos]]">
                   <div id = "classContent">
                     <div class = "flex-horizontal" id = "videosContainer">
                       <paper-header-panel mode="seamed">
@@ -77,9 +77,9 @@
                         <div class="content fit">content fits 100% below the header</div>
                       </paper-header-panel>
                     <iron-icon class = "end-justified"icon="editor:drag-handle" item-icon></iron-icon>
-                    <iron-icon class = "end-justified" id = {{item.key}} icon="icons:delete" item-icon on-click="deleteItem"></iron-icon>
+                    <iron-icon class = "end-justified" id = [[item.key]] icon="icons:delete" item-icon on-click="deleteItem"></iron-icon>
                   </paper-icon-item>
-                  <iron-collapse class="conceptToggle" id= "Concept{{item.pos}}">
+                  <iron-collapse class="conceptToggle" id= "Concept[[item.pos]]">
                     <div>
                       <div id="videosContainer">
                         <paper-header-panel mode="seamed">
@@ -103,7 +103,7 @@
         </course-title>
       </template>
     </template>
-    <template is="dom-if" if="{{!username}}">
+    <template is="dom-if" if="[[!username]]">
       <p> You are not signed in.  Please sign in to access this page </p>
     </template>
     <paper-dialog id = "addDialog" modal>
