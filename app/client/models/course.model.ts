@@ -1,18 +1,20 @@
 import {FirebaseService} from '../node_modules/prendus-services/services/firebase.service.ts';
+import {Course} from '../node_modules/prendus-services/interfaces/course.interface.ts';
 
-const conceptPath = 'concept/';
-const coursePath = 'course/'
-const save = async (id: any, data: {}) => {
+const conceptPath = 'concepts';
+const dataPath = 'courses'
+const createOrUpdate = async (id: string, data: Course): Promise<string> => {
     if (id) {
-        const path = conceptPath + id;
-        await FirebaseService.set(path, data);
-        return id;
+      console.log('hello id')
+      const path = `${dataPath}/${id}`;
+      await FirebaseService.update(path, data);
+      return id;
     }
     else {
-        const path = conceptPath;
-        //figure out what happens when an error is returned
-        const newConcept =  await FirebaseService.push(path, data);
-        return newConcept;
+      console.log('hello new')
+      const path = dataPath;
+      console.log('dataPath', dataPath)
+      return await FirebaseService.push(path, data);
     }
 };
 const getById = async (id) => {
@@ -20,19 +22,19 @@ const getById = async (id) => {
     const concept = await FirebaseService.get(path);
     return concept;
 };
-const getConcepts = async () => {
-    const path = conceptPath;
-    const firebaseConcepts = await FirebaseService.get(path);
-    //order the concepts based on their position
-    for (let key in firebaseConcepts){
-      firebaseConcepts[key].key = key;
-    }
-    return firebaseConcepts;
-};
-const getCourse = async () => {
-    const path = coursePath;
-    const firebaseCourse = await FirebaseService.get(path);
-    return firebaseCourse;
+const getCoursesByUser = async (uid: string) => {
+  //Maybe in the future look into loggin the courses into the user object. For now, not going to worry about it.
+  // const userCoursesPath = `users/${id}/courses`
+  // const firebaseUserCourses = FirebaseService.get(userCoursesPath);
+  // console.log('firebase user courses', firebaseUserCourses);
+    const path = dataPath;
+    const firebaseCourses = await FirebaseService.getAllBy(path, 'creator', uid);
+    const firebaseCoursesArray = Object.keys(firebaseCourses || {}).map(key => {
+      return Object.assign({}, firebaseCourses[key], {
+          id: key,
+      });
+    });
+    return firebaseCoursesArray;
 };
 const deleteConcept = async (key) => {
     const path = conceptPath + key;
@@ -47,9 +49,9 @@ const orderConcepts = async (conceptsArray) => {
 };
 
 export const CourseModel = {
-    save,
+    createOrUpdate,
     getById,
-    getConcepts,
+    getCoursesByUser,
     deleteConcept,
     orderConcepts
 }
