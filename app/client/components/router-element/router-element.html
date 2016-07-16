@@ -7,8 +7,7 @@
 <link href="/bower_components/iron-selector/iron-selector.html" rel="import">
 <link rel="import" href="/components/sign-in/sign-in.html">
 <link rel="import" href="/components/sign-up/sign-up.html">
-<link rel="import" href="/components/course-element/course-element.html">
-<link rel="import" href="/components/course-element/course-homepage.html">
+<link rel="import" href="/components/course-router/course-router.html">
 <link rel="import" href="/components/homepage-element/index-element.html">
 <link rel="import" href="/components/profile-element/profile-element.html">
 
@@ -24,7 +23,7 @@
         route="{{route}}"
         pattern="/:page"
         data="{{pageData}}"
-        tail="{{pageTail}}"
+        tail="{{tail}}"
         active ="{{pageActive}}">
     </app-route>
     <iron-pages selected="{{pageData.page}}" category="{{pageData.page}}" attr-for-selected ="data-page">
@@ -32,10 +31,8 @@
       </sign-in>
       <sign-up data-page = "signup">
       </sign-up>
-      <course-element data-page = "createcourse" tail = "[[tail]]">
-      </course-element>
-      <course-homepage data-page = "courses">
-      </course-homepage>
+      <course-router data-page = "courses" tail="[[tail]]">
+      </course-router>
       <profile-element data-page = "profile">
       </profile-element>
       <index-element data-page = "index">

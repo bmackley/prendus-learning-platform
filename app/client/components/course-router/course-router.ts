@@ -1,7 +1,7 @@
 import {Actions} from '../../redux/actions.ts';
 
 Polymer({
-  is: "course-homepage",
+  is: "course-router",
   listeners: {
   },
   mapStateToThis: function(e) {
@@ -15,29 +15,13 @@ Polymer({
     this.uid = e.detail.state.currentUser.uid;
     this.courses = e.detail.state.courses
   },
-  addCourse: function(e){
-    addCourseDialog.open();
-  },
-  addCourseFormDone: function(e){
-    e.preventDefault();
-    if(this.$.courseFormName.value){
-      //close the dialog form if there has already been an input
-      addCourseDialog.close();
-      let newCourse = {
-        title: this.$.courseFormName.value,
-        creator: this.uid,
-      }
-      Actions.addCourse.execute(this, newCourse);
-    }
-  },
-  properties: {
-  },
+
   ready: function(e){
-    Actions.getCoursesByUser.execute(this)
+    // Actions.getCoursesByUser.execute(this)
     setTimeout(() => {
       console.log('course homepage route', this.route)
       console.log('course homepage data', this.data)
       console.log('course homepage data', this.id)
-    }, 5000);
+    }, 6000);
   }
 });
