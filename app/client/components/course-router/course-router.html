@@ -1,0 +1,31 @@
+<link href="../../bower_components/polymer/polymer.html" rel="import">
+<link href="../../bower_components/paper-card/paper-card.html" rel="import">
+
+<link rel="import" href="/bower_components/app-route/app-location.html">
+<link href="/bower_components/iron-pages/iron-pages.html" rel="import">
+<link href="/bower_components/iron-selector/iron-selector.html" rel="import">
+<link rel="import" href="/components/course-element/course-element.html">
+<link rel="import" href="/components/course-edit/course-edit.html">
+<link rel="import" href="/components/course-homepage/course-homepage.html">
+<dom-module id="course-router">
+  <style>
+    /* CSS rules for your element */
+    :host {
+      display: block;
+    }
+  </style>
+  <template>
+    <app-route
+        route="{{tail}}"
+        pattern="/:page"
+        data="{{data}}"
+        tail="{{subroute}}">
+    </app-route>
+    <iron-pages selected="[[data.page]]" attr-for-selected="key">
+      <course-homepage key="home"></course-homepage>
+      <course-edit key="edit"></course-edit>
+      <!-- <course-edit key="view"></course-edit> -->
+    </iron-pages>
+  </template>
+  <script>System.import('/components/course-router/course-router.ts');</script>
+</dom-module>
