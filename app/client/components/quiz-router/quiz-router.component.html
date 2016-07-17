@@ -1,0 +1,18 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/iron-pages/iron-pages.html">
+<link rel="import" href="../quiz-editor/quiz-editor.component.html">
+<link rel="import" href="../../bower_components/redux-store-element/redux-store.html">
+
+<dom-module id="prendus-quiz-router">
+    <template>
+        <redux-store on-statechange="mapStateToThis" action="[[action]]"></redux-store>
+
+        <button on-click="viewQuizEditor">Quiz Editor</button>
+        <iron-pages selected="[[selected]]">
+            <prendus-quiz-editor concept-id="[[conceptId]]" quiz-id="[[quizId]]" on-editquestion="routeToEditQuestion"></prendus-quiz-editor>
+            <solutia-maxima-edit-problem id="editProblemComponent" jwt="[[jwt]]" question-id="[[currentEditQuestionId]]"></solutia-maxima-edit-problem>
+        </iron-pages>
+    </template>
+
+    <script>System.import('/components/quiz-router/quiz-router.component.ts')</script>
+</dom-module>

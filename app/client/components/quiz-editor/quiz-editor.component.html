@@ -9,10 +9,6 @@
         <redux-store on-statechange="mapStateToThis" action="[[action]]"></redux-store>
         <iron-ajax id="getQuestionIdsAjax" method="get" url="[[endpointDomain]]/api/questionids/uid/[[jwt]]" handle-as="json"></iron-ajax>
 
-        <paper-dialog id="editQuestionModal" with-backdrop="true">
-            <solutia-maxima-edit-problem jwt="[[jwt]]" question-id="[[currentEditQuestionId]]"></solutia-maxima-edit-problem>
-        </paper-dialog>
-
         <div style="display: flex; flex-direction: row">
             <div style="display: flex; flex-direction: column; flex: 1; box-shadow: 0px 0px 3px black; margin: 50px">
                 <h1>Quiz</h1>
