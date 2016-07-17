@@ -4,6 +4,10 @@
   "dependencies": {
     "es-no-build": "0.0.3",
     "prendus-services": "git+ssh://git@github.com/lastmjs/prendus-services.git#jordan",
-    "video-viewer-component": "git+ssh://git@github.com/lastmjs/video-viewer-component.git"
+    "video-viewer-component": "git+ssh://git@github.com/lastmjs/video-viewer-component.git",
+    "codemirror": "5.16.0",
+    "jshint": "2.9.2",
+    "quill": "^0.20.1",
+    "redux": "^3.5.2"
   }
 }
