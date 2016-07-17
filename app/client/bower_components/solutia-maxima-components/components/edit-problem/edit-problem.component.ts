@@ -4,7 +4,7 @@ import {UtilitiesService} from '../../../../node_modules/prendus-services/servic
 import {State} from './interfaces/state.interface.ts';
 import {Action} from './interfaces/action.interface.ts';
 import {StatechangeEvent} from './interfaces/statechange-event.interface.ts';
-import {Question} from '../../node_modules/prendus-services/interfaces/question.interface.ts';
+import {Question} from '../../../../node_modules/prendus-services/interfaces/question.interface.ts';
 
 export class EditProblemComponent {
     public is: string;
