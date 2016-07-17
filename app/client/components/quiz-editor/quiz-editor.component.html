@@ -1,8 +1,8 @@
 <link rel="import" href="../../bower_components/polymer/polymer.html">
-<link rel="import" href="../../bower_components/polymer-redux-store/redux-store.html">
+<link rel="import" href="../../bower_components/redux-store-element/redux-store.html">
 <link rel="import" href="../../bower_components/iron-ajax/iron-ajax.html">
 <link rel="import" href="../../bower_components/solutia-maxima-components/components/view-problem/view-problem.component.html">
-<link rel="import" href="../../bower_components/solutia-maxima-components/components/view-problem/edit-problem.component.html">
+<link rel="import" href="../../bower_components/solutia-maxima-components/components/edit-problem/edit-problem.component.html">
 
 <dom-module id="prendus-quiz-editor">
     <template>
@@ -10,7 +10,7 @@
         <iron-ajax id="getQuestionIdsAjax" method="get" url="[[endpointDomain]]/api/questionids/uid/[[jwt]]" handle-as="json"></iron-ajax>
 
         <paper-dialog id="editQuestionModal" with-backdrop="true">
-            <!-- <solutia-maxima-edit-problem jwt="[[jwt]]" question-id="[[currentEditQuestionId]]"></solutia-maxima-edit-problem> -->
+            <solutia-maxima-edit-problem jwt="[[jwt]]" question-id="[[currentEditQuestionId]]"></solutia-maxima-edit-problem>
         </paper-dialog>
 
         <div style="display: flex; flex-direction: row">
