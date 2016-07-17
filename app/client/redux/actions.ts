@@ -6,6 +6,13 @@ import {VideoModel} from '../node_modules/prendus-services/models/video.model.ts
 import {QuizModel} from '../node_modules/prendus-services/models/quiz.model.ts';
 import {Course} from '../node_modules/prendus-services/interfaces/course.interface.ts';
 
+const setCurrentEditQuestionId = (context: any, questionId: string) => {
+    context.action = {
+        type: 'SET_CURRENT_EDIT_QUESTION_ID',
+        questionId
+    };
+};
+
 const loadQuizQuestionIds = async (context: any, quizId: string) => {
     const quizQuestionIds = await QuizModel.getAllQuestionIds(quizId);
 
@@ -296,5 +303,6 @@ export const Actions = {
     loadUserQuestionIds,
     addQuestionToQuiz,
     loadQuizQuestionIds,
-    removeQuestionFromQuiz
+    removeQuestionFromQuiz,
+    setCurrentEditQuestionId
 };

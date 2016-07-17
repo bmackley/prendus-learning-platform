@@ -3,6 +3,11 @@ import {Actions} from './actions.ts';
 
 export function rootReducer(state = InitialState, action) {
     switch(action.type) {
+        case 'SET_CURRENT_EDIT_QUESTION_ID': {
+            const newState = Object.assign({}, state);
+            newState.currentEditQuestionId = action.questionId;
+            return newState;
+        }
         case 'LOAD_QUIZ_QUESTION_IDS': {
             const newState = Object.assign({}, state);
             newState.quizQuestionIds = action.quizQuestionIds;
