@@ -13,7 +13,6 @@ class QuizEditorComponent {
     public observers: string[];
     public quizId: string;
     public quizQuestionIds: string[];
-    public currentEditQuestionId: string;
 
     beforeRegister() {
         this.is = 'prendus-quiz-editor';
@@ -65,7 +64,9 @@ class QuizEditorComponent {
     editQuestion(e) {
         const questionId = e.model.item;
         Actions.setCurrentEditQuestionId(this, questionId);
-        this.querySelector('#editQuestionModal').open();
+        this.fire('editquestion', {}, {
+            bubbles: false
+        });
     }
 
     mapStateToThis(e) {
@@ -73,7 +74,6 @@ class QuizEditorComponent {
 
         this.userQuestionIds = state.userQuestionIds;
         this.quizQuestionIds = state.quizQuestionIds;
-        this.currentEditQuestionId = state.currentEditQuestionId;
     }
 }
 
