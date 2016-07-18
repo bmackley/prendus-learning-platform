@@ -37,28 +37,43 @@ class QuizEditorComponent {
     async conceptIdSet() {
         if (this.conceptId) {
             await this.init();
-            const getQuestionIdsAjax = this.querySelector('#getQuestionIdsAjax');
-            await Actions.loadUserQuestionIds(this, getQuestionIdsAjax);
+            await this.loadUserQuestionIds();
         }
     }
 
     async quizIdSet() {
         if (this.quizId) {
             await this.init();
-            await Actions.loadQuizQuestionIds(this, this.quizId);
+            await this.loadQuizQuestionIds();
         }
+    }
+
+    async loadUserQuestionIds() {
+        const getQuestionIdsAjax = this.querySelector('#getQuestionIdsAjax');
+        await Actions.loadUserQuestionIds(this, getQuestionIdsAjax);
+    }
+
+    async loadQuizQuestionIds() {
+        await Actions.loadQuizQuestionIds(this, this.quizId);
     }
 
     async addQuestionToQuiz(e) {
         const questionId = e.model.item;
         await Actions.addQuestionToQuiz(this, this.quizId, questionId);
-        await Actions.loadQuizQuestionIds(this, this.quizId);
+        await this.loadQuizQuestionIds();
     }
 
     async removeQuestionFromQuiz(e) {
         const questionId = e.model.item;
         await Actions.removeQuestionFromQuiz(this, this.quizId, questionId);
-        await Actions.loadQuizQuestionIds(this, this.quizId);
+        await this.loadQuizQuestionIds();
+    }
+
+    createQuestion(e) {
+        Actions.setCurrentEditQuestionId(this, null);
+        this.fire('createquestion', {}, {
+            bubbles: false
+        });
     }
 
     editQuestion(e) {
@@ -66,6 +81,16 @@ class QuizEditorComponent {
         Actions.setCurrentEditQuestionId(this, questionId);
         this.fire('editquestion', {}, {
             bubbles: false
+        });
+    }
+
+    manuallyReloadQuestions() {
+        Array.from(this.querySelector('#myQuestionsDomRepeatContainer').children).forEach((element) => {
+            element.loadNextProblem && element.loadNextProblem();
+        });
+
+        Array.from(this.querySelector('#quizDomRepeatContainer').children).forEach((element) => {
+            element.loadNextProblem && element.loadNextProblem();
         });
     }
 

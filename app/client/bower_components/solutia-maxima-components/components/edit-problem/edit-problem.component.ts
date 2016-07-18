@@ -90,6 +90,10 @@ export class EditProblemComponent {
                 previewQuestionId: this.previewQuestionId || null,
                 private: this.private || null
             });
+
+            this.fire('savequestion', {}, {
+                bubbles: false
+            });
         }
         catch(error) {
             this.toastMessage = error.errorMessage || error.toString();

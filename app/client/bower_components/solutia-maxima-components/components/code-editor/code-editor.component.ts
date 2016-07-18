@@ -38,6 +38,9 @@ class CodeEditorComponent {
 
     setText(newValue, oldValue) {
         this.codeMirrorInstance.setValue(newValue);
+        setTimeout(() => {
+            this.codeMirrorInstance.refresh();
+        });
     }
 
     getText() {

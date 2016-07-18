@@ -7,10 +7,10 @@
     <template>
         <redux-store on-statechange="mapStateToThis" action="[[action]]"></redux-store>
 
-        <button on-click="viewQuizEditor">Quiz Editor</button>
+        <button on-click="viewQuizEditor" hidden="[[!selected]]">Back to Quiz Editor</button>
         <iron-pages selected="[[selected]]">
-            <prendus-quiz-editor concept-id="[[conceptId]]" quiz-id="[[quizId]]" on-editquestion="routeToEditQuestion"></prendus-quiz-editor>
-            <solutia-maxima-edit-problem id="editProblemComponent" jwt="[[jwt]]" question-id="[[currentEditQuestionId]]"></solutia-maxima-edit-problem>
+            <prendus-quiz-editor id="quizEditorComponent" concept-id="[[conceptId]]" quiz-id="[[quizId]]" on-editquestion="routeToEditQuestion" on-createquestion="routeToCreateQuestion"></prendus-quiz-editor>
+            <solutia-maxima-edit-problem id="editProblemComponent" jwt="[[jwt]]" question-id="[[currentEditQuestionId]]" on-savequestion="questionSaved"></solutia-maxima-edit-problem>
         </iron-pages>
     </template>
 
