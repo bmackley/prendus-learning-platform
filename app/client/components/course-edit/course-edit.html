@@ -14,6 +14,7 @@
 <link href="/bower_components/paper-input/paper-input.html" rel="import">
 <link href="/bower_components/Sortable/Sortable.html" rel="import">
 <link href="../concept-video-container/concept-video-container.component.html" rel="import">
+<link href="../concept-container/concept-container.html" rel="import">
 <script src="/bower_components/moment/min/moment-with-locales.min.js"></script>
 
 <dom-module id="course-edit">
@@ -27,6 +28,7 @@
   <template>
     <redux-store action="[[action]]"></redux-store>
     <redux-store on-statechange="mapStateToThis"></redux-store>
+    <concept-container></concept-container>
     <template is="dom-if" if="[[username]]">
       <template id="title" is="dom-repeat" items="[[courses]]">
         <course-title title="[[item.title]]" instructor="[[item.instructor]]">
@@ -99,6 +101,7 @@
                 </iron-collapse>
               </div>
             </template>
+            <concept-container></concept-container>
           </sortable-js>
         </course-title>
       </template>

@@ -1,7 +1,7 @@
 import {FirebaseService} from '../node_modules/prendus-services/services/firebase.service.ts';
 import {Concept} from '../node_modules/prendus-services/interfaces/concept.interface.ts';
 
-const dataPath = 'concept';
+const dataPath = 'concepts';
 const save = async (id: string, data: Concept): Promise<string> => {
     if (id) {
         const path = `${dataPath}/${id}`;
@@ -20,19 +20,21 @@ const getById = async (id) => {
     const concept = await FirebaseService.get(path);
     return concept;
 };
-const getConceptsByCourse = async (courseConceptList) => {
+const getConceptsByCourse = async (courseConcepts: Concept) => {
   //loop through all the concepts in the courseConceptList
-  let courseConcepts = [];
-  for(key in courseConceptList){
-    const path = `${dataPath}/${key}`
-    const firebaseConcepts = await FirebaseService.get(path);
-    //order the concepts based on their position
-    for (let key in firebaseConcepts){
-      courseConcepts[key] = firebaseConcepts[key]
-      courseConcepts[key].key = key;
+  try{
+    let courseConceptsList = [];
+    for(let key in courseConcepts){
+      console.log('concept key', key)
+      const firebaseConcept = await getById(key);
+      console.log(firebaseConcept);
+      courseConceptsList.push(firebaseConcept)
     }
+    console.log('course concpets list', courseConceptsList)
+    return courseConceptsList;
+  }catch(error){
+    throw error;
   }
-  return courseConcepts;
 };
 const deleteConcept = async (key: string) => {
     const path = `${dataPath}/${key}`;
@@ -45,11 +47,23 @@ const orderConcepts = async (conceptsArray) => {
       await FirebaseService.update(path, data)
     }
 };
+const conceptsObjectToArray = (conceptsObject: Concept) => {
+  console.log('conceptsObject', conceptsObject)
+  console.log('conceptsObject Keys', Object.keys(conceptsObject))
+  var conceptsArray = Object.keys(conceptsObject).map(function (key) {return conceptsObject[key]});
+  // const conceptsArray2 = Object.keys(conceptsObject || {}).map((key) => {
+  //   return Object.assign({}, conceptsObject[key], {
+  //     id: key
+  //   });
+  // });
+  return conceptsArray;
+}
 
 export const ConceptModel = {
     save,
     getById,
     getConceptsByCourse,
     deleteConcept,
-    orderConcepts
+    orderConcepts,
+    conceptsObjectToArray,
 }

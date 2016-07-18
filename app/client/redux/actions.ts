@@ -216,6 +216,7 @@ const getCourseById = {
       const course = await CourseModel.getById(id);
       console.log('Actions get course by ID', course)
       const courseConcepts = await ConceptModel.getConceptsByCourse(course.concepts)
+      console.log('courseConcepts', courseConcepts)
       context.action = {
           type: 'GET_COURSE_BY_ID',
           currentCourse: course,
