@@ -5,6 +5,16 @@ import {UserModel} from '../node_modules/prendus-services/models/user.model.ts';
 import {VideoModel} from '../node_modules/prendus-services/models/video.model.ts';
 import {QuizModel} from '../node_modules/prendus-services/models/quiz.model.ts';
 import {Course} from '../node_modules/prendus-services/interfaces/course.interface.ts';
+import {QuestionSettings} from '../node_modules/prendus-services/interfaces/question-settings.interface.ts';
+
+const loadQuizSettings = async (context: any, quizId: string) => {
+    const quizSettings: QuestionSettings = await QuizModel.getQuizSettings(quizId);
+
+    context.action = {
+        type: 'LOAD_QUIZ_SETTINGS',
+        quizSettings
+    };
+};
 
 const setQuizSetting = async (context: any, quizId: string, settingName: string, value: number | boolean) => {
     await QuizModel.setQuizSetting(quizId, settingName, value);
@@ -314,5 +324,6 @@ export const Actions = {
     removeQuestionFromQuiz,
     setCurrentEditQuestionId,
     setQuizSetting,
-    setQuestionSetting
+    setQuestionSetting,
+    loadQuizSettings
 };
