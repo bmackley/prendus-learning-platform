@@ -6,6 +6,14 @@ import {VideoModel} from '../node_modules/prendus-services/models/video.model.ts
 import {QuizModel} from '../node_modules/prendus-services/models/quiz.model.ts';
 import {Course} from '../node_modules/prendus-services/interfaces/course.interface.ts';
 
+const setQuizSetting = async (context: any, quizId: string, settingName: string, value: number | boolean) => {
+    await QuizModel.setQuizSetting(quizId, settingName, value);
+};
+
+const setQuestionSetting = async (context: any, quizId: string, questionId: string, settingName: string, value: number | boolean) => {
+    await QuizModel.setQuestionSetting(quizId, questionId, settingName, value);
+};
+
 const setCurrentEditQuestionId = (context: any, questionId: string) => {
     context.action = {
         type: 'SET_CURRENT_EDIT_QUESTION_ID',
@@ -304,5 +312,7 @@ export const Actions = {
     addQuestionToQuiz,
     loadQuizQuestionIds,
     removeQuestionFromQuiz,
-    setCurrentEditQuestionId
+    setCurrentEditQuestionId,
+    setQuizSetting,
+    setQuestionSetting
 };

@@ -2,6 +2,7 @@ import {Question} from '../../node_modules/prendus-services/interfaces/question.
 import {Actions} from '../../redux/actions.ts';
 import {UtilitiesService} from '../../node_modules/prendus-services/services/utilities.service.ts';
 import {FirebaseService} from '../../node_modules/prendus-services/services/firebase.service.ts';
+import {QuestionSettings} from '../../node_modules/prendus-services/interfaces/question-settings.interface.ts';
 
 class QuizEditorComponent {
     public is: string;
@@ -13,6 +14,7 @@ class QuizEditorComponent {
     public observers: string[];
     public quizId: string;
     public quizQuestionIds: string[];
+    public showSettings: boolean;
 
     beforeRegister() {
         this.is = 'prendus-quiz-editor';
@@ -91,6 +93,52 @@ class QuizEditorComponent {
 
         Array.from(this.querySelector('#quizDomRepeatContainer').children).forEach((element) => {
             element.loadNextProblem && element.loadNextProblem();
+        });
+    }
+
+    showSettingsMenu() {
+        this.showSettings = !this.showSettings;
+    }
+
+    async answerFeedbackToggled(e) {
+        const checked = e.target.checked;
+        await this.applySettings('answerFeedback', checked);
+    }
+
+    async showAnswerToggled(e) {
+        const checked = e.target.checked;
+        await this.applySettings('showAnswer', checked);
+    }
+
+    async showHintToggled(e) {
+        const checked = e.target.checked;
+        await this.applySettings('showHint', checked);
+    }
+
+    async showCodeToggled(e) {
+        const checked = e.target.checked;
+        await this.applySettings('showCode', checked);
+    }
+
+    async gradedToggled(e) {
+        const checked = e.target.checked;
+        await this.applySettings('graded', checked);
+    }
+
+    async showConfidenceLevelToggled(e) {
+        const checked = e.target.checked;
+        await this.applySettings('showConfidenceLevel', checked);
+    }
+
+    async allowGenerationToggled(e) {
+        const checked = e.target.checked;
+        await this.applySettings('allowGeneration', checked);
+    }
+
+    async applySettings(settingName: string, value: number | boolean) {
+        await Actions.setQuizSetting(this, this.quizId, settingName, value);
+        this.quizQuestionIds.forEach((questionId) => {
+            Actions.setQuestionSetting(this, this.quizId, questionId, settingName, value);
         });
     }
 

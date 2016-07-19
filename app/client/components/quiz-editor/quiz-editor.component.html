@@ -1,6 +1,7 @@
 <link rel="import" href="../../bower_components/polymer/polymer.html">
 <link rel="import" href="../../bower_components/redux-store-element/redux-store.html">
 <link rel="import" href="../../bower_components/iron-ajax/iron-ajax.html">
+<link rel="import" href="../../bower_components/paper-toggle-button/paper-toggle-button.html">
 <link rel="import" href="../../bower_components/solutia-maxima-components/components/view-problem/view-problem.component.html">
 <link rel="import" href="../../bower_components/solutia-maxima-components/components/edit-problem/edit-problem.component.html">
 
@@ -12,6 +13,18 @@
         <div style="display: flex; flex-direction: row">
             <div style="display: flex; flex-direction: column; flex: 1; box-shadow: 0px 0px 3px black; margin: 50px">
                 <h1>Quiz</h1>
+                <button on-click="showSettingsMenu">Quiz Settings</button>
+
+                <template is="dom-if" if="[[showSettings]]">
+                    <paper-toggle-button on-change="answerFeedbackToggled">Answer feedback</paper-toggle-button>
+                    <paper-toggle-button on-change="showAnswerToggled">Show answer</paper-toggle-button>
+                    <paper-toggle-button on-change="showHintToggled">Show hint</paper-toggle-button>
+                    <paper-toggle-button on-change="showCodeToggled">Show code</paper-toggle-button>
+                    <paper-toggle-button on-change="gradedToggled">Graded</paper-toggle-button>
+                    <paper-toggle-button on-change="showConfidenceLevelToggled">Show confidence level</paper-toggle-button>
+                    <paper-toggle-button on-change="allowGenerationToggled">Allow question generation</paper-toggle-button>
+                </template>
+
                 <div id="quizDomRepeatContainer">
                     <template is="dom-repeat" items="[[quizQuestionIds]]">
                         <solutia-maxima-view-problem question-id="[[item]]" quiz-session-id="DEFAULT_QUIZ" jwt="[[jwt]]" concise></solutia-maxima-view-problem>
