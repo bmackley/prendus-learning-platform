@@ -7,6 +7,29 @@ import {QuizModel} from '../node_modules/prendus-services/models/quiz.model.ts';
 import {Course} from '../node_modules/prendus-services/interfaces/course.interface.ts';
 import {QuestionSettings} from '../node_modules/prendus-services/interfaces/question-settings.interface.ts';
 
+const loadConceptQuizzes = async (context: any, conceptId: string) => {
+    const quizzes = await QuizModel.getAllByConcept(conceptId);
+
+    context.action = {
+        type: 'LOAD_CONCEPT_QUIZZES',
+        quizzes
+    };
+};
+
+const setCurrentEditQuizId = (context: any, quizId: string) => {
+    context.action = {
+        type: 'SET_CURRENT_EDIT_QUIZ_ID',
+        quizId
+    };
+};
+
+const setCurrentEditConceptId = (context: any, conceptId: string) => {
+    context.action = {
+        type: 'SET_CURRENT_EDIT_CONCEPT_ID',
+        conceptId
+    };
+};
+
 const loadQuizSettings = async (context: any, quizId: string) => {
     const quizSettings: QuestionSettings = await QuizModel.getQuizSettings(quizId);
 
@@ -325,5 +348,8 @@ export const Actions = {
     setCurrentEditQuestionId,
     setQuizSetting,
     setQuestionSetting,
-    loadQuizSettings
+    loadQuizSettings,
+    setCurrentEditConceptId,
+    setCurrentEditQuizId,
+    loadConceptQuizzes
 };
