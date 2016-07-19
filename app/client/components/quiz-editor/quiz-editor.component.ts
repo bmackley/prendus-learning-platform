@@ -137,6 +137,11 @@ class QuizEditorComponent {
         await this.applySettings('allowGeneration', checked);
     }
 
+    async maxNumAttemptsChanged(e) {
+        const value = e.target.value;
+        await this.applySettings('maxNumAttempts', value);
+    }
+
     async applySettings(settingName: string, value: number | boolean) {
         await Actions.setQuizSetting(this, this.quizId, settingName, value);
         this.quizQuestionIds.forEach((questionId) => {
