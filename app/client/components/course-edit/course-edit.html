@@ -14,8 +14,8 @@
 <link href="/bower_components/paper-input/paper-input.html" rel="import">
 <link href="/bower_components/Sortable/Sortable.html" rel="import">
 <link href="../concept-video-container/concept-video-container.component.html" rel="import">
+<link href="../concept-quiz-container/concept-quiz-container.component.html" rel="import">
 <script src="/bower_components/moment/min/moment-with-locales.min.js"></script>
-<link rel="import" href="../quiz-router/quiz-router.component.html">
 
 <dom-module id="course-edit">
   <style>
@@ -29,8 +29,6 @@
     <redux-store action="[[action]]"></redux-store>
     <redux-store on-statechange="mapStateToThis"></redux-store>
     <template is="dom-if" if="[[username]]">
-        <prendus-quiz-router concept-id="-KKEm7hHcb25o3gVTGZ0" quiz-id="-KLSOe3PrBXGwqJau-2b"></prendus-router>
-
       <template id="title" is="dom-repeat" items="[[courses]]">
         <course-title title="[[item.title]]" instructor="[[item.instructor]]">
           <h1 id ="courseTitle" contenteditable="true">
@@ -75,10 +73,9 @@
                     </div>
                     <div class = "flex-horizontal" id = "quizzesContainer">
                       <paper-header-panel mode="seamed">
-                        <paper-toolbar class ="subheading"><h1>Quizzes</h1></paper-toolbar>
-                        <div class="paper-header">standard</div>
-                        <div class="content fit">content fits 100% below the header</div>
+                        <paper-toolbar><h1>Quizzes</h1></paper-toolbar>
                       </paper-header-panel>
+                      <prendus-concept-quiz-container concept-id="[[item.key]]"></prendus-concept-quiz-container>
                     <iron-icon class = "end-justified"icon="editor:drag-handle" item-icon></iron-icon>
                     <iron-icon class = "end-justified" id = [[item.key]] icon="icons:delete" item-icon on-click="deleteItem"></iron-icon>
                   </paper-icon-item>

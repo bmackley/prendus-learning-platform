@@ -3,6 +3,21 @@ import {Actions} from './actions.ts';
 
 export function rootReducer(state = InitialState, action) {
     switch(action.type) {
+        case 'LOAD_CONCEPT_VIDEOS': {
+            const newState = Object.assign({}, state);
+            newState.conceptQuizzes[action.conceptId] = action.quizzes;
+            return newState;
+        }
+        case 'SET_CURRENT_EDIT_CONCEPT_ID': {
+            const newState = Object.assign({}, state);
+            newState.currentEditConceptId = action.conceptId;
+            return newState;
+        }
+        case 'SET_CURRENT_EDIT_QUIZ_ID': {
+            const newState = Object.assign({}, state);
+            newState.currentEditQuizId = action.quizId;
+            return newState;
+        }
         case 'LOAD_QUIZ_SETTINGS': {
             const newState = Object.assign({}, state);
             newState.quizSettings = action.quizSettings;

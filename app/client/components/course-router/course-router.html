@@ -7,6 +7,8 @@
 <link rel="import" href="/components/course-element/course-element.html">
 <link rel="import" href="/components/course-edit/course-edit.html">
 <link rel="import" href="/components/course-homepage/course-homepage.html">
+<link rel="import" href="../quiz-router/quiz-router.component.html">
+
 <dom-module id="course-router">
   <style>
     /* CSS rules for your element */
@@ -24,6 +26,7 @@
     <iron-pages selected="[[data.page]]" attr-for-selected="key">
       <course-homepage key="home"></course-homepage>
       <course-edit key="edit"></course-edit>
+      <prendus-quiz-router key="edit-quiz" concept-id="[[currentEditConceptId]]" quiz-id="[[currentEditQuizId]]"></prendus-quiz-router>
       <!-- <course-edit key="view"></course-edit> -->
     </iron-pages>
   </template>
