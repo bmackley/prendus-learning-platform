@@ -15,6 +15,7 @@ class QuizEditorComponent {
     public quizId: string;
     public quizQuestionIds: string[];
     public showSettings: boolean;
+    public quizSettings: QuestionSettings;
 
     beforeRegister() {
         this.is = 'prendus-quiz-editor';
@@ -47,6 +48,7 @@ class QuizEditorComponent {
         if (this.quizId) {
             await this.init();
             await this.loadQuizQuestionIds();
+            await Actions.loadQuizSettings(this, this.quizId);
         }
     }
 
@@ -145,6 +147,7 @@ class QuizEditorComponent {
     mapStateToThis(e) {
         const state = e.detail.state;
 
+        this.quizSettings = state.quizSettings;
         this.userQuestionIds = state.userQuestionIds;
         this.quizQuestionIds = state.quizQuestionIds;
     }

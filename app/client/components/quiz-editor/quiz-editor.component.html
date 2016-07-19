@@ -16,13 +16,13 @@
                 <button on-click="showSettingsMenu">Quiz Settings</button>
 
                 <template is="dom-if" if="[[showSettings]]">
-                    <paper-toggle-button on-change="answerFeedbackToggled">Answer feedback</paper-toggle-button>
-                    <paper-toggle-button on-change="showAnswerToggled">Show answer</paper-toggle-button>
-                    <paper-toggle-button on-change="showHintToggled">Show hint</paper-toggle-button>
-                    <paper-toggle-button on-change="showCodeToggled">Show code</paper-toggle-button>
-                    <paper-toggle-button on-change="gradedToggled">Graded</paper-toggle-button>
-                    <paper-toggle-button on-change="showConfidenceLevelToggled">Show confidence level</paper-toggle-button>
-                    <paper-toggle-button on-change="allowGenerationToggled">Allow question generation</paper-toggle-button>
+                    <paper-toggle-button on-change="answerFeedbackToggled" checked="[[quizSettings.answerFeedback]]">Answer feedback</paper-toggle-button>
+                    <paper-toggle-button on-change="showAnswerToggled" checked="[[quizSettings.showAnswer]]">Show answer</paper-toggle-button>
+                    <paper-toggle-button on-change="showHintToggled" checked="[[quizSettings.showHint]]">Show hint</paper-toggle-button>
+                    <paper-toggle-button on-change="showCodeToggled" checked="[[quizSettings.showCode]]">Show code</paper-toggle-button>
+                    <paper-toggle-button on-change="gradedToggled" checked="[[quizSettings.graded]]">Graded</paper-toggle-button>
+                    <paper-toggle-button on-change="showConfidenceLevelToggled" checked="[[quizSettings.showConfidenceLevel]]">Show confidence level</paper-toggle-button>
+                    <paper-toggle-button on-change="allowGenerationToggled" checked="[[quizSettings.allowGeneration]]">Allow question generation</paper-toggle-button>
                 </template>
 
                 <div id="quizDomRepeatContainer">
