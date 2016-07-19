@@ -19,5 +19,8 @@ export const InitialState = {
     userQuestionIds: [],
     quizQuestionIds: [],
     currentEditQuestionId: '',
-    quizSettings: QuestionSettings
+    quizSettings: QuestionSettings,
+    currentEditQuizId: '',
+    conceptQuizzes: {},
+    currentEditConceptId: ''
 };
