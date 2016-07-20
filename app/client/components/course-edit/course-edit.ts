@@ -9,13 +9,15 @@ listeners: {
 // //mapStateToThis works with event changes.  If it changes somewhere else in the app, it will update here.
 mapStateToThis: function(e) {
   console.log(e.detail.state)
-    this.concepts = [];
+  const state = e.detail.state;
+    this.courseConcepts = [];
     this.courseId = e.detail.state.currentCourse.id;
     this.username = e.detail.state.currentUser.email;
     this.uid = e.detail.state.currentUser.uid;
     if(e.detail.state.courseConcepts){
       for(let key in e.detail.state.courseConcepts){
-        this.push('concepts', e.detail.state.concepts[key])
+        console.log('concept key', state.courseConcepts[key])
+        this.push('courseConcepts', state.courseConcepts[key])
       }
       function compare(a,b) {
         if (a.pos < b.pos)
@@ -24,7 +26,7 @@ mapStateToThis: function(e) {
           return 1;
         return 0;
       }
-      this.concepts.sort(compare);
+      // this.concepts.sort(courseConcepts);
     }
 },
 addConcept: function(e){

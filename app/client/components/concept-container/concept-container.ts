@@ -7,6 +7,7 @@ export class ConceptComponent {
   public properties: any;
   public conceptId: string;
   public observers: string[];
+  public conceptData: Concept;
 
   beforeRegister() {
     this.is = 'concept-container';
@@ -21,8 +22,18 @@ export class ConceptComponent {
   }
   async init() {
     if (this.conceptId) {
-      console.log(this.conceptId)
+      await Actions.getConceptById.execute(this, this.conceptId);
     }
+  }
+  toggle(e: any) {
+    let collapseTarget = (e.target.id);
+    console.log('collapseTarget', collapseTarget)
+    console.log('concept id', this.conceptId)
+    this.querySelector('.conceptToggle').toggle();
+  }
+  mapStateToThis(e: StatechangeEvent) {
+    const state = e.detail.state;
+    this.conceptData = state.currentConcept;
   }
   ready() {
     console.log('Hallelejuah!')
