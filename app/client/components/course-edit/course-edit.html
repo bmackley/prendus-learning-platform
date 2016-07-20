@@ -28,7 +28,6 @@
   <template>
     <redux-store action="[[action]]"></redux-store>
     <redux-store on-statechange="mapStateToThis"></redux-store>
-    <concept-container></concept-container>
     <template is="dom-if" if="[[username]]">
       <template id="title" is="dom-repeat" items="[[courses]]">
         <course-title title="[[item.title]]" instructor="[[item.instructor]]">
@@ -54,12 +53,13 @@
             <iron-icon icon="icons:date-range" item-icon on-tap="DatePicker"></iron-icon>{{item.endDate.month}}/{{item.endDate.day}}/{{item.endDate.year}}
           </h1>
           <sortable-js on-sort="sortableEnded">
-            <template id="conceptsList" is="dom-repeat" items=[[concepts]]>
-              <div>
-                <!-- <paper-spinner></paper-spinner> Can't figure out how to get this-->
+            <template id="conceptsList" is="dom-repeat" items=[[courseConcepts]]>
+              <concept-container concept-id="[[item]]"></concept-container>
+              <!-- <div>
+                <paper-spinner></paper-spinner> Can't figure out how to get this
                 <paper-icon-item>
                   <div>
-                    <h3 on-tap="toggle" id= {{item.pos}} data-id$="{{item.pos}}">{{item.title}}</h3>
+                    <h3 on-tap="toggle">[[item]]</h3>
                   </div>
                   <iron-icon class = "end-justified"icon="editor:drag-handle" item-icon></iron-icon>
                   <iron-icon class = "end-justified" id = {{item.key}} icon="icons:delete" item-icon on-tap="deleteItem"></iron-icon>
@@ -100,8 +100,8 @@
                   </div>
                 </iron-collapse>
               </div>
+            </div> -->
             </template>
-            <concept-container></concept-container>
           </sortable-js>
         </course-title>
       </template>

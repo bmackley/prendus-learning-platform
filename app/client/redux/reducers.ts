@@ -32,9 +32,15 @@ export function rootReducer(state = InitialState, action) {
         };
         return newState;
       }
-      case Actions.getConcepts.type: {
+      // case Actions.getConcepts.type: {
+      //   const newState = Object.assign({}, state);
+      //   newState.currentConcept = action.concept;
+      //   return newState;
+      // }
+      case 'GET_CONCEPT_BY_ID': {
+        console.log('reducers get concept by id')
         const newState = Object.assign({}, state);
-        newState.concepts = action.concepts;
+        newState.currentConcept = action.concept;
         return newState;
       }
       case Actions.deleteConcept.type: {
@@ -87,7 +93,7 @@ export function rootReducer(state = InitialState, action) {
       case 'GET_COURSE_BY_ID': {
         const newState = Object.assign({}, state);
         newState.currentCourse = action.currentCourse;
-        newState.courseConcepts = action.currentCourseConcepts;
+        newState.courseConcepts = action.currentCourse.concepts;
         //newState.currentConceptVideoId = action.newCourse;
         return newState;
       }
