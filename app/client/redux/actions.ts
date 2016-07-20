@@ -149,7 +149,6 @@ const addConcept = {
   type: 'ADD_CONCEPT',
   execute: async (context, courseId, newConcept, conceptsArray) => {
     try {
-      console.log('actions courseId', courseId)
       const conceptId = await ConceptModel.save(null, newConcept);
       const courseUpdate = await CourseModel.createCourseConcept(courseId, conceptId)
       conceptsArray.conceptSuccess = newConcept;
@@ -178,6 +177,21 @@ const getConcepts = {
     // }
   }
 };
+const getConceptById = {
+  type: 'GET_CONCEPT_BY_ID',
+  execute: async (context: any, id: string) => {
+    try {
+      const concept = await ConceptModel.getById(id);
+      context.action = {
+        type: Actions.getConceptById.type,
+        concept: concept,
+      }
+    }catch(error){
+      throw error;
+    }
+  }
+};
+
 const addCourse = {
   type: 'ADD_COURSE',
   execute: async (context: any, newCourse: Course) => {
@@ -214,13 +228,10 @@ const getCourseById = {
   execute: async (context: any, id: string) => {
     try {
       const course = await CourseModel.getById(id);
-      console.log('Actions get course by ID', course)
-      const courseConcepts = await ConceptModel.getConceptsByCourse(course.concepts)
-      console.log('courseConcepts', courseConcepts)
       context.action = {
           type: 'GET_COURSE_BY_ID',
           currentCourse: course,
-          currentCourseConcepts: courseConcepts,
+          //currentCourseConcepts: courseConcepts,
       }
     }catch(error){
       throw error;
@@ -282,4 +293,5 @@ export const Actions = {
     addCourse,
     getCoursesByUser,
     getCourseById,
+    getConceptById,
 };
