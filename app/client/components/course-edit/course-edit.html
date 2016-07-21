@@ -54,7 +54,7 @@
           </h1>
           <sortable-js on-sort="sortableEnded">
             <template id="conceptsList" is="dom-repeat" items=[[courseConcepts]]>
-              <concept-container concept-id="[[item]]"></concept-container>
+              <concept-container concept-id="[[item.id]]"></concept-container>
               <!-- <div>
                 <paper-spinner></paper-spinner> Can't figure out how to get this
                 <paper-icon-item>
