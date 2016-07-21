@@ -147,16 +147,14 @@ const setConcepts = {
 };
 const addConcept = {
   type: 'ADD_CONCEPT',
-  execute: async (context, courseId, newConcept, conceptsArray) => {
+  execute: async (context, courseId, newConcept, conceptPos: number) => {
     try {
       const conceptId = await ConceptModel.save(null, newConcept);
-      const courseUpdate = await CourseModel.createCourseConcept(courseId, conceptId)
-      conceptsArray.conceptSuccess = newConcept;
+      const courseUpdate = await CourseModel.createCourseConcept(courseId, conceptId, conceptPos)
+      const course = await CourseModel.getById(courseId);
       context.action = {
-          type: Actions.addConcept.type,
-          key: conceptId,
-          pos: newConcept.pos,
-          title: newConcept.title
+          type: 'ADD_CONCEPT',  //same as get course by id
+          currentCourse: course,
       }
     }catch(error){
       throw error;
@@ -256,9 +254,13 @@ const deleteConcept = {
 };
 const orderConcepts = {
   type: 'ORDER_CONCEPTS',
-  execute: async (context, conceptsArray) => {
+  execute: async (context: any, id: string, courseConceptsArray) => {
       //thre use cases: Reorder concepts, delete a concept
-      await ConceptModel.orderConcepts(conceptsArray);
+      try{
+        await CourseModel.orderCourseConcepts(id, courseConceptsArray);
+      }catch(error){
+        throw error;
+      }
   }
 };
 const logOutUser = {

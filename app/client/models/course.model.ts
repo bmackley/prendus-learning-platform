@@ -16,9 +16,13 @@ const createOrUpdate = async (id: string, data: Course): Promise<string> => {
       return await FirebaseService.push(path, data);
     }
 };
-const createCourseConcept = async (id: string, conceptId: string): Promise<string> => {
+const createCourseConcept = async (id: string, conceptId: string, pos: number): Promise<string> => {
   const path = `${dataPath}/${id}/concepts/`;
-  await FirebaseService.push(path, conceptId);
+  const conceptData = {
+    id: conceptId,
+    position: pos,
+  }
+  await FirebaseService.push(path, conceptData);
   return id;
 };
 const deleteCourseConcept = async (id: string, conceptId: string) => {
@@ -29,7 +33,6 @@ const getById = async (id) => {
     const path = `${dataPath}/${id}`;
     const course = await FirebaseService.get(path);
     course.id = id;
-    console.log('course model course', course)
     return course;
 };
 const getCoursesByUser = async (uid: string) => {
@@ -42,6 +45,20 @@ const getCoursesByUser = async (uid: string) => {
     });
     return firebaseCoursesArray;
 };
+const orderCourseConcepts = async (id: string, conceptsArray) => {
+  try{
+    console.log('concepts array', conceptsArray)
+    const path = `${dataPath}/${id}/concepts`;
+    await FirebaseService.update(path, conceptsArray)
+    // for(let item in conceptsArray){
+    //   const path = `${dataPath}/${conceptsArray[item].key}`;
+    //   const data = conceptsArray[item];
+    //   await FirebaseService.update(path, data)
+    // }
+  }catch(error){
+    throw error;
+  }
+};
 const deleteCourse = async (key: string) => {
     const path =  `${dataPath}/${key}`;
     let conceptDelete = await FirebaseService.remove(path);
@@ -53,5 +70,6 @@ export const CourseModel = {
     getCoursesByUser,
     deleteCourse,
     createCourseConcept,
-    deleteCourseConcept
+    deleteCourseConcept,
+    orderCourseConcepts
 }

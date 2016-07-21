@@ -1,9 +1,11 @@
 import {Concept} from '../../node_modules/prendus-services/interfaces/concept.interface.ts';
 import {Actions} from '../../redux/actions.ts';
 import {StatechangeEvent} from '../../interfaces/statechange-event.interface.ts';
+import {FirebaseService} from '../../node_modules/prendus-services/services/firebase.service.ts';
 
 export class ConceptComponent {
   public is: string;
+  public title: string;
   public properties: any;
   public conceptId: string;
   public observers: string[];
@@ -22,7 +24,11 @@ export class ConceptComponent {
   }
   async init() {
     if (this.conceptId) {
-      await Actions.getConceptById.execute(this, this.conceptId);
+      const path = `concepts/${this.conceptId}`
+      const concept = await FirebaseService.get(path);
+      console.log('concept-container ', concept)
+      this.title = concept.title;
+      // await Actions.getConceptById.execute(this, this.conceptId);
     }
   }
   toggle(e: any) {
@@ -34,6 +40,7 @@ export class ConceptComponent {
   mapStateToThis(e: StatechangeEvent) {
     const state = e.detail.state;
     this.conceptData = state.currentConcept;
+    console.log('conceptData')
   }
   ready() {
     console.log('Hallelejuah!')

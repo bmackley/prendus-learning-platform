@@ -41,13 +41,13 @@ const deleteConcept = async (key: string) => {
     const path = `${dataPath}/${key}`;
     let conceptDelete = await FirebaseService.remove(path);
 };
-const orderConcepts = async (conceptsArray) => {
-    for(let item in conceptsArray){
-      const path = `${dataPath}/${conceptsArray[item].key}`;
-      const data = conceptsArray[item];
-      await FirebaseService.update(path, data)
-    }
-};
+// const orderConcepts = async (conceptsArray) => {
+//     for(let item in conceptsArray){
+//       const path = `${dataPath}/${conceptsArray[item].key}`;
+//       const data = conceptsArray[item];
+//       await FirebaseService.update(path, data)
+//     }
+// };
 const conceptsObjectToArray = (conceptsObject: Concept) => {
   console.log('conceptsObject', conceptsObject)
   console.log('conceptsObject Keys', Object.keys(conceptsObject))
@@ -60,6 +60,6 @@ export const ConceptModel = {
     getById,
     getConceptsByCourse,
     deleteConcept,
-    orderConcepts,
+    // orderConcepts,
     conceptsObjectToArray,
 }
