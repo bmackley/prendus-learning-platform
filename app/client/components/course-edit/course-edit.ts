@@ -16,16 +16,16 @@ mapStateToThis: function(e) {
     this.uid = e.detail.state.currentUser.uid;
     if(e.detail.state.courseConcepts){
       for(let key in e.detail.state.courseConcepts){
-        console.log('concept key', state.courseConcepts[key])
+        console.log('concept key', state.courseConcepts[key].id)
         this.push('courseConcepts', state.courseConcepts[key])
       }
-      function compare(a,b) {
-        if (a.pos < b.pos)
-          return -1;
-        if (a.pos > b.pos)
-          return 1;
-        return 0;
-      }
+      // function compare(a,b) {
+      //   if (a.pos < b.pos)
+      //     return -1;
+      //   if (a.pos > b.pos)
+      //     return 1;
+      //   return 0;
+      // }
       // this.concepts.sort(courseConcepts);
     }
 },
@@ -49,29 +49,24 @@ toggle: function(e) {
 addConceptFormDone: function(e){
   e.preventDefault();
   if(this.$.conceptFormName.value){
-    //close the dialog form if there has already been an input
-    addDialog.close();
-    console.log(this.username)
-    console.log(this.uid)
-    console.log(this.courseId)
+    this.querySelector('#addDialog').close();
     let newConcept = {
       creator: this.uid,
       title: this.$.conceptFormName.value,
-      pos: this.concepts.length,
     };
-    Actions.addConcept.execute(this, this.courseId, newConcept, this.concepts);
+    Actions.addConcept.execute(this, this.courseId, newConcept, this.courseConcepts.length);
   }
 },
 sortableEnded: function(e){
   if(typeof e.newIndex !== 'undefined'){
     let updateConceptPositionArray = [];
-    for(let i = 0, len = this.concepts.length; i < len; i++ ){
-      if(this.concepts[i].pos != i){
-        this.concepts[i].pos = i
+    for(let i = 0, len = this.courseConcepts.length; i < len; i++ ){
+      if(this.courseConcepts[i].pos != i){
+        this.courseConcepts[i].pos = i
         updateConceptPositionArray.push(this.concepts[i])
       }
     }
-    Actions.orderConcepts.execute(this, updateConceptPositionArray);
+    Actions.orderConcepts.execute(this, this.courseId, updateConceptPositionArray);
   }
 },
 properties: {

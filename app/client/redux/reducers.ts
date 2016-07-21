@@ -19,12 +19,13 @@ export function rootReducer(state = InitialState, action) {
         newState.currentUser = action.currentUser;
         return newState;
       }
-      case Actions.addConcept.type: {
-        const newState = Object.assign({}, state);
-        newState.concepts[action.key] = action;
-        newState.newConcept = newState.concepts[action.key];
-        return newState;
-      }
+      // case Actions.addConcept.type: {
+      //   const newState = Object.assign({}, state);
+      //   newState.concepts[action.key] = action;
+      //   newState.courseConcepts = [...newState.courseConcepts, action.key];
+      //   // newState.newConcept = newState.concepts[action.key];
+      //   return newState;
+      // }
       case Actions.setConcepts.type: {
         const newState = Object.assign({}, state);
         newState.concepts = {
@@ -100,6 +101,12 @@ export function rootReducer(state = InitialState, action) {
       case 'ADD_COURSE': {
         const newState = Object.assign({}, state);
         newState.courses = [...newState.courses, action.newCourse];
+        return newState;
+      }
+      case Actions.addConcept.type: {
+        const newState = Object.assign({}, state);
+        newState.currentCourse = action.currentCourse;
+        newState.courseConcepts = action.currentCourse.concepts;
         return newState;
       }
       default: {
