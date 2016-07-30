@@ -12,6 +12,8 @@ mapStateToThis: function(e) {
   const state = e.detail.state;
     this.courseConcepts = [];
     this.courseId = e.detail.state.currentCourse.id;
+    this.startDate = e.detail.state.currentCourse.startDate;
+    this.endDate = e.detail.state.currentCourse.endDate;
     this.username = e.detail.state.currentUser.email;
     this.uid = e.detail.state.currentUser.uid;
     if(e.detail.state.courseConcepts){
@@ -32,10 +34,19 @@ mapStateToThis: function(e) {
 addConcept: function(e){
   addDialog.open();
 },
-DatePicker: function(e){
-  selectDate.open();
+openStartDatePicker: function(e){
+  this.querySelector('#selectStartDate').open();
 },
-dismissDatepicker: function(e){
+openEndDatePicker: function(e){
+  this.querySelector('#selectEndDate').open();
+},
+dismissStartDatepicker: function(e){
+  console.log('start datepicker', e.target.id)
+  console.log(this)
+  console.log(this.date)
+},
+dismissEndDatepicker: function(e){
+  console.log('end datepicker', e.target.id)
   console.log(this.date)
 },
 deleteItem: function(e){

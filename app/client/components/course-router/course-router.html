@@ -6,6 +6,7 @@
 <link href="/bower_components/iron-selector/iron-selector.html" rel="import">
 <link rel="import" href="/components/course-element/course-element.html">
 <link rel="import" href="/components/course-edit/course-edit.html">
+<link rel="import" href="/components/course-view/course-view.html">
 <link rel="import" href="/components/course-homepage/course-homepage.html">
 <dom-module id="course-router">
   <style>
@@ -24,7 +25,7 @@
     <iron-pages selected="[[data.page]]" attr-for-selected="key">
       <course-homepage key="home"></course-homepage>
       <course-edit key="edit"></course-edit>
-      <!-- <course-edit key="view"></course-edit> -->
+      <course-view key="view"></course-view>
     </iron-pages>
   </template>
   <script>System.import('/components/course-router/course-router.ts');</script>
