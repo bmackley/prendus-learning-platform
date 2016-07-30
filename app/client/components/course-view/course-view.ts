@@ -2,41 +2,26 @@ import {Actions} from '../../redux/actions.ts';
 // import {FirebaseService} from '../../node_modules/prendus-services/services/firebase.service.ts';
 
 Polymer({
-is: "course-edit",
+is: "course-view",
 listeners: {
 
 },
 // //mapStateToThis works with event changes.  If it changes somewhere else in the app, it will update here.
 mapStateToThis: function(e) {
-
-    this.concepts = []
+  console.log(e.detail.state)
+  const state = e.detail.state;
+    this.courseConcepts = [];
+    this.courseId = e.detail.state.currentCourse.id;
+    this.startDate = e.detail.state.currentCourse.startDate;
+    this.endDate = e.detail.state.currentCourse.endDate;
     this.username = e.detail.state.currentUser.email;
-    if(e.detail.state.concepts){
-      for(let key in e.detail.state.concepts){
-        this.push('concepts', e.detail.state.concepts[key])
+    this.uid = e.detail.state.currentUser.uid;
+    if(e.detail.state.courseConcepts){
+      for(let key in e.detail.state.courseConcepts){
+        console.log('concept key', state.courseConcepts[key].id)
+        this.push('courseConcepts', state.courseConcepts[key])
       }
-      function compare(a,b) {
-        if (a.pos < b.pos)
-          return -1;
-        if (a.pos > b.pos)
-          return 1;
-        return 0;
-      }
-      this.concepts.sort(compare);
     }
-},
-addConcept: function(e){
-  addDialog.open();
-},
-DatePicker: function(e){
-  selectDate.open();
-},
-dismissDatepicker: function(e){
-  console.log(this.date)
-},
-deleteItem: function(e){
-  const conceptsArray = this.concepts;
-  Actions.deleteConcept.execute(this, e.target.id, conceptsArray);
 },
 toggle: function(e) {
   let collapseTarget = (e.target.id);
@@ -45,25 +30,24 @@ toggle: function(e) {
 addConceptFormDone: function(e){
   e.preventDefault();
   if(this.$.conceptFormName.value){
-    //close the dialog form if there has already been an input
-    addDialog.close();
+    this.querySelector('#addDialog').close();
     let newConcept = {
+      creator: this.uid,
       title: this.$.conceptFormName.value,
-      pos: this.concepts.length,
-    }
-    Actions.addConcept.execute(this, newConcept, this.concepts);
+    };
+    Actions.addConcept.execute(this, this.courseId, newConcept, this.courseConcepts.length);
   }
 },
 sortableEnded: function(e){
   if(typeof e.newIndex !== 'undefined'){
     let updateConceptPositionArray = [];
-    for(let i = 0, len = this.concepts.length; i < len; i++ ){
-      if(this.concepts[i].pos != i){
-        this.concepts[i].pos = i
+    for(let i = 0, len = this.courseConcepts.length; i < len; i++ ){
+      if(this.courseConcepts[i].pos != i){
+        this.courseConcepts[i].pos = i
         updateConceptPositionArray.push(this.concepts[i])
       }
     }
-    Actions.orderConcepts.execute(this, updateConceptPositionArray);
+    Actions.orderConcepts.execute(this, this.courseId, updateConceptPositionArray);
   }
 },
 properties: {
@@ -80,9 +64,6 @@ properties: {
     },
   },
 ready: function(e){
-  setTimeout(()=>{
-    console.log(this.subdomain)
-  }, 5000);
   // FirebaseService.init("AIzaSyANTSoOA6LZZDxM7vqIlAl37B7IqWL-6MY", "prendus.firebaseapp.com", "https://prendus.firebaseio.com", "prendus.appspot.com", "Prendus");
   //Doesn't work yet Actions.getCourse.execute(this)
   //Actions.getConcepts.execute(this);

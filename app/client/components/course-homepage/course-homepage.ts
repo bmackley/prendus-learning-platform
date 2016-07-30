@@ -27,6 +27,19 @@ Polymer({
       console.log('Course Homepage Error', error)
     }
   },
+  viewCourse: function(e){
+    console.log('course e target', e.target)
+    console.log('course e target id', e.target.id)
+    console.log('course e target dataset', e.target.dataset.args)
+    try{
+      Actions.getCourseById.execute(this, e.target.id)
+      let location = '/courses/view'
+      window.history.pushState({}, '', location);
+      this.fire('location-changed', {}, {node: window});
+    }catch(error){
+      console.log('Course Homepage Error', error)
+    }
+  },
   addCourse: function(e){
     addCourseDialog.open();
   },
