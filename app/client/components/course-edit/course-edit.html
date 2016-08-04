@@ -14,7 +14,7 @@
 <link href="/bower_components/paper-input/paper-input.html" rel="import">
 <link href="/bower_components/Sortable/Sortable.html" rel="import">
 <link href="../concept-video-container/concept-video-container.component.html" rel="import">
-<link href="../concept-quiz-container/concept-quiz-container.component.html" rel="import">
+<link href="../concept-container-edit/concept-container-edit.html" rel="import">
 <script src="/bower_components/moment/min/moment-with-locales.min.js"></script>
 
 <dom-module id="course-edit">
@@ -37,8 +37,15 @@
           <h1 contenteditable="true">
             [[item.instructor]]
           </h1>
-          <paper-dialog id="selectDate" class="paper-date-picker-dialog" modal on-iron-overlay-closed="dismissDatepicker">
-            <paper-date-picker id="picker" date="[[date]]" min-date="September 1, 2016"></paper-date-picker>
+          <paper-dialog id="selectStartDate" class="paper-date-picker-dialog" modal on-iron-overlay-closed="dismissStartDatepicker">
+            <paper-date-picker id="startDatePicker" date="[[startDate]]" min-date="September 1, 2016"></paper-date-picker>
+            <div class="buttons">
+              <paper-button dialog-dismiss>Cancel</paper-button>
+              <paper-button dialog-confirm>OK</paper-button>
+            </div>
+          </paper-dialog>
+          <paper-dialog id="selectEndDate" class="paper-date-picker-dialog" modal on-iron-overlay-closed="dismissEndDatepicker">
+            <paper-date-picker id="picker" date="[[endDate]]" min-date="September 1, 2016"></paper-date-picker>
             <div class="buttons">
               <paper-button dialog-dismiss>Cancel</paper-button>
               <paper-button dialog-confirm>OK</paper-button>
@@ -46,19 +53,20 @@
           </paper-dialog>
           <h1 contenteditable="true">
             Start Date
-            <iron-icon icon="icons:date-range" item-icon on-tap="DatePicker"></iron-icon>{{item.startDate.month}}/{{item.startDate.day}}/{{item.startDate.year}}
+            <iron-icon icon="icons:date-range" item-icon on-tap="openStartDatePicker"></iron-icon>{{item.startDate.month}}/{{item.startDate.day}}/{{item.startDate.year}}
           </h1>
           <h1>
             End Date
-            <iron-icon icon="icons:date-range" item-icon on-tap="DatePicker"></iron-icon>{{item.endDate.month}}/{{item.endDate.day}}/{{item.endDate.year}}
+            <iron-icon icon="icons:date-range" item-icon on-tap="openEndDatePicker"></iron-icon>{{item.endDate.month}}/{{item.endDate.day}}/{{item.endDate.year}}
           </h1>
           <sortable-js on-sort="sortableEnded">
-            <template id="conceptsList" is="dom-repeat" items=[[concepts]]>
-              <div>
-                <!-- <paper-spinner></paper-spinner> Can't figure out how to get this-->
+            <template id="conceptsList" is="dom-repeat" items=[[courseConcepts]]>
+              <concept-container-edit concept-id="[[item.id]]"></concept-container-edit>
+              <!-- <div>
+                <paper-spinner></paper-spinner> Can't figure out how to get this
                 <paper-icon-item>
                   <div>
-                    <h3 on-tap="toggle" id= {{item.pos}} data-id$="{{item.pos}}">{{item.title}}</h3>
+                    <h3 on-tap="toggle">[[item]]</h3>
                   </div>
                   <iron-icon class = "end-justified"icon="editor:drag-handle" item-icon></iron-icon>
                   <iron-icon class = "end-justified" id = {{item.key}} icon="icons:delete" item-icon on-tap="deleteItem"></iron-icon>
@@ -98,6 +106,7 @@
                   </div>
                 </iron-collapse>
               </div>
+            </div> -->
             </template>
           </sortable-js>
         </course-title>

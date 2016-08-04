@@ -254,15 +254,14 @@ const setConcepts = {
 };
 const addConcept = {
   type: 'ADD_CONCEPT',
-  execute: async (context, newConcept, conceptsArray) => {
+  execute: async (context, courseId, newConcept, conceptPos: number) => {
     try {
       const conceptId = await ConceptModel.save(null, newConcept);
-      conceptsArray.conceptSuccess = newConcept;
+      const courseUpdate = await CourseModel.createCourseConcept(courseId, conceptId, conceptPos)
+      const course = await CourseModel.getById(courseId);
       context.action = {
-          type: Actions.addConcept.type,
-          key: conceptId,
-          pos: newConcept.pos,
-          title: newConcept.title
+          type: 'ADD_CONCEPT',  //same as get course by id
+          currentCourse: course,
       }
     }catch(error){
       throw error;
@@ -272,17 +271,32 @@ const addConcept = {
 const getConcepts = {
   type: 'GET_CONCEPTS',
   execute: async (context) => {
+    // try {
+    //   const modelConcepts = await ConceptModel.getConcepts();
+    //   context.action = {
+    //       type: Actions.getConcepts.type,
+    //       concepts: modelConcepts,
+    //   }
+    // }catch(error){
+    //   throw error;
+    // }
+  }
+};
+const getConceptById = {
+  type: 'GET_CONCEPT_BY_ID',
+  execute: async (context: any, id: string) => {
     try {
-      const modelConcepts = await ConceptModel.getConcepts();
+      const concept = await ConceptModel.getById(id);
       context.action = {
-          type: Actions.getConcepts.type,
-          concepts: modelConcepts,
+        type: Actions.getConceptById.type,
+        concept: concept,
       }
     }catch(error){
       throw error;
     }
   }
 };
+
 const addCourse = {
   type: 'ADD_COURSE',
   execute: async (context: any, newCourse: Course) => {
@@ -315,28 +329,45 @@ const getCoursesByUser = {
     }
   }
 };
+const getCourseById = {
+  execute: async (context: any, id: string) => {
+    try {
+      const course = await CourseModel.getById(id);
+      context.action = {
+          type: 'GET_COURSE_BY_ID',
+          currentCourse: course,
+          //currentCourseConcepts: courseConcepts,
+      }
+    }catch(error){
+      throw error;
+    }
+  }
+};
 const deleteConcept = {
   type: 'DELETE_CONCEPT',
   execute: async (context, key, conceptsArray) => {
       try {
         await ConceptModel.deleteConcept(key);
+        //figure out how to do this.
+        await ConceptModel.deleteCourseConcept(courseId, key);
         context.action = {
             type: Actions.deleteConcept.type,
             conceptKey: key,
         }
       }catch(error){
-        context.action = {
-          type: Actions.displayError.type,
-          error: error,
-        };
+        throw error;
       }
   }
 };
 const orderConcepts = {
   type: 'ORDER_CONCEPTS',
-  execute: async (context, conceptsArray) => {
+  execute: async (context: any, id: string, courseConceptsArray) => {
       //thre use cases: Reorder concepts, delete a concept
-      await ConceptModel.orderConcepts(conceptsArray);
+      try{
+        await CourseModel.orderCourseConcepts(id, courseConceptsArray);
+      }catch(error){
+        throw error;
+      }
   }
 };
 const logOutUser = {
@@ -382,5 +413,7 @@ export const Actions = {
     loadConceptQuizzes,
     createNewQuiz,
     updateQuizTitle,
-    getQuiz
+    getQuiz,
+    getCourseById,
+    getConceptById
 };
