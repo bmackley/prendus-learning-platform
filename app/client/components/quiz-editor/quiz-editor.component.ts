@@ -16,6 +16,7 @@ class QuizEditorComponent {
     public quizQuestionIds: string[];
     public showSettings: boolean;
     public quizSettings: QuestionSettings;
+    public title: string;
 
     beforeRegister() {
         this.is = 'prendus-quiz-editor';
@@ -47,6 +48,8 @@ class QuizEditorComponent {
     async quizIdSet() {
         if (this.quizId) {
             await this.init();
+            const quiz = await Actions.getQuiz(this.quizId);
+            this.title = quiz.title;
             await this.loadQuizQuestionIds();
             await Actions.loadQuizSettings(this, this.quizId);
         }

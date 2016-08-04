@@ -27,7 +27,7 @@
                     <paper-input label="Maximum number of attempts" value=[[quizSettings.maxNumAttempts]] on-change="maxNumAttemptsChanged"></paper-input>
                 </template>
 
-                <paper-input label="Title" on-change="titleChanged"></paper-input>
+                <paper-input label="Title" value="[[title]]" on-change="titleChanged"></paper-input>
 
                 <div id="quizDomRepeatContainer">
                     <template is="dom-repeat" items="[[quizQuestionIds]]">
