@@ -20,11 +20,11 @@
         route="{{tail}}"
         pattern="/:page"
         data="{{data}}"
-        tail="{{subroute}}">
+        tail="{{tail}}">
     </app-route>
     <iron-pages selected="[[data.page]]" attr-for-selected="key">
       <course-homepage key="home"></course-homepage>
-      <course-edit key="edit"></course-edit>
+      <course-edit key="edit" route="[[tail]]"></course-edit>
       <course-view key="view"></course-view>
     </iron-pages>
   </template>
