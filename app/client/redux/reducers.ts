@@ -3,6 +3,36 @@ import {Actions} from './actions.ts';
 
 export function rootReducer(state = InitialState, action) {
     switch(action.type) {
+        case 'LOAD_CONCEPT_QUIZZES': {
+            const newState = Object.assign({}, state);
+            newState.conceptQuizzes[action.conceptId] = action.quizzes;
+            return newState;
+        }
+        case 'SET_CURRENT_EDIT_QUIZ_ID': {
+            const newState = Object.assign({}, state);
+            newState.currentEditQuizId = action.quizId;
+            return newState;
+        }
+        case 'LOAD_QUIZ_SETTINGS': {
+            const newState = Object.assign({}, state);
+            newState.quizSettings = action.quizSettings;
+            return newState;
+        }
+        case 'SET_CURRENT_EDIT_QUESTION_ID': {
+            const newState = Object.assign({}, state);
+            newState.currentEditQuestionId = action.questionId;
+            return newState;
+        }
+        case 'LOAD_QUIZ_QUESTION_IDS': {
+            const newState = Object.assign({}, state);
+            newState.quizQuestionIds = action.quizQuestionIds;
+            return newState;
+        }
+        case 'LOAD_USER_QUESTION_IDS': {
+            const newState = Object.assign({}, state);
+            newState.userQuestionIds = action.userQuestionIds;
+            return newState;
+        }
       case Actions.createUser.type: {
           const newState = Object.assign({}, state);
           newState.currentUser = action.currentUser;
