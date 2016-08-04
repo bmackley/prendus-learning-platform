@@ -11,7 +11,11 @@ export const InitialState = {
     },
     concepts: {
     },
+    currentConcept: {
+    },
     courses: [],
+    currentCourse: {},
+    courseConcepts: [],
     conceptVideos: {},
     currentConceptVideoId: '',
     currentConceptVideoTitle: '',

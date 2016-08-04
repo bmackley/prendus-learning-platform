@@ -10,9 +10,6 @@ Polymer({
   properties: {
     },
   ready: function(e){
-    var initialState = {
-        temp: 'initial temp'
-    };
     this.rootReducer = rootReducer;
   }
 });
