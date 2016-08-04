@@ -1,0 +1,16 @@
+<link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="../iron-pages/iron-pages.html">
+<link rel="import" href="take-quiz.component.html">
+<link rel="import" href="quiz-results.component.html">
+
+<dom-module id="prendus-view-quiz">
+    <template>
+        <redux-store root-reducer="[[rootReducer]]" on-statechange="mapStateToThis" action="[[action]]" store-name="VIEW_QUIZ_COMPONENT_STORE"></redux-store>
+        <iron-pages selected="[[selected]]">
+            <prendus-take-quiz quiz-id="[[quizId]]" jwt="[[jwt]]" user-full-name="[[userFullName]]" user-email="[[userEmail]]" course-id="[[courseId]]" quiz-session-id="[[quizSessionId]]"></prendus-take-quiz>
+            <prendus-quiz-results></prendus-quiz-results>
+        </iron-pages>
+    </template>
+
+    <script>System.import('/bower_components/view-quiz-component/view-quiz.component.ts');</script>
+</dom-module>
