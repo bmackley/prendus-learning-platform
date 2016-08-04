@@ -7,11 +7,41 @@ import {QuizModel} from '../node_modules/prendus-services/models/quiz.model.ts';
 import {Course} from '../node_modules/prendus-services/interfaces/course.interface.ts';
 import {QuestionSettings} from '../node_modules/prendus-services/interfaces/question-settings.interface.ts';
 
+const updateQuizTitle = async (quizId: string, title: string) => {
+    await QuizModel.updateTitle(quizId, title);
+};
+
+const createNewQuiz = async (context: any, conceptId: string) => {
+    const user = await FirebaseService.getLoggedInUser();
+    const uid: string = user.uid;
+
+    const quizId = await QuizModel.createOrUpdate(null, {
+        id: null,
+        uid,
+        conceptId,
+        title: '',
+        private: false,
+        quizSettings: {
+            answerFeedback: true,
+            showAnswer: true,
+            showHint: true,
+            showCode: true,
+            graded: false,
+            showConfidenceLevel: true,
+            allowGeneration: true
+        },
+        questions: {}
+    });
+
+    return quizId;
+};
+
 const loadConceptQuizzes = async (context: any, conceptId: string) => {
     const quizzes = await QuizModel.getAllByConcept(conceptId);
 
     context.action = {
         type: 'LOAD_CONCEPT_QUIZZES',
+        conceptId,
         quizzes
     };
 };
@@ -20,13 +50,6 @@ const setCurrentEditQuizId = (context: any, quizId: string) => {
     context.action = {
         type: 'SET_CURRENT_EDIT_QUIZ_ID',
         quizId
-    };
-};
-
-const setCurrentEditConceptId = (context: any, conceptId: string) => {
-    context.action = {
-        type: 'SET_CURRENT_EDIT_CONCEPT_ID',
-        conceptId
     };
 };
 
@@ -349,7 +372,8 @@ export const Actions = {
     setQuizSetting,
     setQuestionSetting,
     loadQuizSettings,
-    setCurrentEditConceptId,
     setCurrentEditQuizId,
-    loadConceptQuizzes
+    loadConceptQuizzes,
+    createNewQuiz,
+    updateQuizTitle
 };
