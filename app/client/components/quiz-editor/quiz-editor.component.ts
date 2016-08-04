@@ -142,6 +142,11 @@ class QuizEditorComponent {
         await this.applySettings('maxNumAttempts', value);
     }
 
+    async titleChanged(e) {
+        const value = e.target.value;
+        await Actions.updateQuizTitle(this.quizId, value);
+    }
+
     async applySettings(settingName: string, value: number | boolean) {
         await Actions.setQuizSetting(this, this.quizId, settingName, value);
         this.quizQuestionIds.forEach((questionId) => {

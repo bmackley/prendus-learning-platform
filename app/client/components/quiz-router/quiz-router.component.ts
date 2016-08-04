@@ -12,14 +12,6 @@ class QuizRouterComponent {
 
     beforeRegister() {
         this.is = 'prendus-quiz-router';
-        this.properties = {
-            conceptId: {
-                type: String
-            },
-            quizId: {
-                type: String
-            }
-        };
     }
 
     async ready() {

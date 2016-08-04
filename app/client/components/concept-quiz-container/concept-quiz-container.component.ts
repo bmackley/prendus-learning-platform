@@ -26,23 +26,24 @@ class ConceptQuizContainerComponent {
 
     async init() {
         if (this.conceptId) {
-            await Actions.setCurrentEditConceptId(this, this.conceptId);
             await Actions.loadConceptQuizzes(this, this.conceptId);
         }
     }
 
-    addQuizClick(e: Event) {
-        Actions.setCurrentEditQuizId(this, null);
-        //TODO change the url programmatically
+    async addQuizClick(e: Event) {
+        const quizId = await Actions.createNewQuiz(this, this.conceptId);
+
+        window.history.pushState({}, '', `edit-quiz/concept/${this.conceptId}/quiz/${quizId}`);
+        this.fire('location-changed', {}, {node: window});
     }
 
     quizRowClick(e: {
         model: any
     }) {
-        const id = e.model.item.id;
+        const quizId = e.model.item.id;
 
-        Actions.setCurrentEditQuizId(this, id);
-        //TODO change the url programmatically
+        window.history.pushState({}, '', `edit-quiz/concept/${this.conceptId}/quiz/${quizId}`);
+        this.fire('location-changed', {}, {node: window});
     }
 
     mapStateToThis(e: StatechangeEvent) {

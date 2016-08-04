@@ -27,6 +27,8 @@
                     <paper-input label="Maximum number of attempts" value=[[quizSettings.maxNumAttempts]] on-change="maxNumAttemptsChanged"></paper-input>
                 </template>
 
+                <paper-input label="Title" on-change="titleChanged"></paper-input>
+
                 <div id="quizDomRepeatContainer">
                     <template is="dom-repeat" items="[[quizQuestionIds]]">
                         <solutia-maxima-view-problem question-id="[[item]]" quiz-session-id="DEFAULT_QUIZ" jwt="[[jwt]]" concise></solutia-maxima-view-problem>
