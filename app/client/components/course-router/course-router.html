@@ -1,35 +1,29 @@
-<link href="../../bower_components/polymer/polymer.html" rel="import">
-<link href="../../bower_components/paper-card/paper-card.html" rel="import">
-
-<link rel="import" href="/bower_components/app-route/app-location.html">
-<link rel="import" href="/bower_components/app-route/app-route.html">
-<link href="/bower_components/iron-pages/iron-pages.html" rel="import">
-<link href="/bower_components/iron-selector/iron-selector.html" rel="import">
-<link rel="import" href="/components/course-element/course-element.html">
-<link rel="import" href="/components/course-edit/course-edit.html">
-<link rel="import" href="/components/course-homepage/course-homepage.html">
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/app-route/app-route.html">
+<link rel="import" href="../../bower_components/iron-pages/iron-pages.html">
+<link rel="import" href="../course-edit/course-edit.html">
+<link rel="import" href="../course-homepage/course-homepage.html">
 <link rel="import" href="../quiz-router/quiz-router.component.html">
+<link rel="import" href="../view-video-router/view-video-router.component.html">
 
 <dom-module id="course-router">
   <style>
-    /* CSS rules for your element */
     :host {
       display: block;
     }
   </style>
+
   <template>
-    <app-route
-        route="[[route]]"
-        pattern="/:page"
-        data="{{data}}"
-        tail="{{tail}}">
-    </app-route>
+    <app-route route="[[route]]" pattern="/:page" data="{{data}}" tail="{{tail}}"></app-route>
+
     <iron-pages selected="[[data.page]]" attr-for-selected="key">
       <course-homepage key="home"></course-homepage>
-      <course-edit key="edit"></course-edit>
+      <course-edit key="edit" route="[[tail]]"></course-edit>
       <prendus-quiz-router key="edit-quiz" route="[[tail]]"></prendus-quiz-router>
-      <!-- <course-edit key="view"></course-edit> -->
+      <prendus-view-video-router key="view-video" route="[[tail]]"></prendus-view-video-router>
+      <!-- <view-quiz-router key="view-quiz" route="[[tail]]"></view-quiz-router> -->
     </iron-pages>
   </template>
+
   <script>System.import('/components/course-router/course-router.ts');</script>
 </dom-module>
