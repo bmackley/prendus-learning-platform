@@ -1,0 +1,25 @@
+{
+  "name": "view-quiz-component",
+  "version": "0.0.0",
+  "description": "",
+  "main": "index.js",
+  "authors": [
+    "Jordan Last <jordan.michael.last@gmail.com>"
+  ],
+  "license": "ISC",
+  "homepage": "https://github.com/lastmjs/view-quiz-component",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "polymer": "^1.6.0",
+    "iron-ajax": "^1.4.0",
+    "solutia-maxima-components": "git+ssh://git@github.com/lastmjs/solutia-maxima-components.git#jordan",
+    "redux-store-element": "^0.2.0",
+    "iron-pages": "^1.0.8"
+  }
+}

@@ -3,7 +3,114 @@ import {CourseModel} from '../models/course.model.ts';
 import {ConceptModel} from '../models/concept.model.ts';
 import {UserModel} from '../node_modules/prendus-services/models/user.model.ts';
 import {VideoModel} from '../node_modules/prendus-services/models/video.model.ts';
+import {QuizModel} from '../node_modules/prendus-services/models/quiz.model.ts';
 import {Course} from '../node_modules/prendus-services/interfaces/course.interface.ts';
+import {QuestionSettings} from '../node_modules/prendus-services/interfaces/question-settings.interface.ts';
+
+const getQuiz = async (quizId: string) => {
+    const quiz = await QuizModel.getById(quizId);
+
+    return quiz;
+};
+
+const updateQuizTitle = async (quizId: string, title: string) => {
+    await QuizModel.updateTitle(quizId, title);
+};
+
+const createNewQuiz = async (context: any, conceptId: string) => {
+    const user = await FirebaseService.getLoggedInUser();
+    const uid: string = user.uid;
+
+    const quizId = await QuizModel.createOrUpdate(null, {
+        id: null,
+        uid,
+        conceptId,
+        title: '',
+        private: false,
+        quizSettings: {
+            answerFeedback: true,
+            showAnswer: true,
+            showHint: true,
+            showCode: true,
+            graded: false,
+            showConfidenceLevel: true,
+            allowGeneration: true
+        },
+        questions: {}
+    });
+
+    return quizId;
+};
+
+const loadConceptQuizzes = async (context: any, conceptId: string) => {
+    const quizzes = await QuizModel.getAllByConcept(conceptId);
+
+    context.action = {
+        type: 'LOAD_CONCEPT_QUIZZES',
+        conceptId,
+        quizzes
+    };
+};
+
+const setCurrentEditQuizId = (context: any, quizId: string) => {
+    context.action = {
+        type: 'SET_CURRENT_EDIT_QUIZ_ID',
+        quizId
+    };
+};
+
+const loadQuizSettings = async (context: any, quizId: string) => {
+    const quizSettings: QuestionSettings = await QuizModel.getQuizSettings(quizId);
+
+    context.action = {
+        type: 'LOAD_QUIZ_SETTINGS',
+        quizSettings
+    };
+};
+
+const setQuizSetting = async (context: any, quizId: string, settingName: string, value: number | boolean) => {
+    await QuizModel.setQuizSetting(quizId, settingName, value);
+};
+
+const setQuestionSetting = async (context: any, quizId: string, questionId: string, settingName: string, value: number | boolean) => {
+    await QuizModel.setQuestionSetting(quizId, questionId, settingName, value);
+};
+
+const setCurrentEditQuestionId = (context: any, questionId: string) => {
+    context.action = {
+        type: 'SET_CURRENT_EDIT_QUESTION_ID',
+        questionId
+    };
+};
+
+const loadQuizQuestionIds = async (context: any, quizId: string) => {
+    const quizQuestionIds = await QuizModel.getAllQuestionIds(quizId);
+
+    context.action = {
+        type: 'LOAD_QUIZ_QUESTION_IDS',
+        quizQuestionIds
+    };
+};
+
+const addQuestionToQuiz = async (context: any, quizId: string, questionId: string) => {
+    await QuizModel.addQuestion(quizId, questionId);
+};
+
+const removeQuestionFromQuiz = async (context: any, quizId: string, questionId: string) => {
+    await QuizModel.removeQuestion(quizId, questionId);
+};
+
+const loadUserQuestionIds = async (context: any, getQuestionIdsAjax: any) => {
+    const request = getQuestionIdsAjax.generateRequest();
+    await request.completes;
+
+    const userQuestionIds = request.response.questionIds;
+
+    context.action = {
+        type: 'LOAD_USER_QUESTION_IDS',
+        userQuestionIds
+    };
+};
 
 const deleteVideo = async (context, id: string) => {
     try {
@@ -294,6 +401,19 @@ export const Actions = {
     deleteVideo,
     addCourse,
     getCoursesByUser,
+    loadUserQuestionIds,
+    addQuestionToQuiz,
+    loadQuizQuestionIds,
+    removeQuestionFromQuiz,
+    setCurrentEditQuestionId,
+    setQuizSetting,
+    setQuestionSetting,
+    loadQuizSettings,
+    setCurrentEditQuizId,
+    loadConceptQuizzes,
+    createNewQuiz,
+    updateQuizTitle,
+    getQuiz,
     getCourseById,
-    getConceptById,
+    getConceptById
 };

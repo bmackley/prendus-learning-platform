@@ -1,0 +1,30 @@
+{
+  "name": "view-quiz-component",
+  "version": "0.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node dev-init && http-server"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lastmjs/view-quiz-component.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/lastmjs/view-quiz-component/issues"
+  },
+  "homepage": "https://github.com/lastmjs/view-quiz-component#readme",
+  "devDependencies": {
+    "es-no-build": "^0.1.0",
+    "http-server": "^0.9.0"
+  },
+  "dependencies": {
+    "prendus-services": "git+ssh://git@github.com/lastmjs/prendus-services.git#jordan",
+    "codemirror": "5.16.0",
+    "jshint": "2.9.2",
+    "quill": "^0.20.1",
+    "redux": "^3.5.2"
+  }
+}

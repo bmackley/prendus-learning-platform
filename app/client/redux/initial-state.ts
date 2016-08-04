@@ -1,3 +1,5 @@
+import {QuestionSettings} from '../node_modules/prendus-services/interfaces/question-settings.interface.ts';
+
 export const InitialState = {
     currentUser: {
       uid: '',
@@ -17,5 +19,12 @@ export const InitialState = {
     conceptVideos: {},
     currentConceptVideoId: '',
     currentConceptVideoTitle: '',
-    currentConceptVideoUrl: ''
+    currentConceptVideoUrl: '',
+    userQuestionIds: [],
+    quizQuestionIds: [],
+    currentEditQuestionId: '',
+    quizSettings: QuestionSettings,
+    currentEditQuizId: '',
+    conceptQuizzes: {},
+    currentEditConceptId: ''
 };
