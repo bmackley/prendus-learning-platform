@@ -8,7 +8,6 @@ listeners: {
 },
 // //mapStateToThis works with event changes.  If it changes somewhere else in the app, it will update here.
 mapStateToThis: function(e) {
-  console.log(e.detail.state)
   const state = e.detail.state;
     this.courseConcepts = [];
     this.courseId = e.detail.state.currentCourse.id;
@@ -92,6 +91,9 @@ properties: {
       type: Array,
       value: [{title: 'Course Title', instructor: 'Instructor Name', startDate: {month: new Date().getMonth(), day: new Date().getDate(), year: new Date().getFullYear()}, endDate: Date.now()}]
     },
+    route: {
+      type: Object,
+    }
   },
 ready: function(e){
   // FirebaseService.init("AIzaSyANTSoOA6LZZDxM7vqIlAl37B7IqWL-6MY", "prendus.firebaseapp.com", "https://prendus.firebaseio.com", "prendus.appspot.com", "Prendus");

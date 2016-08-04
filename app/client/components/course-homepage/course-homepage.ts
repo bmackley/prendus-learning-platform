@@ -18,6 +18,9 @@ Polymer({
     console.log('course e target', e.target)
     console.log('course e target id', e.target.id)
     console.log('course e target dataset', e.target.dataset.args)
+    // let location = `/courses/edit/${e.target.id}`
+    // window.history.pushState({}, '', location);
+    // this.fire('location-changed', {}, {node: window});
     try{
       Actions.getCourseById.execute(this, e.target.id)
       let location = '/courses/edit'
