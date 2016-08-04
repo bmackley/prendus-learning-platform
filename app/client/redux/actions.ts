@@ -7,6 +7,12 @@ import {QuizModel} from '../node_modules/prendus-services/models/quiz.model.ts';
 import {Course} from '../node_modules/prendus-services/interfaces/course.interface.ts';
 import {QuestionSettings} from '../node_modules/prendus-services/interfaces/question-settings.interface.ts';
 
+const getQuiz = async (quizId: string) => {
+    const quiz = await QuizModel.getById(quizId);
+
+    return quiz;
+};
+
 const updateQuizTitle = async (quizId: string, title: string) => {
     await QuizModel.updateTitle(quizId, title);
 };
@@ -375,5 +381,6 @@ export const Actions = {
     setCurrentEditQuizId,
     loadConceptQuizzes,
     createNewQuiz,
-    updateQuizTitle
+    updateQuizTitle,
+    getQuiz
 };
