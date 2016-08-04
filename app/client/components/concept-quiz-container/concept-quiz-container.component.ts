@@ -35,6 +35,8 @@ class ConceptQuizContainerComponent {
 
         window.history.pushState({}, '', `edit-quiz/concept/${this.conceptId}/quiz/${quizId}`);
         this.fire('location-changed', {}, {node: window});
+
+        await Actions.loadConceptQuizzes(this, this.conceptId);
     }
 
     quizRowClick(e: {
