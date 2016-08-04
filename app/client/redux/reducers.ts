@@ -3,7 +3,7 @@ import {Actions} from './actions.ts';
 
 export function rootReducer(state = InitialState, action) {
     switch(action.type) {
-        case 'LOAD_CONCEPT_VIDEOS': {
+        case 'LOAD_CONCEPT_QUIZZES': {
             const newState = Object.assign({}, state);
             newState.conceptQuizzes[action.conceptId] = action.quizzes;
             return newState;

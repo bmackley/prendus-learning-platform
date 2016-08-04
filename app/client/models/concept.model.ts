@@ -1,7 +1,7 @@
 import {FirebaseService} from '../node_modules/prendus-services/services/firebase.service.ts';
 import {Concept} from '../node_modules/prendus-services/interfaces/concept.interface.ts';
 
-const dataPath = 'concept';
+const dataPath = 'concepts';
 const save = async (id: string, data: Concept): Promise<string> => {
     if (id) {
         const path = `${dataPath}/${id}`;
