@@ -1,4 +1,5 @@
 import {FirebaseService} from '../../node_modules/prendus-services/services/firebase.service.ts';
+import {UserModel} from '../../node_modules/prendus-services/models/user.model.ts';
 
 class ViewQuizRouterComponent {
     public is: string;
@@ -13,14 +14,11 @@ class ViewQuizRouterComponent {
 
     async ready() {
         const user = await FirebaseService.getLoggedInUser();
+        const userMetaData = await UserModel.getMetaDataById(user.uid);
+
         this.jwt = await user.getToken();
-    }
-
-    mapStateToThis(e) {
-        const state = e.detail.state;
-
-        this.userFullName = `${state.currentUser.firstName} ${state.currentUser.lastName}`;
-        this.userEmail = state.currentUser.email;
+        this.userFullName = `${userMetaData.firstName} ${userMetaData.lastName}`;
+        this.userEmail = user.email;
     }
 }
 

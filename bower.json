@@ -21,6 +21,7 @@
     "app-route": "PolymerElements/app-route#^0.9.1",
     "paper-date-picker": "polymer-paper-date-picker#^1.1.4",
     "solutia-maxima-components": "git@github.com:lastmjs/solutia-maxima-components.git#jordan",
-    "view-quiz-component": "git@github.com:lastmjs/view-quiz-component.git"
+    "view-quiz-component": "git@github.com:lastmjs/view-quiz-component.git",
+    "redux-store-element": "^0.2.1"
   }
 }
