@@ -1,9 +1,22 @@
-// <reference path="../../node_modules/prendus-services/typings/custom.d.ts" />
-// <reference path="../../node_modules/prendus-services/typings/polymer/polymer.d.ts" />
 
 import {rootReducer} from '../../redux/reducers.ts';
-// import {FirebaseService} from '../../node_modules/prendus-services/services/firebase.service.ts';
-// FirebaseService.init('AIzaSyANTSoOA6LZZDxM7vqIlAl37B7IqWL-6MY', 'prendus.firebaseapp.com', 'https://prendus.firebaseio.com', 'prendus.appspot.com', 'Prendus');
+// export class AppComponent {
+//   public is: string;
+//   public observers: string[];
+//   public rootReducer: any;
+//
+//   beforeRegister() {
+//     this.is = 'app-element';
+//     this.observers = [
+//         'init(rootReducer)'
+//     ];
+//   }
+//   async init() {
+//     console.log(rootReducer)
+//     this.rootReducer = rootReducer;
+//   }
+// }
+// Polymer(AppComponent)
 
 Polymer({
   is: "app-element",
