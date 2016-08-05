@@ -1,0 +1,19 @@
+{
+  "name": "video-viewer-component",
+  "version": "0.0.2",
+  "description": "",
+  "authors": [
+    "Jordan Last <jordan.michael.last@gmail.com>"
+  ],
+  "homepage": "https://github.com/lastmjs/video-viewer-component",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "polymer": "^1.6.0"
+  }
+}
