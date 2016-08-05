@@ -7,6 +7,7 @@ Polymer({
   listeners: {
   },
   mapStateToThis: function(e) {
+    console.log('navbar', e.detail.state)
     this.username = e.detail.state.currentUser.email;
   },
   changeURL: function(e){

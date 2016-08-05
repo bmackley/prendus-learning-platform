@@ -44,8 +44,8 @@ export function rootReducer(state = InitialState, action) {
           return newState;
       }
       case Actions.checkUserAuth.type: {
-        console.log('Reducer action user auth', action)
         const newState = Object.assign({}, state);
+        console.log('currentUser', action.currentUser)
         newState.currentUser = action.currentUser;
         return newState;
       }
