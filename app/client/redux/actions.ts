@@ -231,8 +231,6 @@ const checkUserAuth = {
       if(loggedInUser){
         let userData = await UserModel.getMetaDataById(loggedInUser.uid, 'metaData');
         userData.uid = loggedInUser.uid; //OK because its being created here.
-        console.log('in the check user auth')
-        console.log('user data', userData)
         context.action = {
           type: Actions.checkUserAuth.type,
           currentUser: userData,

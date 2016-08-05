@@ -5,5 +5,4 @@ class ViewVideoRouterComponent {
         this.is = 'prendus-view-video-router';
     }
 }
-
 Polymer(ViewVideoRouterComponent);
