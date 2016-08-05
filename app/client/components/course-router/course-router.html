@@ -1,9 +1,15 @@
-<link rel="import" href="../../bower_components/polymer/polymer.html">
-<link rel="import" href="../../bower_components/app-route/app-route.html">
-<link rel="import" href="../../bower_components/iron-pages/iron-pages.html">
+
+<link href="../../bower_components/polymer/polymer.html" rel="import">
+<link href="../../bower_components/paper-card/paper-card.html" rel="import">
+<link href="../../bower_components/app-route/app-location.html" rel="import">
+<link href="../../bower_components/iron-pages/iron-pages.html" rel="import">
+<link href="../../bower_components/iron-selector/iron-selector.html" rel="import">
+
 <link rel="import" href="../course-edit/course-edit.html">
+<link rel="import" href="../course-view/course-view.html">
 <link rel="import" href="../course-homepage/course-homepage.html">
-<link rel="import" href="../quiz-router/quiz-router.component.html">
+<!-- <link rel="import" href="../quiz-router/quiz-router.component.html"> -->
+<link rel="import" href="../quiz-editor/quiz-editor.component.html">
 <link rel="import" href="../view-video-router/view-video-router.component.html">
 
 <dom-module id="course-router">
@@ -18,8 +24,8 @@
 
     <iron-pages selected="[[data.page]]" attr-for-selected="key">
       <course-homepage key="home"></course-homepage>
-      <course-view key="view"></course-view>
       <course-edit key="edit" route="[[tail]]"></course-edit>
+      <course-view key="view"></course-view>
       <prendus-quiz-router key="edit-quiz" route="[[tail]]"></prendus-quiz-router>
       <prendus-view-video-router key="view-video" route="[[tail]]"></prendus-view-video-router>
       <!-- <view-quiz-router key="view-quiz" route="[[tail]]"></view-quiz-router> -->
