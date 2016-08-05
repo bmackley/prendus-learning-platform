@@ -17,7 +17,6 @@ mapStateToThis: function(e) {
     this.uid = e.detail.state.currentUser.uid;
     if(e.detail.state.courseConcepts){
       for(let key in e.detail.state.courseConcepts){
-        console.log('concept key', state.courseConcepts[key].id)
         this.push('courseConcepts', state.courseConcepts[key])
       }
       // function compare(a,b) {
@@ -91,13 +90,19 @@ properties: {
       type: Array,
       value: [{title: 'Course Title', instructor: 'Instructor Name', startDate: {month: new Date().getMonth(), day: new Date().getDate(), year: new Date().getFullYear()}, endDate: Date.now()}]
     },
+    courseId: {
+      type: String,
+      observer: 'getCourse'
+    },
     route: {
       type: Object,
     }
   },
-ready: function(e){
-  // FirebaseService.init("AIzaSyANTSoOA6LZZDxM7vqIlAl37B7IqWL-6MY", "prendus.firebaseapp.com", "https://prendus.firebaseio.com", "prendus.appspot.com", "Prendus");
-  //Doesn't work yet Actions.getCourse.execute(this)
-  //Actions.getConcepts.execute(this);
-}
+  getCourse: function() {
+    if(this.courseId){
+      Actions.getCourseById.execute(this, this.courseId)
+    }
+  },
+  ready: function(e){
+  }
 });
