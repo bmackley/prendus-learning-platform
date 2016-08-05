@@ -11,6 +11,7 @@
 <!-- <link rel="import" href="../quiz-router/quiz-router.component.html"> -->
 <link rel="import" href="../quiz-editor/quiz-editor.component.html">
 <link rel="import" href="../view-video-router/view-video-router.component.html">
+<link rel="import" href="../view-quiz-router/view-quiz-router.component.html">
 
 <dom-module id="course-router">
   <style>
@@ -28,7 +29,7 @@
       <course-view key="view"></course-view>
       <prendus-quiz-router key="edit-quiz" route="[[tail]]"></prendus-quiz-router>
       <prendus-view-video-router key="view-video" route="[[tail]]"></prendus-view-video-router>
-      <!-- <view-quiz-router key="view-quiz" route="[[tail]]"></view-quiz-router> -->
+      <prendus-view-quiz-router key="view-quiz" route="[[tail]]"></prendus-view-quiz-router>
     </iron-pages>
   </template>
 
