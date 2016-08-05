@@ -1,13 +1,11 @@
 
-<link href="/bower_components/polymer/polymer.html" rel="import">
-<link rel="import" href="/bower_components/paper-fab/paper-fab.html">
-<link rel="import" href="/bower_components/redux-store-element/redux-store.html">
-<link rel="import" href="/styles/app-theme.html">
-<link rel="import" href="/styles/shared-styles.html">
-
-<!-- <link rel="import" href="/components/elements.html"> -->
-<link rel="import" href="/components/navbar/navbar-element.html">
-<link rel="import" href="/components/router-element/router-element.html">
+<link href="../../bower_components/polymer/polymer.html" rel="import">
+<link rel="import" href="../../bower_components/paper-fab/paper-fab.html">
+<link rel="import" href="../../bower_components/redux-store-element/redux-store.html">
+<link rel="import" href="../../styles/app-theme.html">
+<link rel="import" href="../../styles/shared-styles.html">
+<link rel="import" href="../navbar/navbar-element.html">
+<link rel="import" href="../router-element/router-element.html">
 
 <dom-module id="app-element">
   <p> hello world </p>
@@ -16,7 +14,6 @@
   </style>
   <template>
     <redux-store root-reducer="[[rootReducer]]"></redux-store>
-
     <navbar-element></navbar-element>
     <router-element></router-element>
   </template>
