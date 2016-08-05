@@ -1,13 +1,16 @@
 import {Actions} from '../../redux/actions.ts';
 
-Polymer({
-  is: "course-router",
-  mapStateToThis: function(e) {
-  },
-  ready: function(e){
-    console.log('data', this.data)
-    console.log('subroute', this.subroute)
-    console.log('page', this.page)
+class CourseRouter {
+  public is: string;
+  public selected: number;
+  public courseId: string;
+  public properties: any;
+
+  beforeRegister() {
+      this.is = 'course-router';
+  }
+  async ready() {
 
   }
-});
+}
+Polymer(CourseRouter);

@@ -31,7 +31,7 @@
           <h3 on-tap="toggle">[[title]]</h3>
         </div>
       </paper-icon-item>
-      <iron-collapse class="conceptToggle" id= "[[conceptId]]">
+      <iron-collapse class="conceptToggle" id= "Concept[[item.pos]]">
         <div id = "classContent">
           <div class = "flex-horizontal" id = "videosContainer">
             <paper-header-panel mode="seamed">
@@ -41,10 +41,27 @@
           </div>
           <div class = "flex-horizontal" id = "quizzesContainer">
             <paper-header-panel mode="seamed">
-              <paper-toolbar class ="subheading"><h1>Quizzes</h1></paper-toolbar>
-              <div class="paper-header">standard</div>
-              <div class="content fit">content fits 100% below the header</div>
+              <paper-toolbar><h1>Quizzes</h1></paper-toolbar>
             </paper-header-panel>
+            <prendus-concept-quiz-container concept-id="[[conceptId]]"></prendus-concept-quiz-container>
+          <iron-icon class = "end-justified"icon="editor:drag-handle" item-icon></iron-icon>
+          <iron-icon class = "end-justified" id = [[conceptId]] icon="icons:delete" item-icon on-click="deleteItem"></iron-icon>
+        </paper-icon-item>
+        <iron-collapse class="conceptToggle" id= "Concept[[item.pos]]">
+          <div>
+            <div id="videosContainer">
+              <paper-header-panel mode="seamed">
+                <paper-toolbar><h1>Videos</h1></paper-toolbar>
+              </paper-header-panel>
+              <prendus-concept-video-container concept-id="[[conceptId]]"></prendus-concept-video-container>
+            </div>
+            <div id="quizzesContainer">
+              <paper-header-panel mode="seamed">
+                <paper-toolbar class ="subheading"><h1>Quizzes</h1></paper-toolbar>
+                <div class="paper-header">standard</div>
+                <div class="content fit">content fits 100% below the header</div>
+              </paper-header-panel>
+            </div>
           </div>
         </div>
       </iron-collapse>

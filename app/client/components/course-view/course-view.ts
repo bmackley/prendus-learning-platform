@@ -8,7 +8,6 @@ listeners: {
 },
 // //mapStateToThis works with event changes.  If it changes somewhere else in the app, it will update here.
 mapStateToThis: function(e) {
-  console.log(e.detail.state)
   const state = e.detail.state;
     this.courseConcepts = [];
     this.courseId = e.detail.state.currentCourse.id;
@@ -18,7 +17,6 @@ mapStateToThis: function(e) {
     this.uid = e.detail.state.currentUser.uid;
     if(e.detail.state.courseConcepts){
       for(let key in e.detail.state.courseConcepts){
-        console.log('concept key', state.courseConcepts[key].id)
         this.push('courseConcepts', state.courseConcepts[key])
       }
     }
@@ -61,6 +59,15 @@ properties: {
     courses: {
       type: Array,
       value: [{title: 'Course Title', instructor: 'Instructor Name', startDate: {month: new Date().getMonth(), day: new Date().getDate(), year: new Date().getFullYear()}, endDate: Date.now()}]
+    },
+    viewCourseId: {
+      type: String,
+      observer: 'viewCourse'
+    },
+    viewCourse: function() {
+      if(this.viewCourseId){
+        Actions.getCourseById.execute(this, this.viewCourseId)
+      }
     },
   },
 ready: function(e){
