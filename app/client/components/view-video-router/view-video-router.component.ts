@@ -18,5 +18,4 @@ class ViewVideoRouterComponent {
         this.userEmail = user.email;
     }
 }
-
 Polymer(ViewVideoRouterComponent);
