@@ -14,7 +14,10 @@
 
         <iron-pages selected="[[selected]]">
             <prendus-quiz-editor id="quizEditorComponent" concept-id="[[data.conceptId]]" quiz-id="[[data.quizId]]" on-editquestion="routeToEditQuestion" on-createquestion="routeToCreateQuestion"></prendus-quiz-editor>
-            <solutia-maxima-edit-problem id="editProblemComponent" jwt="[[jwt]]" question-id="[[currentEditQuestionId]]" on-savequestion="questionSaved"></solutia-maxima-edit-problem>
+
+            <div style="margin-left: 10vw; margin-right: 10vw; margin-bottom: 25px">
+                <solutia-maxima-edit-problem id="editProblemComponent" jwt="[[jwt]]" question-id="[[currentEditQuestionId]]" on-savequestion="questionSaved"></solutia-maxima-edit-problem>
+            </div>
         </iron-pages>
     </template>
 
