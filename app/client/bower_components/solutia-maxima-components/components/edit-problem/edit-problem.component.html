@@ -17,14 +17,14 @@
         <paper-toast id="toast" text="[[toastMessage]]"></paper-toast>
         <iron-ajax id="getQuestionAjax" url="[[endpointDomain]]/api/question/[[questionId]]/DEFAULT_QUIZ/[[jwt]]" method="get" handle-as="json"></iron-ajax>
 
-        <div class="sm-editor-container" style="display: flex; flex-direction: column">
+        <div style="display: flex; flex-direction: column">
             <div style="display: flex; flex-direction: row">
-                <paper-fab id="previewFAB" icon="notification:personal-video" on-tap="previewQuestion" style="margin-left: auto; margin-bottom: -25px; margin-right: 10px; z-index: 6">Preview</paper-fab>
+                <paper-fab id="previewFAB" icon="notification:personal-video" title="preview question" on-tap="previewQuestion" style="margin-left: auto; margin-bottom: -25px; margin-right: 10px; z-index: 6">Preview</paper-fab>
             </div>
             <solutia-maxima-text-editor id="textEditor" original-text="[[originalText]]"></solutia-maxima-text-editor>
             <solutia-maxima-code-editor id="codeEditor" original-code="[[originalCode]]" style="margin-top: 25px; box-shadow: 0px 0px 1px black"></solutia-maxima-code-editor>
             <div style="display: flex; flex-direction: row">
-                <paper-fab id="saveFAB" icon="save" on-tap="saveQuestion" style="margin-left: auto; margin-top: -25px; margin-right: 10px; z-index: 6">Save</paper-fab>
+                <paper-fab id="saveFAB" icon="save" title="save question" on-tap="saveQuestion" style="margin-left: auto; margin-top: -25px; margin-right: 10px; z-index: 6">Save</paper-fab>
             </div>
         </div>
 
@@ -39,14 +39,6 @@
 
             :host #previewFAB {
                 --paper-fab-background: #3F83BF;
-            }
-
-            .sm-editor-container {
-                /*TODO: this is the same exact class as sm-problem-code*/
-                margin-top: 10vh;
-                margin-bottom: 10vh;
-                margin-left: 5vw;
-                margin-right: 5vw;
             }
         </style>
     </template>
