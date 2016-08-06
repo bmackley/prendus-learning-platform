@@ -8,7 +8,7 @@ listeners: {
 },
 // //mapStateToThis works with event changes.  If it changes somewhere else in the app, it will update here.
 mapStateToThis: function(e) {
-  console.log(e.detail.state)
+  //console.log(e.detail.state)
   const state = e.detail.state;
     this.courseConcepts = [];
     this.courseId = e.detail.state.currentCourse.id;
