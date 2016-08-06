@@ -48,6 +48,11 @@ sortableEnded: function(e){
     Actions.orderConcepts.execute(this, this.courseId, updateConceptPositionArray);
   }
 },
+viewCourse: function() {
+  if(this.viewCourseId){
+    Actions.getCourseById.execute(this, this.viewCourseId)
+  }
+},
 properties: {
     subdomain: {
       type: Object
@@ -63,11 +68,6 @@ properties: {
     viewCourseId: {
       type: String,
       observer: 'viewCourse'
-    },
-    viewCourse: function() {
-      if(this.viewCourseId){
-        Actions.getCourseById.execute(this, this.viewCourseId)
-      }
     },
   },
 ready: function(e){
