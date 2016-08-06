@@ -16,6 +16,9 @@ export class ConceptComponent {
     this.properties = {
       conceptId: {
           type: String
+      },
+      courseId: {
+          type: String
       }
     };
     this.observers = [
