@@ -36,6 +36,7 @@ class QuizEditorComponent {
         this.endpointDomain = UtilitiesService.getPrendusServerEndpointDomain();
         const user = await FirebaseService.getLoggedInUser();
         this.jwt = await user.getToken();
+        this.title = '';
     }
 
     async conceptIdSet() {
@@ -89,6 +90,11 @@ class QuizEditorComponent {
         this.fire('editquestion', {}, {
             bubbles: false
         });
+    }
+
+    showEmptyQuizQuestionsText(quizQuestionIds: string[]) {
+        const showEmptyQuizQuestionsText = !quizQuestionIds || quizQuestionIds.length === 0;
+        return showEmptyQuizQuestionsText;
     }
 
     manuallyReloadQuestions() {
