@@ -24,8 +24,17 @@ Polymer({
 
   },
   properties: {
-
-    },
+      active: {
+        type: Boolean,
+        value: false,
+        reflectionToAttribute: true
+      },
+      loading: {
+        type: Boolean,
+        value: false,
+        notify: true,
+      }
+  },
   ready: function(e){
     this.$.loginToast.fitInto = this.$.toastTarget;
   }
