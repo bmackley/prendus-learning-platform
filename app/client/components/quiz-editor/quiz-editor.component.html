@@ -66,11 +66,20 @@
 
                 <div id="quizDomRepeatContainer">
                     <template is="dom-repeat" items="[[quizQuestionIds]]">
-                        <solutia-maxima-view-problem question-id="[[item]]" quiz-session-id="DEFAULT_QUIZ" jwt="[[jwt]]" concise></solutia-maxima-view-problem>
-                        <div style="display: flex; flex-direction: row; align-items: center; justify-content: center">
-                            <button on-click="removeQuestionFromQuiz">Remove</button>
+                        <div style="position: relative">
+                            <solutia-maxima-view-problem question-id="[[item]]" quiz-session-id="DEFAULT_QUIZ" jwt="[[jwt]]" concise></solutia-maxima-view-problem>
+
+                            <div style="position: absolute; top: -25px; right: 15%">
+                                <paper-menu-button>
+                                    <paper-icon-button icon="more-vert" title="question actions" class="dropdown-trigger"></paper-icon-button>
+                                    <paper-menu class="dropdown-content">
+                                        <paper-item on-click="removeQuestionFromQuiz">remove from quiz</paper-item>
+                                    </paper-menu>
+                                </paper-menu-button>
+                            </div>
+
+                            <hr style="width: 75%; border: 0px; height: 1px; background: rgba(0, 0, 0, .25); margin-top: -8vh">
                         </div>
-                        <hr style="width: 75%; border: 0px; height: 1px; background: rgba(0, 0, 0, .25)">
                     </template>
                 </div>
             </div>
