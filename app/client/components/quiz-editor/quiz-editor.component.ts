@@ -92,6 +92,11 @@ class QuizEditorComponent {
         });
     }
 
+    showEmptyQuizQuestionsText(quizQuestionIds: string[]) {
+        const showEmptyQuizQuestionsText = !quizQuestionIds || quizQuestionIds.length === 0;
+        return showEmptyQuizQuestionsText;
+    }
+
     manuallyReloadQuestions() {
         Array.from(this.querySelector('#myQuestionsDomRepeatContainer').children).forEach((element) => {
             element.loadNextProblem && element.loadNextProblem();

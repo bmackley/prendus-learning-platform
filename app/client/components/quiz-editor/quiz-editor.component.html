@@ -44,7 +44,7 @@
 
                 <div style="position: absolute; top: -5px; right: -1%">
                     <paper-menu-button ignore-select>
-                        <paper-icon-button icon="more-vert" class="dropdown-trigger"></paper-icon-button>
+                        <paper-icon-button icon="more-vert" title="quiz settings" class="dropdown-trigger"></paper-icon-button>
                         <paper-menu class="dropdown-content" style="padding: 15px">
                             <paper-toggle-button on-change="answerFeedbackToggled" checked="[[quizSettings.answerFeedback]]">Answer feedback</paper-toggle-button>
                             <paper-toggle-button on-change="showAnswerToggled" checked="[[quizSettings.showAnswer]]">Show answer</paper-toggle-button>
@@ -57,6 +57,12 @@
                         </paper-menu>
                     </paper-menu-button>
                 </div>
+
+                <template is="dom-if" if="[[showEmptyQuizQuestionsText(quizQuestionIds)]]">
+                    <div style="display: flex; flex-direction: row; align-items: center; justify-content: center; text-align: center">
+                        <div style="color: grey; font-size: 35px; margin-top: 50px; padding: 25px">YOU HAVE NO QUESTIONS, ADD SOME</div>
+                    </div>
+                </template>
 
                 <div id="quizDomRepeatContainer">
                     <template is="dom-repeat" items="[[quizQuestionIds]]">
@@ -84,7 +90,7 @@
 
                                     <div style="position: absolute; top: -25px; right: 15%">
                                         <paper-menu-button>
-                                            <paper-icon-button icon="more-vert" class="dropdown-trigger"></paper-icon-button>
+                                            <paper-icon-button icon="more-vert" title="question actions" class="dropdown-trigger"></paper-icon-button>
                                             <paper-menu class="dropdown-content">
                                                 <paper-item on-click="addQuestionToQuiz">add to quiz</paper-item>
                                                 <paper-item on-click="editQuestion">edit</paper-item>
