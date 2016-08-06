@@ -36,6 +36,7 @@ class QuizEditorComponent {
         this.endpointDomain = UtilitiesService.getPrendusServerEndpointDomain();
         const user = await FirebaseService.getLoggedInUser();
         this.jwt = await user.getToken();
+        this.title = '';
     }
 
     async conceptIdSet() {

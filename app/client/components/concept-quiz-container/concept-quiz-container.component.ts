@@ -33,7 +33,7 @@ class ConceptQuizContainerComponent {
     async addQuizClick(e: Event) {
         const quizId = await Actions.createNewQuiz(this, this.conceptId);
 
-        window.history.pushState({}, '', `edit-quiz/concept/${this.conceptId}/quiz/${quizId}`);
+        window.history.pushState({}, '', `courses/edit-quiz/concept/${this.conceptId}/quiz/${quizId}`);
         this.fire('location-changed', {}, {node: window});
 
         await Actions.loadConceptQuizzes(this, this.conceptId);
@@ -44,7 +44,7 @@ class ConceptQuizContainerComponent {
     }) {
         const quizId = e.model.item.id;
 
-        window.history.pushState({}, '', `edit-quiz/concept/${this.conceptId}/quiz/${quizId}`);
+        window.history.pushState({}, '', `courses/edit-quiz/concept/${this.conceptId}/quiz/${quizId}`);
         this.fire('location-changed', {}, {node: window});
     }
 

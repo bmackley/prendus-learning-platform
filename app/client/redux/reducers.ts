@@ -2,9 +2,6 @@ import {InitialState} from './initial-state.ts';
 import {Actions} from './actions.ts';
 
 export function rootReducer(state = InitialState, action) {
-
-    console.log('action.type', action.type);
-
     switch(action.type) {
         case 'LOAD_CONCEPT_QUIZZES': {
             const newState = Object.assign({}, state);
