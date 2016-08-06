@@ -35,7 +35,7 @@
             [[item.title]]
           </h1>
             <template id="conceptsList" is="dom-repeat" items=[[courseConcepts]]>
-              <concept-container concept-id="[[item.id]]"></concept-container>
+              <concept-container concept-id="[[item.id]]" course-id="[[courseId]]"></concept-container>
             </template>
         </course-title>
       </template>

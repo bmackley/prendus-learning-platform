@@ -2,7 +2,7 @@ import {Quiz} from '../../node_modules/prendus-services/interfaces/quiz.interfac
 import {Actions} from '../../redux/actions.ts';
 import {StatechangeEvent} from '../../interfaces/statechange-event.interface.ts';
 
-class ConceptQuizContainerComponent {
+class ConceptQuizContainerComponentEdit {
     public is: string;
     public properties: any;
     public observers: string[];
@@ -13,7 +13,7 @@ class ConceptQuizContainerComponent {
     public currentVideoUrl: string;
 
     beforeRegister() {
-        this.is = 'prendus-concept-quiz-container';
+        this.is = 'prendus-concept-quiz-container-edit';
         this.properties = {
             conceptId: {
                 type: String
@@ -43,7 +43,7 @@ class ConceptQuizContainerComponent {
         model: any
     }) {
         const quizId = e.model.item.id;
-        //this needs to be changed to take the quiz
+
         window.history.pushState({}, '', `courses/edit-quiz/concept/${this.conceptId}/quiz/${quizId}`);
         this.fire('location-changed', {}, {node: window});
     }
@@ -55,4 +55,4 @@ class ConceptQuizContainerComponent {
     }
 }
 
-Polymer(ConceptQuizContainerComponent);
+Polymer(ConceptQuizContainerComponentEdit);
