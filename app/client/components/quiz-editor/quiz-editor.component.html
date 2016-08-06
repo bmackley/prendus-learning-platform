@@ -39,7 +39,7 @@
         <iron-ajax id="getQuestionIdsAjax" method="get" url="[[endpointDomain]]/api/questionids/uid/[[jwt]]" handle-as="json"></iron-ajax>
 
         <div style="display: flex; flex-direction: row;">
-            <div style="display: flex; flex-direction: column; flex: 1; box-shadow: 0px 0px 3px black; margin: 50px; position: relative">
+            <div style="display: flex; flex-direction: column; flex: 1; box-shadow: 0px 0px 3px black; margin: 50px; position: relative; height: 0%">
                 <paper-input id="quiz-title-input" label="Quiz Title" value="[[title]]" on-change="titleChanged"></paper-input>
 
                 <div style="position: absolute; top: -5px; right: -1%">
@@ -60,7 +60,7 @@
 
                 <template is="dom-if" if="[[showEmptyQuizQuestionsText(quizQuestionIds)]]">
                     <div style="display: flex; flex-direction: row; align-items: center; justify-content: center; text-align: center">
-                        <div style="color: grey; font-size: 35px; margin-top: 50px; padding: 25px">YOU HAVE NO QUESTIONS, ADD SOME</div>
+                        <div style="color: grey; font-size: 35px; margin-top: 50px; margin-bottom: 50px; padding: 25px">YOU HAVE NO QUESTIONS, ADD SOME</div>
                     </div>
                 </template>
 
@@ -75,7 +75,7 @@
                 </div>
             </div>
 
-            <div style="display: flex; flex-direction: column; flex: 1; box-shadow: 0px 0px 3px black; margin: 50px">
+            <div style="display: flex; flex-direction: column; flex: 1; box-shadow: 0px 0px 3px black; margin: 50px; height: 0%">
                 <paper-tabs id="question-tabs" selected="0">
                     <paper-tab>MY QUESTIONS</paper-tab>
                 </paper-tabs>
