@@ -7,6 +7,8 @@ class ReduxStoreComponent {
     public is;
     public properties;
 
+    private listenersToAdd;
+
     beforeRegister() {
         this.is = 'redux-store';
         this.properties = {
@@ -31,9 +33,7 @@ class ReduxStoreComponent {
             this.subscribe();
         }
         else {
-            listenersToAdd = [...listenersToAdd, {
-                context: this
-            }];
+            listenersToAdd = [...listenersToAdd, this];
         }
     }
 
@@ -65,11 +65,15 @@ class ReduxStoreComponent {
 
     createTheStore() {
         stores[this.storeName] = createStore(this.rootReducer);
-        listenersToAdd.forEach((element) => {
-            element.context.storeName = this.storeName;
-            this.subscribe.apply(element.context);
+        listenersToAdd = listenersToAdd.filter((reduxStoreElement) => {
+            const storeExists = (reduxStoreElement.storeName === this.storeName);
+
+            if (storeExists) {
+                reduxStoreElement.subscribe();
+            }
+
+            return !storeExists;
         });
-        listenersToAdd = [];
     }
 }
 
