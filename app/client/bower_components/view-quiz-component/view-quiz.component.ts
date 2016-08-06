@@ -1,4 +1,4 @@
-import {RootReducer} from '/redux/reducers.ts';
+import {RootReducer} from './redux/reducers.ts';
 
 class ViewQuizComponent {
     public is: string;
