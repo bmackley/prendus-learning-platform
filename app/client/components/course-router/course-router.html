@@ -25,8 +25,8 @@
 
     <iron-pages selected="[[data.page]]" attr-for-selected="key">
       <course-homepage key="home"></course-homepage>
-      <course-edit key="edit" route="[[tail]]"></course-edit>
-      <course-view key="view"></course-view>
+      <course-edit key="edit" course-id ="[[tail.path]]"></course-edit>
+      <course-view key="view" viewCourse-id ="[[tail.path]]"></course-view>
       <prendus-quiz-router key="edit-quiz" route="[[tail]]"></prendus-quiz-router>
       <prendus-view-video-router key="view-video" route="[[tail]]"></prendus-view-video-router>
       <prendus-view-quiz-router key="view-quiz" route="[[tail]]"></prendus-view-quiz-router>

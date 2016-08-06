@@ -29,7 +29,7 @@ const deleteCourseConcept = async (id: string, conceptId: string) => {
     const path =  `${dataPath}/${id}/concepts/`;
     let conceptDelete = await FirebaseService.remove(conceptId);
 };
-const getById = async (id) => {
+const getById = async (id:string) => {
     const path = `${dataPath}/${id}`;
     const course = await FirebaseService.get(path);
     course.id = id;
