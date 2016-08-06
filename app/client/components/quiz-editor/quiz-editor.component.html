@@ -3,11 +3,26 @@
 <link rel="import" href="../../bower_components/iron-ajax/iron-ajax.html">
 <link rel="import" href="../../bower_components/paper-toggle-button/paper-toggle-button.html">
 <link rel="import" href="../../bower_components/paper-input/paper-input.html">
+<link rel="import" href="../../bower_components/paper-tabs/paper-tabs.html">
+<link rel="import" href="../../bower_components/iron-pages/iron-pages.html">
+<link rel="import" href="../../bower_components/paper-fab/paper-fab.html">
+<link rel="import" href="../../bower_components/paper-menu-button/paper-menu-button.html">
+<link rel="import" href="../../bower_components/paper-menu/paper-menu.html">
+<link rel="import" href="../../bower_components/paper-item/paper-item.html">
 <link rel="import" href="../../bower_components/solutia-maxima-components/components/view-problem/view-problem.component.html">
 <link rel="import" href="../../bower_components/solutia-maxima-components/components/edit-problem/edit-problem.component.html">
+<link rel="import" href="../../bower_components/iron-icons/iron-icons.html">
 
 <dom-module id="prendus-quiz-editor">
     <template>
+        <style>
+            #question-tabs {
+                --prendus-main-color: #2196F3;
+                --paper-tabs-selection-bar-color: var(--prendus-main-color);
+                /*--paper-tab-ink: var(--prendus-main-color);*/
+            }
+        </style>
+
         <redux-store on-statechange="mapStateToThis" action="[[action]]"></redux-store>
         <iron-ajax id="getQuestionIdsAjax" method="get" url="[[endpointDomain]]/api/questionids/uid/[[jwt]]" handle-as="json"></iron-ajax>
 
@@ -35,22 +50,40 @@
                         <div style="display: flex; flex-direction: row; align-items: center; justify-content: center">
                             <button on-click="removeQuestionFromQuiz">Remove</button>
                         </div>
+                        <hr style="width: 75%; border: 0px; height: 1px; background: rgba(0, 0, 0, .25)">
                     </template>
                 </div>
             </div>
 
             <div style="display: flex; flex-direction: column; flex: 1; box-shadow: 0px 0px 3px black; margin: 50px">
-                <h1>My Questions</h1>
-                <button on-click="createQuestion">Create Question</button>
-                <div id="myQuestionsDomRepeatContainer">
-                    <template is="dom-repeat" items="[[userQuestionIds]]">
-                        <solutia-maxima-view-problem question-id="[[item]]" quiz-session-id="DEFAULT_QUIZ" jwt="[[jwt]]" concise></solutia-maxima-view-problem>
-                        <div style="display: flex; flex-direction: row; align-items: center; justify-content: center">
-                            <button on-click="addQuestionToQuiz">Add to quiz</button>
-                            <button on-click="editQuestion">Edit</button>
+                <paper-tabs id="question-tabs" selected="0">
+                    <paper-tab>MY QUESTIONS</paper-tab>
+                </paper-tabs>
+
+                <iron-pages selected="0" style="position: relative">
+                    <div>
+                        <paper-fab icon="add" title="create question" on-click="createQuestion" style="position: absolute; top: -30px; right: 15px"></paper-fab>
+                        <div id="myQuestionsDomRepeatContainer">
+                            <template is="dom-repeat" items="[[userQuestionIds]]">
+                                <div style="position: relative">
+                                    <solutia-maxima-view-problem question-id="[[item]]" quiz-session-id="DEFAULT_QUIZ" jwt="[[jwt]]" concise></solutia-maxima-view-problem>
+
+                                    <div style="position: absolute; top: -25px; right: 15%">
+                                        <paper-menu-button>
+                                            <paper-icon-button icon="more-vert" class="dropdown-trigger"></paper-icon-button>
+                                            <paper-menu class="dropdown-content">
+                                                <paper-item on-click="addQuestionToQuiz">add to quiz</paper-item>
+                                                <paper-item on-click="editQuestion">edit</paper-item>
+                                            </paper-menu>
+                                        </paper-menu-button>
+                                    </div>
+
+                                    <hr style="width: 75%; border: 0px; height: 1px; background: rgba(0, 0, 0, .25); margin-top: -8vh">
+                                </div>
+                            </template>
                         </div>
-                    </template>
-                </div>
+                    </div>
+                </iron-pages>
             </div>
         </div>
     </template>
