@@ -15,32 +15,32 @@ Polymer({
     this.uid = e.detail.state.currentUser.uid;
   },
   editCourse: function(e){
-    console.log('course e target', e.target)
-    console.log('course e target id', e.target.id)
-    console.log('course e target dataset', e.target.dataset.args)
-    // let location = `/courses/edit/${e.target.id}`
-    // window.history.pushState({}, '', location);
-    // this.fire('location-changed', {}, {node: window});
-    try{
-      Actions.getCourseById.execute(this, e.target.id)
-      let location = '/courses/edit'
-      window.history.pushState({}, '', location);
-      this.fire('location-changed', {}, {node: window});
-    }catch(error){
-      console.log('Course Homepage Error', error)
-    }
+    let location = `/courses/edit/${e.target.id}`
+    window.history.pushState({}, '', location);
+    this.fire('location-changed', {}, {node: window});
+    //Deprecated as of August 5
+    // try{
+    //   Actions.getCourseById.execute(this, e.target.id)
+    //   let location = '/courses/edit'
+    //   window.history.pushState({}, '', location);
+    //   this.fire('location-changed', {}, {node: window});
+    // }catch(error){
+    //   console.log('Course Homepage Error', error)
+    // }
   },
   viewCourse: function(e){
-    console.log('course e target', e.target)
-    console.log('course e target id', e.target.id)
-    console.log('course e target dataset', e.target.dataset.args)
+    //Deprecated as of August 5
     try{
-      Actions.getCourseById.execute(this, e.target.id)
-      let location = '/courses/view'
+      let location = `/courses/view/${e.target.id}`
       window.history.pushState({}, '', location);
       this.fire('location-changed', {}, {node: window});
+
+      // Actions.getCourseById.execute(this, e.target.id)
+      // let location = '/courses/view'
+      // window.history.pushState({}, '', location);
+      // this.fire('location-changed', {}, {node: window});
     }catch(error){
-      console.log('Course Homepage Error', error)
+      alert(error);
     }
   },
   addCourse: function(e){
