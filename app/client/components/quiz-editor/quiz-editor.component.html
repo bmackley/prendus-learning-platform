@@ -46,7 +46,7 @@
                 <paper-input id="quiz-title-input" label="Quiz Title" value="[[title]]" on-change="titleChanged"></paper-input>
 
                 <div style="position: absolute; top: -5px; right: -1%">
-                    <paper-menu-button ignore-select>
+                    <paper-menu-button ignore-select no-animations allow-outside-scroll>
                         <paper-icon-button icon="more-vert" title="quiz settings" class="dropdown-trigger"></paper-icon-button>
                         <paper-menu class="dropdown-content" style="padding: 15px">
                             <paper-toggle-button on-change="answerFeedbackToggled" checked="[[quizSettings.answerFeedback]]">Answer feedback</paper-toggle-button>
@@ -73,7 +73,7 @@
                             <solutia-maxima-view-problem question-id="[[item]]" quiz-session-id="DEFAULT_QUIZ" jwt="[[jwt]]" concise></solutia-maxima-view-problem>
 
                             <div style="position: absolute; top: -25px; right: 15%">
-                                <paper-menu-button>
+                                <paper-menu-button no-animations allow-outside-scroll>
                                     <paper-icon-button icon="more-vert" title="question actions" class="dropdown-trigger"></paper-icon-button>
                                     <paper-menu class="dropdown-content">
                                         <paper-item on-click="removeQuestionFromQuiz">remove from quiz</paper-item>
@@ -101,7 +101,7 @@
                                     <solutia-maxima-view-problem question-id="[[item]]" quiz-session-id="DEFAULT_QUIZ" jwt="[[jwt]]" concise></solutia-maxima-view-problem>
 
                                     <div style="position: absolute; top: -25px; right: 15%">
-                                        <paper-menu-button>
+                                        <paper-menu-button no-animations allow-outside-scroll>
                                             <paper-icon-button icon="more-vert" title="question actions" class="dropdown-trigger"></paper-icon-button>
                                             <paper-menu class="dropdown-content">
                                                 <paper-item on-click="addQuestionToQuiz">add to quiz</paper-item>
