@@ -19,7 +19,7 @@
         <iron-ajax id="checkAnswerAjax" url="http://localhost:5000/api/checkanswer" method="post" content-type="application/json" handle-as="json"></iron-ajax>
         <paper-toast id="toast" text="[[toastMessage]]"></paper-toast>
 
-        <div class="flex-row flex-center">
+        <div class="flex-row flex-center problem-container">
             <div class="flex-col flex-center">
                 <paper-spinner active hidden="[[!hideRenderMath]]"></paper-spinner>
                 <solutia-maxima-render-math hidden="[[hideRenderMath]]" text="[[problemText]]" on-renderingbegun="mathRenderingBegun" on-renderingcomplete="mathRenderingComplete"></solutia-maxima-render-math>
@@ -85,6 +85,13 @@
                 justify-content: center;
                 align-items: center;
             }
+
+            .problem-container {
+                 margin-top: 10vh;
+                 margin-bottom: 10vh;
+                 margin-left: 5vw;
+                 margin-right: 5vw;
+             }
 
             .problem-text {
                 font-size: 25px;

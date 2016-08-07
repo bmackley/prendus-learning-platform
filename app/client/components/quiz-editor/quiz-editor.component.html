@@ -16,10 +16,13 @@
 <dom-module id="prendus-quiz-editor">
     <template>
         <style>
+            :host {
+                --prendus-primary-color: rgba(33, 150, 243, 1);
+                --paper-tab-ink: var(--prendus-primary-color);
+            }
+
             #question-tabs {
-                --prendus-main-color: #2196F3;
-                --paper-tabs-selection-bar-color: var(--prendus-main-color);
-                /*--paper-tab-ink: var(--prendus-main-color);*/
+                --paper-tabs-selection-bar-color: var(--prendus-primary-color);
             }
 
             #quiz-title-input {
