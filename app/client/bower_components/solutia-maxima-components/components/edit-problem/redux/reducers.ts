@@ -7,7 +7,7 @@ export const RootReducer = (state: State = InitialState, action: Action): State 
         case 'INITIAL_LOAD_QUESTION': {
             const newState = Object.assign({}, state);
 
-            newState.private = action.private;
+            newState.visibility = action.visibility;
             newState.previewQuestionId = action.previewQuestionId;
             newState.initialLoad = true;
 

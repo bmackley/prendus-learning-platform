@@ -5,6 +5,7 @@ import {State} from './interfaces/state.interface.ts';
 import {Action} from './interfaces/action.interface.ts';
 import {StatechangeEvent} from './interfaces/statechange-event.interface.ts';
 import {Question} from '../../../../node_modules/prendus-services/interfaces/question.interface.ts';
+import {QuestionVisibility} from '../../../../node_modules/prendus-services/interfaces/question-visibility.type.ts';
 
 export class EditProblemComponent {
     public is: string;
@@ -31,7 +32,7 @@ export class EditProblemComponent {
     };
     public observers: string[];
 
-    private private: boolean;
+    private visibility: QuestionVisibility;
 
     beforeRegister() {
         this.is = 'solutia-maxima-edit-problem';
@@ -79,7 +80,7 @@ export class EditProblemComponent {
                 previewQuestionId: null,
                 text,
                 code,
-                private: this.private || null
+                visibility: this.visibility || 'public'
             });
 
             await Actions.saveQuestion(this, this.questionId, {
@@ -88,7 +89,7 @@ export class EditProblemComponent {
                 text,
                 code,
                 previewQuestionId: this.previewQuestionId || null,
-                private: this.private || null
+                visibility: this.visibility || 'public'
             });
 
             this.fire('savequestion', {}, {
@@ -113,7 +114,7 @@ export class EditProblemComponent {
                 text,
                 code,
                 previewQuestionId: this.previewQuestionId || null,
-                private: this.private || null
+                visibility: this.visibility || 'public'
             });
             await Actions.savePreviewQuestion(this, this.previewQuestionId, {
                 id: this.previewQuestionId || null,
@@ -121,7 +122,7 @@ export class EditProblemComponent {
                 previewQuestionId: null,
                 text,
                 code,
-                private: this.private || null
+                visibility: this.visibility || 'public'
             });
             await this.$.viewPreviewQuestion.loadNextProblem();
             showQuestionText(this);
@@ -164,7 +165,7 @@ export class EditProblemComponent {
         const state = e.detail.state;
 
         this.initialLoad = state.initialLoad;
-        this.private = state.private;
+        this.visibility = state.visibility;
         this.questionId = state.questionId;
         this.previewQuestionId = state.previewQuestionId;
     }
