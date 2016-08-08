@@ -28,11 +28,11 @@
     "paper-item": "PolymerElements/paper-item#^1.2.1"
   },
   "homepage": "https://github.com/lastmjs/solutia-maxima-components",
-  "_release": "01c1d76ede",
+  "_release": "dba18ebca1",
   "_resolution": {
     "type": "branch",
     "branch": "jordan",
-    "commit": "01c1d76ede9695f57581d1672e21a6ee033af947"
+    "commit": "dba18ebca1497dafa3b3f4f1005db9c1a4880a9b"
   },
   "_source": "git@github.com:lastmjs/solutia-maxima-components.git",
   "_target": "jordan",
