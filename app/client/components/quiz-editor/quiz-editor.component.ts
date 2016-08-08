@@ -56,6 +56,11 @@ class QuizEditorComponent {
         }
     }
 
+    async loadPublicQuestionIds() {
+        const getQuestionIdsAjax = this.querySelector('#getQuestionIdsAjax');
+        await Actions.loadPublicQuestionIds(this, getQuestionIdsAjax);
+    }
+
     async loadUserQuestionIds() {
         const getQuestionIdsAjax = this.querySelector('#getQuestionIdsAjax');
         await Actions.loadUserQuestionIds(this, getQuestionIdsAjax);
