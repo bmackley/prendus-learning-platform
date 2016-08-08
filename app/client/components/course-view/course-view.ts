@@ -48,11 +48,6 @@ sortableEnded: function(e){
     Actions.orderConcepts.execute(this, this.courseId, updateConceptPositionArray);
   }
 },
-viewCourse: function() {
-  if(this.viewCourseId){
-    Actions.getCourseById.execute(this, this.viewCourseId)
-  }
-},
 properties: {
     subdomain: {
       type: Object
@@ -65,10 +60,15 @@ properties: {
       type: Array,
       value: [{title: 'Course Title', instructor: 'Instructor Name', startDate: {month: new Date().getMonth(), day: new Date().getDate(), year: new Date().getFullYear()}, endDate: Date.now()}]
     },
-    viewCourseId: {
-      type: String,
+    route: {
+      type: Object,
       observer: 'viewCourse'
     },
+  },
+  viewCourse: function() {
+    if(this.data.courseId){
+      Actions.getCourseById.execute(this, this.data.courseId)
+    }
   },
 ready: function(e){
   // FirebaseService.init("AIzaSyANTSoOA6LZZDxM7vqIlAl37B7IqWL-6MY", "prendus.firebaseapp.com", "https://prendus.firebaseio.com", "prendus.appspot.com", "Prendus");

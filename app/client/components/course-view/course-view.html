@@ -28,6 +28,7 @@
   <template>
     <redux-store action="[[action]]"></redux-store>
     <redux-store on-statechange="mapStateToThis"></redux-store>
+    <app-route route="[[route]]" pattern="/:courseId" data="{{data}}"></app-route>
     <template is="dom-if" if="[[username]]">
       <template id="title" is="dom-repeat" items="[[courses]]">
         <course-title title="[[item.title]]" instructor="[[item.instructor]]">
