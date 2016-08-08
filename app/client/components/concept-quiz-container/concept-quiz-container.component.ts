@@ -7,6 +7,7 @@ class ConceptQuizContainerComponent {
     public properties: any;
     public observers: string[];
     public conceptId: string;
+    public courseId: string;
     public quizzes: Quiz[];
     public currentVideoId: string;
     public currentVideoTitle: string;
@@ -16,6 +17,9 @@ class ConceptQuizContainerComponent {
         this.is = 'prendus-concept-quiz-container';
         this.properties = {
             conceptId: {
+                type: String
+            },
+            courseId: {
                 type: String
             }
         };
@@ -30,21 +34,12 @@ class ConceptQuizContainerComponent {
         }
     }
 
-    async addQuizClick(e: Event) {
-        const quizId = await Actions.createNewQuiz(this, this.conceptId);
-
-        window.history.pushState({}, '', `courses/edit-quiz/concept/${this.conceptId}/quiz/${quizId}`);
-        this.fire('location-changed', {}, {node: window});
-
-        await Actions.loadConceptQuizzes(this, this.conceptId);
-    }
-
     quizRowClick(e: {
         model: any
     }) {
         const quizId = e.model.item.id;
         //this needs to be changed to take the quiz
-        window.history.pushState({}, '', `courses/edit-quiz/concept/${this.conceptId}/quiz/${quizId}`);
+        window.history.pushState({}, '', `courses/view-quiz/course/${this.courseId}/quiz/${quizId}`);
         this.fire('location-changed', {}, {node: window});
     }
 
