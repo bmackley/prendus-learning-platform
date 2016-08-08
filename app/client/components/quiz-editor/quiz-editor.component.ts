@@ -106,7 +106,12 @@ class QuizEditorComponent {
         return showEmptyQuizQuestionsText;
     }
 
-    manuallyReloadQuestions() {
+    async manuallyReloadQuestions() {
+        //TODO this is all extremely not optimized
+        await this.loadUserQuestionIds();
+        await this.loadPublicQuestionIds();
+        await this.loadQuizQuestionIds();
+
         this.userQuestionIds.forEach((questionId) => {
             const viewQuestionElement = this.querySelector(`#user-question-id-${questionId}`);
             viewQuestionElement.loadNextProblem();

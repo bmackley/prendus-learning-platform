@@ -80,7 +80,7 @@ export class EditProblemComponent {
                 previewQuestionId: null,
                 text,
                 code,
-                visibility: this.visibility
+                visibility: this.visibility || 'public'
             });
 
             await Actions.saveQuestion(this, this.questionId, {
@@ -89,7 +89,7 @@ export class EditProblemComponent {
                 text,
                 code,
                 previewQuestionId: this.previewQuestionId || null,
-                visibility: this.visibility
+                visibility: this.visibility || 'public'
             });
 
             this.fire('savequestion', {}, {
@@ -114,7 +114,7 @@ export class EditProblemComponent {
                 text,
                 code,
                 previewQuestionId: this.previewQuestionId || null,
-                visibility: this.visibility
+                visibility: this.visibility || 'public'
             });
             await Actions.savePreviewQuestion(this, this.previewQuestionId, {
                 id: this.previewQuestionId || null,
@@ -122,7 +122,7 @@ export class EditProblemComponent {
                 previewQuestionId: null,
                 text,
                 code,
-                visibility: this.visibility
+                visibility: this.visibility || 'public'
             });
             await this.$.viewPreviewQuestion.loadNextProblem();
             showQuestionText(this);
