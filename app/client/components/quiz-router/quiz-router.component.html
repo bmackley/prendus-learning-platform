@@ -10,7 +10,7 @@
 
         <button on-click="viewQuizEditor" hidden="[[!selected]]">Back to Quiz Editor</button>
 
-        <app-route route="[[route]]" pattern="/concept/:conceptId/quiz/:quizId" data="{{data}}" tail="{{tail}}"></app-route>
+        <app-route route="[[route]]" pattern="/edit-quiz/concept/:conceptId/quiz/:quizId" data="{{data}}" tail="{{tail}}"></app-route>
 
         <iron-pages selected="[[selected]]">
             <prendus-quiz-editor id="quizEditorComponent" concept-id="[[data.conceptId]]" quiz-id="[[data.quizId]]" on-editquestion="routeToEditQuestion" on-createquestion="routeToCreateQuestion"></prendus-quiz-editor>
