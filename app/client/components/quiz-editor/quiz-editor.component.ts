@@ -98,12 +98,14 @@ class QuizEditorComponent {
     }
 
     manuallyReloadQuestions() {
-        Array.from(this.querySelector('#myQuestionsDomRepeatContainer').children).forEach((element) => {
-            element.loadNextProblem && element.loadNextProblem();
+        this.userQuestionIds.forEach((questionId) => {
+            const viewQuestionElement = this.querySelector(`#user-question-id-${questionId}`);
+            viewQuestionElement.loadNextProblem();
         });
 
-        Array.from(this.querySelector('#quizDomRepeatContainer').children).forEach((element) => {
-            element.loadNextProblem && element.loadNextProblem();
+        this.quizQuestionIds.forEach((questionId) => {
+            const viewQuestionElement = this.querySelector(`#quiz-question-id-${questionId}`);
+            viewQuestionElement.loadNextProblem();
         });
     }
 
