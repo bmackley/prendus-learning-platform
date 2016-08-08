@@ -18,6 +18,7 @@ class QuizEditorComponent {
     public showSettings: boolean;
     public quizSettings: QuestionSettings;
     public title: string;
+    public selected: number;
 
     beforeRegister() {
         this.is = 'prendus-quiz-editor';
@@ -38,6 +39,7 @@ class QuizEditorComponent {
         const user = await FirebaseService.getLoggedInUser();
         this.jwt = await user.getToken();
         this.title = '';
+        this.selected = 0;
     }
 
     async conceptIdSet() {
