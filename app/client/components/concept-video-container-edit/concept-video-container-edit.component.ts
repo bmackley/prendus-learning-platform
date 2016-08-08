@@ -3,7 +3,7 @@ import {Actions} from '../../redux/actions.ts';
 import {StatechangeEvent} from '../../interfaces/statechange-event.interface.ts';
 import {VideoEditorComponent} from '../video-editor/video-editor.component.ts';
 
-class ConceptVideoContainerComponent {
+class ConceptVideoContainerEditComponent {
     public is: string;
     public properties: any;
     public observers: string[];
@@ -18,12 +18,9 @@ class ConceptVideoContainerComponent {
     };
 
     beforeRegister() {
-        this.is = 'prendus-concept-video-container';
+        this.is = 'prendus-concept-video-container-edit';
         this.properties = {
             conceptId: {
-                type: String
-            },
-            courseId: {
                 type: String
             }
         };
@@ -51,10 +48,33 @@ class ConceptVideoContainerComponent {
         const url = e.model.item.url;
 
         Actions.setCurrentVideoInfo(this, id, title, url);
-        //go to the url
-        // courses/view-video/course/:courseId/video/:videoId
-        window.history.pushState({}, '', `courses/view-video/course/${this.courseId}/video/${id}`);
-        this.fire('location-changed', {}, {node: window});
+
+        this.$.editVideoDialog.open();
+    }
+
+    async saveVideo(e: {
+        detail: any
+    }) {
+        const title = e.detail.title;
+        const url = e.detail.url;
+
+        const video: Video = {
+            title,
+            url,
+            conceptId: this.conceptId
+        };
+
+        await Actions.saveVideo(this, this.currentVideoId, video);
+        this.$.videoEditor.indicateSaved();
+        Actions.setCurrentVideoInfo(this, this.currentVideoId, title, url);
+        await Actions.loadConceptVideos(this, this.conceptId);
+    }
+
+    async deleteVideo(e: Event) {
+        this.$.editVideoDialog.close();
+        await Actions.deleteVideo(this, this.currentVideoId);
+        await Actions.loadConceptVideos(this, this.conceptId);
+        Actions.clearCurrentVideoInfo(this);
     }
 
     mapStateToThis(e: StatechangeEvent) {
@@ -67,4 +87,4 @@ class ConceptVideoContainerComponent {
     }
 }
 
-Polymer(ConceptVideoContainerComponent);
+Polymer(ConceptVideoContainerEditComponent);
