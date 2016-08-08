@@ -73,7 +73,7 @@
                 <div id="quizDomRepeatContainer">
                     <template is="dom-repeat" items="[[quizQuestionIds]]">
                         <div style="position: relative">
-                            <solutia-maxima-view-problem question-id="[[item]]" quiz-session-id="DEFAULT_QUIZ" jwt="[[jwt]]" concise></solutia-maxima-view-problem>
+                            <solutia-maxima-view-problem id="quiz-question-id-[[item]]" question-id="[[item]]" quiz-session-id="DEFAULT_QUIZ" jwt="[[jwt]]" concise></solutia-maxima-view-problem>
 
                             <div style="position: absolute; top: -25px; right: 15%">
                                 <paper-menu-button no-animations allow-outside-scroll>
@@ -104,7 +104,7 @@
                         <div id="myQuestionsDomRepeatContainer">
                             <template is="dom-repeat" items="[[userQuestionIds]]">
                                 <div style="position: relative">
-                                    <solutia-maxima-view-problem question-id="[[item]]" quiz-session-id="DEFAULT_QUIZ" jwt="[[jwt]]" concise></solutia-maxima-view-problem>
+                                    <solutia-maxima-view-problem id="user-question-id-[[item]]" question-id="[[item]]" quiz-session-id="DEFAULT_QUIZ" jwt="[[jwt]]" concise></solutia-maxima-view-problem>
 
                                     <div style="position: absolute; top: -25px; right: 15%">
                                         <paper-menu-button no-animations allow-outside-scroll>
