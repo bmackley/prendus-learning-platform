@@ -2,24 +2,20 @@ import {Quiz} from '../../node_modules/prendus-services/interfaces/quiz.interfac
 import {Actions} from '../../redux/actions.ts';
 import {StatechangeEvent} from '../../interfaces/statechange-event.interface.ts';
 
-class ConceptQuizContainerComponent {
+class ConceptQuizContainerEditComponent {
     public is: string;
     public properties: any;
     public observers: string[];
     public conceptId: string;
-    public courseId: string;
     public quizzes: Quiz[];
     public currentVideoId: string;
     public currentVideoTitle: string;
     public currentVideoUrl: string;
 
     beforeRegister() {
-        this.is = 'prendus-concept-quiz-container';
+        this.is = 'prendus-concept-quiz-container-edit';
         this.properties = {
             conceptId: {
-                type: String
-            },
-            courseId: {
                 type: String
             }
         };
@@ -34,12 +30,21 @@ class ConceptQuizContainerComponent {
         }
     }
 
+    async addQuizClick(e: Event) {
+        const quizId = await Actions.createNewQuiz(this, this.conceptId);
+
+        window.history.pushState({}, '', `courses/edit-quiz/concept/${this.conceptId}/quiz/${quizId}`);
+        this.fire('location-changed', {}, {node: window});
+
+        await Actions.loadConceptQuizzes(this, this.conceptId);
+    }
+
     quizRowClick(e: {
         model: any
     }) {
         const quizId = e.model.item.id;
-        //this needs to be changed to take the quiz
-        window.history.pushState({}, '', `courses/view-quiz/course/${this.courseId}/quiz/${quizId}`);
+
+        window.history.pushState({}, '', `courses/edit-quiz/concept/${this.conceptId}/quiz/${quizId}`);
         this.fire('location-changed', {}, {node: window});
     }
 
@@ -50,4 +55,4 @@ class ConceptQuizContainerComponent {
     }
 }
 
-Polymer(ConceptQuizContainerComponent);
+Polymer(ConceptQuizContainerEditComponent);
