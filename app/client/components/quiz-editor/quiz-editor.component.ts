@@ -7,6 +7,7 @@ import {QuestionSettings} from '../../node_modules/prendus-services/interfaces/q
 class QuizEditorComponent {
     public is: string;
     public userQuestionIds: string[];
+    public publicQuestionIds: string[];
     public conceptId: string;
     public endpointDomain: string;
     public jwt: string;
@@ -17,6 +18,7 @@ class QuizEditorComponent {
     public showSettings: boolean;
     public quizSettings: QuestionSettings;
     public title: string;
+    public selected: number;
 
     beforeRegister() {
         this.is = 'prendus-quiz-editor';
@@ -37,12 +39,14 @@ class QuizEditorComponent {
         const user = await FirebaseService.getLoggedInUser();
         this.jwt = await user.getToken();
         this.title = '';
+        this.selected = 0;
     }
 
     async conceptIdSet() {
         if (this.conceptId) {
             await this.init();
             await this.loadUserQuestionIds();
+            await this.loadPublicQuestionIds();
         }
     }
 
@@ -56,9 +60,14 @@ class QuizEditorComponent {
         }
     }
 
+    async loadPublicQuestionIds() {
+        const getPublicQuestionIdsAjax = this.querySelector('#getPublicQuestionIdsAjax');
+        await Actions.loadPublicQuestionIds(this, getPublicQuestionIdsAjax);
+    }
+
     async loadUserQuestionIds() {
-        const getQuestionIdsAjax = this.querySelector('#getQuestionIdsAjax');
-        await Actions.loadUserQuestionIds(this, getQuestionIdsAjax);
+        const getUserQuestionIdsAjax = this.querySelector('#getUserQuestionIdsAjax');
+        await Actions.loadUserQuestionIds(this, getUserQuestionIdsAjax);
     }
 
     async loadQuizQuestionIds() {
@@ -97,9 +106,19 @@ class QuizEditorComponent {
         return showEmptyQuizQuestionsText;
     }
 
-    manuallyReloadQuestions() {
+    async manuallyReloadQuestions() {
+        //TODO this is all extremely not optimized
+        await this.loadUserQuestionIds();
+        await this.loadPublicQuestionIds();
+        await this.loadQuizQuestionIds();
+
         this.userQuestionIds.forEach((questionId) => {
             const viewQuestionElement = this.querySelector(`#user-question-id-${questionId}`);
+            viewQuestionElement.loadNextProblem();
+        });
+
+        this.publicQuestionIds.forEach((questionId) => {
+            const viewQuestionElement = this.querySelector(`#public-question-id-${questionId}`);
             viewQuestionElement.loadNextProblem();
         });
 
@@ -171,6 +190,7 @@ class QuizEditorComponent {
 
         this.quizSettings = state.quizSettings;
         this.userQuestionIds = state.userQuestionIds;
+        this.publicQuestionIds = state.publicQuestionIds;
         this.quizQuestionIds = state.quizQuestionIds;
     }
 }

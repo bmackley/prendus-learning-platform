@@ -21,6 +21,7 @@ export const InitialState = {
     currentConceptVideoTitle: '',
     currentConceptVideoUrl: '',
     userQuestionIds: [],
+    publicQuestionIds: [],
     quizQuestionIds: [],
     currentEditQuestionId: '',
     quizSettings: QuestionSettings,
