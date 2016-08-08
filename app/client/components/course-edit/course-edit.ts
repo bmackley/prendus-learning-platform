@@ -79,17 +79,14 @@ properties: {
       type: Array,
       value: [{title: 'Course Title', instructor: 'Instructor Name', startDate: {month: new Date().getMonth(), day: new Date().getDate(), year: new Date().getFullYear()}, endDate: Date.now()}]
     },
-    courseId: {
-      type: String,
-      observer: 'getCourse'
-    },
     route: {
       type: Object,
-    }
+      observer: 'getCourse'
+    },
   },
   getCourse: function() {
-    if(this.courseId){
-      Actions.getCourseById.execute(this, this.courseId)
+    if(this.data.courseId){
+      Actions.getCourseById.execute(this, this.data.courseId)
     }
   },
   ready: function(e){
