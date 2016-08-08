@@ -33,6 +33,11 @@ export function rootReducer(state = InitialState, action) {
             newState.userQuestionIds = action.userQuestionIds;
             return newState;
         }
+        case 'LOAD_PUBLIC_QUESTION_IDS': {
+            const newState = Object.assign({}, state);
+            newState.publicQuestionIds = action.publicQuestionIds;
+            return newState;
+        }
       case Actions.createUser.type: {
           const newState = Object.assign({}, state);
           newState.currentUser = action.currentUser;

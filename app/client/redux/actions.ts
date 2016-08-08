@@ -100,8 +100,8 @@ const removeQuestionFromQuiz = async (context: any, quizId: string, questionId: 
     await QuizModel.removeQuestion(quizId, questionId);
 };
 
-const loadUserQuestionIds = async (context: any, getQuestionIdsAjax: any) => {
-    const request = getQuestionIdsAjax.generateRequest();
+const loadUserQuestionIds = async (context: any, getUserQuestionIdsAjax: any) => {
+    const request = getUserQuestionIdsAjax.generateRequest();
     await request.completes;
 
     const userQuestionIds = request.response.questionIds;
@@ -109,6 +109,18 @@ const loadUserQuestionIds = async (context: any, getQuestionIdsAjax: any) => {
     context.action = {
         type: 'LOAD_USER_QUESTION_IDS',
         userQuestionIds
+    };
+};
+
+const loadPublicQuestionIds = async (context: any, getPublicQuestionIdsAjax: any) => {
+    const request = getPublicQuestionIdsAjax.generateRequest();
+    await request.completes;
+
+    const publicQuestionIds = request.response.questionIds;
+
+    context.action = {
+        type: 'LOAD_PUBLIC_QUESTION_IDS',
+        publicQuestionIds
     };
 };
 
@@ -415,5 +427,6 @@ export const Actions = {
     updateQuizTitle,
     getQuiz,
     getCourseById,
-    getConceptById
+    getConceptById,
+    loadPublicQuestionIds
 };
