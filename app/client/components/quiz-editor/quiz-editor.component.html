@@ -40,7 +40,8 @@
         </style>
 
         <redux-store on-statechange="mapStateToThis" action="[[action]]"></redux-store>
-        <iron-ajax id="getQuestionIdsAjax" method="get" url="[[endpointDomain]]/api/questionids/uid/[[jwt]]" handle-as="json"></iron-ajax>
+        <iron-ajax id="getUserQuestionIdsAjax" method="get" url="[[endpointDomain]]/api/questionids/uid/[[jwt]]" handle-as="json"></iron-ajax>
+        <iron-ajax id="getPublicQuestionIdsAjax" method="get" url="[[endpointDomain]]/api/questionids/public" handle-as="json"></iron-ajax>
 
         <div style="display: flex; flex-direction: row;">
             <div style="display: flex; flex-direction: column; flex: 1; box-shadow: 0px 0px 3px black; margin: 50px; position: relative; height: 0%">
@@ -97,33 +98,56 @@
             <div style="display: flex; flex-direction: column; flex: 1; box-shadow: 0px 0px 3px black; margin: 50px; height: 0%">
                 <paper-tabs id="question-tabs" selected="0">
                     <paper-tab>MY QUESTIONS</paper-tab>
+                    <paper-tab>PUBLIC QUESTIONS</paper-tab>
                 </paper-tabs>
 
                 <iron-pages selected="0" style="position: relative">
-                    <div>
-                        <paper-fab icon="add" title="create question" on-click="createQuestion" style="position: absolute; top: -30px; right: 15px"></paper-fab>
-                        <div id="myQuestionsDomRepeatContainer">
-                            <template is="dom-repeat" items="[[userQuestionIds]]">
-                                <div style="position: relative">
-                                    <solutia-maxima-view-problem id="user-question-id-[[item]]" question-id="[[item]]" quiz-session-id="DEFAULT_QUIZ" jwt="[[jwt]]" concise></solutia-maxima-view-problem>
+                    <paper-fab icon="add" title="create question" on-click="createQuestion" style="position: absolute; top: -30px; right: 15px"></paper-fab>
 
-                                    <div style="position: absolute; top: -25px; right: 15%">
-                                        <paper-menu-button no-animations allow-outside-scroll>
-                                            <paper-icon-button icon="more-vert" title="question actions" class="dropdown-trigger"></paper-icon-button>
-                                            <paper-menu class="dropdown-content">
-                                                <!--TODO this span is here to stop the default selection of items. It is a hack, get rid of it if possible-->
-                                                <span></span>
-                                                <!--TODO this span is here to stop the default selection of items. It is a hack, get rid of it if possible-->
-                                                <paper-item on-click="addQuestionToQuiz">add to quiz</paper-item>
-                                                <paper-item on-click="editQuestion">edit</paper-item>
-                                            </paper-menu>
-                                        </paper-menu-button>
-                                    </div>
+                    <div id="myQuestionsDomRepeatContainer">
+                        <template is="dom-repeat" items="[[userQuestionIds]]">
+                            <div style="position: relative">
+                                <solutia-maxima-view-problem id="user-question-id-[[item]]" question-id="[[item]]" quiz-session-id="DEFAULT_QUIZ" jwt="[[jwt]]" concise></solutia-maxima-view-problem>
 
-                                    <hr style="width: 75%; border: 0px; height: 1px; background: rgba(0, 0, 0, .25); margin-top: -8vh">
+                                <div style="position: absolute; top: -25px; right: 15%">
+                                    <paper-menu-button no-animations allow-outside-scroll>
+                                        <paper-icon-button icon="more-vert" title="question actions" class="dropdown-trigger"></paper-icon-button>
+                                        <paper-menu class="dropdown-content">
+                                            <!--TODO this span is here to stop the default selection of items. It is a hack, get rid of it if possible-->
+                                            <span></span>
+                                            <!--TODO this span is here to stop the default selection of items. It is a hack, get rid of it if possible-->
+                                            <paper-item on-click="addQuestionToQuiz">add to quiz</paper-item>
+                                            <paper-item on-click="editQuestion">edit</paper-item>
+                                        </paper-menu>
+                                    </paper-menu-button>
                                 </div>
-                            </template>
-                        </div>
+
+                                <hr style="width: 75%; border: 0px; height: 1px; background: rgba(0, 0, 0, .25); margin-top: -8vh">
+                            </div>
+                        </template>
+                    </div>
+
+                    <div id="publicQuestionsDomRepeatContainer">
+                        <template is="dom-repeat" items="[[publicQuestionIds]]">
+                            <div style="position: relative">
+                                <solutia-maxima-view-problem id="public-question-id-[[item]]" question-id="[[item]]" quiz-session-id="DEFAULT_QUIZ" jwt="[[jwt]]" concise></solutia-maxima-view-problem>
+
+                                <div style="position: absolute; top: -25px; right: 15%">
+                                    <paper-menu-button no-animations allow-outside-scroll>
+                                        <paper-icon-button icon="more-vert" title="question actions" class="dropdown-trigger"></paper-icon-button>
+                                        <paper-menu class="dropdown-content">
+                                            <!--TODO this span is here to stop the default selection of items. It is a hack, get rid of it if possible-->
+                                            <span></span>
+                                            <!--TODO this span is here to stop the default selection of items. It is a hack, get rid of it if possible-->
+                                            <paper-item on-click="addQuestionToQuiz">add to quiz</paper-item>
+                                            <paper-item on-click="editQuestion">edit</paper-item>
+                                        </paper-menu>
+                                    </paper-menu-button>
+                                </div>
+
+                                <hr style="width: 75%; border: 0px; height: 1px; background: rgba(0, 0, 0, .25); margin-top: -8vh">
+                            </div>
+                        </template>
                     </div>
                 </iron-pages>
             </div>

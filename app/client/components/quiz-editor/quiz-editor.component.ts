@@ -7,6 +7,7 @@ import {QuestionSettings} from '../../node_modules/prendus-services/interfaces/q
 class QuizEditorComponent {
     public is: string;
     public userQuestionIds: string[];
+    public publicQuestionIds: string[];
     public conceptId: string;
     public endpointDomain: string;
     public jwt: string;
@@ -43,6 +44,7 @@ class QuizEditorComponent {
         if (this.conceptId) {
             await this.init();
             await this.loadUserQuestionIds();
+            await this.loadPublicQuestionIds();
         }
     }
 
@@ -57,13 +59,13 @@ class QuizEditorComponent {
     }
 
     async loadPublicQuestionIds() {
-        const getQuestionIdsAjax = this.querySelector('#getQuestionIdsAjax');
-        await Actions.loadPublicQuestionIds(this, getQuestionIdsAjax);
+        const getPublicQuestionIdsAjax = this.querySelector('#getPublicQuestionIdsAjax');
+        await Actions.loadPublicQuestionIds(this, getPublicQuestionIdsAjax);
     }
 
     async loadUserQuestionIds() {
-        const getQuestionIdsAjax = this.querySelector('#getQuestionIdsAjax');
-        await Actions.loadUserQuestionIds(this, getQuestionIdsAjax);
+        const getUserQuestionIdsAjax = this.querySelector('#getUserQuestionIdsAjax');
+        await Actions.loadUserQuestionIds(this, getUserQuestionIdsAjax);
     }
 
     async loadQuizQuestionIds() {
@@ -105,6 +107,11 @@ class QuizEditorComponent {
     manuallyReloadQuestions() {
         this.userQuestionIds.forEach((questionId) => {
             const viewQuestionElement = this.querySelector(`#user-question-id-${questionId}`);
+            viewQuestionElement.loadNextProblem();
+        });
+
+        this.publicQuestionIds.forEach((questionId) => {
+            const viewQuestionElement = this.querySelector(`#public-question-id-${questionId}`);
             viewQuestionElement.loadNextProblem();
         });
 
@@ -176,6 +183,7 @@ class QuizEditorComponent {
 
         this.quizSettings = state.quizSettings;
         this.userQuestionIds = state.userQuestionIds;
+        this.publicQuestionIds = state.publicQuestionIds;
         this.quizQuestionIds = state.quizQuestionIds;
     }
 }
