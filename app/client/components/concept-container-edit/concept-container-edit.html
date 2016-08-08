@@ -16,9 +16,8 @@
 <link href="../../bower_components/paper-date-picker/paper-date-picker.html" rel="import">
 <!-- <link href="/bower_components/polymer-redux-store/redux-store.html" rel="import"> -->
 <link href="../../bower_components/paper-input/paper-input.html" rel="import">
-<link href="../../bower_components/Sortable/Sortable.html" rel="import">
-<link href="../concept-video-container/concept-video-container.component.html" rel="import">
-<link href="../concept-quiz-container/concept-quiz-container.component.html" rel="import">
+<link href="../concept-video-container-edit/concept-video-container-edit.component.html" rel="import">
+<link href="../concept-quiz-container-edit/concept-quiz-container-edit.component.html" rel="import">
 <script src="../../bower_components/moment/min/moment-with-locales.min.js"></script>
 
 <dom-module id="concept-container-edit">
@@ -39,13 +38,13 @@
             <paper-header-panel mode="seamed">
               <paper-toolbar><h1>Videos</h1></paper-toolbar>
             </paper-header-panel>
-            <prendus-concept-video-container concept-id="[[conceptId]]"></prendus-concept-video-container>
+            <prendus-concept-video-container-edit concept-id="[[conceptId]]"></prendus-concept-video-container-edit>
           </div>
           <div class = "flex-horizontal" id = "quizzesContainer">
             <paper-header-panel mode="seamed">
               <paper-toolbar><h1>Quizzes</h1></paper-toolbar>
             </paper-header-panel>
-            <prendus-concept-quiz-container concept-id="[[conceptId]]"></prendus-concept-quiz-container>
+            <prendus-concept-quiz-container-edit concept-id="[[conceptId]]"></prendus-concept-quiz-container-edit>
           </div>
         </div>
       </iron-collapse>
