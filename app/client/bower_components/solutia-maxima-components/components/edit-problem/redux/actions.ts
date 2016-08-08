@@ -1,7 +1,7 @@
-import {QuestionInfo} from '../../../node_modules/prendus-services/interfaces/question-info.interface.ts';
+import {QuestionInfo} from '../../../../../node_modules/prendus-services/interfaces/question-info.interface.ts';
 import {QuestionModel} from '../../../../../node_modules/prendus-services/models/question.model.ts';
 import {EditProblemComponent} from '../edit-problem.component.ts';
-import {Question} from '../../../node_modules/prendus-services/interfaces/question.interface.ts';
+import {Question} from '../../../../../node_modules/prendus-services/interfaces/question.interface.ts';
 
 const initialLoadQuestion = async (context: EditProblemComponent, questionId: string) => {
     try {
@@ -21,7 +21,7 @@ const initialLoadQuestion = async (context: EditProblemComponent, questionId: st
         context.action = {
             type: 'INITIAL_LOAD_QUESTION',
             previewQuestionId,
-            private: questionInfo.private
+            visibility: questionInfo.visibility
         };
     }
     catch(error) {

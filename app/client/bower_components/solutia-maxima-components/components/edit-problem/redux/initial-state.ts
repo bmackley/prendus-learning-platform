@@ -1,7 +1,7 @@
 import {State} from '../interfaces/state.interface.ts';
 
 export const InitialState: State = {
-    private: null,
+    visibility: 'public',
     questionId: '',
     previewQuestionId: '',
     initialLoad: false
