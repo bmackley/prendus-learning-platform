@@ -29,15 +29,12 @@
     <redux-store action="[[action]]"></redux-store>
     <redux-store on-statechange="mapStateToThis"></redux-store>
     <template is="dom-if" if="[[username]]">
-      <template id="title" is="dom-repeat" items="[[courses]]">
         <course-title title="[[item.title]]" instructor="[[item.instructor]]">
           <h1 id ="courseTitle" contenteditable="true">
-            [[item.title]]
+            [[title]]
           </h1>
-          <h1 contenteditable="true">
-            [[item.instructor]]
-          </h1>
-          <paper-dialog id="selectStartDate" class="paper-date-picker-dialog" modal on-iron-overlay-closed="dismissStartDatepicker">
+          <!--Come back to this. Don't need it for the alpha launch -->
+          <!-- <paper-dialog id="selectStartDate" class="paper-date-picker-dialog" modal on-iron-overlay-closed="dismissStartDatepicker">
             <paper-date-picker id="startDatePicker" date="[[startDate]]" min-date="September 1, 2016"></paper-date-picker>
             <div class="buttons">
               <paper-button dialog-dismiss>Cancel</paper-button>
@@ -58,59 +55,13 @@
           <h1>
             End Date
             <iron-icon icon="icons:date-range" item-icon on-tap="openEndDatePicker"></iron-icon>{{item.endDate.month}}/{{item.endDate.day}}/{{item.endDate.year}}
-          </h1>
+          </h1>-->
           <sortable-js on-sort="sortableEnded">
             <template id="conceptsList" is="dom-repeat" items=[[courseConcepts]]>
               <concept-container-edit concept-id="[[item.id]]"></concept-container-edit>
-              <!-- <div>
-                <paper-spinner></paper-spinner> Can't figure out how to get this
-                <paper-icon-item>
-                  <div>
-                    <h3 on-tap="toggle">[[item]]</h3>
-                  </div>
-                  <iron-icon class = "end-justified"icon="editor:drag-handle" item-icon></iron-icon>
-                  <iron-icon class = "end-justified" id = {{item.key}} icon="icons:delete" item-icon on-tap="deleteItem"></iron-icon>
-                </paper-icon-item>
-                <iron-collapse class="conceptToggle" id= "Concept[[item.pos]]">
-                  <div id = "classContent">
-                    <div class = "flex-horizontal" id = "videosContainer">
-                      <paper-header-panel mode="seamed">
-                        <paper-toolbar><h1>Videos</h1></paper-toolbar>
-                      </paper-header-panel>
-                      <prendus-concept-video-container concept-id="[[item.key]]"></prendus-concept-video-container>
-                    </div>
-                    <div class = "flex-horizontal" id = "quizzesContainer">
-                      <paper-header-panel mode="seamed">
-                        <paper-toolbar><h1>Quizzes</h1></paper-toolbar>
-                      </paper-header-panel>
-                      <prendus-concept-quiz-container concept-id="[[item.key]]"></prendus-concept-quiz-container>
-                    <iron-icon class = "end-justified"icon="editor:drag-handle" item-icon></iron-icon>
-                    <iron-icon class = "end-justified" id = [[item.key]] icon="icons:delete" item-icon on-click="deleteItem"></iron-icon>
-                  </paper-icon-item>
-                  <iron-collapse class="conceptToggle" id= "Concept[[item.pos]]">
-                    <div>
-                      <div id="videosContainer">
-                        <paper-header-panel mode="seamed">
-                          <paper-toolbar><h1>Videos</h1></paper-toolbar>
-                        </paper-header-panel>
-                        <prendus-concept-video-container concept-id="[[item.key]]"></prendus-concept-video-container>
-                      </div>
-                      <div id="quizzesContainer">
-                        <paper-header-panel mode="seamed">
-                          <paper-toolbar class ="subheading"><h1>Quizzes</h1></paper-toolbar>
-                          <div class="paper-header">standard</div>
-                          <div class="content fit">content fits 100% below the header</div>
-                        </paper-header-panel>
-                      </div>
-                    </div>
-                  </div>
-                </iron-collapse>
-              </div>
-            </div> -->
             </template>
           </sortable-js>
         </course-title>
-      </template>
     </template>
     <template is="dom-if" if="[[!username]]">
       <p> You are not signed in.  Please sign in to access this page </p>
