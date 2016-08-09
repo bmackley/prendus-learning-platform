@@ -8,6 +8,13 @@ import {Course} from '../node_modules/prendus-services/interfaces/course.interfa
 import {QuestionSettings} from '../node_modules/prendus-services/interfaces/question-settings.interface.ts';
 import {CourseVisibility} from '../interfaces/course-visibility.type.ts';
 
+const starCourse = async (context: any, courseId: string) => {
+    const user = await FirebaseService.getLoggedInUser();
+
+    //await CourseModel.starred(courseId, user.uid);
+    await UserModel.starCourse(user.uid, courseId);
+};
+
 const getQuiz = async (quizId: string) => {
     const quiz = await QuizModel.getById(quizId);
 
@@ -434,5 +441,6 @@ export const Actions = {
     getQuiz,
     getCourseById,
     getConceptById,
-    loadPublicQuestionIds
+    loadPublicQuestionIds,
+    starCourse
 };
