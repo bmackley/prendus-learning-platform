@@ -86,6 +86,10 @@ class QuizEditorComponent {
         await this.loadQuizQuestionIds();
     }
 
+    shareQuizClick() {
+        this.querySelector('#shareQuizDialog').open();
+    }
+
     createQuestion(e) {
         window.history.pushState({}, '', `courses/edit-question/question`);
         this.fire('location-changed', {}, {node: window});
