@@ -11,7 +11,8 @@
 <link rel="import" href="../quiz-editor/quiz-editor.component.html">
 <link rel="import" href="../view-video-router/view-video-router.component.html">
 <link rel="import" href="../view-quiz-router/view-quiz-router.component.html">
-<link rel="import" href="../quiz-router/quiz-router.component.html">
+<link rel="import" href="../edit-quiz-router/edit-quiz-router.component.html">
+<link rel="import" href="../edit-question-router/edit-question-router.component.html">
 
 <dom-module id="course-router">
   <style>
@@ -21,15 +22,17 @@
   </style>
 
   <template>
-    <app-route route="[[route]]" pattern="/:page" data="{{data}}" tail="{{tail}}"></app-route>
+    <app-route route="[[route]]" pattern="/:page" data="{{data}}"></app-route>
 
     <iron-pages selected="[[data.page]]" attr-for-selected="key">
       <course-homepage key="home"></course-homepage>
-      <course-edit key="edit" route="[[tail]]"></course-edit>
-      <course-view key="view-course" route="[[tail]]"></course-view>
-      <prendus-quiz-router key="edit-quiz" route="[[tail]]"></prendus-quiz-router>
-      <prendus-view-video-router key="view-video" route="[[tail]]"></prendus-view-video-router>
-      <prendus-view-quiz-router key="view-quiz" route="[[tail]]"></prendus-view-quiz-router>
+      <course-edit key="edit" route="[[route]]"></course-edit>
+      <course-view key="view" route="[[route]]"></course-view>
+      <prendus-edit-quiz-router key="edit-quiz" route="[[route]]"></prendus-edit-quiz-router>
+      <prendus-edit-question-router key="edit-question" route="[[route]]"></prendus-edit-question-router>
+      <prendus-view-video-router key="view-video" route="[[route]]"></prendus-view-video-router>
+      <prendus-view-quiz-router key="view-quiz" route="[[route]]"></prendus-view-quiz-router>
+      <prendus-view-question-router key="view-question" route="[[route]]"></prendus-view-question-router>
     </iron-pages>
   </template>
 

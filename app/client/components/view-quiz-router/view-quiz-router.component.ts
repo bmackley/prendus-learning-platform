@@ -6,7 +6,6 @@ class ViewQuizRouterComponent {
     public userFullName: string;
     public userEmail: string;
     public jwt: string;
-    public quizSessionId: string;
 
     beforeRegister() {
         this.is = 'prendus-view-quiz-router';
