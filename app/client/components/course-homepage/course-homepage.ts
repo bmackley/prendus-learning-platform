@@ -31,7 +31,7 @@ Polymer({
   viewCourse: function(e){
     //Deprecated as of August 5
     try{
-      let location = `/courses/view/${e.target.id}`
+      let location = `/courses/view-course/${e.target.id}`
       window.history.pushState({}, '', location);
       this.fire('location-changed', {}, {node: window});
 
