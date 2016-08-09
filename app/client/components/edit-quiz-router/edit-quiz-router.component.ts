@@ -1,7 +1,7 @@
 import {FirebaseService} from '../../node_modules/prendus-services/services/firebase.service.ts';
 import {Actions} from '../../redux/actions.ts';
 
-class QuizRouterComponent {
+class EditQuizRouterComponent {
     public is: string;
     public selected: number;
     public jwt: string;
@@ -11,7 +11,7 @@ class QuizRouterComponent {
     public properties: any;
 
     beforeRegister() {
-        this.is = 'prendus-quiz-router';
+        this.is = 'prendus-edit-quiz-router';
     }
 
     async ready() {
@@ -22,38 +22,22 @@ class QuizRouterComponent {
 
     routeToEditQuestion() {
         //TODO this is evil, make sure to remove it once edit problem component can reload itself in response to property changes
-        const editProblemComponent = this.querySelector('#editProblemComponent');
+        const editProblemComponent = document.getElementById('#editProblemComponent');
         editProblemComponent.initialLoad = false;
         editProblemComponent.init();
         //TODO this is evil, make sure to remove it once edit problem component can reload itself in response to property changes
 
-        this.selected = 1;
+        window.history.pushState({}, '', `courses/edit-question/course/${this.courseId}/video/${id}`);
+        this.fire('location-changed', {}, {node: window});
     }
 
     routeToCreateQuestion() {
         //TODO this is evil, make sure to remove it once edit problem component can reload itself in response to property changes
-        const editProblemComponent = this.querySelector('#editProblemComponent');
+        const editProblemComponent = document.getElementById('#editProblemComponent');
         editProblemComponent.originalText = '';
         editProblemComponent.originalCode = '';
         //TODO this is evil, make sure to remove it once edit problem component can reload itself in response to property changes
-
-        this.selected = 1;
-    }
-
-    async questionSaved() {
-        const quizEditorComponent = this.querySelector('#quizEditorComponent');
-        quizEditorComponent.manuallyReloadQuestions();
-    }
-
-    viewQuizEditor() {
-        this.selected = 0;
-    }
-
-    mapStateToThis(e) {
-        const state = e.detail.state;
-
-        this.currentEditQuestionId = state.currentEditQuestionId;
     }
 }
 
-Polymer(QuizRouterComponent);
+Polymer(EditQuizRouterComponent);
