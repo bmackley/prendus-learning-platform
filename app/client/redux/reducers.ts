@@ -3,6 +3,15 @@ import {Actions} from './actions.ts';
 
 export function rootReducer(state = InitialState, action) {
     switch(action.type) {
+        case 'SET_COURSES_BY_VISIBILITY': {
+            const newState = Object.assign({}, state);
+
+            if (action.visibility === 'public') {
+                newState.publicCourses = action.courses;
+            }
+
+            return newState;
+        }
         case 'LOAD_CONCEPT_QUIZZES': {
             const newState = Object.assign({}, state);
             newState.conceptQuizzes[action.conceptId] = action.quizzes;
