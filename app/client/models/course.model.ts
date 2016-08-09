@@ -1,6 +1,7 @@
 import {FirebaseService} from '../node_modules/prendus-services/services/firebase.service.ts';
 import {Course} from '../node_modules/prendus-services/interfaces/course.interface.ts';
 import {Concept} from '../node_modules/prendus-services/interfaces/concept.interface.ts';
+import {CourseVisibility} from '../interfaces/course-visibility.type.ts';
 
 const conceptsPath = 'concepts';
 const dataPath = 'courses'
@@ -64,6 +65,19 @@ const deleteCourse = async (key: string) => {
     let conceptDelete = await FirebaseService.remove(path);
 };
 
+const getAllByVisibility = async (visibility: CourseVisibility) => {
+    const path = `${dataPath}`;
+
+    const coursesObject = await FirebaseService.getAllBy(path, 'visibility', visibility);
+    const coursesArray = Object.keys(coursesObject || {}).map((key) => {
+        return Object.assign({}, coursesObject[key], {
+            courseId: key
+        });
+    });
+
+    return coursesArray;
+};
+
 export const CourseModel = {
     createOrUpdate,
     getById,
@@ -71,5 +85,6 @@ export const CourseModel = {
     deleteCourse,
     createCourseConcept,
     deleteCourseConcept,
-    orderCourseConcepts
+    orderCourseConcepts,
+    getAllByVisibility
 }

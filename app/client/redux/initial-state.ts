@@ -26,5 +26,6 @@ export const InitialState = {
     quizSettings: QuestionSettings,
     currentEditQuizId: '',
     conceptQuizzes: {},
-    currentEditConceptId: ''
+    currentEditConceptId: '',
+    publicCourses: []
 };

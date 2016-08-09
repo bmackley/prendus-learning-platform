@@ -6,6 +6,7 @@ import {VideoModel} from '../node_modules/prendus-services/models/video.model.ts
 import {QuizModel} from '../node_modules/prendus-services/models/quiz.model.ts';
 import {Course} from '../node_modules/prendus-services/interfaces/course.interface.ts';
 import {QuestionSettings} from '../node_modules/prendus-services/interfaces/question-settings.interface.ts';
+import {CourseVisibility} from '../interfaces/course-visibility.type.ts';
 
 const getQuiz = async (quizId: string) => {
     const quiz = await QuizModel.getById(quizId);
@@ -334,6 +335,18 @@ const getCoursesByUser = {
     }
   }
 };
+
+const getCoursesByVisibility = async (context: any, visibility: CourseVisibility) => {
+
+    const courses = await CourseModel.getAllByVisibility(visibility);
+
+    context.action = {
+        type: 'SET_COURSES_BY_VISIBILITY',
+        visibility,
+        courses
+    };
+};
+
 const getCourseById = {
   execute: async (context: any, id: string) => {
     try {
@@ -406,6 +419,7 @@ export const Actions = {
     deleteVideo,
     addCourse,
     getCoursesByUser,
+    getCoursesByVisibility,
     loadUserQuestionIds,
     addQuestionToQuiz,
     loadQuizQuestionIds,
