@@ -5,7 +5,7 @@
     "codemirror": "5.16.0",
     "es-no-build": "0.0.3",
     "jshint": "2.9.2",
-    "prendus-services": "git+ssh://git@github.com/lastmjs/prendus-services.git#jordan",
+    "prendus-services": "git+ssh://git@github.com/lastmjs/prendus-services.git",
     "quill": "^0.20.1",
     "redux": "^3.5.2",
     "video.js": "^5.10.7"
