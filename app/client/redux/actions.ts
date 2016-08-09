@@ -269,6 +269,7 @@ const addConcept = {
   execute: async (context, courseId, newConcept, conceptPos: number) => {
     try {
       const conceptId = await ConceptModel.save(null, newConcept);
+
       const courseUpdate = await CourseModel.createCourseConcept(courseId, conceptId, conceptPos)
       const course = await CourseModel.getById(courseId);
       context.action = {
