@@ -22,11 +22,11 @@
     "iron-pages": "^1.0.8",
     "paper-button": "^1.0.13"
   },
-  "_release": "ed81d58eb4",
+  "_release": "685c70be01",
   "_resolution": {
     "type": "branch",
     "branch": "master",
-    "commit": "ed81d58eb45996c7a3d2a275208740f6c9b07aa6"
+    "commit": "685c70be01b25cca8e03507f13499fd8dafc1898"
   },
   "_source": "git@github.com:lastmjs/view-quiz-component.git",
   "_target": "*",
