@@ -76,13 +76,6 @@ const setQuestionSetting = async (context: any, quizId: string, questionId: stri
     await QuizModel.setQuestionSetting(quizId, questionId, settingName, value);
 };
 
-const setCurrentEditQuestionId = (context: any, questionId: string) => {
-    context.action = {
-        type: 'SET_CURRENT_EDIT_QUESTION_ID',
-        questionId
-    };
-};
-
 const loadQuizQuestionIds = async (context: any, quizId: string) => {
     const quizQuestionIds = await QuizModel.getAllQuestionIds(quizId);
 
@@ -418,7 +411,6 @@ export const Actions = {
     addQuestionToQuiz,
     loadQuizQuestionIds,
     removeQuestionFromQuiz,
-    setCurrentEditQuestionId,
     setQuizSetting,
     setQuestionSetting,
     loadQuizSettings,

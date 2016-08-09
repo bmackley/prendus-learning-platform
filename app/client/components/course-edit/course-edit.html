@@ -22,7 +22,7 @@
   </style>
   <template>
     <redux-store action="[[action]]" on-statechange="mapStateToThis"></redux-store>
-    <app-route route="[[route]]" pattern="/:courseId" data="{{data}}" tail="{{tail}}"></app-route>
+    <app-route route="[[route]]" pattern="/edit/:courseId" data="{{data}}" tail="{{tail}}"></app-route>
     <template is="dom-if" if="[[username]]">
         <course-title title="[[item.title]]" instructor="[[item.instructor]]">
           <h1 id ="courseTitle" contenteditable="true">
