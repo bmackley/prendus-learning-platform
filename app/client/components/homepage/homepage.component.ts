@@ -20,6 +20,12 @@ class HomepageComponent {
         this.fire('location-changed', {}, {node: window});
     }
 
+    async starCourse(e) {
+        const courseId = e.model.item.courseId;
+
+        await Actions.starCourse(this, courseId);
+    }
+
     mapStateToThis(e) {
         const state = e.detail.state;
 
