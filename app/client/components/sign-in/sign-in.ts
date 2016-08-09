@@ -1,15 +1,20 @@
 import {Actions} from '../../redux/actions.ts';
 import {rootReducer} from '../../redux/reducers.ts';
+import {StatechangeEvent} from '../../interfaces/statechange-event.interface.ts';
 
-Polymer({
-  is: "sign-in",
+
+
+export class LoginComponent {
+  public is: string;
+  beforeRegister() {
+    this.is = 'sign-in';
+  }
   listeners: {
     'signin-submit.tap': 'loginTap'
-  },
-  loginTap: async function(e){
+  }
+  loginTap =  async (e) => {
     try{
       await Actions.loginUser.execute(this, this.$.loginEmail.value, this.$.loginPassword.value);
-      //Is setting things to null to clear them out the best practice?
       this.$.loginEmail.value = '';
       this.$.loginPassword.value = '';
       let location = 'createcourse'
@@ -19,23 +24,11 @@ Polymer({
       this.loginFormToastText = error.message;
       this.$.loginToast.open();
     }
-  },
-  mapStateToThis: function(e) {
-
-  },
+  }
   properties: {
-      active: {
-        type: Boolean,
-        value: false,
-        reflectionToAttribute: true
-      },
-      loading: {
-        type: Boolean,
-        value: false,
-        notify: true,
-      }
-  },
-  ready: function(e){
+  }
+  ready(e){
     this.$.loginToast.fitInto = this.$.toastTarget;
   }
-});
+}
+Polymer(LoginComponent);
