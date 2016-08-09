@@ -56,11 +56,8 @@ class TakeQuizComponent {
     }
 
     async init() {
-<<<<<<< HEAD
         //This destroys the init method so that we can perform any mutations to the properties this function is observing, without having this function called multiple times
         this.init = async function() {};
-=======
->>>>>>> develop
         this.endpointDomain = UtilitiesService.getPrendusServerEndpointDomain();
         this.endpointUrl = `${UtilitiesService.getPrendusServerEndpointDomain()}/api/xapi/quiz/sendstatement`;
         this.initXAPIListeners(this.courseId, this.quizId, this.userFullName, this.userEmail, this.endpointUrl);
