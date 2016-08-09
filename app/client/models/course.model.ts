@@ -12,7 +12,6 @@ const createOrUpdate = async (id: string, data: Course): Promise<string> => {
     }
     else {
       const path = dataPath;
-      console.log('dataPath', dataPath)
       return await FirebaseService.push(path, data);
     }
 };
@@ -47,7 +46,6 @@ const getCoursesByUser = async (uid: string) => {
 };
 const orderCourseConcepts = async (id: string, conceptsArray) => {
   try{
-    console.log('concepts array', conceptsArray)
     const path = `${dataPath}/${id}/concepts`;
     await FirebaseService.update(path, conceptsArray)
     // for(let item in conceptsArray){
