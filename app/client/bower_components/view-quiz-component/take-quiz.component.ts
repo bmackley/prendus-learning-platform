@@ -11,6 +11,7 @@ class TakeQuizComponent {
     public quizId: string;
     public jwt: string;
     public quizSessionId: string;
+    public quizSessionIdMutable: string;
     public questions: Question[];
     public endpointDomain: string;
     public $: {
@@ -55,12 +56,10 @@ class TakeQuizComponent {
     }
 
     async init() {
-        //This destroys the init method so that we can perform any mutations to the properties this function is observing, without having this function called multiple times
-        this.init = async function() {};
-
         this.endpointDomain = UtilitiesService.getPrendusServerEndpointDomain();
         this.endpointUrl = `${UtilitiesService.getPrendusServerEndpointDomain()}/api/xapi/quiz/sendstatement`;
         this.initXAPIListeners(this.courseId, this.quizId, this.userFullName, this.userEmail, this.endpointUrl);
+        await Actions.clearQuestions(this);
         await Actions.loadQuizSession(this, this.$.startQuizSessionAjax, this.quizId, this.jwt, this.quizSessionId);
         this.quizStarted();
         await Actions.loadQuestions(this, this.quizId);
@@ -71,7 +70,7 @@ class TakeQuizComponent {
             await this.querySelector(`#${this.questions[i].id}`).checkAnswer();
         }
 
-        await Actions.endQuizSession(this, this.$.endQuizSessionAjax, this.quizSessionId, this.jwt);
+        await Actions.endQuizSession(this, this.$.endQuizSessionAjax, this.quizSessionIdMutable, this.jwt);
     }
 
     initXAPIListeners(courseId: string, quizId: string, userFullName: string, userEmail: string, endpointUrl: string) {
@@ -198,7 +197,7 @@ class TakeQuizComponent {
     mapStateToThis(e: StatechangeEvent) {
         const state = e.detail.state;
 
-        this.quizSessionId = state.quizSessionId;
+        this.quizSessionIdMutable = state.quizSessionId;
         this.questions = state.questions;
     }
 }

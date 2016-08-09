@@ -16,6 +16,13 @@ export const RootReducer = (state: State = InitialState, action) => {
 
             return newState;
         }
+        case 'CLEAR_QUESTIONS': {
+            const newState = Object.assign({}, state);
+
+            newState.questions = [];
+
+            return newState;
+        }
         case 'END_QUIZ_SESSION': {
             const newState = Object.assign({}, state);
 

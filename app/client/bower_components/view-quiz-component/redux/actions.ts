@@ -68,6 +68,12 @@ const endQuizSession = async (context: any, endQuizSessionAjax: any, quizSession
     };
 };
 
+const clearQuestions = (context: ViewQuizComponent) => {
+    context.action = {
+        type: 'CLEAR_QUESTIONS'
+    };
+};
+
 const loadQuestions = async (context: ViewQuizComponent, quizId: string) => {
     try {
         const quiz:Quiz = await FirebaseService.get(`quizzes/${quizId}`);
@@ -92,5 +98,6 @@ const loadQuestions = async (context: ViewQuizComponent, quizId: string) => {
 export const Actions = {
     loadQuizSession,
     loadQuestions,
-    endQuizSession
+    endQuizSession,
+    clearQuestions
 };
