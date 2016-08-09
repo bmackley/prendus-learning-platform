@@ -1,19 +1,30 @@
 import {Actions} from '../../redux/actions.ts';
 import {FirebaseService} from '../../node_modules/prendus-services/services/firebase.service.ts';
+import {StatechangeEvent} from '../../interfaces/statechange-event.interface.ts';
 
-Polymer({
-  is: "profile-element",
-  listeners: {
-  },
-  mapStateToThis: function(e) {
-    this.firstName = e.detail.state.currentUser.firstName;
-    this.lastName = e.detail.state.currentUser.lastName;
-    this.institution = e.detail.state.currentUser.institution;
-    this.pastEmail = e.detail.state.currentUser.email;
-    this.email = e.detail.state.currentUser.email;
-    this.uid = e.detail.state.currentUser.uid;
-  },
-  changeProfile: async function(e) {
+export class ProfileComponent {
+  public is: string;
+  public firstName: string;
+  public lastName: string;
+  public institution: string;
+  public pastEmail: string;
+  public email: string;
+  public uid: string;
+  public updateProfileErrorToastText: string;
+
+  beforeRegister() {
+    this.is = 'profile-element';
+  }
+  mapStateToThis(e: StatechangeEvent) {
+    const state = e.detail.state;
+    this.firstName = state.currentUser.metaData.firstName;
+    this.lastName = state.currentUser.metaData.lastName;
+    this.institution = state.currentUser.metaData.institution;
+    this.pastEmail = state.currentUser.metaData.email;
+    this.email = state.currentUser.metaData.email;
+    this.uid = state.currentUser.metaData.uid;
+  }
+  changeProfile = async (e) => {
     if(this.$.updateEmail.value != this.pastEmail){
       this.$.confirmEmailChange.open();
     }else{
@@ -33,8 +44,8 @@ Polymer({
       }
     }
 
-  },
-  closeOverlay: async function(e){
+  }
+  closeOverlay = async (e) => {
     if(e.detail.confirmed === true){
       try {
         let submitValue = {
@@ -53,12 +64,13 @@ Polymer({
       }
     }
     this.$.changeEmailPassword.value = ''; //need to clear the form
-  },
+  }
   properties: {
-  },
-
-  ready: function(e){
+  }
+  ready(e){
     this.$.updateProfileErrorToast.fitInto = this.$.toastTarget;
     this.$.updateProfileSuccessToast.fitInto = this.$.toastTarget;
   }
-});
+}
+
+Polymer(ProfileComponent);

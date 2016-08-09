@@ -35,7 +35,7 @@
   <template>
     <!-- local DOM for your element -->
     <center>
-      <redux-store on-statechange="mapStateToThis" action="[[action]]"></redux-store>
+      <redux-store action="[[action]]"></redux-store>
       <paper-toast id="signUpToast" verticalAlign="top" text=[[signUpToastText]]></paper-toast>
       <paper-card id = "signupForm" heading ="Create Account">
           <form is="iron-form" method="get" action="/createclass" id="signupFormlocater">

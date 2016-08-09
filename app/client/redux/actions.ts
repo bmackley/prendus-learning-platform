@@ -192,8 +192,10 @@ const loginUser = {
     execute: async (context, email, password) => {
         try {
           const loggedInUser = await FirebaseService.logInUserWithEmailAndPassword(email, password);
-          let userData = await UserModel.getMetaDataById(loggedInUser.uid); //sets ancillary user data such as name, institution, etc.
-          userData.uid = loggedInUser.uid;
+          // let userData = await UserModel.getMetaDataById(loggedInUser.uid); //sets ancillary user data such as name, institution, etc.
+          let userData = await UserModel.getById(loggedInUser.uid); //sets ancillary user data such as name, institution, etc.
+          console.log('userData', userData)
+          userData.metaData.uid = loggedInUser.uid;
           context.action = {
             type: Actions.loginUser.type,
             currentUser : userData,
@@ -234,8 +236,10 @@ const checkUserAuth = {
     try {
       const loggedInUser = await FirebaseService.getLoggedInUser();
       if(loggedInUser){
-        let userData = await UserModel.getMetaDataById(loggedInUser.uid, 'metaData');
-        userData.uid = loggedInUser.uid; //OK because its being created here.
+        // let userData = await UserModel.getMetaDataById(loggedInUser.uid, 'metaData');
+        let userData = await UserModel.getById(loggedInUser.uid);
+        userData.metaData.uid = loggedInUser.uid; //OK because its being created here.
+        console.log('userData', userData)
         context.action = {
           type: Actions.checkUserAuth.type,
           currentUser: userData,
@@ -262,7 +266,6 @@ const addConcept = {
   execute: async (context, courseId, newConcept, conceptPos: number) => {
     try {
       const conceptId = await ConceptModel.save(null, newConcept);
-
       const courseUpdate = await CourseModel.createCourseConcept(courseId, conceptId, conceptPos)
       const course = await CourseModel.getById(courseId);
       context.action = {
