@@ -87,18 +87,27 @@ class QuizEditorComponent {
     }
 
     createQuestion(e) {
-        Actions.setCurrentEditQuestionId(this, null);
-        this.fire('createquestion', {}, {
-            bubbles: false
-        });
+        window.history.pushState({}, '', `courses/edit-question/question`);
+        this.fire('location-changed', {}, {node: window});
+
+        //TODO this is evil, make sure to remove it once edit problem component can reload itself in response to property changes
+        const editProblemComponent = document.getElementById('editProblemComponent');
+        editProblemComponent.originalText = '';
+        editProblemComponent.originalCode = '';
+        //TODO this is evil, make sure to remove it once edit problem component can reload itself in response to property changes
     }
 
     editQuestion(e) {
         const questionId = e.model.item;
-        Actions.setCurrentEditQuestionId(this, questionId);
-        this.fire('editquestion', {}, {
-            bubbles: false
-        });
+
+        window.history.pushState({}, '', `courses/edit-question/question/${questionId}`);
+        this.fire('location-changed', {}, {node: window});
+
+        //TODO this is evil, make sure to remove it once edit problem component can reload itself in response to property changes
+        const editProblemComponent = document.getElementById('editProblemComponent');
+        editProblemComponent.initialLoad = false;
+        editProblemComponent.init();
+        //TODO this is evil, make sure to remove it once edit problem component can reload itself in response to property changes
     }
 
     showEmptyQuizQuestionsText(quizQuestionIds: string[]) {
