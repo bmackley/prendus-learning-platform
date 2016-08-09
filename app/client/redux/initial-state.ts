@@ -23,7 +23,6 @@ export const InitialState = {
     userQuestionIds: [],
     publicQuestionIds: [],
     quizQuestionIds: [],
-    currentEditQuestionId: '',
     quizSettings: QuestionSettings,
     currentEditQuizId: '',
     conceptQuizzes: {},
