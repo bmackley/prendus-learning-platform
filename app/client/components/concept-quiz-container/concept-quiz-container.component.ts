@@ -39,7 +39,7 @@ class ConceptQuizContainerComponent {
     }) {
         const quizId = e.model.item.id;
         //this needs to be changed to take the quiz
-        window.history.pushState({}, '', `courses/view-quiz/course/${this.courseId}/quiz/${quizId}`);
+        window.history.pushState({}, '', `courses/view-quiz/course/${this.courseId}/quiz/${quizId}/quiz-session-id/NOT_LTI_QUIZ_SESSION_ID`);
         this.fire('location-changed', {}, {node: window});
     }
 

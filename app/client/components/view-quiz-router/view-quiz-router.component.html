@@ -4,9 +4,9 @@
 
 <dom-module id="prendus-view-quiz-router">
     <template>
-        <app-route route="[[route]]" pattern="/view-quiz/course/:courseId/quiz/:quizId" data="{{data}}"></app-route>
+        <app-route route="[[route]]" pattern="/view-quiz/course/:courseId/quiz/:quizId/quiz-session-id/:quizSessionId" data="{{data}}"></app-route>
 
-        <prendus-view-quiz jwt="[[jwt]]" course-id="[[data.courseId]]" quiz-id="[[data.quizId]]" user-full-name="[[userFullName]]" user-email="[[userEmail]]" quiz-session-id="NOT_LTI_QUIZ_SESSION_ID"></prendus-view-quiz>
+        <prendus-view-quiz jwt="[[jwt]]" course-id="[[data.courseId]]" quiz-id="[[data.quizId]]" user-full-name="[[userFullName]]" user-email="[[userEmail]]" quiz-session-id="[[data.quizSessionId]]"></prendus-view-quiz>
     </template>
 
     <script>System.import('/components/view-quiz-router/view-quiz-router.component.ts');</script>
