@@ -14,16 +14,16 @@ export class CourseNavbarComponent {
     const state = e.detail.state
     this.username = state.currentUser.metaData.email;
   }
-  changeURL(e){
+  changeURL(e: any){
     let location = e.target.id
     window.history.pushState({}, '', location);
     this.fire('location-changed', {}, {node: window});
   }
-  openDropdown(e){
+  openDropdown(e: any){
     const btn = document.querySelector("iron-dropdown");
     btn.open()
   }
-  logOutUser(e){
+  logOutUser(e: any){
     Actions.logOutUser.execute(this);
   }
   properties: {
@@ -32,7 +32,7 @@ export class CourseNavbarComponent {
       value: ''
     }
   };
-  ready(e){
+  ready(){
     Actions.checkUserAuth.execute(this);
   }
 }
