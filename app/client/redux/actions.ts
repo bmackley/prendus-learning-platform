@@ -189,10 +189,9 @@ const createUser = {
 };
 const loginUser = {
     type: 'LOGIN_USER',
-    execute: async (context, email, password) => {
+    execute: async (context: any, email: string, password: string) => {
         try {
           const loggedInUser = await FirebaseService.logInUserWithEmailAndPassword(email, password);
-          // let userData = await UserModel.getMetaDataById(loggedInUser.uid); //sets ancillary user data such as name, institution, etc.
           let userData = await UserModel.getById(loggedInUser.uid); //sets ancillary user data such as name, institution, etc.
           console.log('userData', userData)
           userData.metaData.uid = loggedInUser.uid;
@@ -218,7 +217,7 @@ const updateUserEmail = {
 };
 const updateUserMetaData = {
   type: 'UPDATE_USER_META_DATA',
-  execute: async (context, uid, metaData) => {
+  execute: async (context, uid: string, metaData) => {
     await UserModel.updateMetaData(uid, metaData);
     try{
       context.action = {
@@ -232,14 +231,12 @@ const updateUserMetaData = {
 };
 const checkUserAuth = {
   type: 'CHECK_USER_AUTH',
-  execute: async (context) => {
+  execute: async (context: any) => {
     try {
       const loggedInUser = await FirebaseService.getLoggedInUser();
       if(loggedInUser){
-        // let userData = await UserModel.getMetaDataById(loggedInUser.uid, 'metaData');
         let userData = await UserModel.getById(loggedInUser.uid);
         userData.metaData.uid = loggedInUser.uid; //OK because its being created here.
-        console.log('userData', userData)
         context.action = {
           type: Actions.checkUserAuth.type,
           currentUser: userData,
