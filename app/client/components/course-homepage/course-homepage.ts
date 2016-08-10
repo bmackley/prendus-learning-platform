@@ -12,12 +12,12 @@ export class CourseHomepageComponent {
   beforeRegister() {
     this.is = 'course-homepage';
   }
-  editCourse(e){
+  editCourse(e: any){
     let location = `/courses/edit/${e.target.id}`
     window.history.pushState({}, '', location);
     this.fire('location-changed', {}, {node: window});
   }
-  viewCourse(e){
+  viewCourse(e: any){
     try{
       let location = `/courses/view/${e.target.id}`
       window.history.pushState({}, '', location);
@@ -27,7 +27,7 @@ export class CourseHomepageComponent {
     }
   }
   addCourse(e){
-    addCourseDialog.open();
+    this.querySelector('#addCourseDialog'.open());
   }
   addCourseFormDone(e){
     e.preventDefault();

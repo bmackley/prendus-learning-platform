@@ -5,7 +5,7 @@ Polymer({
   is: "app-element",
   properties: {
     },
-  ready: function(e){
+  ready: function(){
     this.rootReducer = rootReducer;
   }
 });

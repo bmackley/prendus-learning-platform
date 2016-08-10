@@ -2,17 +2,16 @@ import {Actions} from '../../redux/actions.ts';
 import {rootReducer} from '../../redux/reducers.ts';
 import {StatechangeEvent} from '../../interfaces/statechange-event.interface.ts';
 
-
-
 export class LoginComponent {
   public is: string;
+  public loginFormToastText: string;
   beforeRegister() {
     this.is = 'sign-in';
   }
   listeners: {
     'signin-submit.tap': 'loginTap'
   }
-  loginTap =  async (e) => {
+  loginTap =  async (e: any) => {
     try{
       await Actions.loginUser.execute(this, this.$.loginEmail.value, this.$.loginPassword.value);
       this.$.loginEmail.value = '';
@@ -27,7 +26,7 @@ export class LoginComponent {
   }
   properties: {
   }
-  ready(e){
+  ready(){
     this.$.loginToast.fitInto = this.$.toastTarget;
   }
 }
