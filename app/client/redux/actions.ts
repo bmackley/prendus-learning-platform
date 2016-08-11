@@ -193,7 +193,6 @@ const loginUser = {
         try {
           const loggedInUser = await FirebaseService.logInUserWithEmailAndPassword(email, password);
           let userData = await UserModel.getById(loggedInUser.uid); //sets ancillary user data such as name, institution, etc.
-          console.log('userData', userData)
           userData.metaData.uid = loggedInUser.uid;
           context.action = {
             type: Actions.loginUser.type,
@@ -339,9 +338,13 @@ const getCourseById = {
   execute: async (context: any, id: string) => {
     try {
       const course = await CourseModel.getById(id);
+      const conceptsArray = await CourseModel.courseConceptsToArray(course);
+      const orderedCourse = CourseModel.orderCourseConcepts(course, conceptsArray);
+      console.log('course', course)
+      console.log('ordered Course', orderedCourse)
       context.action = {
           type: 'GET_COURSE_BY_ID',
-          currentCourse: course,
+          currentCourse: orderedCourse,
           //currentCourseConcepts: courseConcepts,
       }
     }catch(error){
@@ -351,14 +354,20 @@ const getCourseById = {
 };
 const deleteConcept = {
   type: 'DELETE_CONCEPT',
-  execute: async (context, key, conceptsArray) => {
+  execute: async (context: any, id: string, conceptId: string) => {
       try {
-        await ConceptModel.deleteConcept(key);
+        //await ConceptModel.deleteConcept(key);
         //figure out how to do this.
-        await ConceptModel.deleteCourseConcept(courseId, key);
+        console.log('in the delete concept')
+        console.log('course id', id)
+        console.log('concept id', conceptId)
+        await CourseModel.deleteCourseConcept(id, conceptId);
+        const course = await CourseModel.getById(id);
+        console.log('this is the course', course)
         context.action = {
-            type: Actions.deleteConcept.type,
-            conceptKey: key,
+            type: 'GET_COURSE_BY_ID',
+            currentCourse: course,
+            //currentCourseConcepts: courseConcepts,
         }
       }catch(error){
         throw error;
@@ -368,12 +377,12 @@ const deleteConcept = {
 const orderConcepts = {
   type: 'ORDER_CONCEPTS',
   execute: async (context: any, id: string, courseConceptsArray) => {
-      //thre use cases: Reorder concepts, delete a concept
-      try{
-        await CourseModel.orderCourseConcepts(id, courseConceptsArray);
-      }catch(error){
-        throw error;
-      }
+    try{
+      console.log('Order Concepts')
+      await CourseModel.updateCourseConcepts(id, courseConceptsArray);
+    }catch(error){
+      throw error;
+    }
   }
 };
 const logOutUser = {
