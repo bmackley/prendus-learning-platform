@@ -1,6 +1,6 @@
 {
   "name": "prendus-learning-platform",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "The tool to create and upload videos and quizzes",
   "scripts": {
     "single-page-server": "single-page-server -b=app/client -f=index.html",
