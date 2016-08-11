@@ -90,7 +90,6 @@ import {UtilitiesService} from '../../../../node_modules/prendus-services/servic
 
         async ready(): Promise<void> {
             this.$.toast.fitInto = this;
-            this.endpointDomain = UtilitiesService.getPrendusServerEndpointDomain();
         }
 
         async checkAnswer(): Promise<void> {
@@ -118,6 +117,10 @@ import {UtilitiesService} from '../../../../node_modules/prendus-services/servic
         }
 
         async loadNextProblem(): Promise<void> {
+            if (!this.endpointDomain) {
+                this.endpointDomain = UtilitiesService.getPrendusServerEndpointDomain();
+            }
+
             if (this.questionId && this.quizSessionId && this.jwt) {
                 const answerInput = this.$$('#answerInput');
                 clearAnswerInput(answerInput);

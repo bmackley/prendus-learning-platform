@@ -1,6 +1,6 @@
 {
   "name": "solutia-maxima-components",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Front-end Solutia Maxima web components",
   "ignore": [
     "**/.*",
@@ -29,14 +29,13 @@
     "paper-item": "PolymerElements/paper-item#^1.2.1"
   },
   "homepage": "https://github.com/lastmjs/solutia-maxima-components",
-  "_release": "0.0.3",
+  "_release": "0.0.4",
   "_resolution": {
     "type": "version",
-    "tag": "v0.0.3",
-    "commit": "ab927117a66b26052a8307684a7ae0f129e072d5"
+    "tag": "v0.0.4",
+    "commit": "fbdf8fbd07e856f05639fd3d44a744c474d18890"
   },
   "_source": "git@github.com:lastmjs/solutia-maxima-components.git",
-  "_target": "^0.0.3",
-  "_originalSource": "git@github.com:lastmjs/solutia-maxima-components.git",
-  "_direct": true
+  "_target": "^0.0.4",
+  "_originalSource": "git@github.com:lastmjs/solutia-maxima-components.git"
 }

@@ -1,6 +1,6 @@
 {
   "name": "view-quiz-component",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "",
   "main": "index.js",
   "authors": [
@@ -20,17 +20,16 @@
     "iron-ajax": "^1.4.0",
     "iron-pages": "^1.0.8",
     "paper-button": "^1.0.13",
-    "solutia-maxima-components": "git@github.com:lastmjs/solutia-maxima-components.git#^0.0.3",
+    "solutia-maxima-components": "git@github.com:lastmjs/solutia-maxima-components.git#^0.0.4",
     "redux-store-element": "^0.2.3"
   },
-  "_release": "0.0.2",
+  "_release": "0.0.3",
   "_resolution": {
     "type": "version",
-    "tag": "v0.0.2",
-    "commit": "924b5445a7e4a3b37fcc9d38fc8a679fe94d824f"
+    "tag": "v0.0.3",
+    "commit": "580c4c6770d0529ee1bec182a258761364241772"
   },
   "_source": "git@github.com:lastmjs/view-quiz-component.git",
-  "_target": "^0.0.2",
-  "_originalSource": "git@github.com:lastmjs/view-quiz-component.git",
-  "_direct": true
+  "_target": "^0.0.3",
+  "_originalSource": "git@github.com:lastmjs/view-quiz-component.git"
 }
