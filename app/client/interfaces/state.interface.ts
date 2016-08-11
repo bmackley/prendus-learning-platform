@@ -1,6 +1,7 @@
 import {Video} from '../node_modules/prendus-services/interfaces/video.interface.ts';
 import {Quiz} from '../node_modules/prendus-services/interfaces/quiz.interface.ts';
 import {User} from '../node_modules/prendus-services/interfaces/user.interface.ts';
+import {Course} from '../node_modules/prendus-services/interfaces/course.interface.ts';
 
 export interface State {
     conceptVideos: {
@@ -13,4 +14,5 @@ export interface State {
     currentConceptVideoTitle: string,
     currentConceptVideoUrl: string
     currentUser: User;
+    courses: Course;
 }

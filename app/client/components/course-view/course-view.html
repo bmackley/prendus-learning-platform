@@ -29,16 +29,23 @@
     <redux-store on-statechange="mapStateToThis"></redux-store>
     <app-route route="[[route]]" pattern="/view/:courseId" data="{{data}}"></app-route>
     <template is="dom-if" if="[[username]]">
-      <template id="title" is="dom-repeat" items="[[courses]]">
+      <p>CourseId [[data.courseId]] </p>
+      <p Course title [[currentCourse.title]]</p>
+      <template id="conceptsList" is="dom-repeat" items=[[courseConcepts]]>
+        <p>CourseId [[data.courseId]] </p>
+        <concept-container concept-id="[[item.id]]" course-id="[[data.courseId]]"></concept-container>
+      </template>
+      <!-- <template id="title" is="dom-repeat" items="[[courses]]">
         <course-title title="[[item.title]]" instructor="[[item.instructor]]">
           <h1 id ="courseTitle" contenteditable="true">
             [[item.title]]
           </h1>
             <template id="conceptsList" is="dom-repeat" items=[[courseConcepts]]>
+              <p>CourseId [[data.courseId]] </p>
               <concept-container concept-id="[[item.id]]" course-id="[[data.courseId]]"></concept-container>
             </template>
         </course-title>
-      </template>
+      </template> -->
     </template>
     <template is="dom-if" if="[[!username]]">
       <p> You are not signed in.  Please sign in to access this page </p>
