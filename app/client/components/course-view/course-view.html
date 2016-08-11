@@ -1,17 +1,8 @@
 <link href="../../bower_components/polymer/polymer.html" rel="import">
-<link href="../../bower_components/iron-icons/editor-icons.html" rel="import">
 <link href="../../bower_components/iron-collapse/iron-collapse.html" rel="import">
-<link href="../../bower_components/iron-flex-layout/iron-flex-layout.html" rel="import">
-<link href="../../bower_components/iron-flex-layout/iron-flex-layout-classes.html" rel="import">
-<link href="../../bower_components/paper-dialog/paper-dialog.html" rel="import">
-<link href="../../bower_components/paper-dialog-behavior/paper-dialog-behavior.html" rel="import">
-<link href="../../bower_components/paper-dialog-behavior/paper-dialog-shared-styles.html" rel="import">
-<link href="../../bower_components/paper-item/paper-icon-item.html" rel="import">
 <link href="../../bower_components/paper-header-panel/paper-header-panel.html" rel="import">
 <link href="../../bower_components/paper-spinner/paper-spinner.html" rel="import">
-<link href="../../bower_components/paper-date-picker/paper-date-picker.html" rel="import">
-<link href="../../bower_components/redux-store-element/redux-store.html" rel="import">
-<link href="../../bower_components/paper-input/paper-input.html" rel="import">
+<!-- <link href="../../bower_components/redux-store-element/redux-store.html" rel="import"> -->
 <link href="../../bower_components/Sortable/Sortable.html" rel="import">
 <link href="../concept-video-container/concept-video-container.component.html" rel="import">
 <link href="../concept-container/concept-container.html" rel="import">
@@ -22,30 +13,16 @@
     :host {
       display: block;
     }
-    /* CSS rules for your element */
   </style>
   <template>
     <redux-store action="[[action]]"></redux-store>
     <redux-store on-statechange="mapStateToThis"></redux-store>
     <app-route route="[[route]]" pattern="/view/:courseId" data="{{data}}"></app-route>
     <template is="dom-if" if="[[username]]">
-      <p>CourseId [[data.courseId]] </p>
-      <p Course title [[currentCourse.title]]</p>
+      <center><h1> [[currentCourse.title]]</h1></center>
       <template id="conceptsList" is="dom-repeat" items=[[courseConcepts]]>
-        <p>CourseId [[data.courseId]] </p>
         <concept-container concept-id="[[item.id]]" course-id="[[data.courseId]]"></concept-container>
       </template>
-      <!-- <template id="title" is="dom-repeat" items="[[courses]]">
-        <course-title title="[[item.title]]" instructor="[[item.instructor]]">
-          <h1 id ="courseTitle" contenteditable="true">
-            [[item.title]]
-          </h1>
-            <template id="conceptsList" is="dom-repeat" items=[[courseConcepts]]>
-              <p>CourseId [[data.courseId]] </p>
-              <concept-container concept-id="[[item.id]]" course-id="[[data.courseId]]"></concept-container>
-            </template>
-        </course-title>
-      </template> -->
     </template>
     <template is="dom-if" if="[[!username]]">
       <p> You are not signed in.  Please sign in to access this page </p>
