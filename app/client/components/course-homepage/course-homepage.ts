@@ -1,5 +1,6 @@
 import {Actions} from '../../redux/actions.ts';
 import {Course} from '../../node_modules/prendus-services/interfaces/course.interface.ts';
+import {StatechangeEvent} from '../../interfaces/statechange-event.interface.ts';
 
 export class CourseHomepageComponent {
   public is: string;
@@ -27,18 +28,19 @@ export class CourseHomepageComponent {
     }
   }
   addCourse(e){
-    this.querySelector('#addCourseDialog'.open());
+    addCourseDialog.open();
   }
   addCourseFormDone(e){
     e.preventDefault();
+    console.log('number one ', this.querySelector('#courseFormName').value)
     if(this.querySelector('#courseFormName').value){
-
       this.querySelector('#addCourseDialog').close();
       this.formTitle = this.querySelector('#courseFormName').value
+      console.log('formTitle', this.formTitle)
       let newCourse = {
         private: false,
         title: this.formTitle,
-        creator: this.uid,
+        uid: this.uid,
       }
       Actions.addCourse.execute(this, newCourse);
     }
@@ -51,8 +53,8 @@ export class CourseHomepageComponent {
         this.push('courses', state.courses[key])
       }
     }
-    this.username = state.currentUser.email;
-    this.uid = state.currentUser.uid;
+    this.username = state.currentUser.metaData.email;
+    this.uid = state.currentUser.metaData.uid;
   }
   ready() {
     Actions.getCoursesByUser.execute(this)

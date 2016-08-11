@@ -22,7 +22,7 @@
   </style>
 
   <template>
-    <app-route route="[[route]]" pattern="/:page" data="{{data}}"></app-route>
+    <app-route route="[[route]]" pattern="/:page" data="{{data}}" tail="{{tail}}"></app-route>
 
     <iron-pages selected="[[data.page]]" attr-for-selected="key">
       <course-homepage key="home"></course-homepage>

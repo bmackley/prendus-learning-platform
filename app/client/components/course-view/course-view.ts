@@ -9,12 +9,13 @@ listeners: {
 // //mapStateToThis works with event changes.  If it changes somewhere else in the app, it will update here.
 mapStateToThis: function(e) {
   const state = e.detail.state;
+    console.log('state', state)
     this.courseConcepts = [];
     this.courseId = e.detail.state.currentCourse.id;
     this.startDate = e.detail.state.currentCourse.startDate;
     this.endDate = e.detail.state.currentCourse.endDate;
-    this.username = e.detail.state.currentUser.email;
-    this.uid = e.detail.state.currentUser.uid;
+    this.username = e.detail.state.currentUser.metaData.email;
+    this.uid = e.detail.state.currentUser.metaData.uid;
     if(e.detail.state.courseConcepts){
       for(let key in e.detail.state.courseConcepts){
         this.push('courseConcepts', state.courseConcepts[key])
@@ -66,13 +67,14 @@ properties: {
     },
   },
   viewCourse: function() {
+    console.log('view Course')
     if(this.data.courseId){
+      console.log('course Data')
+      console.log('route', this.route)
+      console.log('data', this.data)
       Actions.getCourseById.execute(this, this.data.courseId)
     }
   },
-ready: function(e){
-  // FirebaseService.init("AIzaSyANTSoOA6LZZDxM7vqIlAl37B7IqWL-6MY", "prendus.firebaseapp.com", "https://prendus.firebaseio.com", "prendus.appspot.com", "Prendus");
-  //Doesn't work yet Actions.getCourse.execute(this)
-  //Actions.getConcepts.execute(this);
+ready: function(){
 }
 });
