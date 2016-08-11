@@ -343,6 +343,20 @@ const getCoursesByUser = {
   }
 };
 
+const getStarredCoursesByUser = async (context: any, uid: string) => {
+    try {
+        const courses = await UserModel.getStarredCoursesByUser(uid);
+
+        context.action = {
+            type: 'SET_STARRED_COURSES',
+            courses
+        };
+    }
+    catch(error) {
+        throw error;
+    }
+};
+
 const getCoursesByVisibility = async (context: any, visibility: CourseVisibility) => {
 
     const courses = await CourseModel.getAllByVisibility(visibility);
