@@ -52,6 +52,7 @@ import {UtilitiesService} from '../../../../node_modules/prendus-services/servic
         public observers: string[];
         public fire: any;
         public showCheckAnswer: boolean;
+        public endpointDomain: string;
 
         beforeRegister(): void {
             this.is = 'solutia-maxima-view-problem';
@@ -89,6 +90,7 @@ import {UtilitiesService} from '../../../../node_modules/prendus-services/servic
 
         async ready(): Promise<void> {
             this.$.toast.fitInto = this;
+            this.endpointDomain = UtilitiesService.getPrendusServerEndpointDomain();
         }
 
         async checkAnswer(): Promise<void> {
