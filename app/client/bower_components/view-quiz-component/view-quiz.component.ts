@@ -31,7 +31,7 @@ class ViewQuizComponent {
                 type: String
             },
             courseId: {
-                type: String,
+                type: String
             }
         };
     }
