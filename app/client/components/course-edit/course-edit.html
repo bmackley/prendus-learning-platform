@@ -30,7 +30,7 @@
     <template is="dom-if" if="[[username]]">
         <course-title title="[[item.title]]" instructor="[[item.instructor]]">
           <h1 id ="courseTitle" contenteditable="true">
-            [[title]]
+            [[currentCourse.title]]
           </h1>
           <!--Come back to this. Don't need it for the alpha launch -->
           <!-- <paper-dialog id="selectStartDate" class="paper-date-picker-dialog" modal on-iron-overlay-closed="dismissStartDatepicker">
