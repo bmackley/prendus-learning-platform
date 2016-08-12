@@ -27,5 +27,6 @@ export const InitialState = {
     currentEditQuizId: '',
     conceptQuizzes: {},
     currentEditConceptId: '',
-    publicCourses: []
+    publicCourses: [],
+    starredCourses: []
 };

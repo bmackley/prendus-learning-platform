@@ -1,16 +1,20 @@
 import {Actions} from '../../redux/actions.ts';
+import {FirebaseService} from '../../node_modules/prendus-services/services/firebase.service.ts';
 
 Polymer({
   is: "course-homepage",
   listeners: {
   },
   mapStateToThis: function(e) {
-    this.courses = []
+
+    this.userCourses = [];
     if(e.detail.state.courses){
       for(let key in e.detail.state.courses){
-        this.push('courses', e.detail.state.courses[key])
+        this.push('userCourses', e.detail.state.courses[key])
       }
     }
+
+    this.starredCourses = e.detail.state.starredCourses;
     this.username = e.detail.state.currentUser.email;
     this.uid = e.detail.state.currentUser.uid;
   },
@@ -60,7 +64,10 @@ Polymer({
   },
   properties: {
   },
-  ready: function(e){
-    Actions.getCoursesByUser.execute(this)
+  ready: async function(e) {
+      const user = await FirebaseService.getLoggedInUser();
+
+    Actions.getCoursesByUser.execute(this);
+    Actions.getStarredCoursesByUser(this, user.uid);
   }
 });

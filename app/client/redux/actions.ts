@@ -6,7 +6,7 @@ import {VideoModel} from '../node_modules/prendus-services/models/video.model.ts
 import {QuizModel} from '../node_modules/prendus-services/models/quiz.model.ts';
 import {Course} from '../node_modules/prendus-services/interfaces/course.interface.ts';
 import {QuestionSettings} from '../node_modules/prendus-services/interfaces/question-settings.interface.ts';
-import {CourseVisibility} from '../interfaces/course-visibility.type.ts';
+import {CourseVisibility} from '../node_modules/prendus-services/interfaces/course-visibility.type.ts';
 
 const starCourse = async (context: any, courseId: string) => {
     const user = await FirebaseService.getLoggedInUser();
@@ -345,7 +345,8 @@ const getCoursesByUser = {
 
 const getStarredCoursesByUser = async (context: any, uid: string) => {
     try {
-        const courses = await UserModel.getStarredCoursesByUser(uid);
+        const courseIds = await UserModel.getStarredCoursesIds(uid);
+        const courses = await CourseModel.resolveIds(courseIds);
 
         context.action = {
             type: 'SET_STARRED_COURSES',
@@ -456,5 +457,6 @@ export const Actions = {
     getCourseById,
     getConceptById,
     loadPublicQuestionIds,
-    starCourse
+    starCourse,
+    getStarredCoursesByUser
 };
