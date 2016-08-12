@@ -78,6 +78,23 @@ const getAllByVisibility = async (visibility: CourseVisibility) => {
     return coursesArray;
 };
 
+const resolveIds = async (ids: string[]): Promise<Course[]> => {
+    const courses = await asyncReduce(ids, []);
+    return courses;
+
+    async function asyncReduce(courseIds: string[], courses: Course[]): Promise<Course[]> {
+
+        if (courseIds.length === 0) {
+            return courses;
+        }
+
+        const courseId = courseIds[0];
+        const course = await getById(courseId);
+
+        return asyncReduce(courseIds.slice(1), [...courses, course]);
+    }
+};
+
 export const CourseModel = {
     createOrUpdate,
     getById,
@@ -86,5 +103,6 @@ export const CourseModel = {
     createCourseConcept,
     deleteCourseConcept,
     orderCourseConcepts,
-    getAllByVisibility
+    getAllByVisibility,
+    resolveIds
 }
