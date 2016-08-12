@@ -27,7 +27,7 @@ export class SignupComponent {
         this.$.lastName.value = '';
         this.$.institution.value= '';
         //This will change as we update the site.
-        let location = 'createcourse';
+        let location = 'courses/';
         window.history.pushState({}, '', location);
         this.fire('location-changed', {}, {node: window});
     }
