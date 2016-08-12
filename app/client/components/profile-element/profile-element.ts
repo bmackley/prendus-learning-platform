@@ -10,6 +10,7 @@ export class ProfileComponent {
   public pastEmail: string;
   public email: string;
   public uid: string;
+  public updateProfileSuccessToastText: string;
   public updateProfileErrorToastText: string;
 
   beforeRegister() {
