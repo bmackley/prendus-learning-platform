@@ -1,7 +1,9 @@
 import {InitialState} from './initial-state.ts';
 import {Actions} from './actions.ts';
+import {State} from '../interfaces/state.interface.ts';
+import {Action} from '../interfaces/action.interface.ts';
 
-export function rootReducer(state = InitialState, action) {
+export function rootReducer(state: State = InitialState, action: Action): State {
     switch(action.type) {
         case 'LOAD_CONCEPT_QUIZZES': {
             const newState = Object.assign({}, state);
@@ -48,25 +50,6 @@ export function rootReducer(state = InitialState, action) {
         newState.currentUser = action.currentUser;
         return newState;
       }
-      // case Actions.addConcept.type: {
-      //   const newState = Object.assign({}, state);
-      //   newState.concepts[action.key] = action;
-      //   newState.courseConcepts = [...newState.courseConcepts, action.key];
-      //   // newState.newConcept = newState.concepts[action.key];
-      //   return newState;
-      // }
-      case Actions.setConcepts.type: {
-        const newState = Object.assign({}, state);
-        newState.concepts = {
-          title: action.title,
-        };
-        return newState;
-      }
-      // case Actions.getConcepts.type: {
-      //   const newState = Object.assign({}, state);
-      //   newState.currentConcept = action.concept;
-      //   return newState;
-      // }
       case 'GET_CONCEPT_BY_ID': {
         console.log('reducers get concept by id')
         const newState = Object.assign({}, state);

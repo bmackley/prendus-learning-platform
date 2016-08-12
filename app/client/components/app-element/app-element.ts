@@ -1,11 +1,15 @@
+/// <reference path="../../node_modules/prendus-services/typings/polymer/polymer.d.ts" />
+/// <reference path="../../node_modules/prendus-services/typings/custom.d.ts" />
+
 import {rootReducer} from '../../redux/reducers.ts';
 import {State} from '../../interfaces/state.interface.ts';
 import {Action} from '../../interfaces/action.interface.ts';
 
+
 export class AppComponent {
   public is: string;
   public username: string;
-  public rootReducer: any; //Don't really know how to handle this one here. 
+  public rootReducer: (state: State, action: Action) => State; //Don't really know how to handle this one here.
 
   beforeRegister() {
     this.is = 'app-element';
