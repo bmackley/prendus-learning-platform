@@ -3,7 +3,7 @@ import {Actions} from '../../redux/actions.ts';
 import {StatechangeEvent} from '../../interfaces/statechange-event.interface.ts';
 import {FirebaseService} from '../../node_modules/prendus-services/services/firebase.service.ts';
 
-export class ConceptComponent {
+class ConceptComponent {
   public is: string;
   public title: string;
   public properties: any;

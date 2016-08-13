@@ -5,7 +5,10 @@ import {UserModel} from '../node_modules/prendus-services/models/user.model.ts';
 import {VideoModel} from '../node_modules/prendus-services/models/video.model.ts';
 import {QuizModel} from '../node_modules/prendus-services/models/quiz.model.ts';
 import {Course} from '../node_modules/prendus-services/interfaces/course.interface.ts';
+import {Concept} from '../node_modules/prendus-services/interfaces/concept.interface.ts';
 import {QuestionSettings} from '../node_modules/prendus-services/interfaces/question-settings.interface.ts';
+import {UserMetaData} from '../node_modules/prendus-services/interfaces/user-meta-data.interface.ts'
+import {User} from '../node_modules/prendus-services/interfaces/user.interface.ts'
 
 const getQuiz = async (quizId: string) => {
     const quiz = await QuizModel.getById(quizId);
@@ -172,7 +175,7 @@ const loadConceptVideos = async (context, conceptId: string) => {
 
 const createUser = {
   type: 'CREATE_USER',
-  execute: async (context, data, password) => {
+  execute: async (context, data: UserMetaData, password: string) => {
     try {
       const success = await FirebaseService.createUserWithEmailAndPassword(data.email, password);
       const loggedInUser = await FirebaseService.logInUserWithEmailAndPassword(data.email, password);
@@ -205,7 +208,7 @@ const loginUser = {
 };
 const updateUserEmail = {
   type: 'UPDATE_USER_PROFILE',
-  execute: async (context, pastEmail, password, newEmail) => {
+  execute: async (context, pastEmail: string, password: string, newEmail: string) => {
     try{
       const loggedInUser = await FirebaseService.logInUserWithEmailAndPassword(pastEmail, password);
       await UserModel.updateFirebaseUser(loggedInUser, newEmail);
@@ -216,9 +219,9 @@ const updateUserEmail = {
 };
 const updateUserMetaData = {
   type: 'UPDATE_USER_META_DATA',
-  execute: async (context, uid: string, metaData) => {
-    await UserModel.updateMetaData(uid, metaData);
+  execute: async (context, uid: string, metaData: UserMetaData) => {
     try{
+      await UserModel.updateMetaData(uid, metaData);
       context.action = {
         type: Actions.updateUserMetaData.type,
         user: metaData,
@@ -246,20 +249,20 @@ const checkUserAuth = {
     }
   }
 };
-const setConcepts = {
-    type: 'SET_CONCEPTS',
-    execute: async (context, newConcept) => {
-      try {
-        const conceptSuccess = await ConceptModel.save(null, newConcept);
-        context.action = newConcept;
-      }catch(error){
-        throw error;
-      }
-    }
-};
+// const setConcepts = {
+//     type: 'SET_CONCEPTS',
+//     execute: async (context, newConcept) => {
+//       try {
+//         const conceptSuccess = await ConceptModel.save(null, newConcept);
+//         context.action = newConcept;
+//       }catch(error){
+//         throw error;
+//       }
+//     }
+// }; //Pretty sure this is deprecated.
 const addConcept = {
   type: 'ADD_CONCEPT',
-  execute: async (context, courseId, newConcept, conceptPos: number) => {
+  execute: async (context, courseId: string, newConcept: Concept, conceptPos: number) => {
     try {
       const conceptId = await ConceptModel.save(null, newConcept);
       const courseUpdate = await CourseModel.createCourseConcept(courseId, conceptId, conceptPos)
@@ -273,20 +276,7 @@ const addConcept = {
     }
   }
 };
-const getConcepts = {
-  type: 'GET_CONCEPTS',
-  execute: async (context) => {
-    // try {
-    //   const modelConcepts = await ConceptModel.getConcepts();
-    //   context.action = {
-    //       type: Actions.getConcepts.type,
-    //       concepts: modelConcepts,
-    //   }
-    // }catch(error){
-    //   throw error;
-    // }
-  }
-};
+
 const getConceptById = {
   type: 'GET_CONCEPT_BY_ID',
   execute: async (context: any, id: string) => {
@@ -376,7 +366,7 @@ const deleteConcept = {
 };
 const orderConcepts = {
   type: 'ORDER_CONCEPTS',
-  execute: async (context: any, id: string, courseConceptsArray) => {
+  execute: async (context: any, id: string, courseConceptsArray: Concept[]) => {
     try{
       console.log('Order Concepts')
       await CourseModel.updateCourseConcepts(id, courseConceptsArray);
@@ -400,8 +390,6 @@ const logOutUser = {
 export const Actions = {
     loginUser,
     checkUserAuth,
-    setConcepts,
-    getConcepts,
     deleteConcept,
     orderConcepts,
     addConcept,

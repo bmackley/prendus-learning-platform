@@ -17,7 +17,6 @@
     "iron-ajax": "PolymerElements/iron-ajax#^1.2.0",
     "iron-elements": "PolymerElements/iron-elements#^1.0.10",
     "paper-elements": "PolymerElements/paper-elements#^1.0.7",
-    "carbon-route": "PolymerElements/carbon-route#^0.8.5",
     "app-route": "PolymerElements/app-route#^0.9.1",
     "paper-date-picker": "polymer-paper-date-picker#^1.1.4",
     "solutia-maxima-components": "git@github.com:lastmjs/solutia-maxima-components.git#jordan",

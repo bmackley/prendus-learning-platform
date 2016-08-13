@@ -1,6 +1,6 @@
 import {Actions} from '../../redux/actions.ts';
 
-export class ExampleComponent {
+class ExampleComponent {
   public is: string;
   public username: string;
 

@@ -1,8 +1,14 @@
 import {Actions} from '../../redux/actions.ts';
+import {UserMetaData} from '../../node_modules/prendus-services/interfaces/user-meta-data.interface.ts'
+import {User} from '../../node_modules/prendus-services/interfaces/user.interface.ts'
 
-export class SignupComponent {
+class SignupComponent {
   public is: string;
   public signUpToastText: string;
+  public email: string;
+  public firstName: string;
+  public lastName: string;
+  public institution: string;
 
   beforeRegister() {
     this.is = 'sign-up';
@@ -11,15 +17,18 @@ export class SignupComponent {
     'signup-submit.tap': 'specialTap'
   }
   specialTap =  async (e: any) =>{
-    const userData = {
-      //get this to go through the actions.
-      email: this.$.formEmail.value,
-      firstName: this.$.firstName.value,
-      lastName: this.$.lastName.value,
-      institution: this.$.institution.value,
+    this.email = this.$.formEmail.value;
+    this.firstName = this.$.firstName.value;
+    this.lastName = this.$.lastName.value;
+    this.institution = this.$.institution.value;
+    const userMetaData = {
+      email: this.email,
+      firstName: this.firstName,
+      lastName: this.lastName,
+      institution: this.institution,
     }
     try {
-        await Actions.createUser.execute(this, userData, this.$.formPassword.value);
+        await Actions.createUser.execute(this, userMetaData, this.$.formPassword.value);
         this.$.formEmail.value = '';
         this.$.formPassword.value = '';
         this.$.retypePassword.value = ''

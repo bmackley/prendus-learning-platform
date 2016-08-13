@@ -25,11 +25,11 @@ export class ProfileComponent {
     this.email = state.currentUser.metaData.email;
     this.uid = state.currentUser.metaData.uid;
   }
-  changeProfile = async (e) => {
+  async changeProfile(e) {
     if(this.$.updateEmail.value != this.pastEmail){
       this.$.confirmEmailChange.open();
     }else{
-      let submitValue = {
+      const submitValue = {
         firstName: this.$.firstName.value,
         lastName: this.$.lastName.value,
         institution: this.$.institution.value,
@@ -46,10 +46,10 @@ export class ProfileComponent {
     }
 
   }
-  closeOverlay = async (e) => {
+  async closeOverlay(e) {
     if(e.detail.confirmed === true){
       try {
-        let submitValue = {
+        const submitValue = {
           firstName: this.$.firstName.value,
           lastName: this.$.lastName.value,
           institution: this.$.institution.value,
