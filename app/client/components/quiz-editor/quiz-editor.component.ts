@@ -198,6 +198,11 @@ class QuizEditorComponent {
         });
     }
 
+    async addCollaboratorClick() {
+        const email = this.querySelector('#collaboratorInput').value;
+        await Actions.addQuizCollaborator(this, this.querySelector('#addCollaboratorAjax'), this.quizId, email);
+    }
+
     mapStateToThis(e) {
         const state = e.detail.state;
 
