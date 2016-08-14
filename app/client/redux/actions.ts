@@ -8,6 +8,23 @@ import {Course} from '../node_modules/prendus-services/interfaces/course.interfa
 import {QuestionSettings} from '../node_modules/prendus-services/interfaces/question-settings.interface.ts';
 import {CourseVisibility} from '../node_modules/prendus-services/interfaces/course-visibility.type.ts';
 
+const addQuizCollaborator = async (context: any, addCollaboratorAjax: any, quizId: string, email: string) => {
+    try {
+        addCollaboratorAjax.body = {
+            email
+        };
+
+        const request = addCollaboratorAjax.generateRequest();
+        await request.completes;
+
+        const uid = request.response.uid;
+        await QuizModel.addCollaborator(quizId, uid);
+    }
+    catch(error) {
+        throw error;
+    }
+};
+
 const starCourse = async (context: any, courseId: string) => {
     const user = await FirebaseService.getLoggedInUser();
 
@@ -458,5 +475,6 @@ export const Actions = {
     getConceptById,
     loadPublicQuestionIds,
     starCourse,
-    getStarredCoursesByUser
+    getStarredCoursesByUser,
+    addQuizCollaborator
 };
