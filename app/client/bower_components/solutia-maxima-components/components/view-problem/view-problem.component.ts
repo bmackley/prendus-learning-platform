@@ -52,6 +52,7 @@ import {UtilitiesService} from '../../../../node_modules/prendus-services/servic
         public observers: string[];
         public fire: any;
         public showCheckAnswer: boolean;
+        public endpointDomain: string;
 
         beforeRegister(): void {
             this.is = 'solutia-maxima-view-problem';
@@ -116,6 +117,10 @@ import {UtilitiesService} from '../../../../node_modules/prendus-services/servic
         }
 
         async loadNextProblem(): Promise<void> {
+            if (!this.endpointDomain) {
+                this.endpointDomain = UtilitiesService.getPrendusServerEndpointDomain();
+            }
+
             if (this.questionId && this.quizSessionId && this.jwt) {
                 const answerInput = this.$$('#answerInput');
                 clearAnswerInput(answerInput);

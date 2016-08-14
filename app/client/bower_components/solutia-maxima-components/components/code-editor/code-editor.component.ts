@@ -10,6 +10,10 @@ class CodeEditorComponent {
             originalCode: {
                 type: String,
                 observer: 'setText'
+            },
+            placeholder: {
+                type: String,
+                observer: 'placeholderSet'
             }
         };
     }
@@ -36,7 +40,11 @@ class CodeEditorComponent {
         });
     }
 
-    setText(newValue, oldValue) {
+    placeholderSet(newValue: string, oldValue: string) {
+        this.codeMirrorInstance.setOption('placeholder', newValue);
+    }
+
+    setText(newValue: string, oldValue: string) {
         this.codeMirrorInstance.setValue(newValue);
         setTimeout(() => {
             this.codeMirrorInstance.refresh();

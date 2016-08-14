@@ -11,6 +11,10 @@ class TextEditorComponent {
             originalText: {
                 type: String,
                 observer: 'setText'
+            },
+            placeholder: {
+                type: String,
+                observer: 'placeholderSet'
             }
         };
     }
@@ -20,34 +24,24 @@ class TextEditorComponent {
     }
 
     initEditor() {
-        // this.editor = new Quill(this.$.editor, {
-        //     theme: 'snow'
-        // });
-        // this.editor.addModule('toolbar', {
-        //     container: this.$.toolbar
-        // });
-        // this.editor.addModule('image-tooltip');
-        this.editor = new Quill(this.$.editor, {
+        this.editor = new Quill(this.querySelector('#editor'), {
             modules: {
-                toolbar: {
-                    container: this.$.toolbar
-                },
-                'image-tooltip': true
+                toolbar: this.querySelector('#toolbar')
             },
             theme: 'snow'
         });
     }
 
-    setText(newValue, oldValue) {
-        this.editor.setHTML(newValue);
+    placeholderSet(newValue: string, oldValue: string) {
+        this.editor.root.dataset.placeholder = newValue;
+    }
+
+    setText(newValue: string, oldValue: string) {
+        this.editor.pasteHTML(newValue);
     }
 
     getText() {
-        return this.editor.getHTML();
-    }
-
-    showHTML() {
-        console.log(this.getText());
+        return this.querySelector('.ql-editor').innerHTML;
     }
 }
 
