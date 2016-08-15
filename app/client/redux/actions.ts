@@ -319,17 +319,6 @@ const checkUserAuth = {
     }
   }
 };
-// const setConcepts = {
-//     type: 'SET_CONCEPTS',
-//     execute: async (context, newConcept) => {
-//       try {
-//         const conceptSuccess = await ConceptModel.save(null, newConcept);
-//         context.action = newConcept;
-//       }catch(error){
-//         throw error;
-//       }
-//     }
-// }; //Pretty sure this is deprecated.
 const addConcept = {
   type: 'ADD_CONCEPT',
   execute: async (context, courseId: string, newConcept: CourseConceptData, conceptPos: number) => {
@@ -337,9 +326,11 @@ const addConcept = {
       const conceptId = await ConceptModel.save(null, newConcept);
       const courseUpdate = await CourseModel.createCourseConcept(courseId, conceptId, conceptPos)
       const course = await CourseModel.getById(courseId);
+      const conceptsArray = await CourseModel.courseConceptsToArray(course);
+      const orderedCourse = CourseModel.orderCourseConcepts(course, conceptsArray);
       context.action = {
           type: 'ADD_CONCEPT',  //same as get course by id
-          currentCourse: course,
+          currentCourse: orderedCourse,
       }
     }catch(error){
       throw error;
@@ -457,9 +448,11 @@ const deleteConcept = {
       try {
         await CourseModel.deleteCourseConcept(id, conceptId);
         const course = await CourseModel.getById(id);
+        const conceptsArray = await CourseModel.courseConceptsToArray(course);
+        const orderedCourse = CourseModel.orderCourseConcepts(course, conceptsArray);
         context.action = {
             type: 'GET_COURSE_BY_ID',
-            currentCourse: course,
+            currentCourse: orderedCourse,
         }
       }catch(error){
         throw error;
