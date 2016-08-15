@@ -44,6 +44,7 @@ class CourseHomepageComponent {
     }
   }
   mapStateToThis(e: StatechangeEvent) {
+    console.log('homepage state', e.detail.state)
     const state = e.detail.state;
     this.courses = state.courses;
     this.username = state.currentUser.metaData.email;
