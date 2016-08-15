@@ -35,7 +35,6 @@ class ViewQuizComponent {
             }
         };
     }
-
     ready() {
         this.rootReducer = RootReducer;
     }
