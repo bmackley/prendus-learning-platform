@@ -1,12 +1,13 @@
 import {Actions} from '../../redux/actions.ts';
 import {Course} from '../../node_modules/prendus-services/interfaces/course.interface.ts';
+import {CourseConceptData} from '../../node_modules/prendus-services/interfaces/course-concept-data.interface.ts';
 
 class CourseEditComponent {
   public is: string;
   public properties: any;
   public observers: String[];
   public title: string;
-  public courseConcepts: string[];
+  public courseConcepts: CourseConceptData[];
   public currentCourse: Course;
   public courseId: string;
   public username: string;
@@ -22,6 +23,7 @@ class CourseEditComponent {
     this.properties = {
         route: {
           type: Object,
+          //observer: 'getData();
         },
         data: {
           type: Object,
@@ -29,24 +31,20 @@ class CourseEditComponent {
     }
     this.observers = [
       'getCourse(route)',
-      'getData(data)',
+      'getData(data)'
     ];
   }
 
   getCourse(){
-    console.log('getting course')
-    console.log('getting route', this.route)
     if(this.data.courseId){
-      console.log('getting course')
+      console.log('trying to get the course in the edit')
       Actions.getCourseById.execute(this, this.data.courseId)
     }
   }
-
   getData(){
-    console.log('getting data')
-    console.log('getting data info', this.data)
     if(this.data.courseId){
-      console.log('getting data', this.data)
+      console.log('trying to get the data in the edit')
+      Actions.getCourseById.execute(this, this.data.courseId)
     }
   }
 
@@ -55,7 +53,6 @@ class CourseEditComponent {
     this.courseId = state.currentCourse.id;
     this.startDate = state.currentCourse.startDate;
     this.endDate = state.currentCourse.endDate;
-    console.log('course edit', state.currentUser)
     this.username = state.currentUser.metaData.email;
     this.uid = state.currentUser.metaData.uid;
     this.currentCourse = state.currentCourse;
@@ -79,12 +76,11 @@ class CourseEditComponent {
   }
 
   toggle(e) {
-    let collapseTarget = (e.target.id);
+    const collapseTarget = (e.target.id);
     this.querySelector('#Concept' + collapseTarget).toggle();
   }
 
   addConceptFormDone(e){
-    console.log('in here')
     e.preventDefault();
     if(this.$.conceptFormName.value){
       this.querySelector('#addDialog').close();
@@ -107,8 +103,6 @@ class CourseEditComponent {
       }
       Actions.orderConcepts.execute(this, this.courseId, updateConceptPositionArray);
     }
-  }
-  ready() {
   }
 }
 

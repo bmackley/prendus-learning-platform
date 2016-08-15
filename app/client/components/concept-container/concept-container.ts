@@ -30,18 +30,17 @@ class ConceptComponent {
       const path = `concepts/${this.conceptId}`
       const concept = await FirebaseService.get(path); //Am I doing this right? I feel like this was pretty smart on my part. Keeps the title scoped to just the concept component - AKA Dont want redux on this
       this.title = concept.title;
-      // await Actions.getConceptById.execute(this, this.conceptId);
     }
   }
+
   toggle(e: any) {
-    let collapseTarget = (e.target.id);
+    const collapseTarget = (e.target.id);
     this.querySelector('.conceptToggle').toggle();
   }
+
   mapStateToThis(e: StatechangeEvent) {
     const state = e.detail.state;
     this.conceptData = state.currentConcept;
-  }
-  ready() {
   }
 }
 

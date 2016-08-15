@@ -11,13 +11,11 @@ class ViewQuizRouterComponent {
         this.is = 'prendus-view-quiz-router';
     }
 
-    async ready() {
-        const user = await FirebaseService.getLoggedInUser();
-        const userMetaData = await UserModel.getMetaDataById(user.uid);
-
-        this.jwt = await user.getToken();
-        this.userFullName = `${userMetaData.firstName} ${userMetaData.lastName}`;
-        this.userEmail = user.email;
+    mapStateToThis(e) {
+      const state = e.detail.state;
+      this.userFullName = `${state.currentUser.firstName} ${state.currentUser.lastName}`;
+      this.userEmail = state.currentUser.email;
+      this.jwt = state.jwt;
     }
 }
 

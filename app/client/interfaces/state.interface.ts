@@ -22,4 +22,5 @@ export interface State {
     courseConcepts: CourseConceptData[];
     currentEditQuizId: '';
     currentEditConceptId: '';
+    jwt: string;
 }

@@ -16,8 +16,11 @@ class EditQuizRouterComponent {
 
     async ready() {
         this.selected = 0;
-        const user = await FirebaseService.getLoggedInUser();
-        this.jwt = await user.getToken();
+    }
+
+    mapStateToThis(e) {
+      const state = e.detail.state;
+      this.jwt = state.jwt;
     }
 
     routeToEditQuestion() {

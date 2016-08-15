@@ -4,20 +4,22 @@ import {StatechangeEvent} from '../../interfaces/statechange-event.interface.ts'
 
 class LoginComponent {
   public is: string;
+  public listeners: Object;
   public loginFormToastText: string;
-  
+
   beforeRegister() {
-    this.is = 'sign-in';
+    this.is = 'sign-in',
+    this.listeners =  {
+      'signin-submit.tap': 'loginTap'
+    }
   }
-  listeners: {
-    'signin-submit.tap': 'loginTap'
-  }
+
   async loginTap(e: any){
     try{
       await Actions.loginUser.execute(this, this.$.loginEmail.value, this.$.loginPassword.value);
       this.$.loginEmail.value = '';
       this.$.loginPassword.value = '';
-      let location = 'createcourse'
+      let location = 'courses/home'
       window.history.pushState({}, '', location);
       this.fire('location-changed', {}, {node: window});
     }catch(error){
@@ -25,9 +27,9 @@ class LoginComponent {
       this.$.loginToast.open();
     }
   }
-  properties: {
-  }
+
   ready(){
+    console.log('sign in')
     this.$.loginToast.fitInto = this.$.toastTarget;
   }
 }

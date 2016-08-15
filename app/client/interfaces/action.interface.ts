@@ -22,4 +22,5 @@ export interface Action {
   courseConcepts: CourseConceptData[];
   currentEditQuizId: '';
   currentEditConceptId: '';
+  jwt: string;
 }

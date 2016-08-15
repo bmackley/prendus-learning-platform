@@ -3,12 +3,15 @@ import {State} from '../interfaces/state.interface.ts';
 
 export const InitialState: State = {
     currentUser: {
-      uid: '',
-      firstName: '',
-      lastName: '',
-      institution: '',
-      email: '',
-      permissions: '',
+      metaData: {
+        uid: '',
+        firstName: '',
+        lastName: '',
+        institution: '',
+        email: '',
+        permissions: '',
+        jwt: ''
+      }
     },
     concepts: {
     },
