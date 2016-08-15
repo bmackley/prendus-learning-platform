@@ -31,7 +31,7 @@ export class ConceptComponentEdit {
     }
   }
   toggle(e: any) {
-    let collapseTarget = (e.target.id);
+    const collapseTarget = (e.target.id);
     this.querySelector('.conceptToggle').toggle();
   }
   mapStateToThis(e: StatechangeEvent) {
