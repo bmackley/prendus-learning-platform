@@ -1,6 +1,7 @@
 import {Actions} from '../../redux/actions.ts';
 import {Course} from '../../node_modules/prendus-services/interfaces/course.interface.ts';
 import {CourseConceptData} from '../../node_modules/prendus-services/interfaces/course-concept-data.interface.ts';
+import {StatechangeEvent} from '../../interfaces/statechange-event.interface.ts';
 
 class CourseEditComponent {
   public is: string;
@@ -48,7 +49,7 @@ class CourseEditComponent {
     }
   }
 
-  mapStateToThis(e) {
+  mapStateToThis(e: StatechangeEvent) {
     const state = e.detail.state;
     this.courseId = state.currentCourse.id;
     this.startDate = state.currentCourse.startDate;

@@ -23,13 +23,13 @@ class CourseHomepageComponent {
       Actions.getSharedCoursesByUser(this, user.uid);
   }
 
-  editCourse(e: any){
+  editCourse(e: any) {
     const location = `/courses/edit/${e.target.id}`
     window.history.pushState({}, '', location);
     this.fire('location-changed', {}, {node: window});
   }
 
-  viewCourse(e: any){
+  viewCourse(e: any) {
     try{
       const location = `/courses/view/${e.target.id}`
       window.history.pushState({}, '', location);
@@ -39,11 +39,11 @@ class CourseHomepageComponent {
     }
   }
 
-  addCourse(e){
+  addCourse(e) {
     this.querySelector('#addCourseDialog').open();
   }
 
-  addCourseFormDone(e){
+  addCourseFormDone(e) {
     e.preventDefault();
     if(this.querySelector('#courseFormName').value){
       this.querySelector('#addCourseDialog').close();
@@ -61,10 +61,10 @@ class CourseHomepageComponent {
     const state = e.detail.state;
 
     this.userCourses = state.courses;
-    this.starredCourses = e.detail.state.starredCourses;
-    this.sharedCourses = e.detail.state.sharedCourses;
-    this.username = e.detail.state.currentUser.email;
-    this.uid = e.detail.state.currentUser.uid;
+    this.starredCourses = state.starredCourses;
+    this.sharedCourses = state.sharedCourses;
+    this.username = state.currentUser.metaData.email;
+    this.uid = state.currentUser.metaData.uid;
   }
 }
 
