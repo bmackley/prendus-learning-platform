@@ -23,4 +23,5 @@ export interface State {
     currentEditQuizId: '';
     currentEditConceptId: '';
     jwt: string;
+    collaboratorEmails: string[];
 }

@@ -17,7 +17,7 @@ export interface Action {
   currentConceptVideoId: string;
   currentConceptVideoTitle: string;
   currentConceptVideoUrl: string
-  currentUser: User;
+  user: User;
   courses: Course;
   courseConcepts: CourseConceptData[];
   currentEditQuizId: '';

@@ -262,12 +262,12 @@ const loginUser = {
     execute: async (context: any, email: string, password: string) => {
         try {
           const loggedInUser = await FirebaseService.logInUserWithEmailAndPassword(email, password);
-          let userData = await UserModel.getById(loggedInUser.uid); //sets ancillary user data such as name, institution, etc.
-          userData.metaData.uid = loggedInUser.uid;
+          let user = await UserModel.getById(loggedInUser.uid); //sets ancillary user data such as name, institution, etc.
+          user.metaData.uid = loggedInUser.uid;
 
           context.action = {
             type: Actions.loginUser.type,
-            currentUser : userData,
+            user
           };
         }catch(error){
           throw error;
@@ -305,12 +305,12 @@ const checkUserAuth = {
     try {
       const loggedInUser = await FirebaseService.getLoggedInUser();
       if(loggedInUser){
-        let userData = await UserModel.getById(loggedInUser.uid);
-        userData.metaData.uid = loggedInUser.uid; //OK because its being created here.
-        const jwt = loggedInUser.getToken()
+        let user = await UserModel.getById(loggedInUser.uid);
+        user.uid = loggedInUser.uid; //OK because its being created here.
+        const jwt = loggedInUser.getToken();
         context.action = {
           type: Actions.checkUserAuth.type,
-          currentUser: userData,
+          user,
           jwt: jwt
         };
       }
