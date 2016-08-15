@@ -8,8 +8,74 @@ import {QuizModel} from '../node_modules/prendus-services/models/quiz.model.ts';
 import {Course} from '../node_modules/prendus-services/interfaces/course.interface.ts';
 import {Concept} from '../node_modules/prendus-services/interfaces/concept.interface.ts';
 import {QuestionSettings} from '../node_modules/prendus-services/interfaces/question-settings.interface.ts';
-import {UserMetaData} from '../node_modules/prendus-services/interfaces/user-meta-data.interface.ts'
-import {User} from '../node_modules/prendus-services/interfaces/user.interface.ts'
+import {CourseVisibility} from '../node_modules/prendus-services/interfaces/course-visibility.type.ts';
+import {UserMetaData} from '../node_modules/prendus-services/interfaces/user-meta-data.interface.ts';
+import {User} from '../node_modules/prendus-services/interfaces/user.interface.ts';
+
+const loadQuizCollaboratorEmails = async (context: any, getEmailsByIdsAjax: any, quizId: string, endpointDomain: string, jwt: string) => {
+
+    try {
+        const uids = await QuizModel.getCollaboratorUids(quizId);
+        const uidsCSV = uids.join(',');
+
+        getEmailsByIdsAjax.url = `${endpointDomain}/api/user/emails/quiz/${quizId}/jwt/${jwt}/uids/${uidsCSV}`;
+
+        const request = getEmailsByIdsAjax.generateRequest();
+        await request.completes;
+
+        const emails = request.response.emails;
+
+        context.action = {
+            type: 'SET_COLLABORATOR_EMAILS',
+            emails
+        };
+    }
+    catch(error) {
+        throw error;
+    }
+};
+
+const addQuizCollaborator = async (context: any, getUidByEmailAjax: any, endpointDomain: string, quizId: string, email: string) => {
+    try {
+        getUidByEmailAjax.url = `${endpointDomain}/api/user/uid/email/${email}`;
+
+        const request = getUidByEmailAjax.generateRequest();
+        await request.completes;
+
+        const uid = request.response.uid;
+
+        if (!uid) {
+            throw 'The user does not exist';
+        }
+
+        await QuizModel.addCollaborator(quizId, uid);
+    }
+    catch(error) {
+        throw error;
+    }
+};
+
+const removeQuizCollaborator = async (context: any, getUidByEmailAjax: any, endpointDomain: string, quizId: string, email: string) => {
+    try {
+        getUidByEmailAjax.url = `${endpointDomain}/api/user/uid/email/${email}`;
+
+        const request = getUidByEmailAjax.generateRequest();
+        await request.completes;
+
+        const uid = request.response.uid;
+        await QuizModel.removeCollaborator(quizId, uid);
+    }
+    catch(error) {
+        throw error;
+    }
+};
+
+const starCourse = async (context: any, courseId: string) => {
+    const user = await FirebaseService.getLoggedInUser();
+
+    //await CourseModel.starred(courseId, user.uid);
+    await UserModel.starCourse(user.uid, courseId);
+};
 
 const getQuiz = async (quizId: string) => {
     const quiz = await QuizModel.getById(quizId);
@@ -328,6 +394,48 @@ const getCoursesByUser = {
     }
   }
 };
+
+const getStarredCoursesByUser = async (context: any, uid: string) => {
+    try {
+        const courseIds = await UserModel.getStarredCoursesIds(uid);
+        const courses = await CourseModel.resolveIds(courseIds);
+
+        context.action = {
+            type: 'SET_STARRED_COURSES',
+            courses
+        };
+    }
+    catch(error) {
+        throw error;
+    }
+};
+
+const getSharedCoursesByUser = async (context: any, uid: string) => {
+    try {
+        const courseIds = await UserModel.getSharedWithMeCoursesIds(uid);
+        const courses = await CourseModel.resolveIds(courseIds);
+
+        context.action = {
+            type: 'SET_SHARED_COURSES',
+            courses
+        };
+    }
+    catch(error) {
+        throw error;
+    }
+};
+
+const getCoursesByVisibility = async (context: any, visibility: CourseVisibility) => {
+
+    const courses = await CourseModel.getAllByVisibility(visibility);
+
+    context.action = {
+        type: 'SET_COURSES_BY_VISIBILITY',
+        visibility,
+        courses
+    };
+};
+
 const getCourseById = {
   execute: async (context: any, id: string) => {
     try {
@@ -395,6 +503,7 @@ export const Actions = {
     deleteVideo,
     addCourse,
     getCoursesByUser,
+    getCoursesByVisibility,
     loadUserQuestionIds,
     addQuestionToQuiz,
     loadQuizQuestionIds,
@@ -409,5 +518,11 @@ export const Actions = {
     getQuiz,
     getCourseById,
     getConceptById,
-    loadPublicQuestionIds
+    loadPublicQuestionIds,
+    starCourse,
+    getStarredCoursesByUser,
+    addQuizCollaborator,
+    loadQuizCollaboratorEmails,
+    removeQuizCollaborator,
+    getSharedCoursesByUser
 };

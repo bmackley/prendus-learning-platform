@@ -30,5 +30,9 @@ export const InitialState: State = {
     quizSettings: QuestionSettings,
     currentEditQuizId: '',
     conceptQuizzes: {},
-    currentEditConceptId: ''
+    currentEditConceptId: '',
+    publicCourses: [],
+    starredCourses: [],
+    sharedCourses: [],
+    collaboratorEmails: []
 };
