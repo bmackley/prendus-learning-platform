@@ -13,7 +13,6 @@ export class CourseNavbarComponent {
 
   mapStateToThis(e: StatechangeEvent) {
     const state = e.detail.state
-    console.log('navbar state', state)
     this.username = state.currentUser.metaData.email;
   }
 
