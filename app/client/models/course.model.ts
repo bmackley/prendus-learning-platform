@@ -12,7 +12,6 @@ const createOrUpdate = async (id: string, data: Course): Promise<string> => {
     }
     else {
       const path = dataPath;
-      console.log('dataPath', dataPath)
       return await FirebaseService.push(path, data);
     }
 };
@@ -26,8 +25,13 @@ const createCourseConcept = async (id: string, conceptId: string, pos: number): 
   return id;
 };
 const deleteCourseConcept = async (id: string, conceptId: string) => {
-    const path =  `${dataPath}/${id}/concepts/`;
-    let conceptDelete = await FirebaseService.remove(conceptId);
+    try{
+      console.log('in the deleteCourseConcept')
+      const path =  `${dataPath}/${id}/concepts/${conceptId}/`;
+      return await FirebaseService.remove(path);
+    }catch(error){
+      throw error;
+    }
 };
 const getById = async (id:string) => {
     const path = `${dataPath}/${id}`;
@@ -37,7 +41,7 @@ const getById = async (id:string) => {
 };
 const getCoursesByUser = async (uid: string) => {
     const path = dataPath;
-    const firebaseCourses = await FirebaseService.getAllBy(path, 'creator', uid);
+    const firebaseCourses = await FirebaseService.getAllBy(path, 'uid', uid);
     const firebaseCoursesArray = Object.keys(firebaseCourses || {}).map(key => {
       return Object.assign({}, firebaseCourses[key], {
           id: key,
@@ -45,25 +49,44 @@ const getCoursesByUser = async (uid: string) => {
     });
     return firebaseCoursesArray;
 };
-const orderCourseConcepts = async (id: string, conceptsArray) => {
+const courseConceptsToArray = (course: Course) => {
+  let courseConceptsArray = Object.keys(course.concepts || {}).map(key => {
+    return Object.assign({}, course.concepts[key], {
+        key: key,
+    });
+  });
+  console.log('courseConcepts Array', courseConceptsArray)
+  return courseConceptsArray;
+}
+const orderCourseConcepts = (course: Course, courseConcepts: Concept) => {
+  function compare(a: any,b: any) {
+    if (a.position < b.position)
+      return -1;
+    if (a.position > b.position)
+      return 1;
+    return 0;
+  }
+  courseConcepts.sort(compare);
+  course.concepts = courseConcepts;
+  return course;
+}
+const updateCourseConcepts = async (id:string, conceptArray: Concept) => {
+  console.log(conceptArray);
   try{
-    console.log('concepts array', conceptsArray)
-    const path = `${dataPath}/${id}/concepts`;
-    await FirebaseService.update(path, conceptsArray)
-    // for(let item in conceptsArray){
-    //   const path = `${dataPath}/${conceptsArray[item].key}`;
-    //   const data = conceptsArray[item];
-    //   await FirebaseService.update(path, data)
-    // }
+    for(let key in conceptArray){
+      const path =  `${dataPath}/${id}/concepts/${conceptArray[key].key}`;
+      await FirebaseService.update(path, conceptArray[key]);
+    }
+    return;
   }catch(error){
     throw error;
   }
-};
+
+}
 const deleteCourse = async (key: string) => {
     const path =  `${dataPath}/${key}`;
     let conceptDelete = await FirebaseService.remove(path);
 };
-
 export const CourseModel = {
     createOrUpdate,
     getById,
@@ -71,5 +94,7 @@ export const CourseModel = {
     deleteCourse,
     createCourseConcept,
     deleteCourseConcept,
-    orderCourseConcepts
+    orderCourseConcepts,
+    updateCourseConcepts,
+    courseConceptsToArray
 }

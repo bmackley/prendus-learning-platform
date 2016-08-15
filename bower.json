@@ -18,7 +18,6 @@
     "iron-ajax": "PolymerElements/iron-ajax#^1.2.0",
     "iron-elements": "PolymerElements/iron-elements#^1.0.10",
     "paper-elements": "PolymerElements/paper-elements#^1.0.7",
-    "carbon-route": "PolymerElements/carbon-route#^0.8.5",
     "app-route": "PolymerElements/app-route#^0.9.1",
     "paper-date-picker": "polymer-paper-date-picker#^1.1.4",
     "solutia-maxima-components": "git@github.com:lastmjs/solutia-maxima-components.git#^0.0.2",
@@ -27,6 +26,9 @@
     "redux-store-element": "^0.2.3",
     "paper-tabs": "^1.6.2",
     "paper-menu-button": "^1.5.1",
-    "paper-menu": "^1.2.2"
+    "paper-menu": "^1.2.2",
+    "iron-a11y-announcer": "PolymerElements/iron-a11y-announcer#^1.0.5",
+    "iron-resizable-behavior": "PolymerElements/iron-resizable-behavior#^1.0.5",
+    "iron-autogrow-textarea": "PolymerElements/iron-autogrow-textarea#^1.0.13"
   }
 }

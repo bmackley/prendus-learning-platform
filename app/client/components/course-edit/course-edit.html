@@ -1,3 +1,4 @@
+
 <link href="../../bower_components/polymer/polymer.html" rel="import">
 <link href="../../bower_components/paper-dialog/paper-dialog.html" rel="import">
 <link href="../../bower_components/paper-dialog-behavior/paper-dialog-behavior.html" rel="import">
@@ -9,8 +10,11 @@
 <link href="../../bower_components/Sortable/Sortable.html" rel="import">
 <link href="../../bower_components/app-route/app-route.html" rel="import">
 <script src="../../bower_components/moment/min/moment-with-locales.min.js"></script>
+<link href="../../bower_components/iron-icons/editor-icons.html" rel="import">
+<link href="../../bower_components/paper-item/paper-icon-item.html" rel="import">
 <link href="../concept-video-container/concept-video-container.component.html" rel="import">
 <link href="../concept-container-edit/concept-container-edit.html" rel="import">
+
 
 <dom-module id="course-edit">
   <style>
@@ -22,11 +26,11 @@
   </style>
   <template>
     <redux-store action="[[action]]" on-statechange="mapStateToThis"></redux-store>
-    <app-route route="[[route]]" pattern="/edit/:courseId" data="{{data}}" tail="{{tail}}"></app-route>
+    <app-route route="[[route]]" pattern="/edit/:courseId" data="{{data}}"></app-route>
     <template is="dom-if" if="[[username]]">
         <course-title title="[[item.title]]" instructor="[[item.instructor]]">
           <h1 id ="courseTitle" contenteditable="true">
-            [[title]]
+            [[currentCourse.title]]
           </h1>
           <!--Come back to this. Don't need it for the alpha launch -->
           <!-- <paper-dialog id="selectStartDate" class="paper-date-picker-dialog" modal on-iron-overlay-closed="dismissStartDatepicker">
@@ -53,7 +57,11 @@
           </h1>-->
           <sortable-js on-sort="sortableEnded">
             <template id="conceptsList" is="dom-repeat" items=[[courseConcepts]]>
-              <concept-container-edit concept-id="[[item.id]]"></concept-container-edit>
+              <div>
+                <iron-icon class = "end-justified"icon="editor:drag-handle" item-icon></iron-icon> [[item.keys]]
+                <span><iron-icon class = "end-justified" id = "[[item.key]]" icon="icons:delete" item-icon on-tap="deleteItem"></iron-icon>
+                <concept-container-edit concept-id="[[item.id]]"></concept-container-edit><span>
+              </div>
             </template>
           </sortable-js>
         </course-title>
@@ -62,10 +70,10 @@
       <p> You are not signed in.  Please sign in to access this page </p>
     </template>
     <paper-dialog id = "addDialog" modal>
-      <h2>Add a Concept</h2>
       <div>
         <!-- Look up Iron keys to change this -->
         <form is="iron-form">
+          <h2>Add a Concept to the Course</h2>
           <paper-input name="name" label="Concept Name" id ="conceptFormName" required auto-validate></paper-input>
           <paper-button dialog-dismiss>Cancel</paper-button>
           <paper-button on-tap="addConceptFormDone">Done</paper-button>

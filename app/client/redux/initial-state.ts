@@ -1,13 +1,17 @@
 import {QuestionSettings} from '../node_modules/prendus-services/interfaces/question-settings.interface.ts';
+import {State} from '../interfaces/state.interface.ts';
 
-export const InitialState = {
+export const InitialState: State = {
     currentUser: {
-      uid: '',
-      firstName: '',
-      lastName: '',
-      institution: '',
-      email: '',
-      permissions: '',
+      metaData: {
+        uid: '',
+        firstName: '',
+        lastName: '',
+        institution: '',
+        email: '',
+        permissions: '',
+        jwt: ''
+      }
     },
     concepts: {
     },
