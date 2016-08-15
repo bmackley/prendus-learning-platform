@@ -74,13 +74,11 @@ export class CourseViewComponent {
   }
   viewCourse() {
     if(this.data.courseId){
-      console.log('getting view informtion')
       Actions.getCourseById.execute(this, this.data.courseId)
     }
   }
   viewData() {
     if(this.data.courseId){
-      console.log('getting data information in view')
       Actions.getCourseById.execute(this, this.data.courseId)
     }
   }

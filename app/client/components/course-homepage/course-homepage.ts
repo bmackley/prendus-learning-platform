@@ -58,14 +58,12 @@ class CourseHomepageComponent {
   }
 
   mapStateToThis(e: StatechangeEvent) {
-    console.log('homepage state', e.detail.state)
     const state = e.detail.state;
-
     this.userCourses = state.courses;
     this.starredCourses = e.detail.state.starredCourses;
     this.sharedCourses = e.detail.state.sharedCourses;
-    this.username = e.detail.state.currentUser.email;
-    this.uid = e.detail.state.currentUser.uid;
+    this.username = e.detail.state.currentUser.metaData.email;
+    this.uid = e.detail.state.currentUser.metaData.uid;
   }
 }
 
