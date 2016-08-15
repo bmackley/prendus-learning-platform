@@ -15,6 +15,8 @@
   <template>
     <redux-store on-statechange="mapStateToThis" action="[[action]]"></redux-store>
 
+    <iron-ajax id="sharedWithMeCourseAjax" method="post" content-type="application/json" handle-as="json"></iron-ajax>
+
     <h1>My Courses</h1>
     <template id="courseList" is="dom-repeat" items="[[userCourses]]">
         <!--TODO make a component for this-->
@@ -44,6 +46,20 @@
     <h1>Starred Courses</h1>
 
     <template id="courseList" is="dom-repeat" items="[[starredCourses]]">
+        <!--TODO make a component for this-->
+      <paper-card heading="[[item.title]]">
+        <div class="card-content">Create a Description</div>
+        <div class="card-actions">
+          <paper-button id="[[item.id]]" on-tap="editCourse">Edit</paper-button>  <!-- Go to page from here -->
+          <paper-button id="[[item.id]]" on-tap="viewCourse">View</paper-button>
+        </div>
+      </paper-card>
+      <!--TODO make a component for this-->
+    </template>
+
+    <h1>Courses shared with me</h1>
+
+    <template id="courseList" is="dom-repeat" items="[[sharedCourses]]">
         <!--TODO make a component for this-->
       <paper-card heading="[[item.title]]">
         <div class="card-content">Create a Description</div>

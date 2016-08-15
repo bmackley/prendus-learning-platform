@@ -29,5 +29,6 @@ export const InitialState = {
     currentEditConceptId: '',
     publicCourses: [],
     starredCourses: [],
+    sharedCourses: [],
     collaboratorEmails: []
 };
