@@ -5,6 +5,8 @@
 
 <dom-module id="prendus-collaborator-menu-content">
     <template>
+        <redux-store on-statechange="mapStateToThis" action=[[action]]></redux-store>
+
         <template is="dom-repeat" items="[[collaboratorEmails]]">
             <div>[[item]] <button on-tap="removeCollaboratorClick">remove</button></div>
         </template>
