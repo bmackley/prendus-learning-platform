@@ -28,5 +28,6 @@ export const InitialState = {
     conceptQuizzes: {},
     currentEditConceptId: '',
     publicCourses: [],
-    starredCourses: []
+    starredCourses: [],
+    collaboratorEmails: []
 };
