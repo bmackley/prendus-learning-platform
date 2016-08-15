@@ -1,78 +1,90 @@
 import {Actions} from '../../redux/actions.ts';
-// import {FirebaseService} from '../../node_modules/prendus-services/services/firebase.service.ts';
+import {Course} from '../../node_modules/prendus-services/interfaces/course.interface.ts';
+import {Concept} from '../../node_modules/prendus-services/interfaces/concept.interface.ts';
+import {CourseConceptData} from '../../node_modules/prendus-services/interfaces/course-concept-data.interface.ts';
 
-Polymer({
-is: "course-view",
-listeners: {
+export class CourseViewComponent {
+  public is: string;
+  public courseConcepts: CourseConceptData[];
+  public courseId: Course[];
+  public properties: any;
+  public observers: String[];
+  public username: string;
+  public uid: string;
+  public currentCourse: Course;
 
-},
-// //mapStateToThis works with event changes.  If it changes somewhere else in the app, it will update here.
-mapStateToThis: function(e) {
-  const state = e.detail.state;
-    this.courseConcepts = [];
-    this.courseId = e.detail.state.currentCourse.id;
-    this.startDate = e.detail.state.currentCourse.startDate;
-    this.endDate = e.detail.state.currentCourse.endDate;
-    this.username = e.detail.state.currentUser.email;
-    this.uid = e.detail.state.currentUser.uid;
-    if(e.detail.state.courseConcepts){
-      for(let key in e.detail.state.courseConcepts){
-        this.push('courseConcepts', state.courseConcepts[key])
+  beforeRegister() {
+    this.is = 'course-view';
+    this.properties = {
+      title: {
+        type: String,
+        value: 'Course Name'
+      },
+      courses: {
+        type: Array,
+        value: [{title: 'Course Title', instructor: 'Instructor Name', }]
+      },
+      route: {
+        type: Object,
+      },
+      data: {
+        type: Object,
       }
-    }
-},
-toggle: function(e) {
-  let collapseTarget = (e.target.id);
-  this.querySelector('#Concept' + collapseTarget).toggle();
-},
-addConceptFormDone: function(e){
-  e.preventDefault();
-  if(this.$.conceptFormName.value){
-    this.querySelector('#addDialog').close();
-    let newConcept = {
-      creator: this.uid,
-      title: this.$.conceptFormName.value,
     };
-    Actions.addConcept.execute(this, this.courseId, newConcept, this.courseConcepts.length);
+    this.observers = [
+      'viewCourse(route)',
+      'viewData(data)',
+    ];
   }
-},
-sortableEnded: function(e){
-  if(typeof e.newIndex !== 'undefined'){
-    let updateConceptPositionArray = [];
-    for(let i = 0, len = this.courseConcepts.length; i < len; i++ ){
-      if(this.courseConcepts[i].pos != i){
-        this.courseConcepts[i].pos = i
-        updateConceptPositionArray.push(this.concepts[i])
-      }
+
+  mapStateToThis(e) {
+    const state = e.detail.state;
+    this.courseId = state.currentCourse.id;
+    this.username = state.currentUser.metaData.email;
+    this.uid = state.currentUser.metaData.uid;
+    this.currentCourse = state.currentCourse;
+    this.courseConcepts = this.currentCourse.concepts;
+  }
+  toggle(e) {
+    const collapseTarget = (e.target.id);
+    this.querySelector('#Concept' + collapseTarget).toggle();
+  }
+  addConceptFormDone(e){
+    e.preventDefault();
+    if(this.$.conceptFormName.value){
+      this.querySelector('#addDialog').close();
+      const newConcept = {
+        creator: this.uid,
+        title: this.$.conceptFormName.value,
+      };
+      Actions.addConcept.execute(this, this.courseId, newConcept, this.courseConcepts.length);
     }
-    Actions.orderConcepts.execute(this, this.courseId, updateConceptPositionArray);
   }
-},
-properties: {
-    subdomain: {
-      type: Object
-    },
-    title: {
-      type: String,
-      value: 'Course Name'
-    },
-    courses: {
-      type: Array,
-      value: [{title: 'Course Title', instructor: 'Instructor Name', startDate: {month: new Date().getMonth(), day: new Date().getDate(), year: new Date().getFullYear()}, endDate: Date.now()}]
-    },
-    route: {
-      type: Object,
-      observer: 'viewCourse'
-    },
-  },
-  viewCourse: function() {
+  sortableEnded(e){
+    if(typeof e.newIndex !== 'undefined'){
+      let updateConceptPositionArray = [];
+      for(let i = 0, len = this.courseConcepts.length; i < len; i++ ){
+        if(this.courseConcepts[i].pos != i){
+          this.courseConcepts[i].pos = i
+          updateConceptPositionArray.push(this.concepts[i])
+        }
+      }
+      Actions.orderConcepts.execute(this, this.courseId, updateConceptPositionArray);
+    }
+  }
+  viewCourse() {
     if(this.data.courseId){
+      console.log('getting view informtion')
       Actions.getCourseById.execute(this, this.data.courseId)
     }
-  },
-ready: function(e){
-  // FirebaseService.init("AIzaSyANTSoOA6LZZDxM7vqIlAl37B7IqWL-6MY", "prendus.firebaseapp.com", "https://prendus.firebaseio.com", "prendus.appspot.com", "Prendus");
-  //Doesn't work yet Actions.getCourse.execute(this)
-  //Actions.getConcepts.execute(this);
+  }
+  viewData() {
+    if(this.data.courseId){
+      console.log('getting data information in view')
+      Actions.getCourseById.execute(this, this.data.courseId)
+    }
+  }
+  ready(){
+  }
 }
-});
+Polymer(CourseViewComponent);
