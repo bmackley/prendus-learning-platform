@@ -8,12 +8,14 @@
 <link rel="import" href="../../bower_components/paper-fab/paper-fab.html">
 <link rel="import" href="../../bower_components/paper-menu-button/paper-menu-button.html">
 <link rel="import" href="../../bower_components/paper-menu/paper-menu.html">
+<link rel="import" href="../../bower_components/paper-button/paper-button.html">
 <link rel="import" href="../../bower_components/paper-menu/paper-submenu.html">
 <link rel="import" href="../../bower_components/paper-item/paper-item.html">
 <link rel="import" href="../../bower_components/solutia-maxima-components/components/view-problem/view-problem.component.html">
 <link rel="import" href="../../bower_components/solutia-maxima-components/components/edit-problem/edit-problem.component.html">
 <link rel="import" href="../../bower_components/iron-icons/iron-icons.html">
 <link rel="import" href="../../styles/color-styles.html">
+<link rel="import" href="../collaborator-menu-content/collaborator-menu-content.component.html">
 
 <dom-module id="prendus-quiz-editor">
     <template>
@@ -87,14 +89,16 @@
                                     <!--TODO this span is here to stop the default selection of items. It is a hack, get rid of it if possible-->
                                     <span></span>
                                     <!--TODO this span is here to stop the default selection of items. It is a hack, get rid of it if possible-->
-
+                                    <prendus-collaborator-menu-content></prendus-collaborator-menu-content>
+                                </paper-menu>
+                                <!-- <paper-menu class="menu-content">
                                     <template is="dom-repeat" items="[[collaboratorEmails]]">
                                         <div>[[item]] <button on-tap="removeCollaboratorClick">remove</button></div>
                                     </template>
 
                                     <paper-input id="collaboratorInput" label="Enter email address" stop-keyboard-event-propagation></paper-input>
                                     <paper-button raised on-tap="addCollaboratorClick">add</paper-button>
-                                </paper-menu>
+                                </paper-menu> -->
                             </paper-submenu>
                         </paper-menu>
                     </paper-menu-button>
