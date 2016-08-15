@@ -1,66 +1,57 @@
 import {Actions} from '../../redux/actions.ts';
+import {Course} from '../../node_modules/prendus-services/interfaces/course.interface.ts';
+import {StatechangeEvent} from '../../interfaces/statechange-event.interface.ts';
 
-Polymer({
-  is: "course-homepage",
-  listeners: {
-  },
-  mapStateToThis: function(e) {
-    this.courses = []
-    if(e.detail.state.courses){
-      for(let key in e.detail.state.courses){
-        this.push('courses', e.detail.state.courses[key])
-      }
-    }
-    this.username = e.detail.state.currentUser.email;
-    this.uid = e.detail.state.currentUser.uid;
-  },
-  editCourse: function(e){
-    let location = `/courses/edit/${e.target.id}`
+class CourseHomepageComponent {
+  public is: string;
+  public courses: string[];
+  public newCourse: Course;
+  private uid: string;
+  public username: string;
+  public formTitle: string;
+
+  beforeRegister() {
+    this.is = 'course-homepage';
+  }
+  editCourse(e: any){
+    const location = `/courses/edit/${e.target.id}`
     window.history.pushState({}, '', location);
     this.fire('location-changed', {}, {node: window});
-    //Deprecated as of August 5
-    // try{
-    //   Actions.getCourseById.execute(this, e.target.id)
-    //   let location = '/courses/edit'
-    //   window.history.pushState({}, '', location);
-    //   this.fire('location-changed', {}, {node: window});
-    // }catch(error){
-    //   console.log('Course Homepage Error', error)
-    // }
-  },
-  viewCourse: function(e){
-    //Deprecated as of August 5
+  }
+  viewCourse(e: any){
     try{
-      let location = `/courses/view/${e.target.id}`
+      const location = `/courses/view/${e.target.id}`
       window.history.pushState({}, '', location);
       this.fire('location-changed', {}, {node: window});
-
-      // Actions.getCourseById.execute(this, e.target.id)
-      // let location = '/courses/view'
-      // window.history.pushState({}, '', location);
-      // this.fire('location-changed', {}, {node: window});
     }catch(error){
       alert(error);
     }
-  },
-  addCourse: function(e){
+  }
+  addCourse(e){
     addCourseDialog.open();
-  },
-  addCourseFormDone: function(e){
+  }
+  addCourseFormDone(e){
     e.preventDefault();
-    if(this.$.courseFormName.value){
-      //close the dialog form if there has already been an input
-      addCourseDialog.close();
-      let newCourse = {
-        title: this.$.courseFormName.value,
-        creator: this.uid,
+    if(this.querySelector('#courseFormName').value){
+      this.querySelector('#addCourseDialog').close();
+      this.formTitle = this.querySelector('#courseFormName').value
+      const newCourse = {
+        private: false,
+        title: this.formTitle,
+        uid: this.uid,
       }
       Actions.addCourse.execute(this, newCourse);
     }
-  },
-  properties: {
-  },
-  ready: function(e){
+  }
+  mapStateToThis(e: StatechangeEvent) {
+    const state = e.detail.state;
+    this.courses = state.courses;
+    this.username = state.currentUser.metaData.email;
+    this.uid = state.currentUser.metaData.uid;
+  }
+  ready() {
     Actions.getCoursesByUser.execute(this)
   }
-});
+}
+
+Polymer(CourseHomepageComponent);

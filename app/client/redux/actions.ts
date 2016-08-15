@@ -1,11 +1,15 @@
 import {FirebaseService} from '../node_modules/prendus-services/services/firebase.service.ts';
-import {CourseModel} from '../models/course.model.ts';
-import {ConceptModel} from '../models/concept.model.ts';
+import {CourseModel} from '../node_modules/prendus-services/models/course.model.ts';
+import {ConceptModel} from '../node_modules/prendus-services/models/concept.model.ts';
+import {CourseConceptData} from '../node_modules/prendus-services/interfaces/course-concept-data.interface.ts';
 import {UserModel} from '../node_modules/prendus-services/models/user.model.ts';
 import {VideoModel} from '../node_modules/prendus-services/models/video.model.ts';
 import {QuizModel} from '../node_modules/prendus-services/models/quiz.model.ts';
 import {Course} from '../node_modules/prendus-services/interfaces/course.interface.ts';
+import {Concept} from '../node_modules/prendus-services/interfaces/concept.interface.ts';
 import {QuestionSettings} from '../node_modules/prendus-services/interfaces/question-settings.interface.ts';
+import {UserMetaData} from '../node_modules/prendus-services/interfaces/user-meta-data.interface.ts'
+import {User} from '../node_modules/prendus-services/interfaces/user.interface.ts'
 
 const getQuiz = async (quizId: string) => {
     const quiz = await QuizModel.getById(quizId);
@@ -172,7 +176,7 @@ const loadConceptVideos = async (context, conceptId: string) => {
 
 const createUser = {
   type: 'CREATE_USER',
-  execute: async (context, data, password) => {
+  execute: async (context, data: UserMetaData, password: string) => {
     try {
       const success = await FirebaseService.createUserWithEmailAndPassword(data.email, password);
       const loggedInUser = await FirebaseService.logInUserWithEmailAndPassword(data.email, password);
@@ -189,11 +193,12 @@ const createUser = {
 };
 const loginUser = {
     type: 'LOGIN_USER',
-    execute: async (context, email, password) => {
+    execute: async (context: any, email: string, password: string) => {
         try {
           const loggedInUser = await FirebaseService.logInUserWithEmailAndPassword(email, password);
-          let userData = await UserModel.getMetaDataById(loggedInUser.uid); //sets ancillary user data such as name, institution, etc.
-          userData.uid = loggedInUser.uid;
+          let userData = await UserModel.getById(loggedInUser.uid); //sets ancillary user data such as name, institution, etc.
+          userData.metaData.uid = loggedInUser.uid;
+
           context.action = {
             type: Actions.loginUser.type,
             currentUser : userData,
@@ -205,7 +210,7 @@ const loginUser = {
 };
 const updateUserEmail = {
   type: 'UPDATE_USER_PROFILE',
-  execute: async (context, pastEmail, password, newEmail) => {
+  execute: async (context, pastEmail: string, password: string, newEmail: string) => {
     try{
       const loggedInUser = await FirebaseService.logInUserWithEmailAndPassword(pastEmail, password);
       await UserModel.updateFirebaseUser(loggedInUser, newEmail);
@@ -216,9 +221,9 @@ const updateUserEmail = {
 };
 const updateUserMetaData = {
   type: 'UPDATE_USER_META_DATA',
-  execute: async (context, uid, metaData) => {
-    await UserModel.updateMetaData(uid, metaData);
+  execute: async (context, uid: string, metaData: UserMetaData) => {
     try{
+      await UserModel.updateMetaData(uid, metaData);
       context.action = {
         type: Actions.updateUserMetaData.type,
         user: metaData,
@@ -230,15 +235,17 @@ const updateUserMetaData = {
 };
 const checkUserAuth = {
   type: 'CHECK_USER_AUTH',
-  execute: async (context) => {
+  execute: async (context: any) => {
     try {
       const loggedInUser = await FirebaseService.getLoggedInUser();
       if(loggedInUser){
-        let userData = await UserModel.getMetaDataById(loggedInUser.uid, 'metaData');
-        userData.uid = loggedInUser.uid; //OK because its being created here.
+        let userData = await UserModel.getById(loggedInUser.uid);
+        userData.metaData.uid = loggedInUser.uid; //OK because its being created here.
+        const jwt = loggedInUser.getToken()
         context.action = {
           type: Actions.checkUserAuth.type,
           currentUser: userData,
+          jwt: jwt
         };
       }
     }catch(error){
@@ -246,20 +253,20 @@ const checkUserAuth = {
     }
   }
 };
-const setConcepts = {
-    type: 'SET_CONCEPTS',
-    execute: async (context, newConcept) => {
-      try {
-        const conceptSuccess = await ConceptModel.save(null, newConcept);
-        context.action = newConcept;
-      }catch(error){
-        throw error;
-      }
-    }
-};
+// const setConcepts = {
+//     type: 'SET_CONCEPTS',
+//     execute: async (context, newConcept) => {
+//       try {
+//         const conceptSuccess = await ConceptModel.save(null, newConcept);
+//         context.action = newConcept;
+//       }catch(error){
+//         throw error;
+//       }
+//     }
+// }; //Pretty sure this is deprecated.
 const addConcept = {
   type: 'ADD_CONCEPT',
-  execute: async (context, courseId, newConcept, conceptPos: number) => {
+  execute: async (context, courseId: string, newConcept: CourseConceptData, conceptPos: number) => {
     try {
       const conceptId = await ConceptModel.save(null, newConcept);
       const courseUpdate = await CourseModel.createCourseConcept(courseId, conceptId, conceptPos)
@@ -273,20 +280,7 @@ const addConcept = {
     }
   }
 };
-const getConcepts = {
-  type: 'GET_CONCEPTS',
-  execute: async (context) => {
-    // try {
-    //   const modelConcepts = await ConceptModel.getConcepts();
-    //   context.action = {
-    //       type: Actions.getConcepts.type,
-    //       concepts: modelConcepts,
-    //   }
-    // }catch(error){
-    //   throw error;
-    // }
-  }
-};
+
 const getConceptById = {
   type: 'GET_CONCEPT_BY_ID',
   execute: async (context: any, id: string) => {
@@ -338,10 +332,11 @@ const getCourseById = {
   execute: async (context: any, id: string) => {
     try {
       const course = await CourseModel.getById(id);
+      const conceptsArray = await CourseModel.courseConceptsToArray(course);
+      const orderedCourse = CourseModel.orderCourseConcepts(course, conceptsArray);
       context.action = {
           type: 'GET_COURSE_BY_ID',
-          currentCourse: course,
-          //currentCourseConcepts: courseConcepts,
+          currentCourse: orderedCourse,
       }
     }catch(error){
       throw error;
@@ -350,14 +345,13 @@ const getCourseById = {
 };
 const deleteConcept = {
   type: 'DELETE_CONCEPT',
-  execute: async (context, key, conceptsArray) => {
+  execute: async (context: any, id: string, conceptId: string) => {
       try {
-        await ConceptModel.deleteConcept(key);
-        //figure out how to do this.
-        await ConceptModel.deleteCourseConcept(courseId, key);
+        await CourseModel.deleteCourseConcept(id, conceptId);
+        const course = await CourseModel.getById(id);
         context.action = {
-            type: Actions.deleteConcept.type,
-            conceptKey: key,
+            type: 'GET_COURSE_BY_ID',
+            currentCourse: course,
         }
       }catch(error){
         throw error;
@@ -366,23 +360,20 @@ const deleteConcept = {
 };
 const orderConcepts = {
   type: 'ORDER_CONCEPTS',
-  execute: async (context: any, id: string, courseConceptsArray) => {
-      //thre use cases: Reorder concepts, delete a concept
-      try{
-        await CourseModel.orderCourseConcepts(id, courseConceptsArray);
-      }catch(error){
-        throw error;
-      }
+  execute: async (context: any, id: string, courseConceptsArray: Concept[]) => {
+    try{
+      await CourseModel.updateCourseConcepts(id, courseConceptsArray);
+    }catch(error){
+      throw error;
+    }
   }
 };
 const logOutUser = {
   type: 'LOGOUT_USER',
   execute: async (context) => {
-    //Need to come up with a list of things to clear with the logout. Maybe have a clear everything function?
     await FirebaseService.logOutUser();
     context.action = {
       type: Actions.logOutUser.type,
-      user: '',
     }
   }
 };
@@ -390,8 +381,6 @@ const logOutUser = {
 export const Actions = {
     loginUser,
     checkUserAuth,
-    setConcepts,
-    getConcepts,
     deleteConcept,
     orderConcepts,
     addConcept,

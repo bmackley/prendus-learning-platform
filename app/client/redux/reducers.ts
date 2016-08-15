@@ -1,7 +1,9 @@
 import {InitialState} from './initial-state.ts';
 import {Actions} from './actions.ts';
+import {State} from '../interfaces/state.interface.ts';
+import {Action} from '../interfaces/action.interface.ts';
 
-export function rootReducer(state = InitialState, action) {
+export function rootReducer(state: State = InitialState, action: Action): State {
     switch(action.type) {
         case 'LOAD_CONCEPT_QUIZZES': {
             const newState = Object.assign({}, state);
@@ -46,27 +48,9 @@ export function rootReducer(state = InitialState, action) {
       case Actions.checkUserAuth.type: {
         const newState = Object.assign({}, state);
         newState.currentUser = action.currentUser;
+        newState.jwt = action.jwt;
         return newState;
       }
-      // case Actions.addConcept.type: {
-      //   const newState = Object.assign({}, state);
-      //   newState.concepts[action.key] = action;
-      //   newState.courseConcepts = [...newState.courseConcepts, action.key];
-      //   // newState.newConcept = newState.concepts[action.key];
-      //   return newState;
-      // }
-      case Actions.setConcepts.type: {
-        const newState = Object.assign({}, state);
-        newState.concepts = {
-          title: action.title,
-        };
-        return newState;
-      }
-      // case Actions.getConcepts.type: {
-      //   const newState = Object.assign({}, state);
-      //   newState.currentConcept = action.concept;
-      //   return newState;
-      // }
       case 'GET_CONCEPT_BY_ID': {
         console.log('reducers get concept by id')
         const newState = Object.assign({}, state);
@@ -80,8 +64,9 @@ export function rootReducer(state = InitialState, action) {
         return newState;
       }
       case Actions.logOutUser.type: {
-        const newState = Object.assign({}, state);
-        newState.currentUser = {uid: '', username: '', permissions: ''};
+        let newState = Object.assign({}, state);
+        newState = InitialState;
+        // newState.currentUser.metaData = {email: '', firstName: '', lastName: '', uid: ''};
         return newState;
       }
       case Actions.updateUserMetaData.type: {
