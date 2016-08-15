@@ -1,28 +1,41 @@
 import {Actions} from '../../redux/actions.ts';
+import {UserMetaData} from '../../node_modules/prendus-services/interfaces/user-meta-data.interface.ts'
+import {User} from '../../node_modules/prendus-services/interfaces/user.interface.ts'
 
-Polymer({
-  is: "sign-up",
+class SignupComponent {
+  public is: string;
+  public signUpToastText: string;
+  public email: string;
+  public firstName: string;
+  public lastName: string;
+  public institution: string;
+
+  beforeRegister() {
+    this.is = 'sign-up';
+  }
   listeners: {
     'signup-submit.tap': 'specialTap'
-  },
-  specialTap: async function(e){
-    const userData = {
-      //get this to go through the actions.
-      email: this.$.formEmail.value,
-      firstName: this.$.firstName.value,
-      lastName: this.$.lastName.value,
-      institution: this.$.institution.value,
+  }
+  specialTap =  async (e: any) =>{
+    this.email = this.$.formEmail.value;
+    this.firstName = this.$.firstName.value;
+    this.lastName = this.$.lastName.value;
+    this.institution = this.$.institution.value;
+    const userMetaData = {
+      email: this.email,
+      firstName: this.firstName,
+      lastName: this.lastName,
+      institution: this.institution,
     }
     try {
-        await Actions.createUser.execute(this, userData, this.$.formPassword.value);
+        await Actions.createUser.execute(this, userMetaData, this.$.formPassword.value);
         this.$.formEmail.value = '';
         this.$.formPassword.value = '';
         this.$.retypePassword.value = ''
         this.$.firstName.value = '';
         this.$.lastName.value = '';
         this.$.institution.value= '';
-        //This will change as we update the site.
-        let location = 'createcourse';
+        const location = 'courses/home';
         window.history.pushState({}, '', location);
         this.fire('location-changed', {}, {node: window});
     }
@@ -30,14 +43,9 @@ Polymer({
       this.signUpToastText = error;
       this.$.signUpToast.open();
     }
-  },
-  properties: {
-
-  },
-  mapStateToThis: function(e) {
-
-  },
-  ready: function(e){
+  }
+  ready (e){
     this.$.signUpToast.fitInto = this.$.toastTarget;
   }
-});
+}
+Polymer(SignupComponent);
