@@ -3,6 +3,13 @@ import {Actions} from './actions.ts';
 
 export function rootReducer(state = InitialState, action) {
     switch(action.type) {
+        case 'SET_COLLABORATOR_EMAILS': {
+            const newState = Object.assign({}, state);
+
+            newState.collaboratorEmails = action.emails;
+
+            return newState;
+        }
         case 'SET_STARRED_COURSES': {
             const newState = Object.assign({}, state);
 
