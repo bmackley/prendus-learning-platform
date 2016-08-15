@@ -1,6 +1,7 @@
 import {FirebaseService} from '../node_modules/prendus-services/services/firebase.service.ts';
 import {CourseModel} from '../node_modules/prendus-services/models/course.model.ts';
 import {ConceptModel} from '../node_modules/prendus-services/models/concept.model.ts';
+import {CourseConceptData} from '../node_modules/prendus-services/interfaces/course-concept-data.interface.ts';
 import {UserModel} from '../node_modules/prendus-services/models/user.model.ts';
 import {VideoModel} from '../node_modules/prendus-services/models/video.model.ts';
 import {QuizModel} from '../node_modules/prendus-services/models/quiz.model.ts';
@@ -197,6 +198,7 @@ const loginUser = {
           const loggedInUser = await FirebaseService.logInUserWithEmailAndPassword(email, password);
           let userData = await UserModel.getById(loggedInUser.uid); //sets ancillary user data such as name, institution, etc.
           userData.metaData.uid = loggedInUser.uid;
+
           context.action = {
             type: Actions.loginUser.type,
             currentUser : userData,
@@ -239,9 +241,11 @@ const checkUserAuth = {
       if(loggedInUser){
         let userData = await UserModel.getById(loggedInUser.uid);
         userData.metaData.uid = loggedInUser.uid; //OK because its being created here.
+        const jwt = loggedInUser.getToken()
         context.action = {
           type: Actions.checkUserAuth.type,
           currentUser: userData,
+          jwt: jwt
         };
       }
     }catch(error){
@@ -262,7 +266,7 @@ const checkUserAuth = {
 // }; //Pretty sure this is deprecated.
 const addConcept = {
   type: 'ADD_CONCEPT',
-  execute: async (context, courseId: string, newConcept: Concept, conceptPos: number) => {
+  execute: async (context, courseId: string, newConcept: CourseConceptData, conceptPos: number) => {
     try {
       const conceptId = await ConceptModel.save(null, newConcept);
       const courseUpdate = await CourseModel.createCourseConcept(courseId, conceptId, conceptPos)
@@ -330,12 +334,9 @@ const getCourseById = {
       const course = await CourseModel.getById(id);
       const conceptsArray = await CourseModel.courseConceptsToArray(course);
       const orderedCourse = CourseModel.orderCourseConcepts(course, conceptsArray);
-      console.log('course', course)
-      console.log('ordered Course', orderedCourse)
       context.action = {
           type: 'GET_COURSE_BY_ID',
           currentCourse: orderedCourse,
-          //currentCourseConcepts: courseConcepts,
       }
     }catch(error){
       throw error;
@@ -346,18 +347,11 @@ const deleteConcept = {
   type: 'DELETE_CONCEPT',
   execute: async (context: any, id: string, conceptId: string) => {
       try {
-        //await ConceptModel.deleteConcept(key);
-        //figure out how to do this.
-        console.log('in the delete concept')
-        console.log('course id', id)
-        console.log('concept id', conceptId)
         await CourseModel.deleteCourseConcept(id, conceptId);
         const course = await CourseModel.getById(id);
-        console.log('this is the course', course)
         context.action = {
             type: 'GET_COURSE_BY_ID',
             currentCourse: course,
-            //currentCourseConcepts: courseConcepts,
         }
       }catch(error){
         throw error;
@@ -368,7 +362,6 @@ const orderConcepts = {
   type: 'ORDER_CONCEPTS',
   execute: async (context: any, id: string, courseConceptsArray: Concept[]) => {
     try{
-      console.log('Order Concepts')
       await CourseModel.updateCourseConcepts(id, courseConceptsArray);
     }catch(error){
       throw error;
@@ -378,11 +371,9 @@ const orderConcepts = {
 const logOutUser = {
   type: 'LOGOUT_USER',
   execute: async (context) => {
-    //Need to come up with a list of things to clear with the logout. Maybe have a clear everything function?
     await FirebaseService.logOutUser();
     context.action = {
       type: Actions.logOutUser.type,
-      user: '',
     }
   }
 };

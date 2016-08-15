@@ -9,7 +9,7 @@ import {Action} from '../../interfaces/action.interface.ts';
 export class AppComponent {
   public is: string;
   public username: string;
-  public rootReducer: (state: State, action: Action) => State; //Don't really know how to handle this one here.
+  public rootReducer: (state: State, action: Action) => State;
 
   beforeRegister() {
     this.is = 'app-element';

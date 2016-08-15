@@ -10,12 +10,10 @@ class ViewVideoRouterComponent {
         this.is = 'prendus-view-video-router';
     }
 
-    async ready() {
-        const user = await FirebaseService.getLoggedInUser();
-        const userMetaData = await UserModel.getMetaDataById(user.uid);
-
-        this.userFullName = `${userMetaData.firstName} ${userMetaData.lastName}`;
-        this.userEmail = user.email;
+    mapStateToThis(e) {
+      const state = e.detail.state;
+      this.userFullName = `${state.currentUser.firstName} ${state.currentUser.lastName}`;
+      this.userEmail = state.currentUser.email;
     }
 }
 Polymer(ViewVideoRouterComponent);

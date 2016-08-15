@@ -15,11 +15,10 @@
     }
   </style>
   <template>
-    <redux-store action="[[action]]"></redux-store>
-    <redux-store on-statechange="mapStateToThis"></redux-store>
+    <redux-store action="[[action]]" on-statechange="mapStateToThis"></redux-store>
     <app-route route="[[route]]" pattern="/view/:courseId" data="{{data}}"></app-route>
     <template is="dom-if" if="[[username]]">
-      <center><h1> [[currentCourse.title]]</h1></center>
+      <h1> [[currentCourse.title]]</h1>
       <template id="conceptsList" is="dom-repeat" items=[[courseConcepts]]>
         <concept-container concept-id="[[item.id]]" course-id="[[data.courseId]]"></concept-container>
       </template>

@@ -8,9 +8,9 @@ class EditQuestionRouterComponent {
         this.is = 'prendus-edit-question-router';
     }
 
-    async ready() {
-        const user = await FirebaseService.getLoggedInUser();
-        this.jwt = await user.getToken();
+    mapStateToThis(e) {
+      const state = e.detail.state;
+      this.jwt = state.jwt;
     }
 
     async questionSaved() {
