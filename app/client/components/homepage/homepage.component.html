@@ -1,0 +1,25 @@
+<link href="../../bower_components/polymer/polymer.html" rel="import">
+<link rel="import" href="../../bower_components/redux-store-element/redux-store.html">
+
+<dom-module id="prendus-homepage">
+  <style>
+  </style>
+
+  <template>
+
+      <redux-store on-statechange="mapStateToThis" action="[[action]]"></redux-store>
+
+    <template id="courseList" is="dom-repeat" items="[[publicCourses]]">
+      <paper-card heading="[[item.title]]">
+        <div class="card-content">Create a Description</div>
+        <div class="card-actions">
+            <paper-button on-tap="starCourse">Star</paper-button>
+          <paper-button on-tap="viewCourse">View</paper-button>
+        </div>
+      </paper-card>
+    </template>
+
+  </template>
+
+  <script>System.import('/components/homepage/homepage.component.ts');</script>
+</dom-module>
