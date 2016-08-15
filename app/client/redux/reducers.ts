@@ -10,6 +10,13 @@ export function rootReducer(state = InitialState, action) {
 
             return newState;
         }
+        case 'SET_SHARED_COURSES': {
+            const newState = Object.assign({}, state);
+
+            newState.sharedCourses = action.courses;
+
+            return newState;
+        }
         case 'SET_STARRED_COURSES': {
             const newState = Object.assign({}, state);
 
