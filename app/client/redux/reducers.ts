@@ -5,6 +5,36 @@ import {Action} from '../interfaces/action.interface.ts';
 
 export function rootReducer(state: State = InitialState, action: Action): State {
     switch(action.type) {
+        case 'SET_COLLABORATOR_EMAILS': {
+            const newState = Object.assign({}, state);
+
+            newState.collaboratorEmails = action.emails;
+
+            return newState;
+        }
+        case 'SET_SHARED_COURSES': {
+            const newState = Object.assign({}, state);
+
+            newState.sharedCourses = action.courses;
+
+            return newState;
+        }
+        case 'SET_STARRED_COURSES': {
+            const newState = Object.assign({}, state);
+
+            newState.starredCourses = action.courses;
+
+            return newState;
+        }
+        case 'SET_COURSES_BY_VISIBILITY': {
+            const newState = Object.assign({}, state);
+
+            if (action.visibility === 'public') {
+                newState.publicCourses = action.courses;
+            }
+
+            return newState;
+        }
         case 'LOAD_CONCEPT_QUIZZES': {
             const newState = Object.assign({}, state);
             newState.conceptQuizzes[action.conceptId] = action.quizzes;

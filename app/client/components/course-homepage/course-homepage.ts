@@ -1,4 +1,5 @@
 import {Actions} from '../../redux/actions.ts';
+import {FirebaseService} from '../../node_modules/prendus-services/services/firebase.service.ts';
 import {Course} from '../../node_modules/prendus-services/interfaces/course.interface.ts';
 import {StatechangeEvent} from '../../interfaces/statechange-event.interface.ts';
 
@@ -13,11 +14,21 @@ class CourseHomepageComponent {
   beforeRegister() {
     this.is = 'course-homepage';
   }
+
+  async ready() {
+      const user = await FirebaseService.getLoggedInUser();
+
+      Actions.getCoursesByUser.execute(this);
+      Actions.getStarredCoursesByUser(this, user.uid);
+      Actions.getSharedCoursesByUser(this, user.uid);
+  }
+
   editCourse(e: any){
     const location = `/courses/edit/${e.target.id}`
     window.history.pushState({}, '', location);
     this.fire('location-changed', {}, {node: window});
   }
+
   viewCourse(e: any){
     try{
       const location = `/courses/view/${e.target.id}`
@@ -27,9 +38,11 @@ class CourseHomepageComponent {
       alert(error);
     }
   }
+
   addCourse(e){
-    addCourseDialog.open();
+    this.querySelector('#addCourseDialog').open();
   }
+
   addCourseFormDone(e){
     e.preventDefault();
     if(this.querySelector('#courseFormName').value){
@@ -43,15 +56,16 @@ class CourseHomepageComponent {
       Actions.addCourse.execute(this, newCourse);
     }
   }
+
   mapStateToThis(e: StatechangeEvent) {
     console.log('homepage state', e.detail.state)
     const state = e.detail.state;
-    this.courses = state.courses;
-    this.username = state.currentUser.metaData.email;
-    this.uid = state.currentUser.metaData.uid;
-  }
-  ready() {
-    Actions.getCoursesByUser.execute(this)
+
+    this.userCourses = state.courses;
+    this.starredCourses = e.detail.state.starredCourses;
+    this.sharedCourses = e.detail.state.sharedCourses;
+    this.username = e.detail.state.currentUser.email;
+    this.uid = e.detail.state.currentUser.uid;
   }
 }
 

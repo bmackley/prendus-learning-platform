@@ -1,5 +1,6 @@
 {
   "name": "learning-platform-component",
+  "version": "0.0.1",
   "description": "An outcome management system and instrucitonal materials generation tool",
   "authors": [
     "Jordan Last <jordan.michael.last@gmail.com>",
@@ -19,8 +20,8 @@
     "paper-elements": "PolymerElements/paper-elements#^1.0.7",
     "app-route": "PolymerElements/app-route#^0.9.1",
     "paper-date-picker": "polymer-paper-date-picker#^1.1.4",
-    "solutia-maxima-components": "git@github.com:lastmjs/solutia-maxima-components.git#jordan",
-    "view-quiz-component": "git@github.com:lastmjs/view-quiz-component.git",
+    "solutia-maxima-components": "git@github.com:lastmjs/solutia-maxima-components.git#^0.0.2",
+    "view-quiz-component": "git@github.com:lastmjs/view-quiz-component.git#^0.0.1",
     "video-viewer-component": "git@github.com:lastmjs/video-viewer-component.git#^0.0.2",
     "redux-store-element": "^0.2.3",
     "paper-tabs": "^1.6.2",

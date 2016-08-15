@@ -1,30 +1,20 @@
 <link rel="import" href="../../../polymer/polymer.html">
 
-<link rel="stylesheet" href="../../../../node_modules/quill/dist/quill.base.css">
 <link rel="stylesheet" href="../../../../node_modules/quill/dist/quill.snow.css">
 <script src="../../../../node_modules/quill/dist/quill.js"></script>
 
 <dom-module id="solutia-maxima-text-editor">
     <template>
         <div class="editor-container">
-            <div id="toolbar" class="toolbar">
-                <span class="ql-format-group">
-                    <span title="Bold" class="ql-format-button ql-bold"></span>
-                    <span class="ql-format-separator"></span>
-                    <span title="Italic" class="ql-format-button ql-italic"></span>
-                    <span class="ql-format-separator"></span>
-                    <span title="Underline" class="ql-format-button ql-underline"></span>
-                </span>
-
-                <span class="ql-format-group">
-                    <span title="Image" class="ql-format-button ql-image"></span>
-                </span>
+            <div id="toolbar">
+                <button class="ql-bold"></button>
+                <button class="ql-italic"></button>
+                <button class="ql-underline"></button>
+                <button class="ql-image"></button>
             </div>
 
             <div id="editor" class="editor"></div>
         </div>
-
-        <button on-click="showHTML">Show HTML</button>
 
         <style>
             .editor-container {

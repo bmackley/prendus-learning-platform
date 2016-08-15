@@ -8,7 +8,7 @@
 <link rel="import" href="../sign-in/sign-in.html">
 <link rel="import" href="../sign-up/sign-up.html">
 <link rel="import" href="../course-router/course-router.html">
-<link rel="import" href="../homepage-element/index-element.html">
+<link rel="import" href="../homepage/homepage.component.html">
 <link rel="import" href="../profile-element/profile-element.html">
 
 <dom-module id="router-element">
@@ -28,27 +28,17 @@
     }*/
   </style>
   <template>
-    <!-- local DOM for your element -->
     <redux-store on-statechange="mapStateToThis" action="[[action]]"></redux-store>
+
     <app-location route="{{route}}"></app-location>
-    <app-route
-        route="[[route]]"
-        pattern="/:page"
-        data="{{pageData}}"
-        tail="{{tail}}"
-        active ="{{pageActive}}">
-    </app-route>
+    <app-route route="[[route]]" pattern="/:page" data="{{pageData}}" tail="{{tail}}" active ="{{pageActive}}"></app-route>
+
     <iron-pages selected="{{pageData.page}}" category="{{pageData.page}}" attr-for-selected ="data-page">
-      <sign-in data-page = "login" >
-      </sign-in>
-      <sign-up data-page = "signup">
-      </sign-up>
-      <course-router data-page = "courses" route="[[tail]]">
-      </course-router>
-      <profile-element data-page = "profile">
-      </profile-element>
-      <index-element data-page = "index">
-      </index-element>
+      <sign-in data-page="login"></sign-in>
+      <sign-up data-page="signup"></sign-up>
+      <course-router data-page="courses" route="[[tail]]"></course-router>
+      <profile-element data-page="profile"></profile-element>
+      <prendus-homepage data-page="index"></prendus-homepage>
     </iron-pages>
     <!-- <div class = "overlay">
       <paper-spinner active></paper-spinner>

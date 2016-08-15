@@ -31,6 +31,8 @@ export class EditProblemComponent {
         viewPreviewQuestion: any
     };
     public observers: string[];
+    public textPlaceholderText: string;
+    public codePlaceholderText: string;
 
     private visibility: QuestionVisibility;
 
@@ -53,6 +55,8 @@ export class EditProblemComponent {
         this.$.toast.fitInto = this;
         this.rootReducer = RootReducer;
         this.endpointDomain = UtilitiesService.getPrendusServerEndpointDomain();
+        this.textPlaceholderText = `Write the text of your question here. If you need help, click the help button in the top right corner.`;
+        this.codePlaceholderText = `Code the answer to your question here. If you need help, click the help button in the top right corner.`;
     }
 
     async init(): Promise<void> {
@@ -100,6 +104,10 @@ export class EditProblemComponent {
             this.toastMessage = error.errorMessage || error.toString();
             this.$.toast.open();
         }
+    }
+
+    helpTapped() {
+        this.querySelector('#helpModal').open();
     }
 
     async previewQuestion(): Promise<any> {

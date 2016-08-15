@@ -24,7 +24,10 @@ var cmd = `
     ln -s ../../../../components/text-editor/text-editor.component.ts bower_components/solutia-maxima-components/components/text-editor/text-editor.component.ts &&
     mkdir -p bower_components/solutia-maxima-components/components/code-editor &&
     ln -s ../../../../components/code-editor/code-editor.component.html bower_components/solutia-maxima-components/components/code-editor/code-editor.component.html &&
-    ln -s ../../../../components/code-editor/code-editor.component.ts bower_components/solutia-maxima-components/components/code-editor/code-editor.component.ts
+    ln -s ../../../../components/code-editor/code-editor.component.ts bower_components/solutia-maxima-components/components/code-editor/code-editor.component.ts &&
+    mkdir -p bower_components/solutia-maxima-components/components/help &&
+    ln -s ../../../../components/help/help.component.html bower_components/solutia-maxima-components/components/help/help.component.html &&
+    ln -s ../../../../components/help/help.component.ts bower_components/solutia-maxima-components/components/help/help.component.ts
 `;
 
 var newProcess = exec(cmd);
