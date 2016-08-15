@@ -534,5 +534,6 @@ export const Actions = {
     getStarredCoursesByUser,
     addQuizCollaborator,
     loadQuizCollaboratorEmails,
-    removeQuizCollaborator
+    removeQuizCollaborator,
+    getSharedCoursesByUser
 };
