@@ -43,7 +43,8 @@
         <redux-store on-statechange="mapStateToThis" action="[[action]]"></redux-store>
         <iron-ajax id="getUserQuestionIdsAjax" method="get" url="[[endpointDomain]]/api/questionids/uid/[[jwt]]" handle-as="json"></iron-ajax>
         <iron-ajax id="getPublicQuestionIdsAjax" method="get" url="[[endpointDomain]]/api/questionids/public" handle-as="json"></iron-ajax>
-        <iron-ajax id="addCollaboratorAjax" method="post" url="[[endpointDomain]]/api/user/collaborator/add" content-type="application/json" handle-as="json"></iron-ajax>
+        <iron-ajax id="getEmailsByIdsAjax" method="get" handle-as="json"></iron-ajax>
+        <iron-ajax id="getUidByEmailAjax" method="get" handle-as="json"></iron-ajax>
 
         <paper-dialog id="shareQuizDialog" with-backdrop style="padding: 25px">
             Use this link to access the quiz: <br><br>
@@ -86,6 +87,11 @@
                                     <!--TODO this span is here to stop the default selection of items. It is a hack, get rid of it if possible-->
                                     <span></span>
                                     <!--TODO this span is here to stop the default selection of items. It is a hack, get rid of it if possible-->
+
+                                    <template is="dom-repeat" items="[[collaboratorEmails]]">
+                                        <div>[[item]] <button on-tap="removeCollaboratorClick">remove</button></div>
+                                    </template>
+
                                     <paper-input id="collaboratorInput" label="Enter email address" stop-keyboard-event-propagation></paper-input>
                                     <paper-button raised on-tap="addCollaboratorClick">add</paper-button>
                                 </paper-menu>

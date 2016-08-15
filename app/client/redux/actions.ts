@@ -8,17 +8,58 @@ import {Course} from '../node_modules/prendus-services/interfaces/course.interfa
 import {QuestionSettings} from '../node_modules/prendus-services/interfaces/question-settings.interface.ts';
 import {CourseVisibility} from '../node_modules/prendus-services/interfaces/course-visibility.type.ts';
 
-const addQuizCollaborator = async (context: any, addCollaboratorAjax: any, quizId: string, email: string) => {
-    try {
-        addCollaboratorAjax.body = {
-            email
-        };
+const loadCollaboratorEmails = async (context: any, getEmailsByIdsAjax: any, quizId: string, endpointDomain: string, jwt: string) => {
 
-        const request = addCollaboratorAjax.generateRequest();
+    try {
+        const uids = await QuizModel.getCollaboratorUids(quizId);
+        const uidsCSV = uids.join(',');
+
+        getEmailsByIdsAjax.url = `${endpointDomain}/api/user/emails/quiz/${quizId}/jwt/${jwt}/uids/${uidsCSV}`;
+
+        const request = getEmailsByIdsAjax.generateRequest();
+        await request.completes;
+
+        const emails = request.response.emails;
+
+        context.action = {
+            type: 'SET_COLLABORATOR_EMAILS',
+            emails
+        };
+    }
+    catch(error) {
+        throw error;
+    }
+};
+
+const addQuizCollaborator = async (context: any, getUidByEmailAjax: any, endpointDomain: string, quizId: string, email: string) => {
+    try {
+        getUidByEmailAjax.url = `${endpointDomain}/api/user/uid/email/${email}`;
+
+        const request = getUidByEmailAjax.generateRequest();
         await request.completes;
 
         const uid = request.response.uid;
+
+        if (!uid) {
+            throw 'The user does not exist';
+        }
+
         await QuizModel.addCollaborator(quizId, uid);
+    }
+    catch(error) {
+        throw error;
+    }
+};
+
+const removeQuizCollaborator = async (context: any, getUidByEmailAjax: any, endpointDomain: string, quizId: string, email: string) => {
+    try {
+        getUidByEmailAjax.url = `${endpointDomain}/api/user/uid/email/${email}`;
+
+        const request = getUidByEmailAjax.generateRequest();
+        await request.completes;
+
+        const uid = request.response.uid;
+        await QuizModel.removeCollaborator(quizId, uid);
     }
     catch(error) {
         throw error;
@@ -476,5 +517,7 @@ export const Actions = {
     loadPublicQuestionIds,
     starCourse,
     getStarredCoursesByUser,
-    addQuizCollaborator
+    addQuizCollaborator,
+    loadCollaboratorEmails,
+    removeQuizCollaborator
 };

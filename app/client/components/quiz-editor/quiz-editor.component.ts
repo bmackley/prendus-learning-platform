@@ -19,6 +19,7 @@ class QuizEditorComponent {
     public quizSettings: QuestionSettings;
     public title: string;
     public selected: number;
+    public collaboratorEmails: string[];
 
     beforeRegister() {
         this.is = 'prendus-quiz-editor';
@@ -55,8 +56,9 @@ class QuizEditorComponent {
             await this.init();
             const quiz = await Actions.getQuiz(this.quizId);
             this.title = quiz.title;
-            await this.loadQuizQuestionIds();
-            await Actions.loadQuizSettings(this, this.quizId);
+            this.loadQuizQuestionIds();
+            Actions.loadQuizSettings(this, this.quizId);
+            Actions.loadCollaboratorEmails(this, this.querySelector('#getEmailsByIdsAjax'), this.quizId, this.endpointDomain, this.jwt);
         }
     }
 
@@ -199,8 +201,20 @@ class QuizEditorComponent {
     }
 
     async addCollaboratorClick() {
-        const email = this.querySelector('#collaboratorInput').value;
-        await Actions.addQuizCollaborator(this, this.querySelector('#addCollaboratorAjax'), this.quizId, email);
+        try {
+            const email = this.querySelector('#collaboratorInput').value;
+            await Actions.addQuizCollaborator(this, this.querySelector('#getUidByEmailAjax'), this.endpointDomain, this.quizId, email);
+            await Actions.loadCollaboratorEmails(this, this.querySelector('#getEmailsByIdsAjax'), this.quizId, this.endpointDomain, this.jwt);
+        }
+        catch(error) {
+            alert(error);
+        }
+    }
+
+    async removeCollaboratorClick(e) {
+        const email = e.model.item;
+        await Actions.removeQuizCollaborator(this, this.querySelector('#getUidByEmailAjax'), this.endpointDomain, this.quizId, email);
+        await Actions.loadCollaboratorEmails(this, this.querySelector('#getEmailsByIdsAjax'), this.quizId, this.endpointDomain, this.jwt);
     }
 
     mapStateToThis(e) {
@@ -210,6 +224,7 @@ class QuizEditorComponent {
         this.userQuestionIds = state.userQuestionIds;
         this.publicQuestionIds = state.publicQuestionIds;
         this.quizQuestionIds = state.quizQuestionIds;
+        this.collaboratorEmails = state.collaboratorEmails;
     }
 }
 
