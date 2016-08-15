@@ -15,6 +15,7 @@ Polymer({
     }
 
     this.starredCourses = e.detail.state.starredCourses;
+    this.sharedCourses = e.detail.state.sharedCourses;
     this.username = e.detail.state.currentUser.email;
     this.uid = e.detail.state.currentUser.uid;
   },
@@ -69,5 +70,6 @@ Polymer({
 
     Actions.getCoursesByUser.execute(this);
     Actions.getStarredCoursesByUser(this, user.uid);
+    Actions.getSharedCoursesByUser(this, user.uid);
   }
 });

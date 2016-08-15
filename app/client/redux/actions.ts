@@ -8,7 +8,7 @@ import {Course} from '../node_modules/prendus-services/interfaces/course.interfa
 import {QuestionSettings} from '../node_modules/prendus-services/interfaces/question-settings.interface.ts';
 import {CourseVisibility} from '../node_modules/prendus-services/interfaces/course-visibility.type.ts';
 
-const loadCollaboratorEmails = async (context: any, getEmailsByIdsAjax: any, quizId: string, endpointDomain: string, jwt: string) => {
+const loadQuizCollaboratorEmails = async (context: any, getEmailsByIdsAjax: any, quizId: string, endpointDomain: string, jwt: string) => {
 
     try {
         const uids = await QuizModel.getCollaboratorUids(quizId);
@@ -416,6 +416,21 @@ const getStarredCoursesByUser = async (context: any, uid: string) => {
     }
 };
 
+const getSharedCoursesByUser = async (context: any, uid: string) => {
+    try {
+        const courseIds = await UserModel.getSharedWithMeCoursesIds(uid);
+        const courses = await CourseModel.resolveIds(courseIds);
+
+        context.action = {
+            type: 'SET_SHARED_COURSES',
+            courses
+        };
+    }
+    catch(error) {
+        throw error;
+    }
+};
+
 const getCoursesByVisibility = async (context: any, visibility: CourseVisibility) => {
 
     const courses = await CourseModel.getAllByVisibility(visibility);
@@ -518,6 +533,6 @@ export const Actions = {
     starCourse,
     getStarredCoursesByUser,
     addQuizCollaborator,
-    loadCollaboratorEmails,
+    loadQuizCollaboratorEmails,
     removeQuizCollaborator
 };

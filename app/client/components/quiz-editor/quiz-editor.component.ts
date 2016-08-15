@@ -58,7 +58,7 @@ class QuizEditorComponent {
             this.title = quiz.title;
             this.loadQuizQuestionIds();
             Actions.loadQuizSettings(this, this.quizId);
-            Actions.loadCollaboratorEmails(this, this.querySelector('#getEmailsByIdsAjax'), this.quizId, this.endpointDomain, this.jwt);
+            Actions.loadQuizCollaboratorEmails(this, this.querySelector('#getEmailsByIdsAjax'), this.quizId, this.endpointDomain, this.jwt);
         }
     }
 
