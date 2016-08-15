@@ -66,8 +66,6 @@ export class ProfileComponent {
     }
     this.$.changeEmailPassword.value = ''; //need to clear the form
   }
-  properties: {
-  }
   ready(e){
     this.$.updateProfileErrorToast.fitInto = this.$.toastTarget;
     this.$.updateProfileSuccessToast.fitInto = this.$.toastTarget;

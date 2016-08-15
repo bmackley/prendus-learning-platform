@@ -48,13 +48,7 @@ export function rootReducer(state: State = InitialState, action: Action): State 
       case Actions.checkUserAuth.type: {
         const newState = Object.assign({}, state);
         newState.currentUser = action.currentUser;
-        return newState;
-      }
-      case Actions.setConcepts.type: {
-        const newState = Object.assign({}, state);
-        newState.concepts = {
-          title: action.title,
-        };
+        newState.jwt = action.jwt;
         return newState;
       }
       case 'GET_CONCEPT_BY_ID': {
@@ -70,8 +64,9 @@ export function rootReducer(state: State = InitialState, action: Action): State 
         return newState;
       }
       case Actions.logOutUser.type: {
-        const newState = Object.assign({}, state);
-        newState.currentUser = {uid: '', username: '', permissions: ''};
+        let newState = Object.assign({}, state);
+        newState = InitialState;
+        // newState.currentUser.metaData = {email: '', firstName: '', lastName: '', uid: ''};
         return newState;
       }
       case Actions.updateUserMetaData.type: {

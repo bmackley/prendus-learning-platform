@@ -19,6 +19,9 @@
           <paper-icon-button icon="menu"></paper-icon-button>
           <span id ="index" on-tap="changeURL" style ="cursor: pointer; cursor: hand;"> <span class="title" >Prendus</span></span>
           <span class="title"></span>
+          <template>
+            {{username}}
+          </template>
           <template is="dom-if" if="{{username}}">
             <div on-tap="openDropdown" >{{username}} </div>
             <div>
