@@ -78,18 +78,18 @@ class CollaboratorMenuComponent {
             const email = this.querySelector('#collaboratorInput').value;
 
             if (this.courseId) {
-                await Actions.addCourseCollaborator(this, this.quizId, email);
-                await Actions.loadCourseCollaboratorEmails(this, this.quizId);
+                await Actions.addCourseCollaborator(this, this.courseId, email);
+                await Actions.loadCourseCollaboratorEmails(this, this.courseId);
             }
 
             if (this.conceptId) {
-                await Actions.addConceptCollaborator(this, this.quizId, email);
-                await Actions.loadConceptCollaboratorEmails(this, this.quizId);
+                await Actions.addConceptCollaborator(this, this.conceptId, email);
+                await Actions.loadConceptCollaboratorEmails(this, this.conceptId);
             }
 
             if (this.videoId) {
-                await Actions.addVideoCollaborator(this, this.quizId, email);
-                await Actions.loadVideoCollaboratorEmails(this, this.quizId);
+                await Actions.addVideoCollaborator(this, this.videoId, email);
+                await Actions.loadVideoCollaboratorEmails(this, this.videoId);
             }
 
             if (this.quizId) {
@@ -107,18 +107,18 @@ class CollaboratorMenuComponent {
             const email = e.model.item;
 
             if (this.courseId) {
-                await Actions.removeCourseCollaborator(this, this.quizId, email);
-                await Actions.loadCourseCollaboratorEmails(this, this.quizId);
+                await Actions.removeCourseCollaborator(this, this.courseId, email);
+                await Actions.loadCourseCollaboratorEmails(this, this.courseId);
             }
 
             if (this.conceptId) {
-                await Actions.removeConceptCollaborator(this, this.quizId, email);
-                await Actions.loadConceptCollaboratorEmails(this, this.quizId);
+                await Actions.removeConceptCollaborator(this, this.conceptId, email);
+                await Actions.loadConceptCollaboratorEmails(this, this.conceptId);
             }
 
             if (this.videoId) {
-                await Actions.removeVideoCollaborator(this, this.quizId, email);
-                await Actions.loadVideoCollaboratorEmails(this, this.quizId);
+                await Actions.removeVideoCollaborator(this, this.videoId, email);
+                await Actions.loadVideoCollaboratorEmails(this, this.videoId);
             }
 
             if (this.quizId) {
@@ -134,7 +134,21 @@ class CollaboratorMenuComponent {
     mapStateToThis(e: StatechangeEvent) {
         const state = e.detail.state;
 
-        this.collaboratorEmails = state.collaboratorEmails;
+        if (this.courseId) {
+            this.collaboratorEmails = state.courseCollaboratorEmails;
+        }
+
+        if (this.conceptId) {
+            this.collaboratorEmails = state.conceptCollaboratorEmails;
+        }
+
+        if (this.videoId) {
+            this.collaboratorEmails = state.videoCollaboratorEmails;
+        }
+
+        if (this.quizId) {
+            this.collaboratorEmails = state.quizCollaboratorEmails;
+        }
     }
 }
 

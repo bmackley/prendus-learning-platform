@@ -5,10 +5,31 @@ import {Action} from '../interfaces/action.interface.ts';
 
 export function rootReducer(state: State = InitialState, action: Action): State {
     switch(action.type) {
-        case 'SET_COLLABORATOR_EMAILS': {
+        case 'SET_COURSE_COLLABORATOR_EMAILS': {
             const newState = Object.assign({}, state);
 
-            newState.collaboratorEmails = action.emails;
+            newState.courseCollaboratorEmails = action.emails;
+
+            return newState;
+        }
+        case 'SET_CONCEPT_COLLABORATOR_EMAILS': {
+            const newState = Object.assign({}, state);
+
+            newState.conceptCollaboratorEmails = action.emails;
+
+            return newState;
+        }
+        case 'SET_VIDEO_COLLABORATOR_EMAILS': {
+            const newState = Object.assign({}, state);
+
+            newState.videoCollaboratorEmails = action.emails;
+
+            return newState;
+        }
+        case 'SET_QUIZ_COLLABORATOR_EMAILS': {
+            const newState = Object.assign({}, state);
+
+            newState.quizCollaboratorEmails = action.emails;
 
             return newState;
         }
