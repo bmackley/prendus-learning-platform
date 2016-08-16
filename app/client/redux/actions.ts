@@ -27,7 +27,7 @@ const loadCourseCollaboratorEmails = async (context: any, courseId: string) => {
         const emails = await UserModel.getEmailsByIds(uids);
 
         context.action = {
-            type: 'SET_COLLABORATOR_EMAILS',
+            type: 'SET_COURSE_COLLABORATOR_EMAILS',
             emails
         };
     }
@@ -50,7 +50,7 @@ const loadConceptCollaboratorEmails = async (context: any, conceptId: string) =>
         const emails = await UserModel.getEmailsByIds(uids);
 
         context.action = {
-            type: 'SET_COLLABORATOR_EMAILS',
+            type: 'SET_CONCEPT_COLLABORATOR_EMAILS',
             emails
         };
     }
@@ -73,7 +73,7 @@ const loadVideoCollaboratorEmails = async (context: any, videoId: string) => {
         const emails = await UserModel.getEmailsByIds(uids);
 
         context.action = {
-            type: 'SET_COLLABORATOR_EMAILS',
+            type: 'SET_VIDEO_COLLABORATOR_EMAILS',
             emails
         };
     }
@@ -96,7 +96,7 @@ const loadQuizCollaboratorEmails = async (context: any, quizId: string) => {
         const emails = await UserModel.getEmailsByIds(uids);
 
         context.action = {
-            type: 'SET_COLLABORATOR_EMAILS',
+            type: 'SET_QUIZ_COLLABORATOR_EMAILS',
             emails
         };
     }

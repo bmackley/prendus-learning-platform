@@ -2,23 +2,49 @@
 <link rel="import" href="../../bower_components/paper-input/paper-input.html">
 <link rel="import" href="../../bower_components/paper-button/paper-button.html">
 <link rel="import" href="../../bower_components/paper-toast/paper-toast.html">
+<link rel="import" href="../collaborator-menu-content/collaborator-menu-content.component.html">
+<link rel="import" href="../../bower_components/paper-menu/paper-submenu.html">
+<link rel="import" href="../../bower_components/paper-menu/paper-menu.html">
 
 <dom-module id="prendus-video-editor">
     <template>
-        <template is="dom-if" if="[[videoId]]">
-            <button on-tap="deleteClick">Delete</button>
-        </template>
+        <div style="position: relative">
+            <template is="dom-if" if="[[videoId]]">
+                <button on-tap="deleteClick">Delete</button>
+            </template>
 
-        <div style="display: flex; flex-direction: column">
-            <paper-input id="titleInput" label="video title" on-input="updateTitle" value="[[title]]"></paper-input>
-            <paper-input id="urlInput" label="video url" on-input="updateUrl" value="[[url]]"></paper-input>
-            <div style="display: flex; flex-direction: row; margin-bottom: 25px">
-                <paper-button on-tap="saveClick" raised>Save</paper-button>
+            <div style="position: absolute; top: -45px; right: -25px">
+                <paper-menu-button ignore-select no-animations allow-outside-scroll>
+                    <paper-icon-button icon="more-vert" title="video settings" class="dropdown-trigger"></paper-icon-button>
+                    <paper-menu class="dropdown-content" style="padding: 15px">
+                        <!--TODO this span is here to stop the default selection of items. It is a hack, get rid of it if possible-->
+                        <span></span>
+                        <!--TODO this span is here to stop the default selection of items. It is a hack, get rid of it if possible-->
+                        <paper-submenu>
+                            <paper-item class="menu-trigger">Collaborators</paper-item>
+                            <paper-menu class="menu-content">
+                                <!--TODO this span is here to stop the default selection of items. It is a hack, get rid of it if possible-->
+                                <span></span>
+                                <!--TODO this span is here to stop the default selection of items. It is a hack, get rid of it if possible-->
+                                <prendus-collaborator-menu-content video-id="[[videoId]]"></prendus-collaborator-menu-content>
+                            </paper-menu>
+                        </paper-submenu>
+                    </paper-menu>
+                </paper-menu-button>
             </div>
-            <div style="display: flex; flex-direction: row; justify-content: center; align-items: center">
-                <video src="[[url]]" controls></video>
+
+            <div style="display: flex; flex-direction: column">
+                <paper-input id="titleInput" label="video title" on-input="updateTitle" value="[[title]]"></paper-input>
+                <paper-input id="urlInput" label="video url" on-input="updateUrl" value="[[url]]"></paper-input>
+                <div style="display: flex; flex-direction: row; margin-bottom: 25px">
+                    <paper-button on-tap="saveClick" raised>Save</paper-button>
+                </div>
+                <div style="display: flex; flex-direction: row; justify-content: center; align-items: center">
+                    <video src="[[url]]" controls></video>
+                </div>
             </div>
         </div>
+
         <paper-toast id="savedToast" text="Video saved"></paper-toast>
     </template>
 
