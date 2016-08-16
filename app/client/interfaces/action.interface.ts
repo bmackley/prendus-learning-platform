@@ -23,4 +23,5 @@ export interface Action {
   currentEditQuizId: '';
   currentEditConceptId: '';
   jwt: string;
+  emails: string[];
 }
