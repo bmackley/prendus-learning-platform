@@ -8,6 +8,10 @@ class CollaboratorMenuComponent {
     public querySelector: any;
     public course: boolean;
     public observers: string[];
+    public courseId: string;
+    public conceptId: string;
+    public videoId: string;
+    public quizId: string;
 
     beforeRegister() {
         this.is = 'prendus-collaborator-menu-content';
@@ -34,38 +38,64 @@ class CollaboratorMenuComponent {
     }
 
     async initCourse(courseId: string) {
-        // if (this.quiz) {
-        //     Actions.loadQuizCollaboratorEmails(this);
-        //
-        //     return;
-        // }
+        try {
+            await Actions.loadCourseCollaboratorEmails(this, courseId);
+        }
+        catch(error) {
+            alert(error);
+        }
     }
 
     async initConcept(conceptId: string) {
-        // if (this.quiz) {
-        //     Actions.loadQuizCollaboratorEmails(this);
-        //
-        //     return;
-        // }
+        try {
+            await Actions.loadConceptCollaboratorEmails(this, conceptId);
+        }
+        catch(error) {
+            alert(error);
+        }
     }
 
     async initVideo(videoId: string) {
-        // if (this.quiz) {
-        //     Actions.loadQuizCollaboratorEmails(this);
-        //
-        //     return;
-        // }
+        try {
+            await Actions.loadVideoCollaboratorEmails(this, videoId);
+        }
+        catch(error) {
+            alert(error);
+        }
     }
 
     async initQuiz(quizId: string) {
-        Actions.loadQuizCollaboratorEmails(this, );
+        try {
+            await Actions.loadQuizCollaboratorEmails(this, quizId);
+        }
+        catch(error) {
+            alert(error);
+        }
     }
 
     async addCollaboratorClick(e: Event) {
         try {
             const email = this.querySelector('#collaboratorInput').value;
-            //await Actions.addQuizCollaborator(this, this.querySelector('#getUidByEmailAjax'), this.endpointDomain, this.quizId, email);
-            //await Actions.loadCollaboratorEmails(this, this.querySelector('#getEmailsByIdsAjax'), this.quizId, this.endpointDomain, this.jwt);
+
+            if (this.courseId) {
+                await Actions.addCourseCollaborator(this, this.quizId, email);
+                await Actions.loadCourseCollaboratorEmails(this, this.quizId);
+            }
+
+            if (this.conceptId) {
+                await Actions.addConceptCollaborator(this, this.quizId, email);
+                await Actions.loadConceptCollaboratorEmails(this, this.quizId);
+            }
+
+            if (this.videoId) {
+                await Actions.addVideoCollaborator(this, this.quizId, email);
+                await Actions.loadVideoCollaboratorEmails(this, this.quizId);
+            }
+
+            if (this.quizId) {
+                await Actions.addQuizCollaborator(this, this.quizId, email);
+                await Actions.loadQuizCollaboratorEmails(this, this.quizId);
+            }
         }
         catch(error) {
             alert(error);
@@ -75,8 +105,26 @@ class CollaboratorMenuComponent {
     async removeCollaboratorClick(e: DOMRepeatEvent) {
         try {
             const email = e.model.item;
-            //await Actions.removeQuizCollaborator(this, this.querySelector('#getUidByEmailAjax'), this.endpointDomain, this.quizId, email);
-            //await Actions.loadCollaboratorEmails(this, this.querySelector('#getEmailsByIdsAjax'), this.quizId, this.endpointDomain, this.jwt);
+
+            if (this.courseId) {
+                await Actions.removeCourseCollaborator(this, this.quizId, email);
+                await Actions.loadCourseCollaboratorEmails(this, this.quizId);
+            }
+
+            if (this.conceptId) {
+                await Actions.removeConceptCollaborator(this, this.quizId, email);
+                await Actions.loadConceptCollaboratorEmails(this, this.quizId);
+            }
+
+            if (this.videoId) {
+                await Actions.removeVideoCollaborator(this, this.quizId, email);
+                await Actions.loadVideoCollaboratorEmails(this, this.quizId);
+            }
+
+            if (this.quizId) {
+                await Actions.removeQuizCollaborator(this, this.quizId, email);
+                await Actions.loadQuizCollaboratorEmails(this, this.quizId);
+            }
         }
         catch(error) {
             alert(error);
