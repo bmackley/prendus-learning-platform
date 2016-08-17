@@ -17,7 +17,6 @@ class CourseHomepageComponent {
 
   async ready() {
       const user = await FirebaseService.getLoggedInUser();
-
       Actions.getCoursesByUser.execute(this);
       Actions.getStarredCoursesByUser(this, user.uid);
       Actions.getSharedCoursesByUser(this, user.uid);
