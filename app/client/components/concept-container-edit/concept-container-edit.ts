@@ -39,6 +39,7 @@ export class ConceptComponentEdit {
     this.conceptData = state.currentConcept;
   }
   ready() {
+    this.selected = 0;
   }
 }
 

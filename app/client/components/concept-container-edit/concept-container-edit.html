@@ -9,31 +9,40 @@
 <link href="../concept-video-container-edit/concept-video-container-edit.component.html" rel="import">
 <link href="../concept-quiz-container-edit/concept-quiz-container-edit.component.html" rel="import">
 <script src="../../bower_components/moment/min/moment-with-locales.min.js"></script>
+<link rel="import" href="../../styles/color-styles.html">
+
 
 <dom-module id="concept-container-edit">
   <template>
+  <style include="color-styles"></style>
+  <style>
+  #resource-tabs{
+    --paper-tabs-selection-bar-color: var(--prendus-primary-color);
+  }
+  #title-bar{
+    border-bottom: 0px 0px 3px black;
+  }
+  </style>
     <redux-store on-statechange="mapStateToThis" action="[[action]]"></redux-store>
     <div>
         <!-- <paper-spinner></paper-spinner> Can't figure out how to get this-->
-      <paper-icon-item>
-        <div>
-          <h3 on-tap="toggle">[[title]]</h3>
-        </div>
-      </paper-icon-item>
+      <div id = "title-bar">
+        <h3 on-tap="toggle">[[title]]</h3>
+      </div>
       <iron-collapse class="conceptToggle" id= "concept-[[item.pos]]">
         <div id = "classContent">
-          <div class = "flex-horizontal" id = "videosContainer">
-            <paper-header-panel mode="seamed">
-              <paper-toolbar><h1>Videos</h1></paper-toolbar>
-            </paper-header-panel>
-            <prendus-concept-video-container-edit concept-id="[[conceptId]]"></prendus-concept-video-container-edit>
-          </div>
-          <div class = "flex-horizontal" id = "quizzesContainer">
-            <paper-header-panel mode="seamed">
-              <paper-toolbar><h1>Quizzes</h1></paper-toolbar>
-            </paper-header-panel>
-            <prendus-concept-quiz-container-edit concept-id="[[conceptId]]"></prendus-concept-quiz-container-edit>
-          </div>
+          <paper-tabs id="resource-tabs" selected="{{selected}}">
+              <paper-tab>QUIZZES</paper-tab>
+              <paper-tab>VIDEOS</paper-tab>
+          </paper-tabs>
+          <iron-pages selected="{{selected}}" style="position: relative">
+            <div class = "flex-horizontal" id = "quizzesContainer">
+              <prendus-concept-quiz-container-edit concept-id="[[conceptId]]"></prendus-concept-quiz-container-edit>
+            </div>
+            <div class = "flex-horizontal" id = "videosContainer">
+              <prendus-concept-video-container-edit concept-id="[[conceptId]]"></prendus-concept-video-container-edit>
+            </div>
+          </iron-pages>
         </div>
       </iron-collapse>
     </div>

@@ -70,6 +70,10 @@ class CourseEditComponent {
   }
 
   deleteItem(e){
+    console.log('delete Item')
+    this.querySelector('#deleteConfirm').open();
+  }
+  completeDelete(e){
     Actions.deleteConcept.execute(this, this.courseId, e.target.id);
   }
 

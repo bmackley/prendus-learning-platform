@@ -1,23 +1,30 @@
 <link rel="import" href="../../bower_components/polymer/polymer.html">
 <link rel="import" href="../../bower_components/redux-store-element/redux-store.html">
+<link href="../../bower_components/paper-fab/paper-fab.html" rel="import">
+<link href="../../bower_components/paper-button/paper-button.html" rel="import">
+<link rel="import" href="../../styles/color-styles.html">
 
 <dom-module id="prendus-concept-quiz-container-edit">
     <template>
+    <style include="color-styles"></style>
         <style>
             .quiz-row {
                 padding: 20px;
                 cursor: pointer;
             }
+            paper-button.addResource {
+              background-color: var(--prendus-primary-color);
+              color: white;
+              margin-top: 2%;
+            }
         </style>
 
         <redux-store on-statechange="mapStateToThis" action="[[action]]"></redux-store>
-
-        <button on-tap="addQuizClick">Add quiz</button>
-
+        <paper-button class="addResource" raised ="true" icon = "add" title = "Add Quiz" on-tap="addQuizClick">Add Quiz</paper-button>
         <template is="dom-repeat" items="[[quizzes]]">
             <div class="quiz-row" on-tap="quizRowClick">[[item.title]]</div>
         </template>
-    </template>
+      </template>
 
     <script>System.import('/components/concept-quiz-container-edit/concept-quiz-container-edit.component.ts');</script>
 </dom-module>
