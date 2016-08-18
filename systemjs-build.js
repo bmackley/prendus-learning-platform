@@ -27,13 +27,18 @@ builder.config({
         }
     },
     map: {
-        ts: 'app/client/node_modules/plugin-typescript/lib/',
-        typescript: 'app/client/node_modules/typescript/lib/',
-        'plugin-babel': 'app/client/node_modules/systemjs-plugin-babel/plugin-babel.js',
-        'systemjs-babel-build': 'app/client/node_modules/systemjs-plugin-babel/systemjs-babel-browser.js'
+        ts: './node_modules/plugin-typescript/lib/',
+        typescript: './node_modules/typescript/lib/',
+        'plugin-babel': './node_modules/systemjs-plugin-babel/plugin-babel.js',
+        'systemjs-babel-build': './node_modules/systemjs-plugin-babel/systemjs-babel-browser.js'
     }
 });
 
-builder.buildStatic('app/client/components/*/*.ts', 'app/client/prendus.js', {
-    minify: false
+builder.buildStatic(`
+    (app/client/components/*/*.ts) +
+    (app/client/bower_components/solutia-maxima-components/*/*.ts) +
+    (app/client/bower_components/view-quiz-component/*.ts) +
+    (app/client/bower_components/video-viewer-component/*.ts)
+    `, 'app/client/dist/prendus.js', {
+    minify: true
 });
