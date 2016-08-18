@@ -1,0 +1,24 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/redux-store-element/redux-store.html">
+
+<dom-module id="prendus-concept-quiz-container">
+    <template>
+        <style>
+            .quiz-row {
+                padding: 20px;
+                cursor: pointer;
+            }
+        </style>
+
+        <redux-store on-statechange="mapStateToThis" action="[[action]]"></redux-store>
+        <template is="dom-repeat" items="[[quizzes]]">
+            <div class="quiz-row" on-tap="quizRowClick">[[item.title]]</div>
+        </template>
+    </template>
+
+    <script>
+        if (window.PRENDUS_DEV) {
+            System.import('/components/prendus-concept-quiz-container/prendus-concept-quiz-container.ts');
+        }
+    </script>
+</dom-module>

@@ -8,8 +8,6 @@
         <script src="/node_modules/systemjs/dist/system.js"></script>
         <script src="/node_modules/es-no-build/config.js"></script>
         <script src="https://www.gstatic.com/firebasejs/live/3.0/firebase.js"></script>
-        <script>System.import('/services/database-init.service.ts')</script>
-        <link rel="import" href="/components/app-element/app-element.html">
         <link rel="stylesheet" href="/styles/main.css">
         <script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML"></script>
         <script type="text/x-mathjax-config">
@@ -24,9 +22,11 @@
                 color: grey !important;
             }
         </style>
+        <link rel="import" href="/components/prendus-app/prendus-app.html">
+        <!-- <link rel="import" href="prendus.html"> -->
     </head>
     <body unresolved class ="fullbleed layout vertical">
-        <app-element></app-element>
+        <prendus-app></prendus-app>
     </body>
 
 </html>

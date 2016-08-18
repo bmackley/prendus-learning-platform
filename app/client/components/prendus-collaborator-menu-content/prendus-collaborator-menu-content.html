@@ -1,0 +1,19 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/redux-store-element/redux-store.html">
+<link rel="import" href="../../bower_components/paper-input/paper-input.html">
+<link rel="import" href="../../bower_components/paper-button/paper-button.html">
+
+<dom-module id="prendus-collaborator-menu-content">
+    <template>
+        <redux-store on-statechange="mapStateToThis" action=[[action]]></redux-store>
+
+        <template is="dom-repeat" items="[[collaboratorEmails]]">
+            <div>[[item]] <button on-tap="removeCollaboratorClick">remove</button></div>
+        </template>
+
+        <paper-input id="collaboratorInput" label="Enter email address" stop-keyboard-event-propagation></paper-input>
+        <paper-button raised on-tap="addCollaboratorClick">add</paper-button>
+    </template>
+
+    <script src="prendus-collaborator-menu-content.js"></script>
+</dom-module>

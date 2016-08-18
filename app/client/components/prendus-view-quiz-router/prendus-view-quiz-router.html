@@ -1,0 +1,19 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/app-route/app-route.html">
+<link rel="import" href="../../bower_components/view-quiz-component/view-quiz.component.html">
+<link href="../../bower_components/redux-store-element/redux-store.html" rel="import">
+
+<dom-module id="prendus-view-quiz-router">
+    <template>
+        <redux-store on-statechange="mapStateToThis"></redux-store>
+        <app-route route="[[route]]" pattern="/view-quiz/course/:courseId/quiz/:quizId/quiz-session-id/:quizSessionId" data="{{data}}"></app-route>
+
+        <prendus-view-quiz jwt="[[jwt]]" course-id="[[data.courseId]]" quiz-id="[[data.quizId]]" user-full-name="[[userFullName]]" user-email="[[userEmail]]" quiz-session-id="[[data.quizSessionId]]"></prendus-view-quiz>
+    </template>
+
+    <script>
+        if (window.PRENDUS_DEV) {
+            System.import('/components/prendus-view-quiz-router/prendus-view-quiz-router.ts');
+        }
+    </script>
+</dom-module>
