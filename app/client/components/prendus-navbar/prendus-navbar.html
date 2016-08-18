@@ -16,6 +16,10 @@
     #user-menu-handler {
       margin-right: 1%;
     }
+    #dropdown-container{
+      margin-right: 1%;
+      margin-top: 2%;
+    }
   </style>
   <template>
     <redux-store on-statechange="mapStateToThis" action="[[action]]"></redux-store>
@@ -29,13 +33,11 @@
           </template>
           <template is="dom-if" if="{{username}}">
             <div on-tap="openDropdown" id = "user-menu-handler" style ="cursor: pointer; cursor: hand;">{{username}} </div>
-            <div>
+            <div id = "dropdown-container">
               <iron-dropdown vertical-align="top" horizontal-align="right" noAutoFocus>
                 <paper-listbox class="dropdown-content" id = "user-menu-listbox">
                   <paper-item><paper-button class="route" id="/profile" on-tap="changeURL">Account</paper-button></paper-item>
                   <paper-item><paper-button class="route" id="/courses/home" on-tap="changeURL">Courses</paper-button></paper-item>
-                  <paper-item><paper-button class="route" id="/profile" on-tap="changeURL">Dashboards</paper-button></paper-item>
-                  <paper-item><paper-button class="route" id="/profile" on-tap="changeURL">Settings</paper-button></paper-item>
                   <paper-item><paper-button class="route" id="/login" on-tap="logOutUser">Logout</paper-button></paper-item>
                 </paper-listbox>
               </iron-dropdown>
