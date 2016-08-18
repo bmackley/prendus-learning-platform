@@ -1,0 +1,40 @@
+
+<link href="../../bower_components/polymer/polymer.html" rel="import">
+<link href="../../bower_components/paper-card/paper-card.html" rel="import">
+<link href="../../bower_components/app-route/app-location.html" rel="import">
+<link href="../../bower_components/iron-pages/iron-pages.html" rel="import">
+<link href="../../bower_components/iron-selector/iron-selector.html" rel="import">
+
+<link rel="import" href="../prendus-course-edit/prendus-course-edit.html">
+<link rel="import" href="../prendus-course-view/prendus-course-view.html">
+<link rel="import" href="../prendus-course-homepage/prendus-course-homepage.html">
+<!-- <link rel="import" href="../prendus-quiz-editor/prendus-quiz-editor.html"> -->
+<!-- <link rel="import" href="../prendus-view-video-router/prendus-view-video-router.html"> -->
+<!-- <link rel="import" href="../prendus-view-quiz-router/prendus-view-quiz-router.html"> -->
+<!-- <link rel="import" href="../prendus-edit-quiz-router/prendus-edit-quiz-router.html"> -->
+<!-- <link rel="import" href="../prendus-edit-question-router/prendus-edit-question-router.html"> -->
+
+<dom-module id="prendus-course-router">
+  <style>
+    :host {
+      display: block;
+    }
+  </style>
+
+  <template>
+    <app-route route="[[route]]" pattern="/:page" data="{{data}}" tail="{{tail}}"></app-route>
+
+    <iron-pages selected="[[data.page]]" attr-for-selected="key">
+      <prendus-course-homepage key="home"></prendus-course-homepage>
+      <prendus-course-edit key="edit" route="[[route]]"></prendus-course-edit>
+      <prendus-course-view key="view" route="[[route]]"></prendus-course-view>
+      <!-- <prendus-edit-quiz-router key="edit-quiz" route="[[route]]"></prendus-edit-quiz-router> -->
+      <!-- <prendus-edit-question-router key="edit-question" route="[[route]]"></prendus-edit-question-router> -->
+      <!-- <prendus-view-video-router key="view-video" route="[[route]]"></prendus-view-video-router> -->
+      <!-- <prendus-view-quiz-router key="view-quiz" route="[[route]]"></prendus-view-quiz-router> -->
+      <!-- <prendus-view-question-router key="view-question" route="[[route]]"></prendus-view-question-router> -->
+    </iron-pages>
+  </template>
+
+  <script>System.import('/components/prendus-course-router/prendus-course-router.ts');</script>
+</dom-module>

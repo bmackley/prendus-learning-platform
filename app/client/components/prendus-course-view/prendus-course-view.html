@@ -1,0 +1,52 @@
+<link href="../../bower_components/polymer/polymer.html" rel="import">
+<link href="../../bower_components/iron-collapse/iron-collapse.html" rel="import">
+<link href="../../bower_components/paper-header-panel/paper-header-panel.html" rel="import">
+<link href="../../bower_components/paper-spinner/paper-spinner.html" rel="import">
+<!-- <link href="../../bower_components/redux-store-element/redux-store.html" rel="import"> -->
+<link href="../../bower_components/Sortable/Sortable.html" rel="import">
+<link href="../prendus-concept-container/prendus-concept-container.html" rel="import">
+<script src="../../bower_components/moment/min/moment-with-locales.min.js"></script>
+
+<dom-module id="prendus-course-view">
+  <style>
+    :host {
+      display: block;
+    }
+    /*.concepts-style-container{
+      display: flex;
+      flex-direction: row;
+      flex: 1;
+      box-shadow: 0px 0px 3px black;
+      margin-top: 1%;
+      margin-bottom: 1%;
+      position: relative;
+      height: 0%
+    }*/
+    #concepts-style-container{
+
+    }
+    #concept-container-div{
+      box-shadow: 0px 0px 3px black;
+      margin-top: 1%;
+      margin-bottom: 1%;
+      position: relative;
+      height: 0%
+    }
+  </style>
+  <template>
+    <redux-store action="[[action]]" on-statechange="mapStateToThis"></redux-store>
+    <app-route route="[[route]]" pattern="/view/:courseId" data="{{data}}"></app-route>
+    <template is="dom-if" if="[[username]]">
+      <h1> [[currentCourse.title]]</h1>
+      <template id="conceptsList" is="dom-repeat" items=[[courseConcepts]]>
+        <div id="concept-container-div">
+          <prendus-concept-container id = "concepts-style-container" concept-id="[[item.id]]" course-id="[[data.courseId]]"></prendus-concept-container>
+        </div>
+      </template>
+    </template>
+    <template is="dom-if" if="[[!username]]">
+      <p> You are not signed in.  Please sign in to access this page </p>
+    </template>
+  </template>
+  <script>System.import('/components/prendus-course-view/prendus-course-view.ts');</script>
+</dom-module>

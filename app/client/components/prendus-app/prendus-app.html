@@ -1,0 +1,22 @@
+
+<link href="../../bower_components/polymer/polymer.html" rel="import">
+<link rel="import" href="../../bower_components/paper-fab/paper-fab.html">
+<link rel="import" href="../../bower_components/redux-store-element/redux-store.html">
+<link rel="import" href="../../styles/app-theme.html">
+<link rel="import" href="../../styles/shared-styles.html">
+<link rel="import" href="../prendus-navbar/prendus-navbar.html">
+<link rel="import" href="../prendus-router/prendus-router.html">
+
+<dom-module id="prendus-app">
+  <style>
+    /* CSS rules for your element */
+  </style>
+  <template>
+    <redux-store root-reducer="[[rootReducer]]"></redux-store>
+    <prendus-navbar></prendus-navbar>
+    <prendus-router></prendus-router>
+  </template>
+  <script>
+    System.import('/components/prendus-app/prendus-app.ts');
+  </script>
+</dom-module>
