@@ -1,0 +1,15 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/app-route/app-route.html">
+<link rel="import" href="../../bower_components/video-viewer-component/video-viewer.component.html">
+<link href="../../bower_components/redux-store-element/redux-store.html" rel="import">
+
+<dom-module id="prendus-view-video-router">
+    <template>
+        <redux-store on-statechange="mapStateToThis"></redux-store>
+        <app-route route="[[route]]" pattern="/view-video/course/:courseId/video/:videoId" data="{{data}}"></app-route>
+
+        <prendus-video-viewer course="[[data.courseId]]" content="[[data.videoId]]" user-full-name="[[userFullName]]" user-email="[[userEmail]]"></prendus-video-viewer>
+    </template>
+
+    <script>System.import('/components/prendus-view-video-router/prendus-view-video-router.ts');</script>
+</dom-module>
