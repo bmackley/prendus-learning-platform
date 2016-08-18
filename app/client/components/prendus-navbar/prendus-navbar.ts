@@ -29,6 +29,9 @@ export class CourseNavbarComponent {
 
   logOutUser(e: any){
     Actions.logOutUser.execute(this);
+    const location = "/login"
+    window.history.pushState({}, '', location);
+    this.fire('location-changed', {}, {node: window});
   }
 
   ready(){

@@ -9,7 +9,6 @@
                 cursor: pointer;
             }
         </style>
-
         <redux-store on-statechange="mapStateToThis" action="[[action]]"></redux-store>
         <template is="dom-repeat" items="[[quizzes]]">
             <div class="quiz-row" on-tap="quizRowClick">[[item.title]]</div>
