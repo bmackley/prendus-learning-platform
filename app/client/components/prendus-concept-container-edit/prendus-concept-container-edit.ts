@@ -10,6 +10,7 @@ export class ConceptComponentEdit {
   public conceptId: string;
   public observers: string[];
   public conceptData: Concept;
+  public selected: number;
 
   beforeRegister() {
     this.is = 'prendus-concept-container-edit';
@@ -39,6 +40,7 @@ export class ConceptComponentEdit {
     this.conceptData = state.currentConcept;
   }
   ready() {
+    this.selected = 0;
   }
 }
 

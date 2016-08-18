@@ -11,9 +11,5 @@
         <prendus-quiz-editor id="quizEditorComponent" concept-id="[[data.conceptId]]" quiz-id="[[data.quizId]]" on-editquestion="routeToEditQuestion" on-createquestion="routeToCreateQuestion"></prendus-quiz-editor>
     </template>
 
-    <script>
-        if (window.PRENDUS_DEV) {
-            System.import('/components/prendus-edit-quiz-router/prendus-edit-quiz-router.ts');
-        }
-    </script>
+    <script src="prendus-edit-quiz-router.js"></script>
 </dom-module>

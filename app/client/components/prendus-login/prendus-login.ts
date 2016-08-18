@@ -29,7 +29,6 @@ class LoginComponent {
   }
 
   ready(){
-    console.log('sign in')
     this.$.loginToast.fitInto = this.$.toastTarget;
   }
 }

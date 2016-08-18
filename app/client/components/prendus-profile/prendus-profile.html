@@ -8,6 +8,7 @@
 <link rel="import" href="../../bower_components/paper-dialog/paper-dialog.html" >
 
 <dom-module id="prendus-profile">
+  <template>
   <style>
     :host {
       display: block;
@@ -41,7 +42,6 @@
         --paper-toast-background-color: green;
       }
   </style>
-  <template>
     <redux-store on-statechange="mapStateToThis" action="[[action]]"></redux-store>
     <paper-toast id="updateProfileErrorToast" duration="5000" verticalAlign="top" text=[[updateProfileErrorToastText]]></paper-toast>
     <paper-toast id="updateProfileSuccessToast" duration="5000" verticalAlign="top" text=[[updateProfileSuccessToastText]]></paper-toast>
@@ -70,9 +70,5 @@
   </paper-dialog>
   </template>
 
-    <script>
-        if (window.PRENDUS_DEV) {
-            System.import('/components/prendus-profile/prendus-profile.ts');
-        }
-    </script>
+  <script src="prendus-profile.js"></script>
 </dom-module>

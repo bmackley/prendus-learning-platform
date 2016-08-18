@@ -10,7 +10,6 @@ class CourseRouter {
       this.is = 'prendus-course-router';
   }
   async ready() {
-
   }
 }
 Polymer(CourseRouter);
