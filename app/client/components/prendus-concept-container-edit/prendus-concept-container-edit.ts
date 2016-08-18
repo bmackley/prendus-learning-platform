@@ -27,8 +27,8 @@ export class ConceptComponentEdit {
     if (this.conceptId) {
       const path = `concepts/${this.conceptId}`
       const concept = await FirebaseService.get(path); //Am I doing this right? I feel like this was pretty smart on my part. Keeps the title scoped to just the concept component - AKA Dont want redux on this
+      await Actions.getConceptById.execute(this, this.conceptId);
       this.title = concept.title;
-      // await Actions.getConceptById.execute(this, this.conceptId);
     }
   }
   toggle(e: any) {
