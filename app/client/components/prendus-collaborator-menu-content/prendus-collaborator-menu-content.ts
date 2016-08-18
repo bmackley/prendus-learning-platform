@@ -14,6 +14,7 @@ class CollaboratorMenuComponent {
     public quizId: string;
 
     beforeRegister() {
+        
         this.is = 'prendus-collaborator-menu-content';
         this.properties = {
             courseId: {
