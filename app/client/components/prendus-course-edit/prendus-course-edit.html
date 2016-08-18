@@ -1,0 +1,134 @@
+
+<link href="../../bower_components/polymer/polymer.html" rel="import">
+<link href="../../bower_components/paper-dialog/paper-dialog.html" rel="import">
+<link href="../../bower_components/paper-fab/paper-fab.html" rel="import">
+<link href="../../bower_components/paper-dialog-behavior/paper-dialog-behavior.html" rel="import">
+<link href="../../bower_components/paper-dialog-behavior/paper-dialog-shared-styles.html" rel="import">
+<link href="../../bower_components/paper-spinner/paper-spinner.html" rel="import">
+<link href="../../bower_components/paper-date-picker/paper-date-picker.html" rel="import">
+<link href="../../bower_components/redux-store-element/redux-store.html" rel="import">
+<link href="../../bower_components/paper-input/paper-input.html" rel="import">
+<link href="../../bower_components/paper-menu-button/paper-menu-button.html" rel="import" >
+<link href="../../bower_components/paper-menu/paper-menu.html" rel="import">
+<link href="../../bower_components/Sortable/Sortable.html" rel="import">
+<link href="../../bower_components/app-route/app-route.html" rel="import">
+<script src="../../bower_components/moment/min/moment-with-locales.min.js"></script>
+<link href="../../bower_components/iron-icons/editor-icons.html" rel="import">
+<link href="../../bower_components/paper-item/paper-icon-item.html" rel="import">
+<link href="../prendus-concept-container-edit/prendus-concept-container-edit.html" rel="import">
+
+
+<dom-module id="prendus-course-edit">
+  <style>
+    :host {
+      display: block;
+    }
+    /*#course-container{
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+      margin-left: 8%;
+      margin-right: 8%;
+      margin-top: 2%;
+      position: relative;
+      height: 0%
+    }*/
+    .concepts-style-container{
+      display: flex;
+      flex-direction: row;
+      flex: 1;
+      box-shadow: 0px 0px 3px black;
+      margin-top: 1%;
+      margin-bottom: 1%;
+      position: relative;
+      height: 0%
+    }
+
+    /* CSS rules for your element */
+  </style>
+  <template>
+    <redux-store action="[[action]]" on-statechange="mapStateToThis"></redux-store>
+    <app-route route="[[route]]" pattern="/edit/:courseId" data="{{data}}"></app-route>
+    <div>
+      <div id = "course-container">
+        <!-- style="display: flex; flex-direction: column; flex: 1; box-shadow: 0px 0px 3px black; margin: 100px; position: relative; height: 0%" -->
+        <template is="dom-if" if="[[username]]">
+            <course-title title="[[item.title]]" instructor="[[item.instructor]]">
+              <h1 id ="courseTitle" contenteditable="true">
+                [[currentCourse.title]]
+              </h1>
+              <!--Come back to this. Don't need it for the alpha launch -->
+              <!-- <paper-dialog id="selectStartDate" class="paper-date-picker-dialog" modal on-iron-overlay-closed="dismissStartDatepicker">
+                <paper-date-picker id="startDatePicker" date="[[startDate]]" min-date="September 1, 2016"></paper-date-picker>
+                <div class="buttons">
+                  <paper-button dialog-dismiss>Cancel</paper-button>
+                  <paper-button dialog-confirm>OK</paper-button>
+                </div>
+              </paper-dialog>
+              <paper-dialog id="selectEndDate" class="paper-date-picker-dialog" modal on-iron-overlay-closed="dismissEndDatepicker">
+                <paper-date-picker id="picker" date="[[endDate]]" min-date="September 1, 2016"></paper-date-picker>
+                <div class="buttons">
+                  <paper-button dialog-dismiss>Cancel</paper-button>
+                  <paper-button dialog-confirm>OK</paper-button>
+                </div>
+              </paper-dialog>
+              <h1 contenteditable="true">
+                Start Date
+                <iron-icon icon="icons:date-range" item-icon on-tap="openStartDatePicker"></iron-icon>{{item.startDate.month}}/{{item.startDate.day}}/{{item.startDate.year}}
+              </h1>
+              <h1>
+                End Date
+                <iron-icon icon="icons:date-range" item-icon on-tap="openEndDatePicker"></iron-icon>{{item.endDate.month}}/{{item.endDate.day}}/{{item.endDate.year}}
+              </h1>-->
+              <sortable-js on-sort="sortableEnded">
+                <template id="conceptsList" is="dom-repeat" items=[[courseConcepts]]>
+                  <div class = "concepts-style-container">
+                    <!-- <iron-icon class = "end-justified"icon="editor:drag-handle" item-icon style="flex: 1;flex-direction: row;"></iron-icon> [[item.keys]]
+                    <iron-icon class = "end-justified" id = "[[item.key]]" icon="icons:delete" item-icon on-tap="deleteItem"></iron-icon> -->
+                    <prendus-concept-container-edit concept-id="[[item.id]]" style="flex: 5;flex-direction: row;"></prendus-concept-container-edit><span>
+                    <paper-menu-button>
+                      <paper-icon-button icon="more-vert" class="dropdown-trigger"></paper-icon-button>
+                      <paper-menu class="dropdown-content" selected = "null">
+                        <paper-item role="menuitem" id = "[[item.key]]" on-tap="deleteItem"><iron-icon class = "end-justified" icon="icons:delete" item-icon ></iron-icon>Delete</paper-item>
+                        <!-- <paper-item><iron-icon class = "end-justified"icon="editor:drag-handle" item-icon style="flex: 1;flex-direction: row;"></iron-icon> [[item.keys]]
+                        Reorder concepts</paper-item> -->
+                      </paper-menu>
+                    </paper-menu-button>
+                  </div>
+                </template>
+              </sortable-js>
+            </course-title>
+        </template>
+        <template is="dom-if" if="[[!username]]">
+          <p> You are not signed in.  Please sign in to access this page </p>
+        </template>
+        <paper-dialog id = "addDialog" modal>
+          <div>
+            <!-- Look up Iron keys to change this -->
+            <form is="iron-form">
+              <h2>Add a Concept to the Course</h2>
+              <paper-input name="name" label="Concept Name" id ="conceptFormName" required auto-validate></paper-input>
+              <paper-button dialog-dismiss>Cancel</paper-button>
+              <paper-button on-tap="addConceptFormDone">Done</paper-button>
+            </form>
+          </div>
+          <div class="buttons">
+          </div>
+        </paper-dialog>
+        <paper-dialog id = "deleteConfirm" modal>
+          <div>
+            <!-- Look up Iron keys to change this -->
+            <form is="iron-form">
+              <h1 style="color: red">Confirm Delete </h1>
+              <p>Are you sure that you want to delete this concept?
+              <paper-button dialog-dismiss>No</paper-button>
+              <paper-button on-tap="completeDelete">Yes</paper-button>
+            </form>
+          </div>
+        </paper-dialog>
+        <paper-fab icon = "add" title = "Add Concept" tooltip="Add Concept" on-tap="addConcept"></paper-fab>
+      </template>
+    </div>
+  </div>
+  <script>System.import('/components/prendus-course-edit/prendus-course-edit.ts');</script>
+</dom-module>
