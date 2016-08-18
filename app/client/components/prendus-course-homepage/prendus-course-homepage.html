@@ -11,6 +11,13 @@
     :host {
       display: block;
     }
+    #addFabButton{
+      margin-top: 2%;
+    }
+    #addCourseDialog{
+      width: 33%;
+      height: 25%;
+    }
   </style>
   <template>
     <redux-store on-statechange="mapStateToThis" action="[[action]]"></redux-store>
@@ -21,7 +28,7 @@
     <template id="courseList" is="dom-repeat" items="[[userCourses]]">
         <!--TODO make a component for this-->
       <paper-card heading="[[item.title]]">
-        <div class="card-content">Create a Description</div>
+        <div class="card-content">[[item.description]]</div>
         <div class="card-actions">
           <paper-button id="[[item.id]]" on-tap="editCourse">Edit</paper-button>  <!-- Go to page from here -->
           <paper-button id="[[item.id]]" on-tap="viewCourse">View</paper-button>
@@ -29,13 +36,15 @@
       </paper-card>
       <!--TODO make a component for this-->
     </template>
-    <paper-fab icon = "add" title = "Add" on-tap="addCourse"></paper-fab>
+    <br>
+    <paper-fab id="addFabButton" icon = "add" title = "Add Course" on-tap="addCourse"></paper-fab>
 
     <paper-dialog id = "addCourseDialog" modal>
       <h2>Create a Course</h2>
       <div>
         <!-- Look up Iron keys to change this -->
         <paper-input name="name" label="Course Name" id ="courseFormName" required auto-validate></paper-input>
+        <paper-input name="name" label="160 Character Description" id ="courseDescription" required auto-validate></paper-input>
         <paper-button dialog-dismiss>Cancel</paper-button>
         <paper-button on-tap="addCourseFormDone">Next</paper-button>
       </div>

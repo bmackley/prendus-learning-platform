@@ -19,14 +19,14 @@
   #resource-tabs{
     --paper-tabs-selection-bar-color: var(--prendus-primary-color);
   }
-  #title-bar{
-    border-bottom: 0px 0px 3px black;
+  #concept-container-div{
+    padding-left: 2%
   }
   </style>
     <redux-store on-statechange="mapStateToThis" action="[[action]]"></redux-store>
-    <div>
+    <div id ="concept-container-div">
         <!-- <paper-spinner></paper-spinner> Can't figure out how to get this-->
-      <div id = "title-bar">
+      <div>
         <h3 on-tap="toggle">[[title]]</h3>
       </div>
       <iron-collapse class="conceptToggle" id= "concept-[[item.pos]]">
