@@ -22,7 +22,7 @@ class ExampleComponent {
   setMessage(){
     console.log(this.message);
     this.toastText = this.message;
-
+    
   }
   mapStateToThis(e) {
     const state = e.detail.state

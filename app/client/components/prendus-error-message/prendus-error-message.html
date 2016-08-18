@@ -7,7 +7,7 @@
   </style>
   <template>
     <redux-store on-statechange="mapStateToThis" action="[[action]]"></redux-store>
-    <paper-toast id="toastContainer" verticalAlign="top" text=[[loginFormToastText]]></paper-toast>
+    <paper-toast id="toastContainer" verticalAlign="top" text=[[toastText]]></paper-toast>
     <div id="toastTarget" style = "margin-left: -28px; height: 60px;"></div>
   </template>
   <script>System.import('/components/prendus-error-message/prendus-error-message.ts');</script>
