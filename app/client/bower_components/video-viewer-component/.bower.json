@@ -1,6 +1,5 @@
 {
   "name": "video-viewer-component",
-  "version": "0.0.2",
   "description": "",
   "authors": [
     "Jordan Last <jordan.michael.last@gmail.com>"
@@ -16,14 +15,13 @@
   "dependencies": {
     "polymer": "^1.6.0"
   },
-  "_release": "0.0.2",
+  "_release": "1438d10755",
   "_resolution": {
-    "type": "version",
-    "tag": "v0.0.2",
-    "commit": "17196e26a14096aba74de7c38994a45bbdb7d113"
+    "type": "branch",
+    "branch": "jordan",
+    "commit": "1438d10755549bf20a63f82b7086cf7fca9a6189"
   },
   "_source": "git@github.com:lastmjs/video-viewer-component.git",
-  "_target": "^0.0.2",
-  "_originalSource": "git@github.com:lastmjs/video-viewer-component.git",
-  "_direct": true
+  "_target": "jordan",
+  "_originalSource": "git@github.com:lastmjs/video-viewer-component.git"
 }

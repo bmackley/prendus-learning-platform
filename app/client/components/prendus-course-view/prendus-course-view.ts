@@ -2,6 +2,7 @@ import {Actions} from '../../redux/actions.ts';
 import {Course} from '../../node_modules/prendus-services/interfaces/course.interface.ts';
 import {Concept} from '../../node_modules/prendus-services/interfaces/concept.interface.ts';
 import {CourseConceptData} from '../../node_modules/prendus-services/interfaces/course-concept-data.interface.ts';
+import {StatechangeEvent} from '../../interfaces/statechange-event.interface.ts';
 
 export class CourseViewComponent {
   public is: string;
@@ -37,7 +38,7 @@ export class CourseViewComponent {
     ];
   }
 
-  mapStateToThis(e) {
+  mapStateToThis(e: StatechangeEvent) {
     const state = e.detail.state;
     this.courseId = state.currentCourse.id;
     this.username = state.currentUser.metaData.email;

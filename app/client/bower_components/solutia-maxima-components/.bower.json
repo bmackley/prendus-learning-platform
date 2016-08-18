@@ -29,11 +29,11 @@
     "paper-dialog-scrollable": "^1.1.5"
   },
   "homepage": "https://github.com/lastmjs/solutia-maxima-components",
-  "_release": "d8f79fbd5c",
+  "_release": "f30cd38e59",
   "_resolution": {
     "type": "branch",
     "branch": "jordan",
-    "commit": "d8f79fbd5c3066e56e6df22ffe3ad924e639e195"
+    "commit": "f30cd38e59b7492554efc997d5eed5d8237943ce"
   },
   "_source": "git@github.com:lastmjs/solutia-maxima-components.git",
   "_target": "jordan",

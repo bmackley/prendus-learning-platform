@@ -12,8 +12,8 @@ class ViewVideoRouterComponent {
 
     mapStateToThis(e) {
       const state = e.detail.state;
-      this.userFullName = `${state.currentUser.firstName} ${state.currentUser.lastName}`;
-      this.userEmail = state.currentUser.email;
+      this.userFullName = `${state.currentUser.metaData.firstName} ${state.currentUser.metaData.lastName}`;
+      this.userEmail = state.currentUser.metaData.email;
     }
 }
 Polymer(ViewVideoRouterComponent);
