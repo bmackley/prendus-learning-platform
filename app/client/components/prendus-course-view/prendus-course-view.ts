@@ -82,7 +82,5 @@ export class CourseViewComponent {
       Actions.getCourseById.execute(this, this.data.courseId)
     }
   }
-  ready(){
-  }
 }
 Polymer(CourseViewComponent);
