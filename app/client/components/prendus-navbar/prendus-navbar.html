@@ -10,27 +10,34 @@
 <dom-module id="prendus-navbar">
   <style>
     /* CSS rules for your element */
+    #index {
+      margin-left: 1%;
+    }
+    #user-menu-handler {
+      margin-right: 1%;
+    }
+    #dropdown-container{
+      margin-right: 1%;
+      margin-top: 2%;
+    }
   </style>
   <template>
     <redux-store on-statechange="mapStateToThis" action="[[action]]"></redux-store>
       <!-- local DOM for your element -->
     <paper-header-panel class="flex">
         <paper-toolbar>
-          <paper-icon-button icon="menu"></paper-icon-button>
           <span id ="index" on-tap="changeURL" style ="cursor: pointer; cursor: hand;"> <span class="title" >Prendus</span></span>
           <span class="title"></span>
           <template>
             {{username}}
           </template>
           <template is="dom-if" if="{{username}}">
-            <div on-tap="openDropdown" >{{username}} </div>
-            <div>
+            <div on-tap="openDropdown" id = "user-menu-handler" style ="cursor: pointer; cursor: hand;">{{username}} </div>
+            <div id = "dropdown-container">
               <iron-dropdown vertical-align="top" horizontal-align="right" noAutoFocus>
-                <paper-listbox class="dropdown-content" >
+                <paper-listbox class="dropdown-content" id = "user-menu-listbox">
                   <paper-item><paper-button class="route" id="/profile" on-tap="changeURL">Account</paper-button></paper-item>
                   <paper-item><paper-button class="route" id="/courses/home" on-tap="changeURL">Courses</paper-button></paper-item>
-                  <paper-item><paper-button class="route" id="/profile" on-tap="changeURL">Dashboards</paper-button></paper-item>
-                  <paper-item><paper-button class="route" id="/profile" on-tap="changeURL">Settings</paper-button></paper-item>
                   <paper-item><paper-button class="route" id="/login" on-tap="logOutUser">Logout</paper-button></paper-item>
                 </paper-listbox>
               </iron-dropdown>
@@ -44,9 +51,5 @@
     </paper-header-panel>
   </template>
 
-    <script>
-        if (window.PRENDUS_DEV) {
-            System.import('/components/prendus-navbar/prendus-navbar.ts');
-        }
-    </script>
+  <script src="prendus-navbar.js"></script>
 </dom-module>
