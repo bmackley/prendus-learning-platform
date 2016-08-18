@@ -358,11 +358,10 @@ const addCourse = {
   execute: async (context: any, newCourse: Course) => {
       try {
         const courseId = await CourseModel.createOrUpdate(null, newCourse);
-        let savedCourse = Object.assign({}, newCourse);
-        savedCourse.courseId = courseId;
+        const courses = await CourseModel.getCoursesByUser(newCourse.uid);
         context.action = {
             type: Actions.addCourse.type,
-            newCourse: savedCourse,
+            courses: courses,
         }
       }catch(error){
         throw error;
