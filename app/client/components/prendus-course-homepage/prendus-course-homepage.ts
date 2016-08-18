@@ -47,7 +47,8 @@ class CourseHomepageComponent {
     e.preventDefault();
     if(this.querySelector('#courseFormName').value){
       this.querySelector('#addCourseDialog').close();
-      this.formTitle = this.querySelector('#courseFormName').value
+      this.formTitle = this.querySelector('#courseFormName').value;
+      this.courseDescription = this.querySelector('#courseDescription').value;
       const newCourse = {
         private: false,
         title: this.formTitle,
