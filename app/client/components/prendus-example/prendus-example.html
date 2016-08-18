@@ -1,0 +1,17 @@
+<link href="../../bower_components/polymer/polymer.html" rel="import">
+
+<dom-module id="prendus-example">
+  <style>
+    /* CSS rules for your element */
+  </style>
+  <template>
+    <redux-store on-statechange="mapStateToThis" action="[[action]]"></redux-store>
+
+  </template>
+
+    <script>
+        if (window.PRENDUS_DEV) {
+            System.import('/components/prendus-example/prendus-example.ts');
+        }
+    </script>
+</dom-module>
