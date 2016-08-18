@@ -1,0 +1,54 @@
+<link href="../../bower_components/polymer/polymer.html" rel="import">
+
+<link rel="import" href="../../bower_components/app-route/app-route.html">
+<link rel="import" href="../../bower_components/app-route/app-location.html">
+<link rel="import" href="../../bower_components/paper-spinner/paper-spinner.html">
+<link rel="import" href="../../bower_components/iron-pages/iron-pages.html">
+<link rel="import" href="../../bower_components/iron-selector/iron-selector.html" >
+<link rel="import" href="../prendus-login/prendus-login.html">
+<link rel="import" href="../prendus-create-account/prendus-create-account.html">
+<link rel="import" href="../prendus-course-router/prendus-course-router.html">
+<link rel="import" href="../prendus-homepage/prendus-homepage.html">
+<link rel="import" href="../prendus-profile/prendus-profile.html">
+
+<dom-module id="prendus-router">
+  <style>
+    /* CSS rules for your element */
+    /*.overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      background: #FFF;
+    }*/
+  </style>
+  <template>
+    <redux-store on-statechange="mapStateToThis" action="[[action]]"></redux-store>
+
+    <app-location route="{{route}}"></app-location>
+    <app-route route="[[route]]" pattern="/:page" data="{{pageData}}" tail="{{tail}}" active ="{{pageActive}}"></app-route>
+
+    <iron-pages selected="{{pageData.page}}" category="{{pageData.page}}" attr-for-selected ="data-page">
+      <prendus-login data-page="login"></prendus-login>
+      <prendus-create-account data-page="signup"></prendus-create-account>
+      <prendus-course-router data-page="courses" route="[[tail]]"></prendus-course-router>
+      <prendus-profile data-page="profile"></prendus-profile>
+      <prendus-homepage data-page="index"></prendus-homepage>
+    </iron-pages>
+    <!-- <div class = "overlay">
+      <paper-spinner active></paper-spinner>
+    </div> -->
+    <!--talk to Jordan about this -->
+  </template>
+
+  <script>
+      if (window.PRENDUS_DEV) {
+          System.import('/components/prendus-router/prendus-router.ts');
+      }
+  </script>
+</dom-module>

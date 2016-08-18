@@ -13,6 +13,8 @@ import {UserMetaData} from '../node_modules/prendus-services/interfaces/user-met
 import {User} from '../node_modules/prendus-services/interfaces/user.interface.ts';
 import {EmailsToUidsModel} from '../node_modules/prendus-services/models/emails-to-uids.model.ts';
 
+FirebaseService.init('AIzaSyANTSoOA6LZZDxM7vqIlAl37B7IqWL-6MY', 'prendus.firebaseapp.com', 'https://prendus.firebaseio.com', 'prendus.appspot.com', 'Prendus');
+
 const loadCourseCollaboratorEmails = async (context: any, courseId: string) => {
 
     try {
