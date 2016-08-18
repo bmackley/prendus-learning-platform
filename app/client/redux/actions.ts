@@ -321,7 +321,7 @@ const checkUserAuth = {
 };
 const addConcept = {
   type: 'ADD_CONCEPT',
-  execute: async (context, courseId: string, newConcept: CourseConceptData, conceptPos: number) => {
+  execute: async (context, courseId: string, newConcept: Concept, conceptPos: number) => {
     try {
       const conceptId = await ConceptModel.save(null, newConcept);
       const courseUpdate = await CourseModel.createCourseConcept(courseId, conceptId, conceptPos)
