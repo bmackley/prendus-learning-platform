@@ -20,15 +20,15 @@
     "paper-elements": "PolymerElements/paper-elements#^1.0.7",
     "app-route": "PolymerElements/app-route#^0.9.1",
     "paper-date-picker": "polymer-paper-date-picker#^1.1.4",
-    "solutia-maxima-components": "git@github.com:lastmjs/solutia-maxima-components.git#^0.0.2",
-    "view-quiz-component": "git@github.com:lastmjs/view-quiz-component.git#^0.0.1",
-    "video-viewer-component": "git@github.com:lastmjs/video-viewer-component.git#^0.0.2",
-    "redux-store-element": "^0.2.3",
+    "solutia-maxima-components": "git@github.com:lastmjs/solutia-maxima-components.git#jordan",
+    "view-quiz-component": "git@github.com:lastmjs/view-quiz-component.git#jordan",
+    "video-viewer-component": "git@github.com:lastmjs/video-viewer-component.git#jordan",
     "paper-tabs": "^1.6.2",
     "paper-menu-button": "^1.5.1",
     "paper-menu": "^1.2.2",
     "iron-a11y-announcer": "PolymerElements/iron-a11y-announcer#^1.0.5",
     "iron-resizable-behavior": "PolymerElements/iron-resizable-behavior#^1.0.5",
-    "iron-autogrow-textarea": "PolymerElements/iron-autogrow-textarea#^1.0.13"
+    "iron-autogrow-textarea": "PolymerElements/iron-autogrow-textarea#^1.0.13",
+    "redux-store-element": "^0.2.4"
   }
 }
