@@ -10,7 +10,6 @@ export class AppComponent {
   public username: string;
   public rootReducer: (state: State, action: Action) => State;
 
-
   beforeRegister() {
     this.is = 'prendus-app';
   }
