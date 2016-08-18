@@ -10,6 +10,7 @@ class CourseHomepageComponent {
   private uid: string;
   public username: string;
   public formTitle: string;
+  public courseDescription: string;
 
   beforeRegister() {
     this.is = 'prendus-course-homepage';
@@ -50,9 +51,11 @@ class CourseHomepageComponent {
       const newCourse = {
         private: false,
         title: this.formTitle,
-        uid: this.uid,
+        description: this.courseDescription,
+        uid: this.uid
       }
       Actions.addCourse.execute(this, newCourse);
+      this.querySelector('#courseFormName').value = '';
     }
   }
 

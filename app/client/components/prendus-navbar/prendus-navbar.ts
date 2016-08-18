@@ -24,7 +24,7 @@ export class CourseNavbarComponent {
 
   openDropdown(e: any){
     const btn = document.querySelector("iron-dropdown");
-    btn.open()
+    btn.toggle()
   }
 
   logOutUser(e: any){
