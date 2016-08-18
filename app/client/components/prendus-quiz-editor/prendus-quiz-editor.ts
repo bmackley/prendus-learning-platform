@@ -58,7 +58,6 @@ class QuizEditorComponent {
             this.title = quiz.title;
             this.loadQuizQuestionIds();
             Actions.loadQuizSettings(this, this.quizId);
-            Actions.loadQuizCollaboratorEmails(this, this.querySelector('#getEmailsByIdsAjax'), this.quizId, this.endpointDomain, this.jwt);
         }
     }
 
@@ -198,23 +197,6 @@ class QuizEditorComponent {
         this.quizQuestionIds.forEach((questionId) => {
             Actions.setQuestionSetting(this, this.quizId, questionId, settingName, value);
         });
-    }
-
-    async addCollaboratorClick() {
-        try {
-            const email = this.querySelector('#collaboratorInput').value;
-            await Actions.addQuizCollaborator(this, this.querySelector('#getUidByEmailAjax'), this.endpointDomain, this.quizId, email);
-            await Actions.loadCollaboratorEmails(this, this.querySelector('#getEmailsByIdsAjax'), this.quizId, this.endpointDomain, this.jwt);
-        }
-        catch(error) {
-            alert(error);
-        }
-    }
-
-    async removeCollaboratorClick(e) {
-        const email = e.model.item;
-        await Actions.removeQuizCollaborator(this, this.querySelector('#getUidByEmailAjax'), this.endpointDomain, this.quizId, email);
-        await Actions.loadCollaboratorEmails(this, this.querySelector('#getEmailsByIdsAjax'), this.quizId, this.endpointDomain, this.jwt);
     }
 
     mapStateToThis(e) {
