@@ -4,7 +4,6 @@
 <link href="../../bower_components/paper-spinner/paper-spinner.html" rel="import">
 <link href="../../bower_components/redux-store-element/redux-store.html" rel="import">
 <link href="../../bower_components/Sortable/Sortable.html" rel="import">
-<link href="../prendus-concept-video-container/prendus-concept-video-container.html" rel="import">
 <link href="../prendus-concept-container/prendus-concept-container.html" rel="import">
 <script src="../../bower_components/moment/min/moment-with-locales.min.js"></script>
 
@@ -13,6 +12,26 @@
     :host {
       display: block;
     }
+    /*.concepts-style-container{
+      display: flex;
+      flex-direction: row;
+      flex: 1;
+      box-shadow: 0px 0px 3px black;
+      margin-top: 1%;
+      margin-bottom: 1%;
+      position: relative;
+      height: 0%
+    }*/
+    #concepts-style-container{
+
+    }
+    #concept-container-div{
+      box-shadow: 0px 0px 3px black;
+      margin-top: 1%;
+      margin-bottom: 1%;
+      position: relative;
+      height: 0%
+    }
   </style>
   <template>
     <redux-store action="[[action]]" on-statechange="mapStateToThis"></redux-store>
@@ -20,7 +39,9 @@
     <template is="dom-if" if="[[username]]">
       <h1> [[currentCourse.title]]</h1>
       <template id="conceptsList" is="dom-repeat" items=[[courseConcepts]]>
-        <prendus-concept-container concept-id="[[item.id]]" course-id="[[data.courseId]]"></prendus-concept-container>
+        <div id="concept-container-div">
+          <prendus-concept-container id = "concepts-style-container" concept-id="[[item.id]]" course-id="[[data.courseId]]"></prendus-concept-container>
+        </div>
       </template>
     </template>
     <template is="dom-if" if="[[!username]]">
@@ -28,9 +49,5 @@
     </template>
   </template>
 
-    <script>
-        if (window.PRENDUS_DEV) {
-            System.import('/components/prendus-course-view/prendus-course-view.ts');
-        }
-    </script>
+  <script src="prendus-course-view.js"></script>
 </dom-module>

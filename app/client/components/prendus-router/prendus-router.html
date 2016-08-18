@@ -26,6 +26,16 @@
       justify-content: center;
       background: #FFF;
     }*/
+    #app-container{
+      display: flex;
+      flex-direction: column;
+      flex: auto;
+      margin-left: 8%;
+      margin-right: 8%;
+      margin-top: 2%;
+      position: relative;
+      height: 0%
+    }
   </style>
   <template>
     <redux-store on-statechange="mapStateToThis" action="[[action]]"></redux-store>
@@ -33,7 +43,7 @@
     <app-location route="{{route}}"></app-location>
     <app-route route="[[route]]" pattern="/:page" data="{{pageData}}" tail="{{tail}}" active ="{{pageActive}}"></app-route>
 
-    <iron-pages selected="{{pageData.page}}" category="{{pageData.page}}" attr-for-selected ="data-page">
+    <iron-pages id="app-container" selected="{{pageData.page}}" category="{{pageData.page}}" attr-for-selected ="data-page">
       <prendus-login data-page="login"></prendus-login>
       <prendus-create-account data-page="signup"></prendus-create-account>
       <prendus-course-router data-page="courses" route="[[tail]]"></prendus-course-router>
@@ -43,12 +53,7 @@
     <!-- <div class = "overlay">
       <paper-spinner active></paper-spinner>
     </div> -->
-    <!--talk to Jordan about this -->
   </template>
 
-  <script>
-      if (window.PRENDUS_DEV) {
-          System.import('/components/prendus-router/prendus-router.ts');
-      }
-  </script>
+  <script src="prendus-router.js"></script>
 </dom-module>

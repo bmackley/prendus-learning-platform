@@ -10,6 +10,7 @@ class CourseHomepageComponent {
   private uid: string;
   public username: string;
   public formTitle: string;
+  public courseDescription: string;
 
   beforeRegister() {
     this.is = 'prendus-course-homepage';
@@ -17,7 +18,6 @@ class CourseHomepageComponent {
 
   async ready() {
       const user = await FirebaseService.getLoggedInUser();
-
       Actions.getCoursesByUser.execute(this);
       Actions.getStarredCoursesByUser(this, user.uid);
       Actions.getSharedCoursesByUser(this, user.uid);
@@ -51,15 +51,16 @@ class CourseHomepageComponent {
       const newCourse = {
         private: false,
         title: this.formTitle,
-        uid: this.uid,
+        description: this.courseDescription,
+        uid: this.uid
       }
       Actions.addCourse.execute(this, newCourse);
+      this.querySelector('#courseFormName').value = '';
     }
   }
 
   mapStateToThis(e: StatechangeEvent) {
     const state = e.detail.state;
-
     this.userCourses = state.courses;
     this.starredCourses = state.starredCourses;
     this.sharedCourses = state.sharedCourses;

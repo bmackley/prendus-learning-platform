@@ -1,4 +1,4 @@
-import {Course} from '../../interfaces/course.interface.ts';
+import {Course} from '../../node_modules/prendus-services/interfaces/course.interface.ts';
 import {Actions} from '../../redux/actions.ts';
 
 class HomepageComponent {

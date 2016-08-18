@@ -38,13 +38,11 @@ class CourseEditComponent {
 
   getCourse(){
     if(this.data.courseId){
-      console.log('trying to get the course in the edit')
       Actions.getCourseById.execute(this, this.data.courseId)
     }
   }
   getData(){
     if(this.data.courseId){
-      console.log('trying to get the data in the edit')
       Actions.getCourseById.execute(this, this.data.courseId)
     }
   }
@@ -73,6 +71,10 @@ class CourseEditComponent {
   }
 
   deleteItem(e){
+    console.log('delete Item')
+    this.querySelector('#deleteConfirm').open();
+  }
+  completeDelete(e){
     Actions.deleteConcept.execute(this, this.courseId, e.target.id);
   }
 
