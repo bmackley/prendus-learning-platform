@@ -21985,7 +21985,7 @@ Custom property | Description | Default
             <paper-button raised="" id="signin-submit">Submit</paper-button>
             <br>
             <br>
-            <a href="#"> Reset Password </a>
+            <a href="#"> Forgot Password </a>
           </form>
         </div>
       </paper-card>
@@ -22368,6 +22368,381 @@ element.
 })();
 
 </script>
+<!--
+@license
+Copyright (c) 2015 The Polymer Project Authors. All rights reserved.
+This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+Code distributed by Google as part of the polymer project is also
+subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+--><!--
+
+The `iron-icon` element displays an icon. By default an icon renders as a 24px square.
+
+Example using src:
+
+    <iron-icon src="star.png"></iron-icon>
+
+Example setting size to 32px x 32px:
+
+    <iron-icon class="big" src="big_star.png"></iron-icon>
+
+    <style is="custom-style">
+      .big {
+        --iron-icon-height: 32px;
+        --iron-icon-width: 32px;
+      }
+    </style>
+
+The iron elements include several sets of icons.
+To use the default set of icons, import `iron-icons.html` and use the `icon` attribute to specify an icon:
+
+    <link rel="import" href="/components/iron-icons/iron-icons.html">
+
+    <iron-icon icon="menu"></iron-icon>
+
+To use a different built-in set of icons, import the specific `iron-icons/<iconset>-icons.html`, and
+specify the icon as `<iconset>:<icon>`. For example, to use a communication icon, you would
+use:
+
+    <link rel="import" href="/components/iron-icons/communication-icons.html">
+
+    <iron-icon icon="communication:email"></iron-icon>
+
+You can also create custom icon sets of bitmap or SVG icons.
+
+Example of using an icon named `cherry` from a custom iconset with the ID `fruit`:
+
+    <iron-icon icon="fruit:cherry"></iron-icon>
+
+See [iron-iconset](iron-iconset) and [iron-iconset-svg](iron-iconset-svg) for more information about
+how to create a custom iconset.
+
+See the [iron-icons demo](iron-icons?view=demo:demo/index.html) to see the icons available
+in the various iconsets.
+
+To load a subset of icons from one of the default `iron-icons` sets, you can
+use the [poly-icon](https://poly-icon.appspot.com/) tool. It allows you
+to select individual icons, and creates an iconset from them that you can
+use directly in your elements.
+
+### Styling
+
+The following custom properties are available for styling:
+
+Custom property | Description | Default
+----------------|-------------|----------
+`--iron-icon-width` | Width of the icon | `24px`
+`--iron-icon-height` | Height of the icon | `24px`
+`--iron-icon-fill-color` | Fill color of the svg icon | `currentcolor`
+`--iron-icon-stroke-color` | Stroke color of the svg icon | none
+
+@group Iron Elements
+@element iron-icon
+@demo demo/index.html
+@hero hero.svg
+@homepage polymer.github.io
+-->
+
+<dom-module id="iron-icon" assetpath="../../bower_components/iron-icon/">
+
+  <style>
+    :host {
+      @apply(--layout-inline);
+      @apply(--layout-center-center);
+      position: relative;
+
+      vertical-align: middle;
+
+      fill: var(--iron-icon-fill-color, currentcolor);
+      stroke: var(--iron-icon-stroke-color, none);
+
+      width: var(--iron-icon-width, 24px);
+      height: var(--iron-icon-height, 24px);
+    }
+  </style>
+
+  <template>
+  </template>
+
+  <script>
+
+    Polymer({
+
+      is: 'iron-icon',
+
+      properties: {
+
+        /**
+         * The name of the icon to use. The name should be of the form:
+         * `iconset_name:icon_name`.
+         */
+        icon: {
+          type: String,
+          observer: '_iconChanged'
+        },
+
+        /**
+         * The name of the theme to used, if one is specified by the
+         * iconset.
+         */
+        theme: {
+          type: String,
+          observer: '_updateIcon'
+        },
+
+        /**
+         * If using iron-icon without an iconset, you can set the src to be
+         * the URL of an individual icon image file. Note that this will take
+         * precedence over a given icon attribute.
+         */
+        src: {
+          type: String,
+          observer: '_srcChanged'
+        },
+
+        /**
+         * @type {!Polymer.IronMeta}
+         */
+        _meta: {
+          value: Polymer.Base.create('iron-meta', {type: 'iconset'}),
+          observer: '_updateIcon'
+        }
+
+      },
+
+      _DEFAULT_ICONSET: 'icons',
+
+      _iconChanged: function(icon) {
+        var parts = (icon || '').split(':');
+        this._iconName = parts.pop();
+        this._iconsetName = parts.pop() || this._DEFAULT_ICONSET;
+        this._updateIcon();
+      },
+
+      _srcChanged: function(src) {
+        this._updateIcon();
+      },
+
+      _usesIconset: function() {
+        return this.icon || !this.src;
+      },
+
+      /** @suppress {visibility} */
+      _updateIcon: function() {
+        if (this._usesIconset()) {
+          if (this._img && this._img.parentNode) {
+            Polymer.dom(this.root).removeChild(this._img);
+          }
+          if (this._iconName === "") {
+            if (this._iconset) {
+              this._iconset.removeIcon(this);
+            }
+          } else if (this._iconsetName && this._meta) {
+            this._iconset = /** @type {?Polymer.Iconset} */ (
+              this._meta.byKey(this._iconsetName));
+            if (this._iconset) {
+              this._iconset.applyIcon(this, this._iconName, this.theme);
+              this.unlisten(window, 'iron-iconset-added', '_updateIcon');
+            } else {
+              this.listen(window, 'iron-iconset-added', '_updateIcon');
+            }
+          }
+        } else {
+          if (this._iconset) {
+            this._iconset.removeIcon(this);
+          }
+          if (!this._img) {
+            this._img = document.createElement('img');
+            this._img.style.width = '100%';
+            this._img.style.height = '100%';
+            this._img.draggable = false;
+          }
+          this._img.src = this.src;
+          Polymer.dom(this.root).appendChild(this._img);
+        }
+      }
+
+    });
+
+  </script>
+
+</dom-module>
+<!--
+@license
+Copyright (c) 2015 The Polymer Project Authors. All rights reserved.
+This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+Code distributed by Google as part of the polymer project is also
+subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+--><!--
+Material design: [Floating Action Button](https://www.google.com/design/spec/components/buttons-floating-action-button.html)
+
+`paper-fab` is a floating action button. It contains an image placed in the center and
+comes in two sizes: regular size and a smaller size by applying the attribute `mini`. When
+the user touches the button, a ripple effect emanates from the center of the button.
+
+You may import `iron-icons` to use with this element, or provide a URL to a custom icon.
+See `iron-iconset` for more information about how to use a custom icon set.
+
+Example:
+
+    <link href="path/to/iron-icons/iron-icons.html" rel="import">
+
+    <paper-fab icon="add"></paper-fab>
+    <paper-fab mini icon="favorite"></paper-fab>
+    <paper-fab src="star.png"></paper-fab>
+
+
+### Styling
+
+The following custom properties and mixins are available for styling:
+
+Custom property | Description | Default
+----------------|-------------|----------
+`--paper-fab-background` | The background color of the button | `--accent-color`
+`--paper-fab-keyboard-focus-background` | The background color of the button when focused | `--paper-pink-900`
+`--paper-fab-disabled-background` | The background color of the button when it's disabled | `--paper-grey-300`
+`--paper-fab-disabled-text` | The text color of the button when it's disabled | `--paper-grey-500`
+`--paper-fab` | Mixin applied to the button | `{}`
+`--paper-fab-mini` | Mixin applied to a mini button | `{}`
+`--paper-fab-disabled` | Mixin applied to a disabled button | `{}`
+`--paper-fab-iron-icon` | Mixin applied to the iron-icon within the button | `{}`
+
+@group Paper Elements
+@demo demo/index.html
+-->
+
+<dom-module id="paper-fab" assetpath="../../bower_components/paper-fab/">
+  <template strip-whitespace="">
+    <style include="paper-material-shared-styles">
+      :host {
+        @apply(--layout-vertical);
+        @apply(--layout-center-center);
+
+        background: var(--paper-fab-background, --accent-color);
+        border-radius: 50%;
+        box-sizing: border-box;
+        color: var(--text-primary-color);
+        cursor: pointer;
+        height: 56px;
+        min-width: 0;
+        outline: none;
+        padding: 16px;
+        position: relative;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        -webkit-user-select: none;
+        user-select: none;
+        width: 56px;
+        z-index: 0;
+
+        /* NOTE: Both values are needed, since some phones require the value `transparent`. */
+        -webkit-tap-highlight-color: rgba(0,0,0,0);
+        -webkit-tap-highlight-color: transparent;
+
+        @apply(--paper-fab);
+      }
+
+      [hidden] {
+        display: none !important;
+      }
+
+      :host([mini]) {
+        width: 40px;
+        height: 40px;
+        padding: 8px;
+
+        @apply(--paper-fab-mini);
+      }
+
+      :host([disabled]) {
+        color: var(--paper-fab-disabled-text, --paper-grey-500);
+        background: var(--paper-fab-disabled-background, --paper-grey-300);
+
+        @apply(--paper-fab-disabled);
+      }
+
+      iron-icon {
+        @apply(--paper-fab-iron-icon);
+      }
+
+      span {
+        width: 100%;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        text-align: center;
+      }
+
+      :host(.keyboard-focus) {
+        background: var(--paper-fab-keyboard-focus-background, --paper-pink-900);
+      }
+    </style>
+
+    <iron-icon id="icon" hidden$="{{!_computeIsIconFab(icon, src)}}" src="[[src]]" icon="[[icon]]"></iron-icon>
+    <span hidden$="{{_computeIsIconFab(icon, src)}}">{{label}}</span>
+  </template>
+
+  <script>
+    Polymer({
+      is: 'paper-fab',
+
+      behaviors: [
+        Polymer.PaperButtonBehavior
+      ],
+
+      properties: {
+        /**
+         * The URL of an image for the icon. If the src property is specified,
+         * the icon property should not be.
+         */
+        src: {
+          type: String,
+          value: ''
+        },
+
+        /**
+         * Specifies the icon name or index in the set of icons available in
+         * the icon's icon set. If the icon property is specified,
+         * the src property should not be.
+         */
+        icon: {
+          type: String,
+          value: ''
+        },
+
+        /**
+         * Set this to true to style this is a "mini" FAB.
+         */
+        mini: {
+          type: Boolean,
+          value: false,
+          reflectToAttribute: true
+        },
+
+        /**
+         * The label displayed in the badge. The label is centered, and ideally
+         * should have very few characters.
+         */
+        label: {
+          type: String,
+          observer: '_labelChanged'
+        }
+      },
+
+      _labelChanged: function() {
+        this.setAttribute('aria-label', this.label);
+      },
+
+      _computeIsIconFab: function(icon, src) {
+        return (icon.length > 0) || (src.length > 0);
+      }
+    });
+  </script>
+</dom-module>
 <!--
 `iron-media-query` can be used to data bind to a CSS media query.
 The `query` property is a bare CSS media query.
@@ -34875,207 +35250,6 @@ The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
 The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
 Code distributed by Google as part of the polymer project is also
 subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
---><!--
-
-The `iron-icon` element displays an icon. By default an icon renders as a 24px square.
-
-Example using src:
-
-    <iron-icon src="star.png"></iron-icon>
-
-Example setting size to 32px x 32px:
-
-    <iron-icon class="big" src="big_star.png"></iron-icon>
-
-    <style is="custom-style">
-      .big {
-        --iron-icon-height: 32px;
-        --iron-icon-width: 32px;
-      }
-    </style>
-
-The iron elements include several sets of icons.
-To use the default set of icons, import `iron-icons.html` and use the `icon` attribute to specify an icon:
-
-    <link rel="import" href="/components/iron-icons/iron-icons.html">
-
-    <iron-icon icon="menu"></iron-icon>
-
-To use a different built-in set of icons, import the specific `iron-icons/<iconset>-icons.html`, and
-specify the icon as `<iconset>:<icon>`. For example, to use a communication icon, you would
-use:
-
-    <link rel="import" href="/components/iron-icons/communication-icons.html">
-
-    <iron-icon icon="communication:email"></iron-icon>
-
-You can also create custom icon sets of bitmap or SVG icons.
-
-Example of using an icon named `cherry` from a custom iconset with the ID `fruit`:
-
-    <iron-icon icon="fruit:cherry"></iron-icon>
-
-See [iron-iconset](iron-iconset) and [iron-iconset-svg](iron-iconset-svg) for more information about
-how to create a custom iconset.
-
-See the [iron-icons demo](iron-icons?view=demo:demo/index.html) to see the icons available
-in the various iconsets.
-
-To load a subset of icons from one of the default `iron-icons` sets, you can
-use the [poly-icon](https://poly-icon.appspot.com/) tool. It allows you
-to select individual icons, and creates an iconset from them that you can
-use directly in your elements.
-
-### Styling
-
-The following custom properties are available for styling:
-
-Custom property | Description | Default
-----------------|-------------|----------
-`--iron-icon-width` | Width of the icon | `24px`
-`--iron-icon-height` | Height of the icon | `24px`
-`--iron-icon-fill-color` | Fill color of the svg icon | `currentcolor`
-`--iron-icon-stroke-color` | Stroke color of the svg icon | none
-
-@group Iron Elements
-@element iron-icon
-@demo demo/index.html
-@hero hero.svg
-@homepage polymer.github.io
--->
-
-<dom-module id="iron-icon" assetpath="../../bower_components/iron-icon/">
-
-  <style>
-    :host {
-      @apply(--layout-inline);
-      @apply(--layout-center-center);
-      position: relative;
-
-      vertical-align: middle;
-
-      fill: var(--iron-icon-fill-color, currentcolor);
-      stroke: var(--iron-icon-stroke-color, none);
-
-      width: var(--iron-icon-width, 24px);
-      height: var(--iron-icon-height, 24px);
-    }
-  </style>
-
-  <template>
-  </template>
-
-  <script>
-
-    Polymer({
-
-      is: 'iron-icon',
-
-      properties: {
-
-        /**
-         * The name of the icon to use. The name should be of the form:
-         * `iconset_name:icon_name`.
-         */
-        icon: {
-          type: String,
-          observer: '_iconChanged'
-        },
-
-        /**
-         * The name of the theme to used, if one is specified by the
-         * iconset.
-         */
-        theme: {
-          type: String,
-          observer: '_updateIcon'
-        },
-
-        /**
-         * If using iron-icon without an iconset, you can set the src to be
-         * the URL of an individual icon image file. Note that this will take
-         * precedence over a given icon attribute.
-         */
-        src: {
-          type: String,
-          observer: '_srcChanged'
-        },
-
-        /**
-         * @type {!Polymer.IronMeta}
-         */
-        _meta: {
-          value: Polymer.Base.create('iron-meta', {type: 'iconset'}),
-          observer: '_updateIcon'
-        }
-
-      },
-
-      _DEFAULT_ICONSET: 'icons',
-
-      _iconChanged: function(icon) {
-        var parts = (icon || '').split(':');
-        this._iconName = parts.pop();
-        this._iconsetName = parts.pop() || this._DEFAULT_ICONSET;
-        this._updateIcon();
-      },
-
-      _srcChanged: function(src) {
-        this._updateIcon();
-      },
-
-      _usesIconset: function() {
-        return this.icon || !this.src;
-      },
-
-      /** @suppress {visibility} */
-      _updateIcon: function() {
-        if (this._usesIconset()) {
-          if (this._img && this._img.parentNode) {
-            Polymer.dom(this.root).removeChild(this._img);
-          }
-          if (this._iconName === "") {
-            if (this._iconset) {
-              this._iconset.removeIcon(this);
-            }
-          } else if (this._iconsetName && this._meta) {
-            this._iconset = /** @type {?Polymer.Iconset} */ (
-              this._meta.byKey(this._iconsetName));
-            if (this._iconset) {
-              this._iconset.applyIcon(this, this._iconName, this.theme);
-              this.unlisten(window, 'iron-iconset-added', '_updateIcon');
-            } else {
-              this.listen(window, 'iron-iconset-added', '_updateIcon');
-            }
-          }
-        } else {
-          if (this._iconset) {
-            this._iconset.removeIcon(this);
-          }
-          if (!this._img) {
-            this._img = document.createElement('img');
-            this._img.style.width = '100%';
-            this._img.style.height = '100%';
-            this._img.draggable = false;
-          }
-          this._img.src = this.src;
-          Polymer.dom(this.root).appendChild(this._img);
-        }
-      }
-
-    });
-
-  </script>
-
-</dom-module>
-<!--
-@license
-Copyright (c) 2015 The Polymer Project Authors. All rights reserved.
-This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
-The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
-The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
-Code distributed by Google as part of the polymer project is also
-subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
 --><script>
   /**
    * The `iron-iconset-svg` element allows users to define their own icon sets
@@ -38527,6 +38701,696 @@ styling:
     });
   </script>
 </dom-module>
+<!--
+@license
+Copyright (c) 2015 The Polymer Project Authors. All rights reserved.
+This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+Code distributed by Google as part of the polymer project is also
+subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+--><script>
+  Polymer({
+    is: 'paper-menu-grow-height-animation',
+
+    behaviors: [
+      Polymer.NeonAnimationBehavior
+    ],
+
+    configure: function(config) {
+      var node = config.node;
+      var rect = node.getBoundingClientRect();
+      var height = rect.height;
+
+      this._effect = new KeyframeEffect(node, [{
+        height: (height / 2) + 'px'
+      }, {
+        height: height + 'px'
+      }], this.timingFromConfig(config));
+
+      return this._effect;
+    }
+  });
+
+  Polymer({
+    is: 'paper-menu-grow-width-animation',
+
+    behaviors: [
+      Polymer.NeonAnimationBehavior
+    ],
+
+    configure: function(config) {
+      var node = config.node;
+      var rect = node.getBoundingClientRect();
+      var width = rect.width;
+
+      this._effect = new KeyframeEffect(node, [{
+        width: (width / 2) + 'px'
+      }, {
+        width: width + 'px'
+      }], this.timingFromConfig(config));
+
+      return this._effect;
+    }
+  });
+
+  Polymer({
+    is: 'paper-menu-shrink-width-animation',
+
+    behaviors: [
+      Polymer.NeonAnimationBehavior
+    ],
+
+    configure: function(config) {
+      var node = config.node;
+      var rect = node.getBoundingClientRect();
+      var width = rect.width;
+
+      this._effect = new KeyframeEffect(node, [{
+        width: width + 'px'
+      }, {
+        width: width - (width / 20) + 'px'
+      }], this.timingFromConfig(config));
+
+      return this._effect;
+    }
+  });
+
+  Polymer({
+    is: 'paper-menu-shrink-height-animation',
+
+    behaviors: [
+      Polymer.NeonAnimationBehavior
+    ],
+
+    configure: function(config) {
+      var node = config.node;
+      var rect = node.getBoundingClientRect();
+      var height = rect.height;
+      var top = rect.top;
+
+      this.setPrefixedProperty(node, 'transformOrigin', '0 0');
+
+      this._effect = new KeyframeEffect(node, [{
+        height: height + 'px',
+        transform: 'translateY(0)'
+      }, {
+        height: height / 2 + 'px',
+        transform: 'translateY(-20px)'
+      }], this.timingFromConfig(config));
+
+      return this._effect;
+    }
+  });
+</script>
+
+
+<!--
+@license
+Copyright (c) 2015 The Polymer Project Authors. All rights reserved.
+This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+Code distributed by Google as part of the polymer project is also
+subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+--><!--
+Material design: [Dropdown buttons](https://www.google.com/design/spec/components/buttons.html#buttons-dropdown-buttons)
+
+`paper-menu-button` allows one to compose a designated "trigger" element with
+another element that represents "content", to create a dropdown menu that
+displays the "content" when the "trigger" is clicked.
+
+The child element with the class `dropdown-trigger` will be used as the
+"trigger" element. The child element with the class `dropdown-content` will be
+used as the "content" element.
+
+The `paper-menu-button` is sensitive to its content's `iron-select` events. If
+the "content" element triggers an `iron-select` event, the `paper-menu-button`
+will close automatically.
+
+Example:
+
+    <paper-menu-button>
+      <paper-icon-button icon="menu" class="dropdown-trigger"></paper-icon-button>
+      <paper-menu class="dropdown-content">
+        <paper-item>Share</paper-item>
+        <paper-item>Settings</paper-item>
+        <paper-item>Help</paper-item>
+      </paper-menu>
+    </paper-menu-button>
+
+### Styling
+
+The following custom properties and mixins are also available for styling:
+
+Custom property | Description | Default
+----------------|-------------|----------
+`--paper-menu-button-dropdown-background` | Background color of the paper-menu-button dropdown | `--primary-background-color`
+`--paper-menu-button` | Mixin applied to the paper-menu-button | `{}`
+`--paper-menu-button-disabled` | Mixin applied to the paper-menu-button when disabled | `{}`
+`--paper-menu-button-dropdown` | Mixin applied to the paper-menu-button dropdown | `{}`
+`--paper-menu-button-content` | Mixin applied to the paper-menu-button content | `{}`
+
+@hero hero.svg
+@demo demo/index.html
+-->
+
+<dom-module id="paper-menu-button" assetpath="../../bower_components/paper-menu-button/">
+  <template>
+    <style>
+      :host {
+        display: inline-block;
+        position: relative;
+        padding: 8px;
+        outline: none;
+
+        @apply(--paper-menu-button);
+      }
+
+      :host([disabled]) {
+        cursor: auto;
+        color: var(--disabled-text-color);
+
+        @apply(--paper-menu-button-disabled);
+      }
+
+      iron-dropdown {
+        @apply(--paper-menu-button-dropdown);
+      }
+
+      .dropdown-content {
+        @apply(--shadow-elevation-2dp);
+
+        position: relative;
+        border-radius: 2px;
+        background-color: var(--paper-menu-button-dropdown-background, --primary-background-color);
+
+        @apply(--paper-menu-button-content);
+      }
+
+      :host([vertical-align="top"]) .dropdown-content {
+        margin-bottom: 20px;
+        margin-top: -10px;
+        top: 10px;
+      }
+
+      :host([vertical-align="bottom"]) .dropdown-content {
+        bottom: 10px;
+        margin-bottom: -10px;
+        margin-top: 20px;
+      }
+    </style>
+
+    <div id="trigger" on-tap="toggle">
+      <content select=".dropdown-trigger"></content>
+    </div>
+
+    <iron-dropdown id="dropdown" opened="{{opened}}" horizontal-align="[[horizontalAlign]]" vertical-align="[[verticalAlign]]" dynamic-align="[[dynamicAlign]]" horizontal-offset="[[horizontalOffset]]" vertical-offset="[[verticalOffset]]" no-overlap="[[noOverlap]]" open-animation-config="[[openAnimationConfig]]" close-animation-config="[[closeAnimationConfig]]" no-animations="[[noAnimations]]" focus-target="[[_dropdownContent]]" allow-outside-scroll="[[allowOutsideScroll]]" restore-focus-on-close="[[restoreFocusOnClose]]" on-iron-overlay-canceled="__onIronOverlayCanceled">
+      <div class="dropdown-content">
+        <content id="content" select=".dropdown-content"></content>
+      </div>
+    </iron-dropdown>
+  </template>
+
+  <script>
+    (function() {
+      'use strict';
+
+      var config = {
+        ANIMATION_CUBIC_BEZIER: 'cubic-bezier(.3,.95,.5,1)',
+        MAX_ANIMATION_TIME_MS: 400
+      };
+
+      var PaperMenuButton = Polymer({
+        is: 'paper-menu-button',
+
+        /**
+         * Fired when the dropdown opens.
+         *
+         * @event paper-dropdown-open
+         */
+
+        /**
+         * Fired when the dropdown closes.
+         *
+         * @event paper-dropdown-close
+         */
+
+        behaviors: [
+          Polymer.IronA11yKeysBehavior,
+          Polymer.IronControlState
+        ],
+
+        properties: {
+          /**
+           * True if the content is currently displayed.
+           */
+          opened: {
+            type: Boolean,
+            value: false,
+            notify: true,
+            observer: '_openedChanged'
+          },
+
+          /**
+           * The orientation against which to align the menu dropdown
+           * horizontally relative to the dropdown trigger.
+           */
+          horizontalAlign: {
+            type: String,
+            value: 'left',
+            reflectToAttribute: true
+          },
+
+          /**
+           * The orientation against which to align the menu dropdown
+           * vertically relative to the dropdown trigger.
+           */
+          verticalAlign: {
+            type: String,
+            value: 'top',
+            reflectToAttribute: true
+          },
+
+          /**
+           * If true, the `horizontalAlign` and `verticalAlign` properties will
+           * be considered preferences instead of strict requirements when
+           * positioning the dropdown and may be changed if doing so reduces
+           * the area of the dropdown falling outside of `fitInto`.
+           */
+          dynamicAlign: {
+            type: Boolean
+          },
+
+          /**
+           * A pixel value that will be added to the position calculated for the
+           * given `horizontalAlign`. Use a negative value to offset to the
+           * left, or a positive value to offset to the right.
+           */
+          horizontalOffset: {
+            type: Number,
+            value: 0,
+            notify: true
+          },
+
+          /**
+           * A pixel value that will be added to the position calculated for the
+           * given `verticalAlign`. Use a negative value to offset towards the
+           * top, or a positive value to offset towards the bottom.
+           */
+          verticalOffset: {
+            type: Number,
+            value: 0,
+            notify: true
+          },
+
+          /**
+           * If true, the dropdown will be positioned so that it doesn't overlap
+           * the button.
+           */
+          noOverlap: {
+            type: Boolean
+          },
+
+          /**
+           * Set to true to disable animations when opening and closing the
+           * dropdown.
+           */
+          noAnimations: {
+            type: Boolean,
+            value: false
+          },
+
+          /**
+           * Set to true to disable automatically closing the dropdown after
+           * a selection has been made.
+           */
+          ignoreSelect: {
+            type: Boolean,
+            value: false
+          },
+
+          /**
+           * Set to true to enable automatically closing the dropdown after an
+           * item has been activated, even if the selection did not change.
+           */
+          closeOnActivate: {
+            type: Boolean,
+            value: false
+          },
+
+          /**
+           * An animation config. If provided, this will be used to animate the
+           * opening of the dropdown.
+           */
+          openAnimationConfig: {
+            type: Object,
+            value: function() {
+              return [{
+                name: 'fade-in-animation',
+                timing: {
+                  delay: 100,
+                  duration: 200
+                }
+              }, {
+                name: 'paper-menu-grow-width-animation',
+                timing: {
+                  delay: 100,
+                  duration: 150,
+                  easing: config.ANIMATION_CUBIC_BEZIER
+                }
+              }, {
+                name: 'paper-menu-grow-height-animation',
+                timing: {
+                  delay: 100,
+                  duration: 275,
+                  easing: config.ANIMATION_CUBIC_BEZIER
+                }
+              }];
+            }
+          },
+
+          /**
+           * An animation config. If provided, this will be used to animate the
+           * closing of the dropdown.
+           */
+          closeAnimationConfig: {
+            type: Object,
+            value: function() {
+              return [{
+                name: 'fade-out-animation',
+                timing: {
+                  duration: 150
+                }
+              }, {
+                name: 'paper-menu-shrink-width-animation',
+                timing: {
+                  delay: 100,
+                  duration: 50,
+                  easing: config.ANIMATION_CUBIC_BEZIER
+                }
+              }, {
+                name: 'paper-menu-shrink-height-animation',
+                timing: {
+                  duration: 200,
+                  easing: 'ease-in'
+                }
+              }];
+            }
+          },
+
+          /**
+           * By default, the dropdown will constrain scrolling on the page
+           * to itself when opened.
+           * Set to true in order to prevent scroll from being constrained
+           * to the dropdown when it opens.
+           */
+          allowOutsideScroll: {
+            type: Boolean,
+            value: false
+          },
+
+          /**
+           * Whether focus should be restored to the button when the menu closes.
+           */
+          restoreFocusOnClose: {
+            type: Boolean,
+            value: true
+          },
+
+          /**
+           * This is the element intended to be bound as the focus target
+           * for the `iron-dropdown` contained by `paper-menu-button`.
+           */
+          _dropdownContent: {
+            type: Object
+          }
+        },
+
+        hostAttributes: {
+          role: 'group',
+          'aria-haspopup': 'true'
+        },
+
+        listeners: {
+          'iron-activate': '_onIronActivate',
+          'iron-select': '_onIronSelect'
+        },
+
+        /**
+         * The content element that is contained by the menu button, if any.
+         */
+        get contentElement() {
+          return Polymer.dom(this.$.content).getDistributedNodes()[0];
+        },
+
+        /**
+         * Toggles the drowpdown content between opened and closed.
+         */
+        toggle: function() {
+          if (this.opened) {
+            this.close();
+          } else {
+            this.open();
+          }
+        },
+
+        /**
+         * Make the dropdown content appear as an overlay positioned relative
+         * to the dropdown trigger.
+         */
+        open: function() {
+          if (this.disabled) {
+            return;
+          }
+
+          this.$.dropdown.open();
+        },
+
+        /**
+         * Hide the dropdown content.
+         */
+        close: function() {
+          this.$.dropdown.close();
+        },
+
+        /**
+         * When an `iron-select` event is received, the dropdown should
+         * automatically close on the assumption that a value has been chosen.
+         *
+         * @param {CustomEvent} event A CustomEvent instance with type
+         * set to `"iron-select"`.
+         */
+        _onIronSelect: function(event) {
+          if (!this.ignoreSelect) {
+            this.close();
+          }
+        },
+
+        /**
+         * Closes the dropdown when an `iron-activate` event is received if
+         * `closeOnActivate` is true.
+         *
+         * @param {CustomEvent} event A CustomEvent of type 'iron-activate'.
+         */
+        _onIronActivate: function(event) {
+          if (this.closeOnActivate) {
+            this.close();
+          }
+        },
+
+        /**
+         * When the dropdown opens, the `paper-menu-button` fires `paper-open`.
+         * When the dropdown closes, the `paper-menu-button` fires `paper-close`.
+         *
+         * @param {boolean} opened True if the dropdown is opened, otherwise false.
+         * @param {boolean} oldOpened The previous value of `opened`.
+         */
+        _openedChanged: function(opened, oldOpened) {
+          if (opened) {
+            // TODO(cdata): Update this when we can measure changes in distributed
+            // children in an idiomatic way.
+            // We poke this property in case the element has changed. This will
+            // cause the focus target for the `iron-dropdown` to be updated as
+            // necessary:
+            this._dropdownContent = this.contentElement;
+            this.fire('paper-dropdown-open');
+          } else if (oldOpened != null) {
+            this.fire('paper-dropdown-close');
+          }
+        },
+
+        /**
+         * If the dropdown is open when disabled becomes true, close the
+         * dropdown.
+         *
+         * @param {boolean} disabled True if disabled, otherwise false.
+         */
+        _disabledChanged: function(disabled) {
+          Polymer.IronControlState._disabledChanged.apply(this, arguments);
+          if (disabled && this.opened) {
+            this.close();
+          }
+        },
+
+        __onIronOverlayCanceled: function(event) {
+          var uiEvent = event.detail;
+          var target = Polymer.dom(uiEvent).rootTarget;
+          var trigger = this.$.trigger;
+          var path = Polymer.dom(uiEvent).path;
+
+          if (path.indexOf(trigger) > -1) {
+            event.preventDefault();
+          }
+        }
+      });
+
+      Object.keys(config).forEach(function (key) {
+        PaperMenuButton[key] = config[key];
+      });
+
+      Polymer.PaperMenuButton = PaperMenuButton;
+    })();
+  </script>
+</dom-module>
+<!--
+@license
+Copyright (c) 2015 The Polymer Project Authors. All rights reserved.
+This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+Code distributed by Google as part of the polymer project is also
+subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+--><dom-module id="paper-menu-shared-styles" assetpath="../../bower_components/paper-menu/">
+  <template>
+    <style>
+      /* need a wrapper element to make this higher specificity than the :host rule in paper-item */
+      .selectable-content > ::content > .iron-selected {
+        font-weight: bold;
+
+        @apply(--paper-menu-selected-item);
+      }
+
+      .selectable-content > ::content > [disabled] {
+        color: var(--paper-menu-disabled-color, --disabled-text-color);
+      }
+
+      .selectable-content > ::content > *:focus {
+        position: relative;
+        outline: 0;
+
+        @apply(--paper-menu-focused-item);
+      }
+
+      .selectable-content > ::content > *:focus:after {
+        @apply(--layout-fit);
+        background: currentColor;
+        opacity: var(--dark-divider-opacity);
+        content: '';
+        pointer-events: none;
+
+        @apply(--paper-menu-focused-item-after);
+      }
+
+      .selectable-content > ::content > *[colored]:focus:after {
+        opacity: 0.26;
+      }
+    </style>
+  </template>
+</dom-module>
+<!--
+@license
+Copyright (c) 2015 The Polymer Project Authors. All rights reserved.
+This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+Code distributed by Google as part of the polymer project is also
+subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+--><!--
+Material design: [Menus](https://www.google.com/design/spec/components/menus.html)
+
+`<paper-menu>` implements an accessible menu control with Material Design styling. The focused item
+is highlighted, and the selected item has bolded text.
+
+    <paper-menu>
+      <paper-item>Item 1</paper-item>
+      <paper-item>Item 2</paper-item>
+    </paper-menu>
+
+An initial selection can be specified with the `selected` attribute.
+
+    <paper-menu selected="0">
+      <paper-item>Item 1</paper-item>
+      <paper-item>Item 2</paper-item>
+    </paper-menu>
+
+Make a multi-select menu with the `multi` attribute. Items in a multi-select menu can be deselected,
+and multiple items can be selected.
+
+    <paper-menu multi>
+      <paper-item>Item 1</paper-item>
+      <paper-item>Item 2</paper-item>
+    </paper-menu>
+
+### Styling
+
+The following custom properties and mixins are available for styling:
+
+Custom property | Description | Default
+----------------|-------------|----------
+`--paper-menu-background-color`   | Menu background color                                            | `--primary-background-color`
+`--paper-menu-color`              | Menu foreground color                                            | `--primary-text-color`
+`--paper-menu-disabled-color`     | Foreground color for a disabled item                             | `--disabled-text-color`
+`--paper-menu`                    | Mixin applied to the menu                                        | `{}`
+`--paper-menu-selected-item`      | Mixin applied to the selected item                               | `{}`
+`--paper-menu-focused-item`       | Mixin applied to the focused item                                | `{}`
+`--paper-menu-focused-item-after` | Mixin applied to the ::after pseudo-element for the focused item | `{}`
+
+### Accessibility
+
+`<paper-menu>` has `role="menu"` by default. A multi-select menu will also have
+`aria-multiselectable` set. It implements key bindings to navigate through the menu with the up and
+down arrow keys, esc to exit the menu, and enter to activate a menu item. Typing the first letter
+of a menu item will also focus it.
+
+@group Paper Elements
+@element paper-menu
+@hero hero.svg
+@demo demo/index.html
+-->
+
+<dom-module id="paper-menu" assetpath="../../bower_components/paper-menu/">
+  <template>
+    <style include="paper-menu-shared-styles"></style>
+    <style>
+      :host {
+        display: block;
+        padding: 8px 0;
+
+        background: var(--paper-menu-background-color, --primary-background-color);
+        color: var(--paper-menu-color, --primary-text-color);
+
+        @apply(--paper-menu);
+      }
+    </style>
+
+    <div class="selectable-content">
+      <content></content>
+    </div>
+  </template>
+
+  <script>
+    (function() {
+      Polymer({
+        is: 'paper-menu',
+
+        behaviors: [
+          Polymer.IronMenuBehavior
+        ]
+      });
+    })();
+  </script>
+</dom-module>
 <script src="../../bower_components/Sortable/Sortable.js">/**!
  * Sortable
  * @author	RubaXa   <trash@rubaxa.org>
@@ -40434,34 +41298,39 @@ Custom property               | Description                                    |
 </dom-module>
 <dom-module id="prendus-concept-container-edit" assetpath="../prendus-concept-container-edit/">
   <template>
+  <style include="color-styles"></style>
+  <style>
+  #resource-tabs{
+    --paper-tabs-selection-bar-color: var(--prendus-primary-color);
+  }
+  #concept-container-div{
+    padding-left: 2%
+  }
+  </style>
     <redux-store on-statechange="mapStateToThis" action="[[action]]"></redux-store>
-    <div>
-        <!-- <paper-spinner></paper-spinner> Can't figure out how to get this-->
-      <paper-icon-item>
-        <div>
-          <h3 on-tap="toggle">[[title]]</h3>
-        </div>
-      </paper-icon-item>
+    <div id="concept-container-div">
+      <div>
+        <h3 on-tap="toggle">[[title]]</h3>
+      </div>
       <iron-collapse class="conceptToggle" id="concept-[[item.pos]]">
         <div id="classContent">
-          <div class="flex-horizontal" id="videosContainer">
-            <paper-header-panel mode="seamed">
-              <paper-toolbar><h1>Videos</h1></paper-toolbar>
-            </paper-header-panel>
-            <prendus-concept-video-container-edit concept-id="[[conceptId]]"></prendus-concept-video-container-edit>
-          </div>
-          <div class="flex-horizontal" id="quizzesContainer">
-            <paper-header-panel mode="seamed">
-              <paper-toolbar><h1>Quizzes</h1></paper-toolbar>
-            </paper-header-panel>
-            <prendus-concept-quiz-container-edit concept-id="[[conceptId]]"></prendus-concept-quiz-container-edit>
-          </div>
+          <paper-tabs id="resource-tabs" selected="{{selected}}">
+              <paper-tab>QUIZZES</paper-tab>
+              <paper-tab>VIDEOS</paper-tab>
+          </paper-tabs>
+          <iron-pages selected="{{selected}}" style="position: relative">
+            <div class="flex-horizontal" id="quizzesContainer">
+              <prendus-concept-quiz-container-edit concept-id="[[conceptId]]"></prendus-concept-quiz-container-edit>
+            </div>
+            <div class="flex-horizontal" id="videosContainer">
+              <prendus-concept-video-container-edit concept-id="[[conceptId]]"></prendus-concept-video-container-edit>
+            </div>
+          </iron-pages>
         </div>
       </iron-collapse>
     </div>
   </template>
-
-    <!--<script src="prendus-concept-container-edit.js"></script>-->
+  <!-- <script>System.import('/components/prendus-concept-container-edit/prendus-concept-container-edit.ts');</script> -->
 </dom-module>
 <script src="../../bower_components/moment/min/moment-with-locales.min.js">//! moment.js
 //! version : 2.14.1
@@ -41141,71 +42010,114 @@ doy:4}}),kg.defineLocale("zh-tw",{months:"一月_二月_三月_四月_五月_六
     :host {
       display: block;
     }
+    /*#course-container{
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+      margin-left: 8%;
+      margin-right: 8%;
+      margin-top: 2%;
+      position: relative;
+      height: 0%
+    }*/
+    .concepts-style-container{
+      display: flex;
+      flex-direction: row;
+      flex: 1;
+      box-shadow: 0px 0px 3px black;
+      margin-top: 1%;
+      margin-bottom: 1%;
+      position: relative;
+      height: 0%
+    }
 
     /* CSS rules for your element */
   </style>
   <template>
     <redux-store action="[[action]]" on-statechange="mapStateToThis"></redux-store>
     <app-route route="[[route]]" pattern="/edit/:courseId" data="{{data}}"></app-route>
-    <template is="dom-if" if="[[username]]">
-        <course-title title="[[item.title]]" instructor="[[item.instructor]]">
-          <h1 id="courseTitle" contenteditable="true">
-            [[currentCourse.title]]
-          </h1>
-          <!--Come back to this. Don't need it for the alpha launch -->
-          <!-- <paper-dialog id="selectStartDate" class="paper-date-picker-dialog" modal on-iron-overlay-closed="dismissStartDatepicker">
-            <paper-date-picker id="startDatePicker" date="[[startDate]]" min-date="September 1, 2016"></paper-date-picker>
-            <div class="buttons">
-              <paper-button dialog-dismiss>Cancel</paper-button>
-              <paper-button dialog-confirm>OK</paper-button>
-            </div>
-          </paper-dialog>
-          <paper-dialog id="selectEndDate" class="paper-date-picker-dialog" modal on-iron-overlay-closed="dismissEndDatepicker">
-            <paper-date-picker id="picker" date="[[endDate]]" min-date="September 1, 2016"></paper-date-picker>
-            <div class="buttons">
-              <paper-button dialog-dismiss>Cancel</paper-button>
-              <paper-button dialog-confirm>OK</paper-button>
-            </div>
-          </paper-dialog>
-          <h1 contenteditable="true">
-            Start Date
-            <iron-icon icon="icons:date-range" item-icon on-tap="openStartDatePicker"></iron-icon>{{item.startDate.month}}/{{item.startDate.day}}/{{item.startDate.year}}
-          </h1>
-          <h1>
-            End Date
-            <iron-icon icon="icons:date-range" item-icon on-tap="openEndDatePicker"></iron-icon>{{item.endDate.month}}/{{item.endDate.day}}/{{item.endDate.year}}
-          </h1>-->
-          <sortable-js on-sort="sortableEnded">
-            <template id="conceptsList" is="dom-repeat" items="[[courseConcepts]]">
-              <div>
-                <iron-icon class="end-justified" icon="editor:drag-handle" item-icon=""></iron-icon> [[item.keys]]
-                <span><iron-icon class="end-justified" id="[[item.key]]" icon="icons:delete" item-icon="" on-tap="deleteItem"></iron-icon>
-                <prendus-concept-container-edit concept-id="[[item.id]]"></prendus-concept-container-edit><span>
-              </span></span></div>
-            </template>
-          </sortable-js>
-        </course-title>
-    </template>
-    <template is="dom-if" if="[[!username]]">
-      <p> You are not signed in.  Please sign in to access this page </p>
-    </template>
-    <paper-dialog id="addDialog" modal="">
-      <div>
-        <!-- Look up Iron keys to change this -->
-        <form is="iron-form">
-          <h2>Add a Concept to the Course</h2>
-          <paper-input name="name" label="Concept Name" id="conceptFormName" required="" auto-validate=""></paper-input>
-          <paper-button dialog-dismiss="">Cancel</paper-button>
-          <paper-button on-tap="addConceptFormDone">Done</paper-button>
-        </form>
-      </div>
-      <div class="buttons">
-      </div>
-    </paper-dialog>
-    <paper-fab icon="add" title="Add" on-tap="addConcept"></paper-fab>
-  </template>
-
-    <!--<script src="prendus-course-edit.js"></script>-->
+    <div>
+      <div id="course-container">
+        <!-- style="display: flex; flex-direction: column; flex: 1; box-shadow: 0px 0px 3px black; margin: 100px; position: relative; height: 0%" -->
+        <template is="dom-if" if="[[username]]">
+            <course-title title="[[item.title]]" instructor="[[item.instructor]]">
+              <h1 id="courseTitle" contenteditable="true">
+                [[currentCourse.title]]
+              </h1>
+              <!--Come back to this. Don't need it for the alpha launch -->
+              <!-- <paper-dialog id="selectStartDate" class="paper-date-picker-dialog" modal on-iron-overlay-closed="dismissStartDatepicker">
+                <paper-date-picker id="startDatePicker" date="[[startDate]]" min-date="September 1, 2016"></paper-date-picker>
+                <div class="buttons">
+                  <paper-button dialog-dismiss>Cancel</paper-button>
+                  <paper-button dialog-confirm>OK</paper-button>
+                </div>
+              </paper-dialog>
+              <paper-dialog id="selectEndDate" class="paper-date-picker-dialog" modal on-iron-overlay-closed="dismissEndDatepicker">
+                <paper-date-picker id="picker" date="[[endDate]]" min-date="September 1, 2016"></paper-date-picker>
+                <div class="buttons">
+                  <paper-button dialog-dismiss>Cancel</paper-button>
+                  <paper-button dialog-confirm>OK</paper-button>
+                </div>
+              </paper-dialog>
+              <h1 contenteditable="true">
+                Start Date
+                <iron-icon icon="icons:date-range" item-icon on-tap="openStartDatePicker"></iron-icon>{{item.startDate.month}}/{{item.startDate.day}}/{{item.startDate.year}}
+              </h1>
+              <h1>
+                End Date
+                <iron-icon icon="icons:date-range" item-icon on-tap="openEndDatePicker"></iron-icon>{{item.endDate.month}}/{{item.endDate.day}}/{{item.endDate.year}}
+              </h1>-->
+              <sortable-js on-sort="sortableEnded">
+                <template id="conceptsList" is="dom-repeat" items="[[courseConcepts]]">
+                  <div class="concepts-style-container">
+                    <!-- <iron-icon class = "end-justified"icon="editor:drag-handle" item-icon style="flex: 1;flex-direction: row;"></iron-icon> [[item.keys]]
+                    <iron-icon class = "end-justified" id = "[[item.key]]" icon="icons:delete" item-icon on-tap="deleteItem"></iron-icon> -->
+                    <prendus-concept-container-edit concept-id="[[item.id]]" style="flex: 5;flex-direction: row;"></prendus-concept-container-edit><span>
+                    <paper-menu-button>
+                      <paper-icon-button icon="more-vert" class="dropdown-trigger"></paper-icon-button>
+                      <paper-menu class="dropdown-content" selected="null">
+                        <paper-item role="menuitem" id="[[item.key]]" on-tap="deleteItem"><iron-icon class="end-justified" icon="icons:delete" item-icon=""></iron-icon>Delete</paper-item>
+                        <!-- <paper-item><iron-icon class = "end-justified"icon="editor:drag-handle" item-icon style="flex: 1;flex-direction: row;"></iron-icon> [[item.keys]]
+                        Reorder concepts</paper-item> -->
+                      </paper-menu>
+                    </paper-menu-button>
+                  </span></div>
+                </template>
+              </sortable-js>
+            </course-title>
+        </template>
+        <template is="dom-if" if="[[!username]]">
+          <p> You are not signed in.  Please sign in to access this page </p>
+        </template>
+        <paper-dialog id="addDialog" modal="">
+          <div>
+            <!-- Look up Iron keys to change this -->
+            <form is="iron-form">
+              <h2>Add a Concept to the Course</h2>
+              <paper-input name="name" label="Concept Name" id="conceptFormName" required="" auto-validate=""></paper-input>
+              <paper-button dialog-dismiss="">Cancel</paper-button>
+              <paper-button on-tap="addConceptFormDone">Done</paper-button>
+            </form>
+          </div>
+          <div class="buttons">
+          </div>
+        </paper-dialog>
+        <paper-dialog id="deleteConfirm" modal="">
+          <div>
+            <!-- Look up Iron keys to change this -->
+            <form is="iron-form">
+              <h1 style="color: red">Confirm Delete </h1>
+              <p>Are you sure that you want to delete this concept?
+              <paper-button dialog-dismiss="">No</paper-button>
+              <paper-button on-tap="completeDelete">Yes</paper-button>
+            </p></form>
+          </div>
+        </paper-dialog>
+        <paper-fab icon="add" title="Add Concept" tooltip="Add Concept" on-tap="addConcept"></paper-fab>
+      </div></div></template>
+    
+  
+  <!-- <script>System.import('/components/prendus-course-edit/prendus-course-edit.ts');</script> -->
 </dom-module>
 <dom-module id="prendus-concept-video-container" assetpath="../prendus-concept-video-container/">
     <template>
@@ -41236,7 +42148,6 @@ doy:4}}),kg.defineLocale("zh-tw",{months:"一月_二月_三月_四月_五月_六
                 cursor: pointer;
             }
         </style>
-
         <redux-store on-statechange="mapStateToThis" action="[[action]]"></redux-store>
         <template is="dom-repeat" items="[[quizzes]]">
             <div class="quiz-row" on-tap="quizRowClick">[[item.title]]</div>
@@ -41245,11 +42156,1139 @@ doy:4}}),kg.defineLocale("zh-tw",{months:"一月_二月_三月_四月_五月_六
 
     <!--<script src="prendus-concept-quiz-container.js"></script>-->
 </dom-module>
+<!--
+@license
+Copyright (c) 2015 The Polymer Project Authors. All rights reserved.
+This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+Code distributed by Google as part of the polymer project is also
+subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+--><script>
+
+  /**
+   * `Polymer.IronMenubarBehavior` implements accessible menubar behavior.
+   *
+   * @polymerBehavior Polymer.IronMenubarBehavior
+   */
+  Polymer.IronMenubarBehaviorImpl = {
+
+    hostAttributes: {
+      'role': 'menubar'
+    },
+
+    keyBindings: {
+      'left': '_onLeftKey',
+      'right': '_onRightKey'
+    },
+
+    _onUpKey: function(event) {
+      this.focusedItem.click();
+      event.detail.keyboardEvent.preventDefault();
+    },
+
+    _onDownKey: function(event) {
+      this.focusedItem.click();
+      event.detail.keyboardEvent.preventDefault();
+    },
+
+    get _isRTL() {
+      return window.getComputedStyle(this)['direction'] === 'rtl';
+    },
+
+    _onLeftKey: function(event) {
+      if (this._isRTL) {
+        this._focusNext();
+      } else {
+        this._focusPrevious();
+      }
+      event.detail.keyboardEvent.preventDefault();
+    },
+
+    _onRightKey: function(event) {
+      if (this._isRTL) {
+        this._focusPrevious();
+      } else {
+        this._focusNext();
+      }
+      event.detail.keyboardEvent.preventDefault();
+    },
+
+    _onKeydown: function(event) {
+      if (this.keyboardEventMatchesKeys(event, 'up down left right esc')) {
+        return;
+      }
+
+      // all other keys focus the menu item starting with that character
+      this._focusWithKeyboardEvent(event);
+    }
+
+  };
+
+  /** @polymerBehavior Polymer.IronMenubarBehavior */
+  Polymer.IronMenubarBehavior = [
+    Polymer.IronMenuBehavior,
+    Polymer.IronMenubarBehaviorImpl
+  ];
+
+</script>
+<!--
+@license
+Copyright (c) 2015 The Polymer Project Authors. All rights reserved.
+This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+Code distributed by Google as part of the polymer project is also
+subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+--><script>
+
+  /**
+   * `Polymer.PaperInkyFocusBehavior` implements a ripple when the element has keyboard focus.
+   *
+   * @polymerBehavior Polymer.PaperInkyFocusBehavior
+   */
+  Polymer.PaperInkyFocusBehaviorImpl = {
+
+    observers: [
+      '_focusedChanged(receivedFocusFromKeyboard)'
+    ],
+
+    _focusedChanged: function(receivedFocusFromKeyboard) {
+      if (receivedFocusFromKeyboard) {
+        this.ensureRipple();
+      }
+      if (this.hasRipple()) {
+        this._ripple.holdDown = receivedFocusFromKeyboard;
+      }
+    },
+
+    _createRipple: function() {
+      var ripple = Polymer.PaperRippleBehavior._createRipple();
+      ripple.id = 'ink';
+      ripple.setAttribute('center', '');
+      ripple.classList.add('circle');
+      return ripple;
+    }
+
+  };
+
+  /** @polymerBehavior Polymer.PaperInkyFocusBehavior */
+  Polymer.PaperInkyFocusBehavior = [
+    Polymer.IronButtonState,
+    Polymer.IronControlState,
+    Polymer.PaperRippleBehavior,
+    Polymer.PaperInkyFocusBehaviorImpl
+  ];
+
+</script>
+<!--
+@license
+Copyright (c) 2015 The Polymer Project Authors. All rights reserved.
+This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+Code distributed by Google as part of the polymer project is also
+subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+--><!--
+Material design: [Icon toggles](https://www.google.com/design/spec/components/buttons.html#buttons-toggle-buttons)
+
+`paper-icon-button` is a button with an image placed at the center. When the user touches
+the button, a ripple effect emanates from the center of the button.
+
+`paper-icon-button` includes a default icon set.  Use `icon` to specify which icon
+from the icon set to use.
+
+    <paper-icon-button icon="menu"></paper-icon-button>
+
+See [`iron-iconset`](iron-iconset) for more information about
+how to use a custom icon set.
+
+Example:
+
+    <link href="path/to/iron-icons/iron-icons.html" rel="import">
+
+    <paper-icon-button icon="favorite"></paper-icon-button>
+    <paper-icon-button src="star.png"></paper-icon-button>
+
+To use `paper-icon-button` as a link, wrap it in an anchor tag. Since `paper-icon-button`
+will already receive focus, you may want to prevent the anchor tag from receiving focus
+as well by setting its tabindex to -1.
+
+    <a href="https://www.polymer-project.org" tabindex="-1">
+      <paper-icon-button icon="polymer"></paper-icon-button>
+    </a>
+
+### Styling
+
+Style the button with CSS as you would a normal DOM element. If you are using the icons
+provided by `iron-icons`, they will inherit the foreground color of the button.
+
+    /* make a red "favorite" button */
+    <paper-icon-button icon="favorite" style="color: red;"></paper-icon-button>
+
+By default, the ripple is the same color as the foreground at 25% opacity. You may
+customize the color using the `--paper-icon-button-ink-color` custom property.
+
+The following custom properties and mixins are available for styling:
+
+Custom property | Description | Default
+----------------|-------------|----------
+`--paper-icon-button-disabled-text` | The color of the disabled button | `--disabled-text-color`
+`--paper-icon-button-ink-color` | Selected/focus ripple color | `--primary-text-color`
+`--paper-icon-button` | Mixin for a button | `{}`
+`--paper-icon-button-disabled` | Mixin for a disabled button | `{}`
+`--paper-icon-button-hover` | Mixin for button on hover | `{}`
+
+@group Paper Elements
+@element paper-icon-button
+@demo demo/index.html
+-->
+
+<dom-module id="paper-icon-button" assetpath="../../bower_components/paper-icon-button/">
+  <template strip-whitespace="">
+    <style>
+      :host {
+        display: inline-block;
+        position: relative;
+        padding: 8px;
+        outline: none;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+        cursor: pointer;
+        z-index: 0;
+        line-height: 1;
+
+        width: 40px;
+        height: 40px;
+
+        /* NOTE: Both values are needed, since some phones require the value to be `transparent`. */
+        -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+        -webkit-tap-highlight-color: transparent;
+
+        /* Because of polymer/2558, this style has lower specificity than * */
+        box-sizing: border-box !important;
+
+        @apply(--paper-icon-button);
+      }
+
+      :host #ink {
+        color: var(--paper-icon-button-ink-color, --primary-text-color);
+        opacity: 0.6;
+      }
+
+      :host([disabled]) {
+        color: var(--paper-icon-button-disabled-text, --disabled-text-color);
+        pointer-events: none;
+        cursor: auto;
+
+        @apply(--paper-icon-button-disabled);
+      }
+
+      :host(:hover) {
+        @apply(--paper-icon-button-hover);
+      }
+
+      iron-icon {
+        --iron-icon-width: 100%;
+        --iron-icon-height: 100%;
+      }
+    </style>
+
+    <iron-icon id="icon" src="[[src]]" icon="[[icon]]" alt$="[[alt]]"></iron-icon>
+  </template>
+
+  <script>
+    Polymer({
+      is: 'paper-icon-button',
+
+      hostAttributes: {
+        role: 'button',
+        tabindex: '0'
+      },
+
+      behaviors: [
+        Polymer.PaperInkyFocusBehavior
+      ],
+
+      properties: {
+        /**
+         * The URL of an image for the icon. If the src property is specified,
+         * the icon property should not be.
+         */
+        src: {
+          type: String
+        },
+
+        /**
+         * Specifies the icon name or index in the set of icons available in
+         * the icon's icon set. If the icon property is specified,
+         * the src property should not be.
+         */
+        icon: {
+          type: String
+        },
+
+        /**
+         * Specifies the alternate text for the button, for accessibility.
+         */
+        alt: {
+          type: String,
+          observer: "_altChanged"
+        }
+      },
+
+      _altChanged: function(newValue, oldValue) {
+        var label = this.getAttribute('aria-label');
+
+        // Don't stomp over a user-set aria-label.
+        if (!label || oldValue == label) {
+          this.setAttribute('aria-label', newValue);
+        }
+      }
+    });
+  </script>
+</dom-module>
+<!--
+@license
+Copyright (c) 2015 The Polymer Project Authors. All rights reserved.
+This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+Code distributed by Google as part of the polymer project is also
+subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+--><iron-iconset-svg name="paper-tabs" size="24">
+<svg><defs>
+<g id="chevron-left"><path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"></path></g>
+<g id="chevron-right"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"></path></g>
+</defs></svg>
+</iron-iconset-svg>
+<!--
+@license
+Copyright (c) 2015 The Polymer Project Authors. All rights reserved.
+This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+Code distributed by Google as part of the polymer project is also
+subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+--><!--
+`paper-tab` is styled to look like a tab.  It should be used in conjunction with
+`paper-tabs`.
+
+Example:
+
+    <paper-tabs selected="0">
+      <paper-tab>TAB 1</paper-tab>
+      <paper-tab>TAB 2</paper-tab>
+      <paper-tab>TAB 3</paper-tab>
+    </paper-tabs>
+
+### Styling
+
+The following custom properties and mixins are available for styling:
+
+Custom property | Description | Default
+----------------|-------------|----------
+`--paper-tab-ink` | Ink color | `--paper-yellow-a100`
+`--paper-tab` | Mixin applied to the tab | `{}`
+`--paper-tab-content` | Mixin applied to the tab content | `{}`
+`--paper-tab-content-unselected` | Mixin applied to the tab content when the tab is not selected | `{}`
+
+This element applies the mixin `--paper-font-common-base` but does not import `paper-styles/typography.html`.
+In order to apply the `Roboto` font to this element, make sure you've imported `paper-styles/typography.html`.
+
+-->
+
+<dom-module id="paper-tab" assetpath="../../bower_components/paper-tabs/">
+  <template>
+    <style>
+      :host {
+        @apply(--layout-inline);
+        @apply(--layout-center);
+        @apply(--layout-center-justified);
+        @apply(--layout-flex-auto);
+
+        position: relative;
+        padding: 0 12px;
+        overflow: hidden;
+        cursor: pointer;
+        vertical-align: middle;
+
+        @apply(--paper-font-common-base);
+        @apply(--paper-tab);
+      }
+
+      :host(:focus) {
+        outline: none;
+      }
+
+      :host([link]) {
+        padding: 0;
+      }
+
+      .tab-content {
+        height: 100%;
+        transform: translateZ(0);
+          -webkit-transform: translateZ(0);
+        transition: opacity 0.1s cubic-bezier(0.4, 0.0, 1, 1);
+        @apply(--layout-horizontal);
+        @apply(--layout-center-center);
+        @apply(--layout-flex-auto);
+        @apply(--paper-tab-content);
+      }
+
+      :host(:not(.iron-selected)) > .tab-content {
+        opacity: 0.8;
+
+        @apply(--paper-tab-content-unselected);
+      }
+
+      :host(:focus) .tab-content {
+        opacity: 1;
+        font-weight: 700;
+      }
+
+      paper-ripple {
+        color: var(--paper-tab-ink, --paper-yellow-a100);
+      }
+
+      .tab-content > ::content > a {
+        @apply(--layout-flex-auto);
+
+        height: 100%;
+      }
+    </style>
+
+    <div class="tab-content">
+      <content></content>
+    </div>
+  </template>
+
+  <script>
+    Polymer({
+      is: 'paper-tab',
+
+      behaviors: [
+        Polymer.IronControlState,
+        Polymer.IronButtonState,
+        Polymer.PaperRippleBehavior
+      ],
+
+      properties: {
+
+        /**
+         * If true, the tab will forward keyboard clicks (enter/space) to
+         * the first anchor element found in its descendants
+         */
+        link: {
+          type: Boolean,
+          value: false,
+          reflectToAttribute: true
+        }
+
+      },
+
+      hostAttributes: {
+        role: 'tab'
+      },
+
+      listeners: {
+        down: '_updateNoink',
+        tap: '_onTap'
+      },
+
+      attached: function() {
+        this._updateNoink();
+      },
+
+      get _parentNoink () {
+        var parent = Polymer.dom(this).parentNode;
+        return !!parent && !!parent.noink;
+      },
+
+      _updateNoink: function() {
+        this.noink = !!this.noink || !!this._parentNoink;
+      },
+
+      _onTap: function(event) {
+        if (this.link) {
+          var anchor = this.queryEffectiveChildren('a');
+
+          if (!anchor) {
+            return;
+          }
+
+          // Don't get stuck in a loop delegating
+          // the listener from the child anchor
+          if (event.target === anchor) {
+            return;
+          }
+
+          anchor.click();
+        }
+      }
+
+    });
+  </script>
+</dom-module>
+<!--
+@license
+Copyright (c) 2015 The Polymer Project Authors. All rights reserved.
+This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+Code distributed by Google as part of the polymer project is also
+subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+--><!--
+Material design: [Tabs](https://www.google.com/design/spec/components/tabs.html)
+
+`paper-tabs` makes it easy to explore and switch between different views or functional aspects of
+an app, or to browse categorized data sets.
+
+Use `selected` property to get or set the selected tab.
+
+Example:
+
+    <paper-tabs selected="0">
+      <paper-tab>TAB 1</paper-tab>
+      <paper-tab>TAB 2</paper-tab>
+      <paper-tab>TAB 3</paper-tab>
+    </paper-tabs>
+
+See <a href="?active=paper-tab">paper-tab</a> for more information about
+`paper-tab`.
+
+A common usage for `paper-tabs` is to use it along with `iron-pages` to switch
+between different views.
+
+    <paper-tabs selected="{{selected}}">
+      <paper-tab>Tab 1</paper-tab>
+      <paper-tab>Tab 2</paper-tab>
+      <paper-tab>Tab 3</paper-tab>
+    </paper-tabs>
+
+    <iron-pages selected="{{selected}}">
+      <div>Page 1</div>
+      <div>Page 2</div>
+      <div>Page 3</div>
+    </iron-pages>
+
+
+To use links in tabs, add `link` attribute to `paper-tab` and put an `<a>`
+element in `paper-tab` with a `tabindex` of -1.
+
+Example:
+
+<pre><code>
+&lt;style is="custom-style">
+  .link {
+    &#64;apply(--layout-horizontal);
+    &#64;apply(--layout-center-center);
+  }
+&lt;/style>
+
+&lt;paper-tabs selected="0">
+  &lt;paper-tab link>
+    &lt;a href="#link1" class="link" tabindex="-1">TAB ONE&lt;/a>
+  &lt;/paper-tab>
+  &lt;paper-tab link>
+    &lt;a href="#link2" class="link" tabindex="-1">TAB TWO&lt;/a>
+  &lt;/paper-tab>
+  &lt;paper-tab link>
+    &lt;a href="#link3" class="link" tabindex="-1">TAB THREE&lt;/a>
+  &lt;/paper-tab>
+&lt;/paper-tabs>
+</code></pre>
+
+### Styling
+
+The following custom properties and mixins are available for styling:
+
+Custom property | Description | Default
+----------------|-------------|----------
+`--paper-tabs-selection-bar-color` | Color for the selection bar | `--paper-yellow-a100`
+`--paper-tabs-selection-bar` | Mixin applied to the selection bar | `{}`
+`--paper-tabs` | Mixin applied to the tabs | `{}`
+
+@hero hero.svg
+@demo demo/index.html
+-->
+
+<dom-module id="paper-tabs" assetpath="../../bower_components/paper-tabs/">
+  <template>
+    <style>
+      :host {
+        @apply(--layout);
+        @apply(--layout-center);
+
+        height: 48px;
+        font-size: 14px;
+        font-weight: 500;
+        overflow: hidden;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        -webkit-user-select: none;
+        user-select: none;
+
+        /* NOTE: Both values are needed, since some phones require the value to be `transparent`. */
+        -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+        -webkit-tap-highlight-color: transparent;
+
+        @apply(--paper-tabs);
+      }
+
+      :host-context([dir=rtl]) {
+        @apply(--layout-horizontal-reverse);
+      }
+
+      #tabsContainer {
+        position: relative;
+        height: 100%;
+        white-space: nowrap;
+        overflow: hidden;
+        @apply(--layout-flex-auto);
+      }
+
+      #tabsContent {
+        height: 100%;
+        -moz-flex-basis: auto;
+        -ms-flex-basis: auto;
+        flex-basis: auto;
+      }
+
+      #tabsContent.scrollable {
+        position: absolute;
+        white-space: nowrap;
+      }
+
+      #tabsContent:not(.scrollable),
+      #tabsContent.scrollable.fit-container {
+        @apply(--layout-horizontal);
+      }
+
+      #tabsContent.scrollable.fit-container {
+        min-width: 100%;
+      }
+
+      #tabsContent.scrollable.fit-container > ::content > * {
+        /* IE - prevent tabs from compressing when they should scroll. */
+        -ms-flex: 1 0 auto;
+        -webkit-flex: 1 0 auto;
+        flex: 1 0 auto;
+      }
+
+      .hidden {
+        display: none;
+      }
+
+      .not-visible {
+        opacity: 0;
+        cursor: default;
+      }
+
+      paper-icon-button {
+        width: 48px;
+        height: 48px;
+        padding: 12px;
+        margin: 0 4px;
+      }
+
+      #selectionBar {
+        position: absolute;
+        height: 2px;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        background-color: var(--paper-tabs-selection-bar-color, --paper-yellow-a100);
+          -webkit-transform: scale(0);
+        transform: scale(0);
+          -webkit-transform-origin: left center;
+        transform-origin: left center;
+          transition: -webkit-transform;
+        transition: transform;
+
+        @apply(--paper-tabs-selection-bar);
+      }
+
+      #selectionBar.align-bottom {
+        top: 0;
+        bottom: auto;
+      }
+
+      #selectionBar.expand {
+        transition-duration: 0.15s;
+        transition-timing-function: cubic-bezier(0.4, 0.0, 1, 1);
+      }
+
+      #selectionBar.contract {
+        transition-duration: 0.18s;
+        transition-timing-function: cubic-bezier(0.0, 0.0, 0.2, 1);
+      }
+
+      #tabsContent > ::content > *:not(#selectionBar) {
+        height: 100%;
+      }
+    </style>
+
+    <paper-icon-button icon="paper-tabs:chevron-left" class$="[[_computeScrollButtonClass(_leftHidden, scrollable, hideScrollButtons)]]" on-up="_onScrollButtonUp" on-down="_onLeftScrollButtonDown" tabindex="-1"></paper-icon-button>
+
+    <div id="tabsContainer" on-track="_scroll" on-down="_down">
+      <div id="tabsContent" class$="[[_computeTabsContentClass(scrollable, fitContainer)]]">
+        <div id="selectionBar" class$="[[_computeSelectionBarClass(noBar, alignBottom)]]" on-transitionend="_onBarTransitionEnd"></div>
+        <content select="*"></content>
+      </div>
+    </div>
+
+    <paper-icon-button icon="paper-tabs:chevron-right" class$="[[_computeScrollButtonClass(_rightHidden, scrollable, hideScrollButtons)]]" on-up="_onScrollButtonUp" on-down="_onRightScrollButtonDown" tabindex="-1"></paper-icon-button>
+
+  </template>
+
+  <script>
+    Polymer({
+      is: 'paper-tabs',
+
+      behaviors: [
+        Polymer.IronResizableBehavior,
+        Polymer.IronMenubarBehavior
+      ],
+
+      properties: {
+        /**
+         * If true, ink ripple effect is disabled. When this property is changed,
+         * all descendant `<paper-tab>` elements have their `noink` property
+         * changed to the new value as well.
+         */
+        noink: {
+          type: Boolean,
+          value: false,
+          observer: '_noinkChanged'
+        },
+
+        /**
+         * If true, the bottom bar to indicate the selected tab will not be shown.
+         */
+        noBar: {
+          type: Boolean,
+          value: false
+        },
+
+        /**
+         * If true, the slide effect for the bottom bar is disabled.
+         */
+        noSlide: {
+          type: Boolean,
+          value: false
+        },
+
+        /**
+         * If true, tabs are scrollable and the tab width is based on the label width.
+         */
+        scrollable: {
+          type: Boolean,
+          value: false
+        },
+
+        /**
+         * If true, tabs expand to fit their container. This currently only applies when
+         * scrollable is true.
+         */
+        fitContainer: {
+          type: Boolean,
+          value: false
+        },
+
+        /**
+         * If true, dragging on the tabs to scroll is disabled.
+         */
+        disableDrag: {
+          type: Boolean,
+          value: false
+        },
+
+        /**
+         * If true, scroll buttons (left/right arrow) will be hidden for scrollable tabs.
+         */
+        hideScrollButtons: {
+          type: Boolean,
+          value: false
+        },
+
+        /**
+         * If true, the tabs are aligned to bottom (the selection bar appears at the top).
+         */
+        alignBottom: {
+          type: Boolean,
+          value: false
+        },
+
+        selectable: {
+          type: String,
+          value: 'paper-tab'
+        },
+
+        /**
+         * If true, tabs are automatically selected when focused using the
+         * keyboard.
+         */
+        autoselect: {
+          type: Boolean,
+          value: false
+        },
+
+        /**
+         * The delay (in milliseconds) between when the user stops interacting
+         * with the tabs through the keyboard and when the focused item is
+         * automatically selected (if `autoselect` is true).
+         */
+        autoselectDelay: {
+          type: Number,
+          value: 0
+        },
+
+        _step: {
+          type: Number,
+          value: 10
+        },
+
+        _holdDelay: {
+          type: Number,
+          value: 1
+        },
+
+        _leftHidden: {
+          type: Boolean,
+          value: false
+        },
+
+        _rightHidden: {
+          type: Boolean,
+          value: false
+        },
+
+        _previousTab: {
+          type: Object
+        }
+      },
+
+      hostAttributes: {
+        role: 'tablist'
+      },
+
+      listeners: {
+        'iron-resize': '_onTabSizingChanged',
+        'iron-items-changed': '_onTabSizingChanged',
+        'iron-select': '_onIronSelect',
+        'iron-deselect': '_onIronDeselect'
+      },
+
+      keyBindings: {
+        'left:keyup right:keyup': '_onArrowKeyup'
+      },
+
+      created: function() {
+        this._holdJob = null;
+        this._pendingActivationItem = undefined;
+        this._pendingActivationTimeout = undefined;
+        this._bindDelayedActivationHandler = this._delayedActivationHandler.bind(this);
+        this.addEventListener('blur', this._onBlurCapture.bind(this), true);
+      },
+
+      ready: function() {
+        this.setScrollDirection('y', this.$.tabsContainer);
+      },
+
+      detached: function() {
+        this._cancelPendingActivation();
+      },
+
+      _noinkChanged: function(noink) {
+        var childTabs = Polymer.dom(this).querySelectorAll('paper-tab');
+        childTabs.forEach(noink ? this._setNoinkAttribute : this._removeNoinkAttribute);
+      },
+
+      _setNoinkAttribute: function(element) {
+        element.setAttribute('noink', '');
+      },
+
+      _removeNoinkAttribute: function(element) {
+        element.removeAttribute('noink');
+      },
+
+      _computeScrollButtonClass: function(hideThisButton, scrollable, hideScrollButtons) {
+        if (!scrollable || hideScrollButtons) {
+          return 'hidden';
+        }
+
+        if (hideThisButton) {
+          return 'not-visible';
+        }
+
+        return '';
+      },
+
+      _computeTabsContentClass: function(scrollable, fitContainer) {
+        return scrollable ? 'scrollable' + (fitContainer ? ' fit-container' : '') : ' fit-container';
+      },
+
+      _computeSelectionBarClass: function(noBar, alignBottom) {
+        if (noBar) {
+          return 'hidden';
+        } else if (alignBottom) {
+          return 'align-bottom';
+        }
+
+        return '';
+      },
+
+      // TODO(cdata): Add `track` response back in when gesture lands.
+
+      _onTabSizingChanged: function() {
+        this.debounce('_onTabSizingChanged', function() {
+          this._scroll();
+          this._tabChanged(this.selectedItem);
+        }, 10);
+      },
+
+      _onIronSelect: function(event) {
+        this._tabChanged(event.detail.item, this._previousTab);
+        this._previousTab = event.detail.item;
+        this.cancelDebouncer('tab-changed');
+      },
+
+      _onIronDeselect: function(event) {
+        this.debounce('tab-changed', function() {
+          this._tabChanged(null, this._previousTab);
+          this._previousTab = null;
+        // See polymer/polymer#1305
+        }, 1);
+      },
+
+      _activateHandler: function() {
+        // Cancel item activations scheduled by keyboard events when any other
+        // action causes an item to be activated (e.g. clicks).
+        this._cancelPendingActivation();
+
+        Polymer.IronMenuBehaviorImpl._activateHandler.apply(this, arguments);
+      },
+
+      /**
+       * Activates an item after a delay (in milliseconds).
+       */
+      _scheduleActivation: function(item, delay) {
+        this._pendingActivationItem = item;
+        this._pendingActivationTimeout = this.async(
+            this._bindDelayedActivationHandler, delay);
+      },
+
+      /**
+       * Activates the last item given to `_scheduleActivation`.
+       */
+      _delayedActivationHandler: function() {
+        var item = this._pendingActivationItem;
+        this._pendingActivationItem = undefined;
+        this._pendingActivationTimeout = undefined;
+        item.fire(this.activateEvent, null, {
+          bubbles: true,
+          cancelable: true
+        });
+      },
+
+      /**
+       * Cancels a previously scheduled item activation made with
+       * `_scheduleActivation`.
+       */
+      _cancelPendingActivation: function() {
+        if (this._pendingActivationTimeout !== undefined) {
+          this.cancelAsync(this._pendingActivationTimeout);
+          this._pendingActivationItem = undefined;
+          this._pendingActivationTimeout = undefined;
+        }
+      },
+
+      _onArrowKeyup: function(event) {
+        if (this.autoselect) {
+          this._scheduleActivation(this.focusedItem, this.autoselectDelay);
+        }
+      },
+
+      _onBlurCapture: function(event) {
+        // Cancel a scheduled item activation (if any) when that item is
+        // blurred.
+        if (event.target === this._pendingActivationItem) {
+          this._cancelPendingActivation();
+        }
+      },
+
+      get _tabContainerScrollSize () {
+        return Math.max(
+          0,
+          this.$.tabsContainer.scrollWidth -
+            this.$.tabsContainer.offsetWidth
+        );
+      },
+
+      _scroll: function(e, detail) {
+        if (!this.scrollable) {
+          return;
+        }
+
+        var ddx = (detail && -detail.ddx) || 0;
+        this._affectScroll(ddx);
+      },
+
+      _down: function(e) {
+        // go one beat async to defeat IronMenuBehavior
+        // autorefocus-on-no-selection timeout
+        this.async(function() {
+          if (this._defaultFocusAsync) {
+            this.cancelAsync(this._defaultFocusAsync);
+            this._defaultFocusAsync = null;
+          }
+        }, 1);
+      },
+
+      _affectScroll: function(dx) {
+        this.$.tabsContainer.scrollLeft += dx;
+
+        var scrollLeft = this.$.tabsContainer.scrollLeft;
+
+        this._leftHidden = scrollLeft === 0;
+        this._rightHidden = scrollLeft === this._tabContainerScrollSize;
+      },
+
+      _onLeftScrollButtonDown: function() {
+        this._scrollToLeft();
+        this._holdJob = setInterval(this._scrollToLeft.bind(this), this._holdDelay);
+      },
+
+      _onRightScrollButtonDown: function() {
+        this._scrollToRight();
+        this._holdJob = setInterval(this._scrollToRight.bind(this), this._holdDelay);
+      },
+
+      _onScrollButtonUp: function() {
+        clearInterval(this._holdJob);
+        this._holdJob = null;
+      },
+
+      _scrollToLeft: function() {
+        this._affectScroll(-this._step);
+      },
+
+      _scrollToRight: function() {
+        this._affectScroll(this._step);
+      },
+
+      _tabChanged: function(tab, old) {
+        if (!tab) {
+          // Remove the bar without animation.
+          this.$.selectionBar.classList.remove('expand');
+          this.$.selectionBar.classList.remove('contract');
+          this._positionBar(0, 0);
+          return;
+        }
+
+        var r = this.$.tabsContent.getBoundingClientRect();
+        var w = r.width;
+        var tabRect = tab.getBoundingClientRect();
+        var tabOffsetLeft = tabRect.left - r.left;
+
+        this._pos = {
+          width: this._calcPercent(tabRect.width, w),
+          left: this._calcPercent(tabOffsetLeft, w)
+        };
+
+        if (this.noSlide || old == null) {
+          // Position the bar without animation.
+          this.$.selectionBar.classList.remove('expand');
+          this.$.selectionBar.classList.remove('contract');
+          this._positionBar(this._pos.width, this._pos.left);
+          return;
+        }
+
+        var oldRect = old.getBoundingClientRect();
+        var oldIndex = this.items.indexOf(old);
+        var index = this.items.indexOf(tab);
+        var m = 5;
+
+        // bar animation: expand
+        this.$.selectionBar.classList.add('expand');
+
+        var moveRight = oldIndex < index;
+        var isRTL = this._isRTL;
+        if (isRTL) {
+          moveRight = !moveRight;
+        }
+
+        if (moveRight) {
+          this._positionBar(this._calcPercent(tabRect.left + tabRect.width - oldRect.left, w) - m,
+              this._left);
+        } else {
+          this._positionBar(this._calcPercent(oldRect.left + oldRect.width - tabRect.left, w) - m,
+              this._calcPercent(tabOffsetLeft, w) + m);
+        }
+
+        if (this.scrollable) {
+          this._scrollToSelectedIfNeeded(tabRect.width, tabOffsetLeft);
+        }
+      },
+
+      _scrollToSelectedIfNeeded: function(tabWidth, tabOffsetLeft) {
+        var l = tabOffsetLeft - this.$.tabsContainer.scrollLeft;
+        if (l < 0) {
+          this.$.tabsContainer.scrollLeft += l;
+        } else {
+          l += (tabWidth - this.$.tabsContainer.offsetWidth);
+          if (l > 0) {
+            this.$.tabsContainer.scrollLeft += l;
+          }
+        }
+      },
+
+      _calcPercent: function(w, w0) {
+        return 100 * w / w0;
+      },
+
+      _positionBar: function(width, left) {
+        width = width || 0;
+        left = left || 0;
+
+        this._width = width;
+        this._left = left;
+        this.transform(
+            'translateX(' + left + '%) scaleX(' + (width / 100) + ')',
+            this.$.selectionBar);
+      },
+
+      _onBarTransitionEnd: function(e) {
+        var cl = this.$.selectionBar.classList;
+        // bar animation: expand -> contract
+        if (cl.contains('expand')) {
+          cl.remove('expand');
+          cl.add('contract');
+          this._positionBar(this._pos.width, this._pos.left);
+        // bar animation done
+        } else if (cl.contains('contract')) {
+          cl.remove('contract');
+        }
+      }
+    });
+  </script>
+</dom-module>
 <dom-module id="prendus-concept-container" assetpath="../prendus-concept-container/">
   <template>
+  <style include="color-styles"></style>
+  <style>
+  #resource-tabs{
+    --paper-tabs-selection-bar-color: var(--prendus-primary-color);
+  }
+  #title-bar{
+    border-bottom: 0px 0px 3px black;
+  }
+  </style>
     <redux-store on-statechange="mapStateToThis" action="[[action]]"></redux-store>
     <div>
-        <!-- <paper-spinner></paper-spinner> Can't figure out how to get this-->
       <paper-icon-item>
         <div>
           <h3 on-tap="toggle">[[title]]</h3>
@@ -41257,42 +43296,28 @@ doy:4}}),kg.defineLocale("zh-tw",{months:"一月_二月_三月_四月_五月_六
       </paper-icon-item>
       <iron-collapse class="conceptToggle" id="concept-[[item.pos]]">
         <div>
-          <div id="videosContainer">
-            <paper-header-panel mode="seamed">
-              <paper-toolbar><h1>Videos</h1></paper-toolbar>
-            </paper-header-panel>
-            <prendus-concept-video-container concept-id="[[conceptId]]" course-id="[[courseId]]"></prendus-concept-video-container>
-          </div>
-          <div class="flex-horizontal" id="quizzesContainer">
-            <paper-header-panel mode="seamed">
-              <paper-toolbar><h1>Quizzes</h1></paper-toolbar>
-            </paper-header-panel>
-            <prendus-concept-quiz-container concept-id="[[conceptId]]" course-id="[[courseId]]"></prendus-concept-quiz-container>
-          </div>
+          <paper-tabs id="resource-tabs" selected="{{selected}}">
+              <paper-tab>QUIZZES</paper-tab>
+              <paper-tab>VIDEOS</paper-tab>
+          </paper-tabs>
+          <iron-pages selected="{{selected}}" style="position: relative">
+            <div class="flex-horizontal" id="quizzesContainer">
+              <prendus-concept-quiz-container concept-id="[[conceptId]]"></prendus-concept-quiz-container>
+            </div>
+            <div class="flex-horizontal" id="videosContainer">
+              <prendus-concept-video-container concept-id="[[conceptId]]"></prendus-concept-video-container>
+            </div>
+          </iron-pages>
         </div>
       </iron-collapse>
     </div>
   </template>
-
-  <!--<script src="prendus-concept-container.js"></script>-->
+  <!-- <script>System.import('/components/prendus-concept-container/prendus-concept-container.ts');</script> -->
 </dom-module>
 <dom-module id="prendus-course-view" assetpath="../prendus-course-view/">
   <style>
     :host {
       display: block;
-    }
-    /*.concepts-style-container{
-      display: flex;
-      flex-direction: row;
-      flex: 1;
-      box-shadow: 0px 0px 3px black;
-      margin-top: 1%;
-      margin-bottom: 1%;
-      position: relative;
-      height: 0%
-    }*/
-    #concepts-style-container{
-
     }
     #concept-container-div{
       box-shadow: 0px 0px 3px black;
@@ -41359,7 +43384,7 @@ doy:4}}),kg.defineLocale("zh-tw",{months:"一月_二月_三月_四月_五月_六
       <div>
         <!-- Look up Iron keys to change this -->
         <paper-input name="name" label="Course Name" id="courseFormName" required="" auto-validate=""></paper-input>
-        <paper-input name="name" label="160 Character Description" id="courseDescription" required="" auto-validate=""></paper-input>
+        <paper-input name="name" label="Short Description" id="courseDescription" required="" auto-validate=""></paper-input>
         <paper-button dialog-dismiss="">Cancel</paper-button>
         <paper-button on-tap="addCourseFormDone">Next</paper-button>
       </div>
@@ -42624,47 +44649,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 --><script>
 
   /**
-   * `Polymer.PaperInkyFocusBehavior` implements a ripple when the element has keyboard focus.
-   *
-   * @polymerBehavior Polymer.PaperInkyFocusBehavior
-   */
-  Polymer.PaperInkyFocusBehaviorImpl = {
-
-    observers: [
-      '_focusedChanged(receivedFocusFromKeyboard)'
-    ],
-
-    _focusedChanged: function(receivedFocusFromKeyboard) {
-      if (receivedFocusFromKeyboard) {
-        this.ensureRipple();
-      }
-      if (this.hasRipple()) {
-        this._ripple.holdDown = receivedFocusFromKeyboard;
-      }
-    },
-
-    _createRipple: function() {
-      var ripple = Polymer.PaperRippleBehavior._createRipple();
-      ripple.id = 'ink';
-      ripple.setAttribute('center', '');
-      ripple.classList.add('circle');
-      return ripple;
-    }
-
-  };
-
-  /** @polymerBehavior Polymer.PaperInkyFocusBehavior */
-  Polymer.PaperInkyFocusBehavior = [
-    Polymer.IronButtonState,
-    Polymer.IronControlState,
-    Polymer.PaperRippleBehavior,
-    Polymer.PaperInkyFocusBehaviorImpl
-  ];
-
-</script>
-<script>
-
-  /**
    * Use `Polymer.PaperCheckedElementBehavior` to implement a custom element
    * that has a `checked` property similar to `Polymer.IronCheckedElementBehavior`
    * and is compatible with having a ripple effect.
@@ -42708,15 +44692,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     Polymer.PaperCheckedElementBehaviorImpl
   ];
 
-</script><!--
-@license
-Copyright (c) 2015 The Polymer Project Authors. All rights reserved.
-This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
-The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
-The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
-Code distributed by Google as part of the polymer project is also
-subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
--->
+</script>
 <!--
 @license
 Copyright (c) 2015 The Polymer Project Authors. All rights reserved.
@@ -42988,1941 +44964,6 @@ In order to apply the `Roboto` font to this element, make sure you've imported `
       }
 
     });
-  </script>
-</dom-module>
-<!--
-@license
-Copyright (c) 2015 The Polymer Project Authors. All rights reserved.
-This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
-The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
-The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
-Code distributed by Google as part of the polymer project is also
-subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
---><script>
-
-  /**
-   * `Polymer.IronMenubarBehavior` implements accessible menubar behavior.
-   *
-   * @polymerBehavior Polymer.IronMenubarBehavior
-   */
-  Polymer.IronMenubarBehaviorImpl = {
-
-    hostAttributes: {
-      'role': 'menubar'
-    },
-
-    keyBindings: {
-      'left': '_onLeftKey',
-      'right': '_onRightKey'
-    },
-
-    _onUpKey: function(event) {
-      this.focusedItem.click();
-      event.detail.keyboardEvent.preventDefault();
-    },
-
-    _onDownKey: function(event) {
-      this.focusedItem.click();
-      event.detail.keyboardEvent.preventDefault();
-    },
-
-    get _isRTL() {
-      return window.getComputedStyle(this)['direction'] === 'rtl';
-    },
-
-    _onLeftKey: function(event) {
-      if (this._isRTL) {
-        this._focusNext();
-      } else {
-        this._focusPrevious();
-      }
-      event.detail.keyboardEvent.preventDefault();
-    },
-
-    _onRightKey: function(event) {
-      if (this._isRTL) {
-        this._focusPrevious();
-      } else {
-        this._focusNext();
-      }
-      event.detail.keyboardEvent.preventDefault();
-    },
-
-    _onKeydown: function(event) {
-      if (this.keyboardEventMatchesKeys(event, 'up down left right esc')) {
-        return;
-      }
-
-      // all other keys focus the menu item starting with that character
-      this._focusWithKeyboardEvent(event);
-    }
-
-  };
-
-  /** @polymerBehavior Polymer.IronMenubarBehavior */
-  Polymer.IronMenubarBehavior = [
-    Polymer.IronMenuBehavior,
-    Polymer.IronMenubarBehaviorImpl
-  ];
-
-</script>
-<!--
-@license
-Copyright (c) 2015 The Polymer Project Authors. All rights reserved.
-This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
-The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
-The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
-Code distributed by Google as part of the polymer project is also
-subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
---><!--
-Material design: [Icon toggles](https://www.google.com/design/spec/components/buttons.html#buttons-toggle-buttons)
-
-`paper-icon-button` is a button with an image placed at the center. When the user touches
-the button, a ripple effect emanates from the center of the button.
-
-`paper-icon-button` includes a default icon set.  Use `icon` to specify which icon
-from the icon set to use.
-
-    <paper-icon-button icon="menu"></paper-icon-button>
-
-See [`iron-iconset`](iron-iconset) for more information about
-how to use a custom icon set.
-
-Example:
-
-    <link href="path/to/iron-icons/iron-icons.html" rel="import">
-
-    <paper-icon-button icon="favorite"></paper-icon-button>
-    <paper-icon-button src="star.png"></paper-icon-button>
-
-To use `paper-icon-button` as a link, wrap it in an anchor tag. Since `paper-icon-button`
-will already receive focus, you may want to prevent the anchor tag from receiving focus
-as well by setting its tabindex to -1.
-
-    <a href="https://www.polymer-project.org" tabindex="-1">
-      <paper-icon-button icon="polymer"></paper-icon-button>
-    </a>
-
-### Styling
-
-Style the button with CSS as you would a normal DOM element. If you are using the icons
-provided by `iron-icons`, they will inherit the foreground color of the button.
-
-    /* make a red "favorite" button */
-    <paper-icon-button icon="favorite" style="color: red;"></paper-icon-button>
-
-By default, the ripple is the same color as the foreground at 25% opacity. You may
-customize the color using the `--paper-icon-button-ink-color` custom property.
-
-The following custom properties and mixins are available for styling:
-
-Custom property | Description | Default
-----------------|-------------|----------
-`--paper-icon-button-disabled-text` | The color of the disabled button | `--disabled-text-color`
-`--paper-icon-button-ink-color` | Selected/focus ripple color | `--primary-text-color`
-`--paper-icon-button` | Mixin for a button | `{}`
-`--paper-icon-button-disabled` | Mixin for a disabled button | `{}`
-`--paper-icon-button-hover` | Mixin for button on hover | `{}`
-
-@group Paper Elements
-@element paper-icon-button
-@demo demo/index.html
--->
-
-<dom-module id="paper-icon-button" assetpath="../../bower_components/paper-icon-button/">
-  <template strip-whitespace="">
-    <style>
-      :host {
-        display: inline-block;
-        position: relative;
-        padding: 8px;
-        outline: none;
-        -webkit-user-select: none;
-        -moz-user-select: none;
-        -ms-user-select: none;
-        user-select: none;
-        cursor: pointer;
-        z-index: 0;
-        line-height: 1;
-
-        width: 40px;
-        height: 40px;
-
-        /* NOTE: Both values are needed, since some phones require the value to be `transparent`. */
-        -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
-        -webkit-tap-highlight-color: transparent;
-
-        /* Because of polymer/2558, this style has lower specificity than * */
-        box-sizing: border-box !important;
-
-        @apply(--paper-icon-button);
-      }
-
-      :host #ink {
-        color: var(--paper-icon-button-ink-color, --primary-text-color);
-        opacity: 0.6;
-      }
-
-      :host([disabled]) {
-        color: var(--paper-icon-button-disabled-text, --disabled-text-color);
-        pointer-events: none;
-        cursor: auto;
-
-        @apply(--paper-icon-button-disabled);
-      }
-
-      :host(:hover) {
-        @apply(--paper-icon-button-hover);
-      }
-
-      iron-icon {
-        --iron-icon-width: 100%;
-        --iron-icon-height: 100%;
-      }
-    </style>
-
-    <iron-icon id="icon" src="[[src]]" icon="[[icon]]" alt$="[[alt]]"></iron-icon>
-  </template>
-
-  <script>
-    Polymer({
-      is: 'paper-icon-button',
-
-      hostAttributes: {
-        role: 'button',
-        tabindex: '0'
-      },
-
-      behaviors: [
-        Polymer.PaperInkyFocusBehavior
-      ],
-
-      properties: {
-        /**
-         * The URL of an image for the icon. If the src property is specified,
-         * the icon property should not be.
-         */
-        src: {
-          type: String
-        },
-
-        /**
-         * Specifies the icon name or index in the set of icons available in
-         * the icon's icon set. If the icon property is specified,
-         * the src property should not be.
-         */
-        icon: {
-          type: String
-        },
-
-        /**
-         * Specifies the alternate text for the button, for accessibility.
-         */
-        alt: {
-          type: String,
-          observer: "_altChanged"
-        }
-      },
-
-      _altChanged: function(newValue, oldValue) {
-        var label = this.getAttribute('aria-label');
-
-        // Don't stomp over a user-set aria-label.
-        if (!label || oldValue == label) {
-          this.setAttribute('aria-label', newValue);
-        }
-      }
-    });
-  </script>
-</dom-module>
-<!--
-@license
-Copyright (c) 2015 The Polymer Project Authors. All rights reserved.
-This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
-The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
-The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
-Code distributed by Google as part of the polymer project is also
-subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
---><iron-iconset-svg name="paper-tabs" size="24">
-<svg><defs>
-<g id="chevron-left"><path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"></path></g>
-<g id="chevron-right"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"></path></g>
-</defs></svg>
-</iron-iconset-svg>
-<!--
-@license
-Copyright (c) 2015 The Polymer Project Authors. All rights reserved.
-This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
-The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
-The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
-Code distributed by Google as part of the polymer project is also
-subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
---><!--
-`paper-tab` is styled to look like a tab.  It should be used in conjunction with
-`paper-tabs`.
-
-Example:
-
-    <paper-tabs selected="0">
-      <paper-tab>TAB 1</paper-tab>
-      <paper-tab>TAB 2</paper-tab>
-      <paper-tab>TAB 3</paper-tab>
-    </paper-tabs>
-
-### Styling
-
-The following custom properties and mixins are available for styling:
-
-Custom property | Description | Default
-----------------|-------------|----------
-`--paper-tab-ink` | Ink color | `--paper-yellow-a100`
-`--paper-tab` | Mixin applied to the tab | `{}`
-`--paper-tab-content` | Mixin applied to the tab content | `{}`
-`--paper-tab-content-unselected` | Mixin applied to the tab content when the tab is not selected | `{}`
-
-This element applies the mixin `--paper-font-common-base` but does not import `paper-styles/typography.html`.
-In order to apply the `Roboto` font to this element, make sure you've imported `paper-styles/typography.html`.
-
--->
-
-<dom-module id="paper-tab" assetpath="../../bower_components/paper-tabs/">
-  <template>
-    <style>
-      :host {
-        @apply(--layout-inline);
-        @apply(--layout-center);
-        @apply(--layout-center-justified);
-        @apply(--layout-flex-auto);
-
-        position: relative;
-        padding: 0 12px;
-        overflow: hidden;
-        cursor: pointer;
-        vertical-align: middle;
-
-        @apply(--paper-font-common-base);
-        @apply(--paper-tab);
-      }
-
-      :host(:focus) {
-        outline: none;
-      }
-
-      :host([link]) {
-        padding: 0;
-      }
-
-      .tab-content {
-        height: 100%;
-        transform: translateZ(0);
-          -webkit-transform: translateZ(0);
-        transition: opacity 0.1s cubic-bezier(0.4, 0.0, 1, 1);
-        @apply(--layout-horizontal);
-        @apply(--layout-center-center);
-        @apply(--layout-flex-auto);
-        @apply(--paper-tab-content);
-      }
-
-      :host(:not(.iron-selected)) > .tab-content {
-        opacity: 0.8;
-
-        @apply(--paper-tab-content-unselected);
-      }
-
-      :host(:focus) .tab-content {
-        opacity: 1;
-        font-weight: 700;
-      }
-
-      paper-ripple {
-        color: var(--paper-tab-ink, --paper-yellow-a100);
-      }
-
-      .tab-content > ::content > a {
-        @apply(--layout-flex-auto);
-
-        height: 100%;
-      }
-    </style>
-
-    <div class="tab-content">
-      <content></content>
-    </div>
-  </template>
-
-  <script>
-    Polymer({
-      is: 'paper-tab',
-
-      behaviors: [
-        Polymer.IronControlState,
-        Polymer.IronButtonState,
-        Polymer.PaperRippleBehavior
-      ],
-
-      properties: {
-
-        /**
-         * If true, the tab will forward keyboard clicks (enter/space) to
-         * the first anchor element found in its descendants
-         */
-        link: {
-          type: Boolean,
-          value: false,
-          reflectToAttribute: true
-        }
-
-      },
-
-      hostAttributes: {
-        role: 'tab'
-      },
-
-      listeners: {
-        down: '_updateNoink',
-        tap: '_onTap'
-      },
-
-      attached: function() {
-        this._updateNoink();
-      },
-
-      get _parentNoink () {
-        var parent = Polymer.dom(this).parentNode;
-        return !!parent && !!parent.noink;
-      },
-
-      _updateNoink: function() {
-        this.noink = !!this.noink || !!this._parentNoink;
-      },
-
-      _onTap: function(event) {
-        if (this.link) {
-          var anchor = this.queryEffectiveChildren('a');
-
-          if (!anchor) {
-            return;
-          }
-
-          // Don't get stuck in a loop delegating
-          // the listener from the child anchor
-          if (event.target === anchor) {
-            return;
-          }
-
-          anchor.click();
-        }
-      }
-
-    });
-  </script>
-</dom-module>
-<!--
-@license
-Copyright (c) 2015 The Polymer Project Authors. All rights reserved.
-This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
-The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
-The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
-Code distributed by Google as part of the polymer project is also
-subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
---><!--
-Material design: [Tabs](https://www.google.com/design/spec/components/tabs.html)
-
-`paper-tabs` makes it easy to explore and switch between different views or functional aspects of
-an app, or to browse categorized data sets.
-
-Use `selected` property to get or set the selected tab.
-
-Example:
-
-    <paper-tabs selected="0">
-      <paper-tab>TAB 1</paper-tab>
-      <paper-tab>TAB 2</paper-tab>
-      <paper-tab>TAB 3</paper-tab>
-    </paper-tabs>
-
-See <a href="?active=paper-tab">paper-tab</a> for more information about
-`paper-tab`.
-
-A common usage for `paper-tabs` is to use it along with `iron-pages` to switch
-between different views.
-
-    <paper-tabs selected="{{selected}}">
-      <paper-tab>Tab 1</paper-tab>
-      <paper-tab>Tab 2</paper-tab>
-      <paper-tab>Tab 3</paper-tab>
-    </paper-tabs>
-
-    <iron-pages selected="{{selected}}">
-      <div>Page 1</div>
-      <div>Page 2</div>
-      <div>Page 3</div>
-    </iron-pages>
-
-
-To use links in tabs, add `link` attribute to `paper-tab` and put an `<a>`
-element in `paper-tab` with a `tabindex` of -1.
-
-Example:
-
-<pre><code>
-&lt;style is="custom-style">
-  .link {
-    &#64;apply(--layout-horizontal);
-    &#64;apply(--layout-center-center);
-  }
-&lt;/style>
-
-&lt;paper-tabs selected="0">
-  &lt;paper-tab link>
-    &lt;a href="#link1" class="link" tabindex="-1">TAB ONE&lt;/a>
-  &lt;/paper-tab>
-  &lt;paper-tab link>
-    &lt;a href="#link2" class="link" tabindex="-1">TAB TWO&lt;/a>
-  &lt;/paper-tab>
-  &lt;paper-tab link>
-    &lt;a href="#link3" class="link" tabindex="-1">TAB THREE&lt;/a>
-  &lt;/paper-tab>
-&lt;/paper-tabs>
-</code></pre>
-
-### Styling
-
-The following custom properties and mixins are available for styling:
-
-Custom property | Description | Default
-----------------|-------------|----------
-`--paper-tabs-selection-bar-color` | Color for the selection bar | `--paper-yellow-a100`
-`--paper-tabs-selection-bar` | Mixin applied to the selection bar | `{}`
-`--paper-tabs` | Mixin applied to the tabs | `{}`
-
-@hero hero.svg
-@demo demo/index.html
--->
-
-<dom-module id="paper-tabs" assetpath="../../bower_components/paper-tabs/">
-  <template>
-    <style>
-      :host {
-        @apply(--layout);
-        @apply(--layout-center);
-
-        height: 48px;
-        font-size: 14px;
-        font-weight: 500;
-        overflow: hidden;
-        -moz-user-select: none;
-        -ms-user-select: none;
-        -webkit-user-select: none;
-        user-select: none;
-
-        /* NOTE: Both values are needed, since some phones require the value to be `transparent`. */
-        -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
-        -webkit-tap-highlight-color: transparent;
-
-        @apply(--paper-tabs);
-      }
-
-      :host-context([dir=rtl]) {
-        @apply(--layout-horizontal-reverse);
-      }
-
-      #tabsContainer {
-        position: relative;
-        height: 100%;
-        white-space: nowrap;
-        overflow: hidden;
-        @apply(--layout-flex-auto);
-      }
-
-      #tabsContent {
-        height: 100%;
-        -moz-flex-basis: auto;
-        -ms-flex-basis: auto;
-        flex-basis: auto;
-      }
-
-      #tabsContent.scrollable {
-        position: absolute;
-        white-space: nowrap;
-      }
-
-      #tabsContent:not(.scrollable),
-      #tabsContent.scrollable.fit-container {
-        @apply(--layout-horizontal);
-      }
-
-      #tabsContent.scrollable.fit-container {
-        min-width: 100%;
-      }
-
-      #tabsContent.scrollable.fit-container > ::content > * {
-        /* IE - prevent tabs from compressing when they should scroll. */
-        -ms-flex: 1 0 auto;
-        -webkit-flex: 1 0 auto;
-        flex: 1 0 auto;
-      }
-
-      .hidden {
-        display: none;
-      }
-
-      .not-visible {
-        opacity: 0;
-        cursor: default;
-      }
-
-      paper-icon-button {
-        width: 48px;
-        height: 48px;
-        padding: 12px;
-        margin: 0 4px;
-      }
-
-      #selectionBar {
-        position: absolute;
-        height: 2px;
-        bottom: 0;
-        left: 0;
-        right: 0;
-        background-color: var(--paper-tabs-selection-bar-color, --paper-yellow-a100);
-          -webkit-transform: scale(0);
-        transform: scale(0);
-          -webkit-transform-origin: left center;
-        transform-origin: left center;
-          transition: -webkit-transform;
-        transition: transform;
-
-        @apply(--paper-tabs-selection-bar);
-      }
-
-      #selectionBar.align-bottom {
-        top: 0;
-        bottom: auto;
-      }
-
-      #selectionBar.expand {
-        transition-duration: 0.15s;
-        transition-timing-function: cubic-bezier(0.4, 0.0, 1, 1);
-      }
-
-      #selectionBar.contract {
-        transition-duration: 0.18s;
-        transition-timing-function: cubic-bezier(0.0, 0.0, 0.2, 1);
-      }
-
-      #tabsContent > ::content > *:not(#selectionBar) {
-        height: 100%;
-      }
-    </style>
-
-    <paper-icon-button icon="paper-tabs:chevron-left" class$="[[_computeScrollButtonClass(_leftHidden, scrollable, hideScrollButtons)]]" on-up="_onScrollButtonUp" on-down="_onLeftScrollButtonDown" tabindex="-1"></paper-icon-button>
-
-    <div id="tabsContainer" on-track="_scroll" on-down="_down">
-      <div id="tabsContent" class$="[[_computeTabsContentClass(scrollable, fitContainer)]]">
-        <div id="selectionBar" class$="[[_computeSelectionBarClass(noBar, alignBottom)]]" on-transitionend="_onBarTransitionEnd"></div>
-        <content select="*"></content>
-      </div>
-    </div>
-
-    <paper-icon-button icon="paper-tabs:chevron-right" class$="[[_computeScrollButtonClass(_rightHidden, scrollable, hideScrollButtons)]]" on-up="_onScrollButtonUp" on-down="_onRightScrollButtonDown" tabindex="-1"></paper-icon-button>
-
-  </template>
-
-  <script>
-    Polymer({
-      is: 'paper-tabs',
-
-      behaviors: [
-        Polymer.IronResizableBehavior,
-        Polymer.IronMenubarBehavior
-      ],
-
-      properties: {
-        /**
-         * If true, ink ripple effect is disabled. When this property is changed,
-         * all descendant `<paper-tab>` elements have their `noink` property
-         * changed to the new value as well.
-         */
-        noink: {
-          type: Boolean,
-          value: false,
-          observer: '_noinkChanged'
-        },
-
-        /**
-         * If true, the bottom bar to indicate the selected tab will not be shown.
-         */
-        noBar: {
-          type: Boolean,
-          value: false
-        },
-
-        /**
-         * If true, the slide effect for the bottom bar is disabled.
-         */
-        noSlide: {
-          type: Boolean,
-          value: false
-        },
-
-        /**
-         * If true, tabs are scrollable and the tab width is based on the label width.
-         */
-        scrollable: {
-          type: Boolean,
-          value: false
-        },
-
-        /**
-         * If true, tabs expand to fit their container. This currently only applies when
-         * scrollable is true.
-         */
-        fitContainer: {
-          type: Boolean,
-          value: false
-        },
-
-        /**
-         * If true, dragging on the tabs to scroll is disabled.
-         */
-        disableDrag: {
-          type: Boolean,
-          value: false
-        },
-
-        /**
-         * If true, scroll buttons (left/right arrow) will be hidden for scrollable tabs.
-         */
-        hideScrollButtons: {
-          type: Boolean,
-          value: false
-        },
-
-        /**
-         * If true, the tabs are aligned to bottom (the selection bar appears at the top).
-         */
-        alignBottom: {
-          type: Boolean,
-          value: false
-        },
-
-        selectable: {
-          type: String,
-          value: 'paper-tab'
-        },
-
-        /**
-         * If true, tabs are automatically selected when focused using the
-         * keyboard.
-         */
-        autoselect: {
-          type: Boolean,
-          value: false
-        },
-
-        /**
-         * The delay (in milliseconds) between when the user stops interacting
-         * with the tabs through the keyboard and when the focused item is
-         * automatically selected (if `autoselect` is true).
-         */
-        autoselectDelay: {
-          type: Number,
-          value: 0
-        },
-
-        _step: {
-          type: Number,
-          value: 10
-        },
-
-        _holdDelay: {
-          type: Number,
-          value: 1
-        },
-
-        _leftHidden: {
-          type: Boolean,
-          value: false
-        },
-
-        _rightHidden: {
-          type: Boolean,
-          value: false
-        },
-
-        _previousTab: {
-          type: Object
-        }
-      },
-
-      hostAttributes: {
-        role: 'tablist'
-      },
-
-      listeners: {
-        'iron-resize': '_onTabSizingChanged',
-        'iron-items-changed': '_onTabSizingChanged',
-        'iron-select': '_onIronSelect',
-        'iron-deselect': '_onIronDeselect'
-      },
-
-      keyBindings: {
-        'left:keyup right:keyup': '_onArrowKeyup'
-      },
-
-      created: function() {
-        this._holdJob = null;
-        this._pendingActivationItem = undefined;
-        this._pendingActivationTimeout = undefined;
-        this._bindDelayedActivationHandler = this._delayedActivationHandler.bind(this);
-        this.addEventListener('blur', this._onBlurCapture.bind(this), true);
-      },
-
-      ready: function() {
-        this.setScrollDirection('y', this.$.tabsContainer);
-      },
-
-      detached: function() {
-        this._cancelPendingActivation();
-      },
-
-      _noinkChanged: function(noink) {
-        var childTabs = Polymer.dom(this).querySelectorAll('paper-tab');
-        childTabs.forEach(noink ? this._setNoinkAttribute : this._removeNoinkAttribute);
-      },
-
-      _setNoinkAttribute: function(element) {
-        element.setAttribute('noink', '');
-      },
-
-      _removeNoinkAttribute: function(element) {
-        element.removeAttribute('noink');
-      },
-
-      _computeScrollButtonClass: function(hideThisButton, scrollable, hideScrollButtons) {
-        if (!scrollable || hideScrollButtons) {
-          return 'hidden';
-        }
-
-        if (hideThisButton) {
-          return 'not-visible';
-        }
-
-        return '';
-      },
-
-      _computeTabsContentClass: function(scrollable, fitContainer) {
-        return scrollable ? 'scrollable' + (fitContainer ? ' fit-container' : '') : ' fit-container';
-      },
-
-      _computeSelectionBarClass: function(noBar, alignBottom) {
-        if (noBar) {
-          return 'hidden';
-        } else if (alignBottom) {
-          return 'align-bottom';
-        }
-
-        return '';
-      },
-
-      // TODO(cdata): Add `track` response back in when gesture lands.
-
-      _onTabSizingChanged: function() {
-        this.debounce('_onTabSizingChanged', function() {
-          this._scroll();
-          this._tabChanged(this.selectedItem);
-        }, 10);
-      },
-
-      _onIronSelect: function(event) {
-        this._tabChanged(event.detail.item, this._previousTab);
-        this._previousTab = event.detail.item;
-        this.cancelDebouncer('tab-changed');
-      },
-
-      _onIronDeselect: function(event) {
-        this.debounce('tab-changed', function() {
-          this._tabChanged(null, this._previousTab);
-          this._previousTab = null;
-        // See polymer/polymer#1305
-        }, 1);
-      },
-
-      _activateHandler: function() {
-        // Cancel item activations scheduled by keyboard events when any other
-        // action causes an item to be activated (e.g. clicks).
-        this._cancelPendingActivation();
-
-        Polymer.IronMenuBehaviorImpl._activateHandler.apply(this, arguments);
-      },
-
-      /**
-       * Activates an item after a delay (in milliseconds).
-       */
-      _scheduleActivation: function(item, delay) {
-        this._pendingActivationItem = item;
-        this._pendingActivationTimeout = this.async(
-            this._bindDelayedActivationHandler, delay);
-      },
-
-      /**
-       * Activates the last item given to `_scheduleActivation`.
-       */
-      _delayedActivationHandler: function() {
-        var item = this._pendingActivationItem;
-        this._pendingActivationItem = undefined;
-        this._pendingActivationTimeout = undefined;
-        item.fire(this.activateEvent, null, {
-          bubbles: true,
-          cancelable: true
-        });
-      },
-
-      /**
-       * Cancels a previously scheduled item activation made with
-       * `_scheduleActivation`.
-       */
-      _cancelPendingActivation: function() {
-        if (this._pendingActivationTimeout !== undefined) {
-          this.cancelAsync(this._pendingActivationTimeout);
-          this._pendingActivationItem = undefined;
-          this._pendingActivationTimeout = undefined;
-        }
-      },
-
-      _onArrowKeyup: function(event) {
-        if (this.autoselect) {
-          this._scheduleActivation(this.focusedItem, this.autoselectDelay);
-        }
-      },
-
-      _onBlurCapture: function(event) {
-        // Cancel a scheduled item activation (if any) when that item is
-        // blurred.
-        if (event.target === this._pendingActivationItem) {
-          this._cancelPendingActivation();
-        }
-      },
-
-      get _tabContainerScrollSize () {
-        return Math.max(
-          0,
-          this.$.tabsContainer.scrollWidth -
-            this.$.tabsContainer.offsetWidth
-        );
-      },
-
-      _scroll: function(e, detail) {
-        if (!this.scrollable) {
-          return;
-        }
-
-        var ddx = (detail && -detail.ddx) || 0;
-        this._affectScroll(ddx);
-      },
-
-      _down: function(e) {
-        // go one beat async to defeat IronMenuBehavior
-        // autorefocus-on-no-selection timeout
-        this.async(function() {
-          if (this._defaultFocusAsync) {
-            this.cancelAsync(this._defaultFocusAsync);
-            this._defaultFocusAsync = null;
-          }
-        }, 1);
-      },
-
-      _affectScroll: function(dx) {
-        this.$.tabsContainer.scrollLeft += dx;
-
-        var scrollLeft = this.$.tabsContainer.scrollLeft;
-
-        this._leftHidden = scrollLeft === 0;
-        this._rightHidden = scrollLeft === this._tabContainerScrollSize;
-      },
-
-      _onLeftScrollButtonDown: function() {
-        this._scrollToLeft();
-        this._holdJob = setInterval(this._scrollToLeft.bind(this), this._holdDelay);
-      },
-
-      _onRightScrollButtonDown: function() {
-        this._scrollToRight();
-        this._holdJob = setInterval(this._scrollToRight.bind(this), this._holdDelay);
-      },
-
-      _onScrollButtonUp: function() {
-        clearInterval(this._holdJob);
-        this._holdJob = null;
-      },
-
-      _scrollToLeft: function() {
-        this._affectScroll(-this._step);
-      },
-
-      _scrollToRight: function() {
-        this._affectScroll(this._step);
-      },
-
-      _tabChanged: function(tab, old) {
-        if (!tab) {
-          // Remove the bar without animation.
-          this.$.selectionBar.classList.remove('expand');
-          this.$.selectionBar.classList.remove('contract');
-          this._positionBar(0, 0);
-          return;
-        }
-
-        var r = this.$.tabsContent.getBoundingClientRect();
-        var w = r.width;
-        var tabRect = tab.getBoundingClientRect();
-        var tabOffsetLeft = tabRect.left - r.left;
-
-        this._pos = {
-          width: this._calcPercent(tabRect.width, w),
-          left: this._calcPercent(tabOffsetLeft, w)
-        };
-
-        if (this.noSlide || old == null) {
-          // Position the bar without animation.
-          this.$.selectionBar.classList.remove('expand');
-          this.$.selectionBar.classList.remove('contract');
-          this._positionBar(this._pos.width, this._pos.left);
-          return;
-        }
-
-        var oldRect = old.getBoundingClientRect();
-        var oldIndex = this.items.indexOf(old);
-        var index = this.items.indexOf(tab);
-        var m = 5;
-
-        // bar animation: expand
-        this.$.selectionBar.classList.add('expand');
-
-        var moveRight = oldIndex < index;
-        var isRTL = this._isRTL;
-        if (isRTL) {
-          moveRight = !moveRight;
-        }
-
-        if (moveRight) {
-          this._positionBar(this._calcPercent(tabRect.left + tabRect.width - oldRect.left, w) - m,
-              this._left);
-        } else {
-          this._positionBar(this._calcPercent(oldRect.left + oldRect.width - tabRect.left, w) - m,
-              this._calcPercent(tabOffsetLeft, w) + m);
-        }
-
-        if (this.scrollable) {
-          this._scrollToSelectedIfNeeded(tabRect.width, tabOffsetLeft);
-        }
-      },
-
-      _scrollToSelectedIfNeeded: function(tabWidth, tabOffsetLeft) {
-        var l = tabOffsetLeft - this.$.tabsContainer.scrollLeft;
-        if (l < 0) {
-          this.$.tabsContainer.scrollLeft += l;
-        } else {
-          l += (tabWidth - this.$.tabsContainer.offsetWidth);
-          if (l > 0) {
-            this.$.tabsContainer.scrollLeft += l;
-          }
-        }
-      },
-
-      _calcPercent: function(w, w0) {
-        return 100 * w / w0;
-      },
-
-      _positionBar: function(width, left) {
-        width = width || 0;
-        left = left || 0;
-
-        this._width = width;
-        this._left = left;
-        this.transform(
-            'translateX(' + left + '%) scaleX(' + (width / 100) + ')',
-            this.$.selectionBar);
-      },
-
-      _onBarTransitionEnd: function(e) {
-        var cl = this.$.selectionBar.classList;
-        // bar animation: expand -> contract
-        if (cl.contains('expand')) {
-          cl.remove('expand');
-          cl.add('contract');
-          this._positionBar(this._pos.width, this._pos.left);
-        // bar animation done
-        } else if (cl.contains('contract')) {
-          cl.remove('contract');
-        }
-      }
-    });
-  </script>
-</dom-module>
-<!--
-@license
-Copyright (c) 2015 The Polymer Project Authors. All rights reserved.
-This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
-The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
-The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
-Code distributed by Google as part of the polymer project is also
-subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
---><!--
-Material design: [Floating Action Button](https://www.google.com/design/spec/components/buttons-floating-action-button.html)
-
-`paper-fab` is a floating action button. It contains an image placed in the center and
-comes in two sizes: regular size and a smaller size by applying the attribute `mini`. When
-the user touches the button, a ripple effect emanates from the center of the button.
-
-You may import `iron-icons` to use with this element, or provide a URL to a custom icon.
-See `iron-iconset` for more information about how to use a custom icon set.
-
-Example:
-
-    <link href="path/to/iron-icons/iron-icons.html" rel="import">
-
-    <paper-fab icon="add"></paper-fab>
-    <paper-fab mini icon="favorite"></paper-fab>
-    <paper-fab src="star.png"></paper-fab>
-
-
-### Styling
-
-The following custom properties and mixins are available for styling:
-
-Custom property | Description | Default
-----------------|-------------|----------
-`--paper-fab-background` | The background color of the button | `--accent-color`
-`--paper-fab-keyboard-focus-background` | The background color of the button when focused | `--paper-pink-900`
-`--paper-fab-disabled-background` | The background color of the button when it's disabled | `--paper-grey-300`
-`--paper-fab-disabled-text` | The text color of the button when it's disabled | `--paper-grey-500`
-`--paper-fab` | Mixin applied to the button | `{}`
-`--paper-fab-mini` | Mixin applied to a mini button | `{}`
-`--paper-fab-disabled` | Mixin applied to a disabled button | `{}`
-`--paper-fab-iron-icon` | Mixin applied to the iron-icon within the button | `{}`
-
-@group Paper Elements
-@demo demo/index.html
--->
-
-<dom-module id="paper-fab" assetpath="../../bower_components/paper-fab/">
-  <template strip-whitespace="">
-    <style include="paper-material-shared-styles">
-      :host {
-        @apply(--layout-vertical);
-        @apply(--layout-center-center);
-
-        background: var(--paper-fab-background, --accent-color);
-        border-radius: 50%;
-        box-sizing: border-box;
-        color: var(--text-primary-color);
-        cursor: pointer;
-        height: 56px;
-        min-width: 0;
-        outline: none;
-        padding: 16px;
-        position: relative;
-        -moz-user-select: none;
-        -ms-user-select: none;
-        -webkit-user-select: none;
-        user-select: none;
-        width: 56px;
-        z-index: 0;
-
-        /* NOTE: Both values are needed, since some phones require the value `transparent`. */
-        -webkit-tap-highlight-color: rgba(0,0,0,0);
-        -webkit-tap-highlight-color: transparent;
-
-        @apply(--paper-fab);
-      }
-
-      [hidden] {
-        display: none !important;
-      }
-
-      :host([mini]) {
-        width: 40px;
-        height: 40px;
-        padding: 8px;
-
-        @apply(--paper-fab-mini);
-      }
-
-      :host([disabled]) {
-        color: var(--paper-fab-disabled-text, --paper-grey-500);
-        background: var(--paper-fab-disabled-background, --paper-grey-300);
-
-        @apply(--paper-fab-disabled);
-      }
-
-      iron-icon {
-        @apply(--paper-fab-iron-icon);
-      }
-
-      span {
-        width: 100%;
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        text-align: center;
-      }
-
-      :host(.keyboard-focus) {
-        background: var(--paper-fab-keyboard-focus-background, --paper-pink-900);
-      }
-    </style>
-
-    <iron-icon id="icon" hidden$="{{!_computeIsIconFab(icon, src)}}" src="[[src]]" icon="[[icon]]"></iron-icon>
-    <span hidden$="{{_computeIsIconFab(icon, src)}}">{{label}}</span>
-  </template>
-
-  <script>
-    Polymer({
-      is: 'paper-fab',
-
-      behaviors: [
-        Polymer.PaperButtonBehavior
-      ],
-
-      properties: {
-        /**
-         * The URL of an image for the icon. If the src property is specified,
-         * the icon property should not be.
-         */
-        src: {
-          type: String,
-          value: ''
-        },
-
-        /**
-         * Specifies the icon name or index in the set of icons available in
-         * the icon's icon set. If the icon property is specified,
-         * the src property should not be.
-         */
-        icon: {
-          type: String,
-          value: ''
-        },
-
-        /**
-         * Set this to true to style this is a "mini" FAB.
-         */
-        mini: {
-          type: Boolean,
-          value: false,
-          reflectToAttribute: true
-        },
-
-        /**
-         * The label displayed in the badge. The label is centered, and ideally
-         * should have very few characters.
-         */
-        label: {
-          type: String,
-          observer: '_labelChanged'
-        }
-      },
-
-      _labelChanged: function() {
-        this.setAttribute('aria-label', this.label);
-      },
-
-      _computeIsIconFab: function(icon, src) {
-        return (icon.length > 0) || (src.length > 0);
-      }
-    });
-  </script>
-</dom-module>
-<!--
-@license
-Copyright (c) 2015 The Polymer Project Authors. All rights reserved.
-This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
-The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
-The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
-Code distributed by Google as part of the polymer project is also
-subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
---><script>
-  Polymer({
-    is: 'paper-menu-grow-height-animation',
-
-    behaviors: [
-      Polymer.NeonAnimationBehavior
-    ],
-
-    configure: function(config) {
-      var node = config.node;
-      var rect = node.getBoundingClientRect();
-      var height = rect.height;
-
-      this._effect = new KeyframeEffect(node, [{
-        height: (height / 2) + 'px'
-      }, {
-        height: height + 'px'
-      }], this.timingFromConfig(config));
-
-      return this._effect;
-    }
-  });
-
-  Polymer({
-    is: 'paper-menu-grow-width-animation',
-
-    behaviors: [
-      Polymer.NeonAnimationBehavior
-    ],
-
-    configure: function(config) {
-      var node = config.node;
-      var rect = node.getBoundingClientRect();
-      var width = rect.width;
-
-      this._effect = new KeyframeEffect(node, [{
-        width: (width / 2) + 'px'
-      }, {
-        width: width + 'px'
-      }], this.timingFromConfig(config));
-
-      return this._effect;
-    }
-  });
-
-  Polymer({
-    is: 'paper-menu-shrink-width-animation',
-
-    behaviors: [
-      Polymer.NeonAnimationBehavior
-    ],
-
-    configure: function(config) {
-      var node = config.node;
-      var rect = node.getBoundingClientRect();
-      var width = rect.width;
-
-      this._effect = new KeyframeEffect(node, [{
-        width: width + 'px'
-      }, {
-        width: width - (width / 20) + 'px'
-      }], this.timingFromConfig(config));
-
-      return this._effect;
-    }
-  });
-
-  Polymer({
-    is: 'paper-menu-shrink-height-animation',
-
-    behaviors: [
-      Polymer.NeonAnimationBehavior
-    ],
-
-    configure: function(config) {
-      var node = config.node;
-      var rect = node.getBoundingClientRect();
-      var height = rect.height;
-      var top = rect.top;
-
-      this.setPrefixedProperty(node, 'transformOrigin', '0 0');
-
-      this._effect = new KeyframeEffect(node, [{
-        height: height + 'px',
-        transform: 'translateY(0)'
-      }, {
-        height: height / 2 + 'px',
-        transform: 'translateY(-20px)'
-      }], this.timingFromConfig(config));
-
-      return this._effect;
-    }
-  });
-</script>
-
-
-<!--
-@license
-Copyright (c) 2015 The Polymer Project Authors. All rights reserved.
-This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
-The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
-The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
-Code distributed by Google as part of the polymer project is also
-subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
---><!--
-Material design: [Dropdown buttons](https://www.google.com/design/spec/components/buttons.html#buttons-dropdown-buttons)
-
-`paper-menu-button` allows one to compose a designated "trigger" element with
-another element that represents "content", to create a dropdown menu that
-displays the "content" when the "trigger" is clicked.
-
-The child element with the class `dropdown-trigger` will be used as the
-"trigger" element. The child element with the class `dropdown-content` will be
-used as the "content" element.
-
-The `paper-menu-button` is sensitive to its content's `iron-select` events. If
-the "content" element triggers an `iron-select` event, the `paper-menu-button`
-will close automatically.
-
-Example:
-
-    <paper-menu-button>
-      <paper-icon-button icon="menu" class="dropdown-trigger"></paper-icon-button>
-      <paper-menu class="dropdown-content">
-        <paper-item>Share</paper-item>
-        <paper-item>Settings</paper-item>
-        <paper-item>Help</paper-item>
-      </paper-menu>
-    </paper-menu-button>
-
-### Styling
-
-The following custom properties and mixins are also available for styling:
-
-Custom property | Description | Default
-----------------|-------------|----------
-`--paper-menu-button-dropdown-background` | Background color of the paper-menu-button dropdown | `--primary-background-color`
-`--paper-menu-button` | Mixin applied to the paper-menu-button | `{}`
-`--paper-menu-button-disabled` | Mixin applied to the paper-menu-button when disabled | `{}`
-`--paper-menu-button-dropdown` | Mixin applied to the paper-menu-button dropdown | `{}`
-`--paper-menu-button-content` | Mixin applied to the paper-menu-button content | `{}`
-
-@hero hero.svg
-@demo demo/index.html
--->
-
-<dom-module id="paper-menu-button" assetpath="../../bower_components/paper-menu-button/">
-  <template>
-    <style>
-      :host {
-        display: inline-block;
-        position: relative;
-        padding: 8px;
-        outline: none;
-
-        @apply(--paper-menu-button);
-      }
-
-      :host([disabled]) {
-        cursor: auto;
-        color: var(--disabled-text-color);
-
-        @apply(--paper-menu-button-disabled);
-      }
-
-      iron-dropdown {
-        @apply(--paper-menu-button-dropdown);
-      }
-
-      .dropdown-content {
-        @apply(--shadow-elevation-2dp);
-
-        position: relative;
-        border-radius: 2px;
-        background-color: var(--paper-menu-button-dropdown-background, --primary-background-color);
-
-        @apply(--paper-menu-button-content);
-      }
-
-      :host([vertical-align="top"]) .dropdown-content {
-        margin-bottom: 20px;
-        margin-top: -10px;
-        top: 10px;
-      }
-
-      :host([vertical-align="bottom"]) .dropdown-content {
-        bottom: 10px;
-        margin-bottom: -10px;
-        margin-top: 20px;
-      }
-    </style>
-
-    <div id="trigger" on-tap="toggle">
-      <content select=".dropdown-trigger"></content>
-    </div>
-
-    <iron-dropdown id="dropdown" opened="{{opened}}" horizontal-align="[[horizontalAlign]]" vertical-align="[[verticalAlign]]" dynamic-align="[[dynamicAlign]]" horizontal-offset="[[horizontalOffset]]" vertical-offset="[[verticalOffset]]" no-overlap="[[noOverlap]]" open-animation-config="[[openAnimationConfig]]" close-animation-config="[[closeAnimationConfig]]" no-animations="[[noAnimations]]" focus-target="[[_dropdownContent]]" allow-outside-scroll="[[allowOutsideScroll]]" restore-focus-on-close="[[restoreFocusOnClose]]" on-iron-overlay-canceled="__onIronOverlayCanceled">
-      <div class="dropdown-content">
-        <content id="content" select=".dropdown-content"></content>
-      </div>
-    </iron-dropdown>
-  </template>
-
-  <script>
-    (function() {
-      'use strict';
-
-      var config = {
-        ANIMATION_CUBIC_BEZIER: 'cubic-bezier(.3,.95,.5,1)',
-        MAX_ANIMATION_TIME_MS: 400
-      };
-
-      var PaperMenuButton = Polymer({
-        is: 'paper-menu-button',
-
-        /**
-         * Fired when the dropdown opens.
-         *
-         * @event paper-dropdown-open
-         */
-
-        /**
-         * Fired when the dropdown closes.
-         *
-         * @event paper-dropdown-close
-         */
-
-        behaviors: [
-          Polymer.IronA11yKeysBehavior,
-          Polymer.IronControlState
-        ],
-
-        properties: {
-          /**
-           * True if the content is currently displayed.
-           */
-          opened: {
-            type: Boolean,
-            value: false,
-            notify: true,
-            observer: '_openedChanged'
-          },
-
-          /**
-           * The orientation against which to align the menu dropdown
-           * horizontally relative to the dropdown trigger.
-           */
-          horizontalAlign: {
-            type: String,
-            value: 'left',
-            reflectToAttribute: true
-          },
-
-          /**
-           * The orientation against which to align the menu dropdown
-           * vertically relative to the dropdown trigger.
-           */
-          verticalAlign: {
-            type: String,
-            value: 'top',
-            reflectToAttribute: true
-          },
-
-          /**
-           * If true, the `horizontalAlign` and `verticalAlign` properties will
-           * be considered preferences instead of strict requirements when
-           * positioning the dropdown and may be changed if doing so reduces
-           * the area of the dropdown falling outside of `fitInto`.
-           */
-          dynamicAlign: {
-            type: Boolean
-          },
-
-          /**
-           * A pixel value that will be added to the position calculated for the
-           * given `horizontalAlign`. Use a negative value to offset to the
-           * left, or a positive value to offset to the right.
-           */
-          horizontalOffset: {
-            type: Number,
-            value: 0,
-            notify: true
-          },
-
-          /**
-           * A pixel value that will be added to the position calculated for the
-           * given `verticalAlign`. Use a negative value to offset towards the
-           * top, or a positive value to offset towards the bottom.
-           */
-          verticalOffset: {
-            type: Number,
-            value: 0,
-            notify: true
-          },
-
-          /**
-           * If true, the dropdown will be positioned so that it doesn't overlap
-           * the button.
-           */
-          noOverlap: {
-            type: Boolean
-          },
-
-          /**
-           * Set to true to disable animations when opening and closing the
-           * dropdown.
-           */
-          noAnimations: {
-            type: Boolean,
-            value: false
-          },
-
-          /**
-           * Set to true to disable automatically closing the dropdown after
-           * a selection has been made.
-           */
-          ignoreSelect: {
-            type: Boolean,
-            value: false
-          },
-
-          /**
-           * Set to true to enable automatically closing the dropdown after an
-           * item has been activated, even if the selection did not change.
-           */
-          closeOnActivate: {
-            type: Boolean,
-            value: false
-          },
-
-          /**
-           * An animation config. If provided, this will be used to animate the
-           * opening of the dropdown.
-           */
-          openAnimationConfig: {
-            type: Object,
-            value: function() {
-              return [{
-                name: 'fade-in-animation',
-                timing: {
-                  delay: 100,
-                  duration: 200
-                }
-              }, {
-                name: 'paper-menu-grow-width-animation',
-                timing: {
-                  delay: 100,
-                  duration: 150,
-                  easing: config.ANIMATION_CUBIC_BEZIER
-                }
-              }, {
-                name: 'paper-menu-grow-height-animation',
-                timing: {
-                  delay: 100,
-                  duration: 275,
-                  easing: config.ANIMATION_CUBIC_BEZIER
-                }
-              }];
-            }
-          },
-
-          /**
-           * An animation config. If provided, this will be used to animate the
-           * closing of the dropdown.
-           */
-          closeAnimationConfig: {
-            type: Object,
-            value: function() {
-              return [{
-                name: 'fade-out-animation',
-                timing: {
-                  duration: 150
-                }
-              }, {
-                name: 'paper-menu-shrink-width-animation',
-                timing: {
-                  delay: 100,
-                  duration: 50,
-                  easing: config.ANIMATION_CUBIC_BEZIER
-                }
-              }, {
-                name: 'paper-menu-shrink-height-animation',
-                timing: {
-                  duration: 200,
-                  easing: 'ease-in'
-                }
-              }];
-            }
-          },
-
-          /**
-           * By default, the dropdown will constrain scrolling on the page
-           * to itself when opened.
-           * Set to true in order to prevent scroll from being constrained
-           * to the dropdown when it opens.
-           */
-          allowOutsideScroll: {
-            type: Boolean,
-            value: false
-          },
-
-          /**
-           * Whether focus should be restored to the button when the menu closes.
-           */
-          restoreFocusOnClose: {
-            type: Boolean,
-            value: true
-          },
-
-          /**
-           * This is the element intended to be bound as the focus target
-           * for the `iron-dropdown` contained by `paper-menu-button`.
-           */
-          _dropdownContent: {
-            type: Object
-          }
-        },
-
-        hostAttributes: {
-          role: 'group',
-          'aria-haspopup': 'true'
-        },
-
-        listeners: {
-          'iron-activate': '_onIronActivate',
-          'iron-select': '_onIronSelect'
-        },
-
-        /**
-         * The content element that is contained by the menu button, if any.
-         */
-        get contentElement() {
-          return Polymer.dom(this.$.content).getDistributedNodes()[0];
-        },
-
-        /**
-         * Toggles the drowpdown content between opened and closed.
-         */
-        toggle: function() {
-          if (this.opened) {
-            this.close();
-          } else {
-            this.open();
-          }
-        },
-
-        /**
-         * Make the dropdown content appear as an overlay positioned relative
-         * to the dropdown trigger.
-         */
-        open: function() {
-          if (this.disabled) {
-            return;
-          }
-
-          this.$.dropdown.open();
-        },
-
-        /**
-         * Hide the dropdown content.
-         */
-        close: function() {
-          this.$.dropdown.close();
-        },
-
-        /**
-         * When an `iron-select` event is received, the dropdown should
-         * automatically close on the assumption that a value has been chosen.
-         *
-         * @param {CustomEvent} event A CustomEvent instance with type
-         * set to `"iron-select"`.
-         */
-        _onIronSelect: function(event) {
-          if (!this.ignoreSelect) {
-            this.close();
-          }
-        },
-
-        /**
-         * Closes the dropdown when an `iron-activate` event is received if
-         * `closeOnActivate` is true.
-         *
-         * @param {CustomEvent} event A CustomEvent of type 'iron-activate'.
-         */
-        _onIronActivate: function(event) {
-          if (this.closeOnActivate) {
-            this.close();
-          }
-        },
-
-        /**
-         * When the dropdown opens, the `paper-menu-button` fires `paper-open`.
-         * When the dropdown closes, the `paper-menu-button` fires `paper-close`.
-         *
-         * @param {boolean} opened True if the dropdown is opened, otherwise false.
-         * @param {boolean} oldOpened The previous value of `opened`.
-         */
-        _openedChanged: function(opened, oldOpened) {
-          if (opened) {
-            // TODO(cdata): Update this when we can measure changes in distributed
-            // children in an idiomatic way.
-            // We poke this property in case the element has changed. This will
-            // cause the focus target for the `iron-dropdown` to be updated as
-            // necessary:
-            this._dropdownContent = this.contentElement;
-            this.fire('paper-dropdown-open');
-          } else if (oldOpened != null) {
-            this.fire('paper-dropdown-close');
-          }
-        },
-
-        /**
-         * If the dropdown is open when disabled becomes true, close the
-         * dropdown.
-         *
-         * @param {boolean} disabled True if disabled, otherwise false.
-         */
-        _disabledChanged: function(disabled) {
-          Polymer.IronControlState._disabledChanged.apply(this, arguments);
-          if (disabled && this.opened) {
-            this.close();
-          }
-        },
-
-        __onIronOverlayCanceled: function(event) {
-          var uiEvent = event.detail;
-          var target = Polymer.dom(uiEvent).rootTarget;
-          var trigger = this.$.trigger;
-          var path = Polymer.dom(uiEvent).path;
-
-          if (path.indexOf(trigger) > -1) {
-            event.preventDefault();
-          }
-        }
-      });
-
-      Object.keys(config).forEach(function (key) {
-        PaperMenuButton[key] = config[key];
-      });
-
-      Polymer.PaperMenuButton = PaperMenuButton;
-    })();
-  </script>
-</dom-module>
-<!--
-@license
-Copyright (c) 2015 The Polymer Project Authors. All rights reserved.
-This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
-The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
-The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
-Code distributed by Google as part of the polymer project is also
-subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
---><dom-module id="paper-menu-shared-styles" assetpath="../../bower_components/paper-menu/">
-  <template>
-    <style>
-      /* need a wrapper element to make this higher specificity than the :host rule in paper-item */
-      .selectable-content > ::content > .iron-selected {
-        font-weight: bold;
-
-        @apply(--paper-menu-selected-item);
-      }
-
-      .selectable-content > ::content > [disabled] {
-        color: var(--paper-menu-disabled-color, --disabled-text-color);
-      }
-
-      .selectable-content > ::content > *:focus {
-        position: relative;
-        outline: 0;
-
-        @apply(--paper-menu-focused-item);
-      }
-
-      .selectable-content > ::content > *:focus:after {
-        @apply(--layout-fit);
-        background: currentColor;
-        opacity: var(--dark-divider-opacity);
-        content: '';
-        pointer-events: none;
-
-        @apply(--paper-menu-focused-item-after);
-      }
-
-      .selectable-content > ::content > *[colored]:focus:after {
-        opacity: 0.26;
-      }
-    </style>
-  </template>
-</dom-module>
-<!--
-@license
-Copyright (c) 2015 The Polymer Project Authors. All rights reserved.
-This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
-The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
-The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
-Code distributed by Google as part of the polymer project is also
-subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
---><!--
-Material design: [Menus](https://www.google.com/design/spec/components/menus.html)
-
-`<paper-menu>` implements an accessible menu control with Material Design styling. The focused item
-is highlighted, and the selected item has bolded text.
-
-    <paper-menu>
-      <paper-item>Item 1</paper-item>
-      <paper-item>Item 2</paper-item>
-    </paper-menu>
-
-An initial selection can be specified with the `selected` attribute.
-
-    <paper-menu selected="0">
-      <paper-item>Item 1</paper-item>
-      <paper-item>Item 2</paper-item>
-    </paper-menu>
-
-Make a multi-select menu with the `multi` attribute. Items in a multi-select menu can be deselected,
-and multiple items can be selected.
-
-    <paper-menu multi>
-      <paper-item>Item 1</paper-item>
-      <paper-item>Item 2</paper-item>
-    </paper-menu>
-
-### Styling
-
-The following custom properties and mixins are available for styling:
-
-Custom property | Description | Default
-----------------|-------------|----------
-`--paper-menu-background-color`   | Menu background color                                            | `--primary-background-color`
-`--paper-menu-color`              | Menu foreground color                                            | `--primary-text-color`
-`--paper-menu-disabled-color`     | Foreground color for a disabled item                             | `--disabled-text-color`
-`--paper-menu`                    | Mixin applied to the menu                                        | `{}`
-`--paper-menu-selected-item`      | Mixin applied to the selected item                               | `{}`
-`--paper-menu-focused-item`       | Mixin applied to the focused item                                | `{}`
-`--paper-menu-focused-item-after` | Mixin applied to the ::after pseudo-element for the focused item | `{}`
-
-### Accessibility
-
-`<paper-menu>` has `role="menu"` by default. A multi-select menu will also have
-`aria-multiselectable` set. It implements key bindings to navigate through the menu with the up and
-down arrow keys, esc to exit the menu, and enter to activate a menu item. Typing the first letter
-of a menu item will also focus it.
-
-@group Paper Elements
-@element paper-menu
-@hero hero.svg
-@demo demo/index.html
--->
-
-<dom-module id="paper-menu" assetpath="../../bower_components/paper-menu/">
-  <template>
-    <style include="paper-menu-shared-styles"></style>
-    <style>
-      :host {
-        display: block;
-        padding: 8px 0;
-
-        background: var(--paper-menu-background-color, --primary-background-color);
-        color: var(--paper-menu-color, --primary-text-color);
-
-        @apply(--paper-menu);
-      }
-    </style>
-
-    <div class="selectable-content">
-      <content></content>
-    </div>
-  </template>
-
-  <script>
-    (function() {
-      Polymer({
-        is: 'paper-menu',
-
-        behaviors: [
-          Polymer.IronMenuBehavior
-        ]
-      });
-    })();
   </script>
 </dom-module>
 <!--
