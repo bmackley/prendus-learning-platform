@@ -31,6 +31,9 @@
         <script>
             var initialSpinner = document.getElementById('initial-spinner');
             initialSpinner.style.opacity = 0;
+            setTimeout(function() {
+                initialSpinner.parentNode.removeChild(initialSpinner);
+            }, 500);
         </script>
 
         <prendus-app></prendus-app>

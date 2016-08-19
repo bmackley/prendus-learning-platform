@@ -262,19 +262,21 @@ $__System.register('27', ['28', '29', '2a'], function (_export, _context12) {
 
                                 case 4:
                                     question = _context4.sent;
+
+                                    question.id = id;
                                     return _context4.abrupt('return', question);
 
-                                case 8:
-                                    _context4.prev = 8;
+                                case 9:
+                                    _context4.prev = 9;
                                     _context4.t0 = _context4['catch'](0);
                                     throw _context4.t0;
 
-                                case 11:
+                                case 12:
                                 case 'end':
                                     return _context4.stop();
                             }
                         }
-                    }, _callee4, this, [[0, 8]]);
+                    }, _callee4, this, [[0, 9]]);
                 }));
             };
 
@@ -439,9 +441,11 @@ $__System.register('27', ['28', '29', '2a'], function (_export, _context12) {
 
                                                             case 5:
                                                                 question = _context9.sent;
+
+                                                                question.id = questionId;
                                                                 return _context9.abrupt('return', asyncReduce(questionIds.slice(1), [].concat(_toConsumableArray(questions), [question])));
 
-                                                            case 7:
+                                                            case 8:
                                                             case 'end':
                                                                 return _context9.stop();
                                                         }
@@ -6184,9 +6188,11 @@ $__System.register('38', ['28', '29', '39', '2a', '2e'], function (_export, _con
 
                                                             case 5:
                                                                 course = _context17.sent;
+
+                                                                course.id = courseId;
                                                                 return _context17.abrupt('return', asyncReduce(courseIds.slice(1), [].concat(_toConsumableArray(courses), [course])));
 
-                                                            case 7:
+                                                            case 8:
                                                             case 'end':
                                                                 return _context17.stop();
                                                         }
@@ -6380,19 +6386,21 @@ $__System.register('39', ['28', '29', '30', '2a', '3a', '2e'], function (_export
 
                                 case 4:
                                     concept = _context2.sent;
+
+                                    concept.id = id;
                                     return _context2.abrupt('return', concept);
 
-                                case 8:
-                                    _context2.prev = 8;
+                                case 9:
+                                    _context2.prev = 9;
                                     _context2.t0 = _context2['catch'](0);
                                     return _context2.abrupt('return', _context2.t0);
 
-                                case 11:
+                                case 12:
                                 case 'end':
                                     return _context2.stop();
                             }
                         }
-                    }, _callee2, this, [[0, 8]]);
+                    }, _callee2, this, [[0, 9]]);
                 }));
             };
 
@@ -6740,9 +6748,11 @@ $__System.register('39', ['28', '29', '30', '2a', '3a', '2e'], function (_export
 
                                                             case 5:
                                                                 concept = _context13.sent;
+
+                                                                concept.id = conceptId;
                                                                 return _context13.abrupt('return', asyncReduce(conceptIds.slice(1), [].concat(_toConsumableArray(concepts), [concept])));
 
-                                                            case 7:
+                                                            case 8:
                                                             case 'end':
                                                                 return _context13.stop();
                                                         }
@@ -7680,19 +7690,21 @@ $__System.register('30', ['28', '29', '2a'], function (_export, _context11) {
 
                                 case 4:
                                     video = _context2.sent;
+
+                                    video.id = id;
                                     return _context2.abrupt('return', video);
 
-                                case 8:
-                                    _context2.prev = 8;
+                                case 9:
+                                    _context2.prev = 9;
                                     _context2.t0 = _context2['catch'](0);
                                     throw _context2.t0;
 
-                                case 11:
+                                case 12:
                                 case 'end':
                                     return _context2.stop();
                             }
                         }
-                    }, _callee2, this, [[0, 8]]);
+                    }, _callee2, this, [[0, 9]]);
                 }));
             };
 
@@ -7878,9 +7890,11 @@ $__System.register('30', ['28', '29', '2a'], function (_export, _context11) {
 
                                                             case 5:
                                                                 video = _context8.sent;
+
+                                                                video.id = videoId;
                                                                 return _context8.abrupt('return', asyncReduce(videoIds.slice(1), [].concat(_toConsumableArray(videos), [video])));
 
-                                                            case 7:
+                                                            case 8:
                                                             case 'end':
                                                                 return _context8.stop();
                                                         }
@@ -8081,19 +8095,21 @@ $__System.register('3a', ['28', '29', '2a'], function (_export, _context17) {
 
                                 case 4:
                                     quiz = _context2.sent;
+
+                                    quiz.id = id;
                                     return _context2.abrupt('return', quiz);
 
-                                case 8:
-                                    _context2.prev = 8;
+                                case 9:
+                                    _context2.prev = 9;
                                     _context2.t0 = _context2['catch'](0);
                                     throw _context2.t0;
 
-                                case 11:
+                                case 12:
                                 case 'end':
                                     return _context2.stop();
                             }
                         }
-                    }, _callee2, this, [[0, 8]]);
+                    }, _callee2, this, [[0, 9]]);
                 }));
             };
 
@@ -8466,9 +8482,11 @@ $__System.register('3a', ['28', '29', '2a'], function (_export, _context17) {
 
                                                             case 5:
                                                                 quiz = _context14.sent;
+
+                                                                quiz.id = quizId;
                                                                 return _context14.abrupt('return', asyncReduce(quizIds.slice(1), [].concat(_toConsumableArray(quizzes), [quiz])));
 
-                                                            case 7:
+                                                            case 8:
                                                             case 'end':
                                                                 return _context14.stop();
                                                         }
