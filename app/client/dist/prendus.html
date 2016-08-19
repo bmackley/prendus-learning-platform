@@ -8772,12 +8772,12 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     --secondary-text-color: #727272;
     --disabled-text-color: #9b9b9b;
     --divider-color: #B6B6B6;
-    --primary-color: #2196F3;
-    --light-primary-color: #BBDEFB;
-    --dark-primary-color: #1976D2;
+    --primary-color: #03A9F4;
+    --light-primary-color: #B3E5FC;
+    --dark-primary-color: #0288D1;
     --accent-color: #1976D2;
-    --light-accent-color: var(--paper-pink-a100);
-    --dark-accent-color: var(--paper-pink-a400);
+    --light-accent-color: #B2DFDB;
+    --dark-accent-color: #00796B;
 
     /* Components */
 
@@ -42074,7 +42074,8 @@ doy:4}}),kg.defineLocale("zh-tw",{months:"一月_二月_三月_四月_五月_六
         <!-- style="display: flex; flex-direction: column; flex: 1; box-shadow: 0px 0px 3px black; margin: 100px; position: relative; height: 0%" -->
         <template is="dom-if" if="[[username]]">
             <course-title title="[[item.title]]" instructor="[[item.instructor]]">
-              <h1 id="courseTitle" contenteditable="true">
+              <paper-input id="course-title-input" label="Course Title" value="[[currentCourse.title]]" on-change="titleChanged"></paper-input>
+              <h1 id="courseTitle" contenteditable="true" on-change="titleChanged">
                 [[currentCourse.title]]
               </h1>
               <!--Come back to this. Don't need it for the alpha launch -->
@@ -42142,7 +42143,7 @@ doy:4}}),kg.defineLocale("zh-tw",{months:"一月_二月_三月_四月_五月_六
               <h1 style="color: red">Confirm Delete </h1>
               <p>Are you sure that you want to delete this concept?
               <paper-button dialog-dismiss="">No</paper-button>
-              <paper-button on-tap="completeDelete">Yes</paper-button>
+              <paper-button id="confirmeDelete" on-tap="completeDelete">Yes</paper-button>
             </p></form>
           </div>
         </paper-dialog>
@@ -92829,8 +92830,8 @@ event and do your own custom submission:
     <redux-store root-reducer="[[rootReducer]]"></redux-store>
     <prendus-navbar></prendus-navbar>
     <prendus-router></prendus-router>
-  </template>
 
+  </template>
   <!--<script src="prendus-app.js"></script>hello-->
 </dom-module>
 </body></html>

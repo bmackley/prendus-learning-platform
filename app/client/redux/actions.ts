@@ -464,7 +464,7 @@ const checkUserAuth = {
       const loggedInUser = await FirebaseService.getLoggedInUser();
       if(loggedInUser){
         let user = await UserModel.getById(loggedInUser.uid);
-        user.uid = loggedInUser.uid; //OK because its being created here.
+        user.metaData.uid = loggedInUser.uid; //OK because its being created here.
         const jwt = await loggedInUser.getToken();
         context.action = {
           type: Actions.checkUserAuth.type,
@@ -482,7 +482,7 @@ const addConcept = {
   execute: async (context, courseId: string, newConcept: Concept, conceptPos: number) => {
     try {
       const conceptId = await ConceptModel.save(null, newConcept);
-      const courseUpdate = await CourseModel.createCourseConcept(courseId, conceptId, conceptPos)
+      await CourseModel.createCourseConcept(courseId, conceptId, conceptPos)
       const course = await CourseModel.getById(courseId);
       const conceptsArray = await CourseModel.courseConceptsToArray(course);
       const orderedCourse = CourseModel.orderCourseConcepts(course, conceptsArray);
@@ -600,7 +600,6 @@ const getCourseById = {
   }
 };
 const deleteConcept = {
-  type: 'DELETE_CONCEPT',
   execute: async (context: any, id: string, conceptId: string) => {
       try {
         await CourseModel.deleteCourseConcept(id, conceptId);
@@ -626,6 +625,22 @@ const orderConcepts = {
     }
   }
 };
+
+
+const updateCourseTitle = {
+  execute: async (context: any, id: string, title: string) => {
+    try{
+      await CourseModel.updateCourseTitle(id, title);
+      context.action = {
+          type: 'UPDATE_COURSE_TITLE',
+          currentCourse: orderedCourse,
+      }
+    }catch(error){
+      throw error;
+    }
+  }
+};
+
 const logOutUser = {
   type: 'LOGOUT_USER',
   execute: async (context) => {
