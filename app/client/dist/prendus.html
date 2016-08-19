@@ -41293,6 +41293,7 @@ Custom property               | Description                                    |
               background-color: var(--prendus-primary-color);
               color: white;
               margin-top: 2%;
+              margin-bottom: 2%;
             }
         </style>
 
@@ -41316,15 +41317,20 @@ Custom property               | Description                                    |
                 padding: 20px;
                 cursor: pointer;
             }
+            paper-button.addResource {
+              background-color: var(--prendus-primary-color);
+              color: white;
+              margin-top: 2%;
+              margin-bottom: 2%;
+            }
         </style>
 
         <redux-store on-statechange="mapStateToThis" action="[[action]]"></redux-store>
 
-        <button on-tap="addQuizClick">Add quiz</button>
-
         <template is="dom-repeat" items="[[quizzes]]">
             <div class="quiz-row" on-tap="quizRowClick">[[item.title]]</div>
         </template>
+        <paper-button class="addResource" raised="true" icon="add" title="Add Quiz" on-tap="addQuizClick">Add Video</paper-button>
     </template>
 
     <!--<script src="prendus-concept-quiz-container-edit.js"></script>-->
@@ -41338,6 +41344,9 @@ Custom property               | Description                                    |
   }
   #concept-container-div{
     padding-left: 2%
+  }
+  #videosContainer{
+    margin-left: 50%;
   }
   </style>
     <redux-store on-statechange="mapStateToThis" action="[[action]]"></redux-store>
@@ -42074,33 +42083,11 @@ doy:4}}),kg.defineLocale("zh-tw",{months:"一月_二月_三月_四月_五月_六
         <!-- style="display: flex; flex-direction: column; flex: 1; box-shadow: 0px 0px 3px black; margin: 100px; position: relative; height: 0%" -->
         <template is="dom-if" if="[[username]]">
             <course-title title="[[item.title]]" instructor="[[item.instructor]]">
-              <paper-input id="course-title-input" label="Course Title" value="[[currentCourse.title]]" on-change="titleChanged"></paper-input>
+              <paper-input id="title" label="Course Title" value="[[currentCourse.title]]" on-change="attributeChanged"></paper-input>
+              <paper-input id="description" label="Course Description" value="[[currentCourse.description]]" on-change="attributeChanged"></paper-input>
               <h1 id="courseTitle" contenteditable="true" on-change="titleChanged">
                 [[currentCourse.title]]
               </h1>
-              <!--Come back to this. Don't need it for the alpha launch -->
-              <!-- <paper-dialog id="selectStartDate" class="paper-date-picker-dialog" modal on-iron-overlay-closed="dismissStartDatepicker">
-                <paper-date-picker id="startDatePicker" date="[[startDate]]" min-date="September 1, 2016"></paper-date-picker>
-                <div class="buttons">
-                  <paper-button dialog-dismiss>Cancel</paper-button>
-                  <paper-button dialog-confirm>OK</paper-button>
-                </div>
-              </paper-dialog>
-              <paper-dialog id="selectEndDate" class="paper-date-picker-dialog" modal on-iron-overlay-closed="dismissEndDatepicker">
-                <paper-date-picker id="picker" date="[[endDate]]" min-date="September 1, 2016"></paper-date-picker>
-                <div class="buttons">
-                  <paper-button dialog-dismiss>Cancel</paper-button>
-                  <paper-button dialog-confirm>OK</paper-button>
-                </div>
-              </paper-dialog>
-              <h1 contenteditable="true">
-                Start Date
-                <iron-icon icon="icons:date-range" item-icon on-tap="openStartDatePicker"></iron-icon>{{item.startDate.month}}/{{item.startDate.day}}/{{item.startDate.year}}
-              </h1>
-              <h1>
-                End Date
-                <iron-icon icon="icons:date-range" item-icon on-tap="openEndDatePicker"></iron-icon>{{item.endDate.month}}/{{item.endDate.day}}/{{item.endDate.year}}
-              </h1>-->
               <sortable-js on-sort="sortableEnded">
                 <template id="conceptsList" is="dom-repeat" items="[[courseConcepts]]">
                   <div class="concepts-style-container">
@@ -43315,6 +43302,9 @@ Custom property | Description | Default
   }
   #title-bar{
     border-bottom: 0px 0px 3px black;
+  }
+  #videosContainer{
+    margin-left: 50%;
   }
   </style>
     <redux-store on-statechange="mapStateToThis" action="[[action]]"></redux-store>
@@ -92798,11 +92788,29 @@ event and do your own custom submission:
       display: flex;
       flex-direction: column;
       flex: auto;
-      margin-left: 8%;
-      margin-right: 8%;
+      margin-left: 24%;
+      margin-right: 24%;
       margin-top: 2%;
       position: relative;
-      height: 0%
+      height: 0%;
+    }
+    @media (max-width: 600px) {
+      #app-container{
+        margin-left: 2%;
+        margin-right: 2%;
+      }
+    }
+    @media (max-width: 800px) {
+      #app-container{
+        margin-left: 8%;
+        margin-right: 8%;
+      }
+    }
+    @media (max-width: 1200px) {
+      #app-container{
+        margin-left: 16%;
+        margin-right: 16%;
+      }
     }
   </style>
   <template>
