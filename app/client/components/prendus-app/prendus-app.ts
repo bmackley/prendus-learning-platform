@@ -19,7 +19,6 @@ export class AppComponent {
   }
   ready(){
     this.rootReducer = rootReducer;
-    
   }
 }
 Polymer(AppComponent);
