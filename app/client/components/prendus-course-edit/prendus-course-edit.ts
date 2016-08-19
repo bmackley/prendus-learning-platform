@@ -3,7 +3,7 @@ import {Course} from '../../node_modules/prendus-services/interfaces/course.inte
 import {CourseConceptData} from '../../node_modules/prendus-services/interfaces/course-concept-data.interface.ts';
 import {StatechangeEvent} from '../../interfaces/statechange-event.interface.ts';
 
-class CourseEditComponent {
+class PrendusCourseEdit {
   public is: string;
   public properties: any;
   public observers: String[];
@@ -71,10 +71,7 @@ class CourseEditComponent {
   }
 
   deleteItem(e){
-    console.log('delete Item')
-    this.querySelector('#deleteConfirm').open();
-  }
-  completeDelete(e){
+    // this.querySelector('#deleteConfirm').open();
     Actions.deleteConcept.execute(this, this.courseId, e.target.id);
   }
 
@@ -107,6 +104,18 @@ class CourseEditComponent {
       Actions.orderConcepts.execute(this, this.courseId, updateConceptPositionArray);
     }
   }
+  async titleChanged(e) {
+    try{
+      const value = e.target.value;
+      console.log('title changed', value)
+      // await Actions.updateQuizTitle(this.quizId, value);
+      // await Actions.loadConceptQuizzes(this, this.conceptId);
+      //Raise a success message here if it works
+    }catch(error){
+      //Error component shows message here if it doesnt work
+    }
+
+  }
 }
 
-Polymer(CourseEditComponent);
+Polymer(PrendusCourseEdit);

@@ -1,6 +1,6 @@
 import {FirebaseService} from '../../node_modules/prendus-services/services/firebase.service.ts';
 
-class EditQuestionRouterComponent {
+class PrendusEditQuestionRouter {
     public is: string;
     public jwt: string;
 
@@ -21,4 +21,4 @@ class EditQuestionRouterComponent {
     }
 }
 
-Polymer(EditQuestionRouterComponent);
+Polymer(PrendusEditQuestionRouter);

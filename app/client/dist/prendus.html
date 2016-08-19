@@ -8772,12 +8772,12 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     --secondary-text-color: #727272;
     --disabled-text-color: #9b9b9b;
     --divider-color: #B6B6B6;
-    --primary-color: #2196F3;
-    --light-primary-color: #BBDEFB;
-    --dark-primary-color: #1976D2;
+    --primary-color: #03A9F4;
+    --light-primary-color: #B3E5FC;
+    --dark-primary-color: #0288D1;
     --accent-color: #1976D2;
-    --light-accent-color: var(--paper-pink-a100);
-    --dark-accent-color: var(--paper-pink-a400);
+    --light-accent-color: #B2DFDB;
+    --dark-accent-color: #00796B;
 
     /* Components */
 
@@ -41365,6 +41365,226 @@ Custom property               | Description                                    |
   </template>
   <!-- <script>System.import('/components/prendus-concept-container-edit/prendus-concept-container-edit.ts');</script> -->
 </dom-module>
+<!--
+@license
+Copyright (c) 2015 The Polymer Project Authors. All rights reserved.
+This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+Code distributed by Google as part of the polymer project is also
+subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+--><!--
+`<paper-submenu>` is a nested menu inside of a parent `<paper-menu>`. It
+consists of a trigger that expands or collapses another `<paper-menu>`:
+
+    <paper-menu>
+      <paper-submenu>
+        <paper-item class="menu-trigger">Topics</paper-item>
+        <paper-menu class="menu-content">
+          <paper-item>Topic 1</paper-item>
+          <paper-item>Topic 2</paper-item>
+          <paper-item>Topic 3</paper-item>
+        </paper-menu>
+      </paper-submenu>
+      <paper-submenu>
+        <paper-item class="menu-trigger">Faves</paper-item>
+        <paper-menu class="menu-content">
+          <paper-item>Fave 1</paper-item>
+          <paper-item>Fave 2</paper-item>
+        </paper-menu>
+      </paper-submenu>
+      <paper-submenu disabled>
+        <paper-item class="menu-trigger">Unavailable</paper-item>
+        <paper-menu class="menu-content">
+          <paper-item>Disabled 1</paper-item>
+          <paper-item>Disabled 2</paper-item>
+        </paper-menu>
+      </paper-submenu>
+    </paper-menu>
+
+Just like in `<paper-menu>`, the focused item is highlighted, and the selected
+item has bolded text. Please see the `<paper-menu>` docs for which attributes
+(such as `multi` and `selected`), and styling options are available for the
+`menu-content` menu.
+
+@group Paper Elements
+@element paper-submenu
+@hero hero.svg
+@demo demo/index.html
+-->
+
+<dom-module id="paper-submenu" assetpath="../../bower_components/paper-menu/">
+  <template>
+    <style include="paper-menu-shared-styles"></style>
+
+    <div class="selectable-content" on-tap="_onTap">
+      <content id="trigger" select=".menu-trigger"></content>
+    </div>
+    <iron-collapse id="collapse" opened="{{opened}}">
+      <content id="content" select=".menu-content"></content>
+    </iron-collapse>
+  </template>
+
+  <script>
+
+  (function() {
+
+    Polymer({
+
+      is: 'paper-submenu',
+
+      properties: {
+        /**
+         * Fired when the submenu is opened.
+         *
+         * @event paper-submenu-open
+         */
+
+        /**
+         * Fired when the submenu is closed.
+         *
+         * @event paper-submenu-close
+         */
+
+        /**
+         * Set opened to true to show the collapse element and to false to hide it.
+         *
+         * @attribute opened
+         */
+        opened: {
+          type: Boolean,
+          value: false,
+          notify: true,
+          observer: '_openedChanged'
+        }
+      },
+
+      behaviors: [
+        Polymer.IronControlState
+      ],
+
+      listeners: {
+        'focus': '_onFocus'
+      },
+
+      get __parent() {
+        return Polymer.dom(this).parentNode;
+      },
+
+      get __trigger() {
+        return Polymer.dom(this.$.trigger).getDistributedNodes()[0];
+      },
+
+      get __content() {
+        return Polymer.dom(this.$.content).getDistributedNodes()[0];
+      },
+
+      attached: function() {
+        this.listen(this.__parent, 'iron-activate', '_onParentIronActivate');
+      },
+
+      dettached: function() {
+        this.unlisten(this.__parent, 'iron-activate', '_onParentIronActivate');
+      },
+
+      /**
+       * Expand the submenu content.
+       */
+      open: function() {
+        if (!this.disabled && !this._active) {
+          this.$.collapse.show();
+          this._active = true;
+          this.__trigger && this.__trigger.classList.add('iron-selected');
+          this.__content && this.__content.focus();
+        }
+      },
+
+      /**
+       * Collapse the submenu content.
+       */
+      close: function() {
+        if (this._active) {
+          this.$.collapse.hide();
+          this._active = false;
+          this.__trigger && this.__trigger.classList.remove('iron-selected');
+        }
+      },
+
+      /**
+       * Toggle the submenu.
+       */
+      toggle: function() {
+        if (this._active) {
+          this.close();
+        } else {
+          this.open();
+        }
+      },
+
+      /**
+       * A handler that is called when the trigger is tapped.
+       */
+      _onTap: function(e) {
+        if (!this.disabled) {
+          this.toggle();
+        }
+      },
+
+      /**
+       * Toggles the submenu content when the trigger is tapped.
+       */
+      _openedChanged: function(opened, oldOpened) {
+        if (opened) {
+          this.fire('paper-submenu-open');
+        } else if (oldOpened != null) {
+          this.fire('paper-submenu-close');
+        }
+      },
+
+      /**
+       * A handler that is called when `iron-activate` is fired.
+       *
+       * @param {CustomEvent} event An `iron-activate` event.
+       */
+      _onParentIronActivate: function(event) {
+        var parent = this.__parent;
+        if (Polymer.dom(event).localTarget === parent) {
+          // The activated item can either be this submenu, in which case it
+          // should be expanded, or any of the other sibling submenus, in which
+          // case this submenu should be collapsed.
+          if (event.detail.item !== this && !parent.multi) {
+            this.close();
+          }
+        }
+      },
+
+      /**
+       * If the dropdown is open when disabled becomes true, close the
+       * dropdown.
+       *
+       * @param {boolean} disabled True if disabled, otherwise false.
+       */
+      _disabledChanged: function(disabled) {
+        Polymer.IronControlState._disabledChanged.apply(this, arguments);
+        if (disabled && this._active) {
+          this.close();
+        }
+      },
+
+      /**
+       * Handler that is called when the menu receives focus.
+       *
+       * @param {FocusEvent} event A focus event.
+       */
+      _onFocus: function(event) {
+        this.__trigger && this.__trigger.focus();
+      }
+
+    });
+
+  })();
+</script>
+</dom-module>
 <script src="../../bower_components/moment/min/moment-with-locales.min.js">//! moment.js
 //! version : 2.14.1
 //! authors : Tim Wood, Iskren Chernev, Moment.js contributors
@@ -42074,7 +42294,8 @@ doy:4}}),kg.defineLocale("zh-tw",{months:"一月_二月_三月_四月_五月_六
         <!-- style="display: flex; flex-direction: column; flex: 1; box-shadow: 0px 0px 3px black; margin: 100px; position: relative; height: 0%" -->
         <template is="dom-if" if="[[username]]">
             <course-title title="[[item.title]]" instructor="[[item.instructor]]">
-              <h1 id="courseTitle" contenteditable="true">
+              <paper-input id="course-title-input" label="Course Title" value="[[currentCourse.title]]" on-change="titleChanged"></paper-input>
+              <h1 id="courseTitle" contenteditable="true" on-change="titleChanged">
                 [[currentCourse.title]]
               </h1>
               <!--Come back to this. Don't need it for the alpha launch -->
@@ -42106,9 +42327,18 @@ doy:4}}),kg.defineLocale("zh-tw",{months:"一月_二月_三月_四月_五月_六
                     <!-- <iron-icon class = "end-justified"icon="editor:drag-handle" item-icon style="flex: 1;flex-direction: row;"></iron-icon> [[item.keys]]
                     <iron-icon class = "end-justified" id = "[[item.key]]" icon="icons:delete" item-icon on-tap="deleteItem"></iron-icon> -->
                     <prendus-concept-container-edit concept-id="[[item.id]]" style="flex: 5;flex-direction: row;"></prendus-concept-container-edit><span>
-                    <paper-menu-button>
-                      <paper-icon-button icon="more-vert" class="dropdown-trigger"></paper-icon-button>
-                      <paper-menu class="dropdown-content" selected="null">
+                    <paper-menu-button ignore-select="" no-animations="" allow-outside-scroll="">
+                      <paper-icon-button icon="more-vert" title="concept settings" class="dropdown-trigger"></paper-icon-button>
+                      <paper-menu class="dropdown-content" selected="null" style="padding: 15px">
+                          <paper-submenu>
+                              <paper-item class="menu-trigger">Collaborators</paper-item>
+                              <paper-menu class="menu-content">
+                                  <!--TODO this span is here to stop the default selection of items. It is a hack, get rid of it if possible-->
+                                  <span></span>
+                                  <!--TODO this span is here to stop the default selection of items. It is a hack, get rid of it if possible-->
+                                  <prendus-collaborator-menu-content concept-id="[[item.key]]"></prendus-collaborator-menu-content>
+                              </paper-menu>
+                          </paper-submenu>
                         <paper-item role="menuitem" id="[[item.key]]" on-tap="deleteItem"><iron-icon class="end-justified" icon="icons:delete" item-icon=""></iron-icon>Delete</paper-item>
                         <!-- <paper-item><iron-icon class = "end-justified"icon="editor:drag-handle" item-icon style="flex: 1;flex-direction: row;"></iron-icon> [[item.keys]]
                         Reorder concepts</paper-item> -->
@@ -42142,7 +42372,7 @@ doy:4}}),kg.defineLocale("zh-tw",{months:"一月_二月_三月_四月_五月_六
               <h1 style="color: red">Confirm Delete </h1>
               <p>Are you sure that you want to delete this concept?
               <paper-button dialog-dismiss="">No</paper-button>
-              <paper-button on-tap="completeDelete">Yes</paper-button>
+              <paper-button id="confirmeDelete" on-tap="completeDelete">Yes</paper-button>
             </p></form>
           </div>
         </paper-dialog>
@@ -45007,226 +45237,6 @@ In order to apply the `Roboto` font to this element, make sure you've imported `
 
     });
   </script>
-</dom-module>
-<!--
-@license
-Copyright (c) 2015 The Polymer Project Authors. All rights reserved.
-This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
-The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
-The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
-Code distributed by Google as part of the polymer project is also
-subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
---><!--
-`<paper-submenu>` is a nested menu inside of a parent `<paper-menu>`. It
-consists of a trigger that expands or collapses another `<paper-menu>`:
-
-    <paper-menu>
-      <paper-submenu>
-        <paper-item class="menu-trigger">Topics</paper-item>
-        <paper-menu class="menu-content">
-          <paper-item>Topic 1</paper-item>
-          <paper-item>Topic 2</paper-item>
-          <paper-item>Topic 3</paper-item>
-        </paper-menu>
-      </paper-submenu>
-      <paper-submenu>
-        <paper-item class="menu-trigger">Faves</paper-item>
-        <paper-menu class="menu-content">
-          <paper-item>Fave 1</paper-item>
-          <paper-item>Fave 2</paper-item>
-        </paper-menu>
-      </paper-submenu>
-      <paper-submenu disabled>
-        <paper-item class="menu-trigger">Unavailable</paper-item>
-        <paper-menu class="menu-content">
-          <paper-item>Disabled 1</paper-item>
-          <paper-item>Disabled 2</paper-item>
-        </paper-menu>
-      </paper-submenu>
-    </paper-menu>
-
-Just like in `<paper-menu>`, the focused item is highlighted, and the selected
-item has bolded text. Please see the `<paper-menu>` docs for which attributes
-(such as `multi` and `selected`), and styling options are available for the
-`menu-content` menu.
-
-@group Paper Elements
-@element paper-submenu
-@hero hero.svg
-@demo demo/index.html
--->
-
-<dom-module id="paper-submenu" assetpath="../../bower_components/paper-menu/">
-  <template>
-    <style include="paper-menu-shared-styles"></style>
-
-    <div class="selectable-content" on-tap="_onTap">
-      <content id="trigger" select=".menu-trigger"></content>
-    </div>
-    <iron-collapse id="collapse" opened="{{opened}}">
-      <content id="content" select=".menu-content"></content>
-    </iron-collapse>
-  </template>
-
-  <script>
-
-  (function() {
-
-    Polymer({
-
-      is: 'paper-submenu',
-
-      properties: {
-        /**
-         * Fired when the submenu is opened.
-         *
-         * @event paper-submenu-open
-         */
-
-        /**
-         * Fired when the submenu is closed.
-         *
-         * @event paper-submenu-close
-         */
-
-        /**
-         * Set opened to true to show the collapse element and to false to hide it.
-         *
-         * @attribute opened
-         */
-        opened: {
-          type: Boolean,
-          value: false,
-          notify: true,
-          observer: '_openedChanged'
-        }
-      },
-
-      behaviors: [
-        Polymer.IronControlState
-      ],
-
-      listeners: {
-        'focus': '_onFocus'
-      },
-
-      get __parent() {
-        return Polymer.dom(this).parentNode;
-      },
-
-      get __trigger() {
-        return Polymer.dom(this.$.trigger).getDistributedNodes()[0];
-      },
-
-      get __content() {
-        return Polymer.dom(this.$.content).getDistributedNodes()[0];
-      },
-
-      attached: function() {
-        this.listen(this.__parent, 'iron-activate', '_onParentIronActivate');
-      },
-
-      dettached: function() {
-        this.unlisten(this.__parent, 'iron-activate', '_onParentIronActivate');
-      },
-
-      /**
-       * Expand the submenu content.
-       */
-      open: function() {
-        if (!this.disabled && !this._active) {
-          this.$.collapse.show();
-          this._active = true;
-          this.__trigger && this.__trigger.classList.add('iron-selected');
-          this.__content && this.__content.focus();
-        }
-      },
-
-      /**
-       * Collapse the submenu content.
-       */
-      close: function() {
-        if (this._active) {
-          this.$.collapse.hide();
-          this._active = false;
-          this.__trigger && this.__trigger.classList.remove('iron-selected');
-        }
-      },
-
-      /**
-       * Toggle the submenu.
-       */
-      toggle: function() {
-        if (this._active) {
-          this.close();
-        } else {
-          this.open();
-        }
-      },
-
-      /**
-       * A handler that is called when the trigger is tapped.
-       */
-      _onTap: function(e) {
-        if (!this.disabled) {
-          this.toggle();
-        }
-      },
-
-      /**
-       * Toggles the submenu content when the trigger is tapped.
-       */
-      _openedChanged: function(opened, oldOpened) {
-        if (opened) {
-          this.fire('paper-submenu-open');
-        } else if (oldOpened != null) {
-          this.fire('paper-submenu-close');
-        }
-      },
-
-      /**
-       * A handler that is called when `iron-activate` is fired.
-       *
-       * @param {CustomEvent} event An `iron-activate` event.
-       */
-      _onParentIronActivate: function(event) {
-        var parent = this.__parent;
-        if (Polymer.dom(event).localTarget === parent) {
-          // The activated item can either be this submenu, in which case it
-          // should be expanded, or any of the other sibling submenus, in which
-          // case this submenu should be collapsed.
-          if (event.detail.item !== this && !parent.multi) {
-            this.close();
-          }
-        }
-      },
-
-      /**
-       * If the dropdown is open when disabled becomes true, close the
-       * dropdown.
-       *
-       * @param {boolean} disabled True if disabled, otherwise false.
-       */
-      _disabledChanged: function(disabled) {
-        Polymer.IronControlState._disabledChanged.apply(this, arguments);
-        if (disabled && this._active) {
-          this.close();
-        }
-      },
-
-      /**
-       * Handler that is called when the menu receives focus.
-       *
-       * @param {FocusEvent} event A focus event.
-       */
-      _onFocus: function(event) {
-        this.__trigger && this.__trigger.focus();
-      }
-
-    });
-
-  })();
-</script>
 </dom-module>
 <!--
 @license
@@ -92829,8 +92839,8 @@ event and do your own custom submission:
     <redux-store root-reducer="[[rootReducer]]"></redux-store>
     <prendus-navbar></prendus-navbar>
     <prendus-router></prendus-router>
-  </template>
 
+  </template>
   <!--<script src="prendus-app.js"></script>hello-->
 </dom-module>
 </body></html>
