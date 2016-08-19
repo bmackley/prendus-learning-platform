@@ -20,6 +20,6 @@
     "commit": "072d5a3002e256c31780438154d7bb996b78d592"
   },
   "_source": "https://github.com/lastmjs/redux-store-element.git",
-  "_target": "^0.2.0",
+  "_target": "^0.2.4",
   "_originalSource": "redux-store-element"
 }
