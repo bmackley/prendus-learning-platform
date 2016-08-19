@@ -3,7 +3,7 @@ import {Actions} from '../../redux/actions.ts';
 import {StatechangeEvent} from '../../interfaces/statechange-event.interface.ts';
 import {FirebaseService} from '../../node_modules/prendus-services/services/firebase.service.ts';
 
-class ConceptComponent {
+class PrendusConceptContainer {
   public is: string;
   public title: string;
   public properties: any;
@@ -51,4 +51,4 @@ class ConceptComponent {
   }
 }
 
-Polymer(ConceptComponent);
+Polymer(PrendusConceptContainer);
