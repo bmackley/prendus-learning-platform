@@ -5,7 +5,6 @@ import {rootReducer} from '../../redux/reducers.ts';
 import {State} from '../../interfaces/state.interface.ts';
 import {Action} from '../../interfaces/action.interface.ts';
 
-
 export class AppComponent {
   public is: string;
   public username: string;

@@ -2,10 +2,22 @@
   "name": "prendus-learning-platform",
   "version": "0.0.1",
   "description": "The tool to create and upload videos and quizzes",
+  "watch": {
+    "build": {
+      "patterns": [
+        "app/client/components/*/*"
+      ],
+      "extensions": "ts"
+    }
+  },
   "scripts": {
+    "start": "npm run single-page-server & npm-watch",
     "single-page-server": "single-page-server -b=app/client -f=index.html",
     "http-server": "http-server",
-    "start": "npm run single-page-server"
+    "build": "npm run vulcanize && npm run bundle",
+    "watch": "npm-watch",
+    "bundle": "node systemjs-build.js",
+    "vulcanize": "vulcanize app/client/components/prendus-app/prendus-app.html > app/client/dist/prendus.html"
   },
   "repository": {
     "type": "git",
@@ -14,7 +26,11 @@
   "homepage": "https://github.com/bmackley/prendus-learning-platform",
   "dependencies": {},
   "devDependencies": {
+    "es-no-build": "^0.1.0",
     "http-server": "^0.9.0",
-    "single-page-server": "^0.1.0"
+    "npm-watch": "^0.1.6",
+    "single-page-server": "^0.1.0",
+    "systemjs-builder": "^0.15.26",
+    "vulcanize": "^1.14.8"
   }
 }

@@ -2,17 +2,6 @@ import {QuestionSettings} from '../node_modules/prendus-services/interfaces/ques
 import {State} from '../interfaces/state.interface.ts';
 
 export const InitialState: State = {
-    currentUser: {
-      metaData: {
-        uid: '',
-        firstName: '',
-        lastName: '',
-        institution: '',
-        email: '',
-        permissions: '',
-        jwt: ''
-      }
-    },
     concepts: {
     },
     currentConcept: {
@@ -24,10 +13,25 @@ export const InitialState: State = {
     currentConceptVideoId: '',
     currentConceptVideoTitle: '',
     currentConceptVideoUrl: '',
+    currentUser: {
+        authorizedQuestions: {},
+        authorizedQuizzes: {},
+        metaData: {
+            email: '',
+            firstName: '',
+            lastName: '',
+            institution: ''
+        },
+        starredCourses: {},
+        sharedWithMeCourses: {},
+        sharedWithMeConcepts: {},
+        sharedWithMeVideos: {},
+        sharedWithMeQuizzes: {}
+    },
     userQuestionIds: [],
     publicQuestionIds: [],
     quizQuestionIds: [],
-    quizSettings: QuestionSettings,
+    quizSettings: {},
     currentEditQuizId: '',
     conceptQuizzes: {},
     currentEditConceptId: '',
