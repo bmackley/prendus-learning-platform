@@ -82,7 +82,6 @@ export function rootReducer(state: State = InitialState, action: Action): State 
         return newState;
       }
       case 'GET_CONCEPT_BY_ID': {
-        console.log('reducers get concept by id')
         const newState = Object.assign({}, state);
         newState.currentConcept = action.concept;
         return newState;
