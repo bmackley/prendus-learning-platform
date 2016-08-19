@@ -17,7 +17,6 @@
     "polymer": "Polymer/polymer#^1.4.0",
     "iron-ajax": "PolymerElements/iron-ajax#^1.2.0",
     "app-route": "PolymerElements/app-route#^0.9.1",
-    "paper-date-picker": "^0.1.5",
     "solutia-maxima-components": "git@github.com:lastmjs/solutia-maxima-components.git#jordan",
     "view-quiz-component": "git@github.com:lastmjs/view-quiz-component.git#jordan",
     "video-viewer-component": "git@github.com:lastmjs/video-viewer-component.git#jordan",
@@ -47,6 +46,11 @@
     "iron-form": "^1.1.2",
     "iron-input": "^1.0.10",
     "paper-toggle-button": "^1.2.0",
+<<<<<<< HEAD
     "paper-card": "PolymerElements/paper-card#^1.1.2"
+=======
+    "paper-card": "PolymerElements/paper-card#^1.1.2",
+    "paper-date-picker": "polymer-paper-date-picker#^1.1.5"
+>>>>>>> develop
   }
 }
