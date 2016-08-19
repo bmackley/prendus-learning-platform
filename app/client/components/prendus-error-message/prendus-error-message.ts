@@ -1,6 +1,6 @@
 import {Actions} from '../../redux/actions.ts';
 
-class ExampleComponent {
+class PrendusErrorMessage {
   public is: string;
   public username: string;
   public message: string;
@@ -22,7 +22,7 @@ class ExampleComponent {
   setMessage(){
     console.log(this.message);
     this.toastText = this.message;
-    
+
   }
   mapStateToThis(e) {
     const state = e.detail.state
@@ -32,4 +32,4 @@ class ExampleComponent {
     this.$.toastContainer.fitInto = this.$.toastTarget;
   }
 }
-Polymer(ExampleComponent);
+Polymer(PrendusErrorMessage);

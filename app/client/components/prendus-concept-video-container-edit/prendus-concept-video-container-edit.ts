@@ -3,7 +3,7 @@ import {Actions} from '../../redux/actions.ts';
 import {StatechangeEvent} from '../../interfaces/statechange-event.interface.ts';
 import {VideoEditorComponent} from '../prendus-video-editor/prendus-video-editor.ts';
 
-class ConceptVideoContainerEditComponent {
+class PrendusConceptVideoContainerEdit {
     public is: string;
     public properties: any;
     public observers: string[];
@@ -61,10 +61,10 @@ class ConceptVideoContainerEditComponent {
         const video: Video = {
             title,
             url,
-            conceptId: this.conceptId
+            collaborators: {}
         };
 
-        await Actions.saveVideo(this, this.currentVideoId, video);
+        await Actions.saveVideo(this, this.conceptId, this.currentVideoId, video);
         this.$.videoEditor.indicateSaved();
         Actions.setCurrentVideoInfo(this, this.currentVideoId, title, url);
         await Actions.loadConceptVideos(this, this.conceptId);
@@ -87,4 +87,4 @@ class ConceptVideoContainerEditComponent {
     }
 }
 
-Polymer(ConceptVideoContainerEditComponent);
+Polymer(PrendusConceptVideoContainerEdit);
