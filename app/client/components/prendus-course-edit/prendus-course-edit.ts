@@ -3,7 +3,7 @@ import {Course} from '../../node_modules/prendus-services/interfaces/course.inte
 import {CourseConceptData} from '../../node_modules/prendus-services/interfaces/course-concept-data.interface.ts';
 import {StatechangeEvent} from '../../interfaces/statechange-event.interface.ts';
 
-class CourseEditComponent {
+class PrendusCourseEdit {
   public is: string;
   public properties: any;
   public observers: String[];
@@ -119,4 +119,4 @@ class CourseEditComponent {
   }
 }
 
-Polymer(CourseEditComponent);
+Polymer(PrendusCourseEdit);
