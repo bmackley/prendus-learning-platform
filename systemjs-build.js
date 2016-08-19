@@ -36,9 +36,9 @@ builder.config({
 
 builder.buildStatic(`
     (app/client/components/*/*.ts) +
-    (app/client/bower_components/solutia-maxima-components/*/*.ts) +
+    (app/client/bower_components/solutia-maxima-components/components/*/*.ts) +
     (app/client/bower_components/view-quiz-component/*.ts) +
     (app/client/bower_components/video-viewer-component/*.ts)
     `, 'app/client/dist/prendus.js', {
-    minify: true
+    minify: false
 });
