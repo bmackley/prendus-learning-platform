@@ -3,7 +3,7 @@ import {FirebaseService} from '../../node_modules/prendus-services/services/fire
 import {Course} from '../../node_modules/prendus-services/interfaces/course.interface.ts';
 import {StatechangeEvent} from '../../interfaces/statechange-event.interface.ts';
 
-class CourseHomepageComponent {
+class PrendusCourseHomepage {
   public is: string;
   public courses: string[];
   public newCourse: Course;
@@ -70,4 +70,4 @@ class CourseHomepageComponent {
   }
 }
 
-Polymer(CourseHomepageComponent);
+Polymer(PrendusCourseHomepage);

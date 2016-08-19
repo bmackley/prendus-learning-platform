@@ -2,7 +2,7 @@ import {Quiz} from '../../node_modules/prendus-services/interfaces/quiz.interfac
 import {Actions} from '../../redux/actions.ts';
 import {StatechangeEvent} from '../../interfaces/statechange-event.interface.ts';
 
-class ConceptQuizContainerEditComponent {
+class PrendusConceptQuizContainerEdit {
     public is: string;
     public properties: any;
     public observers: string[];
@@ -55,4 +55,4 @@ class ConceptQuizContainerEditComponent {
     }
 }
 
-Polymer(ConceptQuizContainerEditComponent);
+Polymer(PrendusConceptQuizContainerEdit);
