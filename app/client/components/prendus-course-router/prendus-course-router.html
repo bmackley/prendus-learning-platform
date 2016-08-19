@@ -8,11 +8,11 @@
 <link rel="import" href="../prendus-course-edit/prendus-course-edit.html">
 <link rel="import" href="../prendus-course-view/prendus-course-view.html">
 <link rel="import" href="../prendus-course-homepage/prendus-course-homepage.html">
-<!-- <link rel="import" href="../prendus-quiz-editor/prendus-quiz-editor.html"> -->
-<!-- <link rel="import" href="../prendus-view-video-router/prendus-view-video-router.html"> -->
-<!-- <link rel="import" href="../prendus-view-quiz-router/prendus-view-quiz-router.html"> -->
-<!-- <link rel="import" href="../prendus-edit-quiz-router/prendus-edit-quiz-router.html"> -->
-<!-- <link rel="import" href="../prendus-edit-question-router/prendus-edit-question-router.html"> -->
+<link rel="import" href="../prendus-quiz-editor/prendus-quiz-editor.html">
+<link rel="import" href="../prendus-view-video-router/prendus-view-video-router.html">
+<link rel="import" href="../prendus-view-quiz-router/prendus-view-quiz-router.html">
+<link rel="import" href="../prendus-edit-quiz-router/prendus-edit-quiz-router.html">
+<link rel="import" href="../prendus-edit-question-router/prendus-edit-question-router.html">
 
 <dom-module id="prendus-course-router">
   <style>
@@ -28,13 +28,13 @@
       <prendus-course-homepage key="home"></prendus-course-homepage>
       <prendus-course-edit key="edit" route="[[route]]"></prendus-course-edit>
       <prendus-course-view key="view" route="[[route]]"></prendus-course-view>
-      <!-- <prendus-edit-quiz-router key="edit-quiz" route="[[route]]"></prendus-edit-quiz-router> -->
-      <!-- <prendus-edit-question-router key="edit-question" route="[[route]]"></prendus-edit-question-router> -->
-      <!-- <prendus-view-video-router key="view-video" route="[[route]]"></prendus-view-video-router> -->
-      <!-- <prendus-view-quiz-router key="view-quiz" route="[[route]]"></prendus-view-quiz-router> -->
-      <!-- <prendus-view-question-router key="view-question" route="[[route]]"></prendus-view-question-router> -->
+      <prendus-edit-quiz-router key="edit-quiz" route="[[route]]"></prendus-edit-quiz-router>
+      <prendus-edit-question-router key="edit-question" route="[[route]]"></prendus-edit-question-router>
+      <prendus-view-video-router key="view-video" route="[[route]]"></prendus-view-video-router>
+      <prendus-view-quiz-router key="view-quiz" route="[[route]]"></prendus-view-quiz-router>
+      <prendus-view-question-router key="view-question" route="[[route]]"></prendus-view-question-router>
     </iron-pages>
   </template>
 
-  <script>System.import('/components/prendus-course-router/prendus-course-router.ts');</script>
+    <!--<script src="prendus-course-router.js"></script>-->
 </dom-module>

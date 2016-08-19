@@ -11,22 +11,25 @@ import {QuestionSettings} from '../node_modules/prendus-services/interfaces/ques
 import {CourseVisibility} from '../node_modules/prendus-services/interfaces/course-visibility.type.ts';
 import {UserMetaData} from '../node_modules/prendus-services/interfaces/user-meta-data.interface.ts';
 import {User} from '../node_modules/prendus-services/interfaces/user.interface.ts';
+import {EmailsToUidsModel} from '../node_modules/prendus-services/models/emails-to-uids.model.ts';
 
-const loadQuizCollaboratorEmails = async (context: any, getEmailsByIdsAjax: any, quizId: string, endpointDomain: string, jwt: string) => {
+FirebaseService.init('AIzaSyANTSoOA6LZZDxM7vqIlAl37B7IqWL-6MY', 'prendus.firebaseapp.com', 'https://prendus.firebaseio.com', 'prendus.appspot.com', 'Prendus');
+
+const loadCourseCollaboratorEmails = async (context: any, courseId: string) => {
 
     try {
-        const uids = await QuizModel.getCollaboratorUids(quizId);
-        const uidsCSV = uids.join(',');
+        const user = await FirebaseService.getLoggedInUser();
 
-        getEmailsByIdsAjax.url = `${endpointDomain}/api/user/emails/quiz/${quizId}/jwt/${jwt}/uids/${uidsCSV}`;
+        const uids = await CourseModel.getCollaboratorUids(courseId);
 
-        const request = getEmailsByIdsAjax.generateRequest();
-        await request.completes;
-
-        const emails = request.response.emails;
+        await FirebaseService.set(`security/${user.uid}/collaboratorSecurityInfo`, {
+            collection: CourseModel.dataPath,
+            id: courseId
+        });
+        const emails = await UserModel.getEmailsByIds(uids);
 
         context.action = {
-            type: 'SET_COLLABORATOR_EMAILS',
+            type: 'SET_COURSE_COLLABORATOR_EMAILS',
             emails
         };
     }
@@ -35,14 +38,123 @@ const loadQuizCollaboratorEmails = async (context: any, getEmailsByIdsAjax: any,
     }
 };
 
-const addQuizCollaborator = async (context: any, getUidByEmailAjax: any, endpointDomain: string, quizId: string, email: string) => {
+const loadConceptCollaboratorEmails = async (context: any, conceptId: string) => {
+
     try {
-        getUidByEmailAjax.url = `${endpointDomain}/api/user/uid/email/${email}`;
+        const user = await FirebaseService.getLoggedInUser();
 
-        const request = getUidByEmailAjax.generateRequest();
-        await request.completes;
+        const uids = await ConceptModel.getCollaboratorUids(conceptId);
 
-        const uid = request.response.uid;
+        await FirebaseService.set(`security/${user.uid}/collaboratorSecurityInfo`, {
+            collection: ConceptModel.dataPath,
+            id: conceptId
+        });
+        const emails = await UserModel.getEmailsByIds(uids);
+
+        context.action = {
+            type: 'SET_CONCEPT_COLLABORATOR_EMAILS',
+            emails
+        };
+    }
+    catch(error) {
+        throw error;
+    }
+};
+
+const loadVideoCollaboratorEmails = async (context: any, videoId: string) => {
+
+    try {
+        const user = await FirebaseService.getLoggedInUser();
+
+        const uids = await VideoModel.getCollaboratorUids(videoId);
+
+        await FirebaseService.set(`security/${user.uid}/collaboratorSecurityInfo`, {
+            collection: VideoModel.dataPath,
+            id: videoId
+        });
+        const emails = await UserModel.getEmailsByIds(uids);
+
+        context.action = {
+            type: 'SET_VIDEO_COLLABORATOR_EMAILS',
+            emails
+        };
+    }
+    catch(error) {
+        throw error;
+    }
+};
+
+const loadQuizCollaboratorEmails = async (context: any, quizId: string) => {
+
+    try {
+        const user = await FirebaseService.getLoggedInUser();
+
+        const uids = await QuizModel.getCollaboratorUids(quizId);
+
+        await FirebaseService.set(`security/${user.uid}/collaboratorSecurityInfo`, {
+            collection: QuizModel.dataPath,
+            id: quizId
+        });
+        const emails = await UserModel.getEmailsByIds(uids);
+
+        context.action = {
+            type: 'SET_QUIZ_COLLABORATOR_EMAILS',
+            emails
+        };
+    }
+    catch(error) {
+        throw error;
+    }
+};
+
+const addCourseCollaborator = async (context: any, courseId: string, email: string) => {
+    try {
+        const uid = await EmailsToUidsModel.getUidByEmail(email);
+
+        if (!uid) {
+            throw 'The user does not exist';
+        }
+
+        await CourseModel.addCollaborator(courseId, uid);
+    }
+    catch(error) {
+        throw error;
+    }
+};
+
+const addConceptCollaborator = async (context: any, conceptId: string, email: string) => {
+    try {
+        const uid = await EmailsToUidsModel.getUidByEmail(email);
+
+        if (!uid) {
+            throw 'The user does not exist';
+        }
+
+        await ConceptModel.addCollaborator(conceptId, uid);
+    }
+    catch(error) {
+        throw error;
+    }
+};
+
+const addVideoCollaborator = async (context: any, videoId: string, email: string) => {
+    try {
+        const uid = await EmailsToUidsModel.getUidByEmail(email);
+
+        if (!uid) {
+            throw 'The user does not exist';
+        }
+
+        await VideoModel.addCollaborator(videoId, uid);
+    }
+    catch(error) {
+        throw error;
+    }
+};
+
+const addQuizCollaborator = async (context: any, quizId: string, email: string) => {
+    try {
+        const uid = await EmailsToUidsModel.getUidByEmail(email);
 
         if (!uid) {
             throw 'The user does not exist';
@@ -55,14 +167,59 @@ const addQuizCollaborator = async (context: any, getUidByEmailAjax: any, endpoin
     }
 };
 
-const removeQuizCollaborator = async (context: any, getUidByEmailAjax: any, endpointDomain: string, quizId: string, email: string) => {
+const removeCourseCollaborator = async (context: any, courseId: string, email: string) => {
     try {
-        getUidByEmailAjax.url = `${endpointDomain}/api/user/uid/email/${email}`;
+        const uid = await EmailsToUidsModel.getUidByEmail(email);
 
-        const request = getUidByEmailAjax.generateRequest();
-        await request.completes;
+        if (!uid) {
+            throw 'The user does not exist';
+        }
 
-        const uid = request.response.uid;
+        await CourseModel.removeCollaborator(courseId, uid);
+    }
+    catch(error) {
+        throw error;
+    }
+};
+
+const removeConceptCollaborator = async (context: any, conceptId: string, email: string) => {
+    try {
+        const uid = await EmailsToUidsModel.getUidByEmail(email);
+
+        if (!uid) {
+            throw 'The user does not exist';
+        }
+
+        await ConceptModel.removeCollaborator(conceptId, uid);
+    }
+    catch(error) {
+        throw error;
+    }
+};
+
+const removeVideoCollaborator = async (context: any, videoId: string, email: string) => {
+    try {
+        const uid = await EmailsToUidsModel.getUidByEmail(email);
+
+        if (!uid) {
+            throw 'The user does not exist';
+        }
+
+        await VideoModel.removeCollaborator(videoId, uid);
+    }
+    catch(error) {
+        throw error;
+    }
+};
+
+const removeQuizCollaborator = async (context: any, quizId: string, email: string) => {
+    try {
+        const uid = await EmailsToUidsModel.getUidByEmail(email);
+
+        if (!uid) {
+            throw 'The user does not exist';
+        }
+
         await QuizModel.removeCollaborator(quizId, uid);
     }
     catch(error) {
@@ -247,6 +404,7 @@ const createUser = {
       const success = await FirebaseService.createUserWithEmailAndPassword(data.email, password);
       const loggedInUser = await FirebaseService.logInUserWithEmailAndPassword(data.email, password);
       await UserModel.updateMetaData(loggedInUser.uid, data);
+      await EmailsToUidsModel.setUidByEmail(data.email, loggedInUser.uid);
       data.email = loggedInUser.email
       context.action = {
         type: Actions.createUser.type,
@@ -262,12 +420,12 @@ const loginUser = {
     execute: async (context: any, email: string, password: string) => {
         try {
           const loggedInUser = await FirebaseService.logInUserWithEmailAndPassword(email, password);
-          let userData = await UserModel.getById(loggedInUser.uid); //sets ancillary user data such as name, institution, etc.
-          userData.metaData.uid = loggedInUser.uid;
+          let user = await UserModel.getById(loggedInUser.uid); //sets ancillary user data such as name, institution, etc.
+          user.metaData.uid = loggedInUser.uid;
 
           context.action = {
             type: Actions.loginUser.type,
-            currentUser : userData,
+            user
           };
         }catch(error){
           throw error;
@@ -305,12 +463,12 @@ const checkUserAuth = {
     try {
       const loggedInUser = await FirebaseService.getLoggedInUser();
       if(loggedInUser){
-        let userData = await UserModel.getById(loggedInUser.uid);
-        userData.metaData.uid = loggedInUser.uid; //OK because its being created here.
-        const jwt = loggedInUser.getToken()
+        let user = await UserModel.getById(loggedInUser.uid);
+        user.uid = loggedInUser.uid; //OK because its being created here.
+        const jwt = loggedInUser.getToken();
         context.action = {
           type: Actions.checkUserAuth.type,
-          currentUser: userData,
+          user,
           jwt: jwt
         };
       }
@@ -516,5 +674,14 @@ export const Actions = {
     addQuizCollaborator,
     loadQuizCollaboratorEmails,
     removeQuizCollaborator,
-    getSharedCoursesByUser
+    getSharedCoursesByUser,
+    loadCourseCollaboratorEmails,
+    loadConceptCollaboratorEmails,
+    loadVideoCollaboratorEmails,
+    addCourseCollaborator,
+    addConceptCollaborator,
+    addVideoCollaborator,
+    removeCourseCollaborator,
+    removeConceptCollaborator,
+    removeVideoCollaborator
 };
