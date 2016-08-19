@@ -4227,26 +4227,36 @@ $__System.register('12', ['25', '26', '28', '36'], function (_export, _context2)
                         }
                     }
                 }, {
-                    key: 'titleChanged',
-                    value: function titleChanged(e) {
+                    key: 'attributeChanged',
+                    value: function attributeChanged(e) {
                         return __awaiter(this, void 0, void 0, _regeneratorRuntime.mark(function _callee() {
-                            var value;
+                            var value, attribute;
                             return _regeneratorRuntime.wrap(function _callee$(_context) {
                                 while (1) {
                                     switch (_context.prev = _context.next) {
                                         case 0:
-                                            try {
-                                                value = e.target.value;
+                                            _context.prev = 0;
+                                            value = e.target.value;
+                                            attribute = e.target.value;
 
-                                                console.log('title changed', value);
-                                            } catch (error) {}
+                                            console.log('title changed', value);
+                                            _context.next = 6;
+                                            return Actions.updateCourseTitle(this.currentCourse.title, value);
 
-                                        case 1:
+                                        case 6:
+                                            _context.next = 10;
+                                            break;
+
+                                        case 8:
+                                            _context.prev = 8;
+                                            _context.t0 = _context['catch'](0);
+
+                                        case 10:
                                         case 'end':
                                             return _context.stop();
                                     }
                                 }
-                            }, _callee, this);
+                            }, _callee, this, [[0, 8]]);
                         }));
                     }
                 }]);
