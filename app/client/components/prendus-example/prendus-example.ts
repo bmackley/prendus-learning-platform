@@ -1,6 +1,6 @@
 import {Actions} from '../../redux/actions.ts';
 
-class ExampleComponent {
+class PrendusExample {
   public is: string;
   public username: string;
 
@@ -12,4 +12,4 @@ class ExampleComponent {
     this.username = state.currentUser.email;
   }
 }
-Polymer(ExampleComponent);
+Polymer(PrendusExample);

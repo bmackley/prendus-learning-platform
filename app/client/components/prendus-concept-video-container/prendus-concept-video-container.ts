@@ -3,7 +3,7 @@ import {Actions} from '../../redux/actions.ts';
 import {StatechangeEvent} from '../../interfaces/statechange-event.interface.ts';
 import {VideoEditorComponent} from '../prendus-video-editor/prendus-video-editor.ts';
 
-class ConceptVideoContainerComponent {
+class PrendusConceptVideoContainer {
     public is: string;
     public properties: any;
     public observers: string[];
@@ -67,4 +67,4 @@ class ConceptVideoContainerComponent {
     }
 }
 
-Polymer(ConceptVideoContainerComponent);
+Polymer(PrendusConceptVideoContainer);

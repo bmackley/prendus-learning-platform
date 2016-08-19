@@ -3,7 +3,7 @@ import {Actions} from '../../redux/actions.ts';
 import {StatechangeEvent} from '../../interfaces/statechange-event.interface.ts';
 import {FirebaseService} from '../../node_modules/prendus-services/services/firebase.service.ts';
 
-export class ConceptComponentEdit {
+export class PrendusConceptContainerEdit {
   public is: string;
   public title: string;
   public properties: any;
@@ -38,11 +38,11 @@ export class ConceptComponentEdit {
   mapStateToThis(e: StatechangeEvent) {
     const state = e.detail.state;
     this.conceptData = state.currentConcept;
-    
+
   }
   ready() {
     this.selected = 0;
   }
 }
 
-Polymer(ConceptComponentEdit);
+Polymer(PrendusConceptContainerEdit);
