@@ -465,11 +465,11 @@ const checkUserAuth = {
       if(loggedInUser){
         let user = await UserModel.getById(loggedInUser.uid);
         user.uid = loggedInUser.uid; //OK because its being created here.
-        const jwt = loggedInUser.getToken();
+        const jwt = await loggedInUser.getToken();
         context.action = {
           type: Actions.checkUserAuth.type,
           user,
-          jwt: jwt
+          jwt
         };
       }
     }catch(error){
