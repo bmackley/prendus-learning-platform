@@ -165,7 +165,7 @@ export function rootReducer(state: State = InitialState, action: Action): State 
       }
       case 'ADD_COURSE': {
         const newState = Object.assign({}, state);
-        newState.courses = [...newState.courses, action.newCourse];
+        newState.courses = action.courses;
         return newState;
       }
       case Actions.addConcept.type: {
