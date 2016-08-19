@@ -13,6 +13,7 @@ class ViewQuizRouterComponent {
 
     mapStateToThis(e) {
       const state = e.detail.state;
+
       this.userFullName = `${state.currentUser.metaData.firstName} ${state.currentUser.metaData.lastName}`;
       this.userEmail = state.currentUser.metaData.email;
       this.jwt = state.jwt;
