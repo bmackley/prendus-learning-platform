@@ -1,6 +1,6 @@
 import {Actions} from '../../redux/actions.ts';
 
-class CourseRouter {
+class PrendusCourseRouter {
   public is: string;
   public selected: number;
   public courseId: string;
@@ -12,4 +12,4 @@ class CourseRouter {
   async ready() {
   }
 }
-Polymer(CourseRouter);
+Polymer(PrendusCourseRouter);
