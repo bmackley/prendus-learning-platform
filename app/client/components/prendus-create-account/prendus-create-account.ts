@@ -2,7 +2,7 @@ import {Actions} from '../../redux/actions.ts';
 import {UserMetaData} from '../../node_modules/prendus-services/interfaces/user-meta-data.interface.ts'
 import {User} from '../../node_modules/prendus-services/interfaces/user.interface.ts'
 
-class SignupComponent {
+class PrendusCreateAccount {
   public is: string;
   public signUpToastText: string;
   public email: string;
@@ -48,4 +48,4 @@ class SignupComponent {
     this.$.signUpToast.fitInto = this.$.toastTarget;
   }
 }
-Polymer(SignupComponent);
+Polymer(PrendusCreateAccount);

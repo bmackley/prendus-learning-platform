@@ -4,7 +4,7 @@ import {Concept} from '../../node_modules/prendus-services/interfaces/concept.in
 import {CourseConceptData} from '../../node_modules/prendus-services/interfaces/course-concept-data.interface.ts';
 import {StatechangeEvent} from '../../interfaces/statechange-event.interface.ts';
 
-export class CourseViewComponent {
+export class PrendusCourseView {
   public is: string;
   public courseConcepts: CourseConceptData[];
   public courseId: Course[];
@@ -84,4 +84,4 @@ export class CourseViewComponent {
     }
   }
 }
-Polymer(CourseViewComponent);
+Polymer(PrendusCourseView);
