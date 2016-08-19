@@ -482,10 +482,11 @@ const addConcept = {
   execute: async (context, courseId: string, newConcept: Concept, conceptPos: number) => {
     try {
       const conceptId = await ConceptModel.save(null, newConcept);
-      const courseUpdate = await CourseModel.createCourseConcept(courseId, conceptId, conceptPos)
+      await CourseModel.createCourseConcept(courseId, conceptId, conceptPos)
       const course = await CourseModel.getById(courseId);
       const conceptsArray = await CourseModel.courseConceptsToArray(course);
-      const orderedCourse = CourseModel.orderCourseConcepts(course, conceptsArray);
+      const orderedConcepts = CourseModel.orderCourseConcepts(conceptsArray);
+      course.concepts = orderedConcepts;
       context.action = {
           type: 'ADD_CONCEPT',  //same as get course by id
           currentCourse: orderedCourse,
