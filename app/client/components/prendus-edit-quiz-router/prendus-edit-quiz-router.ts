@@ -1,7 +1,7 @@
 import {FirebaseService} from '../../node_modules/prendus-services/services/firebase.service.ts';
 import {Actions} from '../../redux/actions.ts';
 
-class EditQuizRouterComponent {
+class PrendusEditQuizRouter {
     public is: string;
     public selected: number;
     public jwt: string;
@@ -43,4 +43,4 @@ class EditQuizRouterComponent {
     }
 }
 
-Polymer(EditQuizRouterComponent);
+Polymer(PrendusEditQuizRouter);

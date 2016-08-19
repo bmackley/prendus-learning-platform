@@ -1,7 +1,7 @@
 import {FirebaseService} from '../../node_modules/prendus-services/services/firebase.service.ts';
 import {UserModel} from '../../node_modules/prendus-services/models/user.model.ts';
 
-class ViewVideoRouterComponent {
+class PrendusViewVideoRouter {
     public is: string;
     public userFullName: string;
     public userEmail: string;
@@ -16,4 +16,4 @@ class ViewVideoRouterComponent {
       this.userEmail = state.currentUser.metaData.email;
     }
 }
-Polymer(ViewVideoRouterComponent);
+Polymer(PrendusViewVideoRouter);

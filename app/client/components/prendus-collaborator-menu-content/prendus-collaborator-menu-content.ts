@@ -2,7 +2,7 @@ import {Actions} from '../../redux/actions.ts';
 import {StatechangeEvent} from '../../interfaces/statechange-event.interface.ts';
 import {DOMRepeatEvent} from '../../node_modules/prendus-services/interfaces/dom-repeat-event.interface.ts';
 
-class CollaboratorMenuComponent {
+class PrendusCollaboratorMenuContent {
     public is: string;
     public collaboratorEmails: string[];
     public querySelector: any;
@@ -14,7 +14,7 @@ class CollaboratorMenuComponent {
     public quizId: string;
 
     beforeRegister() {
-        
+
         this.is = 'prendus-collaborator-menu-content';
         this.properties = {
             courseId: {
@@ -153,4 +153,4 @@ class CollaboratorMenuComponent {
     }
 }
 
-Polymer(CollaboratorMenuComponent);
+Polymer(PrendusCollaboratorMenuContent);

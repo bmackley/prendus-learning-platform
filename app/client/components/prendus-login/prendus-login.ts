@@ -2,7 +2,7 @@ import {Actions} from '../../redux/actions.ts';
 import {rootReducer} from '../../redux/reducers.ts';
 import {StatechangeEvent} from '../../interfaces/statechange-event.interface.ts';
 
-class LoginComponent {
+class PrendusLogin {
   public is: string;
   public listeners: Object;
   public loginFormToastText: string;
@@ -32,4 +32,4 @@ class LoginComponent {
     this.$.loginToast.fitInto = this.$.toastTarget;
   }
 }
-Polymer(LoginComponent);
+Polymer(PrendusLogin);
