@@ -3,8 +3,12 @@
 
     <head>
         <base href="/">
-
         <script src="/bower_components/webcomponentsjs/webcomponents-lite.min.js"></script>
+        <link rel="import" href="/styles/prendus-initial-spinner.css">
+    </head>
+    <body>
+        <div id="initial-spinner" class="loading-spinner absolute-center"></div>
+
         <script src="https://www.gstatic.com/firebasejs/live/3.0/firebase.js"></script>
         <link rel="stylesheet" href="/styles/main.css">
         <script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML"></script>
@@ -20,11 +24,15 @@
                 color: grey !important;
             }
         </style>
-        <!-- <link rel="import" href="/components/prendus-app/prendus-app.html"> -->
+
         <link rel="import" href="/dist/prendus.html">
         <script src="/dist/prendus.js"></script>
-    </head>
-    <body unresolved class ="fullbleed layout vertical">
+
+        <script>
+            var initialSpinner = document.getElementById('initial-spinner');
+            initialSpinner.style.opacity = 0;
+        </script>
+
         <prendus-app></prendus-app>
 
         <script src="https://cdn.socket.io/socket.io-1.4.5.js"></script>
