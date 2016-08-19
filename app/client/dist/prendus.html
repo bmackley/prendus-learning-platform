@@ -8772,12 +8772,12 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     --secondary-text-color: #727272;
     --disabled-text-color: #9b9b9b;
     --divider-color: #B6B6B6;
-    --primary-color: #2196F3;
-    --light-primary-color: #BBDEFB;
-    --dark-primary-color: #1976D2;
+    --primary-color: #03A9F4;
+    --light-primary-color: #B3E5FC;
+    --dark-primary-color: #0288D1;
     --accent-color: #1976D2;
-    --light-accent-color: var(--paper-pink-a100);
-    --dark-accent-color: var(--paper-pink-a400);
+    --light-accent-color: #B2DFDB;
+    --dark-accent-color: #00796B;
 
     /* Components */
 
@@ -92825,10 +92825,13 @@ event and do your own custom submission:
   <!--<script src="prendus-router.js"></script>-->
 </dom-module>
 </div><dom-module id="prendus-app">
+  <style include="custom-styles"></style>
+  <style></style>
   <template>
     <redux-store root-reducer="[[rootReducer]]"></redux-store>
     <prendus-navbar></prendus-navbar>
     <prendus-router></prendus-router>
+
   </template>
 
   <!--<script src="prendus-app.js"></script>hello-->
