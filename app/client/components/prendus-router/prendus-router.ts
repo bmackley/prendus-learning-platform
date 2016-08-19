@@ -1,5 +1,5 @@
 
-class RouterElement {
+class PrendusRouter {
   public is: string;
 
   beforeRegister() {
@@ -11,4 +11,4 @@ class RouterElement {
   async ready() {
   }
 }
-Polymer(RouterElement);
+Polymer(PrendusRouter);
