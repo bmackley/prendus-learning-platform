@@ -38,6 +38,7 @@ export class ConceptComponentEdit {
   mapStateToThis(e: StatechangeEvent) {
     const state = e.detail.state;
     this.conceptData = state.currentConcept;
+    
   }
   ready() {
     this.selected = 0;
