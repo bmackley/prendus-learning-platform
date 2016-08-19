@@ -61,10 +61,10 @@ class PrendusConceptVideoContainerEdit {
         const video: Video = {
             title,
             url,
-            conceptId: this.conceptId
+            collaborators: {}
         };
 
-        await Actions.saveVideo(this, this.currentVideoId, video);
+        await Actions.saveVideo(this, this.conceptId, this.currentVideoId, video);
         this.$.videoEditor.indicateSaved();
         Actions.setCurrentVideoInfo(this, this.currentVideoId, title, url);
         await Actions.loadConceptVideos(this, this.conceptId);
