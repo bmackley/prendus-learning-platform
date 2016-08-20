@@ -285,6 +285,9 @@ const createNewQuiz = async (context: any, conceptId: string) => {
     });
     await ConceptModel.associateQuiz(conceptId, quizId);
 
+    const conceptCollaboratorUids = await ConceptModel.getCollaboratorUids(conceptId);
+    await QuizModel.associateCollaborators(quizId, conceptCollaboratorUids);
+
     return quizId;
 };
 
