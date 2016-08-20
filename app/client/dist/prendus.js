@@ -9694,7 +9694,7 @@ $__System.register('37', ['29', '30', '38', '39', '2a', '3b', '3a', '3c'], funct
 
             saveVideo = function saveVideo(context, conceptId, videoId, video) {
                 return __awaiter(_this, void 0, void 0, _regeneratorRuntime.mark(function _callee27() {
-                    var newId;
+                    var newId, conceptCollaboratorUids;
                     return _regeneratorRuntime.wrap(function _callee27$(_context27) {
                         while (1) {
                             switch (_context27.prev = _context27.next) {
@@ -9709,24 +9709,38 @@ $__System.register('37', ['29', '30', '38', '39', '2a', '3b', '3a', '3c'], funct
                                     return ConceptModel.associateVideo(conceptId, newId);
 
                                 case 6:
+                                    if (videoId) {
+                                        _context27.next = 12;
+                                        break;
+                                    }
+
+                                    _context27.next = 9;
+                                    return ConceptModel.getCollaboratorUids(conceptId);
+
+                                case 9:
+                                    conceptCollaboratorUids = _context27.sent;
+                                    _context27.next = 12;
+                                    return VideoModel.associateCollaborators(newId, conceptCollaboratorUids);
+
+                                case 12:
                                     context.action = {
                                         type: 'SET_CURRENT_VIDEO_ID',
                                         id: newId
                                     };
-                                    _context27.next = 12;
+                                    _context27.next = 18;
                                     break;
 
-                                case 9:
-                                    _context27.prev = 9;
+                                case 15:
+                                    _context27.prev = 15;
                                     _context27.t0 = _context27['catch'](0);
                                     throw _context27.t0;
 
-                                case 12:
+                                case 18:
                                 case 'end':
                                     return _context27.stop();
                             }
                         }
-                    }, _callee27, this, [[0, 9]]);
+                    }, _callee27, this, [[0, 15]]);
                 }));
             };
 
