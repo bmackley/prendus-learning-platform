@@ -2892,7 +2892,7 @@ $__System.register('35', ['34', '36'], function (_export, _context) {
 $__System.register('1a', ['25', '26', '35'], function (_export, _context) {
     "use strict";
 
-    var _classCallCheck, _createClass, rootReducer, AppComponent;
+    var _classCallCheck, _createClass, rootReducer, PrendusApp;
 
     return {
         setters: [function (_) {
@@ -2903,12 +2903,12 @@ $__System.register('1a', ['25', '26', '35'], function (_export, _context) {
             rootReducer = _3.rootReducer;
         }],
         execute: function () {
-            _export('AppComponent', AppComponent = function () {
-                function AppComponent() {
-                    _classCallCheck(this, AppComponent);
+            PrendusApp = function () {
+                function PrendusApp() {
+                    _classCallCheck(this, PrendusApp);
                 }
 
-                _createClass(AppComponent, [{
+                _createClass(PrendusApp, [{
                     key: 'beforeRegister',
                     value: function beforeRegister() {
                         this.is = 'prendus-app';
@@ -2926,19 +2926,17 @@ $__System.register('1a', ['25', '26', '35'], function (_export, _context) {
                     }
                 }]);
 
-                return AppComponent;
-            }());
+                return PrendusApp;
+            }();
 
-            _export('AppComponent', AppComponent);
-
-            Polymer(AppComponent);
+            Polymer(PrendusApp);
         }
     };
 });
 $__System.register('19', ['25', '26', '28', '36'], function (_export, _context7) {
     "use strict";
 
-    var _regeneratorRuntime, _classCallCheck, _createClass, Actions, __awaiter, CollaboratorMenuComponent;
+    var _regeneratorRuntime, _classCallCheck, _createClass, Actions, __awaiter, PrendusCollaboratorMenuContent;
 
     return {
         setters: [function (_) {
@@ -2976,12 +2974,12 @@ $__System.register('19', ['25', '26', '28', '36'], function (_export, _context7)
                 });
             };
 
-            CollaboratorMenuComponent = function () {
-                function CollaboratorMenuComponent() {
-                    _classCallCheck(this, CollaboratorMenuComponent);
+            PrendusCollaboratorMenuContent = function () {
+                function PrendusCollaboratorMenuContent() {
+                    _classCallCheck(this, PrendusCollaboratorMenuContent);
                 }
 
-                _createClass(CollaboratorMenuComponent, [{
+                _createClass(PrendusCollaboratorMenuContent, [{
                     key: 'beforeRegister',
                     value: function beforeRegister() {
                         this.is = 'prendus-collaborator-menu-content';
@@ -3302,17 +3300,17 @@ $__System.register('19', ['25', '26', '28', '36'], function (_export, _context7)
                     }
                 }]);
 
-                return CollaboratorMenuComponent;
+                return PrendusCollaboratorMenuContent;
             }();
 
-            Polymer(CollaboratorMenuComponent);
+            Polymer(PrendusCollaboratorMenuContent);
         }
     };
 });
 $__System.register('18', ['25', '26', '28', '29', '36'], function (_export, _context2) {
     "use strict";
 
-    var _regeneratorRuntime, _classCallCheck, _createClass, Actions, FirebaseService, __awaiter, ConceptComponentEdit;
+    var _regeneratorRuntime, _classCallCheck, _createClass, Actions, FirebaseService, __awaiter, PrendusConceptContainerEdit;
 
     return {
         setters: [function (_) {
@@ -3352,12 +3350,12 @@ $__System.register('18', ['25', '26', '28', '29', '36'], function (_export, _con
                 });
             };
 
-            _export('ConceptComponentEdit', ConceptComponentEdit = function () {
-                function ConceptComponentEdit() {
-                    _classCallCheck(this, ConceptComponentEdit);
+            _export('PrendusConceptContainerEdit', PrendusConceptContainerEdit = function () {
+                function PrendusConceptContainerEdit() {
+                    _classCallCheck(this, PrendusConceptContainerEdit);
                 }
 
-                _createClass(ConceptComponentEdit, [{
+                _createClass(PrendusConceptContainerEdit, [{
                     key: 'beforeRegister',
                     value: function beforeRegister() {
                         this.is = 'prendus-concept-container-edit';
@@ -3421,19 +3419,19 @@ $__System.register('18', ['25', '26', '28', '29', '36'], function (_export, _con
                     }
                 }]);
 
-                return ConceptComponentEdit;
+                return PrendusConceptContainerEdit;
             }());
 
-            _export('ConceptComponentEdit', ConceptComponentEdit);
+            _export('PrendusConceptContainerEdit', PrendusConceptContainerEdit);
 
-            Polymer(ConceptComponentEdit);
+            Polymer(PrendusConceptContainerEdit);
         }
     };
 });
 $__System.register('17', ['25', '26', '28', '29'], function (_export, _context2) {
     "use strict";
 
-    var _regeneratorRuntime, _classCallCheck, _createClass, FirebaseService, __awaiter, ConceptComponent;
+    var _regeneratorRuntime, _classCallCheck, _createClass, FirebaseService, __awaiter, PrendusConceptContainer;
 
     return {
         setters: [function (_) {
@@ -3471,12 +3469,12 @@ $__System.register('17', ['25', '26', '28', '29'], function (_export, _context2)
                 });
             };
 
-            ConceptComponent = function () {
-                function ConceptComponent() {
-                    _classCallCheck(this, ConceptComponent);
+            PrendusConceptContainer = function () {
+                function PrendusConceptContainer() {
+                    _classCallCheck(this, PrendusConceptContainer);
                 }
 
-                _createClass(ConceptComponent, [{
+                _createClass(PrendusConceptContainer, [{
                     key: 'beforeRegister',
                     value: function beforeRegister() {
                         this.is = 'prendus-concept-container';
@@ -3547,17 +3545,17 @@ $__System.register('17', ['25', '26', '28', '29'], function (_export, _context2)
                     }
                 }]);
 
-                return ConceptComponent;
+                return PrendusConceptContainer;
             }();
 
-            Polymer(ConceptComponent);
+            Polymer(PrendusConceptContainer);
         }
     };
 });
 $__System.register('16', ['25', '26', '28', '36'], function (_export, _context3) {
     "use strict";
 
-    var _regeneratorRuntime, _classCallCheck, _createClass, Actions, __awaiter, ConceptQuizContainerEditComponent;
+    var _regeneratorRuntime, _classCallCheck, _createClass, Actions, __awaiter, PrendusConceptQuizContainerEdit;
 
     return {
         setters: [function (_) {
@@ -3595,12 +3593,12 @@ $__System.register('16', ['25', '26', '28', '36'], function (_export, _context3)
                 });
             };
 
-            ConceptQuizContainerEditComponent = function () {
-                function ConceptQuizContainerEditComponent() {
-                    _classCallCheck(this, ConceptQuizContainerEditComponent);
+            PrendusConceptQuizContainerEdit = function () {
+                function PrendusConceptQuizContainerEdit() {
+                    _classCallCheck(this, PrendusConceptQuizContainerEdit);
                 }
 
-                _createClass(ConceptQuizContainerEditComponent, [{
+                _createClass(PrendusConceptQuizContainerEdit, [{
                     key: 'beforeRegister',
                     value: function beforeRegister() {
                         this.is = 'prendus-concept-quiz-container-edit';
@@ -3678,17 +3676,17 @@ $__System.register('16', ['25', '26', '28', '36'], function (_export, _context3)
                     }
                 }]);
 
-                return ConceptQuizContainerEditComponent;
+                return PrendusConceptQuizContainerEdit;
             }();
 
-            Polymer(ConceptQuizContainerEditComponent);
+            Polymer(PrendusConceptQuizContainerEdit);
         }
     };
 });
 $__System.register('15', ['25', '26', '28', '36'], function (_export, _context2) {
     "use strict";
 
-    var _regeneratorRuntime, _classCallCheck, _createClass, Actions, __awaiter, ConceptQuizContainerComponent;
+    var _regeneratorRuntime, _classCallCheck, _createClass, Actions, __awaiter, PrendusConceptQuizContainer;
 
     return {
         setters: [function (_) {
@@ -3726,12 +3724,12 @@ $__System.register('15', ['25', '26', '28', '36'], function (_export, _context2)
                 });
             };
 
-            ConceptQuizContainerComponent = function () {
-                function ConceptQuizContainerComponent() {
-                    _classCallCheck(this, ConceptQuizContainerComponent);
+            PrendusConceptQuizContainer = function () {
+                function PrendusConceptQuizContainer() {
+                    _classCallCheck(this, PrendusConceptQuizContainer);
                 }
 
-                _createClass(ConceptQuizContainerComponent, [{
+                _createClass(PrendusConceptQuizContainer, [{
                     key: 'beforeRegister',
                     value: function beforeRegister() {
                         this.is = 'prendus-concept-quiz-container';
@@ -3785,17 +3783,17 @@ $__System.register('15', ['25', '26', '28', '36'], function (_export, _context2)
                     }
                 }]);
 
-                return ConceptQuizContainerComponent;
+                return PrendusConceptQuizContainer;
             }();
 
-            Polymer(ConceptQuizContainerComponent);
+            Polymer(PrendusConceptQuizContainer);
         }
     };
 });
 $__System.register('14', ['25', '26', '28', '36'], function (_export, _context4) {
     "use strict";
 
-    var _regeneratorRuntime, _classCallCheck, _createClass, Actions, __awaiter, ConceptVideoContainerEditComponent;
+    var _regeneratorRuntime, _classCallCheck, _createClass, Actions, __awaiter, PrendusConceptVideoContainerEdit;
 
     return {
         setters: [function (_) {
@@ -3833,12 +3831,12 @@ $__System.register('14', ['25', '26', '28', '36'], function (_export, _context4)
                 });
             };
 
-            ConceptVideoContainerEditComponent = function () {
-                function ConceptVideoContainerEditComponent() {
-                    _classCallCheck(this, ConceptVideoContainerEditComponent);
+            PrendusConceptVideoContainerEdit = function () {
+                function PrendusConceptVideoContainerEdit() {
+                    _classCallCheck(this, PrendusConceptVideoContainerEdit);
                 }
 
-                _createClass(ConceptVideoContainerEditComponent, [{
+                _createClass(PrendusConceptVideoContainerEdit, [{
                     key: 'beforeRegister',
                     value: function beforeRegister() {
                         this.is = 'prendus-concept-video-container-edit';
@@ -3902,10 +3900,10 @@ $__System.register('14', ['25', '26', '28', '36'], function (_export, _context4)
                                             video = {
                                                 title: title,
                                                 url: url,
-                                                conceptId: this.conceptId
+                                                collaborators: {}
                                             };
                                             _context2.next = 5;
-                                            return Actions.saveVideo(this, this.currentVideoId, video);
+                                            return Actions.saveVideo(this, this.conceptId, this.currentVideoId, video);
 
                                         case 5:
                                             this.$.videoEditor.indicateSaved();
@@ -3959,17 +3957,17 @@ $__System.register('14', ['25', '26', '28', '36'], function (_export, _context4)
                     }
                 }]);
 
-                return ConceptVideoContainerEditComponent;
+                return PrendusConceptVideoContainerEdit;
             }();
 
-            Polymer(ConceptVideoContainerEditComponent);
+            Polymer(PrendusConceptVideoContainerEdit);
         }
     };
 });
 $__System.register('13', ['25', '26', '28', '36'], function (_export, _context2) {
     "use strict";
 
-    var _regeneratorRuntime, _classCallCheck, _createClass, Actions, __awaiter, ConceptVideoContainerComponent;
+    var _regeneratorRuntime, _classCallCheck, _createClass, Actions, __awaiter, PrendusConceptVideoContainer;
 
     return {
         setters: [function (_) {
@@ -4007,12 +4005,12 @@ $__System.register('13', ['25', '26', '28', '36'], function (_export, _context2)
                 });
             };
 
-            ConceptVideoContainerComponent = function () {
-                function ConceptVideoContainerComponent() {
-                    _classCallCheck(this, ConceptVideoContainerComponent);
+            PrendusConceptVideoContainer = function () {
+                function PrendusConceptVideoContainer() {
+                    _classCallCheck(this, PrendusConceptVideoContainer);
                 }
 
-                _createClass(ConceptVideoContainerComponent, [{
+                _createClass(PrendusConceptVideoContainer, [{
                     key: 'beforeRegister',
                     value: function beforeRegister() {
                         this.is = 'prendus-concept-video-container';
@@ -4079,17 +4077,17 @@ $__System.register('13', ['25', '26', '28', '36'], function (_export, _context2)
                     }
                 }]);
 
-                return ConceptVideoContainerComponent;
+                return PrendusConceptVideoContainer;
             }();
 
-            Polymer(ConceptVideoContainerComponent);
+            Polymer(PrendusConceptVideoContainer);
         }
     };
 });
 $__System.register('12', ['25', '26', '28', '36'], function (_export, _context2) {
     "use strict";
 
-    var _regeneratorRuntime, _classCallCheck, _createClass, Actions, __awaiter, CourseEditComponent;
+    var _regeneratorRuntime, _classCallCheck, _createClass, Actions, __awaiter, PrendusCourseEdit;
 
     return {
         setters: [function (_) {
@@ -4127,12 +4125,12 @@ $__System.register('12', ['25', '26', '28', '36'], function (_export, _context2)
                 });
             };
 
-            CourseEditComponent = function () {
-                function CourseEditComponent() {
-                    _classCallCheck(this, CourseEditComponent);
+            PrendusCourseEdit = function () {
+                function PrendusCourseEdit() {
+                    _classCallCheck(this, PrendusCourseEdit);
                 }
 
-                _createClass(CourseEditComponent, [{
+                _createClass(PrendusCourseEdit, [{
                     key: 'beforeRegister',
                     value: function beforeRegister() {
                         this.is = 'prendus-course-edit';
@@ -4251,17 +4249,17 @@ $__System.register('12', ['25', '26', '28', '36'], function (_export, _context2)
                     }
                 }]);
 
-                return CourseEditComponent;
+                return PrendusCourseEdit;
             }();
 
-            Polymer(CourseEditComponent);
+            Polymer(PrendusCourseEdit);
         }
     };
 });
 $__System.register('11', ['25', '26', '28', '29', '36'], function (_export, _context2) {
     "use strict";
 
-    var _regeneratorRuntime, _classCallCheck, _createClass, Actions, FirebaseService, __awaiter, CourseHomepageComponent;
+    var _regeneratorRuntime, _classCallCheck, _createClass, Actions, FirebaseService, __awaiter, PrendusCourseHomepage;
 
     return {
         setters: [function (_) {
@@ -4301,12 +4299,12 @@ $__System.register('11', ['25', '26', '28', '29', '36'], function (_export, _con
                 });
             };
 
-            CourseHomepageComponent = function () {
-                function CourseHomepageComponent() {
-                    _classCallCheck(this, CourseHomepageComponent);
+            PrendusCourseHomepage = function () {
+                function PrendusCourseHomepage() {
+                    _classCallCheck(this, PrendusCourseHomepage);
                 }
 
-                _createClass(CourseHomepageComponent, [{
+                _createClass(PrendusCourseHomepage, [{
                     key: 'beforeRegister',
                     value: function beforeRegister() {
                         this.is = 'prendus-course-homepage';
@@ -4391,17 +4389,17 @@ $__System.register('11', ['25', '26', '28', '29', '36'], function (_export, _con
                     }
                 }]);
 
-                return CourseHomepageComponent;
+                return PrendusCourseHomepage;
             }();
 
-            Polymer(CourseHomepageComponent);
+            Polymer(PrendusCourseHomepage);
         }
     };
 });
 $__System.register('10', ['25', '26', '28'], function (_export, _context2) {
     "use strict";
 
-    var _regeneratorRuntime, _classCallCheck, _createClass, __awaiter, CourseRouter;
+    var _regeneratorRuntime, _classCallCheck, _createClass, __awaiter, PrendusCourseRouter;
 
     return {
         setters: [function (_) {
@@ -4437,12 +4435,12 @@ $__System.register('10', ['25', '26', '28'], function (_export, _context2) {
                 });
             };
 
-            CourseRouter = function () {
-                function CourseRouter() {
-                    _classCallCheck(this, CourseRouter);
+            PrendusCourseRouter = function () {
+                function PrendusCourseRouter() {
+                    _classCallCheck(this, PrendusCourseRouter);
                 }
 
-                _createClass(CourseRouter, [{
+                _createClass(PrendusCourseRouter, [{
                     key: 'beforeRegister',
                     value: function beforeRegister() {
                         this.is = 'prendus-course-router';
@@ -4464,17 +4462,17 @@ $__System.register('10', ['25', '26', '28'], function (_export, _context2) {
                     }
                 }]);
 
-                return CourseRouter;
+                return PrendusCourseRouter;
             }();
 
-            Polymer(CourseRouter);
+            Polymer(PrendusCourseRouter);
         }
     };
 });
 $__System.register('f', ['25', '26', '36'], function (_export, _context) {
     "use strict";
 
-    var _classCallCheck, _createClass, Actions, CourseViewComponent;
+    var _classCallCheck, _createClass, Actions, PrendusCourseView;
 
     return {
         setters: [function (_) {
@@ -4485,12 +4483,12 @@ $__System.register('f', ['25', '26', '36'], function (_export, _context) {
             Actions = _3.Actions;
         }],
         execute: function () {
-            _export('CourseViewComponent', CourseViewComponent = function () {
-                function CourseViewComponent() {
-                    _classCallCheck(this, CourseViewComponent);
+            _export('PrendusCourseView', PrendusCourseView = function () {
+                function PrendusCourseView() {
+                    _classCallCheck(this, PrendusCourseView);
                 }
 
-                _createClass(CourseViewComponent, [{
+                _createClass(PrendusCourseView, [{
                     key: 'beforeRegister',
                     value: function beforeRegister() {
                         this.is = 'prendus-course-view';
@@ -4571,19 +4569,19 @@ $__System.register('f', ['25', '26', '36'], function (_export, _context) {
                     }
                 }]);
 
-                return CourseViewComponent;
+                return PrendusCourseView;
             }());
 
-            _export('CourseViewComponent', CourseViewComponent);
+            _export('PrendusCourseView', PrendusCourseView);
 
-            Polymer(CourseViewComponent);
+            Polymer(PrendusCourseView);
         }
     };
 });
 $__System.register('e', ['25', '26', '28', '36'], function (_export, _context2) {
     "use strict";
 
-    var _regeneratorRuntime, _classCallCheck, _createClass, Actions, __awaiter, SignupComponent;
+    var _regeneratorRuntime, _classCallCheck, _createClass, Actions, __awaiter, PrendusCreateAccount;
 
     return {
         setters: [function (_) {
@@ -4621,11 +4619,11 @@ $__System.register('e', ['25', '26', '28', '36'], function (_export, _context2) 
                 });
             };
 
-            SignupComponent = function () {
-                function SignupComponent() {
+            PrendusCreateAccount = function () {
+                function PrendusCreateAccount() {
                     var _this = this;
 
-                    _classCallCheck(this, SignupComponent);
+                    _classCallCheck(this, PrendusCreateAccount);
 
                     this.specialTap = function (e) {
                         return __awaiter(_this, void 0, void 0, _regeneratorRuntime.mark(function _callee() {
@@ -4679,7 +4677,7 @@ $__System.register('e', ['25', '26', '28', '36'], function (_export, _context2) 
                     };
                 }
 
-                _createClass(SignupComponent, [{
+                _createClass(PrendusCreateAccount, [{
                     key: 'beforeRegister',
                     value: function beforeRegister() {
                         this.is = 'prendus-create-account';
@@ -4691,17 +4689,17 @@ $__System.register('e', ['25', '26', '28', '36'], function (_export, _context2) 
                     }
                 }]);
 
-                return SignupComponent;
+                return PrendusCreateAccount;
             }();
 
-            Polymer(SignupComponent);
+            Polymer(PrendusCreateAccount);
         }
     };
 });
 $__System.register('d', ['25', '26', '28'], function (_export, _context2) {
     "use strict";
 
-    var _regeneratorRuntime, _classCallCheck, _createClass, __awaiter, EditQuestionRouterComponent;
+    var _regeneratorRuntime, _classCallCheck, _createClass, __awaiter, PrendusEditQuestionRouter;
 
     return {
         setters: [function (_) {
@@ -4737,12 +4735,12 @@ $__System.register('d', ['25', '26', '28'], function (_export, _context2) {
                 });
             };
 
-            EditQuestionRouterComponent = function () {
-                function EditQuestionRouterComponent() {
-                    _classCallCheck(this, EditQuestionRouterComponent);
+            PrendusEditQuestionRouter = function () {
+                function PrendusEditQuestionRouter() {
+                    _classCallCheck(this, PrendusEditQuestionRouter);
                 }
 
-                _createClass(EditQuestionRouterComponent, [{
+                _createClass(PrendusEditQuestionRouter, [{
                     key: 'beforeRegister',
                     value: function beforeRegister() {
                         this.is = 'prendus-edit-question-router';
@@ -4778,17 +4776,17 @@ $__System.register('d', ['25', '26', '28'], function (_export, _context2) {
                     }
                 }]);
 
-                return EditQuestionRouterComponent;
+                return PrendusEditQuestionRouter;
             }();
 
-            Polymer(EditQuestionRouterComponent);
+            Polymer(PrendusEditQuestionRouter);
         }
     };
 });
 $__System.register('c', ['25', '26', '28'], function (_export, _context2) {
     "use strict";
 
-    var _regeneratorRuntime, _classCallCheck, _createClass, __awaiter, EditQuizRouterComponent;
+    var _regeneratorRuntime, _classCallCheck, _createClass, __awaiter, PrendusEditQuizRouter;
 
     return {
         setters: [function (_) {
@@ -4824,12 +4822,12 @@ $__System.register('c', ['25', '26', '28'], function (_export, _context2) {
                 });
             };
 
-            EditQuizRouterComponent = function () {
-                function EditQuizRouterComponent() {
-                    _classCallCheck(this, EditQuizRouterComponent);
+            PrendusEditQuizRouter = function () {
+                function PrendusEditQuizRouter() {
+                    _classCallCheck(this, PrendusEditQuizRouter);
                 }
 
-                _createClass(EditQuizRouterComponent, [{
+                _createClass(PrendusEditQuizRouter, [{
                     key: 'beforeRegister',
                     value: function beforeRegister() {
                         this.is = 'prendus-edit-quiz-router';
@@ -4880,17 +4878,17 @@ $__System.register('c', ['25', '26', '28'], function (_export, _context2) {
                     }
                 }]);
 
-                return EditQuizRouterComponent;
+                return PrendusEditQuizRouter;
             }();
 
-            Polymer(EditQuizRouterComponent);
+            Polymer(PrendusEditQuizRouter);
         }
     };
 });
 $__System.register('b', ['25', '26'], function (_export, _context) {
     "use strict";
 
-    var _classCallCheck, _createClass, ExampleComponent;
+    var _classCallCheck, _createClass, PrendusErrorMessage;
 
     return {
         setters: [function (_) {
@@ -4899,12 +4897,12 @@ $__System.register('b', ['25', '26'], function (_export, _context) {
             _createClass = _2.default;
         }],
         execute: function () {
-            ExampleComponent = function () {
-                function ExampleComponent() {
-                    _classCallCheck(this, ExampleComponent);
+            PrendusErrorMessage = function () {
+                function PrendusErrorMessage() {
+                    _classCallCheck(this, PrendusErrorMessage);
                 }
 
-                _createClass(ExampleComponent, [{
+                _createClass(PrendusErrorMessage, [{
                     key: 'beforeRegister',
                     value: function beforeRegister() {
                         this.is = 'prendus-error-message';
@@ -4934,17 +4932,17 @@ $__System.register('b', ['25', '26'], function (_export, _context) {
                     }
                 }]);
 
-                return ExampleComponent;
+                return PrendusErrorMessage;
             }();
 
-            Polymer(ExampleComponent);
+            Polymer(PrendusErrorMessage);
         }
     };
 });
 $__System.register('a', ['25', '26'], function (_export, _context) {
     "use strict";
 
-    var _classCallCheck, _createClass, ExampleComponent;
+    var _classCallCheck, _createClass, PrendusExample;
 
     return {
         setters: [function (_) {
@@ -4953,12 +4951,12 @@ $__System.register('a', ['25', '26'], function (_export, _context) {
             _createClass = _2.default;
         }],
         execute: function () {
-            ExampleComponent = function () {
-                function ExampleComponent() {
-                    _classCallCheck(this, ExampleComponent);
+            PrendusExample = function () {
+                function PrendusExample() {
+                    _classCallCheck(this, PrendusExample);
                 }
 
-                _createClass(ExampleComponent, [{
+                _createClass(PrendusExample, [{
                     key: 'beforeRegister',
                     value: function beforeRegister() {
                         this.is = 'prendus-example';
@@ -4971,17 +4969,17 @@ $__System.register('a', ['25', '26'], function (_export, _context) {
                     }
                 }]);
 
-                return ExampleComponent;
+                return PrendusExample;
             }();
 
-            Polymer(ExampleComponent);
+            Polymer(PrendusExample);
         }
     };
 });
 $__System.register('9', ['25', '26', '28', '36'], function (_export, _context3) {
     "use strict";
 
-    var _regeneratorRuntime, _classCallCheck, _createClass, Actions, __awaiter, HomepageComponent;
+    var _regeneratorRuntime, _classCallCheck, _createClass, Actions, __awaiter, PrendusHomepage;
 
     return {
         setters: [function (_) {
@@ -5019,12 +5017,12 @@ $__System.register('9', ['25', '26', '28', '36'], function (_export, _context3) 
                 });
             };
 
-            HomepageComponent = function () {
-                function HomepageComponent() {
-                    _classCallCheck(this, HomepageComponent);
+            PrendusHomepage = function () {
+                function PrendusHomepage() {
+                    _classCallCheck(this, PrendusHomepage);
                 }
 
-                _createClass(HomepageComponent, [{
+                _createClass(PrendusHomepage, [{
                     key: 'beforeRegister',
                     value: function beforeRegister() {
                         this.is = 'prendus-homepage';
@@ -5084,17 +5082,17 @@ $__System.register('9', ['25', '26', '28', '36'], function (_export, _context3) 
                     }
                 }]);
 
-                return HomepageComponent;
+                return PrendusHomepage;
             }();
 
-            Polymer(HomepageComponent);
+            Polymer(PrendusHomepage);
         }
     };
 });
 $__System.register('8', ['25', '26', '28', '36'], function (_export, _context2) {
     "use strict";
 
-    var _regeneratorRuntime, _classCallCheck, _createClass, Actions, __awaiter, LoginComponent;
+    var _regeneratorRuntime, _classCallCheck, _createClass, Actions, __awaiter, PrendusLogin;
 
     return {
         setters: [function (_) {
@@ -5132,12 +5130,12 @@ $__System.register('8', ['25', '26', '28', '36'], function (_export, _context2) 
                 });
             };
 
-            LoginComponent = function () {
-                function LoginComponent() {
-                    _classCallCheck(this, LoginComponent);
+            PrendusLogin = function () {
+                function PrendusLogin() {
+                    _classCallCheck(this, PrendusLogin);
                 }
 
-                _createClass(LoginComponent, [{
+                _createClass(PrendusLogin, [{
                     key: 'beforeRegister',
                     value: function beforeRegister() {
                         this.is = 'prendus-login', this.listeners = {
@@ -5189,17 +5187,17 @@ $__System.register('8', ['25', '26', '28', '36'], function (_export, _context2) 
                     }
                 }]);
 
-                return LoginComponent;
+                return PrendusLogin;
             }();
 
-            Polymer(LoginComponent);
+            Polymer(PrendusLogin);
         }
     };
 });
 $__System.register('7', ['25', '26', '36'], function (_export, _context) {
     "use strict";
 
-    var _classCallCheck, _createClass, Actions, CourseNavbarComponent;
+    var _classCallCheck, _createClass, Actions, PrendusNavbar;
 
     return {
         setters: [function (_) {
@@ -5210,12 +5208,12 @@ $__System.register('7', ['25', '26', '36'], function (_export, _context) {
             Actions = _3.Actions;
         }],
         execute: function () {
-            _export('CourseNavbarComponent', CourseNavbarComponent = function () {
-                function CourseNavbarComponent() {
-                    _classCallCheck(this, CourseNavbarComponent);
+            _export('PrendusNavbar', PrendusNavbar = function () {
+                function PrendusNavbar() {
+                    _classCallCheck(this, PrendusNavbar);
                 }
 
-                _createClass(CourseNavbarComponent, [{
+                _createClass(PrendusNavbar, [{
                     key: 'beforeRegister',
                     value: function beforeRegister() {
                         this.is = 'prendus-navbar';
@@ -5254,19 +5252,19 @@ $__System.register('7', ['25', '26', '36'], function (_export, _context) {
                     }
                 }]);
 
-                return CourseNavbarComponent;
+                return PrendusNavbar;
             }());
 
-            _export('CourseNavbarComponent', CourseNavbarComponent);
+            _export('PrendusNavbar', PrendusNavbar);
 
-            Polymer(CourseNavbarComponent);
+            Polymer(PrendusNavbar);
         }
     };
 });
 $__System.register('6', ['25', '26', '28', '36'], function (_export, _context3) {
     "use strict";
 
-    var _regeneratorRuntime, _classCallCheck, _createClass, Actions, __awaiter, ProfileComponent;
+    var _regeneratorRuntime, _classCallCheck, _createClass, Actions, __awaiter, PrendusProfile;
 
     return {
         setters: [function (_) {
@@ -5304,12 +5302,12 @@ $__System.register('6', ['25', '26', '28', '36'], function (_export, _context3) 
                 });
             };
 
-            _export('ProfileComponent', ProfileComponent = function () {
-                function ProfileComponent() {
-                    _classCallCheck(this, ProfileComponent);
+            _export('PrendusProfile', PrendusProfile = function () {
+                function PrendusProfile() {
+                    _classCallCheck(this, PrendusProfile);
                 }
 
-                _createClass(ProfileComponent, [{
+                _createClass(PrendusProfile, [{
                     key: 'beforeRegister',
                     value: function beforeRegister() {
                         this.is = 'prendus-profile';
@@ -5434,12 +5432,12 @@ $__System.register('6', ['25', '26', '28', '36'], function (_export, _context3) 
                     }
                 }]);
 
-                return ProfileComponent;
+                return PrendusProfile;
             }());
 
-            _export('ProfileComponent', ProfileComponent);
+            _export('PrendusProfile', PrendusProfile);
 
-            Polymer(ProfileComponent);
+            Polymer(PrendusProfile);
         }
     };
 });
@@ -8521,7 +8519,7 @@ $__System.register('36', ['28', '29', '37', '39', '3a', '2f', '3b', '3c'], funct
 
                                 case 6:
                                     _context5.next = 8;
-                                    return CourseModel.addCollaborator(courseId, uid);
+                                    return CourseModel.associateCollaborator(courseId, uid);
 
                                 case 8:
                                     _context5.next = 13;
@@ -8564,7 +8562,7 @@ $__System.register('36', ['28', '29', '37', '39', '3a', '2f', '3b', '3c'], funct
 
                                 case 6:
                                     _context6.next = 8;
-                                    return ConceptModel.addCollaborator(conceptId, uid);
+                                    return ConceptModel.associateCollaborator(conceptId, uid);
 
                                 case 8:
                                     _context6.next = 13;
@@ -8607,7 +8605,7 @@ $__System.register('36', ['28', '29', '37', '39', '3a', '2f', '3b', '3c'], funct
 
                                 case 6:
                                     _context7.next = 8;
-                                    return VideoModel.addCollaborator(videoId, uid);
+                                    return VideoModel.associateCollaborator(videoId, uid);
 
                                 case 8:
                                     _context7.next = 13;
@@ -8650,7 +8648,7 @@ $__System.register('36', ['28', '29', '37', '39', '3a', '2f', '3b', '3c'], funct
 
                                 case 6:
                                     _context8.next = 8;
-                                    return QuizModel.addCollaborator(quizId, uid);
+                                    return QuizModel.associateCollaborator(quizId, uid);
 
                                 case 8:
                                     _context8.next = 13;
@@ -8693,7 +8691,7 @@ $__System.register('36', ['28', '29', '37', '39', '3a', '2f', '3b', '3c'], funct
 
                                 case 6:
                                     _context9.next = 8;
-                                    return CourseModel.removeCollaborator(courseId, uid);
+                                    return CourseModel.disassociateCollaborator(courseId, uid);
 
                                 case 8:
                                     _context9.next = 13;
@@ -8736,7 +8734,7 @@ $__System.register('36', ['28', '29', '37', '39', '3a', '2f', '3b', '3c'], funct
 
                                 case 6:
                                     _context10.next = 8;
-                                    return ConceptModel.removeCollaborator(conceptId, uid);
+                                    return ConceptModel.disassociateCollaborator(conceptId, uid);
 
                                 case 8:
                                     _context10.next = 13;
@@ -8779,7 +8777,7 @@ $__System.register('36', ['28', '29', '37', '39', '3a', '2f', '3b', '3c'], funct
 
                                 case 6:
                                     _context11.next = 8;
-                                    return VideoModel.removeCollaborator(videoId, uid);
+                                    return VideoModel.disassociateCollaborator(videoId, uid);
 
                                 case 8:
                                     _context11.next = 13;
@@ -8822,7 +8820,7 @@ $__System.register('36', ['28', '29', '37', '39', '3a', '2f', '3b', '3c'], funct
 
                                 case 6:
                                     _context12.next = 8;
-                                    return QuizModel.removeCollaborator(quizId, uid);
+                                    return QuizModel.disassociateCollaborator(quizId, uid);
 
                                 case 8:
                                     _context12.next = 13;
@@ -8924,7 +8922,6 @@ $__System.register('36', ['28', '29', '37', '39', '3a', '2f', '3b', '3c'], funct
                                     return QuizModel.createOrUpdate(null, {
                                         id: null,
                                         uid: uid,
-                                        conceptId: conceptId,
                                         title: '',
                                         private: false,
                                         quizSettings: {
@@ -8936,14 +8933,19 @@ $__System.register('36', ['28', '29', '37', '39', '3a', '2f', '3b', '3c'], funct
                                             showConfidenceLevel: true,
                                             allowGeneration: true
                                         },
-                                        questions: {}
+                                        questions: {},
+                                        collaborators: {}
                                     });
 
                                 case 6:
                                     quizId = _context16.sent;
+                                    _context16.next = 9;
+                                    return ConceptModel.associateQuiz(conceptId, quizId);
+
+                                case 9:
                                     return _context16.abrupt('return', quizId);
 
-                                case 8:
+                                case 10:
                                 case 'end':
                                     return _context16.stop();
                             }
@@ -8954,15 +8956,20 @@ $__System.register('36', ['28', '29', '37', '39', '3a', '2f', '3b', '3c'], funct
 
             loadConceptQuizzes = function loadConceptQuizzes(context, conceptId) {
                 return __awaiter(_this, void 0, void 0, _regeneratorRuntime.mark(function _callee17() {
-                    var quizzes;
+                    var quizzIds, quizzes;
                     return _regeneratorRuntime.wrap(function _callee17$(_context17) {
                         while (1) {
                             switch (_context17.prev = _context17.next) {
                                 case 0:
                                     _context17.next = 2;
-                                    return QuizModel.getAllByConcept(conceptId);
+                                    return ConceptModel.getQuizIds(conceptId);
 
                                 case 2:
+                                    quizzIds = _context17.sent;
+                                    _context17.next = 5;
+                                    return QuizModel.resolveQuizIds(quizzIds);
+
+                                case 5:
                                     quizzes = _context17.sent;
 
                                     context.action = {
@@ -8971,7 +8978,7 @@ $__System.register('36', ['28', '29', '37', '39', '3a', '2f', '3b', '3c'], funct
                                         quizzes: quizzes
                                     };
 
-                                case 4:
+                                case 7:
                                 case 'end':
                                     return _context17.stop();
                             }
@@ -9058,7 +9065,7 @@ $__System.register('36', ['28', '29', '37', '39', '3a', '2f', '3b', '3c'], funct
                             switch (_context21.prev = _context21.next) {
                                 case 0:
                                     _context21.next = 2;
-                                    return QuizModel.getAllQuestionIds(quizId);
+                                    return QuizModel.getQuestionIds(quizId);
 
                                 case 2:
                                     quizQuestionIds = _context21.sent;
@@ -9084,7 +9091,7 @@ $__System.register('36', ['28', '29', '37', '39', '3a', '2f', '3b', '3c'], funct
                             switch (_context22.prev = _context22.next) {
                                 case 0:
                                     _context22.next = 2;
-                                    return QuizModel.addQuestion(quizId, questionId);
+                                    return QuizModel.associateQuestion(quizId, questionId);
 
                                 case 2:
                                 case 'end':
@@ -9102,7 +9109,7 @@ $__System.register('36', ['28', '29', '37', '39', '3a', '2f', '3b', '3c'], funct
                             switch (_context23.prev = _context23.next) {
                                 case 0:
                                     _context23.next = 2;
-                                    return QuizModel.removeQuestion(quizId, questionId);
+                                    return QuizModel.disassociateQuestion(quizId, questionId);
 
                                 case 2:
                                 case 'end':
@@ -9197,7 +9204,7 @@ $__System.register('36', ['28', '29', '37', '39', '3a', '2f', '3b', '3c'], funct
                 }));
             };
 
-            saveVideo = function saveVideo(context, id, video) {
+            saveVideo = function saveVideo(context, conceptId, videoId, video) {
                 return __awaiter(_this, void 0, void 0, _regeneratorRuntime.mark(function _callee27() {
                     var newId;
                     return _regeneratorRuntime.wrap(function _callee27$(_context27) {
@@ -9206,29 +9213,32 @@ $__System.register('36', ['28', '29', '37', '39', '3a', '2f', '3b', '3c'], funct
                                 case 0:
                                     _context27.prev = 0;
                                     _context27.next = 3;
-                                    return VideoModel.createOrUpdate(id, video);
+                                    return VideoModel.createOrUpdate(videoId, video);
 
                                 case 3:
                                     newId = _context27.sent;
+                                    _context27.next = 6;
+                                    return ConceptModel.associateVideo(conceptId, newId);
 
+                                case 6:
                                     context.action = {
                                         type: 'SET_CURRENT_VIDEO_ID',
                                         id: newId
                                     };
-                                    _context27.next = 10;
+                                    _context27.next = 12;
                                     break;
 
-                                case 7:
-                                    _context27.prev = 7;
+                                case 9:
+                                    _context27.prev = 9;
                                     _context27.t0 = _context27['catch'](0);
                                     throw _context27.t0;
 
-                                case 10:
+                                case 12:
                                 case 'end':
                                     return _context27.stop();
                             }
                         }
-                    }, _callee27, this, [[0, 7]]);
+                    }, _callee27, this, [[0, 9]]);
                 }));
             };
 
@@ -9249,16 +9259,21 @@ $__System.register('36', ['28', '29', '37', '39', '3a', '2f', '3b', '3c'], funct
 
             loadConceptVideos = function loadConceptVideos(context, conceptId) {
                 return __awaiter(_this, void 0, void 0, _regeneratorRuntime.mark(function _callee28() {
-                    var videos;
+                    var videoIds, videos;
                     return _regeneratorRuntime.wrap(function _callee28$(_context28) {
                         while (1) {
                             switch (_context28.prev = _context28.next) {
                                 case 0:
                                     _context28.prev = 0;
                                     _context28.next = 3;
-                                    return VideoModel.getAllByConcept(conceptId);
+                                    return ConceptModel.getVideoIds(conceptId);
 
                                 case 3:
+                                    videoIds = _context28.sent;
+                                    _context28.next = 6;
+                                    return VideoModel.resolveVideoIds(videoIds);
+
+                                case 6:
                                     videos = _context28.sent;
 
                                     context.action = {
@@ -9266,20 +9281,20 @@ $__System.register('36', ['28', '29', '37', '39', '3a', '2f', '3b', '3c'], funct
                                         videos: videos,
                                         conceptId: conceptId
                                     };
-                                    _context28.next = 10;
+                                    _context28.next = 13;
                                     break;
 
-                                case 7:
-                                    _context28.prev = 7;
+                                case 10:
+                                    _context28.prev = 10;
                                     _context28.t0 = _context28['catch'](0);
                                     throw _context28.t0;
 
-                                case 10:
+                                case 13:
                                 case 'end':
                                     return _context28.stop();
                             }
                         }
-                    }, _callee28, this, [[0, 7]]);
+                    }, _callee28, this, [[0, 10]]);
                 }));
             };
 
@@ -9508,8 +9523,7 @@ $__System.register('36', ['28', '29', '37', '39', '3a', '2f', '3b', '3c'], funct
                 type: 'ADD_CONCEPT',
                 execute: function execute(context, courseId, newConcept, conceptPos) {
                     return __awaiter(_this, void 0, void 0, _regeneratorRuntime.mark(function _callee34() {
-                        var conceptId, course, conceptsArray, _orderedCourse;
-
+                        var conceptId, course, conceptsArray, orderedConcepts;
                         return _regeneratorRuntime.wrap(function _callee34$(_context34) {
                             while (1) {
                                 switch (_context34.prev = _context34.next) {
@@ -9521,7 +9535,7 @@ $__System.register('36', ['28', '29', '37', '39', '3a', '2f', '3b', '3c'], funct
                                     case 3:
                                         conceptId = _context34.sent;
                                         _context34.next = 6;
-                                        return CourseModel.createCourseConcept(courseId, conceptId, conceptPos);
+                                        return CourseModel.associateConcept(courseId, conceptId, conceptPos);
 
                                     case 6:
                                         _context34.next = 8;
@@ -9534,26 +9548,27 @@ $__System.register('36', ['28', '29', '37', '39', '3a', '2f', '3b', '3c'], funct
 
                                     case 11:
                                         conceptsArray = _context34.sent;
-                                        _orderedCourse = CourseModel.orderCourseConcepts(course, conceptsArray);
+                                        orderedConcepts = CourseModel.orderCourseConcepts(conceptsArray);
 
+                                        course.concepts = orderedConcepts;
                                         context.action = {
                                             type: 'ADD_CONCEPT',
-                                            currentCourse: _orderedCourse
+                                            currentCourse: course
                                         };
-                                        _context34.next = 19;
+                                        _context34.next = 20;
                                         break;
 
-                                    case 16:
-                                        _context34.prev = 16;
+                                    case 17:
+                                        _context34.prev = 17;
                                         _context34.t0 = _context34['catch'](0);
                                         throw _context34.t0;
 
-                                    case 19:
+                                    case 20:
                                     case 'end':
                                         return _context34.stop();
                                 }
                             }
-                        }, _callee34, this, [[0, 16]]);
+                        }, _callee34, this, [[0, 17]]);
                     }));
                 }
             };
@@ -9700,7 +9715,7 @@ $__System.register('36', ['28', '29', '37', '39', '3a', '2f', '3b', '3c'], funct
                                 case 3:
                                     courseIds = _context38.sent;
                                     _context38.next = 6;
-                                    return CourseModel.resolveIds(courseIds);
+                                    return CourseModel.resolveCourseIds(courseIds);
 
                                 case 6:
                                     courses = _context38.sent;
@@ -9740,7 +9755,7 @@ $__System.register('36', ['28', '29', '37', '39', '3a', '2f', '3b', '3c'], funct
                                 case 3:
                                     courseIds = _context39.sent;
                                     _context39.next = 6;
-                                    return CourseModel.resolveIds(courseIds);
+                                    return CourseModel.resolveCourseIds(courseIds);
 
                                 case 6:
                                     courses = _context39.sent;
@@ -9797,8 +9812,7 @@ $__System.register('36', ['28', '29', '37', '39', '3a', '2f', '3b', '3c'], funct
             getCourseById = {
                 execute: function execute(context, id) {
                     return __awaiter(_this, void 0, void 0, _regeneratorRuntime.mark(function _callee41() {
-                        var course, conceptsArray, _orderedCourse2;
-
+                        var course, conceptsArray, orderedConcepts;
                         return _regeneratorRuntime.wrap(function _callee41$(_context41) {
                             while (1) {
                                 switch (_context41.prev = _context41.next) {
@@ -9814,34 +9828,34 @@ $__System.register('36', ['28', '29', '37', '39', '3a', '2f', '3b', '3c'], funct
 
                                     case 6:
                                         conceptsArray = _context41.sent;
-                                        _orderedCourse2 = CourseModel.orderCourseConcepts(course, conceptsArray);
+                                        orderedConcepts = CourseModel.orderCourseConcepts(conceptsArray);
 
+                                        course.concepts = orderedConcepts;
                                         context.action = {
                                             type: 'GET_COURSE_BY_ID',
-                                            currentCourse: _orderedCourse2
+                                            currentCourse: course
                                         };
-                                        _context41.next = 14;
+                                        _context41.next = 15;
                                         break;
 
-                                    case 11:
-                                        _context41.prev = 11;
+                                    case 12:
+                                        _context41.prev = 12;
                                         _context41.t0 = _context41['catch'](0);
                                         throw _context41.t0;
 
-                                    case 14:
+                                    case 15:
                                     case 'end':
                                         return _context41.stop();
                                 }
                             }
-                        }, _callee41, this, [[0, 11]]);
+                        }, _callee41, this, [[0, 12]]);
                     }));
                 }
             };
             deleteConcept = {
                 execute: function execute(context, id, conceptId) {
                     return __awaiter(_this, void 0, void 0, _regeneratorRuntime.mark(function _callee42() {
-                        var course, conceptsArray, _orderedCourse3;
-
+                        var course, conceptsArray, orderedConcepts;
                         return _regeneratorRuntime.wrap(function _callee42$(_context42) {
                             while (1) {
                                 switch (_context42.prev = _context42.next) {
@@ -9861,26 +9875,27 @@ $__System.register('36', ['28', '29', '37', '39', '3a', '2f', '3b', '3c'], funct
 
                                     case 8:
                                         conceptsArray = _context42.sent;
-                                        _orderedCourse3 = CourseModel.orderCourseConcepts(course, conceptsArray);
+                                        orderedConcepts = CourseModel.orderCourseConcepts(conceptsArray);
 
+                                        course.concepts = orderedConcepts;
                                         context.action = {
                                             type: 'GET_COURSE_BY_ID',
-                                            currentCourse: _orderedCourse3
+                                            currentCourse: course
                                         };
-                                        _context42.next = 16;
+                                        _context42.next = 17;
                                         break;
 
-                                    case 13:
-                                        _context42.prev = 13;
+                                    case 14:
+                                        _context42.prev = 14;
                                         _context42.t0 = _context42['catch'](0);
                                         throw _context42.t0;
 
-                                    case 16:
+                                    case 17:
                                     case 'end':
                                         return _context42.stop();
                                 }
                             }
-                        }, _callee42, this, [[0, 13]]);
+                        }, _callee42, this, [[0, 14]]);
                     }));
                 }
             };
@@ -10598,7 +10613,7 @@ $__System.register('29', ['28'], function (_export, _context11) {
 $__System.register('5', ['25', '26', '28', '29', '36', '2d'], function (_export, _context20) {
     "use strict";
 
-    var _regeneratorRuntime, _classCallCheck, _createClass, Actions, UtilitiesService, FirebaseService, __awaiter, QuizEditorComponent;
+    var _regeneratorRuntime, _classCallCheck, _createClass, Actions, UtilitiesService, FirebaseService, __awaiter, PrendusQuizEditor;
 
     return {
         setters: [function (_) {
@@ -10640,12 +10655,12 @@ $__System.register('5', ['25', '26', '28', '29', '36', '2d'], function (_export,
                 });
             };
 
-            QuizEditorComponent = function () {
-                function QuizEditorComponent() {
-                    _classCallCheck(this, QuizEditorComponent);
+            PrendusQuizEditor = function () {
+                function PrendusQuizEditor() {
+                    _classCallCheck(this, PrendusQuizEditor);
                 }
 
-                _createClass(QuizEditorComponent, [{
+                _createClass(PrendusQuizEditor, [{
                     key: 'beforeRegister',
                     value: function beforeRegister() {
                         this.is = 'prendus-quiz-editor';
@@ -11184,10 +11199,10 @@ $__System.register('5', ['25', '26', '28', '29', '36', '2d'], function (_export,
                     }
                 }]);
 
-                return QuizEditorComponent;
+                return PrendusQuizEditor;
             }();
 
-            Polymer(QuizEditorComponent);
+            Polymer(PrendusQuizEditor);
         }
     };
 });
@@ -11843,7 +11858,7 @@ $__System.register("28", [], function (_export, _context) {
 $__System.register("4", ["25", "26", "28"], function (_export, _context2) {
     "use strict";
 
-    var _regeneratorRuntime, _classCallCheck, _createClass, __awaiter, RouterElement;
+    var _regeneratorRuntime, _classCallCheck, _createClass, __awaiter, PrendusRouter;
 
     return {
         setters: [function (_) {
@@ -11879,12 +11894,12 @@ $__System.register("4", ["25", "26", "28"], function (_export, _context2) {
                 });
             };
 
-            RouterElement = function () {
-                function RouterElement() {
-                    _classCallCheck(this, RouterElement);
+            PrendusRouter = function () {
+                function PrendusRouter() {
+                    _classCallCheck(this, PrendusRouter);
                 }
 
-                _createClass(RouterElement, [{
+                _createClass(PrendusRouter, [{
                     key: "beforeRegister",
                     value: function beforeRegister() {
                         this.is = "prendus-router";
@@ -11911,17 +11926,17 @@ $__System.register("4", ["25", "26", "28"], function (_export, _context2) {
                     }
                 }]);
 
-                return RouterElement;
+                return PrendusRouter;
             }();
 
-            Polymer(RouterElement);
+            Polymer(PrendusRouter);
         }
     };
 });
 $__System.register('3', ['25', '26'], function (_export, _context) {
     "use strict";
 
-    var _classCallCheck, _createClass, VideoEditorComponent;
+    var _classCallCheck, _createClass, PrendusVideoEditor;
 
     return {
         setters: [function (_) {
@@ -11930,12 +11945,12 @@ $__System.register('3', ['25', '26'], function (_export, _context) {
             _createClass = _2.default;
         }],
         execute: function () {
-            _export('VideoEditorComponent', VideoEditorComponent = function () {
-                function VideoEditorComponent() {
-                    _classCallCheck(this, VideoEditorComponent);
+            _export('PrendusVideoEditor', PrendusVideoEditor = function () {
+                function PrendusVideoEditor() {
+                    _classCallCheck(this, PrendusVideoEditor);
                 }
 
-                _createClass(VideoEditorComponent, [{
+                _createClass(PrendusVideoEditor, [{
                     key: 'beforeRegister',
                     value: function beforeRegister() {
                         this.is = 'prendus-video-editor';
@@ -11994,19 +12009,19 @@ $__System.register('3', ['25', '26'], function (_export, _context) {
                     }
                 }]);
 
-                return VideoEditorComponent;
+                return PrendusVideoEditor;
             }());
 
-            _export('VideoEditorComponent', VideoEditorComponent);
+            _export('PrendusVideoEditor', PrendusVideoEditor);
 
-            Polymer(VideoEditorComponent);
+            Polymer(PrendusVideoEditor);
         }
     };
 });
 $__System.register('2', ['25', '26'], function (_export, _context) {
     "use strict";
 
-    var _classCallCheck, _createClass, ViewQuizRouterComponent;
+    var _classCallCheck, _createClass, PrendusViewQuizRouter;
 
     return {
         setters: [function (_) {
@@ -12015,12 +12030,12 @@ $__System.register('2', ['25', '26'], function (_export, _context) {
             _createClass = _2.default;
         }],
         execute: function () {
-            ViewQuizRouterComponent = function () {
-                function ViewQuizRouterComponent() {
-                    _classCallCheck(this, ViewQuizRouterComponent);
+            PrendusViewQuizRouter = function () {
+                function PrendusViewQuizRouter() {
+                    _classCallCheck(this, PrendusViewQuizRouter);
                 }
 
-                _createClass(ViewQuizRouterComponent, [{
+                _createClass(PrendusViewQuizRouter, [{
                     key: 'beforeRegister',
                     value: function beforeRegister() {
                         this.is = 'prendus-view-quiz-router';
@@ -12035,10 +12050,10 @@ $__System.register('2', ['25', '26'], function (_export, _context) {
                     }
                 }]);
 
-                return ViewQuizRouterComponent;
+                return PrendusViewQuizRouter;
             }();
 
-            Polymer(ViewQuizRouterComponent);
+            Polymer(PrendusViewQuizRouter);
         }
     };
 });
@@ -12085,7 +12100,7 @@ $__System.register("26", [], function (_export, _context) {
 $__System.register('1', ['25', '26'], function (_export, _context) {
     "use strict";
 
-    var _classCallCheck, _createClass, ViewVideoRouterComponent;
+    var _classCallCheck, _createClass, PrendusViewVideoRouter;
 
     return {
         setters: [function (_) {
@@ -12094,12 +12109,12 @@ $__System.register('1', ['25', '26'], function (_export, _context) {
             _createClass = _2.default;
         }],
         execute: function () {
-            ViewVideoRouterComponent = function () {
-                function ViewVideoRouterComponent() {
-                    _classCallCheck(this, ViewVideoRouterComponent);
+            PrendusViewVideoRouter = function () {
+                function PrendusViewVideoRouter() {
+                    _classCallCheck(this, PrendusViewVideoRouter);
                 }
 
-                _createClass(ViewVideoRouterComponent, [{
+                _createClass(PrendusViewVideoRouter, [{
                     key: 'beforeRegister',
                     value: function beforeRegister() {
                         this.is = 'prendus-view-video-router';
@@ -12113,10 +12128,10 @@ $__System.register('1', ['25', '26'], function (_export, _context) {
                     }
                 }]);
 
-                return ViewVideoRouterComponent;
+                return PrendusViewVideoRouter;
             }();
 
-            Polymer(ViewVideoRouterComponent);
+            Polymer(PrendusViewVideoRouter);
         }
     };
 });

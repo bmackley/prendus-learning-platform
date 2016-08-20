@@ -3,7 +3,7 @@ import {rootReducer} from '../../redux/reducers.ts';
 import {FirebaseService} from '../../node_modules/prendus-services/services/firebase.service.ts';
 import {StatechangeEvent} from '../../interfaces/statechange-event.interface.ts';
 
-export class CourseNavbarComponent {
+export class PrendusNavbar {
   public is: string;
   public username: string;
 
@@ -39,4 +39,4 @@ export class CourseNavbarComponent {
   }
 }
 
-Polymer(CourseNavbarComponent);
+Polymer(PrendusNavbar);

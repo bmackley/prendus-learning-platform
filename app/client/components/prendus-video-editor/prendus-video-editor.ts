@@ -1,4 +1,4 @@
-export class VideoEditorComponent {
+export class PrendusVideoEditor {
     public is: string;
     public properties: any;
     public videoId: string;
@@ -65,4 +65,4 @@ export class VideoEditorComponent {
     }
 }
 
-Polymer(VideoEditorComponent);
+Polymer(PrendusVideoEditor);
