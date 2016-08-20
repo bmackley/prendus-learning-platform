@@ -3999,6 +3999,7 @@ $__System.register('14', ['25', '26', '29', '37'], function (_export, _context4)
                                             title = e.detail.title;
                                             url = e.detail.url;
                                             video = {
+                                                id: null,
                                                 title: title,
                                                 url: url,
                                                 collaborators: {}
@@ -4030,7 +4031,7 @@ $__System.register('14', ['25', '26', '29', '37'], function (_export, _context4)
                                         case 0:
                                             this.$.editVideoDialog.close();
                                             _context3.next = 3;
-                                            return Actions.deleteVideo(this, this.currentVideoId);
+                                            return Actions.deleteVideo(this, this.conceptId, this.currentVideoId);
 
                                         case 3:
                                             _context3.next = 5;
@@ -5542,10 +5543,10 @@ $__System.register('6', ['25', '26', '29', '37'], function (_export, _context3) 
         }
     };
 });
-$__System.register('38', ['28', '29', '39', '2a', '2e'], function (_export, _context20) {
+$__System.register('38', ['28', '29', '39', '2a', '2e'], function (_export, _context19) {
     "use strict";
 
-    var _toConsumableArray, _regeneratorRuntime, FirebaseService, ConceptModel, UtilitiesService, _this, __awaiter, conceptsPath, dataPath, createOrUpdate, associateConcept, disassociateConcept, deleteCourseConcept, getById, getCoursesByUser, courseConceptsToArray, orderCourseConcepts, updateCourseConcepts, deleteCourse, associateCollaborator, disassociateCollaborator, getCollaboratorUids, getAllByVisibility, resolveCourseIds, CourseModel;
+    var _toConsumableArray, _regeneratorRuntime, FirebaseService, ConceptModel, UtilitiesService, _this, __awaiter, conceptsPath, dataPath, createOrUpdate, associateConcept, disassociateConcept, getById, getCoursesByUser, courseConceptsToArray, orderCourseConcepts, updateCourseConcepts, deleteCourse, associateCollaborator, disassociateCollaborator, getCollaboratorUids, getAllByVisibility, resolveCourseIds, CourseModel;
 
     return {
         setters: [function (_) {
@@ -5702,132 +5703,103 @@ $__System.register('38', ['28', '29', '39', '2a', '2e'], function (_export, _con
                 }));
             };
 
-            deleteCourseConcept = function deleteCourseConcept(id, conceptId) {
+            getById = function getById(id) {
                 return __awaiter(_this, void 0, void 0, _regeneratorRuntime.mark(function _callee4() {
-                    var path;
+                    var path, course;
                     return _regeneratorRuntime.wrap(function _callee4$(_context4) {
                         while (1) {
                             switch (_context4.prev = _context4.next) {
                                 case 0:
                                     _context4.prev = 0;
-                                    path = dataPath + '/' + id + '/concepts/' + conceptId + '/';
+                                    path = dataPath + '/' + id;
                                     _context4.next = 4;
-                                    return FirebaseService.remove(path);
+                                    return FirebaseService.get(path);
 
                                 case 4:
-                                    return _context4.abrupt('return', _context4.sent);
+                                    course = _context4.sent;
 
-                                case 7:
-                                    _context4.prev = 7;
+                                    course.id = id;
+                                    return _context4.abrupt('return', course);
+
+                                case 9:
+                                    _context4.prev = 9;
                                     _context4.t0 = _context4['catch'](0);
                                     throw _context4.t0;
 
-                                case 10:
+                                case 12:
                                 case 'end':
                                     return _context4.stop();
                             }
                         }
-                    }, _callee4, this, [[0, 7]]);
-                }));
-            };
-
-            getById = function getById(id) {
-                return __awaiter(_this, void 0, void 0, _regeneratorRuntime.mark(function _callee5() {
-                    var path, course;
-                    return _regeneratorRuntime.wrap(function _callee5$(_context5) {
-                        while (1) {
-                            switch (_context5.prev = _context5.next) {
-                                case 0:
-                                    _context5.prev = 0;
-                                    path = dataPath + '/' + id;
-                                    _context5.next = 4;
-                                    return FirebaseService.get(path);
-
-                                case 4:
-                                    course = _context5.sent;
-
-                                    course.id = id;
-                                    return _context5.abrupt('return', course);
-
-                                case 9:
-                                    _context5.prev = 9;
-                                    _context5.t0 = _context5['catch'](0);
-                                    throw _context5.t0;
-
-                                case 12:
-                                case 'end':
-                                    return _context5.stop();
-                            }
-                        }
-                    }, _callee5, this, [[0, 9]]);
+                    }, _callee4, this, [[0, 9]]);
                 }));
             };
 
             getCoursesByUser = function getCoursesByUser(uid) {
-                return __awaiter(_this, void 0, void 0, _regeneratorRuntime.mark(function _callee7() {
+                return __awaiter(_this, void 0, void 0, _regeneratorRuntime.mark(function _callee6() {
                     var _this2 = this;
 
                     var _ret;
 
-                    return _regeneratorRuntime.wrap(function _callee7$(_context7) {
+                    return _regeneratorRuntime.wrap(function _callee6$(_context6) {
                         while (1) {
-                            switch (_context7.prev = _context7.next) {
+                            switch (_context6.prev = _context6.next) {
                                 case 0:
-                                    _context7.prev = 0;
-                                    return _context7.delegateYield(_regeneratorRuntime.mark(function _callee6() {
+                                    _context6.prev = 0;
+                                    return _context6.delegateYield(_regeneratorRuntime.mark(function _callee5() {
                                         var path, firebaseCourses, firebaseCoursesArray;
-                                        return _regeneratorRuntime.wrap(function _callee6$(_context6) {
+                                        return _regeneratorRuntime.wrap(function _callee5$(_context5) {
                                             while (1) {
-                                                switch (_context6.prev = _context6.next) {
+                                                switch (_context5.prev = _context5.next) {
                                                     case 0:
                                                         path = dataPath;
-                                                        _context6.next = 3;
+                                                        _context5.next = 3;
                                                         return FirebaseService.getAllBy(path, 'uid', uid);
 
                                                     case 3:
-                                                        firebaseCourses = _context6.sent;
+                                                        firebaseCourses = _context5.sent;
                                                         firebaseCoursesArray = Object.keys(firebaseCourses || {}).map(function (key) {
                                                             return Object.assign({}, firebaseCourses[key], {
                                                                 id: key
                                                             });
                                                         });
-                                                        return _context6.abrupt('return', {
+                                                        return _context5.abrupt('return', {
                                                             v: firebaseCoursesArray
                                                         });
 
                                                     case 6:
                                                     case 'end':
-                                                        return _context6.stop();
+                                                        return _context5.stop();
                                                 }
                                             }
-                                        }, _callee6, _this2);
+                                        }, _callee5, _this2);
                                     })(), 't0', 2);
 
                                 case 2:
-                                    _ret = _context7.t0;
+                                    _ret = _context6.t0;
 
                                     if (!(typeof _ret === "object")) {
-                                        _context7.next = 5;
+                                        _context6.next = 5;
                                         break;
                                     }
 
-                                    return _context7.abrupt('return', _ret.v);
+                                    return _context6.abrupt('return', _ret.v);
 
                                 case 5:
-                                    _context7.next = 10;
+                                    _context6.next = 10;
                                     break;
 
                                 case 7:
-                                    _context7.prev = 7;
-                                    _context7.t1 = _context7['catch'](0);
-                                    throw _context7.t1;
+                                    _context6.prev = 7;
+                                    _context6.t1 = _context6['catch'](0);
+                                    throw _context6.t1;
 
                                 case 10:
                                 case 'end':
-                                    return _context7.stop();
+                                    return _context6.stop();
                             }
                         }
-                    }, _callee7, this, [[0, 7]]);
+                    }, _callee6, this, [[0, 7]]);
                 }));
             };
 
@@ -5862,392 +5834,392 @@ $__System.register('38', ['28', '29', '39', '2a', '2e'], function (_export, _con
             };
 
             updateCourseConcepts = function updateCourseConcepts(id, conceptArray) {
-                return __awaiter(_this, void 0, void 0, _regeneratorRuntime.mark(function _callee8() {
+                return __awaiter(_this, void 0, void 0, _regeneratorRuntime.mark(function _callee7() {
                     var key, path;
+                    return _regeneratorRuntime.wrap(function _callee7$(_context7) {
+                        while (1) {
+                            switch (_context7.prev = _context7.next) {
+                                case 0:
+                                    _context7.prev = 0;
+                                    _context7.t0 = _regeneratorRuntime.keys(conceptArray);
+
+                                case 2:
+                                    if ((_context7.t1 = _context7.t0()).done) {
+                                        _context7.next = 9;
+                                        break;
+                                    }
+
+                                    key = _context7.t1.value;
+                                    path = dataPath + '/' + id + '/concepts/' + conceptArray[key].key;
+                                    _context7.next = 7;
+                                    return FirebaseService.update(path, conceptArray[key]);
+
+                                case 7:
+                                    _context7.next = 2;
+                                    break;
+
+                                case 9:
+                                    return _context7.abrupt('return');
+
+                                case 12:
+                                    _context7.prev = 12;
+                                    _context7.t2 = _context7['catch'](0);
+                                    throw _context7.t2;
+
+                                case 15:
+                                case 'end':
+                                    return _context7.stop();
+                            }
+                        }
+                    }, _callee7, this, [[0, 12]]);
+                }));
+            };
+
+            deleteCourse = function deleteCourse(key) {
+                return __awaiter(_this, void 0, void 0, _regeneratorRuntime.mark(function _callee8() {
+                    var path;
                     return _regeneratorRuntime.wrap(function _callee8$(_context8) {
                         while (1) {
                             switch (_context8.prev = _context8.next) {
                                 case 0:
                                     _context8.prev = 0;
-                                    _context8.t0 = _regeneratorRuntime.keys(conceptArray);
+                                    path = dataPath + '/' + key;
+                                    _context8.next = 4;
+                                    return FirebaseService.remove(path);
 
-                                case 2:
-                                    if ((_context8.t1 = _context8.t0()).done) {
-                                        _context8.next = 9;
-                                        break;
-                                    }
-
-                                    key = _context8.t1.value;
-                                    path = dataPath + '/' + id + '/concepts/' + conceptArray[key].key;
-                                    _context8.next = 7;
-                                    return FirebaseService.update(path, conceptArray[key]);
+                                case 4:
+                                    return _context8.abrupt('return', _context8.sent);
 
                                 case 7:
-                                    _context8.next = 2;
-                                    break;
+                                    _context8.prev = 7;
+                                    _context8.t0 = _context8['catch'](0);
+                                    throw _context8.t0;
 
-                                case 9:
-                                    return _context8.abrupt('return');
-
-                                case 12:
-                                    _context8.prev = 12;
-                                    _context8.t2 = _context8['catch'](0);
-                                    throw _context8.t2;
-
-                                case 15:
+                                case 10:
                                 case 'end':
                                     return _context8.stop();
                             }
                         }
-                    }, _callee8, this, [[0, 12]]);
-                }));
-            };
-
-            deleteCourse = function deleteCourse(key) {
-                return __awaiter(_this, void 0, void 0, _regeneratorRuntime.mark(function _callee9() {
-                    var path;
-                    return _regeneratorRuntime.wrap(function _callee9$(_context9) {
-                        while (1) {
-                            switch (_context9.prev = _context9.next) {
-                                case 0:
-                                    _context9.prev = 0;
-                                    path = dataPath + '/' + key;
-                                    _context9.next = 4;
-                                    return FirebaseService.remove(path);
-
-                                case 4:
-                                    return _context9.abrupt('return', _context9.sent);
-
-                                case 7:
-                                    _context9.prev = 7;
-                                    _context9.t0 = _context9['catch'](0);
-                                    throw _context9.t0;
-
-                                case 10:
-                                case 'end':
-                                    return _context9.stop();
-                            }
-                        }
-                    }, _callee9, this, [[0, 7]]);
+                    }, _callee8, this, [[0, 7]]);
                 }));
             };
 
             associateCollaborator = function associateCollaborator(courseId, uid) {
-                return __awaiter(_this, void 0, Promise, _regeneratorRuntime.mark(function _callee11() {
+                return __awaiter(_this, void 0, Promise, _regeneratorRuntime.mark(function _callee10() {
                     var _this3 = this;
 
                     var path, _conceptsPath, conceptsObject, conceptIds;
 
-                    return _regeneratorRuntime.wrap(function _callee11$(_context11) {
+                    return _regeneratorRuntime.wrap(function _callee10$(_context10) {
                         while (1) {
-                            switch (_context11.prev = _context11.next) {
+                            switch (_context10.prev = _context10.next) {
                                 case 0:
-                                    _context11.prev = 0;
+                                    _context10.prev = 0;
 
                                     //TODO it would be nice to do the following in a transaction, so that if adding collaborators fails anywhere it fails everywhere
                                     path = dataPath + '/' + courseId + '/collaborators/' + uid;
-                                    _context11.next = 4;
+                                    _context10.next = 4;
                                     return FirebaseService.set(path, uid);
 
                                 case 4:
                                     _conceptsPath = dataPath + '/' + courseId + '/concepts';
-                                    _context11.next = 7;
+                                    _context10.next = 7;
                                     return FirebaseService.get(_conceptsPath);
 
                                 case 7:
-                                    conceptsObject = _context11.sent;
+                                    conceptsObject = _context10.sent;
                                     conceptIds = Object.keys(conceptsObject || {});
-                                    _context11.next = 11;
+                                    _context10.next = 11;
                                     return UtilitiesService.asyncForEach(conceptIds, function (conceptId) {
-                                        return __awaiter(_this3, void 0, void 0, _regeneratorRuntime.mark(function _callee10() {
-                                            return _regeneratorRuntime.wrap(function _callee10$(_context10) {
+                                        return __awaiter(_this3, void 0, void 0, _regeneratorRuntime.mark(function _callee9() {
+                                            return _regeneratorRuntime.wrap(function _callee9$(_context9) {
                                                 while (1) {
-                                                    switch (_context10.prev = _context10.next) {
+                                                    switch (_context9.prev = _context9.next) {
                                                         case 0:
-                                                            _context10.next = 2;
+                                                            _context9.next = 2;
                                                             return ConceptModel.associateCollaborator(conceptId, uid);
 
                                                         case 2:
                                                         case 'end':
-                                                            return _context10.stop();
+                                                            return _context9.stop();
                                                     }
                                                 }
-                                            }, _callee10, this);
+                                            }, _callee9, this);
                                         }));
                                     });
 
                                 case 11:
-                                    _context11.next = 16;
+                                    _context10.next = 16;
                                     break;
 
                                 case 13:
-                                    _context11.prev = 13;
-                                    _context11.t0 = _context11['catch'](0);
-                                    throw _context11.t0;
+                                    _context10.prev = 13;
+                                    _context10.t0 = _context10['catch'](0);
+                                    throw _context10.t0;
 
                                 case 16:
                                 case 'end':
-                                    return _context11.stop();
+                                    return _context10.stop();
                             }
                         }
-                    }, _callee11, this, [[0, 13]]);
+                    }, _callee10, this, [[0, 13]]);
                 }));
             };
 
             disassociateCollaborator = function disassociateCollaborator(courseId, uid) {
-                return __awaiter(_this, void 0, Promise, _regeneratorRuntime.mark(function _callee13() {
+                return __awaiter(_this, void 0, Promise, _regeneratorRuntime.mark(function _callee12() {
                     var _this4 = this;
 
                     var path, _conceptsPath2, conceptsObject, conceptIds;
 
+                    return _regeneratorRuntime.wrap(function _callee12$(_context12) {
+                        while (1) {
+                            switch (_context12.prev = _context12.next) {
+                                case 0:
+                                    _context12.prev = 0;
+
+                                    //TODO it would be nice to do the following in a transaction, so that if adding collaborators fails anywhere it fails everywhere
+                                    path = dataPath + '/' + courseId + '/collaborators/' + uid;
+                                    _context12.next = 4;
+                                    return FirebaseService.remove(path);
+
+                                case 4:
+                                    _conceptsPath2 = dataPath + '/' + courseId + '/concepts';
+                                    _context12.next = 7;
+                                    return FirebaseService.get(_conceptsPath2);
+
+                                case 7:
+                                    conceptsObject = _context12.sent;
+                                    conceptIds = Object.keys(conceptsObject || {});
+                                    _context12.next = 11;
+                                    return UtilitiesService.asyncForEach(conceptIds, function (conceptId) {
+                                        return __awaiter(_this4, void 0, void 0, _regeneratorRuntime.mark(function _callee11() {
+                                            return _regeneratorRuntime.wrap(function _callee11$(_context11) {
+                                                while (1) {
+                                                    switch (_context11.prev = _context11.next) {
+                                                        case 0:
+                                                            _context11.next = 2;
+                                                            return ConceptModel.disassociateCollaborator(conceptId, uid);
+
+                                                        case 2:
+                                                        case 'end':
+                                                            return _context11.stop();
+                                                    }
+                                                }
+                                            }, _callee11, this);
+                                        }));
+                                    });
+
+                                case 11:
+                                    _context12.next = 16;
+                                    break;
+
+                                case 13:
+                                    _context12.prev = 13;
+                                    _context12.t0 = _context12['catch'](0);
+                                    throw _context12.t0;
+
+                                case 16:
+                                case 'end':
+                                    return _context12.stop();
+                            }
+                        }
+                    }, _callee12, this, [[0, 13]]);
+                }));
+            };
+
+            getCollaboratorUids = function getCollaboratorUids(courseId) {
+                return __awaiter(_this, void 0, Promise, _regeneratorRuntime.mark(function _callee13() {
+                    var path, collaboratorUidsObject, collaboratorUids;
                     return _regeneratorRuntime.wrap(function _callee13$(_context13) {
                         while (1) {
                             switch (_context13.prev = _context13.next) {
                                 case 0:
                                     _context13.prev = 0;
-
-                                    //TODO it would be nice to do the following in a transaction, so that if adding collaborators fails anywhere it fails everywhere
-                                    path = dataPath + '/' + courseId + '/collaborators/' + uid;
+                                    path = dataPath + '/' + courseId + '/collaborators';
                                     _context13.next = 4;
-                                    return FirebaseService.remove(path);
+                                    return FirebaseService.get(path);
 
                                 case 4:
-                                    _conceptsPath2 = dataPath + '/' + courseId + '/concepts';
-                                    _context13.next = 7;
-                                    return FirebaseService.get(_conceptsPath2);
+                                    collaboratorUidsObject = _context13.sent;
+                                    collaboratorUids = Object.keys(collaboratorUidsObject || {});
+                                    return _context13.abrupt('return', collaboratorUids);
 
-                                case 7:
-                                    conceptsObject = _context13.sent;
-                                    conceptIds = Object.keys(conceptsObject || {});
-                                    _context13.next = 11;
-                                    return UtilitiesService.asyncForEach(conceptIds, function (conceptId) {
-                                        return __awaiter(_this4, void 0, void 0, _regeneratorRuntime.mark(function _callee12() {
-                                            return _regeneratorRuntime.wrap(function _callee12$(_context12) {
-                                                while (1) {
-                                                    switch (_context12.prev = _context12.next) {
-                                                        case 0:
-                                                            _context12.next = 2;
-                                                            return ConceptModel.disassociateCollaborator(conceptId, uid);
-
-                                                        case 2:
-                                                        case 'end':
-                                                            return _context12.stop();
-                                                    }
-                                                }
-                                            }, _callee12, this);
-                                        }));
-                                    });
-
-                                case 11:
-                                    _context13.next = 16;
-                                    break;
-
-                                case 13:
-                                    _context13.prev = 13;
+                                case 9:
+                                    _context13.prev = 9;
                                     _context13.t0 = _context13['catch'](0);
                                     throw _context13.t0;
 
-                                case 16:
+                                case 12:
                                 case 'end':
                                     return _context13.stop();
                             }
                         }
-                    }, _callee13, this, [[0, 13]]);
-                }));
-            };
-
-            getCollaboratorUids = function getCollaboratorUids(courseId) {
-                return __awaiter(_this, void 0, Promise, _regeneratorRuntime.mark(function _callee14() {
-                    var path, collaboratorUidsObject, collaboratorUids;
-                    return _regeneratorRuntime.wrap(function _callee14$(_context14) {
-                        while (1) {
-                            switch (_context14.prev = _context14.next) {
-                                case 0:
-                                    _context14.prev = 0;
-                                    path = dataPath + '/' + courseId + '/collaborators';
-                                    _context14.next = 4;
-                                    return FirebaseService.get(path);
-
-                                case 4:
-                                    collaboratorUidsObject = _context14.sent;
-                                    collaboratorUids = Object.keys(collaboratorUidsObject || {});
-                                    return _context14.abrupt('return', collaboratorUids);
-
-                                case 9:
-                                    _context14.prev = 9;
-                                    _context14.t0 = _context14['catch'](0);
-                                    throw _context14.t0;
-
-                                case 12:
-                                case 'end':
-                                    return _context14.stop();
-                            }
-                        }
-                    }, _callee14, this, [[0, 9]]);
+                    }, _callee13, this, [[0, 9]]);
                 }));
             };
 
             getAllByVisibility = function getAllByVisibility(visibility) {
-                return __awaiter(_this, void 0, void 0, _regeneratorRuntime.mark(function _callee16() {
+                return __awaiter(_this, void 0, void 0, _regeneratorRuntime.mark(function _callee15() {
                     var _this5 = this;
 
                     var _ret2;
 
-                    return _regeneratorRuntime.wrap(function _callee16$(_context16) {
+                    return _regeneratorRuntime.wrap(function _callee15$(_context15) {
                         while (1) {
-                            switch (_context16.prev = _context16.next) {
+                            switch (_context15.prev = _context15.next) {
                                 case 0:
-                                    _context16.prev = 0;
-                                    return _context16.delegateYield(_regeneratorRuntime.mark(function _callee15() {
+                                    _context15.prev = 0;
+                                    return _context15.delegateYield(_regeneratorRuntime.mark(function _callee14() {
                                         var path, coursesObject, coursesArray;
-                                        return _regeneratorRuntime.wrap(function _callee15$(_context15) {
+                                        return _regeneratorRuntime.wrap(function _callee14$(_context14) {
                                             while (1) {
-                                                switch (_context15.prev = _context15.next) {
+                                                switch (_context14.prev = _context14.next) {
                                                     case 0:
                                                         path = '' + dataPath;
-                                                        _context15.next = 3;
+                                                        _context14.next = 3;
                                                         return FirebaseService.getAllBy(path, 'visibility', visibility);
 
                                                     case 3:
-                                                        coursesObject = _context15.sent;
+                                                        coursesObject = _context14.sent;
                                                         coursesArray = Object.keys(coursesObject || {}).map(function (key) {
                                                             return Object.assign({}, coursesObject[key], {
                                                                 courseId: key
                                                             });
                                                         });
-                                                        return _context15.abrupt('return', {
+                                                        return _context14.abrupt('return', {
                                                             v: coursesArray
                                                         });
 
                                                     case 6:
                                                     case 'end':
-                                                        return _context15.stop();
+                                                        return _context14.stop();
                                                 }
                                             }
-                                        }, _callee15, _this5);
+                                        }, _callee14, _this5);
                                     })(), 't0', 2);
 
                                 case 2:
-                                    _ret2 = _context16.t0;
+                                    _ret2 = _context15.t0;
 
                                     if (!(typeof _ret2 === "object")) {
-                                        _context16.next = 5;
+                                        _context15.next = 5;
                                         break;
                                     }
 
-                                    return _context16.abrupt('return', _ret2.v);
+                                    return _context15.abrupt('return', _ret2.v);
 
                                 case 5:
-                                    _context16.next = 10;
+                                    _context15.next = 10;
                                     break;
 
                                 case 7:
-                                    _context16.prev = 7;
-                                    _context16.t1 = _context16['catch'](0);
-                                    throw _context16.t1;
+                                    _context15.prev = 7;
+                                    _context15.t1 = _context15['catch'](0);
+                                    throw _context15.t1;
 
                                 case 10:
                                 case 'end':
-                                    return _context16.stop();
+                                    return _context15.stop();
                             }
                         }
-                    }, _callee16, this, [[0, 7]]);
+                    }, _callee15, this, [[0, 7]]);
                 }));
             };
 
             resolveCourseIds = function resolveCourseIds(courseIds) {
-                return __awaiter(_this, void 0, Promise, _regeneratorRuntime.mark(function _callee19() {
+                return __awaiter(_this, void 0, Promise, _regeneratorRuntime.mark(function _callee18() {
                     var _this6 = this;
 
                     var _ret3;
 
-                    return _regeneratorRuntime.wrap(function _callee19$(_context19) {
+                    return _regeneratorRuntime.wrap(function _callee18$(_context18) {
                         while (1) {
-                            switch (_context19.prev = _context19.next) {
+                            switch (_context18.prev = _context18.next) {
                                 case 0:
-                                    _context19.prev = 0;
-                                    return _context19.delegateYield(_regeneratorRuntime.mark(function _callee18() {
+                                    _context18.prev = 0;
+                                    return _context18.delegateYield(_regeneratorRuntime.mark(function _callee17() {
                                         var asyncReduce = function asyncReduce(courseIds, courses) {
-                                            return __awaiter(this, void 0, Promise, _regeneratorRuntime.mark(function _callee17() {
+                                            return __awaiter(this, void 0, Promise, _regeneratorRuntime.mark(function _callee16() {
                                                 var courseId, course;
-                                                return _regeneratorRuntime.wrap(function _callee17$(_context17) {
+                                                return _regeneratorRuntime.wrap(function _callee16$(_context16) {
                                                     while (1) {
-                                                        switch (_context17.prev = _context17.next) {
+                                                        switch (_context16.prev = _context16.next) {
                                                             case 0:
                                                                 if (!(courseIds.length === 0)) {
-                                                                    _context17.next = 2;
+                                                                    _context16.next = 2;
                                                                     break;
                                                                 }
 
-                                                                return _context17.abrupt('return', courses);
+                                                                return _context16.abrupt('return', courses);
 
                                                             case 2:
                                                                 courseId = courseIds[0];
-                                                                _context17.next = 5;
+                                                                _context16.next = 5;
                                                                 return getById(courseId);
 
                                                             case 5:
-                                                                course = _context17.sent;
+                                                                course = _context16.sent;
 
                                                                 course.id = courseId;
-                                                                return _context17.abrupt('return', asyncReduce(courseIds.slice(1), [].concat(_toConsumableArray(courses), [course])));
+                                                                return _context16.abrupt('return', asyncReduce(courseIds.slice(1), [].concat(_toConsumableArray(courses), [course])));
 
                                                             case 8:
                                                             case 'end':
-                                                                return _context17.stop();
+                                                                return _context16.stop();
                                                         }
                                                     }
-                                                }, _callee17, this);
+                                                }, _callee16, this);
                                             }));
                                         };
 
                                         var courses;
-                                        return _regeneratorRuntime.wrap(function _callee18$(_context18) {
+                                        return _regeneratorRuntime.wrap(function _callee17$(_context17) {
                                             while (1) {
-                                                switch (_context18.prev = _context18.next) {
+                                                switch (_context17.prev = _context17.next) {
                                                     case 0:
-                                                        _context18.next = 2;
+                                                        _context17.next = 2;
                                                         return asyncReduce(courseIds, []);
 
                                                     case 2:
-                                                        courses = _context18.sent;
-                                                        return _context18.abrupt('return', {
+                                                        courses = _context17.sent;
+                                                        return _context17.abrupt('return', {
                                                             v: courses
                                                         });
 
                                                     case 4:
                                                     case 'end':
-                                                        return _context18.stop();
+                                                        return _context17.stop();
                                                 }
                                             }
-                                        }, _callee18, _this6);
+                                        }, _callee17, _this6);
                                     })(), 't0', 2);
 
                                 case 2:
-                                    _ret3 = _context19.t0;
+                                    _ret3 = _context18.t0;
 
                                     if (!(typeof _ret3 === "object")) {
-                                        _context19.next = 5;
+                                        _context18.next = 5;
                                         break;
                                     }
 
-                                    return _context19.abrupt('return', _ret3.v);
+                                    return _context18.abrupt('return', _ret3.v);
 
                                 case 5:
-                                    _context19.next = 10;
+                                    _context18.next = 10;
                                     break;
 
                                 case 7:
-                                    _context19.prev = 7;
-                                    _context19.t1 = _context19['catch'](0);
-                                    throw _context19.t1;
+                                    _context18.prev = 7;
+                                    _context18.t1 = _context18['catch'](0);
+                                    throw _context18.t1;
 
                                 case 10:
                                 case 'end':
-                                    return _context19.stop();
+                                    return _context18.stop();
                             }
                         }
-                    }, _callee19, this, [[0, 7]]);
+                    }, _callee18, this, [[0, 7]]);
                 }));
             };
 
@@ -6258,7 +6230,6 @@ $__System.register('38', ['28', '29', '39', '2a', '2e'], function (_export, _con
                 deleteCourse: deleteCourse,
                 associateConcept: associateConcept,
                 disassociateConcept: disassociateConcept,
-                deleteCourseConcept: deleteCourseConcept,
                 orderCourseConcepts: orderCourseConcepts,
                 updateCourseConcepts: updateCourseConcepts,
                 courseConceptsToArray: courseConceptsToArray,
@@ -9620,7 +9591,7 @@ $__System.register('37', ['29', '30', '38', '39', '2a', '3b', '3a', '3c'], funct
                 }));
             };
 
-            deleteVideo = function deleteVideo(context, id) {
+            deleteVideo = function deleteVideo(context, conceptId, videoId) {
                 return __awaiter(_this, void 0, void 0, _regeneratorRuntime.mark(function _callee26() {
                     return _regeneratorRuntime.wrap(function _callee26$(_context26) {
                         while (1) {
@@ -9628,7 +9599,7 @@ $__System.register('37', ['29', '30', '38', '39', '2a', '3b', '3a', '3c'], funct
                                 case 0:
                                     _context26.prev = 0;
                                     _context26.next = 3;
-                                    return VideoModel.removeById(id);
+                                    return ConceptModel.disassociateVideo(conceptId, videoId);
 
                                 case 3:
                                     _context26.next = 8;
@@ -10297,7 +10268,7 @@ $__System.register('37', ['29', '30', '38', '39', '2a', '3b', '3a', '3c'], funct
                 }
             };
             deleteConcept = {
-                execute: function execute(context, id, conceptId) {
+                execute: function execute(context, courseId, conceptId) {
                     return __awaiter(_this, void 0, void 0, _regeneratorRuntime.mark(function _callee42() {
                         var course, conceptsArray, orderedConcepts;
                         return _regeneratorRuntime.wrap(function _callee42$(_context42) {
@@ -10306,11 +10277,11 @@ $__System.register('37', ['29', '30', '38', '39', '2a', '3b', '3a', '3c'], funct
                                     case 0:
                                         _context42.prev = 0;
                                         _context42.next = 3;
-                                        return CourseModel.deleteCourseConcept(id, conceptId);
+                                        return CourseModel.disassociateConcept(courseId, conceptId);
 
                                     case 3:
                                         _context42.next = 5;
-                                        return CourseModel.getById(id);
+                                        return CourseModel.getById(courseId);
 
                                     case 5:
                                         course = _context42.sent;
