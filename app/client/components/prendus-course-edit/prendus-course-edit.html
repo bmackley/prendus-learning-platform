@@ -1,4 +1,3 @@
-
 <link href="../../bower_components/polymer/polymer.html" rel="import">
 <link href="../../bower_components/paper-dialog/paper-dialog.html" rel="import">
 <link href="../../bower_components/paper-fab/paper-fab.html" rel="import">
@@ -7,7 +6,7 @@
 <link href="../../bower_components/paper-date-picker/paper-date-picker.html" rel="import">
 <link href="../../bower_components/redux-store-element/redux-store.html" rel="import">
 <link href="../../bower_components/paper-input/paper-input.html" rel="import">
-<link href="../../bower_components/paper-menu-button/paper-menu-button.html" rel="import" >
+<link href="../../bower_components/paper-menu-button/paper-menu-button.html" rel="import">
 <link href="../../bower_components/paper-menu/paper-menu.html" rel="import">
 <link href="../../bower_components/Sortable/Sortable.html" rel="import">
 <link href="../../bower_components/app-route/app-route.html" rel="import">
@@ -15,6 +14,8 @@
 <link href="../../bower_components/iron-icons/editor-icons.html" rel="import">
 <link href="../prendus-concept-container-edit/prendus-concept-container-edit.html" rel="import">
 <link rel="import" href="../../bower_components/paper-menu/paper-submenu.html">
+<link rel="import" href="../../bower_components/paper-icon-button/paper-icon-button.html">
+<link rel="import" href="../../bower_components/paper-item/paper-item.html">
 
 <dom-module id="prendus-course-edit">
   <style>
@@ -75,7 +76,7 @@
                                   <!--TODO this span is here to stop the default selection of items. It is a hack, get rid of it if possible-->
                                   <span></span>
                                   <!--TODO this span is here to stop the default selection of items. It is a hack, get rid of it if possible-->
-                                  <prendus-collaborator-menu-content concept-id="[[item.key]]"></prendus-collaborator-menu-content>
+                                  <prendus-collaborator-menu-content course-id="[[courseId]]" concept-id="[[item.key]]" concept></prendus-collaborator-menu-content>
                               </paper-menu>
                           </paper-submenu>
                         <paper-item role="menuitem" id = "[[item.key]]" on-tap="deleteItem"><iron-icon class = "end-justified" icon="icons:delete" item-icon ></iron-icon>Delete</paper-item>
