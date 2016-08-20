@@ -3117,7 +3117,7 @@ $__System.register('19', ['25', '26', '29', '37'], function (_export, _context7)
                     }
                 }, {
                     key: 'initCourse',
-                    value: function initCourse(courseId, course) {
+                    value: function initCourse(uid, courseId, course) {
                         return __awaiter(this, void 0, void 0, _regeneratorRuntime.mark(function _callee() {
                             return _regeneratorRuntime.wrap(function _callee$(_context) {
                                 while (1) {
@@ -3125,7 +3125,7 @@ $__System.register('19', ['25', '26', '29', '37'], function (_export, _context7)
                                         case 0:
                                             _context.prev = 0;
                                             _context.next = 3;
-                                            return Actions.loadCourseCollaboratorEmails(this, courseId);
+                                            return Actions.loadCourseCollaboratorEmails(this, uid, courseId);
 
                                         case 3:
                                             _context.next = 8;
@@ -3155,7 +3155,7 @@ $__System.register('19', ['25', '26', '29', '37'], function (_export, _context7)
                                         case 0:
                                             _context2.prev = 0;
                                             _context2.next = 3;
-                                            return Actions.loadConceptCollaboratorEmails(this, conceptId);
+                                            return Actions.loadConceptCollaboratorEmails(this, courseId, conceptId);
 
                                         case 3:
                                             _context2.next = 8;
@@ -3185,7 +3185,7 @@ $__System.register('19', ['25', '26', '29', '37'], function (_export, _context7)
                                         case 0:
                                             _context3.prev = 0;
                                             _context3.next = 3;
-                                            return Actions.loadVideoCollaboratorEmails(this, videoId);
+                                            return Actions.loadVideoCollaboratorEmails(this, conceptId, videoId);
 
                                         case 3:
                                             _context3.next = 8;
@@ -3215,7 +3215,7 @@ $__System.register('19', ['25', '26', '29', '37'], function (_export, _context7)
                                         case 0:
                                             _context4.prev = 0;
                                             _context4.next = 3;
-                                            return Actions.loadQuizCollaboratorEmails(this, quizId);
+                                            return Actions.loadQuizCollaboratorEmails(this, conceptId, quizId);
 
                                         case 3:
                                             _context4.next = 8;
@@ -3247,7 +3247,7 @@ $__System.register('19', ['25', '26', '29', '37'], function (_export, _context7)
                                             _context5.prev = 0;
                                             email = this.querySelector('#collaboratorInput').value;
 
-                                            if (!this.courseId) {
+                                            if (!(this.uid && this.courseId)) {
                                                 _context5.next = 7;
                                                 break;
                                             }
@@ -3257,10 +3257,10 @@ $__System.register('19', ['25', '26', '29', '37'], function (_export, _context7)
 
                                         case 5:
                                             _context5.next = 7;
-                                            return Actions.loadCourseCollaboratorEmails(this, this.courseId);
+                                            return Actions.loadCourseCollaboratorEmails(this, this.uid, this.courseId);
 
                                         case 7:
-                                            if (!this.conceptId) {
+                                            if (!(this.courseId && this.conceptId)) {
                                                 _context5.next = 12;
                                                 break;
                                             }
@@ -3270,10 +3270,10 @@ $__System.register('19', ['25', '26', '29', '37'], function (_export, _context7)
 
                                         case 10:
                                             _context5.next = 12;
-                                            return Actions.loadConceptCollaboratorEmails(this, this.conceptId);
+                                            return Actions.loadConceptCollaboratorEmails(this, this.courseId, this.conceptId);
 
                                         case 12:
-                                            if (!this.videoId) {
+                                            if (!(this.conceptId && this.videoId)) {
                                                 _context5.next = 17;
                                                 break;
                                             }
@@ -3283,10 +3283,10 @@ $__System.register('19', ['25', '26', '29', '37'], function (_export, _context7)
 
                                         case 15:
                                             _context5.next = 17;
-                                            return Actions.loadVideoCollaboratorEmails(this, this.videoId);
+                                            return Actions.loadVideoCollaboratorEmails(this, this.conceptId, this.videoId);
 
                                         case 17:
-                                            if (!this.quizId) {
+                                            if (!(this.conceptId && this.quizId)) {
                                                 _context5.next = 22;
                                                 break;
                                             }
@@ -3296,7 +3296,7 @@ $__System.register('19', ['25', '26', '29', '37'], function (_export, _context7)
 
                                         case 20:
                                             _context5.next = 22;
-                                            return Actions.loadQuizCollaboratorEmails(this, this.quizId);
+                                            return Actions.loadQuizCollaboratorEmails(this, this.conceptId, this.quizId);
 
                                         case 22:
                                             _context5.next = 27;
@@ -3328,7 +3328,7 @@ $__System.register('19', ['25', '26', '29', '37'], function (_export, _context7)
                                             _context6.prev = 0;
                                             email = e.model.item;
 
-                                            if (!this.courseId) {
+                                            if (!(this.uid && this.courseId)) {
                                                 _context6.next = 7;
                                                 break;
                                             }
@@ -3338,10 +3338,10 @@ $__System.register('19', ['25', '26', '29', '37'], function (_export, _context7)
 
                                         case 5:
                                             _context6.next = 7;
-                                            return Actions.loadCourseCollaboratorEmails(this, this.courseId);
+                                            return Actions.loadCourseCollaboratorEmails(this, this.uid, this.courseId);
 
                                         case 7:
-                                            if (!this.conceptId) {
+                                            if (!(this.courseId && this.conceptId)) {
                                                 _context6.next = 12;
                                                 break;
                                             }
@@ -3351,10 +3351,10 @@ $__System.register('19', ['25', '26', '29', '37'], function (_export, _context7)
 
                                         case 10:
                                             _context6.next = 12;
-                                            return Actions.loadConceptCollaboratorEmails(this, this.conceptId);
+                                            return Actions.loadConceptCollaboratorEmails(this, this.courseId, this.conceptId);
 
                                         case 12:
-                                            if (!this.videoId) {
+                                            if (!(this.conceptId && this.videoId)) {
                                                 _context6.next = 17;
                                                 break;
                                             }
@@ -3364,10 +3364,10 @@ $__System.register('19', ['25', '26', '29', '37'], function (_export, _context7)
 
                                         case 15:
                                             _context6.next = 17;
-                                            return Actions.loadVideoCollaboratorEmails(this, this.videoId);
+                                            return Actions.loadVideoCollaboratorEmails(this, this.conceptId, this.videoId);
 
                                         case 17:
-                                            if (!this.quizId) {
+                                            if (!(this.conceptId && this.quizId)) {
                                                 _context6.next = 22;
                                                 break;
                                             }
@@ -3377,7 +3377,7 @@ $__System.register('19', ['25', '26', '29', '37'], function (_export, _context7)
 
                                         case 20:
                                             _context6.next = 22;
-                                            return Actions.loadQuizCollaboratorEmails(this, this.quizId);
+                                            return Actions.loadQuizCollaboratorEmails(this, this.conceptId, this.quizId);
 
                                         case 22:
                                             _context6.next = 27;
@@ -8750,65 +8750,60 @@ $__System.register('37', ['29', '30', '38', '39', '2a', '3b', '3a', '3c'], funct
 
             FirebaseService.init('AIzaSyANTSoOA6LZZDxM7vqIlAl37B7IqWL-6MY', 'prendus.firebaseapp.com', 'https://prendus.firebaseio.com', 'prendus.appspot.com', 'Prendus');
 
-            loadCourseCollaboratorEmails = function loadCourseCollaboratorEmails(context, courseId) {
+            loadCourseCollaboratorEmails = function loadCourseCollaboratorEmails(context, uid, courseId) {
                 return __awaiter(_this, void 0, void 0, _regeneratorRuntime.mark(function _callee() {
-                    var user, uids, emails, conceptIds;
+                    var uids, emails, conceptIds;
                     return _regeneratorRuntime.wrap(function _callee$(_context) {
                         while (1) {
                             switch (_context.prev = _context.next) {
                                 case 0:
                                     _context.prev = 0;
                                     _context.next = 3;
-                                    return FirebaseService.getLoggedInUser();
-
-                                case 3:
-                                    user = _context.sent;
-                                    _context.next = 6;
                                     return CourseModel.getCollaboratorUids(courseId);
 
-                                case 6:
+                                case 3:
                                     uids = _context.sent;
-                                    _context.next = 9;
-                                    return FirebaseService.set('security/' + user.uid + '/collaboratorSecurityInfo', {
+                                    _context.next = 6;
+                                    return FirebaseService.set('security/' + uid + '/collaboratorSecurityInfo', {
                                         collection: CourseModel.dataPath,
                                         id: courseId
                                     });
 
-                                case 9:
-                                    _context.next = 11;
+                                case 6:
+                                    _context.next = 8;
                                     return UserModel.getEmailsByIds(uids);
 
-                                case 11:
+                                case 8:
                                     emails = _context.sent;
 
                                     context.action = {
                                         type: 'SET_COURSE_COLLABORATOR_EMAILS',
                                         emails: emails,
-                                        uid: user.uid
+                                        uid: uid
                                     };
-                                    _context.next = 15;
+                                    _context.next = 12;
                                     return CourseModel.getConceptIds(courseId);
 
-                                case 15:
+                                case 12:
                                     conceptIds = _context.sent;
 
                                     conceptIds.forEach(function (conceptId) {
                                         loadConceptCollaboratorEmails(context, courseId, conceptId);
                                     });
-                                    _context.next = 22;
+                                    _context.next = 19;
                                     break;
 
-                                case 19:
-                                    _context.prev = 19;
+                                case 16:
+                                    _context.prev = 16;
                                     _context.t0 = _context['catch'](0);
                                     throw _context.t0;
 
-                                case 22:
+                                case 19:
                                 case 'end':
                                     return _context.stop();
                             }
                         }
-                    }, _callee, this, [[0, 19]]);
+                    }, _callee, this, [[0, 16]]);
                 }));
             };
 

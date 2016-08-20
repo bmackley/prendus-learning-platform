@@ -16,14 +16,12 @@ import {Video} from '../node_modules/prendus-services/interfaces/video.interface
 
 FirebaseService.init('AIzaSyANTSoOA6LZZDxM7vqIlAl37B7IqWL-6MY', 'prendus.firebaseapp.com', 'https://prendus.firebaseio.com', 'prendus.appspot.com', 'Prendus');
 
-const loadCourseCollaboratorEmails = async (context: any, courseId: string) => {
+const loadCourseCollaboratorEmails = async (context: any, uid: string, courseId: string) => {
 
     try {
-        const user = await FirebaseService.getLoggedInUser();
-
         const uids = await CourseModel.getCollaboratorUids(courseId);
 
-        await FirebaseService.set(`security/${user.uid}/collaboratorSecurityInfo`, {
+        await FirebaseService.set(`security/${uid}/collaboratorSecurityInfo`, {
             collection: CourseModel.dataPath,
             id: courseId
         });
@@ -32,7 +30,7 @@ const loadCourseCollaboratorEmails = async (context: any, courseId: string) => {
         context.action = {
             type: 'SET_COURSE_COLLABORATOR_EMAILS',
             emails,
-            uid: user.uid
+            uid
         };
 
         const conceptIds = await CourseModel.getConceptIds(courseId);
