@@ -378,6 +378,11 @@ const saveVideo = async (context: any, conceptId: string, videoId: string, video
         const newId = await VideoModel.createOrUpdate(videoId, video);
         await ConceptModel.associateVideo(conceptId, newId);
 
+        if (!videoId) {
+            const conceptCollaboratorUids = await ConceptModel.getCollaboratorUids(conceptId);
+            await VideoModel.associateCollaborators(newId, conceptCollaboratorUids);
+        }
+
         context.action = {
             type: 'SET_CURRENT_VIDEO_ID',
             id: newId
