@@ -42303,11 +42303,14 @@ doy:4}}),kg.defineLocale("zh-tw",{months:"一月_二月_三月_四月_五月_六
         <!-- style="display: flex; flex-direction: column; flex: 1; box-shadow: 0px 0px 3px black; margin: 100px; position: relative; height: 0%" -->
         <template is="dom-if" if="[[username]]">
             <course-title title="[[item.title]]" instructor="[[item.instructor]]">
-              <paper-input id="title" label="Course Title" value="[[currentCourse.title]]" on-change="attributeChanged"></paper-input>
-              <paper-input id="description" label="Course Description" value="[[currentCourse.description]]" on-change="attributeChanged"></paper-input>
-              <h1 id="courseTitle" contenteditable="true" on-change="titleChanged">
-                [[currentCourse.title]]
+              <paper-input name="title" label="Course Title" value="[[currentCourse.title]]" on-change="attributeChanged"></paper-input>
+              <paper-input name="description" label="Course Description" value="[[currentCourse.description]]" on-change="attributeChanged"></paper-input>
+              <h1>
+                [[currentCourse.title]] Concepts
               </h1>
+              <template is="dom-if" if="[[!courseConceptsLength]]">
+                <p>Click the plus button to begin adding concepts to the Course.</p>
+              </template>
               <sortable-js on-sort="sortableEnded">
                 <template id="conceptsList" is="dom-repeat" items="[[courseConcepts]]">
                   <div class="concepts-style-container">
@@ -43605,7 +43608,6 @@ Custom property | Description | Default
     }
     #addCourseDialog{
       width: 33%;
-      height: 25%;
     }
   </style>
   <template>
@@ -43632,8 +43634,8 @@ Custom property | Description | Default
       <h2>Create a Course</h2>
       <div>
         <!-- Look up Iron keys to change this -->
-        <paper-input name="name" label="Course Name" id="courseFormName" required="" auto-validate=""></paper-input>
-        <paper-input name="name" label="Short Description" id="courseDescription" required="" auto-validate=""></paper-input>
+        <paper-input name="courseName" label="Course Name" id="courseFormName" required="" auto-validate=""></paper-input>
+        <paper-input name="courseDescription" label="Short Description" id="courseDescription" required="" auto-validate=""></paper-input>
         <paper-button dialog-dismiss="">Cancel</paper-button>
         <paper-button on-tap="addCourseFormDone">Next</paper-button>
       </div>

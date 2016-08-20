@@ -635,18 +635,17 @@ const orderConcepts = {
 };
 
 
-const updateCourseTitle = {
-  execute: async (context: any, id: string, title: string) => {
+const updateCourseField = async (context: any, id: string, field: string, value: string) => {
     try{
-      await CourseModel.updateCourseTitle(id, title);
+      await CourseModel.updateCourseField(id, field, value);
+      const course = await CourseModel.getById(id);
       context.action = {
-          type: 'UPDATE_COURSE_TITLE',
-          currentCourse: orderedCourse,
+        type: 'GET_COURSE_BY_ID',
+        currentCourse: course
       }
     }catch(error){
       throw error;
     }
-  }
 };
 
 const logOutUser = {
@@ -706,5 +705,6 @@ export const Actions = {
     addVideoCollaborator,
     removeCourseCollaborator,
     removeConceptCollaborator,
-    removeVideoCollaborator
+    removeVideoCollaborator,
+    updateCourseField
 };

@@ -52,11 +52,14 @@
         <!-- style="display: flex; flex-direction: column; flex: 1; box-shadow: 0px 0px 3px black; margin: 100px; position: relative; height: 0%" -->
         <template is="dom-if" if="[[username]]">
             <course-title title="[[item.title]]" instructor="[[item.instructor]]">
-              <paper-input id="title" label="Course Title" value="[[currentCourse.title]]" on-change="attributeChanged"></paper-input>
-              <paper-input id="description" label="Course Description" value="[[currentCourse.description]]" on-change="attributeChanged"></paper-input>
-              <h1 id ="courseTitle" contenteditable="true" on-change="titleChanged">
-                [[currentCourse.title]]
+              <paper-input name="title" label="Course Title" value="[[currentCourse.title]]" on-change="attributeChanged"></paper-input>
+              <paper-input name="description" label="Course Description" value="[[currentCourse.description]]" on-change="attributeChanged"></paper-input>
+              <h1>
+                [[currentCourse.title]] Concepts
               </h1>
+              <template is="dom-if" if="[[!courseConceptsLength]]">
+                <p>Click the plus button to begin adding concepts to the Course.</p>
+              </template>
               <sortable-js on-sort="sortableEnded">
                 <template id="conceptsList" is="dom-repeat" items=[[courseConcepts]]>
                   <div class = "concepts-style-container">
