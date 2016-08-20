@@ -347,9 +347,9 @@ const loadPublicQuestionIds = async (context: any, getPublicQuestionIdsAjax: any
     };
 };
 
-const deleteVideo = async (context: any, id: string) => {
+const deleteVideo = async (context: any, conceptId: string, videoId: string) => {
     try {
-        await VideoModel.removeById(id);
+        await ConceptModel.disassociateVideo(conceptId, videoId);
     }
     catch(error) {
         throw error;
@@ -607,10 +607,10 @@ const getCourseById = {
   }
 };
 const deleteConcept = {
-  execute: async (context: any, id: string, conceptId: string) => {
+  execute: async (context: any, courseId: string, conceptId: string) => {
       try {
-        await CourseModel.deleteCourseConcept(id, conceptId);
-        const course = await CourseModel.getById(id);
+        await CourseModel.disassociateConcept(courseId, conceptId);
+        const course = await CourseModel.getById(courseId);
         const conceptsArray = await CourseModel.courseConceptsToArray(course);
         const orderedConcepts = CourseModel.orderCourseConcepts(conceptsArray);
         course.concepts = orderedConcepts;
