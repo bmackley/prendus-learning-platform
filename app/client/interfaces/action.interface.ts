@@ -24,4 +24,5 @@ export interface Action {
   currentEditConceptId: '';
   jwt: string;
   emails: string[];
+  uid: string;
 }
