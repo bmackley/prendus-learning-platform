@@ -4,7 +4,7 @@ import {UtilitiesService} from '../../node_modules/prendus-services/services/uti
 import {FirebaseService} from '../../node_modules/prendus-services/services/firebase.service.ts';
 import {QuestionSettings} from '../../node_modules/prendus-services/interfaces/question-settings.interface.ts';
 
-class QuizEditorComponent {
+class PrendusQuizEditor {
     public is: string;
     public userQuestionIds: string[];
     public publicQuestionIds: string[];
@@ -210,4 +210,4 @@ class QuizEditorComponent {
     }
 }
 
-Polymer(QuizEditorComponent);
+Polymer(PrendusQuizEditor);

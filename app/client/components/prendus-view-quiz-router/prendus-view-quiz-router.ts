@@ -1,7 +1,7 @@
 import {FirebaseService} from '../../node_modules/prendus-services/services/firebase.service.ts';
 import {UserModel} from '../../node_modules/prendus-services/models/user.model.ts';
 
-class ViewQuizRouterComponent {
+class PrendusViewQuizRouter {
     public is: string;
     public userFullName: string;
     public userEmail: string;
@@ -20,4 +20,4 @@ class ViewQuizRouterComponent {
     }
 }
 
-Polymer(ViewQuizRouterComponent);
+Polymer(PrendusViewQuizRouter);
