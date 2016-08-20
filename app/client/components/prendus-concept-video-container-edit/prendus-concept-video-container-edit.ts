@@ -59,6 +59,7 @@ class PrendusConceptVideoContainerEdit {
         const url = e.detail.url;
 
         const video: Video = {
+            id: null,
             title,
             url,
             collaborators: {}
@@ -72,7 +73,7 @@ class PrendusConceptVideoContainerEdit {
 
     async deleteVideo(e: Event) {
         this.$.editVideoDialog.close();
-        await Actions.deleteVideo(this, this.currentVideoId);
+        await Actions.deleteVideo(this, this.conceptId, this.currentVideoId);
         await Actions.loadConceptVideos(this, this.conceptId);
         Actions.clearCurrentVideoInfo(this);
     }
