@@ -38,5 +38,8 @@ export const InitialState: State = {
     publicCourses: [],
     starredCourses: [],
     sharedCourses: [],
-    collaboratorEmails: []
+    courseCollaboratorEmails: {},
+    conceptCollaboratorEmails: {},
+    videoCollaboratorEmails: {},
+    quizCollaboratorEmails: {}
 };

@@ -23,8 +23,16 @@ export interface State {
     currentEditQuizId: '';
     currentEditConceptId: '';
     jwt: string;
-    courseCollaboratorEmails: string[];
-    conceptCollaboratorEmails: string[];
-    videoCollaboratorEmails: string[];
-    quizCollaboratorEmails: string[];
+    courseCollaboratorEmails: {
+        [uid: string]: string[];
+    };
+    conceptCollaboratorEmails: {
+        [courseId: string]: string[];
+    };
+    videoCollaboratorEmails: {
+        [conceptId: string]: string[];
+    };
+    quizCollaboratorEmails: {
+        [conceptId: string]: string[];
+    };
 }

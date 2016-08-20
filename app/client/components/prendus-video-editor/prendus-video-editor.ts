@@ -14,6 +14,9 @@ export class PrendusVideoEditor {
     beforeRegister() {
         this.is = 'prendus-video-editor';
         this.properties = {
+            conceptId: {
+                type: String
+            },
             videoId: {
                 type: String
             },
