@@ -5,7 +5,7 @@ import {rootReducer} from '../../redux/reducers.ts';
 import {State} from '../../interfaces/state.interface.ts';
 import {Action} from '../../interfaces/action.interface.ts';
 
-export class AppComponent {
+class PrendusApp {
   public is: string;
   public username: string;
   public rootReducer: (state: State, action: Action) => State;
@@ -21,4 +21,5 @@ export class AppComponent {
     this.rootReducer = rootReducer;
   }
 }
-Polymer(AppComponent);
+
+Polymer(PrendusApp);

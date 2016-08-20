@@ -5,7 +5,10 @@
   "watch": {
     "build": {
       "patterns": [
-        "app/client/components/*/*"
+        "app/client/components/*/*",
+        "app/client/redux/*",
+        "app/client/styles/*",
+        "app/client/interfaces/*"
       ],
       "extensions": "ts,html"
     }
