@@ -8,28 +8,28 @@ export function rootReducer(state: State = InitialState, action: Action): State 
         case 'SET_COURSE_COLLABORATOR_EMAILS': {
             const newState = Object.assign({}, state);
 
-            newState.courseCollaboratorEmails = action.emails;
+            newState.courseCollaboratorEmails[action.uid] = action.emails;
 
             return newState;
         }
         case 'SET_CONCEPT_COLLABORATOR_EMAILS': {
             const newState = Object.assign({}, state);
 
-            newState.conceptCollaboratorEmails = action.emails;
+            newState.conceptCollaboratorEmails[action.courseId] = action.emails;
 
             return newState;
         }
         case 'SET_VIDEO_COLLABORATOR_EMAILS': {
             const newState = Object.assign({}, state);
 
-            newState.videoCollaboratorEmails = action.emails;
+            newState.videoCollaboratorEmails[action.conceptId] = action.emails;
 
             return newState;
         }
         case 'SET_QUIZ_COLLABORATOR_EMAILS': {
             const newState = Object.assign({}, state);
 
-            newState.quizCollaboratorEmails = action.emails;
+            newState.quizCollaboratorEmails[action.conceptId] = action.emails;
 
             return newState;
         }

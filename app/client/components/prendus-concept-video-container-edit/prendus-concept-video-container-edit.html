@@ -23,7 +23,7 @@
         <redux-store on-statechange="mapStateToThis" action="[[action]]"></redux-store>
 
         <paper-dialog id="editVideoDialog" with-backdrop style="padding: 20px">
-            <prendus-video-editor id="videoEditor" video-id="[[currentVideoId]]" title="{{currentVideoTitle}}" url="{{currentVideoUrl}}" on-save="saveVideo" on-delete="deleteVideo"></prendus-video-editor>
+            <prendus-video-editor id="videoEditor" concept-id="[[conceptId]]" video-id="[[currentVideoId]]" title="{{currentVideoTitle}}" url="{{currentVideoUrl}}" on-save="saveVideo" on-delete="deleteVideo"></prendus-video-editor>
         </paper-dialog>
         <template is="dom-repeat" items="[[videos]]">
             <div class="video-row" on-tap="videoRowClick">[[item.title]]</div>

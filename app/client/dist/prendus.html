@@ -41698,7 +41698,7 @@ Custom property | Description | Default
                               <!--TODO this span is here to stop the default selection of items. It is a hack, get rid of it if possible-->
                               <span></span>
                               <!--TODO this span is here to stop the default selection of items. It is a hack, get rid of it if possible-->
-                              <prendus-collaborator-menu-content video-id="[[videoId]]"></prendus-collaborator-menu-content>
+                              <prendus-collaborator-menu-content concept-id="[[conceptId]]" video-id="[[videoId]]" video=""></prendus-collaborator-menu-content>
                           </paper-menu>
                       </paper-submenu>
                       <template is="dom-if" if="[[videoId]]">
@@ -41752,7 +41752,7 @@ Custom property | Description | Default
         <redux-store on-statechange="mapStateToThis" action="[[action]]"></redux-store>
 
         <paper-dialog id="editVideoDialog" with-backdrop="" style="padding: 20px">
-            <prendus-video-editor id="videoEditor" video-id="[[currentVideoId]]" title="{{currentVideoTitle}}" url="{{currentVideoUrl}}" on-save="saveVideo" on-delete="deleteVideo"></prendus-video-editor>
+            <prendus-video-editor id="videoEditor" concept-id="[[conceptId]]" video-id="[[currentVideoId]]" title="{{currentVideoTitle}}" url="{{currentVideoUrl}}" on-save="saveVideo" on-delete="deleteVideo"></prendus-video-editor>
         </paper-dialog>
         <template is="dom-repeat" items="[[videos]]">
             <div class="video-row" on-tap="videoRowClick">[[item.title]]</div>
@@ -42569,7 +42569,7 @@ doy:4}}),kg.defineLocale("zh-tw",{months:"一月_二月_三月_四月_五月_六
                                   <!--TODO this span is here to stop the default selection of items. It is a hack, get rid of it if possible-->
                                   <span></span>
                                   <!--TODO this span is here to stop the default selection of items. It is a hack, get rid of it if possible-->
-                                  <prendus-collaborator-menu-content concept-id="[[item.key]]"></prendus-collaborator-menu-content>
+                                  <prendus-collaborator-menu-content course-id="[[courseId]]" concept-id="[[item.key]]" concept=""></prendus-collaborator-menu-content>
                               </paper-menu>
                           </paper-submenu>
                         <paper-item role="menuitem" id="[[item.key]]" on-tap="deleteItem"><iron-icon class="end-justified" icon="icons:delete" item-icon=""></iron-icon>Delete</paper-item>
@@ -91985,7 +91985,7 @@ Custom property | Description | Default
                                     <!--TODO this span is here to stop the default selection of items. It is a hack, get rid of it if possible-->
                                     <span></span>
                                     <!--TODO this span is here to stop the default selection of items. It is a hack, get rid of it if possible-->
-                                    <prendus-collaborator-menu-content quiz-id="[[quizId]]"></prendus-collaborator-menu-content>
+                                    <prendus-collaborator-menu-content concept-id="[[conceptId]]" quiz-id="[[quizId]]" quiz=""></prendus-collaborator-menu-content>
                                 </paper-menu>
                             </paper-submenu>
                         </paper-menu>
