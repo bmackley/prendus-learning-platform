@@ -16,14 +16,12 @@ import {Video} from '../node_modules/prendus-services/interfaces/video.interface
 
 FirebaseService.init('AIzaSyANTSoOA6LZZDxM7vqIlAl37B7IqWL-6MY', 'prendus.firebaseapp.com', 'https://prendus.firebaseio.com', 'prendus.appspot.com', 'Prendus');
 
-const loadCourseCollaboratorEmails = async (context: any, courseId: string) => {
+const loadCourseCollaboratorEmails = async (context: any, uid: string, courseId: string) => {
 
     try {
-        const user = await FirebaseService.getLoggedInUser();
-
         const uids = await CourseModel.getCollaboratorUids(courseId);
 
-        await FirebaseService.set(`security/${user.uid}/collaboratorSecurityInfo`, {
+        await FirebaseService.set(`security/${uid}/collaboratorSecurityInfo`, {
             collection: CourseModel.dataPath,
             id: courseId
         });
@@ -31,15 +29,21 @@ const loadCourseCollaboratorEmails = async (context: any, courseId: string) => {
 
         context.action = {
             type: 'SET_COURSE_COLLABORATOR_EMAILS',
-            emails
+            emails,
+            uid
         };
+
+        const conceptIds = await CourseModel.getConceptIds(courseId);
+        conceptIds.forEach((conceptId) => {
+            loadConceptCollaboratorEmails(context, courseId, conceptId);
+        });
     }
     catch(error) {
         throw error;
     }
 };
 
-const loadConceptCollaboratorEmails = async (context: any, conceptId: string) => {
+const loadConceptCollaboratorEmails = async (context: any, courseId: string, conceptId: string) => {
 
     try {
         const user = await FirebaseService.getLoggedInUser();
@@ -54,15 +58,26 @@ const loadConceptCollaboratorEmails = async (context: any, conceptId: string) =>
 
         context.action = {
             type: 'SET_CONCEPT_COLLABORATOR_EMAILS',
-            emails
+            emails,
+            courseId
         };
+
+        const videoIds = await ConceptModel.getVideoIds(conceptId);
+        videoIds.forEach((videoId) => {
+            loadVideoCollaboratorEmails(context, conceptId, videoId);
+        });
+
+        const quizIds = await ConceptModel.getQuizIds(conceptId);
+        quizIds.forEach((quizId) => {
+            loadQuizCollaboratorEmails(context, conceptId, quizId);
+        });
     }
     catch(error) {
         throw error;
     }
 };
 
-const loadVideoCollaboratorEmails = async (context: any, videoId: string) => {
+const loadVideoCollaboratorEmails = async (context: any, conceptId: string, videoId: string) => {
 
     try {
         const user = await FirebaseService.getLoggedInUser();
@@ -77,7 +92,8 @@ const loadVideoCollaboratorEmails = async (context: any, videoId: string) => {
 
         context.action = {
             type: 'SET_VIDEO_COLLABORATOR_EMAILS',
-            emails
+            emails,
+            conceptId
         };
     }
     catch(error) {
@@ -85,7 +101,7 @@ const loadVideoCollaboratorEmails = async (context: any, videoId: string) => {
     }
 };
 
-const loadQuizCollaboratorEmails = async (context: any, quizId: string) => {
+const loadQuizCollaboratorEmails = async (context: any, conceptId: string, quizId: string) => {
 
     try {
         const user = await FirebaseService.getLoggedInUser();
@@ -100,7 +116,8 @@ const loadQuizCollaboratorEmails = async (context: any, quizId: string) => {
 
         context.action = {
             type: 'SET_QUIZ_COLLABORATOR_EMAILS',
-            emails
+            emails,
+            conceptId
         };
     }
     catch(error) {
@@ -268,6 +285,9 @@ const createNewQuiz = async (context: any, conceptId: string) => {
     });
     await ConceptModel.associateQuiz(conceptId, quizId);
 
+    const conceptCollaboratorUids = await ConceptModel.getCollaboratorUids(conceptId);
+    await QuizModel.associateCollaborators(quizId, conceptCollaboratorUids);
+
     return quizId;
 };
 
@@ -347,9 +367,9 @@ const loadPublicQuestionIds = async (context: any, getPublicQuestionIdsAjax: any
     };
 };
 
-const deleteVideo = async (context: any, id: string) => {
+const deleteVideo = async (context: any, conceptId: string, videoId: string) => {
     try {
-        await VideoModel.removeById(id);
+        await ConceptModel.disassociateVideo(conceptId, videoId);
     }
     catch(error) {
         throw error;
@@ -360,6 +380,11 @@ const saveVideo = async (context: any, conceptId: string, videoId: string, video
     try {
         const newId = await VideoModel.createOrUpdate(videoId, video);
         await ConceptModel.associateVideo(conceptId, newId);
+
+        if (!videoId) {
+            const conceptCollaboratorUids = await ConceptModel.getCollaboratorUids(conceptId);
+            await VideoModel.associateCollaborators(newId, conceptCollaboratorUids);
+        }
 
         context.action = {
             type: 'SET_CURRENT_VIDEO_ID',
@@ -607,10 +632,10 @@ const getCourseById = {
   }
 };
 const deleteConcept = {
-  execute: async (context: any, id: string, conceptId: string) => {
+  execute: async (context: any, courseId: string, conceptId: string) => {
       try {
-        await CourseModel.deleteCourseConcept(id, conceptId);
-        const course = await CourseModel.getById(id);
+        await CourseModel.disassociateConcept(courseId, conceptId);
+        const course = await CourseModel.getById(courseId);
         const conceptsArray = await CourseModel.courseConceptsToArray(course);
         const orderedConcepts = CourseModel.orderCourseConcepts(conceptsArray);
         course.concepts = orderedConcepts;

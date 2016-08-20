@@ -8,10 +8,12 @@ class PrendusCollaboratorMenuContent {
     public querySelector: any;
     public course: boolean;
     public observers: string[];
+    public uid: string;
     public courseId: string;
     public conceptId: string;
     public videoId: string;
     public quizId: string;
+    public properties: any;
 
     beforeRegister() {
 
@@ -20,54 +22,66 @@ class PrendusCollaboratorMenuContent {
             courseId: {
                 type: String
             },
+            course: {
+                type: Boolean
+            },
             conceptId: {
                 type: String
+            },
+            concept: {
+                type: Boolean
             },
             videoId: {
                 type: String
             },
+            video: {
+                type: Boolean
+            },
             quizId: {
+                type: String
+            },
+            quiz: {
                 type: String
             }
         };
         this.observers = [
-            'initCourse(courseId)',
-            'initConcept(conceptId)',
-            'initVideo(videoId)',
-            'initQuiz(quizId)'
+            'initCourse(courseId, course)',
+            'initConcept(courseId, conceptId, concept)',
+            'initVideo(conceptId, videoId, video)',
+            'initQuiz(conceptId, quizId, quiz)'
         ];
     }
 
-    async initCourse(courseId: string) {
+    async initCourse(uid: string, courseId: string, course: boolean) {
         try {
-            await Actions.loadCourseCollaboratorEmails(this, courseId);
+            await Actions.loadCourseCollaboratorEmails(this, uid, courseId);
         }
         catch(error) {
             alert(error);
         }
     }
 
-    async initConcept(conceptId: string) {
+    async initConcept(courseId: string, conceptId: string, concept: boolean) {
         try {
-            await Actions.loadConceptCollaboratorEmails(this, conceptId);
+            await Actions.loadConceptCollaboratorEmails(this, courseId, conceptId);
         }
         catch(error) {
             alert(error);
         }
     }
 
-    async initVideo(videoId: string) {
+    async initVideo(conceptId: string, videoId: string, video: boolean) {
         try {
-            await Actions.loadVideoCollaboratorEmails(this, videoId);
+            await Actions.loadVideoCollaboratorEmails(this, conceptId, videoId);
         }
         catch(error) {
             alert(error);
         }
     }
 
-    async initQuiz(quizId: string) {
+    async initQuiz(conceptId: string, quizId: string, quiz: boolean) {
         try {
-            await Actions.loadQuizCollaboratorEmails(this, quizId);
+            await Actions.loadQuizCollaboratorEmails(this, conceptId, quizId);
         }
         catch(error) {
             alert(error);
@@ -78,24 +92,24 @@ class PrendusCollaboratorMenuContent {
         try {
             const email = this.querySelector('#collaboratorInput').value;
 
-            if (this.courseId) {
+            if (this.uid && this.courseId) {
                 await Actions.addCourseCollaborator(this, this.courseId, email);
-                await Actions.loadCourseCollaboratorEmails(this, this.courseId);
+                await Actions.loadCourseCollaboratorEmails(this, this.uid, this.courseId);
             }
 
-            if (this.conceptId) {
+            if (this.courseId && this.conceptId) {
                 await Actions.addConceptCollaborator(this, this.conceptId, email);
-                await Actions.loadConceptCollaboratorEmails(this, this.conceptId);
+                await Actions.loadConceptCollaboratorEmails(this, this.courseId, this.conceptId);
             }
 
-            if (this.videoId) {
+            if (this.conceptId && this.videoId) {
                 await Actions.addVideoCollaborator(this, this.videoId, email);
-                await Actions.loadVideoCollaboratorEmails(this, this.videoId);
+                await Actions.loadVideoCollaboratorEmails(this, this.conceptId, this.videoId);
             }
 
-            if (this.quizId) {
+            if (this.conceptId && this.quizId) {
                 await Actions.addQuizCollaborator(this, this.quizId, email);
-                await Actions.loadQuizCollaboratorEmails(this, this.quizId);
+                await Actions.loadQuizCollaboratorEmails(this, this.conceptId, this.quizId);
             }
         }
         catch(error) {
@@ -107,24 +121,24 @@ class PrendusCollaboratorMenuContent {
         try {
             const email = e.model.item;
 
-            if (this.courseId) {
+            if (this.uid && this.courseId) {
                 await Actions.removeCourseCollaborator(this, this.courseId, email);
-                await Actions.loadCourseCollaboratorEmails(this, this.courseId);
+                await Actions.loadCourseCollaboratorEmails(this, this.uid, this.courseId);
             }
 
-            if (this.conceptId) {
+            if (this.courseId && this.conceptId) {
                 await Actions.removeConceptCollaborator(this, this.conceptId, email);
-                await Actions.loadConceptCollaboratorEmails(this, this.conceptId);
+                await Actions.loadConceptCollaboratorEmails(this, this.courseId, this.conceptId);
             }
 
-            if (this.videoId) {
+            if (this.conceptId && this.videoId) {
                 await Actions.removeVideoCollaborator(this, this.videoId, email);
-                await Actions.loadVideoCollaboratorEmails(this, this.videoId);
+                await Actions.loadVideoCollaboratorEmails(this, this.conceptId, this.videoId);
             }
 
-            if (this.quizId) {
+            if (this.conceptId && this.quizId) {
                 await Actions.removeQuizCollaborator(this, this.quizId, email);
-                await Actions.loadQuizCollaboratorEmails(this, this.quizId);
+                await Actions.loadQuizCollaboratorEmails(this, this.conceptId, this.quizId);
             }
         }
         catch(error) {
@@ -135,20 +149,20 @@ class PrendusCollaboratorMenuContent {
     mapStateToThis(e: StatechangeEvent) {
         const state = e.detail.state;
 
-        if (this.courseId) {
-            this.collaboratorEmails = state.courseCollaboratorEmails;
+        if (this.uid && this.courseId) {
+            this.collaboratorEmails = state.courseCollaboratorEmails[this.uid];
         }
 
-        if (this.conceptId) {
-            this.collaboratorEmails = state.conceptCollaboratorEmails;
+        if (this.courseId && this.conceptId) {
+            this.collaboratorEmails = state.conceptCollaboratorEmails[this.courseId];
         }
 
-        if (this.videoId) {
-            this.collaboratorEmails = state.videoCollaboratorEmails;
+        if (this.conceptId && this.videoId) {
+            this.collaboratorEmails = state.videoCollaboratorEmails[this.conceptId];
         }
 
-        if (this.quizId) {
-            this.collaboratorEmails = state.quizCollaboratorEmails;
+        if (this.conceptId && this.quizId) {
+            this.collaboratorEmails = state.quizCollaboratorEmails[this.conceptId];
         }
     }
 }
