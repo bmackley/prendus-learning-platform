@@ -12,7 +12,10 @@ class PrendusErrorMessage {
     this.is = 'prendus-error-message';
     this.properties = {
         message: {
-          type: String,
+          type: String
+        }
+        success: {
+          type: Boolean
         }
     }
     this.observers = [
@@ -22,7 +25,6 @@ class PrendusErrorMessage {
   setMessage(){
     console.log(this.message);
     this.toastText = this.message;
-
   }
   mapStateToThis(e) {
     const state = e.detail.state

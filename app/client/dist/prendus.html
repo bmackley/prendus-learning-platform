@@ -21984,6 +21984,17 @@ Custom property | Description | Default
     });
   </script>
 </dom-module>
+<dom-module id="prendus-error-message" assetpath="../prendus-error-message/">
+  <style>
+    /* CSS rules for your element */
+  </style>
+  <template>
+    <redux-store on-statechange="mapStateToThis" action="[[action]]"></redux-store>
+    <paper-toast id="toastContainer" verticalalign="top" text="[[toastText]]"></paper-toast>
+    <div id="toastTarget" style="margin-left: -28px; height: 60px;"></div>
+  </template>
+  <script>System.import('/components/prendus-error-message/prendus-error-message.ts');</script>
+</dom-module>
 <dom-module id="prendus-login" assetpath="../prendus-login/">
   <style>
     /* CSS rules for your element */
@@ -22028,7 +22039,7 @@ Custom property | Description | Default
           </form>
         </div>
       </paper-card>
-      <center><div id="toastTarget" style="margin-left: -28px; height: 60px;"></div></center>
+      <center><div id="toastTarget" style="margin-left: -28px; height: 60px;"></div><prendus-error-message message="[[message]]"></prendus-error-message></center>
     </center>
   </template>
 

@@ -634,7 +634,6 @@ const orderConcepts = {
   }
 };
 
-
 const updateCourseField = async (context: any, id: string, field: string, value: string) => {
     try{
       await CourseModel.updateCourseField(id, field, value);
