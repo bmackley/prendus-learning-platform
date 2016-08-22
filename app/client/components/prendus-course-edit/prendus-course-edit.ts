@@ -24,16 +24,16 @@ class PrendusCourseEdit {
     this.properties = {
         route: {
           type: Object,
-          //observer: 'getData();
+          observer: 'getCourse'
         },
         data: {
           type: Object,
         },
     }
-    this.observers = [
-      'getCourse(route)',
-      'getData(data)'
-    ];
+    // this.observers = [
+    //   'getCourse(route)',
+    //   'getData(data)'
+    // ];
   }
 
   getCourse(){
@@ -56,6 +56,7 @@ class PrendusCourseEdit {
     this.uid = state.currentUser.metaData.uid;
     this.currentCourse = state.currentCourse;
     this.courseConcepts = this.currentCourse.concepts;
+    this.courseConceptsLength = this.courseConcepts.length;
   }
 
   addConcept(e){
@@ -88,7 +89,12 @@ class PrendusCourseEdit {
         uid: this.uid,
         title: this.$.conceptFormName.value,
       };
-      Actions.addConcept.execute(this, this.courseId, newConcept, this.courseConcepts.length);
+      try{
+        Actions.addConcept.execute(this, this.courseId, newConcept, this.courseConcepts.length);
+      }catch(error){
+        //raise event throwing error here
+      }
+      this.$.conceptFormName.value = '';
     }
   }
 
@@ -104,14 +110,15 @@ class PrendusCourseEdit {
       Actions.orderConcepts.execute(this, this.courseId, updateConceptPositionArray);
     }
   }
-  async titleChanged(e) {
+  async attributeChanged(e) {
     try{
       const value = e.target.value;
-      console.log('title changed', value)
-      // await Actions.updateQuizTitle(this.quizId, value);
+      const attribute = e.target.name;
+      await Actions.updateCourseField(this, this.courseId, attribute, value);
       // await Actions.loadConceptQuizzes(this, this.conceptId);
       //Raise a success message here if it works
     }catch(error){
+      console.log('error', error)
       //Error component shows message here if it doesnt work
     }
 
