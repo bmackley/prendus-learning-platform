@@ -22,6 +22,11 @@ export class PrendusNavbar {
     this.fire('location-changed', {}, {node: window});
   }
 
+  goHome() {
+      window.history.pushState({}, '', '');
+      this.fire('location-changed', {}, {node: window});
+  }
+
   openDropdown(e: any){
     const btn = document.querySelector("iron-dropdown");
     btn.toggle()
