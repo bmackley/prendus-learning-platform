@@ -1,6 +1,7 @@
 <link href="../../bower_components/polymer/polymer.html" rel="import">
 <link href="../../bower_components/paper-card/paper-card.html" rel="import">
 <link href="../../bower_components/paper-dialog/paper-dialog.html" rel="import">
+<link rel="import" href="../prendus-course-preview/prendus-course-preview.html">
 
 <dom-module id="prendus-course-homepage">
   <style>
@@ -22,15 +23,7 @@
 
     <h1>My Courses</h1>
     <template id="courseList" is="dom-repeat" items="[[userCourses]]">
-        <!--TODO make a component for this-->
-      <paper-card heading="[[item.title]]">
-        <div class="card-content">[[item.description]]</div>
-        <div class="card-actions">
-          <paper-button id="[[item.id]]" on-tap="editCourse">Edit</paper-button>  <!-- Go to page from here -->
-          <paper-button id="[[item.id]]" on-tap="viewCourse">View</paper-button>
-        </div>
-      </paper-card>
-      <!--TODO make a component for this-->
+        <prendus-course-preview course="[[item]]"></prendus-course-preview>
     </template>
     <br>
     <paper-fab id="addFabButton" icon = "add" title = "Add Course" on-tap="addCourse"></paper-fab>
@@ -51,29 +44,13 @@
     <h1>Starred Courses</h1>
 
     <template id="courseList" is="dom-repeat" items="[[starredCourses]]">
-        <!--TODO make a component for this-->
-      <paper-card heading="[[item.title]]">
-        <div class="card-content">Create a Description</div>
-        <div class="card-actions">
-          <paper-button id="[[item.id]]" on-tap="editCourse">Edit</paper-button>  <!-- Go to page from here -->
-          <paper-button id="[[item.id]]" on-tap="viewCourse">View</paper-button>
-        </div>
-      </paper-card>
-      <!--TODO make a component for this-->
+        <prendus-course-preview course="[[item]]"></prendus-course-preview>
     </template>
 
     <h1>Courses shared with me</h1>
 
     <template id="courseList" is="dom-repeat" items="[[sharedCourses]]">
-        <!--TODO make a component for this-->
-      <paper-card heading="[[item.title]]">
-        <div class="card-content">Create a Description</div>
-        <div class="card-actions">
-          <paper-button id="[[item.id]]" on-tap="editCourse">Edit</paper-button>  <!-- Go to page from here -->
-          <paper-button id="[[item.id]]" on-tap="viewCourse">View</paper-button>
-        </div>
-      </paper-card>
-      <!--TODO make a component for this-->
+        <prendus-course-preview course="[[item]]"></prendus-course-preview>
     </template>
 
   </template>
