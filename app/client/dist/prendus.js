@@ -2876,6 +2876,7 @@ $__System.register('38', ['37', '39'], function (_export, _context) {
                 {
                     var _newState14 = Object.assign({}, state);
                     _newState14.currentUser = action.user;
+                    _newState14.courses = action.courses;
                     return _newState14;
                 }
             case Actions.checkUserAuth.type:
@@ -4246,13 +4247,17 @@ $__System.register('13', ['26', '27', '39', '2a'], function (_export, _context2)
                         this.is = 'prendus-course-edit';
                         this.properties = {
                             route: {
-                                type: Object
+                                type: Object,
+                                observer: 'getCourse'
                             },
                             data: {
                                 type: Object
                             }
                         };
-                        this.observers = ['getCourse(route)', 'getData(data)'];
+                        // this.observers = [
+                        //   'getCourse(route)',
+                        //   'getData(data)'
+                        // ];
                     }
                 }, {
                     key: 'getCourse',
@@ -4279,6 +4284,7 @@ $__System.register('13', ['26', '27', '39', '2a'], function (_export, _context2)
                         this.uid = state.currentUser.metaData.uid;
                         this.currentCourse = state.currentCourse;
                         this.courseConcepts = this.currentCourse.concepts;
+                        this.courseConceptsLength = this.courseConcepts.length;
                     }
                 }, {
                     key: 'addConcept',
@@ -4317,7 +4323,10 @@ $__System.register('13', ['26', '27', '39', '2a'], function (_export, _context2)
                                 uid: this.uid,
                                 title: this.$.conceptFormName.value
                             };
-                            Actions.addConcept.execute(this, this.courseId, newConcept, this.courseConcepts.length);
+                            try {
+                                Actions.addConcept.execute(this, this.courseId, newConcept, this.courseConcepts.length);
+                            } catch (error) {}
+                            this.$.conceptFormName.value = '';
                         }
                     }
                 }, {
@@ -4335,26 +4344,36 @@ $__System.register('13', ['26', '27', '39', '2a'], function (_export, _context2)
                         }
                     }
                 }, {
-                    key: 'titleChanged',
-                    value: function titleChanged(e) {
+                    key: 'attributeChanged',
+                    value: function attributeChanged(e) {
                         return __awaiter(this, void 0, void 0, _regeneratorRuntime.mark(function _callee() {
-                            var value;
+                            var value, attribute;
                             return _regeneratorRuntime.wrap(function _callee$(_context) {
                                 while (1) {
                                     switch (_context.prev = _context.next) {
                                         case 0:
-                                            try {
-                                                value = e.target.value;
+                                            _context.prev = 0;
+                                            value = e.target.value;
+                                            attribute = e.target.name;
+                                            _context.next = 5;
+                                            return Actions.updateCourseField(this, this.courseId, attribute, value);
 
-                                                console.log('title changed', value);
-                                            } catch (error) {}
+                                        case 5:
+                                            _context.next = 10;
+                                            break;
 
-                                        case 1:
+                                        case 7:
+                                            _context.prev = 7;
+                                            _context.t0 = _context['catch'](0);
+
+                                            console.log('error', _context.t0);
+
+                                        case 10:
                                         case 'end':
                                             return _context.stop();
                                     }
                                 }
-                            }, _callee, this);
+                            }, _callee, this, [[0, 7]]);
                         }));
                     }
                 }]);
@@ -4881,12 +4900,21 @@ $__System.register('e', ['26', '27', '39', '2a'], function (_export, _context2) 
 
             PrendusCreateAccount = function () {
                 function PrendusCreateAccount() {
-                    var _this = this;
-
                     _classCallCheck(this, PrendusCreateAccount);
+                }
 
-                    this.specialTap = function (e) {
-                        return __awaiter(_this, void 0, void 0, _regeneratorRuntime.mark(function _callee() {
+                _createClass(PrendusCreateAccount, [{
+                    key: 'beforeRegister',
+                    value: function beforeRegister() {
+                        this.is = 'prendus-create-account';
+                        this.listeners = {
+                            'signup-submit.tap': 'createUser'
+                        };
+                    }
+                }, {
+                    key: 'createUser',
+                    value: function createUser(e) {
+                        return __awaiter(this, void 0, void 0, _regeneratorRuntime.mark(function _callee() {
                             var userMetaData, location;
                             return _regeneratorRuntime.wrap(function _callee$(_context) {
                                 while (1) {
@@ -4924,8 +4952,8 @@ $__System.register('e', ['26', '27', '39', '2a'], function (_export, _context2) 
                                             _context.prev = 19;
                                             _context.t0 = _context['catch'](5);
 
-                                            this.signUpToastText = _context.t0;
-                                            this.$.signUpToast.open();
+                                            this.errorMessage = '';
+                                            this.errorMessage = _context.t0.message;
 
                                         case 23:
                                         case 'end':
@@ -4934,13 +4962,6 @@ $__System.register('e', ['26', '27', '39', '2a'], function (_export, _context2) 
                                 }
                             }, _callee, this, [[5, 19]]);
                         }));
-                    };
-                }
-
-                _createClass(PrendusCreateAccount, [{
-                    key: 'beforeRegister',
-                    value: function beforeRegister() {
-                        this.is = 'prendus-create-account';
                     }
                 }, {
                     key: 'ready',
@@ -5148,6 +5169,7 @@ $__System.register('c', ['26', '27', '2a'], function (_export, _context2) {
 $__System.register('b', ['26', '27'], function (_export, _context) {
     "use strict";
 
+<<<<<<< HEAD
     var _classCallCheck, _createClass, PrendusErrorMessage;
 
     return {
@@ -5202,6 +5224,8 @@ $__System.register('b', ['26', '27'], function (_export, _context) {
 $__System.register('a', ['26', '27'], function (_export, _context) {
     "use strict";
 
+=======
+>>>>>>> develop
     var _classCallCheck, _createClass, PrendusExample;
 
     return {
@@ -5236,7 +5260,15 @@ $__System.register('a', ['26', '27'], function (_export, _context) {
         }
     };
 });
+<<<<<<< HEAD
 $__System.register('9', ['26', '27', '39', '2a'], function (_export, _context3) {
+=======
+<<<<<<< HEAD
+$__System.register('a', ['25', '26', '29', '38'], function (_export, _context3) {
+=======
+$__System.register('9', ['25', '26', '29', '38'], function (_export, _context3) {
+>>>>>>> develop
+>>>>>>> develop
     "use strict";
 
     var _regeneratorRuntime, _classCallCheck, _createClass, Actions, __awaiter, PrendusHomepage;
@@ -5349,7 +5381,15 @@ $__System.register('9', ['26', '27', '39', '2a'], function (_export, _context3) 
         }
     };
 });
+<<<<<<< HEAD
 $__System.register('8', ['26', '27', '39', '2a'], function (_export, _context2) {
+=======
+<<<<<<< HEAD
+$__System.register('9', ['25', '26', '29', '38'], function (_export, _context2) {
+=======
+$__System.register('8', ['25', '26', '29', '38'], function (_export, _context2) {
+>>>>>>> develop
+>>>>>>> develop
     "use strict";
 
     var _regeneratorRuntime, _classCallCheck, _createClass, Actions, __awaiter, PrendusLogin;
@@ -5422,17 +5462,18 @@ $__System.register('8', ['26', '27', '39', '2a'], function (_export, _context2) 
 
                                             window.history.pushState({}, '', location);
                                             this.fire('location-changed', {}, { node: window });
-                                            _context.next = 14;
+                                            _context.next = 15;
                                             break;
 
                                         case 10:
                                             _context.prev = 10;
                                             _context.t0 = _context['catch'](0);
 
+                                            this.errorMessage = _context.t0.message;
                                             this.loginFormToastText = _context.t0.message;
-                                            this.$.loginToast.open();
+                                            this.querySelector('#loginToast').open();
 
-                                        case 14:
+                                        case 15:
                                         case 'end':
                                             return _context.stop();
                                     }
@@ -5454,7 +5495,15 @@ $__System.register('8', ['26', '27', '39', '2a'], function (_export, _context2) 
         }
     };
 });
+<<<<<<< HEAD
 $__System.register('7', ['26', '27', '39'], function (_export, _context) {
+=======
+<<<<<<< HEAD
+$__System.register('8', ['25', '26', '38'], function (_export, _context) {
+=======
+$__System.register('7', ['25', '26', '38'], function (_export, _context) {
+>>>>>>> develop
+>>>>>>> develop
     "use strict";
 
     var _classCallCheck, _createClass, Actions, PrendusNavbar;
@@ -5527,7 +5576,71 @@ $__System.register('7', ['26', '27', '39'], function (_export, _context) {
         }
     };
 });
+<<<<<<< HEAD
 $__System.register('6', ['26', '27', '39', '2a'], function (_export, _context3) {
+=======
+<<<<<<< HEAD
+$__System.register('7', ['25', '26'], function (_export, _context) {
+    "use strict";
+
+    var _classCallCheck, _createClass, PrendusNotification;
+
+    return {
+        setters: [function (_) {
+            _classCallCheck = _.default;
+        }, function (_2) {
+            _createClass = _2.default;
+        }],
+        execute: function () {
+            PrendusNotification = function () {
+                function PrendusNotification() {
+                    _classCallCheck(this, PrendusNotification);
+                }
+
+                _createClass(PrendusNotification, [{
+                    key: 'beforeRegister',
+                    value: function beforeRegister() {
+                        this.is = 'prendus-notification';
+                        this.properties = {
+                            message: {
+                                type: String
+                            },
+                            errorMessage: {
+                                type: String,
+                                observer: 'showErrorMessage'
+                            }
+                        };
+                    }
+                }, {
+                    key: 'showErrorMessage',
+                    value: function showErrorMessage() {
+                        if (this.errorMessage) {
+                            this.toastText = this.errorMessage;
+                            this.querySelector('#errorToastContainer').open();
+                        }
+                    }
+                }, {
+                    key: 'mapStateToThis',
+                    value: function mapStateToThis(e) {
+                        var state = e.detail.state;
+                        this.username = state.currentUser.email;
+                    }
+                }, {
+                    key: 'ready',
+                    value: function ready() {}
+                }]);
+
+                return PrendusNotification;
+            }();
+
+            Polymer(PrendusNotification);
+        }
+    };
+});
+=======
+>>>>>>> develop
+$__System.register('6', ['25', '26', '29', '38'], function (_export, _context3) {
+>>>>>>> develop
     "use strict";
 
     var _regeneratorRuntime, _classCallCheck, _createClass, Actions, __awaiter, PrendusProfile;
@@ -5707,10 +5820,25 @@ $__System.register('6', ['26', '27', '39', '2a'], function (_export, _context3) 
         }
     };
 });
+<<<<<<< HEAD
 $__System.register('3a', ['29', '2a', '2b', '3b', '2f'], function (_export, _context22) {
     "use strict";
 
     var _toConsumableArray, _regeneratorRuntime, FirebaseService, ConceptModel, UtilitiesService, _this, __awaiter, conceptsPath, dataPath, createOrUpdate, associateConcept, disassociateConcept, getById, getCoursesByUser, courseConceptsToArray, orderCourseConcepts, updateCourseConcepts, deleteCourse, associateCollaborator, disassociateCollaborator, getCollaboratorUids, getAllByVisibility, resolveCourseIds, getConceptIds, associateUserStar, disassociateUserStar, CourseModel;
+=======
+<<<<<<< HEAD
+$__System.register('39', ['28', '29', '2a', '3a', '2e'], function (_export, _context21) {
+=======
+<<<<<<< HEAD
+$__System.register('39', ['28', '29', '2a', '3a', '2e'], function (_export, _context21) {
+=======
+$__System.register('39', ['28', '29', '2a', '3a', '2e'], function (_export, _context20) {
+>>>>>>> 3107ed61b34d8398b8cd71ba47b2b8ddd5e86381
+>>>>>>> develop
+    "use strict";
+
+    var _toConsumableArray, _regeneratorRuntime, FirebaseService, ConceptModel, UtilitiesService, _this, __awaiter, conceptsPath, dataPath, createOrUpdate, associateConcept, disassociateConcept, getById, getCoursesByUser, courseConceptsToArray, orderCourseConcepts, updateCourseConcepts, deleteCourse, associateCollaborator, disassociateCollaborator, getCollaboratorUids, getAllByVisibility, resolveCourseIds, getConceptIds, updateCourseField, CourseModel;
+>>>>>>> develop
 
     return {
         setters: [function (_) {
@@ -6418,17 +6546,65 @@ $__System.register('3a', ['29', '2a', '2b', '3b', '2f'], function (_export, _con
                 }));
             };
 
+<<<<<<< HEAD
             associateUserStar = function associateUserStar(courseId, uid) {
                 return __awaiter(_this, void 0, Promise, _regeneratorRuntime.mark(function _callee20() {
+=======
+            updateCourseField = function updateCourseField(id, field, value) {
+                return __awaiter(_this, void 0, void 0, _regeneratorRuntime.mark(function _callee20() {
+>>>>>>> develop
                     var path;
                     return _regeneratorRuntime.wrap(function _callee20$(_context20) {
                         while (1) {
                             switch (_context20.prev = _context20.next) {
                                 case 0:
                                     _context20.prev = 0;
+<<<<<<< HEAD
                                     path = dataPath + '/' + courseId + '/userStars/' + uid;
                                     _context20.next = 4;
                                     return FirebaseService.set(path, uid);
+=======
+                                    path = dataPath + '/' + id + '/' + field;
+                                    _context20.next = 4;
+                                    return FirebaseService.set(path, value);
+
+                                case 4:
+                                    return _context20.abrupt('return', _context20.sent);
+
+                                case 7:
+                                    _context20.prev = 7;
+                                    _context20.t0 = _context20['catch'](0);
+                                    throw _context20.t0;
+
+                                case 10:
+                                case 'end':
+                                    return _context20.stop();
+                            }
+                        }
+                    }, _callee20, this, [[0, 7]]);
+                }));
+            };
+
+            _export('CourseModel', CourseModel = {
+                createOrUpdate: createOrUpdate,
+                getById: getById,
+                getCoursesByUser: getCoursesByUser,
+                deleteCourse: deleteCourse,
+                associateConcept: associateConcept,
+                disassociateConcept: disassociateConcept,
+                orderCourseConcepts: orderCourseConcepts,
+                updateCourseConcepts: updateCourseConcepts,
+                courseConceptsToArray: courseConceptsToArray,
+                associateCollaborator: associateCollaborator,
+                disassociateCollaborator: disassociateCollaborator,
+                getCollaboratorUids: getCollaboratorUids,
+                getAllByVisibility: getAllByVisibility,
+                resolveCourseIds: resolveCourseIds,
+                dataPath: dataPath,
+                getConceptIds: getConceptIds,
+                updateCourseField: updateCourseField
+            });
+>>>>>>> develop
 
                                 case 4:
                                     _context20.next = 9;
@@ -9059,7 +9235,11 @@ $__System.register('3d', ['2a', '2b'], function (_export, _context3) {
 $__System.register('39', ['31', '34', '2a', '2b', '3a', '3b', '3c', '3d'], function (_export, _context47) {
     "use strict";
 
+<<<<<<< HEAD
     var _regeneratorRuntime, FirebaseService, CourseModel, ConceptModel, UserModel, VideoModel, QuizModel, EmailsToUidsModel, _this, __awaiter, loadCourseCollaboratorEmails, loadConceptCollaboratorEmails, loadVideoCollaboratorEmails, loadQuizCollaboratorEmails, addCourseCollaborator, addConceptCollaborator, addVideoCollaborator, addQuizCollaborator, removeCourseCollaborator, removeConceptCollaborator, removeVideoCollaborator, removeQuizCollaborator, starCourse, unstarCourse, getQuiz, updateQuizTitle, createNewQuiz, loadConceptQuizzes, setCurrentEditQuizId, loadQuizSettings, setQuizSetting, setQuestionSetting, loadQuizQuestionIds, addQuestionToQuiz, removeQuestionFromQuiz, loadUserQuestionIds, loadPublicQuestionIds, deleteVideo, saveVideo, setCurrentVideoInfo, clearCurrentVideoInfo, loadConceptVideos, createUser, loginUser, updateUserEmail, updateUserMetaData, checkUserAuth, addConcept, getConceptById, addCourse, getCoursesByUser, getStarredCoursesByUser, getSharedCoursesByUser, getCoursesByVisibility, getCourseById, deleteConcept, orderConcepts, updateCourseTitle, logOutUser, Actions;
+=======
+    var _regeneratorRuntime, FirebaseService, CourseModel, ConceptModel, UserModel, VideoModel, QuizModel, EmailsToUidsModel, _this, __awaiter, loadCourseCollaboratorEmails, loadConceptCollaboratorEmails, loadVideoCollaboratorEmails, loadQuizCollaboratorEmails, addCourseCollaborator, addConceptCollaborator, addVideoCollaborator, addQuizCollaborator, removeCourseCollaborator, removeConceptCollaborator, removeVideoCollaborator, removeQuizCollaborator, starCourse, getQuiz, updateQuizTitle, createNewQuiz, loadConceptQuizzes, setCurrentEditQuizId, loadQuizSettings, setQuizSetting, setQuestionSetting, loadQuizQuestionIds, addQuestionToQuiz, removeQuestionFromQuiz, loadUserQuestionIds, loadPublicQuestionIds, deleteVideo, saveVideo, setCurrentVideoInfo, clearCurrentVideoInfo, loadConceptVideos, createUser, loginUser, updateUserEmail, updateUserMetaData, checkUserAuth, addConcept, getConceptById, addCourse, getCoursesByUser, getStarredCoursesByUser, getSharedCoursesByUser, getCoursesByVisibility, getCourseById, deleteConcept, orderConcepts, updateCourseField, logOutUser, Actions;
+>>>>>>> develop
 
     return {
         setters: [function (_) {
@@ -10263,9 +10443,15 @@ $__System.register('39', ['31', '34', '2a', '2b', '3a', '3b', '3c', '3d'], funct
             loginUser = {
                 type: 'LOGIN_USER',
                 execute: function execute(context, email, password) {
+<<<<<<< HEAD
                     return __awaiter(_this, void 0, void 0, _regeneratorRuntime.mark(function _callee31() {
                         var loggedInUser, user;
                         return _regeneratorRuntime.wrap(function _callee31$(_context31) {
+=======
+                    return __awaiter(_this, void 0, void 0, _regeneratorRuntime.mark(function _callee30() {
+                        var loggedInUser, user, courses;
+                        return _regeneratorRuntime.wrap(function _callee30$(_context30) {
+>>>>>>> develop
                             while (1) {
                                 switch (_context31.prev = _context31.next) {
                                     case 0:
@@ -10282,10 +10468,18 @@ $__System.register('39', ['31', '34', '2a', '2b', '3a', '3b', '3c', '3d'], funct
                                         user = _context31.sent;
                                         //sets ancillary user data such as name, institution, etc.
                                         user.metaData.uid = loggedInUser.uid;
+                                        _context30.next = 10;
+                                        return CourseModel.getCoursesByUser(loggedInUser.uid);
+
+                                    case 10:
+                                        courses = _context30.sent;
+
                                         context.action = {
                                             type: Actions.loginUser.type,
+                                            courses: courses,
                                             user: user
                                         };
+<<<<<<< HEAD
                                         _context31.next = 14;
                                         break;
 
@@ -10293,13 +10487,26 @@ $__System.register('39', ['31', '34', '2a', '2b', '3a', '3b', '3c', '3d'], funct
                                         _context31.prev = 11;
                                         _context31.t0 = _context31['catch'](0);
                                         throw _context31.t0;
+=======
+                                        _context30.next = 17;
+                                        break;
 
                                     case 14:
+                                        _context30.prev = 14;
+                                        _context30.t0 = _context30['catch'](0);
+                                        throw _context30.t0;
+>>>>>>> develop
+
+                                    case 17:
                                     case 'end':
                                         return _context31.stop();
                                 }
                             }
+<<<<<<< HEAD
                         }, _callee31, this, [[0, 11]]);
+=======
+                        }, _callee30, this, [[0, 14]]);
+>>>>>>> develop
                     }));
                 }
             };
@@ -10850,6 +11057,7 @@ $__System.register('39', ['31', '34', '2a', '2b', '3a', '3b', '3c', '3d'], funct
                     }));
                 }
             };
+<<<<<<< HEAD
             updateCourseTitle = {
                 execute: function execute(context, id, title) {
                     return __awaiter(_this, void 0, void 0, _regeneratorRuntime.mark(function _callee45() {
@@ -10882,7 +11090,55 @@ $__System.register('39', ['31', '34', '2a', '2b', '3a', '3b', '3c', '3d'], funct
                         }, _callee45, this, [[0, 6]]);
                     }));
                 }
+=======
+
+            updateCourseField = function updateCourseField(context, id, field, value) {
+                return __awaiter(_this, void 0, void 0, _regeneratorRuntime.mark(function _callee44() {
+                    var course, conceptsArray, orderedConcepts;
+                    return _regeneratorRuntime.wrap(function _callee44$(_context44) {
+                        while (1) {
+                            switch (_context44.prev = _context44.next) {
+                                case 0:
+                                    _context44.prev = 0;
+                                    _context44.next = 3;
+                                    return CourseModel.updateCourseField(id, field, value);
+
+                                case 3:
+                                    _context44.next = 5;
+                                    return CourseModel.getById(id);
+
+                                case 5:
+                                    course = _context44.sent;
+                                    _context44.next = 8;
+                                    return CourseModel.courseConceptsToArray(course);
+
+                                case 8:
+                                    conceptsArray = _context44.sent;
+                                    orderedConcepts = CourseModel.orderCourseConcepts(conceptsArray);
+
+                                    course.concepts = orderedConcepts;
+                                    context.action = {
+                                        type: 'GET_COURSE_BY_ID',
+                                        currentCourse: course
+                                    };
+                                    _context44.next = 17;
+                                    break;
+
+                                case 14:
+                                    _context44.prev = 14;
+                                    _context44.t0 = _context44['catch'](0);
+                                    throw _context44.t0;
+
+                                case 17:
+                                case 'end':
+                                    return _context44.stop();
+                            }
+                        }
+                    }, _callee44, this, [[0, 14]]);
+                }));
+>>>>>>> develop
             };
+
             logOutUser = {
                 type: 'LOGOUT_USER',
                 execute: function execute(context) {
@@ -10957,7 +11213,8 @@ $__System.register('39', ['31', '34', '2a', '2b', '3a', '3b', '3c', '3d'], funct
                 addVideoCollaborator: addVideoCollaborator,
                 removeCourseCollaborator: removeCourseCollaborator,
                 removeConceptCollaborator: removeConceptCollaborator,
-                removeVideoCollaborator: removeVideoCollaborator
+                removeVideoCollaborator: removeVideoCollaborator,
+                updateCourseField: updateCourseField
             });
 
             _export('Actions', Actions);
