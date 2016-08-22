@@ -3082,6 +3082,9 @@ $__System.register('1a', ['26', '27', '39', '2a'], function (_export, _context7)
                     value: function beforeRegister() {
                         this.is = 'prendus-collaborator-menu-content';
                         this.properties = {
+                            uid: {
+                                type: String
+                            },
                             courseId: {
                                 type: String
                             },
@@ -3107,7 +3110,7 @@ $__System.register('1a', ['26', '27', '39', '2a'], function (_export, _context7)
                                 type: String
                             }
                         };
-                        this.observers = ['initCourse(courseId, course)', 'initConcept(courseId, conceptId, concept)', 'initVideo(conceptId, videoId, video)', 'initQuiz(conceptId, quizId, quiz)'];
+                        this.observers = ['initCourse(uid, courseId, course)', 'initConcept(courseId, conceptId, concept)', 'initVideo(conceptId, videoId, video)', 'initQuiz(conceptId, quizId, quiz)'];
                     }
                 }, {
                     key: 'initCourse',
