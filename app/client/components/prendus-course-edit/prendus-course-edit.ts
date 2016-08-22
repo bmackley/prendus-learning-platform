@@ -18,6 +18,7 @@ class PrendusCourseEdit {
   public endDate: Date;
   public route: any;
   public data: any;
+  public courseConceptsLength: number;
 
   beforeRegister() {
     this.is = 'prendus-course-edit';
@@ -36,26 +37,28 @@ class PrendusCourseEdit {
     // ];
   }
 
-  getCourse(){
+  async getCourse(){
     if(this.data.courseId){
-      Actions.getCourseById.execute(this, this.data.courseId)
+      await Actions.getCourseById.execute(this, this.data.courseId);
+      Actions.loadCourseConcepts(this, this.data.courseId);
     }
   }
   getData(){
     if(this.data.courseId){
-      Actions.getCourseById.execute(this, this.data.courseId)
+      Actions.getCourseById.execute(this, this.data.courseId);
     }
   }
 
   mapStateToThis(e: StatechangeEvent) {
     const state = e.detail.state;
+
     this.courseId = state.currentCourse.id;
     this.startDate = state.currentCourse.startDate;
     this.endDate = state.currentCourse.endDate;
     this.username = state.currentUser.metaData.email;
     this.uid = state.currentUser.metaData.uid;
     this.currentCourse = state.currentCourse;
-    this.courseConcepts = this.currentCourse.concepts;
+    this.courseConcepts = state.courseConcepts[this.courseId];
     this.courseConceptsLength = this.courseConcepts.length;
   }
 
@@ -73,7 +76,9 @@ class PrendusCourseEdit {
 
   deleteItem(e){
     // this.querySelector('#deleteConfirm').open();
-    Actions.deleteConcept.execute(this, this.courseId, e.target.id);
+    // Actions.deleteConcept.execute(this, this.courseId, e.target.id);
+    // Actions.loadCourseConcepts(this, this.data.courseId);
+    alert('fix this');
   }
 
   toggle(e) {
@@ -81,7 +86,7 @@ class PrendusCourseEdit {
     this.querySelector('#Concept' + collapseTarget).toggle();
   }
 
-  addConceptFormDone(e){
+  async addConceptFormDone(e){
     e.preventDefault();
     if(this.$.conceptFormName.value){
       this.querySelector('#addDialog').close();
@@ -90,7 +95,9 @@ class PrendusCourseEdit {
         title: this.$.conceptFormName.value,
       };
       try{
-        Actions.addConcept.execute(this, this.courseId, newConcept, this.courseConcepts.length);
+        await Actions.addConcept.execute(this, this.courseId, newConcept, this.courseConcepts.length);
+        await Actions.getCourseById.execute(this, this.data.courseId);
+        Actions.loadCourseConcepts(this, this.data.courseId);
       }catch(error){
         //raise event throwing error here
       }
