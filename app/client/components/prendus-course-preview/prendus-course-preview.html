@@ -6,11 +6,17 @@
 
 <dom-module id="prendus-course-preview">
     <template>
+        <style>
+            #star-icon {
+                color: rgba(0, 0, 0, .5);
+            }
+        </style>
+
         <redux-store on-statechange="mapStateToThis" action="[[action]]"></redux-store>
 
         <paper-card heading="[[course.title]]">
             <div>
-                <paper-icon-button icon="[[starIcon]]" title="click to star or unstar" on-tap="starClick"></paper-icon-button>
+                <paper-icon-button id="star-icon" icon="[[starIcon]]" title="click to star or unstar" on-tap="starClick"></paper-icon-button>
                 <div>[[numStars]]</div>
             </div>
 
