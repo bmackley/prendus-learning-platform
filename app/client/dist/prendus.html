@@ -17083,7 +17083,7 @@ Custom property | Description | Default
       <!-- local DOM for your element -->
     <paper-header-panel class="flex">
         <paper-toolbar>
-          <span id="index" on-tap="changeURL" style="cursor: pointer; cursor: hand;"> <span class="title">Prendus</span></span>
+          <span id="index" on-tap="goHome" style="cursor: pointer; cursor: hand;"> <span class="title">Prendus</span></span>
           <span class="title"></span>
           <template>
             {{username}}
@@ -43737,6 +43737,24 @@ Custom property | Description | Default
 
   <!--<script src="prendus-course-view.js"></script>-->
 </dom-module>
+<dom-module id="prendus-course-preview" assetpath="../prendus-course-preview/">
+    <template>
+        <redux-store on-statechange="mapStateToThis" action="[[action]]"></redux-store>
+
+        <paper-card heading="[[course.title]]">
+            <div>
+                <paper-icon-button icon="[[starIcon]]" title="click to star or unstar" on-tap="starClick"></paper-icon-button>
+                <div>[[numStars]]</div>
+            </div>
+
+          <div class="card-content">[[course.description]]</div>
+          <div class="card-actions">
+            <paper-button id="[[course.id]]" on-tap="editCourse">Edit</paper-button>  <!-- Go to page from here -->
+            <paper-button id="[[course.id]]" on-tap="viewCourse">View</paper-button>
+          </div>
+        </paper-card>
+    </template>
+</dom-module>
 <dom-module id="prendus-course-homepage" assetpath="../prendus-course-homepage/">
   <style>
     /* CSS rules for your element */
@@ -43761,15 +43779,7 @@ Custom property | Description | Default
 
     <h1>My Courses</h1>
     <template id="courseList" is="dom-repeat" items="[[userCourses]]">
-        <!--TODO make a component for this-->
-      <paper-card heading="[[item.title]]">
-        <div class="card-content">[[item.description]]</div>
-        <div class="card-actions">
-          <paper-button id="[[item.id]]" on-tap="editCourse">Edit</paper-button>  <!-- Go to page from here -->
-          <paper-button id="[[item.id]]" on-tap="viewCourse">View</paper-button>
-        </div>
-      </paper-card>
-      <!--TODO make a component for this-->
+        <prendus-course-preview course="[[item]]"></prendus-course-preview>
     </template>
     <br>
     <paper-fab id="addFabButton" icon="add" title="Add Course" on-tap="addCourse"></paper-fab>
@@ -43795,29 +43805,13 @@ Custom property | Description | Default
     <h1>Starred Courses</h1>
 
     <template id="courseList" is="dom-repeat" items="[[starredCourses]]">
-        <!--TODO make a component for this-->
-      <paper-card heading="[[item.title]]">
-        <div class="card-content">Create a Description</div>
-        <div class="card-actions">
-          <paper-button id="[[item.id]]" on-tap="editCourse">Edit</paper-button>  <!-- Go to page from here -->
-          <paper-button id="[[item.id]]" on-tap="viewCourse">View</paper-button>
-        </div>
-      </paper-card>
-      <!--TODO make a component for this-->
+        <prendus-course-preview course="[[item]]"></prendus-course-preview>
     </template>
 
     <h1>Courses shared with me</h1>
 
     <template id="courseList" is="dom-repeat" items="[[sharedCourses]]">
-        <!--TODO make a component for this-->
-      <paper-card heading="[[item.title]]">
-        <div class="card-content">Create a Description</div>
-        <div class="card-actions">
-          <paper-button id="[[item.id]]" on-tap="editCourse">Edit</paper-button>  <!-- Go to page from here -->
-          <paper-button id="[[item.id]]" on-tap="viewCourse">View</paper-button>
-        </div>
-      </paper-card>
-      <!--TODO make a component for this-->
+        <prendus-course-preview course="[[item]]"></prendus-course-preview>
     </template>
 
   </template>
@@ -92353,13 +92347,7 @@ g.hasClass=Q.hasElClass,g.addClass=Q.addElClass,g.removeClass=Q.removeElClass,g.
       <redux-store on-statechange="mapStateToThis" action="[[action]]"></redux-store>
 
     <template id="courseList" is="dom-repeat" items="[[publicCourses]]">
-      <paper-card heading="[[item.title]]">
-        <div class="card-content">Create a Description</div>
-        <div class="card-actions">
-            <paper-button on-tap="starCourse">Star</paper-button>
-          <paper-button on-tap="viewCourse">View</paper-button>
-        </div>
-      </paper-card>
+      <prendus-course-preview course="[[item]]"></prendus-course-preview>
     </template>
 
   </template>
