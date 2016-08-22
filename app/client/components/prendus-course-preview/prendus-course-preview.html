@@ -6,9 +6,14 @@
 
 <dom-module id="prendus-course-preview">
     <template>
+        <style>
+        .course-card{
+          margin: 1%;
+        }
+        </style>
         <redux-store on-statechange="mapStateToThis" action="[[action]]"></redux-store>
 
-        <paper-card heading="[[course.title]]">
+        <paper-card heading="[[course.title]]" class = "course-card">
             <div>
                 <paper-icon-button icon="[[starIcon]]" title="click to star or unstar" on-tap="starClick"></paper-icon-button>
                 <div>[[numStars]]</div>

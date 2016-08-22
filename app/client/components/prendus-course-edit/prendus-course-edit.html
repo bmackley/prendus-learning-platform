@@ -18,6 +18,7 @@
 <link rel="import" href="../../bower_components/paper-menu/paper-submenu.html">
 <link rel="import" href="../../bower_components/paper-icon-button/paper-icon-button.html">
 <link rel="import" href="../../bower_components/paper-item/paper-item.html">
+<link rel="import" href="../prendus-notification/prendus-notification.html">
 
 <dom-module id="prendus-course-edit">
   <style>
@@ -99,6 +100,8 @@
                 </template>
               </sortable-js>
             </course-title>
+            <prendus-notification success-message="[[successMessage]]"></prendus-notification>
+            <prendus-notification error-message="[[errorMessage]]"></prendus-notification>
         </template>
         <template is="dom-if" if="[[!username]]">
           <p> You are not signed in.  Please sign in to access this page </p>

@@ -18,6 +18,8 @@ class PrendusCourseEdit {
   public endDate: Date;
   public route: any;
   public data: any;
+  public successMessage: string;
+  public errorMessage: string;
 
   beforeRegister() {
     this.is = 'prendus-course-edit';
@@ -30,10 +32,6 @@ class PrendusCourseEdit {
           type: Object,
         },
     }
-    // this.observers = [
-    //   'getCourse(route)',
-    //   'getData(data)'
-    // ];
   }
 
   getCourse(){
@@ -56,7 +54,7 @@ class PrendusCourseEdit {
     this.uid = state.currentUser.metaData.uid;
     this.currentCourse = state.currentCourse;
     this.courseConcepts = this.currentCourse.concepts;
-    this.courseConceptsLength = this.courseConcepts.length;
+    this.courseConceptsLength = this.courseConcepts && this.courseConcepts.length;
   }
 
   addConcept(e){
@@ -90,9 +88,13 @@ class PrendusCourseEdit {
         title: this.$.conceptFormName.value,
       };
       try{
+        console.log('add concept form')
         Actions.addConcept.execute(this, this.courseId, newConcept, this.courseConcepts.length);
+        this.successMessage = '';
+        this.successMessage = 'Concept added successfully';
       }catch(error){
-        //raise event throwing error here
+        this.errorMessage = '';
+        this.errorMessage = error.message;
       }
       this.$.conceptFormName.value = '';
     }
@@ -107,21 +109,29 @@ class PrendusCourseEdit {
           updateConceptPositionArray.push(this.courseConcepts[i])
         }
       }
-      Actions.orderConcepts.execute(this, this.courseId, updateConceptPositionArray);
+      try{
+        Actions.orderConcepts.execute(this, this.courseId, updateConceptPositionArray);
+        this.successMessage = '';
+        this.successMessage = 'Concept ordered successfully';
+      }catch(error){
+        this.errorMessage = '';
+        this.errorMessage = error.message;
+      }
     }
   }
   async attributeChanged(e) {
     try{
-      const value = e.target.value;
-      const attribute = e.target.name;
-      await Actions.updateCourseField(this, this.courseId, attribute, value);
-      // await Actions.loadConceptQuizzes(this, this.conceptId);
-      //Raise a success message here if it works
+      if(typeof e.target !== 'undefined' ){
+        const value = e.target.value;
+        const attribute = e.target.name;
+        await Actions.updateCourseField(this, this.courseId, attribute, value);
+        this.successMessage = '';
+        this.successMessage = `${attribute} has been updated`;
+      }
     }catch(error){
-      console.log('error', error)
-      //Error component shows message here if it doesnt work
+      this.errorMessage = '';
+      this.errorMessage = error.message;
     }
-
   }
 }
 
