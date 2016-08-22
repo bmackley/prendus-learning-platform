@@ -94,6 +94,7 @@ export function rootReducer(state: State = InitialState, action: Action): State 
       case Actions.loginUser.type: {
           const newState = Object.assign({}, state);
           newState.currentUser = action.user;
+          newState.courses = action.courses;
           return newState;
       }
       case Actions.checkUserAuth.type: {

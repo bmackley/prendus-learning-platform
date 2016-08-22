@@ -1,8 +1,9 @@
-<link href="../../bower_components/polymer/polymer.html" rel="import">
+<link rel="import" href="../../bower_components/polymer/polymer.html">
 <link rel="import" href="../../bower_components/redux-store-element/redux-store.html">
 <link rel="import" href="../../bower_components/paper-toast/paper-toast.html">
 <link rel="import" href="../../bower_components/paper-input/paper-input.html">
 <link rel="import" href="../../bower_components/paper-card/paper-card.html">
+<link rel="import" href="../prendus-notification/prendus-notification.html">
 
 <dom-module id="prendus-login">
   <style>
@@ -12,16 +13,16 @@
         display: block;
       }
       #loginFormCard, #toastTarget{
-          width: 38%;
+          width: 75%;
         }
         @media (max-width: 1200px) {
           #loginFormCard, #toastTarget{
-            width: 72%;
+            width: 85%;
           }
         }
         @media (max-width: 600px) {
           #loginFormCard, #toastTarget{
-            width: 95%;
+            width: 100%;
           }
         }
         #loginToast {
@@ -49,6 +50,7 @@
         </div>
       </paper-card>
       <center><div id="toastTarget" style = "margin-left: -28px; height: 60px;"></div></center>
+      <prendus-notification error-message="[[errorMessage]]"></prendus-notification>
     </center>
   </template>
 

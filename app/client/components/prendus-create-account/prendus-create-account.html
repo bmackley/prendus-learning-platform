@@ -3,6 +3,7 @@
 <link rel="import" href="../../bower_components/paper-toast/paper-toast.html">
 <link rel="import" href="../../bower_components/paper-input/paper-input.html">
 <link rel="import" href="../../bower_components/paper-card/paper-card.html">
+<link rel="import" href="../prendus-notification/prendus-notification.html">
 
 <dom-module id="prendus-create-account">
   <style>
@@ -12,18 +13,18 @@
         display: block;
       }
       #signupForm, #toastTarget{
-        width: 38%;
+        width: 75%;
       }
       @media (max-width: 1200px) {
         #signupForm, #toastTarget{
           float: left;
-          width: 70%;
+          width: 85%;
           margin-left: 16%;
         }
       }
       @media (max-width: 600px) {
         #signupForm, #toastTarget{
-          width: 95%;
+          width: 98%;
           margin-left: 2%;
         }
       }
@@ -51,7 +52,7 @@
         </div>
       </paper-card>
       <center><div id="toastTarget" style = "margin-left: -28px; height: 60px;"></div></center>
-    </center>
+    </center><prendus-notification error-message="[[errorMessage]]"></prendus-notification></center>
   </template>
 
   <!--<script src="prendus-create-account.js"></script>-->

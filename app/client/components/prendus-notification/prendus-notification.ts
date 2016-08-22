@@ -1,35 +1,37 @@
 import {Actions} from '../../redux/actions.ts';
 
-class PrendusErrorMessage {
+class PrendusNotification {
   public is: string;
   public username: string;
   public message: string;
   public properties: any;
-  public toastText: any;
+  public toastText: string;
   public observers: String[];
+  public errorMessage: string;
 
   beforeRegister() {
-    this.is = 'prendus-error-message';
+    this.is = 'prendus-notification';
     this.properties = {
         message: {
           type: String,
+        },
+        errorMessage: {
+          type: String,
+          observer: 'showErrorMessage'
         }
     }
-    this.observers = [
-      'setMessage(message)',
-    ];
   }
-  setMessage(){
-    console.log(this.message);
-    this.toastText = this.message;
-
+  showErrorMessage(){
+    if(this.errorMessage){
+      this.toastText = this.errorMessage;
+      this.querySelector('#errorToastContainer').open();
+    }
   }
   mapStateToThis(e) {
     const state = e.detail.state
     this.username = state.currentUser.email;
   }
   ready(){
-    this.$.toastContainer.fitInto = this.$.toastTarget;
   }
 }
-Polymer(PrendusErrorMessage);
+Polymer(PrendusNotification);
