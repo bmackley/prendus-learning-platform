@@ -23,22 +23,6 @@ class PrendusCourseHomepage {
       Actions.getSharedCoursesByUser(this, user.uid);
   }
 
-  editCourse(e: any) {
-    const location = `/courses/edit/${e.target.id}`
-    window.history.pushState({}, '', location);
-    this.fire('location-changed', {}, {node: window});
-  }
-
-  viewCourse(e: any) {
-    try{
-      const location = `/courses/view/${e.target.id}`
-      window.history.pushState({}, '', location);
-      this.fire('location-changed', {}, {node: window});
-    }catch(error){
-      alert(error);
-    }
-  }
-
   addCourse(e) {
     this.querySelector('#addCourseDialog').open();
   }
