@@ -4815,9 +4815,7 @@ $__System.register('e', ['25', '26', '29', '38'], function (_export, _context2) 
                     }
                 }, {
                     key: 'ready',
-                    value: function ready(e) {
-                        this.$.signUpToast.fitInto = this.$.toastTarget;
-                    }
+                    value: function ready(e) {}
                 }]);
 
                 return PrendusCreateAccount;
@@ -5053,11 +5051,7 @@ $__System.register('b', ['25', '26'], function (_export, _context) {
         }
     };
 });
-<<<<<<< HEAD
 $__System.register('a', ['25', '26', '29', '38'], function (_export, _context3) {
-=======
-$__System.register('9', ['25', '26', '29', '38'], function (_export, _context3) {
->>>>>>> develop
     "use strict";
 
     var _regeneratorRuntime, _classCallCheck, _createClass, Actions, __awaiter, PrendusHomepage;
@@ -5170,11 +5164,7 @@ $__System.register('9', ['25', '26', '29', '38'], function (_export, _context3) 
         }
     };
 });
-<<<<<<< HEAD
 $__System.register('9', ['25', '26', '29', '38'], function (_export, _context2) {
-=======
-$__System.register('8', ['25', '26', '29', '38'], function (_export, _context2) {
->>>>>>> develop
     "use strict";
 
     var _regeneratorRuntime, _classCallCheck, _createClass, Actions, __awaiter, PrendusLogin;
@@ -5247,7 +5237,7 @@ $__System.register('8', ['25', '26', '29', '38'], function (_export, _context2) 
 
                                             window.history.pushState({}, '', location);
                                             this.fire('location-changed', {}, { node: window });
-                                            _context.next = 15;
+                                            _context.next = 13;
                                             break;
 
                                         case 10:
@@ -5255,10 +5245,8 @@ $__System.register('8', ['25', '26', '29', '38'], function (_export, _context2) 
                                             _context.t0 = _context['catch'](0);
 
                                             this.errorMessage = _context.t0.message;
-                                            this.loginFormToastText = _context.t0.message;
-                                            this.querySelector('#loginToast').open();
 
-                                        case 15:
+                                        case 13:
                                         case 'end':
                                             return _context.stop();
                                     }
@@ -5268,9 +5256,7 @@ $__System.register('8', ['25', '26', '29', '38'], function (_export, _context2) 
                     }
                 }, {
                     key: 'ready',
-                    value: function ready() {
-                        this.$.loginToast.fitInto = this.$.toastTarget;
-                    }
+                    value: function ready() {}
                 }]);
 
                 return PrendusLogin;
@@ -5280,11 +5266,7 @@ $__System.register('8', ['25', '26', '29', '38'], function (_export, _context2) 
         }
     };
 });
-<<<<<<< HEAD
 $__System.register('8', ['25', '26', '38'], function (_export, _context) {
-=======
-$__System.register('7', ['25', '26', '38'], function (_export, _context) {
->>>>>>> develop
     "use strict";
 
     var _classCallCheck, _createClass, Actions, PrendusNavbar;
@@ -5351,7 +5333,6 @@ $__System.register('7', ['25', '26', '38'], function (_export, _context) {
         }
     };
 });
-<<<<<<< HEAD
 $__System.register('7', ['25', '26'], function (_export, _context) {
     "use strict";
 
@@ -5374,8 +5355,9 @@ $__System.register('7', ['25', '26'], function (_export, _context) {
                     value: function beforeRegister() {
                         this.is = 'prendus-notification';
                         this.properties = {
-                            message: {
-                                type: String
+                            successMessage: {
+                                type: String,
+                                observer: 'showSuccessMessage'
                             },
                             errorMessage: {
                                 type: String,
@@ -5389,6 +5371,14 @@ $__System.register('7', ['25', '26'], function (_export, _context) {
                         if (this.errorMessage) {
                             this.toastText = this.errorMessage;
                             this.querySelector('#errorToastContainer').open();
+                        }
+                    }
+                }, {
+                    key: 'showSuccessMessage',
+                    value: function showSuccessMessage() {
+                        if (this.successMessage) {
+                            this.toastText = this.successMessage;
+                            this.querySelector('#successToastContainer').open();
                         }
                     }
                 }, {
@@ -5409,8 +5399,6 @@ $__System.register('7', ['25', '26'], function (_export, _context) {
         }
     };
 });
-=======
->>>>>>> develop
 $__System.register('6', ['25', '26', '29', '38'], function (_export, _context3) {
     "use strict";
 
@@ -5591,15 +5579,7 @@ $__System.register('6', ['25', '26', '29', '38'], function (_export, _context3) 
         }
     };
 });
-<<<<<<< HEAD
 $__System.register('39', ['28', '29', '2a', '3a', '2e'], function (_export, _context21) {
-=======
-<<<<<<< HEAD
-$__System.register('39', ['28', '29', '2a', '3a', '2e'], function (_export, _context21) {
-=======
-$__System.register('39', ['28', '29', '2a', '3a', '2e'], function (_export, _context20) {
->>>>>>> 3107ed61b34d8398b8cd71ba47b2b8ddd5e86381
->>>>>>> develop
     "use strict";
 
     var _toConsumableArray, _regeneratorRuntime, FirebaseService, ConceptModel, UtilitiesService, _this, __awaiter, conceptsPath, dataPath, createOrUpdate, associateConcept, disassociateConcept, getById, getCoursesByUser, courseConceptsToArray, orderCourseConcepts, updateCourseConcepts, deleteCourse, associateCollaborator, disassociateCollaborator, getCollaboratorUids, getAllByVisibility, resolveCourseIds, getConceptIds, updateCourseField, CourseModel;
