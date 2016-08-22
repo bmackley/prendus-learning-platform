@@ -9,14 +9,17 @@ class PrendusCreateAccount {
   public firstName: string;
   public lastName: string;
   public institution: string;
+  public errorMessage: string;
+  public listeners: any;
 
   beforeRegister() {
     this.is = 'prendus-create-account';
+    this.listeners =  {
+      'signup-submit.tap': 'createUser'
+    }
   }
-  listeners: {
-    'signup-submit.tap': 'specialTap'
-  }
-  specialTap =  async (e: any) =>{
+
+  async createUser(e){
     this.email = this.$.formEmail.value;
     this.firstName = this.$.firstName.value;
     this.lastName = this.$.lastName.value;
@@ -40,8 +43,8 @@ class PrendusCreateAccount {
         this.fire('location-changed', {}, {node: window});
     }
     catch(error) {
-      this.signUpToastText = error;
-      this.$.signUpToast.open();
+      this.errorMessage = '';
+      this.errorMessage = error.message
     }
   }
   ready (e){

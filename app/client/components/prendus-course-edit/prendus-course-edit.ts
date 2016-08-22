@@ -24,16 +24,16 @@ class PrendusCourseEdit {
     this.properties = {
         route: {
           type: Object,
-          //observer: 'getData();
+          observer: 'getCourse'
         },
         data: {
           type: Object,
         },
     }
-    this.observers = [
-      'getCourse(route)',
-      'getData(data)'
-    ];
+    // this.observers = [
+    //   'getCourse(route)',
+    //   'getData(data)'
+    // ];
   }
 
   getCourse(){

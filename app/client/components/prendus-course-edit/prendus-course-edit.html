@@ -6,6 +6,8 @@
 <link href="../../bower_components/paper-date-picker/paper-date-picker.html" rel="import">
 <link href="../../bower_components/redux-store-element/redux-store.html" rel="import">
 <link href="../../bower_components/paper-input/paper-input.html" rel="import">
+<link href="../../bower_components/paper-input/paper-input-char-counter.html" rel="import">
+<link href="../../bower_components/iron-input/iron-input.html" rel="import">
 <link href="../../bower_components/paper-menu-button/paper-menu-button.html" rel="import">
 <link href="../../bower_components/paper-menu/paper-menu.html" rel="import">
 <link href="../../bower_components/Sortable/Sortable.html" rel="import">
@@ -42,7 +44,16 @@
       position: relative;
       height: 0%
     }
-
+    #course-title {
+      --paper-input-container-input: {
+        font-size: 48px;
+      };
+    }
+    #course-description {
+      --paper-input-container-input: {
+        font-size: 24px;
+      };
+    }
     /* CSS rules for your element */
   </style>
   <template>
@@ -53,8 +64,8 @@
         <!-- style="display: flex; flex-direction: column; flex: 1; box-shadow: 0px 0px 3px black; margin: 100px; position: relative; height: 0%" -->
         <template is="dom-if" if="[[username]]">
             <course-title title="[[item.title]]" instructor="[[item.instructor]]">
-              <paper-input name="title" label="Course Title" value="[[currentCourse.title]]" on-change="attributeChanged"></paper-input>
-              <paper-input name="description" label="Course Description" value="[[currentCourse.description]]" on-change="attributeChanged"></paper-input>
+              <paper-input name="title" label="Course Title" id = "course-title" value="[[currentCourse.title]]" on-change="attributeChanged"></paper-input>
+              <paper-input name="description" id = "course-description" label="Course Description" label="Input label" maxlength="20" value="[[currentCourse.description]]" on-change="attributeChanged"></paper-input>
               <h1>
                 [[currentCourse.title]] Concepts
               </h1>
