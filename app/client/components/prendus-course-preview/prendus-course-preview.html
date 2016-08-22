@@ -1,0 +1,15 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/paper-card/paper-card.html">
+<link rel="import" href="../../bower_components/paper-button/paper-button.html">
+
+<dom-module id="prendus-course-preview">
+    <template>
+        <paper-card heading="[[course.title]]">
+          <div class="card-content">[[course.description]]</div>
+          <div class="card-actions">
+            <paper-button id="[[course.id]]" on-tap="editCourse">Edit</paper-button>  <!-- Go to page from here -->
+            <paper-button id="[[course.id]]" on-tap="viewCourse">View</paper-button>
+          </div>
+        </paper-card>
+    </template>
+</dom-module>

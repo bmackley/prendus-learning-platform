@@ -248,7 +248,7 @@ const removeQuizCollaborator = async (context: any, quizId: string, email: strin
 const starCourse = async (context: any, courseId: string) => {
     const user = await FirebaseService.getLoggedInUser();
 
-    //await CourseModel.starred(courseId, user.uid);
+    await CourseModel.associateUserStar(courseId, user.uid);
     await UserModel.starCourse(user.uid, courseId);
 };
 
