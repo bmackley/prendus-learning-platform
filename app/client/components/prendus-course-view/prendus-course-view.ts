@@ -44,7 +44,7 @@ export class PrendusCourseView {
     this.username = state.currentUser.metaData.email;
     this.uid = state.currentUser.metaData.uid;
     this.currentCourse = state.currentCourse;
-    this.courseConcepts = this.currentCourse.concepts;
+    this.courseConcepts = state.courseConcepts[this.courseId];
   }
   toggle(e) {
     const collapseTarget = (e.target.id);

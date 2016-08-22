@@ -44,7 +44,6 @@ const loadCourseCollaboratorEmails = async (context: any, uid: string, courseId:
 };
 
 const loadConceptCollaboratorEmails = async (context: any, courseId: string, conceptId: string) => {
-
     try {
         const user = await FirebaseService.getLoggedInUser();
 
@@ -446,6 +445,26 @@ const loadConceptVideos = async (context: any, conceptId: string) => {
     }
 };
 
+const loadCourseConcepts = async (context: any, courseId: string) => {
+    try {
+        const user = await FirebaseService.getLoggedInUser();
+
+        const course = await CourseModel.getById(courseId);
+        const conceptDatasObject = course.concepts;
+
+        const concepts = await ConceptModel.filterConceptDatasByCollaborator(conceptDatasObject, course.uid, user.uid);
+
+        context.action = {
+            type: 'LOAD_COURSE_CONCEPTS',
+            concepts,
+            courseId
+        };
+    }
+    catch(error) {
+        throw error;
+    }
+};
+
 const createUser = {
   type: 'CREATE_USER',
   execute: async (context: any, data: UserMetaData, password: string) => {
@@ -642,9 +661,9 @@ const getCourseById = {
   execute: async (context: any, id: string) => {
     try {
       const course = await CourseModel.getById(id);
-      const conceptsArray = await CourseModel.courseConceptsToArray(course);
-      const orderedConcepts = CourseModel.orderCourseConcepts(conceptsArray);
-      course.concepts = orderedConcepts;
+    //   const conceptsArray = await CourseModel.courseConceptsToArray(course);
+    //   const orderedConcepts = CourseModel.orderCourseConcepts(conceptsArray);
+    //   course.concepts = orderedConcepts;
       context.action = {
           type: 'GET_COURSE_BY_ID',
           currentCourse: course
@@ -659,9 +678,9 @@ const deleteConcept = {
       try {
         await CourseModel.disassociateConcept(courseId, conceptId);
         const course = await CourseModel.getById(courseId);
-        const conceptsArray = await CourseModel.courseConceptsToArray(course);
-        const orderedConcepts = CourseModel.orderCourseConcepts(conceptsArray);
-        course.concepts = orderedConcepts;
+        // const conceptsArray = await CourseModel.courseConceptsToArray(course);
+        // const orderedConcepts = CourseModel.orderCourseConcepts(conceptsArray);
+        // course.concepts = orderedConcepts;
         context.action = {
             type: 'GET_COURSE_BY_ID',
             currentCourse: course
@@ -686,9 +705,9 @@ const updateCourseField = async (context: any, id: string, field: string, value:
     try{
       await CourseModel.updateCourseField(id, field, value);
       const course = await CourseModel.getById(id);
-      const conceptsArray = await CourseModel.courseConceptsToArray(course);
-      const orderedConcepts = CourseModel.orderCourseConcepts(conceptsArray);
-      course.concepts = orderedConcepts;
+    //   const conceptsArray = await CourseModel.courseConceptsToArray(course);
+    //   const orderedConcepts = CourseModel.orderCourseConcepts(conceptsArray);
+    //   course.concepts = orderedConcepts;
       context.action = {
         type: 'GET_COURSE_BY_ID',
         currentCourse: course
@@ -757,5 +776,6 @@ export const Actions = {
     removeCourseCollaborator,
     removeConceptCollaborator,
     removeVideoCollaborator,
-    updateCourseField
+    updateCourseField,
+    loadCourseConcepts
 };
