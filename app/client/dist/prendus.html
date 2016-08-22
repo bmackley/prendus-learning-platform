@@ -21984,14 +21984,15 @@ Custom property | Description | Default
     });
   </script>
 </dom-module>
-<<<<<<< HEAD
 <dom-module id="prendus-notification" assetpath="../prendus-notification/">
   <style>
   #errorToastContainer{
     --paper-toast-background-color: red;
+    width: 100%;
   }
   #successToastContainer{
     --paper-toast-background-color: green;
+    width: 100%;
   }
   </style>
   <template>
@@ -22001,8 +22002,6 @@ Custom property | Description | Default
   </template>
   <!-- <script>System.import('/components/prendus-error-message/prendus-error-message.ts');</script> -->
 </dom-module>
-=======
->>>>>>> develop
 <dom-module id="prendus-login" assetpath="../prendus-login/">
   <style>
     /* CSS rules for your element */
@@ -22011,32 +22010,17 @@ Custom property | Description | Default
         display: block;
       }
       #loginFormCard, #toastTarget{
-<<<<<<< HEAD
           width: 75%;
         }
         @media (max-width: 1200px) {
           #loginFormCard, #toastTarget{
             width: 85%;
-=======
-          width: 38%;
-        }
-        @media (max-width: 1200px) {
-          #loginFormCard, #toastTarget{
-            width: 72%;
->>>>>>> develop
           }
         }
         @media (max-width: 600px) {
           #loginFormCard, #toastTarget{
-<<<<<<< HEAD
             width: 100%;
-=======
-            width: 95%;
->>>>>>> develop
           }
-        }
-        #loginToast {
-          --paper-toast-background-color: red;
         }
     </style>
   
@@ -22044,7 +22028,6 @@ Custom property | Description | Default
     <!-- local DOM for your element -->
     <redux-store action="[[action]]"></redux-store>
     <center>
-      <paper-toast id="loginToast" verticalalign="top" text="[[loginFormToastText]]"></paper-toast>
       <paper-card id="loginFormCard" heading="Login">
         <div>
           <form is="iron-form" method="get" action="/" id="loginForm">
@@ -22059,11 +22042,7 @@ Custom property | Description | Default
           </form>
         </div>
       </paper-card>
-      <center><div id="toastTarget" style="margin-left: -28px; height: 60px;"></div></center>
-<<<<<<< HEAD
       <prendus-notification error-message="[[errorMessage]]"></prendus-notification>
-=======
->>>>>>> develop
     </center>
   </template>
 
@@ -22077,35 +22056,20 @@ Custom property | Description | Default
         display: block;
       }
       #signupForm, #toastTarget{
-<<<<<<< HEAD
         width: 75%;
-=======
-        width: 38%;
->>>>>>> develop
       }
       @media (max-width: 1200px) {
         #signupForm, #toastTarget{
           float: left;
-<<<<<<< HEAD
           width: 85%;
-=======
-          width: 70%;
->>>>>>> develop
           margin-left: 16%;
         }
       }
       @media (max-width: 600px) {
         #signupForm, #toastTarget{
-<<<<<<< HEAD
           width: 98%;
-=======
-          width: 95%;
->>>>>>> develop
           margin-left: 2%;
         }
-      }
-      #signUpToast {
-        --paper-toast-background-color: red;
       }
     </style>
   
@@ -22113,7 +22077,6 @@ Custom property | Description | Default
     <!-- local DOM for your element -->
     <center>
       <redux-store action="[[action]]"></redux-store>
-      <paper-toast id="signUpToast" verticalalign="top" text="[[signUpToastText]]"></paper-toast>
       <paper-card id="signupForm" heading="Create Account">
           <form is="iron-form" method="get" action="/createclass" id="signupFormlocater">
             <paper-input name="email" id="formEmail" label="Email" required="" auto-validate=""></paper-input>
@@ -22127,13 +22090,8 @@ Custom property | Description | Default
           </form>
         
       </paper-card>
-      <center><div id="toastTarget" style="margin-left: -28px; height: 60px;"></div></center>
-<<<<<<< HEAD
-    </center><prendus-notification error-message="[[errorMessage]]"></prendus-notification>
-=======
-    </center>
->>>>>>> develop
-  </template>
+    <prendus-notification error-message="[[errorMessage]]"></prendus-notification>
+  </center></template>
 
   <!--<script src="prendus-create-account.js"></script>-->
 </dom-module>
@@ -41798,10 +41756,7 @@ Custom property | Description | Default
               background-color: var(--prendus-primary-color);
               color: white;
               margin-top: 2%;
-<<<<<<< HEAD
               margin-bottom: 2%;
-=======
->>>>>>> develop
             }
         </style>
 
@@ -41825,31 +41780,20 @@ Custom property | Description | Default
                 padding: 20px;
                 cursor: pointer;
             }
-<<<<<<< HEAD
             paper-button.addResource {
               background-color: var(--prendus-primary-color);
               color: white;
               margin-top: 2%;
               margin-bottom: 2%;
             }
-=======
->>>>>>> develop
         </style>
 
         <redux-store on-statechange="mapStateToThis" action="[[action]]"></redux-store>
 
-<<<<<<< HEAD
         <template is="dom-repeat" items="[[quizzes]]">
             <div class="quiz-row" on-tap="quizRowClick">[[item.title]]</div>
         </template>
         <paper-button class="addResource" raised="true" icon="add" title="Add Quiz" on-tap="addQuizClick">Add Video</paper-button>
-=======
-        <button on-tap="addQuizClick">Add quiz</button>
-
-        <template is="dom-repeat" items="[[quizzes]]">
-            <div class="quiz-row" on-tap="quizRowClick">[[item.title]]</div>
-        </template>
->>>>>>> develop
     </template>
 
     <!--<script src="prendus-concept-quiz-container-edit.js"></script>-->
@@ -41864,12 +41808,9 @@ Custom property | Description | Default
   #concept-container-div{
     padding-left: 2%
   }
-<<<<<<< HEAD
   #videosContainer{
     margin-left: 50%;
   }
-=======
->>>>>>> develop
   </style>
     <redux-store on-statechange="mapStateToThis" action="[[action]]"></redux-store>
     <div id="concept-container-div">
@@ -42594,7 +42535,6 @@ doy:4}}),kg.defineLocale("zh-tw",{months:"一月_二月_三月_四月_五月_六
       position: relative;
       height: 0%
     }
-<<<<<<< HEAD
     #course-title {
       --paper-input-container-input: {
         font-size: 48px;
@@ -42605,9 +42545,6 @@ doy:4}}),kg.defineLocale("zh-tw",{months:"一月_二月_三月_四月_五月_六
         font-size: 24px;
       };
     }
-=======
-
->>>>>>> develop
     /* CSS rules for your element */
   </style>
   <template>
@@ -42618,7 +42555,6 @@ doy:4}}),kg.defineLocale("zh-tw",{months:"一月_二月_三月_四月_五月_六
         <!-- style="display: flex; flex-direction: column; flex: 1; box-shadow: 0px 0px 3px black; margin: 100px; position: relative; height: 0%" -->
         <template is="dom-if" if="[[username]]">
             <course-title title="[[item.title]]" instructor="[[item.instructor]]">
-<<<<<<< HEAD
               <paper-input name="title" label="Course Title" id="course-title" value="[[currentCourse.title]]" on-change="attributeChanged"></paper-input>
               <paper-input name="description" id="course-description" label="Course Description" maxlength="20" value="[[currentCourse.description]]" on-change="attributeChanged"></paper-input>
               <h1>
@@ -42627,35 +42563,6 @@ doy:4}}),kg.defineLocale("zh-tw",{months:"一月_二月_三月_四月_五月_六
               <template is="dom-if" if="[[!courseConceptsLength]]">
                 <p>Click the plus button to begin adding concepts to the Course.</p>
               </template>
-=======
-              <paper-input id="course-title-input" label="Course Title" value="[[currentCourse.title]]" on-change="titleChanged"></paper-input>
-              <h1 id="courseTitle" contenteditable="true" on-change="titleChanged">
-                [[currentCourse.title]]
-              </h1>
-              <!--Come back to this. Don't need it for the alpha launch -->
-              <!-- <paper-dialog id="selectStartDate" class="paper-date-picker-dialog" modal on-iron-overlay-closed="dismissStartDatepicker">
-                <paper-date-picker id="startDatePicker" date="[[startDate]]" min-date="September 1, 2016"></paper-date-picker>
-                <div class="buttons">
-                  <paper-button dialog-dismiss>Cancel</paper-button>
-                  <paper-button dialog-confirm>OK</paper-button>
-                </div>
-              </paper-dialog>
-              <paper-dialog id="selectEndDate" class="paper-date-picker-dialog" modal on-iron-overlay-closed="dismissEndDatepicker">
-                <paper-date-picker id="picker" date="[[endDate]]" min-date="September 1, 2016"></paper-date-picker>
-                <div class="buttons">
-                  <paper-button dialog-dismiss>Cancel</paper-button>
-                  <paper-button dialog-confirm>OK</paper-button>
-                </div>
-              </paper-dialog>
-              <h1 contenteditable="true">
-                Start Date
-                <iron-icon icon="icons:date-range" item-icon on-tap="openStartDatePicker"></iron-icon>{{item.startDate.month}}/{{item.startDate.day}}/{{item.startDate.year}}
-              </h1>
-              <h1>
-                End Date
-                <iron-icon icon="icons:date-range" item-icon on-tap="openEndDatePicker"></iron-icon>{{item.endDate.month}}/{{item.endDate.day}}/{{item.endDate.year}}
-              </h1>-->
->>>>>>> develop
               <sortable-js on-sort="sortableEnded">
                 <template id="conceptsList" is="dom-repeat" items="[[courseConcepts]]">
                   <div class="concepts-style-container">
@@ -43666,12 +43573,9 @@ Custom property | Description | Default
   #title-bar{
     border-bottom: 0px 0px 3px black;
   }
-<<<<<<< HEAD
   #videosContainer{
     margin-left: 50%;
   }
-=======
->>>>>>> develop
   </style>
     <redux-store on-statechange="mapStateToThis" action="[[action]]"></redux-store>
     <div>
@@ -43716,23 +43620,12 @@ Custom property | Description | Default
   <template>
     <redux-store action="[[action]]" on-statechange="mapStateToThis"></redux-store>
     <app-route route="[[route]]" pattern="/view/:courseId" data="{{data}}"></app-route>
-<<<<<<< HEAD
-=======
-    <template is="dom-if" if="[[username]]">
->>>>>>> develop
       <h1> [[currentCourse.title]]</h1>
       <template id="conceptsList" is="dom-repeat" items="[[courseConcepts]]">
         <div id="concept-container-div">
           <prendus-concept-container id="concepts-style-container" concept-id="[[item.id]]" course-id="[[data.courseId]]"></prendus-concept-container>
         </div>
       </template>
-<<<<<<< HEAD
-=======
-    </template>
-    <template is="dom-if" if="[[!username]]">
-      <p> You are not signed in.  Please sign in to access this page </p>
-    </template>
->>>>>>> develop
   </template>
 
   <!--<script src="prendus-course-view.js"></script>-->
@@ -43748,10 +43641,6 @@ Custom property | Description | Default
     }
     #addCourseDialog{
       width: 33%;
-<<<<<<< HEAD
-=======
-      height: 25%;
->>>>>>> develop
     }
   </style>
   <template>
@@ -43778,13 +43667,8 @@ Custom property | Description | Default
       <h2>Create a Course</h2>
       <div>
         <!-- Look up Iron keys to change this -->
-<<<<<<< HEAD
         <paper-input name="courseName" label="Course Name" id="courseFormName" required="" auto-validate=""></paper-input>
         <paper-input name="courseDescription" label="Short Description" id="courseDescription" required="" auto-validate=""></paper-input>
-=======
-        <paper-input name="name" label="Course Name" id="courseFormName" required="" auto-validate=""></paper-input>
-        <paper-input name="name" label="Short Description" id="courseDescription" required="" auto-validate=""></paper-input>
->>>>>>> develop
         <paper-button dialog-dismiss="">Cancel</paper-button>
         <paper-button on-tap="addCourseFormDone">Next</paper-button>
       </div>
@@ -92945,7 +92829,6 @@ event and do your own custom submission:
       display: flex;
       flex-direction: column;
       flex: auto;
-<<<<<<< HEAD
       margin-left: 24%;
       margin-right: 24%;
       margin-top: 2%;
@@ -92954,8 +92837,8 @@ event and do your own custom submission:
     }
     @media (max-width: 600px) {
       #app-container{
-        margin-left: 2%;
-        margin-right: 2%;
+        margin-left: .5%;
+        margin-right: .5%;
       }
     }
     @media (max-width: 800px) {
@@ -92969,13 +92852,6 @@ event and do your own custom submission:
         margin-left: 16%;
         margin-right: 16%;
       }
-=======
-      margin-left: 8%;
-      margin-right: 8%;
-      margin-top: 2%;
-      position: relative;
-      height: 0%
->>>>>>> develop
     }
   </style>
   <template>
@@ -92985,18 +92861,11 @@ event and do your own custom submission:
     <app-route route="[[route]]" pattern="/:page" data="{{pageData}}" tail="{{tail}}" active="{{pageActive}}"></app-route>
 
     <iron-pages id="app-container" selected="{{pageData.page}}" category="{{pageData.page}}" attr-for-selected="data-page">
-<<<<<<< HEAD
-=======
       <prendus-homepage data-page=""></prendus-homepage>
->>>>>>> develop
       <prendus-login data-page="login"></prendus-login>
       <prendus-create-account data-page="signup"></prendus-create-account>
       <prendus-course-router data-page="courses" route="[[tail]]"></prendus-course-router>
       <prendus-profile data-page="profile"></prendus-profile>
-<<<<<<< HEAD
-      <prendus-homepage data-page="index"></prendus-homepage>
-=======
->>>>>>> develop
     </iron-pages>
     <!-- <div class = "overlay">
       <paper-spinner active></paper-spinner>
