@@ -2,6 +2,7 @@
 <link rel="import" href="../../bower_components/redux-store-element/redux-store.html">
 <link rel="import" href="../../bower_components/paper-card/paper-card.html">
 <link rel="import" href="../../bower_components/paper-button/paper-button.html">
+<link rel="import" href="../prendus-course-preview/prendus-course-preview.html">
 
 <dom-module id="prendus-homepage">
   <style>
@@ -12,13 +13,7 @@
       <redux-store on-statechange="mapStateToThis" action="[[action]]"></redux-store>
 
     <template id="courseList" is="dom-repeat" items="[[publicCourses]]">
-      <paper-card heading="[[item.title]]">
-        <div class="card-content">Create a Description</div>
-        <div class="card-actions">
-            <paper-button on-tap="starCourse">Star</paper-button>
-          <paper-button on-tap="viewCourse">View</paper-button>
-        </div>
-      </paper-card>
+      <prendus-course-preview course="[[item]]"></prendus-course-preview>
     </template>
 
   </template>
