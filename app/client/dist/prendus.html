@@ -17083,7 +17083,7 @@ Custom property | Description | Default
       <!-- local DOM for your element -->
     <paper-header-panel class="flex">
         <paper-toolbar>
-          <span id="index" on-tap="changeURL" style="cursor: pointer; cursor: hand;"> <span class="title">Prendus</span></span>
+          <span id="index" on-tap="goHome" style="cursor: pointer; cursor: hand;"> <span class="title">Prendus</span></span>
           <span class="title"></span>
           <template>
             {{username}}
@@ -43625,7 +43625,14 @@ Custom property | Description | Default
 </dom-module>
 <dom-module id="prendus-course-preview" assetpath="../prendus-course-preview/">
     <template>
+        <redux-store on-statechange="mapStateToThis" action="[[action]]"></redux-store>
+
         <paper-card heading="[[course.title]]">
+            <div>
+                <paper-icon-button icon="[[starIcon]]" title="click to star or unstar" on-tap="starClick"></paper-icon-button>
+                <div>[[numStars]]</div>
+            </div>
+
           <div class="card-content">[[course.description]]</div>
           <div class="card-actions">
             <paper-button id="[[course.id]]" on-tap="editCourse">Edit</paper-button>  <!-- Go to page from here -->
