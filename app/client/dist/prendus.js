@@ -2059,16 +2059,16 @@ $__System.register("2f", [], function (_export, _context) {
     }
   };
 });
-$__System.register('32', ['29', '2a', '2e'], function (_export, _context6) {
+$__System.register('32', ['29', '33', '2e'], function (_export, _context5) {
     "use strict";
 
-    var _regeneratorRuntime, FirebaseService, UtilitiesService, _this, __awaiter, loadQuizSession, endQuizSession, clearQuestions, loadQuestions, Actions;
+    var _regeneratorRuntime, UtilitiesService, QuizModel, _this, __awaiter, loadQuizSession, endQuizSession, clearQuestions, loadQuestionIds, Actions;
 
     return {
         setters: [function (_) {
             _regeneratorRuntime = _.default;
-        }, function (_a) {
-            FirebaseService = _a.FirebaseService;
+        }, function (_2) {
+            QuizModel = _2.QuizModel;
         }, function (_e) {
             UtilitiesService = _e.UtilitiesService;
         }],
@@ -2190,7 +2190,7 @@ $__System.register('32', ['29', '2a', '2e'], function (_export, _context6) {
 
                                 case 4:
                                     quizResults = request.response.quizResults;
-                                    preparedResults = Object.keys(quizResults.questionGrades).reduce(function (prev, curr) {
+                                    preparedResults = Object.keys(quizResults.questionGrades || {}).reduce(function (prev, curr) {
                                         prev[curr] = {
                                             correct: quizResults.questionGrades[curr].correct ? 'correct' : 'incorrect',
                                             yourAnswer: UtilitiesService.getUserAnswerString(quizResults.questionGrades[curr].userAnswerInfo.answerInputValue, Object.keys(quizResults.questionGrades[curr].userAnswerInfo.userInputsAnswers), Object.keys(quizResults.questionGrades[curr].userAnswerInfo.userCheckboxesAnswers), Object.keys(quizResults.questionGrades[curr].userAnswerInfo.userRadiosAnswers), quizResults.questionGrades[curr].questionSessionId),
@@ -2198,7 +2198,7 @@ $__System.register('32', ['29', '2a', '2e'], function (_export, _context6) {
                                         };
                                         return prev;
                                     }, {});
-                                    answerDetails = Object.keys(preparedResults).map(function (key) {
+                                    answerDetails = Object.keys(preparedResults || {}).map(function (key) {
                                         return preparedResults[key];
                                     });
 
@@ -2223,67 +2223,44 @@ $__System.register('32', ['29', '2a', '2e'], function (_export, _context6) {
                 };
             };
 
-            loadQuestions = function loadQuestions(context, quizId) {
-                return __awaiter(_this, void 0, void 0, _regeneratorRuntime.mark(function _callee5() {
-                    var _this2 = this;
-
-                    return _regeneratorRuntime.wrap(function _callee5$(_context5) {
+            loadQuestionIds = function loadQuestionIds(context, quizId) {
+                return __awaiter(_this, void 0, void 0, _regeneratorRuntime.mark(function _callee4() {
+                    var questionIds;
+                    return _regeneratorRuntime.wrap(function _callee4$(_context4) {
                         while (1) {
-                            switch (_context5.prev = _context5.next) {
+                            switch (_context4.prev = _context4.next) {
                                 case 0:
-                                    _context5.prev = 0;
-                                    return _context5.delegateYield(_regeneratorRuntime.mark(function _callee4() {
-                                        var quiz, questionsObject, questionsArray;
-                                        return _regeneratorRuntime.wrap(function _callee4$(_context4) {
-                                            while (1) {
-                                                switch (_context4.prev = _context4.next) {
-                                                    case 0:
-                                                        _context4.next = 2;
-                                                        return FirebaseService.get('quizzes/' + quizId);
+                                    _context4.prev = 0;
+                                    _context4.next = 3;
+                                    return QuizModel.getQuestionIds(quizId);
 
-                                                    case 2:
-                                                        quiz = _context4.sent;
-                                                        questionsObject = quiz.questions;
-                                                        questionsArray = Object.keys(questionsObject || {}).map(function (key) {
-                                                            return Object.assign({}, questionsObject[key], {
-                                                                id: key
-                                                            });
-                                                        });
+                                case 3:
+                                    questionIds = _context4.sent;
 
-                                                        context.action = {
-                                                            type: 'LOAD_QUESTIONS',
-                                                            questions: questionsArray
-                                                        };
-
-                                                    case 6:
-                                                    case 'end':
-                                                        return _context4.stop();
-                                                }
-                                            }
-                                        }, _callee4, _this2);
-                                    })(), 't0', 2);
-
-                                case 2:
-                                    _context5.next = 7;
+                                    context.action = {
+                                        type: 'LOAD_QUESTION_IDS',
+                                        questionIds: questionIds
+                                    };
+                                    _context4.next = 10;
                                     break;
 
-                                case 4:
-                                    _context5.prev = 4;
-                                    _context5.t1 = _context5['catch'](0);
-                                    throw _context5.t1;
-
                                 case 7:
+                                    _context4.prev = 7;
+                                    _context4.t0 = _context4['catch'](0);
+                                    throw _context4.t0;
+
+                                case 10:
                                 case 'end':
-                                    return _context5.stop();
+                                    return _context4.stop();
                             }
                         }
-                    }, _callee5, this, [[0, 4]]);
+                    }, _callee4, this, [[0, 7]]);
                 }));
             };
 
             _export('Actions', Actions = {
                 loadQuizSession: loadQuizSession,
-                loadQuestions: loadQuestions,
+                loadQuestionIds: loadQuestionIds,
                 endQuizSession: endQuizSession,
                 clearQuestions: clearQuestions
             });
@@ -2407,13 +2384,16 @@ $__System.register('1c', ['25', '26', '29', '31', '32', '2f', '2e'], function (_
                         this.is = 'prendus-take-quiz';
                         this.properties = {
                             quizId: {
-                                type: String
+                                type: String,
+                                observer: 'init'
                             },
                             jwt: {
-                                type: String
+                                type: String,
+                                observer: 'init'
                             },
                             quizSessionId: {
-                                type: String
+                                type: String,
+                                observer: 'init'
                             },
                             userFullName: {
                                 type: String
@@ -2425,7 +2405,6 @@ $__System.register('1c', ['25', '26', '29', '31', '32', '2f', '2e'], function (_
                                 type: String
                             }
                         };
-                        this.observers = ['init(quizId, jwt, quizSessionId)'];
                     }
                 }, {
                     key: 'init',
@@ -2435,22 +2414,32 @@ $__System.register('1c', ['25', '26', '29', '31', '32', '2f', '2e'], function (_
                                 while (1) {
                                     switch (_context.prev = _context.next) {
                                         case 0:
+                                            this.componentInitialized = false;
+
+                                            if (!(this.quizId && this.jwt && this.quizSessionId)) {
+                                                _context.next = 13;
+                                                break;
+                                            }
+
                                             this.endpointDomain = UtilitiesService.getPrendusServerEndpointDomain();
-                                            this.endpointUrl = UtilitiesService.getPrendusServerEndpointDomain() + '/api/xapi/quiz/sendstatement';
+                                            this.endpointUrl = this.endpointDomain + '/api/xapi/quiz/sendstatement';
                                             this.initXAPIListeners(this.courseId, this.quizId, this.userFullName, this.userEmail, this.endpointUrl);
-                                            _context.next = 5;
+                                            _context.next = 7;
                                             return Actions.clearQuestions(this);
 
-                                        case 5:
-                                            _context.next = 7;
+                                        case 7:
+                                            _context.next = 9;
                                             return Actions.loadQuizSession(this, this.$.startQuizSessionAjax, this.quizId, this.jwt, this.quizSessionId);
 
-                                        case 7:
-                                            this.quizStarted();
-                                            _context.next = 10;
-                                            return Actions.loadQuestions(this, this.quizId);
+                                        case 9:
+                                            this.quizStarted(null);
+                                            _context.next = 12;
+                                            return Actions.loadQuestionIds(this, this.quizId);
 
-                                        case 10:
+                                        case 12:
+                                            this.componentInitialized = true;
+
+                                        case 13:
                                         case 'end':
                                             return _context.stop();
                                     }
@@ -2556,7 +2545,10 @@ $__System.register('1c', ['25', '26', '29', '31', '32', '2f', '2e'], function (_
                             var eventInfo = getEventInfo(quizId, userFullName, userEmail, courseId, verb, extensions, baseUri, fullUrl);
                             XAPIService.sendQuizStatement(endpointUrl, eventInfo);
                         };
-                        document.addEventListener('visibilitychange', function (e) {
+                        if (this.visibilityChanged) {
+                            document.removeEventListener('visibilitychange', this.visibilityChanged);
+                        }
+                        this.visibilityChanged = function (e) {
                             var verb = getVerb();
                             var extensions = {};
                             var eventInfo = getEventInfo(quizId, userFullName, userEmail, courseId, verb, extensions, baseUri, fullUrl);
@@ -2568,7 +2560,8 @@ $__System.register('1c', ['25', '26', '29', '31', '32', '2f', '2e'], function (_
                                     return 'suspended';
                                 }
                             }
-                        });
+                        };
+                        document.addEventListener('visibilitychange', this.visibilityChanged);
                         function getEventInfo(quizId, userFullName, userEmail, courseId, verb, extensions, baseUri, fullUrl) {
                             return {
                                 quizId: quizId,
@@ -2588,7 +2581,7 @@ $__System.register('1c', ['25', '26', '29', '31', '32', '2f', '2e'], function (_
                     value: function mapStateToThis(e) {
                         var state = e.detail.state;
                         this.quizSessionIdMutable = state.quizSessionId;
-                        this.questions = state.questions;
+                        this.questionIds = state.questionIds;
                     }
                 }]);
 
@@ -2599,7 +2592,7 @@ $__System.register('1c', ['25', '26', '29', '31', '32', '2f', '2e'], function (_
         }
     };
 });
-$__System.register('33', [], function (_export, _context) {
+$__System.register('34', [], function (_export, _context) {
     "use strict";
 
     var InitialState;
@@ -2617,7 +2610,7 @@ $__System.register('33', [], function (_export, _context) {
         }
     };
 });
-$__System.register('34', ['33'], function (_export, _context) {
+$__System.register('35', ['34'], function (_export, _context) {
     "use strict";
 
     var InitialState, RootReducer;
@@ -2637,16 +2630,16 @@ $__System.register('34', ['33'], function (_export, _context) {
                             newState.quizSessionId = action.quizSessionId;
                             return newState;
                         }
-                    case 'LOAD_QUESTIONS':
+                    case 'LOAD_QUESTION_IDS':
                         {
                             var _newState = Object.assign({}, state);
-                            _newState.questions = action.questions;
+                            _newState.questionIds = action.questionIds;
                             return _newState;
                         }
                     case 'CLEAR_QUESTIONS':
                         {
                             var _newState2 = Object.assign({}, state);
-                            _newState2.questions = [];
+                            _newState2.questionIds = [];
                             return _newState2;
                         }
                     case 'END_QUIZ_SESSION':
@@ -2668,7 +2661,7 @@ $__System.register('34', ['33'], function (_export, _context) {
         }
     };
 });
-$__System.register('1b', ['25', '26', '34'], function (_export, _context) {
+$__System.register('1b', ['25', '26', '35'], function (_export, _context) {
     "use strict";
 
     var _classCallCheck, _createClass, RootReducer, ViewQuizComponent;
@@ -2732,7 +2725,7 @@ $__System.register('1b', ['25', '26', '34'], function (_export, _context) {
         }
     };
 });
-$__System.register('35', [], function (_export, _context) {
+$__System.register('36', [], function (_export, _context) {
     "use strict";
 
     var InitialState;
@@ -2784,7 +2777,7 @@ $__System.register('35', [], function (_export, _context) {
         }
     };
 });
-$__System.register('36', ['35', '37'], function (_export, _context) {
+$__System.register('37', ['36', '38'], function (_export, _context) {
     "use strict";
 
     var InitialState, Actions;
@@ -2993,7 +2986,7 @@ $__System.register('36', ['35', '37'], function (_export, _context) {
         execute: function () {}
     };
 });
-$__System.register('1a', ['25', '26', '36'], function (_export, _context) {
+$__System.register('1a', ['25', '26', '37'], function (_export, _context) {
     "use strict";
 
     var _classCallCheck, _createClass, rootReducer, PrendusApp;
@@ -3037,7 +3030,7 @@ $__System.register('1a', ['25', '26', '36'], function (_export, _context) {
         }
     };
 });
-$__System.register('19', ['25', '26', '29', '37'], function (_export, _context7) {
+$__System.register('19', ['25', '26', '29', '38'], function (_export, _context7) {
     "use strict";
 
     var _regeneratorRuntime, _classCallCheck, _createClass, Actions, __awaiter, PrendusCollaboratorMenuContent;
@@ -3423,7 +3416,7 @@ $__System.register('19', ['25', '26', '29', '37'], function (_export, _context7)
         }
     };
 });
-$__System.register('18', ['25', '26', '29', '37', '2a'], function (_export, _context2) {
+$__System.register('18', ['25', '26', '29', '38', '2a'], function (_export, _context2) {
     "use strict";
 
     var _regeneratorRuntime, _classCallCheck, _createClass, Actions, FirebaseService, __awaiter, PrendusConceptContainerEdit;
@@ -3668,7 +3661,7 @@ $__System.register('17', ['25', '26', '29', '2a'], function (_export, _context2)
         }
     };
 });
-$__System.register('16', ['25', '26', '29', '37'], function (_export, _context3) {
+$__System.register('16', ['25', '26', '29', '38'], function (_export, _context3) {
     "use strict";
 
     var _regeneratorRuntime, _classCallCheck, _createClass, Actions, __awaiter, PrendusConceptQuizContainerEdit;
@@ -3799,7 +3792,7 @@ $__System.register('16', ['25', '26', '29', '37'], function (_export, _context3)
         }
     };
 });
-$__System.register('15', ['25', '26', '29', '37'], function (_export, _context2) {
+$__System.register('15', ['25', '26', '29', '38'], function (_export, _context2) {
     "use strict";
 
     var _regeneratorRuntime, _classCallCheck, _createClass, Actions, __awaiter, PrendusConceptQuizContainer;
@@ -3906,7 +3899,7 @@ $__System.register('15', ['25', '26', '29', '37'], function (_export, _context2)
         }
     };
 });
-$__System.register('14', ['25', '26', '29', '37'], function (_export, _context4) {
+$__System.register('14', ['25', '26', '29', '38'], function (_export, _context4) {
     "use strict";
 
     var _regeneratorRuntime, _classCallCheck, _createClass, Actions, __awaiter, PrendusConceptVideoContainerEdit;
@@ -4081,7 +4074,7 @@ $__System.register('14', ['25', '26', '29', '37'], function (_export, _context4)
         }
     };
 });
-$__System.register('13', ['25', '26', '29', '37'], function (_export, _context2) {
+$__System.register('13', ['25', '26', '29', '38'], function (_export, _context2) {
     "use strict";
 
     var _regeneratorRuntime, _classCallCheck, _createClass, Actions, __awaiter, PrendusConceptVideoContainer;
@@ -4201,7 +4194,7 @@ $__System.register('13', ['25', '26', '29', '37'], function (_export, _context2)
         }
     };
 });
-$__System.register('12', ['25', '26', '29', '37'], function (_export, _context2) {
+$__System.register('12', ['25', '26', '29', '38'], function (_export, _context2) {
     "use strict";
 
     var _regeneratorRuntime, _classCallCheck, _createClass, Actions, __awaiter, PrendusCourseEdit;
@@ -4373,7 +4366,7 @@ $__System.register('12', ['25', '26', '29', '37'], function (_export, _context2)
         }
     };
 });
-$__System.register('11', ['25', '26', '29', '37', '2a'], function (_export, _context2) {
+$__System.register('11', ['25', '26', '29', '38', '2a'], function (_export, _context2) {
     "use strict";
 
     var _regeneratorRuntime, _classCallCheck, _createClass, Actions, FirebaseService, __awaiter, PrendusCourseHomepage;
@@ -4485,7 +4478,7 @@ $__System.register('11', ['25', '26', '29', '37', '2a'], function (_export, _con
                             this.formTitle = this.querySelector('#courseFormName').value;
                             this.courseDescription = this.querySelector('#courseDescription').value;
                             var newCourse = {
-                                private: false,
+                                visibility: 'public',
                                 title: this.formTitle,
                                 description: this.courseDescription,
                                 uid: this.uid
@@ -4586,7 +4579,7 @@ $__System.register('10', ['25', '26', '29'], function (_export, _context2) {
         }
     };
 });
-$__System.register('f', ['25', '26', '37'], function (_export, _context) {
+$__System.register('f', ['25', '26', '38'], function (_export, _context) {
     "use strict";
 
     var _classCallCheck, _createClass, Actions, PrendusCourseView;
@@ -4695,7 +4688,7 @@ $__System.register('f', ['25', '26', '37'], function (_export, _context) {
         }
     };
 });
-$__System.register('e', ['25', '26', '29', '37'], function (_export, _context2) {
+$__System.register('e', ['25', '26', '29', '38'], function (_export, _context2) {
     "use strict";
 
     var _regeneratorRuntime, _classCallCheck, _createClass, Actions, __awaiter, PrendusCreateAccount;
@@ -5093,7 +5086,7 @@ $__System.register('a', ['25', '26'], function (_export, _context) {
         }
     };
 });
-$__System.register('9', ['25', '26', '29', '37'], function (_export, _context3) {
+$__System.register('9', ['25', '26', '29', '38'], function (_export, _context3) {
     "use strict";
 
     var _regeneratorRuntime, _classCallCheck, _createClass, Actions, __awaiter, PrendusHomepage;
@@ -5206,7 +5199,7 @@ $__System.register('9', ['25', '26', '29', '37'], function (_export, _context3) 
         }
     };
 });
-$__System.register('8', ['25', '26', '29', '37'], function (_export, _context2) {
+$__System.register('8', ['25', '26', '29', '38'], function (_export, _context2) {
     "use strict";
 
     var _regeneratorRuntime, _classCallCheck, _createClass, Actions, __awaiter, PrendusLogin;
@@ -5311,7 +5304,7 @@ $__System.register('8', ['25', '26', '29', '37'], function (_export, _context2) 
         }
     };
 });
-$__System.register('7', ['25', '26', '37'], function (_export, _context) {
+$__System.register('7', ['25', '26', '38'], function (_export, _context) {
     "use strict";
 
     var _classCallCheck, _createClass, Actions, PrendusNavbar;
@@ -5378,7 +5371,7 @@ $__System.register('7', ['25', '26', '37'], function (_export, _context) {
         }
     };
 });
-$__System.register('6', ['25', '26', '29', '37'], function (_export, _context3) {
+$__System.register('6', ['25', '26', '29', '38'], function (_export, _context3) {
     "use strict";
 
     var _regeneratorRuntime, _classCallCheck, _createClass, Actions, __awaiter, PrendusProfile;
@@ -5558,7 +5551,7 @@ $__System.register('6', ['25', '26', '29', '37'], function (_export, _context3) 
         }
     };
 });
-$__System.register('38', ['28', '29', '39', '2a', '2e'], function (_export, _context20) {
+$__System.register('39', ['28', '29', '2a', '3a', '2e'], function (_export, _context20) {
     "use strict";
 
     var _toConsumableArray, _regeneratorRuntime, FirebaseService, ConceptModel, UtilitiesService, _this, __awaiter, conceptsPath, dataPath, createOrUpdate, associateConcept, disassociateConcept, getById, getCoursesByUser, courseConceptsToArray, orderCourseConcepts, updateCourseConcepts, deleteCourse, associateCollaborator, disassociateCollaborator, getCollaboratorUids, getAllByVisibility, resolveCourseIds, getConceptIds, CourseModel;
@@ -5568,10 +5561,10 @@ $__System.register('38', ['28', '29', '39', '2a', '2e'], function (_export, _con
             _toConsumableArray = _.default;
         }, function (_2) {
             _regeneratorRuntime = _2.default;
-        }, function (_3) {
-            ConceptModel = _3.ConceptModel;
         }, function (_a) {
             FirebaseService = _a.FirebaseService;
+        }, function (_a2) {
+            ConceptModel = _a2.ConceptModel;
         }, function (_e) {
             UtilitiesService = _e.UtilitiesService;
         }],
@@ -6292,10 +6285,10 @@ $__System.register('38', ['28', '29', '39', '2a', '2e'], function (_export, _con
         }
     };
 });
-$__System.register('39', ['28', '29', '30', '2a', '3a', '2e'], function (_export, _context20) {
+$__System.register('3a', ['28', '29', '30', '33', '2a', '2e'], function (_export, _context22) {
     "use strict";
 
-    var _toConsumableArray, _regeneratorRuntime, FirebaseService, VideoModel, QuizModel, UtilitiesService, _this, __awaiter, dataPath, save, getById, deleteConcept, conceptsObjectToArray, associateCollaborator, disassociateCollaborator, getCollaboratorUids, getVideoIds, getQuizIds, resolveConceptIds, associateVideo, disassociateVideo, associateQuiz, disassociateQuiz, ConceptModel;
+    var _toConsumableArray, _regeneratorRuntime, FirebaseService, VideoModel, QuizModel, UtilitiesService, _this, __awaiter, dataPath, save, getById, deleteConcept, conceptsObjectToArray, associateCollaborator, associateCollaborators, disassociateCollaborator, getCollaboratorUids, getVideoIds, getQuizIds, resolveConceptIds, associateVideo, disassociateVideo, associateQuiz, disassociateQuiz, ConceptModel;
 
     return {
         setters: [function (_) {
@@ -6304,10 +6297,10 @@ $__System.register('39', ['28', '29', '30', '2a', '3a', '2e'], function (_export
             _regeneratorRuntime = _2.default;
         }, function (_3) {
             VideoModel = _3.VideoModel;
+        }, function (_4) {
+            QuizModel = _4.QuizModel;
         }, function (_a) {
             FirebaseService = _a.FirebaseService;
-        }, function (_a2) {
-            QuizModel = _a2.QuizModel;
         }, function (_e) {
             UtilitiesService = _e.UtilitiesService;
         }],
@@ -6552,39 +6545,24 @@ $__System.register('39', ['28', '29', '30', '2a', '3a', '2e'], function (_export
                 }));
             };
 
-            disassociateCollaborator = function disassociateCollaborator(conceptId, uid) {
-                return __awaiter(_this, void 0, Promise, _regeneratorRuntime.mark(function _callee9() {
+            associateCollaborators = function associateCollaborators(conceptId, uids) {
+                return __awaiter(_this, void 0, Promise, _regeneratorRuntime.mark(function _callee8() {
                     var _this3 = this;
 
-                    var path, videosPath, videosObject, videoIds, quizzesPath, quizzesObject, quizIds;
-                    return _regeneratorRuntime.wrap(function _callee9$(_context9) {
+                    return _regeneratorRuntime.wrap(function _callee8$(_context8) {
                         while (1) {
-                            switch (_context9.prev = _context9.next) {
+                            switch (_context8.prev = _context8.next) {
                                 case 0:
-                                    _context9.prev = 0;
-
-                                    //TODO it would be nice to do the following in a transaction, so that if adding collaborators fails anywhere it fails everywhere
-                                    path = dataPath + '/' + conceptId + '/collaborators/' + uid;
-                                    _context9.next = 4;
-                                    return FirebaseService.remove(path);
-
-                                case 4:
-                                    videosPath = dataPath + '/' + conceptId + '/videos';
-                                    _context9.next = 7;
-                                    return FirebaseService.get(videosPath);
-
-                                case 7:
-                                    videosObject = _context9.sent;
-                                    videoIds = Object.keys(videosObject || {});
-                                    _context9.next = 11;
-                                    return UtilitiesService.asyncForEach(videoIds, function (videoId) {
+                                    _context8.prev = 0;
+                                    _context8.next = 3;
+                                    return UtilitiesService.asyncForEach(uids, function (uid) {
                                         return __awaiter(_this3, void 0, void 0, _regeneratorRuntime.mark(function _callee7() {
                                             return _regeneratorRuntime.wrap(function _callee7$(_context7) {
                                                 while (1) {
                                                     switch (_context7.prev = _context7.next) {
                                                         case 0:
                                                             _context7.next = 2;
-                                                            return VideoModel.disassociateCollaborator(videoId, uid);
+                                                            return associateCollaborator(conceptId, uid);
 
                                                         case 2:
                                                         case 'end':
@@ -6595,129 +6573,128 @@ $__System.register('39', ['28', '29', '30', '2a', '3a', '2e'], function (_export
                                         }));
                                     });
 
-                                case 11:
-                                    quizzesPath = dataPath + '/' + conceptId + '/quizzes';
-                                    _context9.next = 14;
-                                    return FirebaseService.get(quizzesPath);
-
-                                case 14:
-                                    quizzesObject = _context9.sent;
-                                    quizIds = Object.keys(quizzesObject || {});
-                                    _context9.next = 18;
-                                    return UtilitiesService.asyncForEach(quizIds, function (quizId) {
-                                        return __awaiter(_this3, void 0, void 0, _regeneratorRuntime.mark(function _callee8() {
-                                            return _regeneratorRuntime.wrap(function _callee8$(_context8) {
-                                                while (1) {
-                                                    switch (_context8.prev = _context8.next) {
-                                                        case 0:
-                                                            _context8.next = 2;
-                                                            return QuizModel.disassociateCollaborator(quizId, uid);
-
-                                                        case 2:
-                                                        case 'end':
-                                                            return _context8.stop();
-                                                    }
-                                                }
-                                            }, _callee8, this);
-                                        }));
-                                    });
-
-                                case 18:
-                                    _context9.next = 23;
+                                case 3:
+                                    _context8.next = 8;
                                     break;
 
-                                case 20:
-                                    _context9.prev = 20;
-                                    _context9.t0 = _context9['catch'](0);
-                                    throw _context9.t0;
+                                case 5:
+                                    _context8.prev = 5;
+                                    _context8.t0 = _context8['catch'](0);
+                                    throw _context8.t0;
 
-                                case 23:
+                                case 8:
                                 case 'end':
-                                    return _context9.stop();
+                                    return _context8.stop();
                             }
                         }
-                    }, _callee9, this, [[0, 20]]);
+                    }, _callee8, this, [[0, 5]]);
                 }));
             };
 
-            getCollaboratorUids = function getCollaboratorUids(conceptId) {
-                return __awaiter(_this, void 0, Promise, _regeneratorRuntime.mark(function _callee10() {
-                    var path, collaboratorUidsObject, collaboratorUids;
-                    return _regeneratorRuntime.wrap(function _callee10$(_context10) {
-                        while (1) {
-                            switch (_context10.prev = _context10.next) {
-                                case 0:
-                                    _context10.prev = 0;
-                                    path = dataPath + '/' + conceptId + '/collaborators';
-                                    _context10.next = 4;
-                                    return FirebaseService.get(path);
-
-                                case 4:
-                                    collaboratorUidsObject = _context10.sent;
-                                    collaboratorUids = Object.keys(collaboratorUidsObject || {});
-                                    return _context10.abrupt('return', collaboratorUids);
-
-                                case 9:
-                                    _context10.prev = 9;
-                                    _context10.t0 = _context10['catch'](0);
-                                    throw _context10.t0;
-
-                                case 12:
-                                case 'end':
-                                    return _context10.stop();
-                            }
-                        }
-                    }, _callee10, this, [[0, 9]]);
-                }));
-            };
-
-            getVideoIds = function getVideoIds(conceptId) {
+            disassociateCollaborator = function disassociateCollaborator(conceptId, uid) {
                 return __awaiter(_this, void 0, Promise, _regeneratorRuntime.mark(function _callee11() {
-                    var path, videoIdsObject, videoIds;
+                    var _this4 = this;
+
+                    var path, videosPath, videosObject, videoIds, quizzesPath, quizzesObject, quizIds;
                     return _regeneratorRuntime.wrap(function _callee11$(_context11) {
                         while (1) {
                             switch (_context11.prev = _context11.next) {
                                 case 0:
                                     _context11.prev = 0;
-                                    path = dataPath + '/' + conceptId + '/videos';
+
+                                    //TODO it would be nice to do the following in a transaction, so that if adding collaborators fails anywhere it fails everywhere
+                                    path = dataPath + '/' + conceptId + '/collaborators/' + uid;
                                     _context11.next = 4;
-                                    return FirebaseService.get(path);
+                                    return FirebaseService.remove(path);
 
                                 case 4:
-                                    videoIdsObject = _context11.sent;
-                                    videoIds = Object.keys(videoIdsObject || {});
-                                    return _context11.abrupt('return', videoIds);
+                                    videosPath = dataPath + '/' + conceptId + '/videos';
+                                    _context11.next = 7;
+                                    return FirebaseService.get(videosPath);
 
-                                case 9:
-                                    _context11.prev = 9;
+                                case 7:
+                                    videosObject = _context11.sent;
+                                    videoIds = Object.keys(videosObject || {});
+                                    _context11.next = 11;
+                                    return UtilitiesService.asyncForEach(videoIds, function (videoId) {
+                                        return __awaiter(_this4, void 0, void 0, _regeneratorRuntime.mark(function _callee9() {
+                                            return _regeneratorRuntime.wrap(function _callee9$(_context9) {
+                                                while (1) {
+                                                    switch (_context9.prev = _context9.next) {
+                                                        case 0:
+                                                            _context9.next = 2;
+                                                            return VideoModel.disassociateCollaborator(videoId, uid);
+
+                                                        case 2:
+                                                        case 'end':
+                                                            return _context9.stop();
+                                                    }
+                                                }
+                                            }, _callee9, this);
+                                        }));
+                                    });
+
+                                case 11:
+                                    quizzesPath = dataPath + '/' + conceptId + '/quizzes';
+                                    _context11.next = 14;
+                                    return FirebaseService.get(quizzesPath);
+
+                                case 14:
+                                    quizzesObject = _context11.sent;
+                                    quizIds = Object.keys(quizzesObject || {});
+                                    _context11.next = 18;
+                                    return UtilitiesService.asyncForEach(quizIds, function (quizId) {
+                                        return __awaiter(_this4, void 0, void 0, _regeneratorRuntime.mark(function _callee10() {
+                                            return _regeneratorRuntime.wrap(function _callee10$(_context10) {
+                                                while (1) {
+                                                    switch (_context10.prev = _context10.next) {
+                                                        case 0:
+                                                            _context10.next = 2;
+                                                            return QuizModel.disassociateCollaborator(quizId, uid);
+
+                                                        case 2:
+                                                        case 'end':
+                                                            return _context10.stop();
+                                                    }
+                                                }
+                                            }, _callee10, this);
+                                        }));
+                                    });
+
+                                case 18:
+                                    _context11.next = 23;
+                                    break;
+
+                                case 20:
+                                    _context11.prev = 20;
                                     _context11.t0 = _context11['catch'](0);
                                     throw _context11.t0;
 
-                                case 12:
+                                case 23:
                                 case 'end':
                                     return _context11.stop();
                             }
                         }
-                    }, _callee11, this, [[0, 9]]);
+                    }, _callee11, this, [[0, 20]]);
                 }));
             };
 
-            getQuizIds = function getQuizIds(conceptId) {
+            getCollaboratorUids = function getCollaboratorUids(conceptId) {
                 return __awaiter(_this, void 0, Promise, _regeneratorRuntime.mark(function _callee12() {
-                    var path, quizIdsObject, quizIds;
+                    var path, collaboratorUidsObject, collaboratorUids;
                     return _regeneratorRuntime.wrap(function _callee12$(_context12) {
                         while (1) {
                             switch (_context12.prev = _context12.next) {
                                 case 0:
                                     _context12.prev = 0;
-                                    path = dataPath + '/' + conceptId + '/quizzes';
+                                    path = dataPath + '/' + conceptId + '/collaborators';
                                     _context12.next = 4;
                                     return FirebaseService.get(path);
 
                                 case 4:
-                                    quizIdsObject = _context12.sent;
-                                    quizIds = Object.keys(quizIdsObject || {});
-                                    return _context12.abrupt('return', quizIds);
+                                    collaboratorUidsObject = _context12.sent;
+                                    collaboratorUids = Object.keys(collaboratorUidsObject || {});
+                                    return _context12.abrupt('return', collaboratorUids);
 
                                 case 9:
                                     _context12.prev = 9;
@@ -6733,163 +6710,165 @@ $__System.register('39', ['28', '29', '30', '2a', '3a', '2e'], function (_export
                 }));
             };
 
+            getVideoIds = function getVideoIds(conceptId) {
+                return __awaiter(_this, void 0, Promise, _regeneratorRuntime.mark(function _callee13() {
+                    var path, videoIdsObject, videoIds;
+                    return _regeneratorRuntime.wrap(function _callee13$(_context13) {
+                        while (1) {
+                            switch (_context13.prev = _context13.next) {
+                                case 0:
+                                    _context13.prev = 0;
+                                    path = dataPath + '/' + conceptId + '/videos';
+                                    _context13.next = 4;
+                                    return FirebaseService.get(path);
+
+                                case 4:
+                                    videoIdsObject = _context13.sent;
+                                    videoIds = Object.keys(videoIdsObject || {});
+                                    return _context13.abrupt('return', videoIds);
+
+                                case 9:
+                                    _context13.prev = 9;
+                                    _context13.t0 = _context13['catch'](0);
+                                    throw _context13.t0;
+
+                                case 12:
+                                case 'end':
+                                    return _context13.stop();
+                            }
+                        }
+                    }, _callee13, this, [[0, 9]]);
+                }));
+            };
+
+            getQuizIds = function getQuizIds(conceptId) {
+                return __awaiter(_this, void 0, Promise, _regeneratorRuntime.mark(function _callee14() {
+                    var path, quizIdsObject, quizIds;
+                    return _regeneratorRuntime.wrap(function _callee14$(_context14) {
+                        while (1) {
+                            switch (_context14.prev = _context14.next) {
+                                case 0:
+                                    _context14.prev = 0;
+                                    path = dataPath + '/' + conceptId + '/quizzes';
+                                    _context14.next = 4;
+                                    return FirebaseService.get(path);
+
+                                case 4:
+                                    quizIdsObject = _context14.sent;
+                                    quizIds = Object.keys(quizIdsObject || {});
+                                    return _context14.abrupt('return', quizIds);
+
+                                case 9:
+                                    _context14.prev = 9;
+                                    _context14.t0 = _context14['catch'](0);
+                                    throw _context14.t0;
+
+                                case 12:
+                                case 'end':
+                                    return _context14.stop();
+                            }
+                        }
+                    }, _callee14, this, [[0, 9]]);
+                }));
+            };
+
             resolveConceptIds = function resolveConceptIds(conceptIds) {
-                return __awaiter(_this, void 0, Promise, _regeneratorRuntime.mark(function _callee15() {
-                    var _this4 = this;
+                return __awaiter(_this, void 0, Promise, _regeneratorRuntime.mark(function _callee17() {
+                    var _this5 = this;
 
                     var _ret;
 
-                    return _regeneratorRuntime.wrap(function _callee15$(_context15) {
-                        while (1) {
-                            switch (_context15.prev = _context15.next) {
-                                case 0:
-                                    _context15.prev = 0;
-                                    return _context15.delegateYield(_regeneratorRuntime.mark(function _callee14() {
-                                        var asyncReduce = function asyncReduce(conceptIds, concepts) {
-                                            return __awaiter(this, void 0, Promise, _regeneratorRuntime.mark(function _callee13() {
-                                                var conceptId, concept;
-                                                return _regeneratorRuntime.wrap(function _callee13$(_context13) {
-                                                    while (1) {
-                                                        switch (_context13.prev = _context13.next) {
-                                                            case 0:
-                                                                if (!(conceptIds.length === 0)) {
-                                                                    _context13.next = 2;
-                                                                    break;
-                                                                }
-
-                                                                return _context13.abrupt('return', concepts);
-
-                                                            case 2:
-                                                                conceptId = conceptIds[0];
-                                                                _context13.next = 5;
-                                                                return getById(conceptId);
-
-                                                            case 5:
-                                                                concept = _context13.sent;
-
-                                                                concept.id = conceptId;
-                                                                return _context13.abrupt('return', asyncReduce(conceptIds.slice(1), [].concat(_toConsumableArray(concepts), [concept])));
-
-                                                            case 8:
-                                                            case 'end':
-                                                                return _context13.stop();
-                                                        }
-                                                    }
-                                                }, _callee13, this);
-                                            }));
-                                        };
-
-                                        var concepts;
-                                        return _regeneratorRuntime.wrap(function _callee14$(_context14) {
-                                            while (1) {
-                                                switch (_context14.prev = _context14.next) {
-                                                    case 0:
-                                                        _context14.next = 2;
-                                                        return asyncReduce(conceptIds, []);
-
-                                                    case 2:
-                                                        concepts = _context14.sent;
-                                                        return _context14.abrupt('return', {
-                                                            v: concepts
-                                                        });
-
-                                                    case 4:
-                                                    case 'end':
-                                                        return _context14.stop();
-                                                }
-                                            }
-                                        }, _callee14, _this4);
-                                    })(), 't0', 2);
-
-                                case 2:
-                                    _ret = _context15.t0;
-
-                                    if (!(typeof _ret === "object")) {
-                                        _context15.next = 5;
-                                        break;
-                                    }
-
-                                    return _context15.abrupt('return', _ret.v);
-
-                                case 5:
-                                    _context15.next = 10;
-                                    break;
-
-                                case 7:
-                                    _context15.prev = 7;
-                                    _context15.t1 = _context15['catch'](0);
-                                    throw _context15.t1;
-
-                                case 10:
-                                case 'end':
-                                    return _context15.stop();
-                            }
-                        }
-                    }, _callee15, this, [[0, 7]]);
-                }));
-            };
-
-            associateVideo = function associateVideo(conceptId, videoId) {
-                return __awaiter(_this, void 0, void 0, _regeneratorRuntime.mark(function _callee16() {
-                    var path;
-                    return _regeneratorRuntime.wrap(function _callee16$(_context16) {
-                        while (1) {
-                            switch (_context16.prev = _context16.next) {
-                                case 0:
-                                    _context16.prev = 0;
-                                    path = dataPath + '/' + conceptId + '/videos/' + videoId;
-                                    _context16.next = 4;
-                                    return FirebaseService.set(path, videoId);
-
-                                case 4:
-                                    _context16.next = 9;
-                                    break;
-
-                                case 6:
-                                    _context16.prev = 6;
-                                    _context16.t0 = _context16['catch'](0);
-                                    throw _context16.t0;
-
-                                case 9:
-                                case 'end':
-                                    return _context16.stop();
-                            }
-                        }
-                    }, _callee16, this, [[0, 6]]);
-                }));
-            };
-
-            disassociateVideo = function disassociateVideo(conceptId, videoId) {
-                return __awaiter(_this, void 0, void 0, _regeneratorRuntime.mark(function _callee17() {
-                    var path;
                     return _regeneratorRuntime.wrap(function _callee17$(_context17) {
                         while (1) {
                             switch (_context17.prev = _context17.next) {
                                 case 0:
                                     _context17.prev = 0;
-                                    path = dataPath + '/' + conceptId + '/videos/' + videoId;
-                                    _context17.next = 4;
-                                    return FirebaseService.remove(path);
+                                    return _context17.delegateYield(_regeneratorRuntime.mark(function _callee16() {
+                                        var asyncReduce = function asyncReduce(conceptIds, concepts) {
+                                            return __awaiter(this, void 0, Promise, _regeneratorRuntime.mark(function _callee15() {
+                                                var conceptId, concept;
+                                                return _regeneratorRuntime.wrap(function _callee15$(_context15) {
+                                                    while (1) {
+                                                        switch (_context15.prev = _context15.next) {
+                                                            case 0:
+                                                                if (!(conceptIds.length === 0)) {
+                                                                    _context15.next = 2;
+                                                                    break;
+                                                                }
 
-                                case 4:
-                                    _context17.next = 9;
+                                                                return _context15.abrupt('return', concepts);
+
+                                                            case 2:
+                                                                conceptId = conceptIds[0];
+                                                                _context15.next = 5;
+                                                                return getById(conceptId);
+
+                                                            case 5:
+                                                                concept = _context15.sent;
+
+                                                                concept.id = conceptId;
+                                                                return _context15.abrupt('return', asyncReduce(conceptIds.slice(1), [].concat(_toConsumableArray(concepts), [concept])));
+
+                                                            case 8:
+                                                            case 'end':
+                                                                return _context15.stop();
+                                                        }
+                                                    }
+                                                }, _callee15, this);
+                                            }));
+                                        };
+
+                                        var concepts;
+                                        return _regeneratorRuntime.wrap(function _callee16$(_context16) {
+                                            while (1) {
+                                                switch (_context16.prev = _context16.next) {
+                                                    case 0:
+                                                        _context16.next = 2;
+                                                        return asyncReduce(conceptIds, []);
+
+                                                    case 2:
+                                                        concepts = _context16.sent;
+                                                        return _context16.abrupt('return', {
+                                                            v: concepts
+                                                        });
+
+                                                    case 4:
+                                                    case 'end':
+                                                        return _context16.stop();
+                                                }
+                                            }
+                                        }, _callee16, _this5);
+                                    })(), 't0', 2);
+
+                                case 2:
+                                    _ret = _context17.t0;
+
+                                    if (!(typeof _ret === "object")) {
+                                        _context17.next = 5;
+                                        break;
+                                    }
+
+                                    return _context17.abrupt('return', _ret.v);
+
+                                case 5:
+                                    _context17.next = 10;
                                     break;
 
-                                case 6:
-                                    _context17.prev = 6;
-                                    _context17.t0 = _context17['catch'](0);
-                                    throw _context17.t0;
+                                case 7:
+                                    _context17.prev = 7;
+                                    _context17.t1 = _context17['catch'](0);
+                                    throw _context17.t1;
 
-                                case 9:
+                                case 10:
                                 case 'end':
                                     return _context17.stop();
                             }
                         }
-                    }, _callee17, this, [[0, 6]]);
+                    }, _callee17, this, [[0, 7]]);
                 }));
             };
 
-            associateQuiz = function associateQuiz(conceptId, quizId) {
+            associateVideo = function associateVideo(conceptId, videoId) {
                 return __awaiter(_this, void 0, void 0, _regeneratorRuntime.mark(function _callee18() {
                     var path;
                     return _regeneratorRuntime.wrap(function _callee18$(_context18) {
@@ -6897,9 +6876,9 @@ $__System.register('39', ['28', '29', '30', '2a', '3a', '2e'], function (_export
                             switch (_context18.prev = _context18.next) {
                                 case 0:
                                     _context18.prev = 0;
-                                    path = dataPath + '/' + conceptId + '/quizzes/' + quizId;
+                                    path = dataPath + '/' + conceptId + '/videos/' + videoId;
                                     _context18.next = 4;
-                                    return FirebaseService.set(path, quizId);
+                                    return FirebaseService.set(path, videoId);
 
                                 case 4:
                                     _context18.next = 9;
@@ -6919,7 +6898,7 @@ $__System.register('39', ['28', '29', '30', '2a', '3a', '2e'], function (_export
                 }));
             };
 
-            disassociateQuiz = function disassociateQuiz(conceptId, quizId) {
+            disassociateVideo = function disassociateVideo(conceptId, videoId) {
                 return __awaiter(_this, void 0, void 0, _regeneratorRuntime.mark(function _callee19() {
                     var path;
                     return _regeneratorRuntime.wrap(function _callee19$(_context19) {
@@ -6927,7 +6906,7 @@ $__System.register('39', ['28', '29', '30', '2a', '3a', '2e'], function (_export
                             switch (_context19.prev = _context19.next) {
                                 case 0:
                                     _context19.prev = 0;
-                                    path = dataPath + '/' + conceptId + '/quizzes/' + quizId;
+                                    path = dataPath + '/' + conceptId + '/videos/' + videoId;
                                     _context19.next = 4;
                                     return FirebaseService.remove(path);
 
@@ -6949,6 +6928,66 @@ $__System.register('39', ['28', '29', '30', '2a', '3a', '2e'], function (_export
                 }));
             };
 
+            associateQuiz = function associateQuiz(conceptId, quizId) {
+                return __awaiter(_this, void 0, void 0, _regeneratorRuntime.mark(function _callee20() {
+                    var path;
+                    return _regeneratorRuntime.wrap(function _callee20$(_context20) {
+                        while (1) {
+                            switch (_context20.prev = _context20.next) {
+                                case 0:
+                                    _context20.prev = 0;
+                                    path = dataPath + '/' + conceptId + '/quizzes/' + quizId;
+                                    _context20.next = 4;
+                                    return FirebaseService.set(path, quizId);
+
+                                case 4:
+                                    _context20.next = 9;
+                                    break;
+
+                                case 6:
+                                    _context20.prev = 6;
+                                    _context20.t0 = _context20['catch'](0);
+                                    throw _context20.t0;
+
+                                case 9:
+                                case 'end':
+                                    return _context20.stop();
+                            }
+                        }
+                    }, _callee20, this, [[0, 6]]);
+                }));
+            };
+
+            disassociateQuiz = function disassociateQuiz(conceptId, quizId) {
+                return __awaiter(_this, void 0, void 0, _regeneratorRuntime.mark(function _callee21() {
+                    var path;
+                    return _regeneratorRuntime.wrap(function _callee21$(_context21) {
+                        while (1) {
+                            switch (_context21.prev = _context21.next) {
+                                case 0:
+                                    _context21.prev = 0;
+                                    path = dataPath + '/' + conceptId + '/quizzes/' + quizId;
+                                    _context21.next = 4;
+                                    return FirebaseService.remove(path);
+
+                                case 4:
+                                    _context21.next = 9;
+                                    break;
+
+                                case 6:
+                                    _context21.prev = 6;
+                                    _context21.t0 = _context21['catch'](0);
+                                    throw _context21.t0;
+
+                                case 9:
+                                case 'end':
+                                    return _context21.stop();
+                            }
+                        }
+                    }, _callee21, this, [[0, 6]]);
+                }));
+            };
+
             _export('ConceptModel', ConceptModel = {
                 save: save,
                 getById: getById,
@@ -6964,7 +7003,8 @@ $__System.register('39', ['28', '29', '30', '2a', '3a', '2e'], function (_export
                 associateQuiz: associateQuiz,
                 disassociateQuiz: disassociateQuiz,
                 getVideoIds: getVideoIds,
-                getQuizIds: getQuizIds
+                getQuizIds: getQuizIds,
+                associateCollaborators: associateCollaborators
             });
 
             _export('ConceptModel', ConceptModel);
@@ -8040,7 +8080,7 @@ $__System.register("28", [], function (_export, _context) {
     }
   };
 });
-$__System.register('3a', ['28', '29', '2a'], function (_export, _context18) {
+$__System.register('33', ['28', '29', '2a'], function (_export, _context18) {
     "use strict";
 
     var _toConsumableArray, _regeneratorRuntime, FirebaseService, _this, __awaiter, dataPath, createOrUpdate, getById, removeById, associateQuestion, disassociateQuestion, associateCollaborator, associateCollaborators, disassociateCollaborator, getCollaboratorUids, setQuestionSetting, setQuizSetting, getQuizSettings, updateTitle, getQuestionIds, resolveQuizIds, QuizModel;
@@ -8767,7 +8807,7 @@ $__System.register('3c', ['29', '2a'], function (_export, _context3) {
         }
     };
 });
-$__System.register('37', ['29', '30', '38', '39', '2a', '3b', '3a', '3c'], function (_export, _context46) {
+$__System.register('38', ['29', '30', '33', '39', '2a', '3a', '3b', '3c'], function (_export, _context46) {
     "use strict";
 
     var _regeneratorRuntime, FirebaseService, CourseModel, ConceptModel, UserModel, VideoModel, QuizModel, EmailsToUidsModel, _this, __awaiter, loadCourseCollaboratorEmails, loadConceptCollaboratorEmails, loadVideoCollaboratorEmails, loadQuizCollaboratorEmails, addCourseCollaborator, addConceptCollaborator, addVideoCollaborator, addQuizCollaborator, removeCourseCollaborator, removeConceptCollaborator, removeVideoCollaborator, removeQuizCollaborator, starCourse, getQuiz, updateQuizTitle, createNewQuiz, loadConceptQuizzes, setCurrentEditQuizId, loadQuizSettings, setQuizSetting, setQuestionSetting, loadQuizQuestionIds, addQuestionToQuiz, removeQuestionFromQuiz, loadUserQuestionIds, loadPublicQuestionIds, deleteVideo, saveVideo, setCurrentVideoInfo, clearCurrentVideoInfo, loadConceptVideos, createUser, loginUser, updateUserEmail, updateUserMetaData, checkUserAuth, addConcept, getConceptById, addCourse, getCoursesByUser, getStarredCoursesByUser, getSharedCoursesByUser, getCoursesByVisibility, getCourseById, deleteConcept, orderConcepts, updateCourseTitle, logOutUser, Actions;
@@ -8778,15 +8818,15 @@ $__System.register('37', ['29', '30', '38', '39', '2a', '3b', '3a', '3c'], funct
         }, function (_2) {
             VideoModel = _2.VideoModel;
         }, function (_3) {
-            CourseModel = _3.CourseModel;
+            QuizModel = _3.QuizModel;
         }, function (_4) {
-            ConceptModel = _4.ConceptModel;
+            CourseModel = _4.CourseModel;
         }, function (_a) {
             FirebaseService = _a.FirebaseService;
+        }, function (_a2) {
+            ConceptModel = _a2.ConceptModel;
         }, function (_b) {
             UserModel = _b.UserModel;
-        }, function (_a2) {
-            QuizModel = _a2.QuizModel;
         }, function (_c) {
             EmailsToUidsModel = _c.EmailsToUidsModel;
         }],
@@ -10104,7 +10144,7 @@ $__System.register('37', ['29', '30', '38', '39', '2a', '3b', '3a', '3c'], funct
                 type: 'ADD_CONCEPT',
                 execute: function execute(context, courseId, newConcept, conceptPos) {
                     return __awaiter(_this, void 0, void 0, _regeneratorRuntime.mark(function _callee34() {
-                        var conceptId, course, conceptsArray, orderedConcepts;
+                        var conceptId, course, conceptsArray, orderedConcepts, courseCollaboratorUids;
                         return _regeneratorRuntime.wrap(function _callee34$(_context34) {
                             while (1) {
                                 switch (_context34.prev = _context34.next) {
@@ -10136,20 +10176,29 @@ $__System.register('37', ['29', '30', '38', '39', '2a', '3b', '3a', '3c'], funct
                                             type: 'ADD_CONCEPT',
                                             currentCourse: course
                                         };
-                                        _context34.next = 20;
-                                        break;
+                                        _context34.next = 17;
+                                        return CourseModel.getCollaboratorUids(courseId);
 
                                     case 17:
-                                        _context34.prev = 17;
+                                        courseCollaboratorUids = _context34.sent;
+                                        _context34.next = 20;
+                                        return ConceptModel.associateCollaborators(conceptId, courseCollaboratorUids);
+
+                                    case 20:
+                                        _context34.next = 25;
+                                        break;
+
+                                    case 22:
+                                        _context34.prev = 22;
                                         _context34.t0 = _context34['catch'](0);
                                         throw _context34.t0;
 
-                                    case 20:
+                                    case 25:
                                     case 'end':
                                         return _context34.stop();
                                 }
                             }
-                        }, _callee34, this, [[0, 17]]);
+                        }, _callee34, this, [[0, 22]]);
                     }));
                 }
             };
@@ -11191,7 +11240,7 @@ $__System.register('2a', ['29'], function (_export, _context11) {
         }
     };
 });
-$__System.register('5', ['25', '26', '29', '37', '2e', '2a'], function (_export, _context20) {
+$__System.register('5', ['25', '26', '29', '38', '2e', '2a'], function (_export, _context20) {
     "use strict";
 
     var _regeneratorRuntime, _classCallCheck, _createClass, Actions, UtilitiesService, FirebaseService, __awaiter, PrendusQuizEditor;

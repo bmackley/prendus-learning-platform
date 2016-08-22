@@ -92131,14 +92131,22 @@ g.hasClass=Q.hasElClass,g.addClass=Q.addElClass,g.removeClass=Q.removeElClass,g.
         <iron-ajax id="endQuizSessionAjax" url="[[endpointDomain]]/api/quiz/endsession" method="post" content-type="application/json" handle-as="json"></iron-ajax>
         <redux-store on-statechange="mapStateToThis" action="[[action]]" store-name="VIEW_QUIZ_COMPONENT_STORE"></redux-store>
 
-        <template is="dom-repeat" items="[[questions]]">
-            <solutia-maxima-view-problem id="[[item.id]]" question-id="[[item.id]]" quiz-session-id="[[quizSessionIdMutable]]" jwt="[[jwt]]" user-full-name="[[userFullName]]" user-email="[[userEmail]]" course-id="[[courseId]]" on-showhint="hintShowed" on-showanswer="answerShowed" on-showworkedsolution="workedSolutionShowed" on-answertyped="answerTyped" on-checkboxchanged="checkboxChanged" on-radioselected="radioSelected" on-multipleinputtyped="multipleInputTyped"></solutia-maxima-view-problem>
-            <hr style="width: 50vw; border: 0px; height: 1px; background: rgba(0, 0, 0, .25)">
+        <template is="dom-if" if="[[!componentInitialized]]">
+            <div style="display: flex; flex-direction: row; align-items: center; justify-content: center; margin-top: 250px">
+                <paper-spinner active=""></paper-spinner>
+            </div>
         </template>
 
-        <div style="display: flex; flex-direction: row; align-items: center; justify-content: center; margin-top: 25px">
-            <paper-button on-tap="submitClicked" raised="">submit quiz</paper-button>
-        </div>
+        <template is="dom-if" if="[[componentInitialized]]">
+            <template is="dom-repeat" items="[[questionIds]]">
+                <solutia-maxima-view-problem id="[[item]]" question-id="[[item]]" quiz-session-id="[[quizSessionIdMutable]]" jwt="[[jwt]]" user-full-name="[[userFullName]]" user-email="[[userEmail]]" course-id="[[courseId]]" on-showhint="hintShowed" on-showanswer="answerShowed" on-showworkedsolution="workedSolutionShowed" on-answertyped="answerTyped" on-checkboxchanged="checkboxChanged" on-radioselected="radioSelected" on-multipleinputtyped="multipleInputTyped"></solutia-maxima-view-problem>
+                <hr style="width: 50vw; border: 0px; height: 1px; background: rgba(0, 0, 0, .25)">
+            </template>
+
+            <div style="display: flex; flex-direction: row; align-items: center; justify-content: center; margin-top: 25px">
+                <paper-button on-tap="submitClicked" raised="">submit quiz</paper-button>
+            </div>
+        </template>
     </template>
 
     <!-- <script>System.import('/bower_components/view-quiz-component/take-quiz.component.ts');</script> -->
@@ -92840,11 +92848,11 @@ event and do your own custom submission:
     <app-route route="[[route]]" pattern="/:page" data="{{pageData}}" tail="{{tail}}" active="{{pageActive}}"></app-route>
 
     <iron-pages id="app-container" selected="{{pageData.page}}" category="{{pageData.page}}" attr-for-selected="data-page">
+      <prendus-homepage data-page=""></prendus-homepage>
       <prendus-login data-page="login"></prendus-login>
       <prendus-create-account data-page="signup"></prendus-create-account>
       <prendus-course-router data-page="courses" route="[[tail]]"></prendus-course-router>
       <prendus-profile data-page="profile"></prendus-profile>
-      <prendus-homepage data-page="index"></prendus-homepage>
     </iron-pages>
     <!-- <div class = "overlay">
       <paper-spinner active></paper-spinner>
