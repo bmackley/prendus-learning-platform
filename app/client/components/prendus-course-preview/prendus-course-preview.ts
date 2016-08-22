@@ -22,6 +22,7 @@ class PrendusCoursePreview {
     }
 
     init(course: Course) {
+        console.log('courses', this.course)
         this.starIcon = `icons:star-border`
     }
 

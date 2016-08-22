@@ -24,6 +24,7 @@ class PrendusLogin {
       window.history.pushState({}, '', location);
       this.fire('location-changed', {}, {node: window});
     }catch(error){
+      this.errorMessage = '';
       this.errorMessage = error.message;
     }
   }
