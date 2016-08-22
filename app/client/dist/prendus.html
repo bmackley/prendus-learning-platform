@@ -22042,10 +22042,6 @@ Custom property | Description | Default
           </form>
         </div>
       </paper-card>
-<<<<<<< HEAD
-=======
-      <center><div id="toastTarget" style="margin-left: -28px; height: 60px;"></div></center>
->>>>>>> develop
       <prendus-notification error-message="[[errorMessage]]"></prendus-notification>
     </center>
   </template>
@@ -22094,14 +22090,8 @@ Custom property | Description | Default
           </form>
         
       </paper-card>
-<<<<<<< HEAD
     <prendus-notification error-message="[[errorMessage]]"></prendus-notification>
   </center></template>
-=======
-      <center><div id="toastTarget" style="margin-left: -28px; height: 60px;"></div></center>
-    </center><prendus-notification error-message="[[errorMessage]]"></prendus-notification>
-  </template>
->>>>>>> develop
 
   <!--<script src="prendus-create-account.js"></script>-->
 </dom-module>
@@ -41803,7 +41793,7 @@ Custom property | Description | Default
         <template is="dom-repeat" items="[[quizzes]]">
             <div class="quiz-row" on-tap="quizRowClick">[[item.title]]</div>
         </template>
-        <paper-button class="addResource" raised="true" icon="add" title="Add Quiz" on-tap="addQuizClick">Add Video</paper-button>
+        <paper-button class="addResource" raised="true" icon="add" title="Add Quiz" on-tap="addQuizClick">Add Quiz</paper-button>
     </template>
 
     <!--<script src="prendus-concept-quiz-container-edit.js"></script>-->
@@ -42600,6 +42590,8 @@ doy:4}}),kg.defineLocale("zh-tw",{months:"一月_二月_三月_四月_五月_六
                 </template>
               </sortable-js>
             </course-title>
+            <prendus-notification success-message="[[successMessage]]"></prendus-notification>
+            <prendus-notification error-message="[[errorMessage]]"></prendus-notification>
         </template>
         <template is="dom-if" if="[[!username]]">
           <p> You are not signed in.  Please sign in to access this page </p>
@@ -43642,9 +43634,14 @@ Custom property | Description | Default
 </dom-module>
 <dom-module id="prendus-course-preview" assetpath="../prendus-course-preview/">
     <template>
+        <style>
+        .course-card{
+          margin: 1%;
+        }
+        </style>
         <redux-store on-statechange="mapStateToThis" action="[[action]]"></redux-store>
 
-        <paper-card heading="[[course.title]]">
+        <paper-card heading="[[course.title]]" class="course-card">
             <div>
                 <paper-icon-button icon="[[starIcon]]" title="click to star or unstar" on-tap="starClick"></paper-icon-button>
                 <div>[[numStars]]</div>
@@ -91935,6 +91932,10 @@ Custom property | Description | Default
                     margin-left: 2%;
                 };
             }
+            #quiz-container{
+              margin-left: -25%;
+              margin-right: -25%;
+            }
         </style>
 
         <redux-store on-statechange="mapStateToThis" action="[[action]]"></redux-store>
@@ -91948,7 +91949,7 @@ Custom property | Description | Default
             https://prendus.com/courses/view-quiz/concept/[[conceptId]]/quiz/[[quizId]]
         </paper-dialog>
 
-        <div style="display: flex; flex-direction: row;">
+        <div style="display: flex; flex-direction: row;" id="quiz-container">
             <div style="display: flex; flex-direction: column; flex: 1; box-shadow: 0px 0px 3px black; margin: 50px; position: relative; height: 0%">
                 <paper-input id="quiz-title-input" label="Quiz Title" value="[[title]]" on-change="titleChanged"></paper-input>
 
@@ -92201,7 +92202,7 @@ g.hasClass=Q.hasElClass,g.addClass=Q.addElClass,g.removeClass=Q.removeElClass,g.
         <redux-store on-statechange="mapStateToThis"></redux-store>
         <app-route route="[[route]]" pattern="/edit-question/question/:questionId" data="{{data}}" tail="{{tail}}"></app-route>
 
-        <div style="margin-left: 10vw; margin-right: 10vw; margin-bottom: 25px; margin-top: 25px">
+        <div style="margin-left: -25%; margin-right: -25%; margin-bottom: 25px; margin-top: 25px">
             <solutia-maxima-edit-problem id="editProblemComponent" jwt="[[jwt]]" question-id="[[data.questionId]]" on-savequestion="questionSaved"></solutia-maxima-edit-problem>
         </div>
     </template>
