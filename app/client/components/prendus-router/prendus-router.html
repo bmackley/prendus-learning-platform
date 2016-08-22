@@ -43,11 +43,11 @@
     <app-route route="[[route]]" pattern="/:page" data="{{pageData}}" tail="{{tail}}" active ="{{pageActive}}"></app-route>
 
     <iron-pages id="app-container" selected="{{pageData.page}}" category="{{pageData.page}}" attr-for-selected ="data-page">
+      <prendus-homepage data-page=""></prendus-homepage>
       <prendus-login data-page="login"></prendus-login>
       <prendus-create-account data-page="signup"></prendus-create-account>
       <prendus-course-router data-page="courses" route="[[tail]]"></prendus-course-router>
       <prendus-profile data-page="profile"></prendus-profile>
-      <prendus-homepage data-page="index"></prendus-homepage>
     </iron-pages>
     <!-- <div class = "overlay">
       <paper-spinner active></paper-spinner>
