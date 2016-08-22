@@ -250,6 +250,21 @@ const starCourse = async (context: any, courseId: string) => {
 
     await CourseModel.associateUserStar(courseId, user.uid);
     await UserModel.starCourse(user.uid, courseId);
+
+    context.action = {
+        type: 'STAR_COURSE'
+    };
+};
+
+const unstarCourse = async (context: any, courseId: string) => {
+    const user = await FirebaseService.getLoggedInUser();
+
+    await CourseModel.disassociateUserStar(courseId, user.uid);
+    await UserModel.unstarCourse(user.uid, courseId);
+
+    context.action = {
+        type: 'UNSTAR_COURSE'
+    };
 };
 
 const getQuiz = async (quizId: string) => {
@@ -721,6 +736,7 @@ export const Actions = {
     getConceptById,
     loadPublicQuestionIds,
     starCourse,
+    unstarCourse,
     getStarredCoursesByUser,
     addQuizCollaborator,
     loadQuizCollaboratorEmails,

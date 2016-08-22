@@ -1,10 +1,19 @@
 <link rel="import" href="../../bower_components/polymer/polymer.html">
 <link rel="import" href="../../bower_components/paper-card/paper-card.html">
 <link rel="import" href="../../bower_components/paper-button/paper-button.html">
+<link rel="import" href="../../bower_components/paper-icon-button/paper-icon-button.html">
+<link rel="import" href="../../bower_components/redux-store-element/redux-store.html">
 
 <dom-module id="prendus-course-preview">
     <template>
+        <redux-store on-statechange="mapStateToThis" action="[[action]]"></redux-store>
+
         <paper-card heading="[[course.title]]">
+            <div>
+                <paper-icon-button icon="[[starIcon]]" title="click to star or unstar" on-tap="starClick"></paper-icon-button>
+                <div>[[numStars]]</div>
+            </div>
+
           <div class="card-content">[[course.description]]</div>
           <div class="card-actions">
             <paper-button id="[[course.id]]" on-tap="editCourse">Edit</paper-button>  <!-- Go to page from here -->
