@@ -2,3 +2,4 @@ example
 /node_modules
 /npm-debug.log
 /app/client/node_modules
+/app/client/bower_components
