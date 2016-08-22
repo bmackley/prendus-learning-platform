@@ -584,8 +584,8 @@ const getCoursesByUser = {
         const courses = await CourseModel.getCoursesByUser(loggedInUser.uid);
         context.action = {
             type: 'GET_COURSES_BY_USER',
-            courses: courses,
-        }
+            courses: courses
+        };
       }
     }catch(error){
       throw error;
@@ -644,7 +644,7 @@ const getCourseById = {
       context.action = {
           type: 'GET_COURSE_BY_ID',
           currentCourse: course
-      }
+      };
     }catch(error){
       throw error;
     }
@@ -661,7 +661,7 @@ const deleteConcept = {
         context.action = {
             type: 'GET_COURSE_BY_ID',
             currentCourse: course
-        }
+        };
       }catch(error){
         throw error;
       }

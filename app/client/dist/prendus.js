@@ -4565,9 +4565,18 @@ $__System.register('11', ['26', '27', '39', '2a'], function (_export, _context2)
                         };
                     }
                 }, {
+                    key: 'ready',
+                    value: function ready() {
+                        // this.action = {
+                        //     type: 'DEFAULT_ACTION'
+                        // };
+                    }
+                }, {
                     key: 'init',
                     value: function init(course) {
-                        this.starIcon = 'icons:star-border';
+                        this.action = {
+                            type: 'DEFAULT_ACTION'
+                        };
                     }
                 }, {
                     key: 'starClick',
@@ -4612,8 +4621,10 @@ $__System.register('11', ['26', '27', '39', '2a'], function (_export, _context2)
                                             return Actions.starCourse(this, this.course.id);
 
                                         case 13:
-                                            Actions.checkUserAuth.execute(this);
-                                            Actions.getStarredCoursesByUser(this, this.user.metaData.uid);
+                                            _context.next = 15;
+                                            return Actions.checkUserAuth.execute(this);
+
+                                        case 15:
                                             Actions.getCoursesByVisibility(this, 'public');
                                             Actions.getCoursesByUser.execute(this);
                                             Actions.getStarredCoursesByUser(this, this.user.metaData.uid);
@@ -5169,63 +5180,6 @@ $__System.register('c', ['26', '27', '2a'], function (_export, _context2) {
 $__System.register('b', ['26', '27'], function (_export, _context) {
     "use strict";
 
-<<<<<<< HEAD
-    var _classCallCheck, _createClass, PrendusErrorMessage;
-
-    return {
-        setters: [function (_) {
-            _classCallCheck = _.default;
-        }, function (_2) {
-            _createClass = _2.default;
-        }],
-        execute: function () {
-            PrendusErrorMessage = function () {
-                function PrendusErrorMessage() {
-                    _classCallCheck(this, PrendusErrorMessage);
-                }
-
-                _createClass(PrendusErrorMessage, [{
-                    key: 'beforeRegister',
-                    value: function beforeRegister() {
-                        this.is = 'prendus-error-message';
-                        this.properties = {
-                            message: {
-                                type: String
-                            }
-                        };
-                        this.observers = ['setMessage(message)'];
-                    }
-                }, {
-                    key: 'setMessage',
-                    value: function setMessage() {
-                        console.log(this.message);
-                        this.toastText = this.message;
-                    }
-                }, {
-                    key: 'mapStateToThis',
-                    value: function mapStateToThis(e) {
-                        var state = e.detail.state;
-                        this.username = state.currentUser.email;
-                    }
-                }, {
-                    key: 'ready',
-                    value: function ready() {
-                        this.$.toastContainer.fitInto = this.$.toastTarget;
-                    }
-                }]);
-
-                return PrendusErrorMessage;
-            }();
-
-            Polymer(PrendusErrorMessage);
-        }
-    };
-});
-$__System.register('a', ['26', '27'], function (_export, _context) {
-    "use strict";
-
-=======
->>>>>>> develop
     var _classCallCheck, _createClass, PrendusExample;
 
     return {
@@ -5260,15 +5214,7 @@ $__System.register('a', ['26', '27'], function (_export, _context) {
         }
     };
 });
-<<<<<<< HEAD
-$__System.register('9', ['26', '27', '39', '2a'], function (_export, _context3) {
-=======
-<<<<<<< HEAD
-$__System.register('a', ['25', '26', '29', '38'], function (_export, _context3) {
-=======
-$__System.register('9', ['25', '26', '29', '38'], function (_export, _context3) {
->>>>>>> develop
->>>>>>> develop
+$__System.register('a', ['26', '27', '39', '2a'], function (_export, _context3) {
     "use strict";
 
     var _regeneratorRuntime, _classCallCheck, _createClass, Actions, __awaiter, PrendusHomepage;
@@ -5381,15 +5327,7 @@ $__System.register('9', ['25', '26', '29', '38'], function (_export, _context3) 
         }
     };
 });
-<<<<<<< HEAD
-$__System.register('8', ['26', '27', '39', '2a'], function (_export, _context2) {
-=======
-<<<<<<< HEAD
-$__System.register('9', ['25', '26', '29', '38'], function (_export, _context2) {
-=======
-$__System.register('8', ['25', '26', '29', '38'], function (_export, _context2) {
->>>>>>> develop
->>>>>>> develop
+$__System.register('9', ['26', '27', '39', '2a'], function (_export, _context2) {
     "use strict";
 
     var _regeneratorRuntime, _classCallCheck, _createClass, Actions, __awaiter, PrendusLogin;
@@ -5495,15 +5433,7 @@ $__System.register('8', ['25', '26', '29', '38'], function (_export, _context2) 
         }
     };
 });
-<<<<<<< HEAD
-$__System.register('7', ['26', '27', '39'], function (_export, _context) {
-=======
-<<<<<<< HEAD
-$__System.register('8', ['25', '26', '38'], function (_export, _context) {
-=======
-$__System.register('7', ['25', '26', '38'], function (_export, _context) {
->>>>>>> develop
->>>>>>> develop
+$__System.register('8', ['26', '27', '39'], function (_export, _context) {
     "use strict";
 
     var _classCallCheck, _createClass, Actions, PrendusNavbar;
@@ -5576,11 +5506,7 @@ $__System.register('7', ['25', '26', '38'], function (_export, _context) {
         }
     };
 });
-<<<<<<< HEAD
-$__System.register('6', ['26', '27', '39', '2a'], function (_export, _context3) {
-=======
-<<<<<<< HEAD
-$__System.register('7', ['25', '26'], function (_export, _context) {
+$__System.register('7', ['26', '27'], function (_export, _context) {
     "use strict";
 
     var _classCallCheck, _createClass, PrendusNotification;
@@ -5637,10 +5563,7 @@ $__System.register('7', ['25', '26'], function (_export, _context) {
         }
     };
 });
-=======
->>>>>>> develop
-$__System.register('6', ['25', '26', '29', '38'], function (_export, _context3) {
->>>>>>> develop
+$__System.register('6', ['26', '27', '39', '2a'], function (_export, _context3) {
     "use strict";
 
     var _regeneratorRuntime, _classCallCheck, _createClass, Actions, __awaiter, PrendusProfile;
@@ -5820,25 +5743,10 @@ $__System.register('6', ['25', '26', '29', '38'], function (_export, _context3) 
         }
     };
 });
-<<<<<<< HEAD
 $__System.register('3a', ['29', '2a', '2b', '3b', '2f'], function (_export, _context22) {
     "use strict";
 
     var _toConsumableArray, _regeneratorRuntime, FirebaseService, ConceptModel, UtilitiesService, _this, __awaiter, conceptsPath, dataPath, createOrUpdate, associateConcept, disassociateConcept, getById, getCoursesByUser, courseConceptsToArray, orderCourseConcepts, updateCourseConcepts, deleteCourse, associateCollaborator, disassociateCollaborator, getCollaboratorUids, getAllByVisibility, resolveCourseIds, getConceptIds, associateUserStar, disassociateUserStar, CourseModel;
-=======
-<<<<<<< HEAD
-$__System.register('39', ['28', '29', '2a', '3a', '2e'], function (_export, _context21) {
-=======
-<<<<<<< HEAD
-$__System.register('39', ['28', '29', '2a', '3a', '2e'], function (_export, _context21) {
-=======
-$__System.register('39', ['28', '29', '2a', '3a', '2e'], function (_export, _context20) {
->>>>>>> 3107ed61b34d8398b8cd71ba47b2b8ddd5e86381
->>>>>>> develop
-    "use strict";
-
-    var _toConsumableArray, _regeneratorRuntime, FirebaseService, ConceptModel, UtilitiesService, _this, __awaiter, conceptsPath, dataPath, createOrUpdate, associateConcept, disassociateConcept, getById, getCoursesByUser, courseConceptsToArray, orderCourseConcepts, updateCourseConcepts, deleteCourse, associateCollaborator, disassociateCollaborator, getCollaboratorUids, getAllByVisibility, resolveCourseIds, getConceptIds, updateCourseField, CourseModel;
->>>>>>> develop
 
     return {
         setters: [function (_) {
@@ -6546,65 +6454,17 @@ $__System.register('39', ['28', '29', '2a', '3a', '2e'], function (_export, _con
                 }));
             };
 
-<<<<<<< HEAD
             associateUserStar = function associateUserStar(courseId, uid) {
                 return __awaiter(_this, void 0, Promise, _regeneratorRuntime.mark(function _callee20() {
-=======
-            updateCourseField = function updateCourseField(id, field, value) {
-                return __awaiter(_this, void 0, void 0, _regeneratorRuntime.mark(function _callee20() {
->>>>>>> develop
                     var path;
                     return _regeneratorRuntime.wrap(function _callee20$(_context20) {
                         while (1) {
                             switch (_context20.prev = _context20.next) {
                                 case 0:
                                     _context20.prev = 0;
-<<<<<<< HEAD
                                     path = dataPath + '/' + courseId + '/userStars/' + uid;
                                     _context20.next = 4;
                                     return FirebaseService.set(path, uid);
-=======
-                                    path = dataPath + '/' + id + '/' + field;
-                                    _context20.next = 4;
-                                    return FirebaseService.set(path, value);
-
-                                case 4:
-                                    return _context20.abrupt('return', _context20.sent);
-
-                                case 7:
-                                    _context20.prev = 7;
-                                    _context20.t0 = _context20['catch'](0);
-                                    throw _context20.t0;
-
-                                case 10:
-                                case 'end':
-                                    return _context20.stop();
-                            }
-                        }
-                    }, _callee20, this, [[0, 7]]);
-                }));
-            };
-
-            _export('CourseModel', CourseModel = {
-                createOrUpdate: createOrUpdate,
-                getById: getById,
-                getCoursesByUser: getCoursesByUser,
-                deleteCourse: deleteCourse,
-                associateConcept: associateConcept,
-                disassociateConcept: disassociateConcept,
-                orderCourseConcepts: orderCourseConcepts,
-                updateCourseConcepts: updateCourseConcepts,
-                courseConceptsToArray: courseConceptsToArray,
-                associateCollaborator: associateCollaborator,
-                disassociateCollaborator: disassociateCollaborator,
-                getCollaboratorUids: getCollaboratorUids,
-                getAllByVisibility: getAllByVisibility,
-                resolveCourseIds: resolveCourseIds,
-                dataPath: dataPath,
-                getConceptIds: getConceptIds,
-                updateCourseField: updateCourseField
-            });
->>>>>>> develop
 
                                 case 4:
                                     _context20.next = 9;
@@ -9235,11 +9095,7 @@ $__System.register('3d', ['2a', '2b'], function (_export, _context3) {
 $__System.register('39', ['31', '34', '2a', '2b', '3a', '3b', '3c', '3d'], function (_export, _context47) {
     "use strict";
 
-<<<<<<< HEAD
-    var _regeneratorRuntime, FirebaseService, CourseModel, ConceptModel, UserModel, VideoModel, QuizModel, EmailsToUidsModel, _this, __awaiter, loadCourseCollaboratorEmails, loadConceptCollaboratorEmails, loadVideoCollaboratorEmails, loadQuizCollaboratorEmails, addCourseCollaborator, addConceptCollaborator, addVideoCollaborator, addQuizCollaborator, removeCourseCollaborator, removeConceptCollaborator, removeVideoCollaborator, removeQuizCollaborator, starCourse, unstarCourse, getQuiz, updateQuizTitle, createNewQuiz, loadConceptQuizzes, setCurrentEditQuizId, loadQuizSettings, setQuizSetting, setQuestionSetting, loadQuizQuestionIds, addQuestionToQuiz, removeQuestionFromQuiz, loadUserQuestionIds, loadPublicQuestionIds, deleteVideo, saveVideo, setCurrentVideoInfo, clearCurrentVideoInfo, loadConceptVideos, createUser, loginUser, updateUserEmail, updateUserMetaData, checkUserAuth, addConcept, getConceptById, addCourse, getCoursesByUser, getStarredCoursesByUser, getSharedCoursesByUser, getCoursesByVisibility, getCourseById, deleteConcept, orderConcepts, updateCourseTitle, logOutUser, Actions;
-=======
-    var _regeneratorRuntime, FirebaseService, CourseModel, ConceptModel, UserModel, VideoModel, QuizModel, EmailsToUidsModel, _this, __awaiter, loadCourseCollaboratorEmails, loadConceptCollaboratorEmails, loadVideoCollaboratorEmails, loadQuizCollaboratorEmails, addCourseCollaborator, addConceptCollaborator, addVideoCollaborator, addQuizCollaborator, removeCourseCollaborator, removeConceptCollaborator, removeVideoCollaborator, removeQuizCollaborator, starCourse, getQuiz, updateQuizTitle, createNewQuiz, loadConceptQuizzes, setCurrentEditQuizId, loadQuizSettings, setQuizSetting, setQuestionSetting, loadQuizQuestionIds, addQuestionToQuiz, removeQuestionFromQuiz, loadUserQuestionIds, loadPublicQuestionIds, deleteVideo, saveVideo, setCurrentVideoInfo, clearCurrentVideoInfo, loadConceptVideos, createUser, loginUser, updateUserEmail, updateUserMetaData, checkUserAuth, addConcept, getConceptById, addCourse, getCoursesByUser, getStarredCoursesByUser, getSharedCoursesByUser, getCoursesByVisibility, getCourseById, deleteConcept, orderConcepts, updateCourseField, logOutUser, Actions;
->>>>>>> develop
+    var _regeneratorRuntime, FirebaseService, CourseModel, ConceptModel, UserModel, VideoModel, QuizModel, EmailsToUidsModel, _this, __awaiter, loadCourseCollaboratorEmails, loadConceptCollaboratorEmails, loadVideoCollaboratorEmails, loadQuizCollaboratorEmails, addCourseCollaborator, addConceptCollaborator, addVideoCollaborator, addQuizCollaborator, removeCourseCollaborator, removeConceptCollaborator, removeVideoCollaborator, removeQuizCollaborator, starCourse, unstarCourse, getQuiz, updateQuizTitle, createNewQuiz, loadConceptQuizzes, setCurrentEditQuizId, loadQuizSettings, setQuizSetting, setQuestionSetting, loadQuizQuestionIds, addQuestionToQuiz, removeQuestionFromQuiz, loadUserQuestionIds, loadPublicQuestionIds, deleteVideo, saveVideo, setCurrentVideoInfo, clearCurrentVideoInfo, loadConceptVideos, createUser, loginUser, updateUserEmail, updateUserMetaData, checkUserAuth, addConcept, getConceptById, addCourse, getCoursesByUser, getStarredCoursesByUser, getSharedCoursesByUser, getCoursesByVisibility, getCourseById, deleteConcept, orderConcepts, updateCourseField, logOutUser, Actions;
 
     return {
         setters: [function (_) {
@@ -10443,15 +10299,9 @@ $__System.register('39', ['31', '34', '2a', '2b', '3a', '3b', '3c', '3d'], funct
             loginUser = {
                 type: 'LOGIN_USER',
                 execute: function execute(context, email, password) {
-<<<<<<< HEAD
                     return __awaiter(_this, void 0, void 0, _regeneratorRuntime.mark(function _callee31() {
-                        var loggedInUser, user;
-                        return _regeneratorRuntime.wrap(function _callee31$(_context31) {
-=======
-                    return __awaiter(_this, void 0, void 0, _regeneratorRuntime.mark(function _callee30() {
                         var loggedInUser, user, courses;
-                        return _regeneratorRuntime.wrap(function _callee30$(_context30) {
->>>>>>> develop
+                        return _regeneratorRuntime.wrap(function _callee31$(_context31) {
                             while (1) {
                                 switch (_context31.prev = _context31.next) {
                                     case 0:
@@ -10468,45 +10318,31 @@ $__System.register('39', ['31', '34', '2a', '2b', '3a', '3b', '3c', '3d'], funct
                                         user = _context31.sent;
                                         //sets ancillary user data such as name, institution, etc.
                                         user.metaData.uid = loggedInUser.uid;
-                                        _context30.next = 10;
+                                        _context31.next = 10;
                                         return CourseModel.getCoursesByUser(loggedInUser.uid);
 
                                     case 10:
-                                        courses = _context30.sent;
+                                        courses = _context31.sent;
 
                                         context.action = {
                                             type: Actions.loginUser.type,
                                             courses: courses,
                                             user: user
                                         };
-<<<<<<< HEAD
-                                        _context31.next = 14;
-                                        break;
-
-                                    case 11:
-                                        _context31.prev = 11;
-                                        _context31.t0 = _context31['catch'](0);
-                                        throw _context31.t0;
-=======
-                                        _context30.next = 17;
+                                        _context31.next = 17;
                                         break;
 
                                     case 14:
-                                        _context30.prev = 14;
-                                        _context30.t0 = _context30['catch'](0);
-                                        throw _context30.t0;
->>>>>>> develop
+                                        _context31.prev = 14;
+                                        _context31.t0 = _context31['catch'](0);
+                                        throw _context31.t0;
 
                                     case 17:
                                     case 'end':
                                         return _context31.stop();
                                 }
                             }
-<<<<<<< HEAD
-                        }, _callee31, this, [[0, 11]]);
-=======
-                        }, _callee30, this, [[0, 14]]);
->>>>>>> develop
+                        }, _callee31, this, [[0, 14]]);
                     }));
                 }
             };
@@ -11057,63 +10893,29 @@ $__System.register('39', ['31', '34', '2a', '2b', '3a', '3b', '3c', '3d'], funct
                     }));
                 }
             };
-<<<<<<< HEAD
-            updateCourseTitle = {
-                execute: function execute(context, id, title) {
-                    return __awaiter(_this, void 0, void 0, _regeneratorRuntime.mark(function _callee45() {
-                        return _regeneratorRuntime.wrap(function _callee45$(_context45) {
-                            while (1) {
-                                switch (_context45.prev = _context45.next) {
-                                    case 0:
-                                        _context45.prev = 0;
-                                        _context45.next = 3;
-                                        return CourseModel.updateCourseTitle(id, title);
-
-                                    case 3:
-                                        context.action = {
-                                            type: 'UPDATE_COURSE_TITLE',
-                                            currentCourse: orderedCourse
-                                        };
-                                        _context45.next = 9;
-                                        break;
-
-                                    case 6:
-                                        _context45.prev = 6;
-                                        _context45.t0 = _context45['catch'](0);
-                                        throw _context45.t0;
-
-                                    case 9:
-                                    case 'end':
-                                        return _context45.stop();
-                                }
-                            }
-                        }, _callee45, this, [[0, 6]]);
-                    }));
-                }
-=======
 
             updateCourseField = function updateCourseField(context, id, field, value) {
-                return __awaiter(_this, void 0, void 0, _regeneratorRuntime.mark(function _callee44() {
+                return __awaiter(_this, void 0, void 0, _regeneratorRuntime.mark(function _callee45() {
                     var course, conceptsArray, orderedConcepts;
-                    return _regeneratorRuntime.wrap(function _callee44$(_context44) {
+                    return _regeneratorRuntime.wrap(function _callee45$(_context45) {
                         while (1) {
-                            switch (_context44.prev = _context44.next) {
+                            switch (_context45.prev = _context45.next) {
                                 case 0:
-                                    _context44.prev = 0;
-                                    _context44.next = 3;
+                                    _context45.prev = 0;
+                                    _context45.next = 3;
                                     return CourseModel.updateCourseField(id, field, value);
 
                                 case 3:
-                                    _context44.next = 5;
+                                    _context45.next = 5;
                                     return CourseModel.getById(id);
 
                                 case 5:
-                                    course = _context44.sent;
-                                    _context44.next = 8;
+                                    course = _context45.sent;
+                                    _context45.next = 8;
                                     return CourseModel.courseConceptsToArray(course);
 
                                 case 8:
-                                    conceptsArray = _context44.sent;
+                                    conceptsArray = _context45.sent;
                                     orderedConcepts = CourseModel.orderCourseConcepts(conceptsArray);
 
                                     course.concepts = orderedConcepts;
@@ -11121,22 +10923,21 @@ $__System.register('39', ['31', '34', '2a', '2b', '3a', '3b', '3c', '3d'], funct
                                         type: 'GET_COURSE_BY_ID',
                                         currentCourse: course
                                     };
-                                    _context44.next = 17;
+                                    _context45.next = 17;
                                     break;
 
                                 case 14:
-                                    _context44.prev = 14;
-                                    _context44.t0 = _context44['catch'](0);
-                                    throw _context44.t0;
+                                    _context45.prev = 14;
+                                    _context45.t0 = _context45['catch'](0);
+                                    throw _context45.t0;
 
                                 case 17:
                                 case 'end':
-                                    return _context44.stop();
+                                    return _context45.stop();
                             }
                         }
-                    }, _callee44, this, [[0, 14]]);
+                    }, _callee45, this, [[0, 14]]);
                 }));
->>>>>>> develop
             };
 
             logOutUser = {
