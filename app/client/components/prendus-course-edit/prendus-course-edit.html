@@ -63,43 +63,67 @@
       <div id = "course-container">
         <!-- style="display: flex; flex-direction: column; flex: 1; box-shadow: 0px 0px 3px black; margin: 100px; position: relative; height: 0%" -->
         <template is="dom-if" if="[[username]]">
-            <course-title title="[[item.title]]" instructor="[[item.instructor]]">
-              <paper-input name="title" label="Course Title" id = "course-title" value="[[currentCourse.title]]" on-change="attributeChanged"></paper-input>
-              <paper-input name="description" id = "course-description" label="Course Description" label="Input label" maxlength="20" value="[[currentCourse.description]]" on-change="attributeChanged"></paper-input>
-              <h1>
-                [[currentCourse.title]] Concepts
-              </h1>
-              <template is="dom-if" if="[[!courseConceptsLength]]">
-                <p>Click the plus button to begin adding concepts to the Course.</p>
-              </template>
-              <sortable-js on-sort="sortableEnded">
-                <template id="conceptsList" is="dom-repeat" items=[[courseConcepts]]>
-                  <div class = "concepts-style-container">
-                    <!-- <iron-icon class = "end-justified"icon="editor:drag-handle" item-icon style="flex: 1;flex-direction: row;"></iron-icon> [[item.keys]]
-                    <iron-icon class = "end-justified" id = "[[item.key]]" icon="icons:delete" item-icon on-tap="deleteItem"></iron-icon> -->
-                    <prendus-concept-container-edit concept-id="[[item.id]]" style="flex: 5;flex-direction: row;"></prendus-concept-container-edit><span>
-                    <paper-menu-button ignore-select no-animations allow-outside-scroll>
-                      <paper-icon-button icon="more-vert" title="concept settings" class="dropdown-trigger"></paper-icon-button>
-                      <paper-menu class="dropdown-content" selected="null" style="padding: 15px">
-                          <paper-submenu>
-                              <paper-item class="menu-trigger">Collaborators</paper-item>
-                              <paper-menu class="menu-content">
-                                  <!--TODO this span is here to stop the default selection of items. It is a hack, get rid of it if possible-->
-                                  <span></span>
-                                  <!--TODO this span is here to stop the default selection of items. It is a hack, get rid of it if possible-->
-                                  <prendus-collaborator-menu-content course-id="[[courseId]]" concept-id="[[item.key]]" concept></prendus-collaborator-menu-content>
-                              </paper-menu>
-                          </paper-submenu>
-                        <paper-item role="menuitem" id = "[[item.key]]" on-tap="deleteItem"><iron-icon class = "end-justified" icon="icons:delete" item-icon ></iron-icon>Delete</paper-item>
-                        <!-- <paper-item><iron-icon class = "end-justified"icon="editor:drag-handle" item-icon style="flex: 1;flex-direction: row;"></iron-icon> [[item.keys]]
-                        Reorder concepts</paper-item> -->
-                      </paper-menu>
-                    </paper-menu-button>
-                  </div>
-                </template>
-              </sortable-js>
-            </course-title>
+            <div style="position: relative">
+                <course-title title="[[item.title]]" instructor="[[item.instructor]]">
+
+                    <div style="position: absolute; top: -5px; right: -1%">
+                        <paper-menu-button ignore-select no-animations allow-outside-scroll>
+                            <paper-icon-button icon="more-vert" title="quiz settings" class="dropdown-trigger"></paper-icon-button>
+                            <paper-menu class="dropdown-content" style="padding: 15px">
+                                <!--TODO this span is here to stop the default selection of items. It is a hack, get rid of it if possible-->
+                                <span></span>
+                                <!--TODO this span is here to stop the default selection of items. It is a hack, get rid of it if possible-->
+                                <paper-submenu>
+                                    <paper-item class="menu-trigger">Collaborators</paper-item>
+                                    <paper-menu class="menu-content">
+                                        <!--TODO this span is here to stop the default selection of items. It is a hack, get rid of it if possible-->
+                                        <span></span>
+                                        <!--TODO this span is here to stop the default selection of items. It is a hack, get rid of it if possible-->
+                                        <prendus-collaborator-menu-content uid="[[uid]]" course-id="[[courseId]]" course></prendus-collaborator-menu-content>
+                                    </paper-menu>
+                                </paper-submenu>
+                            </paper-menu>
+                        </paper-menu-button>
+                    </div>
+
+                  <paper-input name="title" label="Course Title" id = "course-title" value="[[currentCourse.title]]" on-change="attributeChanged"></paper-input>
+                  <paper-input name="description" id = "course-description" label="Course Description" label="Input label" maxlength="20" value="[[currentCourse.description]]" on-change="attributeChanged"></paper-input>
+                  <h1>
+                    [[currentCourse.title]] Concepts
+                  </h1>
+                  <template is="dom-if" if="[[!courseConceptsLength]]">
+                    <p>Click the plus button to begin adding concepts to the Course.</p>
+                  </template>
+                  <sortable-js on-sort="sortableEnded">
+                    <template id="conceptsList" is="dom-repeat" items=[[courseConcepts]]>
+                      <div class = "concepts-style-container">
+                        <!-- <iron-icon class = "end-justified"icon="editor:drag-handle" item-icon style="flex: 1;flex-direction: row;"></iron-icon> [[item.keys]]
+                        <iron-icon class = "end-justified" id = "[[item.key]]" icon="icons:delete" item-icon on-tap="deleteItem"></iron-icon> -->
+                        <prendus-concept-container-edit concept-id="[[item.id]]" style="flex: 5;flex-direction: row;"></prendus-concept-container-edit><span>
+                        <paper-menu-button ignore-select no-animations allow-outside-scroll>
+                          <paper-icon-button icon="more-vert" title="concept settings" class="dropdown-trigger"></paper-icon-button>
+                          <paper-menu class="dropdown-content" selected="null" style="padding: 15px">
+                              <paper-submenu>
+                                  <paper-item class="menu-trigger">Collaborators</paper-item>
+                                  <paper-menu class="menu-content">
+                                      <!--TODO this span is here to stop the default selection of items. It is a hack, get rid of it if possible-->
+                                      <span></span>
+                                      <!--TODO this span is here to stop the default selection of items. It is a hack, get rid of it if possible-->
+                                      <prendus-collaborator-menu-content course-id="[[courseId]]" concept-id="[[item.key]]" concept></prendus-collaborator-menu-content>
+                                  </paper-menu>
+                              </paper-submenu>
+                            <paper-item role="menuitem" id = "[[item.key]]" on-tap="deleteItem"><iron-icon class = "end-justified" icon="icons:delete" item-icon ></iron-icon>Delete</paper-item>
+                            <!-- <paper-item><iron-icon class = "end-justified"icon="editor:drag-handle" item-icon style="flex: 1;flex-direction: row;"></iron-icon> [[item.keys]]
+                            Reorder concepts</paper-item> -->
+                          </paper-menu>
+                        </paper-menu-button>
+                      </div>
+                    </template>
+                  </sortable-js>
+                </course-title>
+            </div>
         </template>
+
         <template is="dom-if" if="[[!username]]">
           <p> You are not signed in.  Please sign in to access this page </p>
         </template>
