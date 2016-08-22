@@ -4497,7 +4497,7 @@ $__System.register('11', ['25', '26', '29', '38', '2a'], function (_export, _con
                             this.formTitle = this.querySelector('#courseFormName').value;
                             this.courseDescription = this.querySelector('#courseDescription').value;
                             var newCourse = {
-                                private: false,
+                                visibility: 'public',
                                 title: this.formTitle,
                                 description: this.courseDescription,
                                 uid: this.uid
@@ -5053,7 +5053,11 @@ $__System.register('b', ['25', '26'], function (_export, _context) {
         }
     };
 });
+<<<<<<< HEAD
 $__System.register('a', ['25', '26', '29', '38'], function (_export, _context3) {
+=======
+$__System.register('9', ['25', '26', '29', '38'], function (_export, _context3) {
+>>>>>>> develop
     "use strict";
 
     var _regeneratorRuntime, _classCallCheck, _createClass, Actions, __awaiter, PrendusHomepage;
@@ -5166,7 +5170,11 @@ $__System.register('a', ['25', '26', '29', '38'], function (_export, _context3) 
         }
     };
 });
+<<<<<<< HEAD
 $__System.register('9', ['25', '26', '29', '38'], function (_export, _context2) {
+=======
+$__System.register('8', ['25', '26', '29', '38'], function (_export, _context2) {
+>>>>>>> develop
     "use strict";
 
     var _regeneratorRuntime, _classCallCheck, _createClass, Actions, __awaiter, PrendusLogin;
@@ -5272,7 +5280,11 @@ $__System.register('9', ['25', '26', '29', '38'], function (_export, _context2) 
         }
     };
 });
+<<<<<<< HEAD
 $__System.register('8', ['25', '26', '38'], function (_export, _context) {
+=======
+$__System.register('7', ['25', '26', '38'], function (_export, _context) {
+>>>>>>> develop
     "use strict";
 
     var _classCallCheck, _createClass, Actions, PrendusNavbar;
@@ -5339,6 +5351,7 @@ $__System.register('8', ['25', '26', '38'], function (_export, _context) {
         }
     };
 });
+<<<<<<< HEAD
 $__System.register('7', ['25', '26'], function (_export, _context) {
     "use strict";
 
@@ -5396,6 +5409,8 @@ $__System.register('7', ['25', '26'], function (_export, _context) {
         }
     };
 });
+=======
+>>>>>>> develop
 $__System.register('6', ['25', '26', '29', '38'], function (_export, _context3) {
     "use strict";
 
@@ -5576,7 +5591,15 @@ $__System.register('6', ['25', '26', '29', '38'], function (_export, _context3) 
         }
     };
 });
+<<<<<<< HEAD
 $__System.register('39', ['28', '29', '2a', '3a', '2e'], function (_export, _context21) {
+=======
+<<<<<<< HEAD
+$__System.register('39', ['28', '29', '2a', '3a', '2e'], function (_export, _context21) {
+=======
+$__System.register('39', ['28', '29', '2a', '3a', '2e'], function (_export, _context20) {
+>>>>>>> 3107ed61b34d8398b8cd71ba47b2b8ddd5e86381
+>>>>>>> develop
     "use strict";
 
     var _toConsumableArray, _regeneratorRuntime, FirebaseService, ConceptModel, UtilitiesService, _this, __awaiter, conceptsPath, dataPath, createOrUpdate, associateConcept, disassociateConcept, getById, getCoursesByUser, courseConceptsToArray, orderCourseConcepts, updateCourseConcepts, deleteCourse, associateCollaborator, disassociateCollaborator, getCollaboratorUids, getAllByVisibility, resolveCourseIds, getConceptIds, updateCourseField, CourseModel;
@@ -10206,7 +10229,7 @@ $__System.register('38', ['29', '30', '33', '39', '2a', '3a', '3b', '3c'], funct
                 type: 'ADD_CONCEPT',
                 execute: function execute(context, courseId, newConcept, conceptPos) {
                     return __awaiter(_this, void 0, void 0, _regeneratorRuntime.mark(function _callee34() {
-                        var conceptId, course, conceptsArray, orderedConcepts;
+                        var conceptId, course, conceptsArray, orderedConcepts, courseCollaboratorUids;
                         return _regeneratorRuntime.wrap(function _callee34$(_context34) {
                             while (1) {
                                 switch (_context34.prev = _context34.next) {
@@ -10238,20 +10261,29 @@ $__System.register('38', ['29', '30', '33', '39', '2a', '3a', '3b', '3c'], funct
                                             type: 'ADD_CONCEPT',
                                             currentCourse: course
                                         };
-                                        _context34.next = 20;
-                                        break;
+                                        _context34.next = 17;
+                                        return CourseModel.getCollaboratorUids(courseId);
 
                                     case 17:
-                                        _context34.prev = 17;
+                                        courseCollaboratorUids = _context34.sent;
+                                        _context34.next = 20;
+                                        return ConceptModel.associateCollaborators(conceptId, courseCollaboratorUids);
+
+                                    case 20:
+                                        _context34.next = 25;
+                                        break;
+
+                                    case 22:
+                                        _context34.prev = 22;
                                         _context34.t0 = _context34['catch'](0);
                                         throw _context34.t0;
 
-                                    case 20:
+                                    case 25:
                                     case 'end':
                                         return _context34.stop();
                                 }
                             }
-                        }, _callee34, this, [[0, 17]]);
+                        }, _callee34, this, [[0, 22]]);
                     }));
                 }
             };
