@@ -13,7 +13,6 @@
     }
     #addCourseDialog{
       width: 33%;
-      height: 25%;
     }
   </style>
   <template>
@@ -40,8 +39,8 @@
       <h2>Create a Course</h2>
       <div>
         <!-- Look up Iron keys to change this -->
-        <paper-input name="name" label="Course Name" id ="courseFormName" required auto-validate></paper-input>
-        <paper-input name="name" label="Short Description" id ="courseDescription" required auto-validate></paper-input>
+        <paper-input name="courseName" label="Course Name" id ="courseFormName" required auto-validate></paper-input>
+        <paper-input name="courseDescription" label="Short Description" id ="courseDescription" required auto-validate></paper-input>
         <paper-button dialog-dismiss>Cancel</paper-button>
         <paper-button on-tap="addCourseFormDone">Next</paper-button>
       </div>

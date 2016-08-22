@@ -1,5 +1,6 @@
 <link rel="import" href="../../bower_components/polymer/polymer.html">
 <link rel="import" href="../../bower_components/redux-store-element/redux-store.html">
+<link href="../../bower_components/paper-button/paper-button.html" rel="import">
 
 <dom-module id="prendus-concept-quiz-container-edit">
     <template>
@@ -8,15 +9,20 @@
                 padding: 20px;
                 cursor: pointer;
             }
+            paper-button.addResource {
+              background-color: var(--prendus-primary-color);
+              color: white;
+              margin-top: 2%;
+              margin-bottom: 2%;
+            }
         </style>
 
         <redux-store on-statechange="mapStateToThis" action="[[action]]"></redux-store>
 
-        <button on-tap="addQuizClick">Add quiz</button>
-
         <template is="dom-repeat" items="[[quizzes]]">
             <div class="quiz-row" on-tap="quizRowClick">[[item.title]]</div>
         </template>
+        <paper-button class="addResource" raised ="true" icon = "add" title = "Add Quiz" on-tap="addQuizClick">Add Video</paper-button>
     </template>
 
     <!--<script src="prendus-concept-quiz-container-edit.js"></script>-->
