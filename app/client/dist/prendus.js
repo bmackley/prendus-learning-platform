@@ -7921,7 +7921,8 @@ $__System.register('3c', ['29', '2a', '2b'], function (_export, _context20) {
                 shareVideoWithMe: shareVideoWithMe,
                 getSharedWithMeConceptsIds: getSharedWithMeConceptsIds,
                 getSharedWithMeVideosIds: getSharedWithMeVideosIds,
-                unstarCourse: unstarCourse
+                unstarCourse: unstarCourse,
+                shareQuizWithMe: shareQuizWithMe
             });
 
             _export('UserModel', UserModel);
@@ -9408,20 +9409,24 @@ $__System.register('39', ['31', '34', '2a', '2b', '3a', '3b', '3c', '3d'], funct
                                     return CourseModel.associateCollaborator(courseId, uid);
 
                                 case 8:
-                                    _context5.next = 13;
-                                    break;
+                                    _context5.next = 10;
+                                    return UserModel.shareCourseWithMe(uid, courseId);
 
                                 case 10:
-                                    _context5.prev = 10;
+                                    _context5.next = 15;
+                                    break;
+
+                                case 12:
+                                    _context5.prev = 12;
                                     _context5.t0 = _context5['catch'](0);
                                     throw _context5.t0;
 
-                                case 13:
+                                case 15:
                                 case 'end':
                                     return _context5.stop();
                             }
                         }
-                    }, _callee5, this, [[0, 10]]);
+                    }, _callee5, this, [[0, 12]]);
                 }));
             };
 
@@ -9451,20 +9456,24 @@ $__System.register('39', ['31', '34', '2a', '2b', '3a', '3b', '3c', '3d'], funct
                                     return ConceptModel.associateCollaborator(conceptId, uid);
 
                                 case 8:
-                                    _context6.next = 13;
-                                    break;
+                                    _context6.next = 10;
+                                    return UserModel.shareConceptWithMe(uid, conceptId);
 
                                 case 10:
-                                    _context6.prev = 10;
+                                    _context6.next = 15;
+                                    break;
+
+                                case 12:
+                                    _context6.prev = 12;
                                     _context6.t0 = _context6['catch'](0);
                                     throw _context6.t0;
 
-                                case 13:
+                                case 15:
                                 case 'end':
                                     return _context6.stop();
                             }
                         }
-                    }, _callee6, this, [[0, 10]]);
+                    }, _callee6, this, [[0, 12]]);
                 }));
             };
 
@@ -9494,20 +9503,24 @@ $__System.register('39', ['31', '34', '2a', '2b', '3a', '3b', '3c', '3d'], funct
                                     return VideoModel.associateCollaborator(videoId, uid);
 
                                 case 8:
-                                    _context7.next = 13;
-                                    break;
+                                    _context7.next = 10;
+                                    return UserModel.shareVideoWithMe(uid, videoId);
 
                                 case 10:
-                                    _context7.prev = 10;
+                                    _context7.next = 15;
+                                    break;
+
+                                case 12:
+                                    _context7.prev = 12;
                                     _context7.t0 = _context7['catch'](0);
                                     throw _context7.t0;
 
-                                case 13:
+                                case 15:
                                 case 'end':
                                     return _context7.stop();
                             }
                         }
-                    }, _callee7, this, [[0, 10]]);
+                    }, _callee7, this, [[0, 12]]);
                 }));
             };
 
@@ -9537,20 +9550,24 @@ $__System.register('39', ['31', '34', '2a', '2b', '3a', '3b', '3c', '3d'], funct
                                     return QuizModel.associateCollaborator(quizId, uid);
 
                                 case 8:
-                                    _context8.next = 13;
-                                    break;
+                                    _context8.next = 10;
+                                    return UserModel.shareQuizWithMe(uid, quizId);
 
                                 case 10:
-                                    _context8.prev = 10;
+                                    _context8.next = 15;
+                                    break;
+
+                                case 12:
+                                    _context8.prev = 12;
                                     _context8.t0 = _context8['catch'](0);
                                     throw _context8.t0;
 
-                                case 13:
+                                case 15:
                                 case 'end':
                                     return _context8.stop();
                             }
                         }
-                    }, _callee8, this, [[0, 10]]);
+                    }, _callee8, this, [[0, 12]]);
                 }));
             };
 
