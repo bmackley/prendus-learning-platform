@@ -452,9 +452,10 @@ const loginUser = {
           const loggedInUser = await FirebaseService.logInUserWithEmailAndPassword(email, password);
           let user = await UserModel.getById(loggedInUser.uid); //sets ancillary user data such as name, institution, etc.
           user.metaData.uid = loggedInUser.uid;
-
+          const courses = await CourseModel.getCoursesByUser(loggedInUser.uid);
           context.action = {
             type: Actions.loginUser.type,
+            courses: courses,
             user
           };
         }catch(error){
@@ -662,19 +663,20 @@ const orderConcepts = {
   }
 };
 
-
-const updateCourseTitle = {
-  execute: async (context: any, id: string, title: string) => {
+const updateCourseField = async (context: any, id: string, field: string, value: string) => {
     try{
-      await CourseModel.updateCourseTitle(id, title);
+      await CourseModel.updateCourseField(id, field, value);
+      const course = await CourseModel.getById(id);
+      const conceptsArray = await CourseModel.courseConceptsToArray(course);
+      const orderedConcepts = CourseModel.orderCourseConcepts(conceptsArray);
+      course.concepts = orderedConcepts;
       context.action = {
-          type: 'UPDATE_COURSE_TITLE',
-          currentCourse: orderedCourse,
+        type: 'GET_COURSE_BY_ID',
+        currentCourse: course
       }
     }catch(error){
       throw error;
     }
-  }
 };
 
 const logOutUser = {
@@ -734,5 +736,6 @@ export const Actions = {
     addVideoCollaborator,
     removeCourseCollaborator,
     removeConceptCollaborator,
-    removeVideoCollaborator
+    removeVideoCollaborator,
+    updateCourseField
 };

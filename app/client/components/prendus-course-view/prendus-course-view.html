@@ -18,17 +18,12 @@
   <template>
     <redux-store action="[[action]]" on-statechange="mapStateToThis"></redux-store>
     <app-route route="[[route]]" pattern="/view/:courseId" data="{{data}}"></app-route>
-    <template is="dom-if" if="[[username]]">
       <h1> [[currentCourse.title]]</h1>
       <template id="conceptsList" is="dom-repeat" items=[[courseConcepts]]>
         <div id="concept-container-div">
           <prendus-concept-container id = "concepts-style-container" concept-id="[[item.id]]" course-id="[[data.courseId]]"></prendus-concept-container>
         </div>
       </template>
-    </template>
-    <template is="dom-if" if="[[!username]]">
-      <p> You are not signed in.  Please sign in to access this page </p>
-    </template>
   </template>
 
   <!--<script src="prendus-course-view.js"></script>-->
