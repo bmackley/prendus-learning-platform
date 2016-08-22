@@ -522,6 +522,9 @@ const addConcept = {
           type: 'ADD_CONCEPT',  //same as get course by id
           currentCourse: course
       };
+
+      const courseCollaboratorUids = await CourseModel.getCollaboratorUids(courseId);
+      await ConceptModel.associateCollaborators(conceptId, courseCollaboratorUids);
     }catch(error){
       throw error;
     }
