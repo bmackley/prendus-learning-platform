@@ -1,0 +1,19 @@
+<link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="../redux-store-element/redux-store.html">
+
+<dom-module id="prendus-quiz-results">
+    <template>
+        <redux-store on-statechange="mapStateToThis" store-name="VIEW_QUIZ_COMPONENT_STORE"></redux-store>
+
+        <div>Your grade: [[finalGrade]]</div>
+        <br>
+        <template is="dom-repeat" items="[[answerDetails]]" index-as="index">
+            <div>Question [[getIndex(index)]]: [[item.correct]]</div>
+            <div>Your answer: [[item.yourAnswer]]</div>
+            <div>Correct answer: [[item.correctAnswer]]</div>
+            <br>
+        </template>
+    </template>
+
+    <!-- <script>System.import('/bower_components/view-quiz-component/quiz-results.component.ts');</script> -->
+</dom-module>

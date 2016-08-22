@@ -1,0 +1,21 @@
+{
+  "name": "video-viewer-component",
+  "version": "0.0.2",
+  "description": "",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lastmjs/video-viewer-component.git"
+  },
+  "bugs": {
+    "url": "https://github.com/lastmjs/video-viewer-component/issues"
+  },
+  "author": "Jordan Last <jordan.michael.last@gmail.com>",
+  "homepage": "https://github.com/lastmjs/video-viewer-component#readme",
+  "dependencies": {
+    "video.js": "^5.10.4",
+    "prendus-services": "git+ssh://git@github.com:lastmjs/prendus-services.git"
+  }
+}

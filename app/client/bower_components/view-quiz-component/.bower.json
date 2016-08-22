@@ -1,0 +1,36 @@
+{
+  "name": "view-quiz-component",
+  "description": "",
+  "main": "index.js",
+  "authors": [
+    "Jordan Last <jordan.michael.last@gmail.com>"
+  ],
+  "license": "ISC",
+  "homepage": "https://github.com/lastmjs/view-quiz-component",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "polymer": "^1.6.0",
+    "iron-ajax": "^1.4.0",
+    "iron-pages": "^1.0.8",
+    "paper-button": "^1.0.13",
+    "solutia-maxima-components": "git@github.com:lastmjs/solutia-maxima-components.git#^0.0.4",
+    "redux-store-element": "^0.2.3",
+    "paper-spinner": "PolymerElements/paper-spinner#^1.2.0"
+  },
+  "_release": "b4aca0b5f2",
+  "_resolution": {
+    "type": "branch",
+    "branch": "jordan",
+    "commit": "b4aca0b5f269ef469aa99158942fcdb57a5a37ca"
+  },
+  "_source": "git@github.com:lastmjs/view-quiz-component.git",
+  "_target": "jordan",
+  "_originalSource": "git@github.com:lastmjs/view-quiz-component.git",
+  "_direct": true
+}
