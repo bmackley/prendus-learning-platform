@@ -452,9 +452,10 @@ const loginUser = {
           const loggedInUser = await FirebaseService.logInUserWithEmailAndPassword(email, password);
           let user = await UserModel.getById(loggedInUser.uid); //sets ancillary user data such as name, institution, etc.
           user.metaData.uid = loggedInUser.uid;
-
+          const courses = await CourseModel.getCoursesByUser(loggedInUser.uid);
           context.action = {
             type: Actions.loginUser.type,
+            courses: courses,
             user
           };
         }catch(error){
@@ -663,6 +664,9 @@ const updateCourseField = async (context: any, id: string, field: string, value:
     try{
       await CourseModel.updateCourseField(id, field, value);
       const course = await CourseModel.getById(id);
+      const conceptsArray = await CourseModel.courseConceptsToArray(course);
+      const orderedConcepts = CourseModel.orderCourseConcepts(conceptsArray);
+      course.concepts = orderedConcepts;
       context.action = {
         type: 'GET_COURSE_BY_ID',
         currentCourse: course

@@ -6,7 +6,7 @@ class PrendusLogin {
   public is: string;
   public listeners: Object;
   public loginFormToastText: string;
-  public message = string;
+  public errorMessage: string;
 
   beforeRegister() {
     this.is = 'prendus-login',
@@ -24,9 +24,9 @@ class PrendusLogin {
       window.history.pushState({}, '', location);
       this.fire('location-changed', {}, {node: window});
     }catch(error){
-      this.message = error.message;
+      this.errorMessage = error.message;
       this.loginFormToastText = error.message;
-      this.$.loginToast.open();
+      this.querySelector('#loginToast').open();
     }
   }
 

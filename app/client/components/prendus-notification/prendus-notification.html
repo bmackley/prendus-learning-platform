@@ -1,0 +1,19 @@
+<link href="../../bower_components/polymer/polymer.html" rel="import">
+<link href="../../bower_components/paper-toast/paper-toast.html" rel="import" >
+
+<dom-module id="prendus-notification">
+  <style>
+  #errorToastContainer{
+    --paper-toast-background-color: red;
+  }
+  #successToastContainer{
+    --paper-toast-background-color: green;
+  }
+  </style>
+  <template>
+    <redux-store on-statechange="mapStateToThis" action="[[action]]"></redux-store>
+    <paper-toast id="errorToastContainer" text=[[toastText]]></paper-toast>
+    <paper-toast id="successToastContainer" text=[[toastText]]></paper-toast>
+  </template>
+  <!-- <script>System.import('/components/prendus-error-message/prendus-error-message.ts');</script> -->
+</dom-module>
