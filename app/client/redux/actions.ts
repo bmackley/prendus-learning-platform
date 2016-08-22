@@ -134,6 +134,7 @@ const addCourseCollaborator = async (context: any, courseId: string, email: stri
         }
 
         await CourseModel.associateCollaborator(courseId, uid);
+        await UserModel.shareCourseWithMe(uid, courseId);
     }
     catch(error) {
         throw error;
@@ -149,6 +150,7 @@ const addConceptCollaborator = async (context: any, conceptId: string, email: st
         }
 
         await ConceptModel.associateCollaborator(conceptId, uid);
+        await UserModel.shareConceptWithMe(uid, conceptId);
     }
     catch(error) {
         throw error;
@@ -164,6 +166,7 @@ const addVideoCollaborator = async (context: any, videoId: string, email: string
         }
 
         await VideoModel.associateCollaborator(videoId, uid);
+        await UserModel.shareVideoWithMe(uid, videoId);
     }
     catch(error) {
         throw error;
@@ -179,6 +182,7 @@ const addQuizCollaborator = async (context: any, quizId: string, email: string) 
         }
 
         await QuizModel.associateCollaborator(quizId, uid);
+        await UserModel.shareQuizWithMe(uid, quizId);
     }
     catch(error) {
         throw error;
