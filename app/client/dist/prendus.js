@@ -6698,7 +6698,7 @@ $__System.register('3b', ['29', '31', '34', '2a', '2b', '2f'], function (_export
             };
 
             getById = function getById(id) {
-                return __awaiter(_this, void 0, void 0, _regeneratorRuntime.mark(function _callee2() {
+                return __awaiter(_this, void 0, Promise, _regeneratorRuntime.mark(function _callee2() {
                     var path, concept;
                     return _regeneratorRuntime.wrap(function _callee2$(_context2) {
                         while (1) {
@@ -7183,7 +7183,7 @@ $__System.register('3b', ['29', '31', '34', '2a', '2b', '2f'], function (_export
             };
 
             associateVideo = function associateVideo(conceptId, videoId) {
-                return __awaiter(_this, void 0, void 0, _regeneratorRuntime.mark(function _callee18() {
+                return __awaiter(_this, void 0, Promise, _regeneratorRuntime.mark(function _callee18() {
                     var path;
                     return _regeneratorRuntime.wrap(function _callee18$(_context18) {
                         while (1) {
@@ -7213,7 +7213,7 @@ $__System.register('3b', ['29', '31', '34', '2a', '2b', '2f'], function (_export
             };
 
             disassociateVideo = function disassociateVideo(conceptId, videoId) {
-                return __awaiter(_this, void 0, void 0, _regeneratorRuntime.mark(function _callee19() {
+                return __awaiter(_this, void 0, Promise, _regeneratorRuntime.mark(function _callee19() {
                     var path;
                     return _regeneratorRuntime.wrap(function _callee19$(_context19) {
                         while (1) {
@@ -7243,7 +7243,7 @@ $__System.register('3b', ['29', '31', '34', '2a', '2b', '2f'], function (_export
             };
 
             associateQuiz = function associateQuiz(conceptId, quizId) {
-                return __awaiter(_this, void 0, void 0, _regeneratorRuntime.mark(function _callee20() {
+                return __awaiter(_this, void 0, Promise, _regeneratorRuntime.mark(function _callee20() {
                     var path;
                     return _regeneratorRuntime.wrap(function _callee20$(_context20) {
                         while (1) {
@@ -7273,7 +7273,7 @@ $__System.register('3b', ['29', '31', '34', '2a', '2b', '2f'], function (_export
             };
 
             disassociateQuiz = function disassociateQuiz(conceptId, quizId) {
-                return __awaiter(_this, void 0, void 0, _regeneratorRuntime.mark(function _callee21() {
+                return __awaiter(_this, void 0, Promise, _regeneratorRuntime.mark(function _callee21() {
                     var path;
                     return _regeneratorRuntime.wrap(function _callee21$(_context21) {
                         while (1) {
@@ -7303,7 +7303,7 @@ $__System.register('3b', ['29', '31', '34', '2a', '2b', '2f'], function (_export
             };
 
             filterConceptsByCollaborator = function filterConceptsByCollaborator(conceptIds, courseUid, collaboratorUid) {
-                return __awaiter(_this, void 0, void 0, _regeneratorRuntime.mark(function _callee22() {
+                return __awaiter(_this, void 0, Promise, _regeneratorRuntime.mark(function _callee22() {
                     var concepts;
                     return _regeneratorRuntime.wrap(function _callee22$(_context22) {
                         while (1) {
@@ -7337,7 +7337,7 @@ $__System.register('3b', ['29', '31', '34', '2a', '2b', '2f'], function (_export
             };
 
             filterConceptDatasByCollaborator = function filterConceptDatasByCollaborator(conceptDatasObject, courseUid, collaboratorUid) {
-                return __awaiter(_this, void 0, void 0, _regeneratorRuntime.mark(function _callee23() {
+                return __awaiter(_this, void 0, Promise, _regeneratorRuntime.mark(function _callee23() {
                     var conceptIds, concepts, filteredConcepts, filteredConceptsIds;
                     return _regeneratorRuntime.wrap(function _callee23$(_context23) {
                         while (1) {
@@ -8068,10 +8068,10 @@ $__System.register('3c', ['29', '2a', '2b'], function (_export, _context20) {
         }
     };
 });
-$__System.register('31', ['29', '2a', '2b'], function (_export, _context12) {
+$__System.register('31', ['29', '2a', '2b'], function (_export, _context13) {
     "use strict";
 
-    var _toConsumableArray, _regeneratorRuntime, FirebaseService, _this, __awaiter, dataPath, createOrUpdate, getById, removeById, update, associateCollaborator, associateCollaborators, disassociateCollaborator, getCollaboratorUids, resolveVideoIds, VideoModel;
+    var _toConsumableArray, _regeneratorRuntime, FirebaseService, _this, __awaiter, dataPath, createOrUpdate, getById, removeById, update, associateCollaborator, associateCollaborators, disassociateCollaborator, getCollaboratorUids, resolveVideoIds, filterVideosByCollaborator, VideoModel;
 
     return {
         setters: [function (_) {
@@ -8473,6 +8473,40 @@ $__System.register('31', ['29', '2a', '2b'], function (_export, _context12) {
                 }));
             };
 
+            filterVideosByCollaborator = function filterVideosByCollaborator(videoIds, conceptUid, collaboratorUid) {
+                return __awaiter(_this, void 0, Promise, _regeneratorRuntime.mark(function _callee12() {
+                    var videos;
+                    return _regeneratorRuntime.wrap(function _callee12$(_context12) {
+                        while (1) {
+                            switch (_context12.prev = _context12.next) {
+                                case 0:
+                                    _context12.next = 2;
+                                    return resolveVideoIds(videoIds);
+
+                                case 2:
+                                    videos = _context12.sent;
+                                    return _context12.abrupt('return', videos.filter(function (video) {
+                                        if (conceptUid === collaboratorUid) {
+                                            return true;
+                                        }
+                                        if (!video.collaborators) {
+                                            return false;
+                                        }
+                                        if (video.collaborators[collaboratorUid]) {
+                                            return true;
+                                        }
+                                        return false;
+                                    }));
+
+                                case 4:
+                                case 'end':
+                                    return _context12.stop();
+                            }
+                        }
+                    }, _callee12, this);
+                }));
+            };
+
             _export('VideoModel', VideoModel = {
                 createOrUpdate: createOrUpdate,
                 update: update,
@@ -8483,7 +8517,8 @@ $__System.register('31', ['29', '2a', '2b'], function (_export, _context12) {
                 getCollaboratorUids: getCollaboratorUids,
                 dataPath: dataPath,
                 resolveVideoIds: resolveVideoIds,
-                associateCollaborators: associateCollaborators
+                associateCollaborators: associateCollaborators,
+                filterVideosByCollaborator: filterVideosByCollaborator
             });
 
             _export('VideoModel', VideoModel);
@@ -8508,10 +8543,10 @@ $__System.register("29", [], function (_export, _context) {
     }
   };
 });
-$__System.register('34', ['29', '2a', '2b'], function (_export, _context18) {
+$__System.register('34', ['29', '2a', '2b'], function (_export, _context19) {
     "use strict";
 
-    var _toConsumableArray, _regeneratorRuntime, FirebaseService, _this, __awaiter, dataPath, createOrUpdate, getById, removeById, associateQuestion, disassociateQuestion, associateCollaborator, associateCollaborators, disassociateCollaborator, getCollaboratorUids, setQuestionSetting, setQuizSetting, getQuizSettings, updateTitle, getQuestionIds, resolveQuizIds, QuizModel;
+    var _toConsumableArray, _regeneratorRuntime, FirebaseService, _this, __awaiter, dataPath, createOrUpdate, getById, removeById, associateQuestion, disassociateQuestion, associateCollaborator, associateCollaborators, disassociateCollaborator, getCollaboratorUids, setQuestionSetting, setQuizSetting, getQuizSettings, updateTitle, getQuestionIds, resolveQuizIds, filterQuizzesByCollaborator, QuizModel;
 
     return {
         setters: [function (_) {
@@ -9100,6 +9135,40 @@ $__System.register('34', ['29', '2a', '2b'], function (_export, _context18) {
                 }));
             };
 
+            filterQuizzesByCollaborator = function filterQuizzesByCollaborator(quizIds, conceptUid, collaboratorUid) {
+                return __awaiter(_this, void 0, Promise, _regeneratorRuntime.mark(function _callee18() {
+                    var quizzes;
+                    return _regeneratorRuntime.wrap(function _callee18$(_context18) {
+                        while (1) {
+                            switch (_context18.prev = _context18.next) {
+                                case 0:
+                                    _context18.next = 2;
+                                    return resolveQuizIds(quizIds);
+
+                                case 2:
+                                    quizzes = _context18.sent;
+                                    return _context18.abrupt('return', quizzes.filter(function (quiz) {
+                                        if (conceptUid === collaboratorUid) {
+                                            return true;
+                                        }
+                                        if (!quiz.collaborators) {
+                                            return false;
+                                        }
+                                        if (quiz.collaborators[collaboratorUid]) {
+                                            return true;
+                                        }
+                                        return false;
+                                    }));
+
+                                case 4:
+                                case 'end':
+                                    return _context18.stop();
+                            }
+                        }
+                    }, _callee18, this);
+                }));
+            };
+
             _export('QuizModel', QuizModel = {
                 dataPath: dataPath,
                 createOrUpdate: createOrUpdate,
@@ -9116,7 +9185,8 @@ $__System.register('34', ['29', '2a', '2b'], function (_export, _context18) {
                 getCollaboratorUids: getCollaboratorUids,
                 disassociateCollaborator: disassociateCollaborator,
                 resolveQuizIds: resolveQuizIds,
-                associateCollaborators: associateCollaborators
+                associateCollaborators: associateCollaborators,
+                filterQuizzesByCollaborator: filterQuizzesByCollaborator
             });
 
             _export('QuizModel', QuizModel);
@@ -10049,20 +10119,30 @@ $__System.register('39', ['31', '34', '2a', '2b', '3a', '3b', '3c', '3d'], funct
 
             loadConceptQuizzes = function loadConceptQuizzes(context, conceptId) {
                 return __awaiter(_this, void 0, void 0, _regeneratorRuntime.mark(function _callee18() {
-                    var quizzIds, quizzes;
+                    var user, concept, quizzIds, quizzes;
                     return _regeneratorRuntime.wrap(function _callee18$(_context18) {
                         while (1) {
                             switch (_context18.prev = _context18.next) {
                                 case 0:
                                     _context18.next = 2;
-                                    return ConceptModel.getQuizIds(conceptId);
+                                    return FirebaseService.getLoggedInUser();
 
                                 case 2:
-                                    quizzIds = _context18.sent;
+                                    user = _context18.sent;
                                     _context18.next = 5;
-                                    return QuizModel.resolveQuizIds(quizzIds);
+                                    return ConceptModel.getById(conceptId);
 
                                 case 5:
+                                    concept = _context18.sent;
+                                    _context18.next = 8;
+                                    return ConceptModel.getQuizIds(conceptId);
+
+                                case 8:
+                                    quizzIds = _context18.sent;
+                                    _context18.next = 11;
+                                    return QuizModel.filterQuizzesByCollaborator(quizzIds, concept.uid, user.uid);
+
+                                case 11:
                                     quizzes = _context18.sent;
 
                                     context.action = {
@@ -10071,7 +10151,7 @@ $__System.register('39', ['31', '34', '2a', '2b', '3a', '3b', '3c', '3d'], funct
                                         quizzes: quizzes
                                     };
 
-                                case 7:
+                                case 13:
                                 case 'end':
                                     return _context18.stop();
                             }
@@ -10366,21 +10446,31 @@ $__System.register('39', ['31', '34', '2a', '2b', '3a', '3b', '3c', '3d'], funct
 
             loadConceptVideos = function loadConceptVideos(context, conceptId) {
                 return __awaiter(_this, void 0, void 0, _regeneratorRuntime.mark(function _callee29() {
-                    var videoIds, videos;
+                    var user, concept, videoIds, videos;
                     return _regeneratorRuntime.wrap(function _callee29$(_context29) {
                         while (1) {
                             switch (_context29.prev = _context29.next) {
                                 case 0:
                                     _context29.prev = 0;
                                     _context29.next = 3;
-                                    return ConceptModel.getVideoIds(conceptId);
+                                    return FirebaseService.getLoggedInUser();
 
                                 case 3:
-                                    videoIds = _context29.sent;
+                                    user = _context29.sent;
                                     _context29.next = 6;
-                                    return VideoModel.resolveVideoIds(videoIds);
+                                    return ConceptModel.getById(conceptId);
 
                                 case 6:
+                                    concept = _context29.sent;
+                                    _context29.next = 9;
+                                    return ConceptModel.getVideoIds(conceptId);
+
+                                case 9:
+                                    videoIds = _context29.sent;
+                                    _context29.next = 12;
+                                    return VideoModel.filterVideosByCollaborator(videoIds, concept.uid, user.uid);
+
+                                case 12:
                                     videos = _context29.sent;
 
                                     context.action = {
@@ -10388,20 +10478,20 @@ $__System.register('39', ['31', '34', '2a', '2b', '3a', '3b', '3c', '3d'], funct
                                         videos: videos,
                                         conceptId: conceptId
                                     };
-                                    _context29.next = 13;
+                                    _context29.next = 19;
                                     break;
 
-                                case 10:
-                                    _context29.prev = 10;
+                                case 16:
+                                    _context29.prev = 16;
                                     _context29.t0 = _context29['catch'](0);
                                     throw _context29.t0;
 
-                                case 13:
+                                case 19:
                                 case 'end':
                                     return _context29.stop();
                             }
                         }
-                    }, _callee29, this, [[0, 10]]);
+                    }, _callee29, this, [[0, 16]]);
                 }));
             };
 

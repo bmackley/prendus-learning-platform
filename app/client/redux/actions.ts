@@ -310,8 +310,11 @@ const createNewQuiz = async (context: any, conceptId: string) => {
 };
 
 const loadConceptQuizzes = async (context: any, conceptId: string) => {
+    const user = await FirebaseService.getLoggedInUser();
+    const concept = await ConceptModel.getById(conceptId);
+
     const quizzIds = await ConceptModel.getQuizIds(conceptId);
-    const quizzes = await QuizModel.resolveQuizIds(quizzIds);
+    const quizzes = await QuizModel.filterQuizzesByCollaborator(quizzIds, concept.uid, user.uid);
 
     context.action = {
         type: 'LOAD_CONCEPT_QUIZZES',
@@ -431,8 +434,11 @@ const clearCurrentVideoInfo = (context: any) => {
 
 const loadConceptVideos = async (context: any, conceptId: string) => {
     try {
+        const user = await FirebaseService.getLoggedInUser();
+        const concept = await ConceptModel.getById(conceptId);
+
         const videoIds = await ConceptModel.getVideoIds(conceptId);
-        const videos = await VideoModel.resolveVideoIds(videoIds);
+        const videos = await VideoModel.filterVideosByCollaborator(videoIds, concept.uid, user.uid);
 
         context.action = {
             type: 'LOAD_CONCEPT_VIDEOS',
