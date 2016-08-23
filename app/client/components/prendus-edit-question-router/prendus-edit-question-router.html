@@ -9,7 +9,7 @@
         <redux-store on-statechange="mapStateToThis"></redux-store>
         <app-route route="[[route]]" pattern="/edit-question/question/:questionId" data="{{data}}" tail="{{tail}}"></app-route>
 
-        <div style="margin-left: 10vw; margin-right: 10vw; margin-bottom: 25px; margin-top: 25px">
+        <div style="margin-left: -25%; margin-right: -25%; margin-bottom: 25px; margin-top: 25px">
             <solutia-maxima-edit-problem id="editProblemComponent" jwt="[[jwt]]" question-id="[[data.questionId]]" on-savequestion="questionSaved"></solutia-maxima-edit-problem>
         </div>
     </template>
