@@ -13,13 +13,13 @@ export interface State {
     };
     currentConcept: {};
     concepts: {};
-    currentCourse: {};
+    currentCourse: Course;
     currentConceptVideoId: string;
     currentConceptVideoTitle: string;
     currentConceptVideoUrl: string
     currentUser: User;
     courses: Course;
-    courseConcepts: CourseConceptData[];
+    courseConcepts: string[];
     currentEditQuizId: '';
     currentEditConceptId: '';
     jwt: string;

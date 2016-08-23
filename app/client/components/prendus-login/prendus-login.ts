@@ -24,14 +24,12 @@ class PrendusLogin {
       window.history.pushState({}, '', location);
       this.fire('location-changed', {}, {node: window});
     }catch(error){
+      this.errorMessage = '';
       this.errorMessage = error.message;
-      this.loginFormToastText = error.message;
-      this.querySelector('#loginToast').open();
     }
   }
 
   ready(){
-    this.$.loginToast.fitInto = this.$.toastTarget;
   }
 }
 Polymer(PrendusLogin);

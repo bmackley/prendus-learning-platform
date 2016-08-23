@@ -39,6 +39,10 @@
                     margin-left: 2%;
                 };
             }
+            #quiz-container{
+              margin-left: -25%;
+              margin-right: -25%;
+            }
         </style>
 
         <redux-store on-statechange="mapStateToThis" action="[[action]]"></redux-store>
@@ -52,7 +56,7 @@
             https://prendus.com/courses/view-quiz/concept/[[conceptId]]/quiz/[[quizId]]
         </paper-dialog>
 
-        <div style="display: flex; flex-direction: row;">
+        <div style="display: flex; flex-direction: row;" id = "quiz-container">
             <div style="display: flex; flex-direction: column; flex: 1; box-shadow: 0px 0px 3px black; margin: 50px; position: relative; height: 0%">
                 <paper-input id="quiz-title-input" label="Quiz Title" value="[[title]]" on-change="titleChanged"></paper-input>
 
