@@ -310,7 +310,7 @@ const createNewQuiz = async (context: any, conceptId: string) => {
     return quizId;
 };
 
-const loadConceptQuizzes = async (context: any, conceptId: string) => {
+const loadEditConceptQuizzes = async (context: any, conceptId: string) => {
     const user = await FirebaseService.getLoggedInUser();
     const concept = await ConceptModel.getById(conceptId);
 
@@ -318,7 +318,18 @@ const loadConceptQuizzes = async (context: any, conceptId: string) => {
     const quizzes = await QuizModel.filterQuizzesByCollaborator(quizzIds, concept.uid, user.uid);
 
     context.action = {
-        type: 'LOAD_CONCEPT_QUIZZES',
+        type: 'LOAD_EDIT_CONCEPT_QUIZZES',
+        conceptId,
+        quizzes
+    };
+};
+
+const loadViewConceptQuizzes = async (context: any, conceptId: string) => {
+    const quizzIds = await ConceptModel.getQuizIds(conceptId);
+    const quizzes = await QuizModel.resolveQuizIds(quizzIds);
+
+    context.action = {
+        type: 'LOAD_VIEW_CONCEPT_QUIZZES',
         conceptId,
         quizzes
     };
@@ -433,7 +444,7 @@ const clearCurrentVideoInfo = (context: any) => {
     };
 };
 
-const loadConceptVideos = async (context: any, conceptId: string) => {
+const loadEditConceptVideos = async (context: any, conceptId: string) => {
     try {
         const user = await FirebaseService.getLoggedInUser();
         const concept = await ConceptModel.getById(conceptId);
@@ -442,7 +453,7 @@ const loadConceptVideos = async (context: any, conceptId: string) => {
         const videos = await VideoModel.filterVideosByCollaborator(videoIds, concept.uid, user.uid);
 
         context.action = {
-            type: 'LOAD_CONCEPT_VIDEOS',
+            type: 'LOAD_EDIT_CONCEPT_VIDEOS',
             videos,
             conceptId
         };
@@ -452,7 +463,23 @@ const loadConceptVideos = async (context: any, conceptId: string) => {
     }
 };
 
-const loadCourseConcepts = async (context: any, courseId: string) => {
+const loadViewConceptVideos = async (context: any, conceptId: string) => {
+    try {
+        const videoIds = await ConceptModel.getVideoIds(conceptId);
+        const videos = await VideoModel.resolveVideoIds(videoIds);
+
+        context.action = {
+            type: 'LOAD_VIEW_CONCEPT_VIDEOS',
+            videos,
+            conceptId
+        };
+    }
+    catch(error) {
+        throw error;
+    }
+};
+
+const loadEditCourseConcepts = async (context: any, courseId: string) => {
     try {
         const user = await FirebaseService.getLoggedInUser();
 
@@ -462,7 +489,25 @@ const loadCourseConcepts = async (context: any, courseId: string) => {
         const concepts = await ConceptModel.filterConceptDatasByCollaborator(conceptDatasObject, course.uid, user.uid);
 
         context.action = {
-            type: 'LOAD_COURSE_CONCEPTS',
+            type: 'LOAD_EDIT_COURSE_CONCEPTS',
+            concepts,
+            courseId
+        };
+    }
+    catch(error) {
+        throw error;
+    }
+};
+
+const loadViewCourseConcepts = async (context: any, courseId: string) => {
+    try {
+        const course = await CourseModel.getById(courseId);
+        const conceptDatasObject = course.concepts;
+
+        const concepts = Object.keys(conceptDatasObject || {}).map((conceptDataId) => conceptDatasObject[conceptDataId]);
+
+        context.action = {
+            type: 'LOAD_VIEW_COURSE_CONCEPTS',
             concepts,
             courseId
         };
@@ -749,7 +794,8 @@ export const Actions = {
     logOutUser,
     updateUserEmail,
     updateUserMetaData,
-    loadConceptVideos,
+    loadEditConceptVideos,
+    loadViewConceptVideos,
     setCurrentVideoInfo,
     saveVideo,
     clearCurrentVideoInfo,
@@ -765,7 +811,8 @@ export const Actions = {
     setQuestionSetting,
     loadQuizSettings,
     setCurrentEditQuizId,
-    loadConceptQuizzes,
+    loadEditConceptQuizzes,
+    loadViewConceptQuizzes,
     createNewQuiz,
     updateQuizTitle,
     getQuiz,
@@ -789,5 +836,6 @@ export const Actions = {
     removeConceptCollaborator,
     removeVideoCollaborator,
     updateCourseField,
-    loadCourseConcepts
+    loadEditCourseConcepts,
+    loadViewCourseConcepts
 };

@@ -5,13 +5,22 @@ import {Course} from '../node_modules/prendus-services/interfaces/course.interfa
 import {CourseConceptData} from '../node_modules/prendus-services/interfaces/course-concept-data.interface.ts';
 
 export interface State {
-    courseConcepts: {
+    editCourseConcepts: {
         [courseId: string]: CourseConceptData[]
     };
-    conceptVideos: {
+    editConceptVideos: {
         [conceptId: string]: Video[]
     };
-    conceptQuizzes: {
+    editConceptQuizzes: {
+        [conceptId: string]: Quiz[]
+    };
+    viewCourseConcepts: {
+        [courseId: string]: CourseConceptData[]
+    };
+    viewConceptVideos: {
+        [conceptId: string]: Video[]
+    };
+    viewConceptQuizzes: {
         [conceptId: string]: Quiz[]
     };
     courses: Course[];
