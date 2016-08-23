@@ -38,7 +38,7 @@ class PrendusCourseEdit {
   async getCourse(){
     if(this.data.courseId){
       await Actions.getCourseById.execute(this, this.data.courseId);
-      Actions.loadCourseConcepts(this, this.data.courseId);
+      Actions.loadEditCourseConcepts(this, this.data.courseId);
     }
   }
   getData(){
@@ -56,7 +56,7 @@ class PrendusCourseEdit {
     this.username = state.currentUser.metaData.email;
     this.uid = state.currentUser.metaData.uid;
     this.currentCourse = state.currentCourse;
-    this.courseConcepts = state.courseConcepts[this.courseId];
+    this.courseConcepts = state.editCourseConcepts[this.courseId];
     this.courseConceptsLength = this.courseConcepts && this.courseConcepts.length;
   }
 
@@ -98,8 +98,8 @@ class PrendusCourseEdit {
 
         this.successMessage = '';
         this.successMessage = 'Concept added successfully';
-        
-        Actions.loadCourseConcepts(this, this.data.courseId);
+
+        Actions.loadEditCourseConcepts(this, this.data.courseId);
       }catch(error){
         this.errorMessage = '';
         this.errorMessage = error.message;

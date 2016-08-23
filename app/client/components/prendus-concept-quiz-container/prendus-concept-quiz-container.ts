@@ -30,7 +30,7 @@ class PrendusConceptQuizContainer {
 
     async init() {
         if (this.conceptId) {
-            await Actions.loadConceptQuizzes(this, this.conceptId);
+            await Actions.loadViewConceptQuizzes(this, this.conceptId);
         }
     }
 
@@ -46,7 +46,7 @@ class PrendusConceptQuizContainer {
     mapStateToThis(e: StatechangeEvent) {
         const state = e.detail.state;
 
-        this.quizzes = state.conceptQuizzes[this.conceptId];
+        this.quizzes = state.viewConceptQuizzes[this.conceptId];
     }
 }
 
