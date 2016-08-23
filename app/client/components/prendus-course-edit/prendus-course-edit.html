@@ -18,6 +18,7 @@
 <link rel="import" href="../../bower_components/paper-menu/paper-submenu.html">
 <link rel="import" href="../../bower_components/paper-icon-button/paper-icon-button.html">
 <link rel="import" href="../../bower_components/paper-item/paper-item.html">
+<link rel="import" href="../prendus-notification/prendus-notification.html">
 
 <dom-module id="prendus-course-edit">
   <style>
@@ -59,6 +60,10 @@
   <template>
     <redux-store action="[[action]]" on-statechange="mapStateToThis"></redux-store>
     <app-route route="[[route]]" pattern="/edit/:courseId" data="{{data}}"></app-route>
+
+    <prendus-notification success-message="[[successMessage]]"></prendus-notification>
+    <prendus-notification error-message="[[errorMessage]]"></prendus-notification>
+
     <div>
       <div id = "course-container">
         <!-- style="display: flex; flex-direction: column; flex: 1; box-shadow: 0px 0px 3px black; margin: 100px; position: relative; height: 0%" -->

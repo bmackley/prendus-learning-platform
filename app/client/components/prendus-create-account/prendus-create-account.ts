@@ -48,7 +48,6 @@ class PrendusCreateAccount {
     }
   }
   ready (e){
-    this.$.signUpToast.fitInto = this.$.toastTarget;
   }
 }
 Polymer(PrendusCreateAccount);

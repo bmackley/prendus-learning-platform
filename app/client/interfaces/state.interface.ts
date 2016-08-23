@@ -17,7 +17,7 @@ export interface State {
     courses: Course[];
     currentConcept: {};
     concepts: {};
-    currentCourse: {};
+    currentCourse: Course;
     currentConceptVideoId: string;
     currentConceptVideoTitle: string;
     currentConceptVideoUrl: string
