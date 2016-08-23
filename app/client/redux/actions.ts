@@ -197,6 +197,7 @@ const removeCourseCollaborator = async (context: any, courseId: string, email: s
         }
 
         await CourseModel.disassociateCollaborator(courseId, uid);
+        await UserModel.unshareCourseWithMe(uid, courseId);
     }
     catch(error) {
         throw error;

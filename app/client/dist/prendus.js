@@ -7430,10 +7430,10 @@ $__System.register('3b', ['29', '31', '34', '2a', '2b', '2f'], function (_export
         }
     };
 });
-$__System.register('3c', ['29', '2a', '2b'], function (_export, _context20) {
+$__System.register('3c', ['29', '2a', '2b'], function (_export, _context24) {
     "use strict";
 
-    var _toConsumableArray, _regeneratorRuntime, FirebaseService, _this, __awaiter, dataPath, save, updateFirebaseUser, updateMetaData, getById, getMetaDataById, starCourse, unstarCourse, shareCourseWithMe, shareConceptWithMe, shareVideoWithMe, shareQuizWithMe, getStarredCoursesIds, getSharedWithMeCoursesIds, getSharedWithMeConceptsIds, getSharedWithMeVideosIds, getSharedWithMeQuizzesIds, getEmailById, getEmailsByIds, UserModel;
+    var _toConsumableArray, _regeneratorRuntime, FirebaseService, _this, __awaiter, dataPath, save, updateFirebaseUser, updateMetaData, getById, getMetaDataById, starCourse, unstarCourse, shareCourseWithMe, unshareCourseWithMe, shareConceptWithMe, unshareConceptWithMe, shareVideoWithMe, unshareVideoWithMe, shareQuizWithMe, unshareQuizWithMe, getStarredCoursesIds, getSharedWithMeCoursesIds, getSharedWithMeConceptsIds, getSharedWithMeVideosIds, getSharedWithMeQuizzesIds, getEmailById, getEmailsByIds, UserModel;
 
     return {
         setters: [function (_) {
@@ -7730,7 +7730,7 @@ $__System.register('3c', ['29', '2a', '2b'], function (_export, _context20) {
                 }));
             };
 
-            shareConceptWithMe = function shareConceptWithMe(uid, conceptId) {
+            unshareCourseWithMe = function unshareCourseWithMe(uid, courseId) {
                 return __awaiter(_this, void 0, Promise, _regeneratorRuntime.mark(function _callee9() {
                     var path;
                     return _regeneratorRuntime.wrap(function _callee9$(_context9) {
@@ -7738,9 +7738,9 @@ $__System.register('3c', ['29', '2a', '2b'], function (_export, _context20) {
                             switch (_context9.prev = _context9.next) {
                                 case 0:
                                     _context9.prev = 0;
-                                    path = dataPath + '/' + uid + '/sharedWithMeConcepts/' + conceptId;
+                                    path = dataPath + '/' + uid + '/sharedWithMeCourses/' + courseId;
                                     _context9.next = 4;
-                                    return FirebaseService.set(path, conceptId);
+                                    return FirebaseService.remove(path);
 
                                 case 4:
                                     _context9.next = 9;
@@ -7760,7 +7760,7 @@ $__System.register('3c', ['29', '2a', '2b'], function (_export, _context20) {
                 }));
             };
 
-            shareVideoWithMe = function shareVideoWithMe(uid, videoId) {
+            shareConceptWithMe = function shareConceptWithMe(uid, conceptId) {
                 return __awaiter(_this, void 0, Promise, _regeneratorRuntime.mark(function _callee10() {
                     var path;
                     return _regeneratorRuntime.wrap(function _callee10$(_context10) {
@@ -7768,9 +7768,9 @@ $__System.register('3c', ['29', '2a', '2b'], function (_export, _context20) {
                             switch (_context10.prev = _context10.next) {
                                 case 0:
                                     _context10.prev = 0;
-                                    path = dataPath + '/' + uid + '/sharedWithMeVideos/' + videoId;
+                                    path = dataPath + '/' + uid + '/sharedWithMeConcepts/' + conceptId;
                                     _context10.next = 4;
-                                    return FirebaseService.set(path, videoId);
+                                    return FirebaseService.set(path, conceptId);
 
                                 case 4:
                                     _context10.next = 9;
@@ -7790,7 +7790,7 @@ $__System.register('3c', ['29', '2a', '2b'], function (_export, _context20) {
                 }));
             };
 
-            shareQuizWithMe = function shareQuizWithMe(uid, quizId) {
+            unshareConceptWithMe = function unshareConceptWithMe(uid, conceptId) {
                 return __awaiter(_this, void 0, Promise, _regeneratorRuntime.mark(function _callee11() {
                     var path;
                     return _regeneratorRuntime.wrap(function _callee11$(_context11) {
@@ -7798,9 +7798,9 @@ $__System.register('3c', ['29', '2a', '2b'], function (_export, _context20) {
                             switch (_context11.prev = _context11.next) {
                                 case 0:
                                     _context11.prev = 0;
-                                    path = dataPath + '/' + uid + '/sharedWithMeQuizzes/' + quizId;
+                                    path = dataPath + '/' + uid + '/sharedWithMeConcepts/' + conceptId;
                                     _context11.next = 4;
-                                    return FirebaseService.set(path, quizId);
+                                    return FirebaseService.remove(path);
 
                                 case 4:
                                     _context11.next = 9;
@@ -7820,131 +7820,127 @@ $__System.register('3c', ['29', '2a', '2b'], function (_export, _context20) {
                 }));
             };
 
-            getStarredCoursesIds = function getStarredCoursesIds(uid) {
+            shareVideoWithMe = function shareVideoWithMe(uid, videoId) {
                 return __awaiter(_this, void 0, Promise, _regeneratorRuntime.mark(function _callee12() {
-                    var path, courseIdsObject, courseIds;
+                    var path;
                     return _regeneratorRuntime.wrap(function _callee12$(_context12) {
                         while (1) {
                             switch (_context12.prev = _context12.next) {
                                 case 0:
                                     _context12.prev = 0;
-                                    path = dataPath + '/' + uid + '/starredCourses';
+                                    path = dataPath + '/' + uid + '/sharedWithMeVideos/' + videoId;
                                     _context12.next = 4;
-                                    return FirebaseService.get(path);
+                                    return FirebaseService.set(path, videoId);
 
                                 case 4:
-                                    courseIdsObject = _context12.sent;
-                                    courseIds = Object.keys(courseIdsObject || {});
-                                    return _context12.abrupt('return', courseIds);
+                                    _context12.next = 9;
+                                    break;
 
-                                case 9:
-                                    _context12.prev = 9;
+                                case 6:
+                                    _context12.prev = 6;
                                     _context12.t0 = _context12['catch'](0);
                                     throw _context12.t0;
 
-                                case 12:
+                                case 9:
                                 case 'end':
                                     return _context12.stop();
                             }
                         }
-                    }, _callee12, this, [[0, 9]]);
+                    }, _callee12, this, [[0, 6]]);
                 }));
             };
 
-            getSharedWithMeCoursesIds = function getSharedWithMeCoursesIds(uid) {
+            unshareVideoWithMe = function unshareVideoWithMe(uid, videoId) {
                 return __awaiter(_this, void 0, Promise, _regeneratorRuntime.mark(function _callee13() {
-                    var path, courseIdsObject, courseIds;
+                    var path;
                     return _regeneratorRuntime.wrap(function _callee13$(_context13) {
                         while (1) {
                             switch (_context13.prev = _context13.next) {
                                 case 0:
                                     _context13.prev = 0;
-                                    path = dataPath + '/' + uid + '/sharedWithMeCourses';
+                                    path = dataPath + '/' + uid + '/sharedWithMeVideos/' + videoId;
                                     _context13.next = 4;
-                                    return FirebaseService.get(path);
+                                    return FirebaseService.remove(path);
 
                                 case 4:
-                                    courseIdsObject = _context13.sent;
-                                    courseIds = Object.keys(courseIdsObject || {});
-                                    return _context13.abrupt('return', courseIds);
+                                    _context13.next = 9;
+                                    break;
 
-                                case 9:
-                                    _context13.prev = 9;
+                                case 6:
+                                    _context13.prev = 6;
                                     _context13.t0 = _context13['catch'](0);
                                     throw _context13.t0;
 
-                                case 12:
+                                case 9:
                                 case 'end':
                                     return _context13.stop();
                             }
                         }
-                    }, _callee13, this, [[0, 9]]);
+                    }, _callee13, this, [[0, 6]]);
                 }));
             };
 
-            getSharedWithMeConceptsIds = function getSharedWithMeConceptsIds(uid) {
+            shareQuizWithMe = function shareQuizWithMe(uid, quizId) {
                 return __awaiter(_this, void 0, Promise, _regeneratorRuntime.mark(function _callee14() {
-                    var path, courseIdsObject, courseIds;
+                    var path;
                     return _regeneratorRuntime.wrap(function _callee14$(_context14) {
                         while (1) {
                             switch (_context14.prev = _context14.next) {
                                 case 0:
                                     _context14.prev = 0;
-                                    path = dataPath + '/' + uid + '/sharedWithMeConcepts';
+                                    path = dataPath + '/' + uid + '/sharedWithMeQuizzes/' + quizId;
                                     _context14.next = 4;
-                                    return FirebaseService.get(path);
+                                    return FirebaseService.set(path, quizId);
 
                                 case 4:
-                                    courseIdsObject = _context14.sent;
-                                    courseIds = Object.keys(courseIdsObject || {});
-                                    return _context14.abrupt('return', courseIds);
+                                    _context14.next = 9;
+                                    break;
 
-                                case 9:
-                                    _context14.prev = 9;
+                                case 6:
+                                    _context14.prev = 6;
                                     _context14.t0 = _context14['catch'](0);
                                     throw _context14.t0;
 
-                                case 12:
+                                case 9:
                                 case 'end':
                                     return _context14.stop();
                             }
                         }
-                    }, _callee14, this, [[0, 9]]);
+                    }, _callee14, this, [[0, 6]]);
                 }));
             };
 
-            getSharedWithMeVideosIds = function getSharedWithMeVideosIds(uid) {
+            unshareQuizWithMe = function unshareQuizWithMe(uid, quizId) {
                 return __awaiter(_this, void 0, Promise, _regeneratorRuntime.mark(function _callee15() {
-                    var path, courseIdsObject, courseIds;
+                    var path;
                     return _regeneratorRuntime.wrap(function _callee15$(_context15) {
                         while (1) {
                             switch (_context15.prev = _context15.next) {
                                 case 0:
                                     _context15.prev = 0;
-                                    path = dataPath + '/' + uid + '/sharedWithMeVideos';
+                                    path = dataPath + '/' + uid + '/sharedWithMeQuizzes/' + quizId;
                                     _context15.next = 4;
-                                    return FirebaseService.get(path);
+                                    return FirebaseService.remove(path);
 
                                 case 4:
-                                    courseIdsObject = _context15.sent;
-                                    courseIds = Object.keys(courseIdsObject || {});
-                                    return _context15.abrupt('return', courseIds);
+                                    _context15.next = 9;
+                                    break;
 
-                                case 9:
-                                    _context15.prev = 9;
+                                case 6:
+                                    _context15.prev = 6;
                                     _context15.t0 = _context15['catch'](0);
                                     throw _context15.t0;
 
-                                case 12:
+                                case 9:
                                 case 'end':
                                     return _context15.stop();
                             }
                         }
-                    }, _callee15, this, [[0, 9]]);
+                    }, _callee15, this, [[0, 6]]);
                 }));
             };
 
-            getSharedWithMeQuizzesIds = function getSharedWithMeQuizzesIds(uid) {
+            getStarredCoursesIds = function getStarredCoursesIds(uid) {
                 return __awaiter(_this, void 0, Promise, _regeneratorRuntime.mark(function _callee16() {
                     var path, courseIdsObject, courseIds;
                     return _regeneratorRuntime.wrap(function _callee16$(_context16) {
@@ -7952,7 +7948,7 @@ $__System.register('3c', ['29', '2a', '2b'], function (_export, _context20) {
                             switch (_context16.prev = _context16.next) {
                                 case 0:
                                     _context16.prev = 0;
-                                    path = dataPath + '/' + uid + '/sharedWithMeQuizzes';
+                                    path = dataPath + '/' + uid + '/starredCourses';
                                     _context16.next = 4;
                                     return FirebaseService.get(path);
 
@@ -7975,94 +7971,218 @@ $__System.register('3c', ['29', '2a', '2b'], function (_export, _context20) {
                 }));
             };
 
-            getEmailById = function getEmailById(uid) {
+            getSharedWithMeCoursesIds = function getSharedWithMeCoursesIds(uid) {
                 return __awaiter(_this, void 0, Promise, _regeneratorRuntime.mark(function _callee17() {
-                    var path, email;
+                    var path, courseIdsObject, courseIds;
                     return _regeneratorRuntime.wrap(function _callee17$(_context17) {
                         while (1) {
                             switch (_context17.prev = _context17.next) {
                                 case 0:
                                     _context17.prev = 0;
-                                    path = dataPath + '/' + uid + '/metaData/email';
+                                    path = dataPath + '/' + uid + '/sharedWithMeCourses';
                                     _context17.next = 4;
                                     return FirebaseService.get(path);
 
                                 case 4:
-                                    email = _context17.sent;
-                                    return _context17.abrupt('return', email);
+                                    courseIdsObject = _context17.sent;
+                                    courseIds = Object.keys(courseIdsObject || {});
+                                    return _context17.abrupt('return', courseIds);
 
-                                case 8:
-                                    _context17.prev = 8;
+                                case 9:
+                                    _context17.prev = 9;
                                     _context17.t0 = _context17['catch'](0);
                                     throw _context17.t0;
 
-                                case 11:
+                                case 12:
                                 case 'end':
                                     return _context17.stop();
                             }
                         }
-                    }, _callee17, this, [[0, 8]]);
+                    }, _callee17, this, [[0, 9]]);
                 }));
             };
 
-            getEmailsByIds = function getEmailsByIds(uids) {
+            getSharedWithMeConceptsIds = function getSharedWithMeConceptsIds(uid) {
+                return __awaiter(_this, void 0, Promise, _regeneratorRuntime.mark(function _callee18() {
+                    var path, courseIdsObject, courseIds;
+                    return _regeneratorRuntime.wrap(function _callee18$(_context18) {
+                        while (1) {
+                            switch (_context18.prev = _context18.next) {
+                                case 0:
+                                    _context18.prev = 0;
+                                    path = dataPath + '/' + uid + '/sharedWithMeConcepts';
+                                    _context18.next = 4;
+                                    return FirebaseService.get(path);
+
+                                case 4:
+                                    courseIdsObject = _context18.sent;
+                                    courseIds = Object.keys(courseIdsObject || {});
+                                    return _context18.abrupt('return', courseIds);
+
+                                case 9:
+                                    _context18.prev = 9;
+                                    _context18.t0 = _context18['catch'](0);
+                                    throw _context18.t0;
+
+                                case 12:
+                                case 'end':
+                                    return _context18.stop();
+                            }
+                        }
+                    }, _callee18, this, [[0, 9]]);
+                }));
+            };
+
+            getSharedWithMeVideosIds = function getSharedWithMeVideosIds(uid) {
                 return __awaiter(_this, void 0, Promise, _regeneratorRuntime.mark(function _callee19() {
-                    var emails, asyncReduce;
+                    var path, courseIdsObject, courseIds;
                     return _regeneratorRuntime.wrap(function _callee19$(_context19) {
                         while (1) {
                             switch (_context19.prev = _context19.next) {
                                 case 0:
-                                    asyncReduce = function asyncReduce(uids, emails) {
-                                        return __awaiter(this, void 0, Promise, _regeneratorRuntime.mark(function _callee18() {
-                                            var uid, email;
-                                            return _regeneratorRuntime.wrap(function _callee18$(_context18) {
-                                                while (1) {
-                                                    switch (_context18.prev = _context18.next) {
-                                                        case 0:
-                                                            if (!(uids.length === 0)) {
-                                                                _context18.next = 2;
-                                                                break;
-                                                            }
-
-                                                            return _context18.abrupt('return', emails);
-
-                                                        case 2:
-                                                            uid = uids[0];
-                                                            _context18.next = 5;
-                                                            return getEmailById(uid);
-
-                                                        case 5:
-                                                            email = _context18.sent;
-                                                            return _context18.abrupt('return', asyncReduce(uids.slice(1), [].concat(_toConsumableArray(emails), [email])));
-
-                                                        case 7:
-                                                        case 'end':
-                                                            return _context18.stop();
-                                                    }
-                                                }
-                                            }, _callee18, this);
-                                        }));
-                                    };
-
-                                    _context19.prev = 1;
+                                    _context19.prev = 0;
+                                    path = dataPath + '/' + uid + '/sharedWithMeVideos';
                                     _context19.next = 4;
-                                    return asyncReduce(uids, []);
+                                    return FirebaseService.get(path);
 
                                 case 4:
-                                    emails = _context19.sent;
-                                    return _context19.abrupt('return', emails);
+                                    courseIdsObject = _context19.sent;
+                                    courseIds = Object.keys(courseIdsObject || {});
+                                    return _context19.abrupt('return', courseIds);
 
-                                case 8:
-                                    _context19.prev = 8;
-                                    _context19.t0 = _context19['catch'](1);
+                                case 9:
+                                    _context19.prev = 9;
+                                    _context19.t0 = _context19['catch'](0);
                                     throw _context19.t0;
 
-                                case 11:
+                                case 12:
                                 case 'end':
                                     return _context19.stop();
                             }
                         }
-                    }, _callee19, this, [[1, 8]]);
+                    }, _callee19, this, [[0, 9]]);
+                }));
+            };
+
+            getSharedWithMeQuizzesIds = function getSharedWithMeQuizzesIds(uid) {
+                return __awaiter(_this, void 0, Promise, _regeneratorRuntime.mark(function _callee20() {
+                    var path, courseIdsObject, courseIds;
+                    return _regeneratorRuntime.wrap(function _callee20$(_context20) {
+                        while (1) {
+                            switch (_context20.prev = _context20.next) {
+                                case 0:
+                                    _context20.prev = 0;
+                                    path = dataPath + '/' + uid + '/sharedWithMeQuizzes';
+                                    _context20.next = 4;
+                                    return FirebaseService.get(path);
+
+                                case 4:
+                                    courseIdsObject = _context20.sent;
+                                    courseIds = Object.keys(courseIdsObject || {});
+                                    return _context20.abrupt('return', courseIds);
+
+                                case 9:
+                                    _context20.prev = 9;
+                                    _context20.t0 = _context20['catch'](0);
+                                    throw _context20.t0;
+
+                                case 12:
+                                case 'end':
+                                    return _context20.stop();
+                            }
+                        }
+                    }, _callee20, this, [[0, 9]]);
+                }));
+            };
+
+            getEmailById = function getEmailById(uid) {
+                return __awaiter(_this, void 0, Promise, _regeneratorRuntime.mark(function _callee21() {
+                    var path, email;
+                    return _regeneratorRuntime.wrap(function _callee21$(_context21) {
+                        while (1) {
+                            switch (_context21.prev = _context21.next) {
+                                case 0:
+                                    _context21.prev = 0;
+                                    path = dataPath + '/' + uid + '/metaData/email';
+                                    _context21.next = 4;
+                                    return FirebaseService.get(path);
+
+                                case 4:
+                                    email = _context21.sent;
+                                    return _context21.abrupt('return', email);
+
+                                case 8:
+                                    _context21.prev = 8;
+                                    _context21.t0 = _context21['catch'](0);
+                                    throw _context21.t0;
+
+                                case 11:
+                                case 'end':
+                                    return _context21.stop();
+                            }
+                        }
+                    }, _callee21, this, [[0, 8]]);
+                }));
+            };
+
+            getEmailsByIds = function getEmailsByIds(uids) {
+                return __awaiter(_this, void 0, Promise, _regeneratorRuntime.mark(function _callee23() {
+                    var emails, asyncReduce;
+                    return _regeneratorRuntime.wrap(function _callee23$(_context23) {
+                        while (1) {
+                            switch (_context23.prev = _context23.next) {
+                                case 0:
+                                    asyncReduce = function asyncReduce(uids, emails) {
+                                        return __awaiter(this, void 0, Promise, _regeneratorRuntime.mark(function _callee22() {
+                                            var uid, email;
+                                            return _regeneratorRuntime.wrap(function _callee22$(_context22) {
+                                                while (1) {
+                                                    switch (_context22.prev = _context22.next) {
+                                                        case 0:
+                                                            if (!(uids.length === 0)) {
+                                                                _context22.next = 2;
+                                                                break;
+                                                            }
+
+                                                            return _context22.abrupt('return', emails);
+
+                                                        case 2:
+                                                            uid = uids[0];
+                                                            _context22.next = 5;
+                                                            return getEmailById(uid);
+
+                                                        case 5:
+                                                            email = _context22.sent;
+                                                            return _context22.abrupt('return', asyncReduce(uids.slice(1), [].concat(_toConsumableArray(emails), [email])));
+
+                                                        case 7:
+                                                        case 'end':
+                                                            return _context22.stop();
+                                                    }
+                                                }
+                                            }, _callee22, this);
+                                        }));
+                                    };
+
+                                    _context23.prev = 1;
+                                    _context23.next = 4;
+                                    return asyncReduce(uids, []);
+
+                                case 4:
+                                    emails = _context23.sent;
+                                    return _context23.abrupt('return', emails);
+
+                                case 8:
+                                    _context23.prev = 8;
+                                    _context23.t0 = _context23['catch'](1);
+                                    throw _context23.t0;
+
+                                case 11:
+                                case 'end':
+                                    return _context23.stop();
+                            }
+                        }
+                    }, _callee23, this, [[1, 8]]);
                 }));
             };
 
@@ -8084,7 +8204,11 @@ $__System.register('3c', ['29', '2a', '2b'], function (_export, _context20) {
                 getSharedWithMeConceptsIds: getSharedWithMeConceptsIds,
                 getSharedWithMeVideosIds: getSharedWithMeVideosIds,
                 unstarCourse: unstarCourse,
-                shareQuizWithMe: shareQuizWithMe
+                shareQuizWithMe: shareQuizWithMe,
+                unshareCourseWithMe: unshareCourseWithMe,
+                unshareConceptWithMe: unshareConceptWithMe,
+                unshareVideoWithMe: unshareVideoWithMe,
+                unshareQuizWithMe: unshareQuizWithMe
             });
 
             _export('UserModel', UserModel);
@@ -9829,20 +9953,24 @@ $__System.register('39', ['31', '34', '2a', '2b', '3a', '3b', '3c', '3d'], funct
                                     return CourseModel.disassociateCollaborator(courseId, uid);
 
                                 case 8:
-                                    _context9.next = 13;
-                                    break;
+                                    _context9.next = 10;
+                                    return UserModel.unshareCourseWithMe(uid, courseId);
 
                                 case 10:
-                                    _context9.prev = 10;
+                                    _context9.next = 15;
+                                    break;
+
+                                case 12:
+                                    _context9.prev = 12;
                                     _context9.t0 = _context9['catch'](0);
                                     throw _context9.t0;
 
-                                case 13:
+                                case 15:
                                 case 'end':
                                     return _context9.stop();
                             }
                         }
-                    }, _callee9, this, [[0, 10]]);
+                    }, _callee9, this, [[0, 12]]);
                 }));
             };
 
