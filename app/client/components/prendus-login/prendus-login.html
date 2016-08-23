@@ -25,16 +25,12 @@
             width: 100%;
           }
         }
-        #loginToast {
-          --paper-toast-background-color: red;
-        }
     </style>
   </style>
   <template>
     <!-- local DOM for your element -->
     <redux-store action="[[action]]"></redux-store>
     <center>
-      <paper-toast id="loginToast" verticalAlign="top" text=[[loginFormToastText]]></paper-toast>
       <paper-card id = "loginFormCard" heading ="Login">
         <div>
           <form is="iron-form" method="get" action="/" id="loginForm">
@@ -49,7 +45,6 @@
           </form>
         </div>
       </paper-card>
-      <center><div id="toastTarget" style = "margin-left: -28px; height: 60px;"></div></center>
       <prendus-notification error-message="[[errorMessage]]"></prendus-notification>
     </center>
   </template>

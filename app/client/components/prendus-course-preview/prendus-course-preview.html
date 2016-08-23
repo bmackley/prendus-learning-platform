@@ -10,11 +10,15 @@
             #star-icon {
                 color: rgba(0, 0, 0, .5);
             }
-        </style>
 
+            .course-card{
+              margin: 1%;
+            }
+        </style>
+        
         <redux-store on-statechange="mapStateToThis" action="[[action]]"></redux-store>
 
-        <paper-card heading="[[course.title]]">
+        <paper-card heading="[[course.title]]" class = "course-card">
             <div>
                 <paper-icon-button id="star-icon" icon="[[starIcon]]" title="click to star or unstar" on-tap="starClick"></paper-icon-button>
                 <div>[[numStars]]</div>

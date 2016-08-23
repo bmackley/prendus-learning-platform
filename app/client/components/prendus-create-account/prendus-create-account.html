@@ -28,16 +28,12 @@
           margin-left: 2%;
         }
       }
-      #signUpToast {
-        --paper-toast-background-color: red;
-      }
     </style>
   </style>
   <template>
     <!-- local DOM for your element -->
     <center>
       <redux-store action="[[action]]"></redux-store>
-      <paper-toast id="signUpToast" verticalAlign="top" text=[[signUpToastText]]></paper-toast>
       <paper-card id = "signupForm" heading ="Create Account">
           <form is="iron-form" method="get" action="/createclass" id="signupFormlocater">
             <paper-input name="email" id = "formEmail" label="Email" required auto-validate></paper-input>
@@ -51,8 +47,7 @@
           </form>
         </div>
       </paper-card>
-      <center><div id="toastTarget" style = "margin-left: -28px; height: 60px;"></div></center>
-    </center><prendus-notification error-message="[[errorMessage]]"></prendus-notification></center>
+    <prendus-notification error-message="[[errorMessage]]"></prendus-notification>
   </template>
 
   <!--<script src="prendus-create-account.js"></script>-->
