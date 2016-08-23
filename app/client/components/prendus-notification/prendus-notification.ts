@@ -8,12 +8,14 @@ class PrendusNotification {
   public toastText: string;
   public observers: String[];
   public errorMessage: string;
+  public successMessage: string;
 
   beforeRegister() {
     this.is = 'prendus-notification';
     this.properties = {
-        message: {
+        successMessage: {
           type: String,
+          observer: 'showSuccessMessage'
         },
         errorMessage: {
           type: String,
@@ -25,6 +27,12 @@ class PrendusNotification {
     if(this.errorMessage){
       this.toastText = this.errorMessage;
       this.querySelector('#errorToastContainer').open();
+    }
+  }
+  showSuccessMessage(){
+    if(this.successMessage){
+      this.toastText = this.successMessage;
+      this.querySelector('#successToastContainer').open();
     }
   }
   mapStateToThis(e) {

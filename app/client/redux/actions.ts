@@ -700,6 +700,7 @@ const orderConcepts = {
   type: 'ORDER_CONCEPTS',
   execute: async (context: any, id: string, courseConceptsArray: Concept[]) => {
     try{
+      console.log('concepts array', courseConceptsArray);
       await CourseModel.updateCourseConcepts(id, courseConceptsArray);
     }catch(error){
       throw error;
@@ -709,6 +710,10 @@ const orderConcepts = {
 
 const updateCourseField = async (context: any, id: string, field: string, value: string) => {
     try{
+      console.log('actions context', context)
+      console.log('actions id', id)
+      console.log('actions field', field)
+      console.log('actions value', value)
       await CourseModel.updateCourseField(id, field, value);
       const course = await CourseModel.getById(id);
     //   const conceptsArray = await CourseModel.courseConceptsToArray(course);
