@@ -31,7 +31,7 @@ class PrendusConceptVideoContainerEdit {
 
     async init() {
         if (this.conceptId) {
-            await Actions.loadConceptVideos(this, this.conceptId);
+            await Actions.loadEditConceptVideos(this, this.conceptId);
         }
     }
 
@@ -68,20 +68,20 @@ class PrendusConceptVideoContainerEdit {
         await Actions.saveVideo(this, this.conceptId, this.currentVideoId, video);
         this.$.videoEditor.indicateSaved();
         Actions.setCurrentVideoInfo(this, this.currentVideoId, title, url);
-        await Actions.loadConceptVideos(this, this.conceptId);
+        await Actions.loadEditConceptVideos(this, this.conceptId);
     }
 
     async deleteVideo(e: Event) {
         this.$.editVideoDialog.close();
         await Actions.deleteVideo(this, this.conceptId, this.currentVideoId);
-        await Actions.loadConceptVideos(this, this.conceptId);
+        await Actions.loadEditConceptVideos(this, this.conceptId);
         Actions.clearCurrentVideoInfo(this);
     }
 
     mapStateToThis(e: StatechangeEvent) {
         const state = e.detail.state;
 
-        this.videos = state.conceptVideos[this.conceptId];
+        this.videos = state.editConceptVideos[this.conceptId];
         this.currentVideoId = state.currentConceptVideoId;
         this.currentVideoTitle = state.currentConceptVideoTitle;
         this.currentVideoUrl = state.currentConceptVideoUrl;

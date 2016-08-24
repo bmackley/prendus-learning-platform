@@ -19,6 +19,9 @@ class PrendusCollaboratorMenuContent {
 
         this.is = 'prendus-collaborator-menu-content';
         this.properties = {
+            uid: {
+                type: String
+            },
             courseId: {
                 type: String
             },
@@ -45,7 +48,7 @@ class PrendusCollaboratorMenuContent {
             }
         };
         this.observers = [
-            'initCourse(courseId, course)',
+            'initCourse(uid, courseId, course)',
             'initConcept(courseId, conceptId, concept)',
             'initVideo(conceptId, videoId, video)',
             'initQuiz(conceptId, quizId, quiz)'
