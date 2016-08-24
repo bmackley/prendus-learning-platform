@@ -34,7 +34,7 @@ class PrendusConceptVideoContainer {
 
     async init() {
         if (this.conceptId) {
-            await Actions.loadConceptVideos(this, this.conceptId);
+            await Actions.loadViewConceptVideos(this, this.conceptId);
         }
     }
 
@@ -60,7 +60,7 @@ class PrendusConceptVideoContainer {
     mapStateToThis(e: StatechangeEvent) {
         const state = e.detail.state;
 
-        this.videos = state.conceptVideos[this.conceptId];
+        this.videos = state.viewConceptVideos[this.conceptId];
         this.currentVideoId = state.currentConceptVideoId;
         this.currentVideoTitle = state.currentConceptVideoTitle;
         this.currentVideoUrl = state.currentConceptVideoUrl;

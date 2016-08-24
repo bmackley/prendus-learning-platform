@@ -44,7 +44,6 @@ const loadCourseCollaboratorEmails = async (context: any, uid: string, courseId:
 };
 
 const loadConceptCollaboratorEmails = async (context: any, courseId: string, conceptId: string) => {
-
     try {
         const user = await FirebaseService.getLoggedInUser();
 
@@ -134,6 +133,7 @@ const addCourseCollaborator = async (context: any, courseId: string, email: stri
         }
 
         await CourseModel.associateCollaborator(courseId, uid);
+        await UserModel.shareCourseWithMe(uid, courseId);
     }
     catch(error) {
         throw error;
@@ -149,6 +149,7 @@ const addConceptCollaborator = async (context: any, conceptId: string, email: st
         }
 
         await ConceptModel.associateCollaborator(conceptId, uid);
+        await UserModel.shareConceptWithMe(uid, conceptId);
     }
     catch(error) {
         throw error;
@@ -164,6 +165,7 @@ const addVideoCollaborator = async (context: any, videoId: string, email: string
         }
 
         await VideoModel.associateCollaborator(videoId, uid);
+        await UserModel.shareVideoWithMe(uid, videoId);
     }
     catch(error) {
         throw error;
@@ -179,6 +181,7 @@ const addQuizCollaborator = async (context: any, quizId: string, email: string) 
         }
 
         await QuizModel.associateCollaborator(quizId, uid);
+        await UserModel.shareQuizWithMe(uid, quizId);
     }
     catch(error) {
         throw error;
@@ -194,6 +197,7 @@ const removeCourseCollaborator = async (context: any, courseId: string, email: s
         }
 
         await CourseModel.disassociateCollaborator(courseId, uid);
+        await UserModel.unshareCourseWithMe(uid, courseId);
     }
     catch(error) {
         throw error;
@@ -306,12 +310,26 @@ const createNewQuiz = async (context: any, conceptId: string) => {
     return quizId;
 };
 
-const loadConceptQuizzes = async (context: any, conceptId: string) => {
+const loadEditConceptQuizzes = async (context: any, conceptId: string) => {
+    const user = await FirebaseService.getLoggedInUser();
+    const concept = await ConceptModel.getById(conceptId);
+
+    const quizzIds = await ConceptModel.getQuizIds(conceptId);
+    const quizzes = await QuizModel.filterQuizzesByCollaborator(quizzIds, concept.uid, user.uid);
+
+    context.action = {
+        type: 'LOAD_EDIT_CONCEPT_QUIZZES',
+        conceptId,
+        quizzes
+    };
+};
+
+const loadViewConceptQuizzes = async (context: any, conceptId: string) => {
     const quizzIds = await ConceptModel.getQuizIds(conceptId);
     const quizzes = await QuizModel.resolveQuizIds(quizzIds);
 
     context.action = {
-        type: 'LOAD_CONCEPT_QUIZZES',
+        type: 'LOAD_VIEW_CONCEPT_QUIZZES',
         conceptId,
         quizzes
     };
@@ -426,15 +444,72 @@ const clearCurrentVideoInfo = (context: any) => {
     };
 };
 
-const loadConceptVideos = async (context: any, conceptId: string) => {
+const loadEditConceptVideos = async (context: any, conceptId: string) => {
+    try {
+        const user = await FirebaseService.getLoggedInUser();
+        const concept = await ConceptModel.getById(conceptId);
+
+        const videoIds = await ConceptModel.getVideoIds(conceptId);
+        const videos = await VideoModel.filterVideosByCollaborator(videoIds, concept.uid, user.uid);
+
+        context.action = {
+            type: 'LOAD_EDIT_CONCEPT_VIDEOS',
+            videos,
+            conceptId
+        };
+    }
+    catch(error) {
+        throw error;
+    }
+};
+
+const loadViewConceptVideos = async (context: any, conceptId: string) => {
     try {
         const videoIds = await ConceptModel.getVideoIds(conceptId);
         const videos = await VideoModel.resolveVideoIds(videoIds);
 
         context.action = {
-            type: 'LOAD_CONCEPT_VIDEOS',
+            type: 'LOAD_VIEW_CONCEPT_VIDEOS',
             videos,
             conceptId
+        };
+    }
+    catch(error) {
+        throw error;
+    }
+};
+
+const loadEditCourseConcepts = async (context: any, courseId: string) => {
+    try {
+        const user = await FirebaseService.getLoggedInUser();
+
+        const course = await CourseModel.getById(courseId);
+        const conceptDatasObject = course.concepts;
+
+        const concepts = await ConceptModel.filterConceptDatasByCollaborator(conceptDatasObject, course.uid, user.uid);
+
+        context.action = {
+            type: 'LOAD_EDIT_COURSE_CONCEPTS',
+            concepts,
+            courseId
+        };
+    }
+    catch(error) {
+        throw error;
+    }
+};
+
+const loadViewCourseConcepts = async (context: any, courseId: string) => {
+    try {
+        const course = await CourseModel.getById(courseId);
+        const conceptDatasObject = course.concepts;
+
+        const concepts = Object.keys(conceptDatasObject || {}).map((conceptDataId) => conceptDatasObject[conceptDataId]);
+
+        context.action = {
+            type: 'LOAD_VIEW_COURSE_CONCEPTS',
+            concepts,
+            courseId
         };
     }
     catch(error) {
@@ -584,8 +659,8 @@ const getCoursesByUser = {
         const courses = await CourseModel.getCoursesByUser(loggedInUser.uid);
         context.action = {
             type: 'GET_COURSES_BY_USER',
-            courses: courses,
-        }
+            courses: courses
+        };
       }
     }catch(error){
       throw error;
@@ -638,13 +713,13 @@ const getCourseById = {
   execute: async (context: any, id: string) => {
     try {
       const course = await CourseModel.getById(id);
-      const conceptsArray = await CourseModel.courseConceptsToArray(course);
-      const orderedConcepts = CourseModel.orderCourseConcepts(conceptsArray);
-      course.concepts = orderedConcepts;
+    //   const conceptsArray = await CourseModel.courseConceptsToArray(course);
+    //   const orderedConcepts = CourseModel.orderCourseConcepts(conceptsArray);
+    //   course.concepts = orderedConcepts;
       context.action = {
           type: 'GET_COURSE_BY_ID',
           currentCourse: course
-      }
+      };
     }catch(error){
       throw error;
     }
@@ -655,13 +730,13 @@ const deleteConcept = {
       try {
         await CourseModel.disassociateConcept(courseId, conceptId);
         const course = await CourseModel.getById(courseId);
-        const conceptsArray = await CourseModel.courseConceptsToArray(course);
-        const orderedConcepts = CourseModel.orderCourseConcepts(conceptsArray);
-        course.concepts = orderedConcepts;
+        // const conceptsArray = await CourseModel.courseConceptsToArray(course);
+        // const orderedConcepts = CourseModel.orderCourseConcepts(conceptsArray);
+        // course.concepts = orderedConcepts;
         context.action = {
             type: 'GET_COURSE_BY_ID',
             currentCourse: course
-        }
+        };
       }catch(error){
         throw error;
       }
@@ -687,9 +762,9 @@ const updateCourseField = async (context: any, id: string, field: string, value:
       console.log('actions value', value)
       await CourseModel.updateCourseField(id, field, value);
       const course = await CourseModel.getById(id);
-      const conceptsArray = await CourseModel.courseConceptsToArray(course);
-      const orderedConcepts = CourseModel.orderCourseConcepts(conceptsArray);
-      course.concepts = orderedConcepts;
+    //   const conceptsArray = await CourseModel.courseConceptsToArray(course);
+    //   const orderedConcepts = CourseModel.orderCourseConcepts(conceptsArray);
+    //   course.concepts = orderedConcepts;
       context.action = {
         type: 'GET_COURSE_BY_ID',
         currentCourse: course
@@ -719,7 +794,8 @@ export const Actions = {
     logOutUser,
     updateUserEmail,
     updateUserMetaData,
-    loadConceptVideos,
+    loadEditConceptVideos,
+    loadViewConceptVideos,
     setCurrentVideoInfo,
     saveVideo,
     clearCurrentVideoInfo,
@@ -735,7 +811,8 @@ export const Actions = {
     setQuestionSetting,
     loadQuizSettings,
     setCurrentEditQuizId,
-    loadConceptQuizzes,
+    loadEditConceptQuizzes,
+    loadViewConceptQuizzes,
     createNewQuiz,
     updateQuizTitle,
     getQuiz,
@@ -758,5 +835,7 @@ export const Actions = {
     removeCourseCollaborator,
     removeConceptCollaborator,
     removeVideoCollaborator,
-    updateCourseField
+    updateCourseField,
+    loadEditCourseConcepts,
+    loadViewCourseConcepts
 };
