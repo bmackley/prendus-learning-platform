@@ -44,7 +44,7 @@ export class PrendusCourseView {
     this.username = state.currentUser.metaData.email;
     this.uid = state.currentUser.metaData.uid;
     this.currentCourse = state.currentCourse;
-    this.courseConcepts = this.currentCourse.concepts;
+    this.courseConcepts = state.viewCourseConcepts[this.courseId];
   }
   toggle(e) {
     const collapseTarget = (e.target.id);
@@ -75,12 +75,14 @@ export class PrendusCourseView {
   }
   viewCourse() {
     if(this.data.courseId){
-      Actions.getCourseById.execute(this, this.data.courseId)
+      Actions.getCourseById.execute(this, this.data.courseId);
+      Actions.loadViewCourseConcepts(this, this.data.courseId);
     }
   }
   viewData() {
     if(this.data.courseId){
-      Actions.getCourseById.execute(this, this.data.courseId)
+      Actions.getCourseById.execute(this, this.data.courseId);
+      Actions.loadViewCourseConcepts(this, this.data.courseId);
     }
   }
 }

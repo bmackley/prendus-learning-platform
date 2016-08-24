@@ -21,9 +21,16 @@ class PrendusCoursePreview {
         };
     }
 
+    ready() {
+        // this.action = {
+        //     type: 'DEFAULT_ACTION'
+        // };
+    }
+
     init(course: Course) {
-        console.log('courses', this.course)
-        this.starIcon = `icons:star-border`
+        this.action = {
+            type: 'DEFAULT_ACTION'
+        };
     }
 
     async starClick(e: any) {
@@ -40,8 +47,7 @@ class PrendusCoursePreview {
                 await Actions.starCourse(this, this.course.id);
             }
 
-            Actions.checkUserAuth.execute(this);
-            Actions.getStarredCoursesByUser(this, this.user.metaData.uid);
+            await Actions.checkUserAuth.execute(this);
             Actions.getCoursesByVisibility(this, 'public');
             Actions.getCoursesByUser.execute(this);
             Actions.getStarredCoursesByUser(this, this.user.metaData.uid);

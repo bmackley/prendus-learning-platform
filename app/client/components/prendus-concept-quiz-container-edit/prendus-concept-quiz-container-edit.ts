@@ -26,7 +26,7 @@ class PrendusConceptQuizContainerEdit {
 
     async init() {
         if (this.conceptId) {
-            await Actions.loadConceptQuizzes(this, this.conceptId);
+            await Actions.loadEditConceptQuizzes(this, this.conceptId);
         }
     }
 
@@ -36,7 +36,7 @@ class PrendusConceptQuizContainerEdit {
         window.history.pushState({}, '', `courses/edit-quiz/concept/${this.conceptId}/quiz/${quizId}`);
         this.fire('location-changed', {}, {node: window});
 
-        await Actions.loadConceptQuizzes(this, this.conceptId);
+        await Actions.loadEditConceptQuizzes(this, this.conceptId);
     }
 
     quizRowClick(e: {
@@ -51,7 +51,7 @@ class PrendusConceptQuizContainerEdit {
     mapStateToThis(e: StatechangeEvent) {
         const state = e.detail.state;
 
-        this.quizzes = state.conceptQuizzes[this.conceptId];
+        this.quizzes = state.editConceptQuizzes[this.conceptId];
     }
 }
 
