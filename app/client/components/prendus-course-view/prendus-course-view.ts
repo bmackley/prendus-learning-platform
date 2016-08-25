@@ -73,17 +73,24 @@ export class PrendusCourseView {
       Actions.orderConcepts.execute(this, this.courseId, updateConceptPositionArray);
     }
   }
-  viewCourse() {
-    if(this.data.courseId){
-      Actions.getCourseById.execute(this, this.data.courseId);
-      Actions.loadViewCourseConcepts(this, this.data.courseId);
+
+  async viewCourse() {
+    if (this.data.courseId) {
+        Actions.showMainSpinner(this);
+        await Actions.getCourseById.execute(this, this.data.courseId);
+        await Actions.loadViewCourseConcepts(this, this.data.courseId);
+        Actions.hideMainSpinner(this);
     }
   }
-  viewData() {
-    if(this.data.courseId){
-      Actions.getCourseById.execute(this, this.data.courseId);
-      Actions.loadViewCourseConcepts(this, this.data.courseId);
+
+  async viewData() {
+    if (this.data.courseId) {
+        Actions.showMainSpinner(this);
+        await Actions.getCourseById.execute(this, this.data.courseId);
+        await Actions.loadViewCourseConcepts(this, this.data.courseId);
+        Actions.hideMainSpinner(this);
     }
   }
 }
+
 Polymer(PrendusCourseView);

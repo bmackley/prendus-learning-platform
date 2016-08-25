@@ -36,14 +36,11 @@ class PrendusCourseEdit {
   }
 
   async getCourse(){
-    if(this.data.courseId){
-      await Actions.getCourseById.execute(this, this.data.courseId);
-      Actions.loadEditCourseConcepts(this, this.data.courseId);
-    }
-  }
-  getData(){
-    if(this.data.courseId){
-      Actions.getCourseById.execute(this, this.data.courseId);
+    if (this.data.courseId) {
+        Actions.showMainSpinner(this);
+        await Actions.getCourseById.execute(this, this.data.courseId);
+        await Actions.loadEditCourseConcepts(this, this.data.courseId);
+        Actions.hideMainSpinner(this);
     }
   }
 

@@ -5,6 +5,20 @@ import {Action} from '../interfaces/action.interface.ts';
 
 export function rootReducer(state: State = InitialState, action: Action): State {
     switch(action.type) {
+        case 'SHOW_MAIN_SPINNER': {
+            const newState = Object.assign({}, state);
+
+            newState.mainViewToShow = 'spinner';
+
+            return newState;
+        }
+        case 'HIDE_MAIN_SPINNER': {
+            const newState = Object.assign({}, state);
+
+            newState.mainViewToShow = 'routes';
+
+            return newState;
+        }
         case 'SET_COURSE_COLLABORATOR_EMAILS': {
             const newState = Object.assign({}, state);
 
