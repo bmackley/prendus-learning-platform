@@ -24,6 +24,9 @@ export interface State {
         [conceptId: string]: Quiz[]
     };
     courses: Course[];
+    userCourses: Course[];
+    sharedCourses: Course[];
+    starredCourses: Course[];
     currentConcept: {};
     concepts: {};
     currentCourse: Course;

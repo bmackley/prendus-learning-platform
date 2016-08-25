@@ -288,7 +288,7 @@ const createNewQuiz = async (context: any, conceptId: string) => {
     const quizId = await QuizModel.createOrUpdate(null, {
         id: null,
         uid,
-        title: '',
+        title: `Default Quiz Title`,
         private: false,
         quizSettings: {
             answerFeedback: true,
