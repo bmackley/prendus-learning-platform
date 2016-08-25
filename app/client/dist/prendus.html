@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 <html><head><meta charset="UTF-8"></head><body><div hidden="" by-vulcanize=""><!--
 @license
 Copyright (c) 2014 The Polymer Project Authors. All rights reserved.
@@ -17082,7 +17081,7 @@ Custom property | Description | Default
   <template>
     <redux-store on-statechange="mapStateToThis" action="[[action]]"></redux-store>
       <!-- local DOM for your element -->
-    <paper-header-panel class="flex">
+    <paper-header-panel>
         <paper-toolbar>
           <span id="index" on-tap="goHome" style="cursor: pointer; cursor: hand;"> <span class="title">Prendus</span></span>
           <span class="title"></span>
@@ -17110,6 +17109,44 @@ Custom property | Description | Default
   </template>
 
   <!--<script src="prendus-navbar.js"></script>-->
+</dom-module>
+<dom-module id="prendus-footer" assetpath="../prendus-footer/">
+  <style>
+  footer {
+    position: fixed;
+    background: black;
+    width: 100%;
+    bottom: 0;
+
+  }
+  #privacy-policy, #terms-of-service, #license{
+    margin-left:auto;
+    margin-right:2%;
+    cursor: pointer;
+  }
+  a{
+    color:gray;
+  }
+  a:visited {
+    color: gray;
+}
+  </style>
+  <template>
+    <footer>
+        <paper-header-panel>
+          <paper-toolbar style="color: gray;">
+            <div>© 2016 Prendus LLC</div>
+            <div id="license">
+              <a rel="license" href="http://creativecommons.org/licenses/by/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by/4.0/80x15.png"></a><br>This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>.
+            </div>
+            <div id="terms-of-service" on-tap="changeURL">Terms of Service</div>
+            <div id="privacy-policy" on-tap="changeURL">Privacy Policy</div>
+          </paper-toolbar>
+        </paper-header-panel>
+    </footer>
+  </template>
+
+  <!--<script src="prendus-footer.js"></script>-->
 </dom-module>
 <!--
 @license
@@ -43678,23 +43715,55 @@ Custom property | Description | Default
             #star-icon {
                 color: rgba(0, 0, 0, .5);
             }
-
+            .course-title{
+              font-size: 1.5vw;
+              font-weight: bold;
+            }
             .course-card{
               margin: 1%;
+              width: 31%;
+            }
+            #no-wrap{
+              overflow: hidden;
+              white-space: nowrap;
+            }
+            @media (max-width: 1200px) {
+              .course-title{
+                font-size: 2vw;
+                font-weight: bold;
+              }
+              .course-card{
+                width: 66%;
+              }
+            }
+            @media (max-width: 600px) {
+              .course-title{
+                font-size: 3vw;
+                font-weight: bold;
+              }
+              .course-card{
+                width: 100%;
+              }
             }
         </style>
-        
+
         <redux-store on-statechange="mapStateToThis" action="[[action]]"></redux-store>
 
-        <paper-card heading="[[course.title]]" class="course-card">
-            <div>
-                <paper-icon-button id="star-icon" icon="[[starIcon]]" title="click to star or unstar" on-tap="starClick"></paper-icon-button>
-                <div>[[numStars]]</div>
-            </div>
+        <paper-card class="course-card">
 
-          <div class="card-content">[[course.description]]</div>
+
+          <div class="card-content">
+            <div>
+              <span class="course-title">[[course.title]]</span>
+              <span id="no-wrap"><paper-icon-button id="star-icon" icon="[[starIcon]]" title="click to star or unstar" on-tap="starClick"></paper-icon-button>[[numStars]]</span>
+            </div>
+            [[course.description]]
+          </div>
+
           <div class="card-actions">
-            <paper-button id="[[course.id]]" on-tap="editCourse">Edit</paper-button>  <!-- Go to page from here -->
+            <template is="dom-if" if="[[hasEditAccess]]">
+              <paper-button id="[[course.id]]" on-tap="editCourse">Edit</paper-button>  <!-- Go to page from here -->
+            </template>
             <paper-button id="[[course.id]]" on-tap="viewCourse">View</paper-button>
           </div>
         </paper-card>
@@ -92773,16 +92842,16 @@ event and do your own custom submission:
       display: block;
     }
     #profileFormCard, #toastTarget{
-        width: 33%;
+        width: 88%;
       }
       @media (max-width: 1200px) {
         #profileFormCard, #toastTarget{
-          width: 66%;
+          width: 98%;
         }
       }
       @media (max-width: 600px) {
         #profileFormCard, #toastTarget{
-          width: 95%;
+          width: 100%;
         }
       }
       #profileFormCard {
@@ -92831,6 +92900,99 @@ event and do your own custom submission:
 
   <!--<script src="prendus-profile.js"></script>-->
 </dom-module>
+<dom-module id="prendus-privacy-policy" assetpath="../prendus-privacy-policy/">
+  <style>
+    /* CSS rules for your element */
+  </style>
+  <template>
+    <h1>Prendus Privacy policy </h1>
+
+    <h2>Our privacy policy includes:</h2>
+     	  <ul>
+          <li>Information we collect</li>
+          <li>How data is secured</li>
+          <li>How we use collected information</li>
+          <li>Your rights to create, update, view, and delete data.</li>
+        </ul>
+
+    <h2>Information we collect</h2>
+    <ul>
+      <li>Information you provide online</li>
+      <li>Information from xAPI</li>
+    </ul>
+    <h3>Information you provide online</h3>
+    <p> The information you provide online is kept securely on private servers with limited access. While no financial information is collected, personal data such as names, emails, and other identifying information important and needs to be secure.
+    </p><h4>Private Information</h4>
+    <p>  The information you provide through forms includes email, passwords, and other meta data such as your name and institution.</p>
+    <h4>  Public Information </h4>
+    <p>  Learning resources created are public domain licensed under the
+      <a rel="license" href="http://creativecommons.org/licenses/by/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by/4.0/80x15.png"></a><br><a rel="license" href="http://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a> unless explicitly stated.  Information you create is available for others to reuse, revise, and remix at their discretion. You may only create materials from your own use or use openly licensed materials. For example, you may not copy quiz questions from another site into your course, unless the quiz questions are under an open license like creative commons. Videos are only streamed through our site, so video can be added to a course as long as there are no streaming restrictions. Proprietary videos and videos hosted on YouTube are all permissible. Always check the license on a video before adding it to a course.</p>
+
+    <h3 id="xapi-info">  Information from xAPI </h3>
+    <p>If you access our services through a Learning Management System (LMS), certain information is provided through xAPI. This information includes your LMS username, the LMS you are using, and click-level interactions with the education tools.  Examples of click-level interactions are pressing pause, play, fast-forward, or mute on a video, or clicking to submit an answer to a question.
+    Information from interactions with the website
+    </p><h4>	Google Analytics </h4>
+     <p>We track visitors to the site through Google Analytics. Details about what information is tracked can be found on the <a href="https://www.google.com/analytics/standard/features/#?feature=site-reporting">Google Analytics</a> page </p>
+    <h4>	Our own click-level analytics </h4>
+    <p>We track interactions with our learning products as mentioned in the Information from xAPI section</p><p>
+
+    </p><h2>Securing your data</h2>
+    <p>Your data is stored on secure servers. Only authorized personnel at Prendus have access to the servers. Nobody, not even employees, has access to user passwords.</p>
+    <p>Quiz, video, concept, and course data licensed under creative commons is available for anyone to use. </p>
+    <p> Data is encrypted using SSL. </p>
+
+    <h2>Control over your data</h2>
+    <p> You have control over your personal data to add, edit, or remove data from your profile. Any personal data you delete cannot be recovered.</p>
+    <p> Information you create for the course with the free account is creative commons data.  As creator of a course, you have the ability to add, edit, or remove data from the course. This data, however, is open for others to copy and use at their discretion. Because the data is under a creative commons license, you will not be able to delete the content.</p>
+    <p> Plagiarized content will be removed immediately and the owners posting the content will be warned.  Elicit content will also be removed and the owners warned. </p>
+    <br>
+    <br>
+    <br>
+  </template>
+
+  <!--<script src="prendus-example.js"></script>-->
+</dom-module>
+<dom-module id="prendus-terms-of-service" assetpath="../prendus-terms-of-service/">
+  <style>
+    /* CSS rules for your element */
+  </style>
+  <template>
+    <h2> Web Site Terms and Conditions of Use </h2>
+
+<h3>
+	1. Creation Agreement
+</h3>
+<ol type="a">
+  <li>
+    Any materials generated online are licensed under the <a rel="license" href="http://creativecommons.org/licenses/by/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by/4.0/80x15.png"></a><br><a rel="license" href="http://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a> unless explicitly stated.
+    By creating any materials you agree to license the materials with the creative commons license.
+  </li>
+  <li>
+    If you decide to revise a material for your own purpose, you need to recognize the original creator.
+  </li>
+</ol>
+<h3>
+	2. Use License
+</h3>
+
+<ol type="a">
+  <li>
+    All quizzes provided online are licensed under the creative commons 4.0 attribution license. You are free to distribute, remix, revise, and modify these materials, even commercially as long as the original creator is given credit.
+  </li>
+  <li>
+    Videos are hosted on other applications such as YouTube and are not property of Prendus and are not licensed under the creative commons license.
+  </li>
+</ol>
+
+
+    <br>
+    <br>
+    <br>
+    <br>
+  </template>
+
+  <!--<script src="prendus-example.js"></script>-->
+</dom-module>
 <dom-module id="prendus-router" assetpath="../prendus-router/">
   <style>
     /* CSS rules for your element */
@@ -92874,6 +93036,18 @@ event and do your own custom submission:
         margin-right: 16%;
       }
     }
+
+    .absolute-center {
+        position: absolute;
+        z-index: 500;
+        top: 0px;
+        right: 0px;
+        left: 0px;
+        bottom: 0px;
+        margin-right: auto;
+        margin-left: auto;
+        margin-top: 250px;
+    }
   </style>
   <template>
     <redux-store on-statechange="mapStateToThis" action="[[action]]"></redux-store>
@@ -92881,16 +93055,21 @@ event and do your own custom submission:
     <app-location route="{{route}}"></app-location>
     <app-route route="[[route]]" pattern="/:page" data="{{pageData}}" tail="{{tail}}" active="{{pageActive}}"></app-route>
 
-    <iron-pages id="app-container" selected="{{pageData.page}}" category="{{pageData.page}}" attr-for-selected="data-page">
-      <prendus-homepage data-page=""></prendus-homepage>
-      <prendus-login data-page="login"></prendus-login>
-      <prendus-create-account data-page="signup"></prendus-create-account>
-      <prendus-course-router data-page="courses" route="[[tail]]"></prendus-course-router>
-      <prendus-profile data-page="profile"></prendus-profile>
+    <iron-pages selected="[[mainViewToShow]]" attr-for-selected="show">
+        <div show="spinner" style="display: flex; flex-direction: row; align-items: center; justify-content: center; margin-top: 250px">
+            <paper-spinner active=""></paper-spinner>
+        </div>
+
+        <iron-pages id="app-container" selected="{{pageData.page}}" category="{{pageData.page}}" attr-for-selected="data-page" show="routes">
+          <prendus-homepage data-page=""></prendus-homepage>
+          <prendus-login data-page="login"></prendus-login>
+          <prendus-create-account data-page="signup"></prendus-create-account>
+          <prendus-course-router data-page="courses" route="[[tail]]"></prendus-course-router>
+          <prendus-profile data-page="profile"></prendus-profile>
+          <prendus-privacy-policy data-page="privacy-policy"></prendus-privacy-policy>
+          <prendus-terms-of-service data-page="terms-of-service"></prendus-terms-of-service>
+        </iron-pages>
     </iron-pages>
-    <!-- <div class = "overlay">
-      <paper-spinner active></paper-spinner>
-    </div> -->
   </template>
 
   <!--<script src="prendus-router.js"></script>-->
@@ -92898,12 +93077,14 @@ event and do your own custom submission:
 </div><dom-module id="prendus-app">
   <template>
     <redux-store root-reducer="[[rootReducer]]"></redux-store>
-    <prendus-navbar></prendus-navbar>
-    <prendus-router></prendus-router>
+
+    <template is="dom-if" if="[[rootReducer]]">
+        <prendus-navbar></prendus-navbar>
+        <prendus-router></prendus-router>
+        <prendus-footer></prendus-footer>
+    </template>
 
   </template>
   <!--<script src="prendus-app.js"></script>hello-->
 </dom-module>
 </body></html>
-=======
->>>>>>> develop
