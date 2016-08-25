@@ -2,6 +2,7 @@ import {QuestionSettings} from '../node_modules/prendus-services/interfaces/ques
 import {State} from '../interfaces/state.interface.ts';
 
 export const InitialState: State = {
+    mainViewToShow: 'routes',
     concepts: {
     },
     currentConcept: {
