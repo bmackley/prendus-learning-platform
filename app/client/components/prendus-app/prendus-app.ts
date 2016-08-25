@@ -13,10 +13,12 @@ class PrendusApp {
   beforeRegister() {
     this.is = 'prendus-app';
   }
+
   mapStateToThis(e) {
     const state = e.detail.state
     this.username = state.currentUser.email;
   }
+
   ready(){
     this.rootReducer = rootReducer;
   }
