@@ -4707,13 +4707,6 @@ $__System.register('14', ['29', '2d', '2a', '3c', '2e'], function (_export, _con
                             return false;
                         }
                     }
-                    // const collaboratorsArray = Object.keys(collaborators || {}).map(val => collaborators[val]);
-                    // if(collaboratorsArray.indexOf(uid) > -1){
-                    //   return true;
-                    // }else{
-                    //   return false;
-                    // }
-
                 }, {
                     key: 'starClick',
                     value: function starClick(e) {
@@ -10357,7 +10350,7 @@ $__System.register('3c', ['34', '37', '40', '2d', '2e', '3d', '3e', '3f'], funct
                                     return QuizModel.createOrUpdate(null, {
                                         id: null,
                                         uid: uid,
-                                        title: 'Default Quiz Title',
+                                        title: 'Untitled Quiz',
                                         private: false,
                                         quizSettings: {
                                             answerFeedback: true,
