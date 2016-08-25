@@ -1,8 +1,8 @@
 !function(e){function r(e,r,t){e in l||(l[e]={name:e,declarative:!0,deps:r,declare:t,normalizedDeps:r})}function t(e){return p[e]||(p[e]={name:e,dependencies:[],exports:{},importers:[]})}function n(r){if(!r.module){var o=r.module=t(r.name),a=r.module.exports,u=r.declare.call(e,function(e,r){if(o.locked=!0,"object"==typeof e)for(var t in e)a[t]=e[t];else a[e]=r;for(var n=0,u=o.importers.length;u>n;n++){var i=o.importers[n];if(!i.locked)for(var l=0;l<i.dependencies.length;++l)i.dependencies[l]===o&&i.setters[l](a)}return o.locked=!1,r},r.name);o.setters=u.setters,o.execute=u.execute;for(var s=0,d=r.normalizedDeps.length;d>s;s++){var f,c=r.normalizedDeps[s],v=l[c],m=p[c];m?f=m.exports:v&&!v.declarative?f=v.esModule:v?(n(v),m=v.module,f=m.exports):f=i(c),m&&m.importers?(m.importers.push(o),o.dependencies.push(m)):o.dependencies.push(null),o.setters[s]&&o.setters[s](f)}}}function o(r){var t={};if(("object"==typeof r||"function"==typeof r)&&r!==e)if(d)for(var n in r)"default"!==n&&a(t,r,n);else{var o=r&&r.hasOwnProperty;for(var n in r)"default"===n||o&&!r.hasOwnProperty(n)||(t[n]=r[n])}return t["default"]=r,c(t,"__useDefault",{value:!0}),t}function a(e,r,t){try{var n;(n=Object.getOwnPropertyDescriptor(r,t))&&c(e,t,n)}catch(o){return e[t]=r[t],!1}}function u(r,t){var n=l[r];if(n&&!n.evaluated&&n.declarative){t.push(r);for(var o=0,a=n.normalizedDeps.length;a>o;o++){var d=n.normalizedDeps[o];-1==s.call(t,d)&&(l[d]?u(d,t):i(d))}n.evaluated||(n.evaluated=!0,n.module.execute.call(e))}}function i(e){if(m[e])return m[e];if("@node/"==e.substr(0,6))return m[e]=o(v(e.substr(6)));var r=l[e];if(!r)throw"Module "+e+" not present.";return n(l[e]),u(e,[]),l[e]=void 0,r.declarative&&c(r.module.exports,"__esModule",{value:!0}),m[e]=r.declarative?r.module.exports:r.esModule}var l={},s=Array.prototype.indexOf||function(e){for(var r=0,t=this.length;t>r;r++)if(this[r]===e)return r;return-1},d=!0;try{Object.getOwnPropertyDescriptor({a:0},"a")}catch(f){d=!1}var c;!function(){try{Object.defineProperty({},"a",{})&&(c=Object.defineProperty)}catch(e){c=function(e,r,t){try{e[r]=t.value||t.get.call(e)}catch(n){}}}}();var p={},v="undefined"!=typeof System&&System._nodeRequire||"undefined"!=typeof require&&require.resolve&&"undefined"!=typeof process&&require,m={"@empty":{}};return function(e,t,n,a){return function(u){u(function(u){for(var l=0;l<t.length;l++)(function(e,r){r&&r.__esModule?m[e]=r:m[e]=o(r)})(t[l],arguments[l]);a({register:r});var s=i(e[0]);if(e.length>1)for(var l=1;l<e.length;l++)i(e[l]);return n?s["default"]:s})}}}("undefined"!=typeof self?self:global)
 
-(["1","2","3","4","5","6","7","8","9","a","b","c","d","e","f","10","11","12","13","14","15","16","17","18","19","1a","1b","1c","1d","1e","1f","20","21","22","23","24","25"], [], false, function($__System) {
+(["1","2","3","4","5","6","7","8","9","a","b","c","d","e","f","10","11","12","13","14","15","16","17","18","19","1a","1b","1c","1d","1e","1f","20","21","22","23","24","25","26","27","28"], [], false, function($__System) {
 var require = this.require, exports = this.exports, module = this.module;
-$__System.register('25', ['26', '27'], function (_export, _context) {
+$__System.register('28', ['29', '2a'], function (_export, _context) {
     "use strict";
 
     var _classCallCheck, _createClass, CodeEditorComponent;
@@ -10,8 +10,8 @@ $__System.register('25', ['26', '27'], function (_export, _context) {
     return {
         setters: [function (_) {
             _classCallCheck = _.default;
-        }, function (_2) {
-            _createClass = _2.default;
+        }, function (_a) {
+            _createClass = _a.default;
         }],
         execute: function () {
             CodeEditorComponent = function () {
@@ -88,18 +88,18 @@ $__System.register('25', ['26', '27'], function (_export, _context) {
         }
     };
 });
-$__System.register('28', ['29', '2a', '2b'], function (_export, _context12) {
+$__System.register('2b', ['2c', '2d', '2e'], function (_export, _context12) {
     "use strict";
 
     var _toConsumableArray, _regeneratorRuntime, FirebaseService, _this, __awaiter, dataPath, save, update, removeById, getById, getAllIdsBy, getAllIdsByUid, getAllIdsByVisibility, resolveQuestionIds, QuestionModel;
 
     return {
-        setters: [function (_) {
-            _toConsumableArray = _.default;
-        }, function (_a) {
-            _regeneratorRuntime = _a.default;
-        }, function (_b) {
-            FirebaseService = _b.FirebaseService;
+        setters: [function (_c) {
+            _toConsumableArray = _c.default;
+        }, function (_d) {
+            _regeneratorRuntime = _d.default;
+        }, function (_e) {
+            FirebaseService = _e.FirebaseService;
         }],
         execute: function () {
             _this = this;
@@ -518,7 +518,7 @@ $__System.register('28', ['29', '2a', '2b'], function (_export, _context12) {
         }
     };
 });
-$__System.register('2c', ['28', '2a'], function (_export, _context5) {
+$__System.register('2f', ['2d', '2b'], function (_export, _context5) {
     "use strict";
 
     var _regeneratorRuntime, QuestionModel, _this, __awaiter, initialLoadQuestion, saveQuestion, savePreviewQuestion, Actions;
@@ -553,10 +553,10 @@ $__System.register('2c', ['28', '2a'], function (_export, _context5) {
         }));
     }
     return {
-        setters: [function (_) {
-            QuestionModel = _.QuestionModel;
-        }, function (_a) {
-            _regeneratorRuntime = _a.default;
+        setters: [function (_d) {
+            _regeneratorRuntime = _d.default;
+        }, function (_b) {
+            QuestionModel = _b.QuestionModel;
         }],
         execute: function () {
             _this = this;
@@ -712,7 +712,7 @@ $__System.register('2c', ['28', '2a'], function (_export, _context5) {
         }
     };
 });
-$__System.register('2d', [], function (_export, _context) {
+$__System.register('30', [], function (_export, _context) {
     "use strict";
 
     var InitialState;
@@ -730,13 +730,13 @@ $__System.register('2d', [], function (_export, _context) {
         }
     };
 });
-$__System.register('2e', ['2d'], function (_export, _context) {
+$__System.register('31', ['30'], function (_export, _context) {
     "use strict";
 
     var InitialState, RootReducer;
     return {
-        setters: [function (_d) {
-            InitialState = _d.InitialState;
+        setters: [function (_) {
+            InitialState = _.InitialState;
         }],
         execute: function () {
             _export('RootReducer', RootReducer = function RootReducer() {
@@ -777,7 +777,7 @@ $__System.register('2e', ['2d'], function (_export, _context) {
         }
     };
 });
-$__System.register('24', ['26', '27', '2a', '2c', '2e', '2f'], function (_export, _context6) {
+$__System.register('27', ['29', '31', '32', '2d', '2a', '2f'], function (_export, _context6) {
     "use strict";
 
     var _regeneratorRuntime, _classCallCheck, _createClass, Actions, RootReducer, UtilitiesService, __awaiter, EditProblemComponent;
@@ -786,15 +786,15 @@ $__System.register('24', ['26', '27', '2a', '2c', '2e', '2f'], function (_export
         setters: [function (_) {
             _classCallCheck = _.default;
         }, function (_2) {
-            _createClass = _2.default;
+            RootReducer = _2.RootReducer;
+        }, function (_3) {
+            UtilitiesService = _3.UtilitiesService;
+        }, function (_d) {
+            _regeneratorRuntime = _d.default;
         }, function (_a) {
-            _regeneratorRuntime = _a.default;
-        }, function (_c) {
-            Actions = _c.Actions;
-        }, function (_e) {
-            RootReducer = _e.RootReducer;
+            _createClass = _a.default;
         }, function (_f) {
-            UtilitiesService = _f.UtilitiesService;
+            Actions = _f.Actions;
         }],
         execute: function () {
             __awaiter = this && this.__awaiter || function (thisArg, _arguments, P, generator) {
@@ -1094,7 +1094,7 @@ $__System.register('24', ['26', '27', '2a', '2c', '2e', '2f'], function (_export
         }
     };
 });
-$__System.register('23', ['26', '27'], function (_export, _context) {
+$__System.register('26', ['29', '2a'], function (_export, _context) {
     "use strict";
 
     var _classCallCheck, _createClass, HelpComponent;
@@ -1102,8 +1102,8 @@ $__System.register('23', ['26', '27'], function (_export, _context) {
     return {
         setters: [function (_) {
             _classCallCheck = _.default;
-        }, function (_2) {
-            _createClass = _2.default;
+        }, function (_a) {
+            _createClass = _a.default;
         }],
         execute: function () {
             HelpComponent = function () {
@@ -1125,7 +1125,7 @@ $__System.register('23', ['26', '27'], function (_export, _context) {
         }
     };
 });
-$__System.register('22', ['26', '27'], function (_export, _context) {
+$__System.register('25', ['29', '2a'], function (_export, _context) {
     "use strict";
 
     var _classCallCheck, _createClass, RenderMathComponent;
@@ -1133,8 +1133,8 @@ $__System.register('22', ['26', '27'], function (_export, _context) {
     return {
         setters: [function (_) {
             _classCallCheck = _.default;
-        }, function (_2) {
-            _createClass = _2.default;
+        }, function (_a) {
+            _createClass = _a.default;
         }],
         execute: function () {
             RenderMathComponent = function () {
@@ -1201,7 +1201,7 @@ $__System.register('22', ['26', '27'], function (_export, _context) {
         }
     };
 });
-$__System.register('21', ['26', '27'], function (_export, _context) {
+$__System.register('24', ['29', '2a'], function (_export, _context) {
     "use strict";
 
     var _classCallCheck, _createClass, TextEditorComponent;
@@ -1209,8 +1209,8 @@ $__System.register('21', ['26', '27'], function (_export, _context) {
     return {
         setters: [function (_) {
             _classCallCheck = _.default;
-        }, function (_2) {
-            _createClass = _2.default;
+        }, function (_a) {
+            _createClass = _a.default;
         }],
         execute: function () {
             TextEditorComponent = function () {
@@ -1272,7 +1272,7 @@ $__System.register('21', ['26', '27'], function (_export, _context) {
         }
     };
 });
-$__System.register('20', ['26', '27', '2a', '2f'], function (_export, _context6) {
+$__System.register('23', ['29', '32', '2d', '2a'], function (_export, _context6) {
     "use strict";
 
     var _regeneratorRuntime, _classCallCheck, _createClass, UtilitiesService, __awaiter;
@@ -1281,11 +1281,11 @@ $__System.register('20', ['26', '27', '2a', '2f'], function (_export, _context6)
         setters: [function (_) {
             _classCallCheck = _.default;
         }, function (_2) {
-            _createClass = _2.default;
+            UtilitiesService = _2.UtilitiesService;
+        }, function (_d) {
+            _regeneratorRuntime = _d.default;
         }, function (_a) {
-            _regeneratorRuntime = _a.default;
-        }, function (_f) {
-            UtilitiesService = _f.UtilitiesService;
+            _createClass = _a.default;
         }],
         execute: function () {
             __awaiter = this && this.__awaiter || function (thisArg, _arguments, P, generator) {
@@ -1724,7 +1724,11 @@ $__System.register('20', ['26', '27', '2a', '2f'], function (_export, _context6)
         }
     };
 });
+<<<<<<< HEAD
 $__System.register("30", [], function (_export, _context) {
+=======
+$__System.register('22', ['29', '32', '33', '34', '35', '2d', '2a', '2e'], function (_export, _context2) {
+>>>>>>> develop
     "use strict";
 
     var fixSVGRefs, SVGFixer;
@@ -1766,21 +1770,25 @@ $__System.register('1f', ['26', '27', '30', '31', '32', '33', '2a', '2b', '2f'],
         setters: [function (_) {
             _classCallCheck = _.default;
         }, function (_2) {
-            _createClass = _2.default;
+            UtilitiesService = _2.UtilitiesService;
         }, function (_3) {
             SVGFixer = _3.SVGFixer;
         }, function (_4) {
             _defineProperty = _4.default;
         }, function (_5) {
+<<<<<<< HEAD
             VideoModel = _5.VideoModel;
         }, function (_6) {
             XAPIService = _6.XAPIService;
+=======
+            XAPIService = _5.XAPIService;
+        }, function (_d) {
+            _regeneratorRuntime = _d.default;
+>>>>>>> develop
         }, function (_a) {
-            _regeneratorRuntime = _a.default;
-        }, function (_b) {
-            FirebaseService = _b.FirebaseService;
-        }, function (_f) {
-            UtilitiesService = _f.UtilitiesService;
+            _createClass = _a.default;
+        }, function (_e) {
+            FirebaseService = _e.FirebaseService;
         }],
         execute: function () {
             __awaiter = this && this.__awaiter || function (thisArg, _arguments, P, generator) {
@@ -2121,7 +2129,7 @@ $__System.register('1f', ['26', '27', '30', '31', '32', '33', '2a', '2b', '2f'],
         }
     };
 });
-$__System.register('1e', ['26', '27'], function (_export, _context) {
+$__System.register('21', ['29', '2a'], function (_export, _context) {
     "use strict";
 
     var _classCallCheck, _createClass, QuizResultsComponent;
@@ -2129,8 +2137,8 @@ $__System.register('1e', ['26', '27'], function (_export, _context) {
     return {
         setters: [function (_) {
             _classCallCheck = _.default;
-        }, function (_2) {
-            _createClass = _2.default;
+        }, function (_a) {
+            _createClass = _a.default;
         }],
         execute: function () {
             QuizResultsComponent = function () {
@@ -2164,7 +2172,11 @@ $__System.register('1e', ['26', '27'], function (_export, _context) {
         }
     };
 });
+<<<<<<< HEAD
 $__System.register("31", [], function (_export, _context) {
+=======
+$__System.register("33", [], function (_export, _context) {
+>>>>>>> develop
   "use strict";
 
   return {
@@ -2187,18 +2199,22 @@ $__System.register("31", [], function (_export, _context) {
     }
   };
 });
+<<<<<<< HEAD
 $__System.register('34', ['35', '2a', '2f'], function (_export, _context5) {
+=======
+$__System.register('36', ['32', '37', '2d'], function (_export, _context5) {
+>>>>>>> develop
     "use strict";
 
     var _regeneratorRuntime, UtilitiesService, QuizModel, _this, __awaiter, loadQuizSession, endQuizSession, clearQuestions, loadQuestionIds, Actions;
 
     return {
         setters: [function (_) {
-            QuizModel = _.QuizModel;
-        }, function (_a) {
-            _regeneratorRuntime = _a.default;
-        }, function (_f) {
-            UtilitiesService = _f.UtilitiesService;
+            UtilitiesService = _.UtilitiesService;
+        }, function (_2) {
+            QuizModel = _2.QuizModel;
+        }, function (_d) {
+            _regeneratorRuntime = _d.default;
         }],
         execute: function () {
             _this = this;
@@ -2397,7 +2413,11 @@ $__System.register('34', ['35', '2a', '2f'], function (_export, _context5) {
         }
     };
 });
+<<<<<<< HEAD
 $__System.register('33', [], function (_export, _context) {
+=======
+$__System.register('35', [], function (_export, _context) {
+>>>>>>> develop
     "use strict";
 
     var sendStatement, sendVideoStatement, sendQuizStatement, XAPIService;
@@ -2454,7 +2474,11 @@ $__System.register('33', [], function (_export, _context) {
         }
     };
 });
+<<<<<<< HEAD
 $__System.register('1d', ['26', '27', '31', '33', '34', '2a', '2f'], function (_export, _context3) {
+=======
+$__System.register('20', ['29', '32', '33', '35', '36', '2d', '2a'], function (_export, _context3) {
+>>>>>>> develop
     "use strict";
 
     var _defineProperty, _regeneratorRuntime, _classCallCheck, _createClass, UtilitiesService, Actions, XAPIService, __awaiter, TakeQuizComponent;
@@ -2463,17 +2487,17 @@ $__System.register('1d', ['26', '27', '31', '33', '34', '2a', '2f'], function (_
         setters: [function (_) {
             _classCallCheck = _.default;
         }, function (_2) {
-            _createClass = _2.default;
+            UtilitiesService = _2.UtilitiesService;
         }, function (_3) {
             _defineProperty = _3.default;
         }, function (_4) {
             XAPIService = _4.XAPIService;
         }, function (_5) {
             Actions = _5.Actions;
+        }, function (_d) {
+            _regeneratorRuntime = _d.default;
         }, function (_a) {
-            _regeneratorRuntime = _a.default;
-        }, function (_f) {
-            UtilitiesService = _f.UtilitiesService;
+            _createClass = _a.default;
         }],
         execute: function () {
             __awaiter = this && this.__awaiter || function (thisArg, _arguments, P, generator) {
@@ -2720,7 +2744,11 @@ $__System.register('1d', ['26', '27', '31', '33', '34', '2a', '2f'], function (_
         }
     };
 });
+<<<<<<< HEAD
 $__System.register('36', [], function (_export, _context) {
+=======
+$__System.register('38', [], function (_export, _context) {
+>>>>>>> develop
     "use strict";
 
     var InitialState;
@@ -2738,7 +2766,11 @@ $__System.register('36', [], function (_export, _context) {
         }
     };
 });
+<<<<<<< HEAD
 $__System.register('37', ['36'], function (_export, _context) {
+=======
+$__System.register('39', ['38'], function (_export, _context) {
+>>>>>>> develop
     "use strict";
 
     var InitialState, RootReducer;
@@ -2789,7 +2821,11 @@ $__System.register('37', ['36'], function (_export, _context) {
         }
     };
 });
+<<<<<<< HEAD
 $__System.register('1c', ['26', '27', '37'], function (_export, _context) {
+=======
+$__System.register('1f', ['29', '39', '2a'], function (_export, _context) {
+>>>>>>> develop
     "use strict";
 
     var _classCallCheck, _createClass, RootReducer, ViewQuizComponent;
@@ -2798,9 +2834,9 @@ $__System.register('1c', ['26', '27', '37'], function (_export, _context) {
         setters: [function (_) {
             _classCallCheck = _.default;
         }, function (_2) {
-            _createClass = _2.default;
-        }, function (_3) {
-            RootReducer = _3.RootReducer;
+            RootReducer = _2.RootReducer;
+        }, function (_a) {
+            _createClass = _a.default;
         }],
         execute: function () {
             ViewQuizComponent = function () {
@@ -2853,7 +2889,11 @@ $__System.register('1c', ['26', '27', '37'], function (_export, _context) {
         }
     };
 });
+<<<<<<< HEAD
 $__System.register('38', [], function (_export, _context) {
+=======
+$__System.register('3a', [], function (_export, _context) {
+>>>>>>> develop
     "use strict";
 
     var InitialState;
@@ -2908,7 +2948,11 @@ $__System.register('38', [], function (_export, _context) {
         }
     };
 });
+<<<<<<< HEAD
 $__System.register('39', ['38', '3a'], function (_export, _context) {
+=======
+$__System.register('3b', ['3a', '3c'], function (_export, _context) {
+>>>>>>> develop
     "use strict";
 
     var InitialState, Actions;
@@ -3130,15 +3174,26 @@ $__System.register('39', ['38', '3a'], function (_export, _context) {
     _export('rootReducer', rootReducer);
 
     return {
+<<<<<<< HEAD
         setters: [function (_) {
             InitialState = _.InitialState;
         }, function (_a) {
             Actions = _a.Actions;
+=======
+        setters: [function (_a) {
+            InitialState = _a.InitialState;
+        }, function (_c) {
+            Actions = _c.Actions;
+>>>>>>> develop
         }],
         execute: function () {}
     };
 });
+<<<<<<< HEAD
 $__System.register('1b', ['26', '27', '39'], function (_export, _context) {
+=======
+$__System.register('1e', ['29', '2a', '3b'], function (_export, _context) {
+>>>>>>> develop
     "use strict";
 
     var _classCallCheck, _createClass, rootReducer, PrendusApp;
@@ -3146,10 +3201,10 @@ $__System.register('1b', ['26', '27', '39'], function (_export, _context) {
     return {
         setters: [function (_) {
             _classCallCheck = _.default;
-        }, function (_2) {
-            _createClass = _2.default;
-        }, function (_3) {
-            rootReducer = _3.rootReducer;
+        }, function (_a) {
+            _createClass = _a.default;
+        }, function (_b) {
+            rootReducer = _b.rootReducer;
         }],
         execute: function () {
             PrendusApp = function () {
@@ -3182,7 +3237,11 @@ $__System.register('1b', ['26', '27', '39'], function (_export, _context) {
         }
     };
 });
+<<<<<<< HEAD
 $__System.register('1a', ['26', '27', '2a', '3a'], function (_export, _context7) {
+=======
+$__System.register('1d', ['29', '2d', '2a', '3c'], function (_export, _context7) {
+>>>>>>> develop
     "use strict";
 
     var _regeneratorRuntime, _classCallCheck, _createClass, Actions, __awaiter, PrendusCollaboratorMenuContent;
@@ -3190,12 +3249,21 @@ $__System.register('1a', ['26', '27', '2a', '3a'], function (_export, _context7)
     return {
         setters: [function (_) {
             _classCallCheck = _.default;
+<<<<<<< HEAD
         }, function (_2) {
             _createClass = _2.default;
         }, function (_a) {
             _regeneratorRuntime = _a.default;
         }, function (_a2) {
             Actions = _a2.Actions;
+=======
+        }, function (_d) {
+            _regeneratorRuntime = _d.default;
+        }, function (_a) {
+            _createClass = _a.default;
+        }, function (_c) {
+            Actions = _c.Actions;
+>>>>>>> develop
         }],
         execute: function () {
             __awaiter = this && this.__awaiter || function (thisArg, _arguments, P, generator) {
@@ -3571,7 +3639,11 @@ $__System.register('1a', ['26', '27', '2a', '3a'], function (_export, _context7)
         }
     };
 });
+<<<<<<< HEAD
 $__System.register('19', ['26', '27', '2a', '3a', '2b'], function (_export, _context2) {
+=======
+$__System.register('1c', ['29', '2d', '2a', '3c', '2e'], function (_export, _context2) {
+>>>>>>> develop
     "use strict";
 
     var _regeneratorRuntime, _classCallCheck, _createClass, Actions, FirebaseService, __awaiter, PrendusConceptContainerEdit;
@@ -3579,6 +3651,7 @@ $__System.register('19', ['26', '27', '2a', '3a', '2b'], function (_export, _con
     return {
         setters: [function (_) {
             _classCallCheck = _.default;
+<<<<<<< HEAD
         }, function (_2) {
             _createClass = _2.default;
         }, function (_a) {
@@ -3587,6 +3660,16 @@ $__System.register('19', ['26', '27', '2a', '3a', '2b'], function (_export, _con
             Actions = _a2.Actions;
         }, function (_b) {
             FirebaseService = _b.FirebaseService;
+=======
+        }, function (_d) {
+            _regeneratorRuntime = _d.default;
+        }, function (_a) {
+            _createClass = _a.default;
+        }, function (_c) {
+            Actions = _c.Actions;
+        }, function (_e) {
+            FirebaseService = _e.FirebaseService;
+>>>>>>> develop
         }],
         execute: function () {
             __awaiter = this && this.__awaiter || function (thisArg, _arguments, P, generator) {
@@ -3692,7 +3775,7 @@ $__System.register('19', ['26', '27', '2a', '3a', '2b'], function (_export, _con
         }
     };
 });
-$__System.register('18', ['26', '27', '2a', '2b'], function (_export, _context2) {
+$__System.register('1b', ['29', '2d', '2a', '2e'], function (_export, _context2) {
     "use strict";
 
     var _regeneratorRuntime, _classCallCheck, _createClass, FirebaseService, __awaiter, PrendusConceptContainer;
@@ -3700,12 +3783,12 @@ $__System.register('18', ['26', '27', '2a', '2b'], function (_export, _context2)
     return {
         setters: [function (_) {
             _classCallCheck = _.default;
-        }, function (_2) {
-            _createClass = _2.default;
+        }, function (_d) {
+            _regeneratorRuntime = _d.default;
         }, function (_a) {
-            _regeneratorRuntime = _a.default;
-        }, function (_b) {
-            FirebaseService = _b.FirebaseService;
+            _createClass = _a.default;
+        }, function (_e) {
+            FirebaseService = _e.FirebaseService;
         }],
         execute: function () {
             __awaiter = this && this.__awaiter || function (thisArg, _arguments, P, generator) {
@@ -3816,7 +3899,11 @@ $__System.register('18', ['26', '27', '2a', '2b'], function (_export, _context2)
         }
     };
 });
+<<<<<<< HEAD
 $__System.register('17', ['26', '27', '2a', '3a'], function (_export, _context3) {
+=======
+$__System.register('1a', ['29', '2d', '2a', '3c'], function (_export, _context3) {
+>>>>>>> develop
     "use strict";
 
     var _regeneratorRuntime, _classCallCheck, _createClass, Actions, __awaiter, PrendusConceptQuizContainerEdit;
@@ -3824,12 +3911,21 @@ $__System.register('17', ['26', '27', '2a', '3a'], function (_export, _context3)
     return {
         setters: [function (_) {
             _classCallCheck = _.default;
+<<<<<<< HEAD
         }, function (_2) {
             _createClass = _2.default;
         }, function (_a) {
             _regeneratorRuntime = _a.default;
         }, function (_a2) {
             Actions = _a2.Actions;
+=======
+        }, function (_d) {
+            _regeneratorRuntime = _d.default;
+        }, function (_a) {
+            _createClass = _a.default;
+        }, function (_c) {
+            Actions = _c.Actions;
+>>>>>>> develop
         }],
         execute: function () {
             __awaiter = this && this.__awaiter || function (thisArg, _arguments, P, generator) {
@@ -3947,7 +4043,11 @@ $__System.register('17', ['26', '27', '2a', '3a'], function (_export, _context3)
         }
     };
 });
+<<<<<<< HEAD
 $__System.register('16', ['26', '27', '2a', '3a'], function (_export, _context2) {
+=======
+$__System.register('19', ['29', '2d', '2a', '3c'], function (_export, _context2) {
+>>>>>>> develop
     "use strict";
 
     var _regeneratorRuntime, _classCallCheck, _createClass, Actions, __awaiter, PrendusConceptQuizContainer;
@@ -3955,12 +4055,21 @@ $__System.register('16', ['26', '27', '2a', '3a'], function (_export, _context2)
     return {
         setters: [function (_) {
             _classCallCheck = _.default;
+<<<<<<< HEAD
         }, function (_2) {
             _createClass = _2.default;
         }, function (_a) {
             _regeneratorRuntime = _a.default;
         }, function (_a2) {
             Actions = _a2.Actions;
+=======
+        }, function (_d) {
+            _regeneratorRuntime = _d.default;
+        }, function (_a) {
+            _createClass = _a.default;
+        }, function (_c) {
+            Actions = _c.Actions;
+>>>>>>> develop
         }],
         execute: function () {
             __awaiter = this && this.__awaiter || function (thisArg, _arguments, P, generator) {
@@ -4054,7 +4163,11 @@ $__System.register('16', ['26', '27', '2a', '3a'], function (_export, _context2)
         }
     };
 });
+<<<<<<< HEAD
 $__System.register('15', ['26', '27', '2a', '3a'], function (_export, _context4) {
+=======
+$__System.register('18', ['29', '2d', '2a', '3c'], function (_export, _context4) {
+>>>>>>> develop
     "use strict";
 
     var _regeneratorRuntime, _classCallCheck, _createClass, Actions, __awaiter, PrendusConceptVideoContainerEdit;
@@ -4062,12 +4175,21 @@ $__System.register('15', ['26', '27', '2a', '3a'], function (_export, _context4)
     return {
         setters: [function (_) {
             _classCallCheck = _.default;
+<<<<<<< HEAD
         }, function (_2) {
             _createClass = _2.default;
         }, function (_a) {
             _regeneratorRuntime = _a.default;
         }, function (_a2) {
             Actions = _a2.Actions;
+=======
+        }, function (_d) {
+            _regeneratorRuntime = _d.default;
+        }, function (_a) {
+            _createClass = _a.default;
+        }, function (_c) {
+            Actions = _c.Actions;
+>>>>>>> develop
         }],
         execute: function () {
             __awaiter = this && this.__awaiter || function (thisArg, _arguments, P, generator) {
@@ -4229,7 +4351,11 @@ $__System.register('15', ['26', '27', '2a', '3a'], function (_export, _context4)
         }
     };
 });
+<<<<<<< HEAD
 $__System.register('14', ['26', '27', '2a', '3a'], function (_export, _context2) {
+=======
+$__System.register('17', ['29', '2d', '2a', '3c'], function (_export, _context2) {
+>>>>>>> develop
     "use strict";
 
     var _regeneratorRuntime, _classCallCheck, _createClass, Actions, __awaiter, PrendusConceptVideoContainer;
@@ -4237,12 +4363,21 @@ $__System.register('14', ['26', '27', '2a', '3a'], function (_export, _context2)
     return {
         setters: [function (_) {
             _classCallCheck = _.default;
+<<<<<<< HEAD
         }, function (_2) {
             _createClass = _2.default;
         }, function (_a) {
             _regeneratorRuntime = _a.default;
         }, function (_a2) {
             Actions = _a2.Actions;
+=======
+        }, function (_d) {
+            _regeneratorRuntime = _d.default;
+        }, function (_a) {
+            _createClass = _a.default;
+        }, function (_c) {
+            Actions = _c.Actions;
+>>>>>>> develop
         }],
         execute: function () {
             __awaiter = this && this.__awaiter || function (thisArg, _arguments, P, generator) {
@@ -4349,7 +4484,11 @@ $__System.register('14', ['26', '27', '2a', '3a'], function (_export, _context2)
         }
     };
 });
+<<<<<<< HEAD
 $__System.register('13', ['26', '27', '2a', '3a'], function (_export, _context4) {
+=======
+$__System.register('16', ['29', '2d', '2a', '3c'], function (_export, _context4) {
+>>>>>>> develop
     "use strict";
 
     var _regeneratorRuntime, _classCallCheck, _createClass, Actions, __awaiter, PrendusCourseEdit;
@@ -4357,12 +4496,21 @@ $__System.register('13', ['26', '27', '2a', '3a'], function (_export, _context4)
     return {
         setters: [function (_) {
             _classCallCheck = _.default;
+<<<<<<< HEAD
         }, function (_2) {
             _createClass = _2.default;
         }, function (_a) {
             _regeneratorRuntime = _a.default;
         }, function (_a2) {
             Actions = _a2.Actions;
+=======
+        }, function (_d) {
+            _regeneratorRuntime = _d.default;
+        }, function (_a) {
+            _createClass = _a.default;
+        }, function (_c) {
+            Actions = _c.Actions;
+>>>>>>> develop
         }],
         execute: function () {
             __awaiter = this && this.__awaiter || function (thisArg, _arguments, P, generator) {
@@ -4613,7 +4761,11 @@ $__System.register('13', ['26', '27', '2a', '3a'], function (_export, _context4)
         }
     };
 });
+<<<<<<< HEAD
 $__System.register('12', ['26', '27', '2a', '3a', '2b'], function (_export, _context2) {
+=======
+$__System.register('15', ['29', '2d', '2a', '3c', '2e'], function (_export, _context2) {
+>>>>>>> develop
     "use strict";
 
     var _regeneratorRuntime, _classCallCheck, _createClass, Actions, FirebaseService, __awaiter, PrendusCourseHomepage;
@@ -4621,6 +4773,7 @@ $__System.register('12', ['26', '27', '2a', '3a', '2b'], function (_export, _con
     return {
         setters: [function (_) {
             _classCallCheck = _.default;
+<<<<<<< HEAD
         }, function (_2) {
             _createClass = _2.default;
         }, function (_a) {
@@ -4629,6 +4782,16 @@ $__System.register('12', ['26', '27', '2a', '3a', '2b'], function (_export, _con
             Actions = _a2.Actions;
         }, function (_b) {
             FirebaseService = _b.FirebaseService;
+=======
+        }, function (_d) {
+            _regeneratorRuntime = _d.default;
+        }, function (_a) {
+            _createClass = _a.default;
+        }, function (_c) {
+            Actions = _c.Actions;
+        }, function (_e) {
+            FirebaseService = _e.FirebaseService;
+>>>>>>> develop
         }],
         execute: function () {
             __awaiter = this && this.__awaiter || function (thisArg, _arguments, P, generator) {
@@ -4735,20 +4898,35 @@ $__System.register('12', ['26', '27', '2a', '3a', '2b'], function (_export, _con
         }
     };
 });
+<<<<<<< HEAD
 $__System.register('11', ['26', '27', '2a', '3a'], function (_export, _context2) {
+=======
+$__System.register('14', ['29', '2d', '2a', '3c', '2e'], function (_export, _context3) {
+>>>>>>> develop
     "use strict";
 
-    var _regeneratorRuntime, _classCallCheck, _createClass, Actions, __awaiter, PrendusCoursePreview;
+    var _regeneratorRuntime, _classCallCheck, _createClass, Actions, FirebaseService, __awaiter, PrendusCoursePreview;
 
     return {
         setters: [function (_) {
             _classCallCheck = _.default;
+<<<<<<< HEAD
         }, function (_2) {
             _createClass = _2.default;
         }, function (_a) {
             _regeneratorRuntime = _a.default;
         }, function (_a2) {
             Actions = _a2.Actions;
+=======
+        }, function (_d) {
+            _regeneratorRuntime = _d.default;
+        }, function (_a) {
+            _createClass = _a.default;
+        }, function (_c) {
+            Actions = _c.Actions;
+        }, function (_e) {
+            FirebaseService = _e.FirebaseService;
+>>>>>>> develop
         }],
         execute: function () {
             __awaiter = this && this.__awaiter || function (thisArg, _arguments, P, generator) {
@@ -4793,63 +4971,97 @@ $__System.register('11', ['26', '27', '2a', '3a'], function (_export, _context2)
                         };
                     }
                 }, {
-                    key: 'ready',
-                    value: function ready() {
-                        // this.action = {
-                        //     type: 'DEFAULT_ACTION'
-                        // };
-                    }
-                }, {
                     key: 'init',
                     value: function init(course) {
-                        this.action = {
-                            type: 'DEFAULT_ACTION'
-                        };
-                    }
-                }, {
-                    key: 'starClick',
-                    value: function starClick(e) {
                         return __awaiter(this, void 0, void 0, _regeneratorRuntime.mark(function _callee() {
+                            var user;
                             return _regeneratorRuntime.wrap(function _callee$(_context) {
                                 while (1) {
                                     switch (_context.prev = _context.next) {
                                         case 0:
+                                            _context.next = 2;
+                                            return FirebaseService.getLoggedInUser();
+
+                                        case 2:
+                                            user = _context.sent;
+
+                                            if (user && course.collaborators) {
+                                                this.uid = user.uid;
+                                                if (course.uid === this.uid) {
+                                                    this.hasEditAccess = true;
+                                                } else {
+                                                    this.hasEditAccess = this.checkCollaboratorStatus(course.collaborators, this.uid);
+                                                }
+                                            }
+
+                                        case 4:
+                                        case 'end':
+                                            return _context.stop();
+                                    }
+                                }
+                            }, _callee, this);
+                        }));
+                    }
+                }, {
+                    key: 'checkCollaboratorStatus',
+                    value: function checkCollaboratorStatus(collaborators, uid) {
+                        if (collaborators[uid]) {
+                            return true;
+                        } else {
+                            return false;
+                        }
+                    }
+                    // const collaboratorsArray = Object.keys(collaborators || {}).map(val => collaborators[val]);
+                    // if(collaboratorsArray.indexOf(uid) > -1){
+                    //   return true;
+                    // }else{
+                    //   return false;
+                    // }
+
+                }, {
+                    key: 'starClick',
+                    value: function starClick(e) {
+                        return __awaiter(this, void 0, void 0, _regeneratorRuntime.mark(function _callee2() {
+                            return _regeneratorRuntime.wrap(function _callee2$(_context2) {
+                                while (1) {
+                                    switch (_context2.prev = _context2.next) {
+                                        case 0:
                                             if (!this.user) {
-                                                _context.next = 21;
+                                                _context2.next = 21;
                                                 break;
                                             }
 
                                             if (!this.user.starredCourses) {
-                                                _context.next = 11;
+                                                _context2.next = 11;
                                                 break;
                                             }
 
                                             if (!this.user.starredCourses[this.course.id]) {
-                                                _context.next = 7;
+                                                _context2.next = 7;
                                                 break;
                                             }
 
-                                            _context.next = 5;
+                                            _context2.next = 5;
                                             return Actions.unstarCourse(this, this.course.id);
 
                                         case 5:
-                                            _context.next = 9;
+                                            _context2.next = 9;
                                             break;
 
                                         case 7:
-                                            _context.next = 9;
+                                            _context2.next = 9;
                                             return Actions.starCourse(this, this.course.id);
 
                                         case 9:
-                                            _context.next = 13;
+                                            _context2.next = 13;
                                             break;
 
                                         case 11:
-                                            _context.next = 13;
+                                            _context2.next = 13;
                                             return Actions.starCourse(this, this.course.id);
 
                                         case 13:
-                                            _context.next = 15;
+                                            _context2.next = 15;
                                             return Actions.checkUserAuth.execute(this);
 
                                         case 15:
@@ -4857,7 +5069,7 @@ $__System.register('11', ['26', '27', '2a', '3a'], function (_export, _context2)
                                             Actions.getCoursesByUser.execute(this);
                                             Actions.getStarredCoursesByUser(this, this.user.metaData.uid);
                                             Actions.getSharedCoursesByUser(this, this.user.metaData.uid);
-                                            _context.next = 22;
+                                            _context2.next = 22;
                                             break;
 
                                         case 21:
@@ -4865,10 +5077,10 @@ $__System.register('11', ['26', '27', '2a', '3a'], function (_export, _context2)
 
                                         case 22:
                                         case 'end':
-                                            return _context.stop();
+                                            return _context2.stop();
                                     }
                                 }
-                            }, _callee, this);
+                            }, _callee2, this);
                         }));
                     }
                 }, {
@@ -4890,6 +5102,8 @@ $__System.register('11', ['26', '27', '2a', '3a'], function (_export, _context2)
                     value: function mapStateToThis(e) {
                         var state = e.detail.state;
                         this.user = state.currentUser;
+                        this.uid = state.currentUser.metaData.uid;
+                        this.collaborators = state.courseCollaboratorEmails;
                         this.numStars = Object.keys(this.course.userStars || {}).length;
                         if (this.user && this.course) {
                             if (this.user.starredCourses) {
@@ -4914,7 +5128,7 @@ $__System.register('11', ['26', '27', '2a', '3a'], function (_export, _context2)
         }
     };
 });
-$__System.register('10', ['26', '27', '2a'], function (_export, _context2) {
+$__System.register('13', ['29', '2d', '2a'], function (_export, _context2) {
     "use strict";
 
     var _regeneratorRuntime, _classCallCheck, _createClass, __awaiter, PrendusCourseRouter;
@@ -4922,10 +5136,10 @@ $__System.register('10', ['26', '27', '2a'], function (_export, _context2) {
     return {
         setters: [function (_) {
             _classCallCheck = _.default;
-        }, function (_2) {
-            _createClass = _2.default;
+        }, function (_d) {
+            _regeneratorRuntime = _d.default;
         }, function (_a) {
-            _regeneratorRuntime = _a.default;
+            _createClass = _a.default;
         }],
         execute: function () {
             __awaiter = this && this.__awaiter || function (thisArg, _arguments, P, generator) {
@@ -4987,7 +5201,11 @@ $__System.register('10', ['26', '27', '2a'], function (_export, _context2) {
         }
     };
 });
+<<<<<<< HEAD
 $__System.register('f', ['26', '27', '3a'], function (_export, _context) {
+=======
+$__System.register('12', ['29', '2a', '3c'], function (_export, _context) {
+>>>>>>> develop
     "use strict";
 
     var _classCallCheck, _createClass, Actions, PrendusCourseView;
@@ -4995,10 +5213,17 @@ $__System.register('f', ['26', '27', '3a'], function (_export, _context) {
     return {
         setters: [function (_) {
             _classCallCheck = _.default;
+<<<<<<< HEAD
         }, function (_2) {
             _createClass = _2.default;
         }, function (_a) {
             Actions = _a.Actions;
+=======
+        }, function (_a) {
+            _createClass = _a.default;
+        }, function (_c) {
+            Actions = _c.Actions;
+>>>>>>> develop
         }],
         execute: function () {
             _export('PrendusCourseView', PrendusCourseView = function () {
@@ -5098,7 +5323,11 @@ $__System.register('f', ['26', '27', '3a'], function (_export, _context) {
         }
     };
 });
+<<<<<<< HEAD
 $__System.register('e', ['26', '27', '2a', '3a'], function (_export, _context2) {
+=======
+$__System.register('11', ['29', '2d', '2a', '3c'], function (_export, _context2) {
+>>>>>>> develop
     "use strict";
 
     var _regeneratorRuntime, _classCallCheck, _createClass, Actions, __awaiter, PrendusCreateAccount;
@@ -5106,12 +5335,21 @@ $__System.register('e', ['26', '27', '2a', '3a'], function (_export, _context2) 
     return {
         setters: [function (_) {
             _classCallCheck = _.default;
+<<<<<<< HEAD
         }, function (_2) {
             _createClass = _2.default;
         }, function (_a) {
             _regeneratorRuntime = _a.default;
         }, function (_a2) {
             Actions = _a2.Actions;
+=======
+        }, function (_d) {
+            _regeneratorRuntime = _d.default;
+        }, function (_a) {
+            _createClass = _a.default;
+        }, function (_c) {
+            Actions = _c.Actions;
+>>>>>>> develop
         }],
         execute: function () {
             __awaiter = this && this.__awaiter || function (thisArg, _arguments, P, generator) {
@@ -5216,7 +5454,7 @@ $__System.register('e', ['26', '27', '2a', '3a'], function (_export, _context2) 
         }
     };
 });
-$__System.register('d', ['26', '27', '2a'], function (_export, _context2) {
+$__System.register('10', ['29', '2d', '2a'], function (_export, _context2) {
     "use strict";
 
     var _regeneratorRuntime, _classCallCheck, _createClass, __awaiter, PrendusEditQuestionRouter;
@@ -5224,10 +5462,10 @@ $__System.register('d', ['26', '27', '2a'], function (_export, _context2) {
     return {
         setters: [function (_) {
             _classCallCheck = _.default;
-        }, function (_2) {
-            _createClass = _2.default;
+        }, function (_d) {
+            _regeneratorRuntime = _d.default;
         }, function (_a) {
-            _regeneratorRuntime = _a.default;
+            _createClass = _a.default;
         }],
         execute: function () {
             __awaiter = this && this.__awaiter || function (thisArg, _arguments, P, generator) {
@@ -5303,7 +5541,7 @@ $__System.register('d', ['26', '27', '2a'], function (_export, _context2) {
         }
     };
 });
-$__System.register('c', ['26', '27', '2a'], function (_export, _context2) {
+$__System.register('f', ['29', '2d', '2a'], function (_export, _context2) {
     "use strict";
 
     var _regeneratorRuntime, _classCallCheck, _createClass, __awaiter, PrendusEditQuizRouter;
@@ -5311,10 +5549,10 @@ $__System.register('c', ['26', '27', '2a'], function (_export, _context2) {
     return {
         setters: [function (_) {
             _classCallCheck = _.default;
-        }, function (_2) {
-            _createClass = _2.default;
+        }, function (_d) {
+            _regeneratorRuntime = _d.default;
         }, function (_a) {
-            _regeneratorRuntime = _a.default;
+            _createClass = _a.default;
         }],
         execute: function () {
             __awaiter = this && this.__awaiter || function (thisArg, _arguments, P, generator) {
@@ -5405,7 +5643,7 @@ $__System.register('c', ['26', '27', '2a'], function (_export, _context2) {
         }
     };
 });
-$__System.register('b', ['26', '27'], function (_export, _context) {
+$__System.register('e', ['29', '2a'], function (_export, _context) {
     "use strict";
 
     var _classCallCheck, _createClass, PrendusExample;
@@ -5413,8 +5651,8 @@ $__System.register('b', ['26', '27'], function (_export, _context) {
     return {
         setters: [function (_) {
             _classCallCheck = _.default;
-        }, function (_2) {
-            _createClass = _2.default;
+        }, function (_a) {
+            _createClass = _a.default;
         }],
         execute: function () {
             PrendusExample = function () {
@@ -5442,7 +5680,49 @@ $__System.register('b', ['26', '27'], function (_export, _context) {
         }
     };
 });
+<<<<<<< HEAD
 $__System.register('a', ['26', '27', '2a', '3a'], function (_export, _context3) {
+=======
+$__System.register('d', ['29', '2a'], function (_export, _context) {
+    "use strict";
+
+    var _classCallCheck, _createClass, PrendusFooter;
+
+    return {
+        setters: [function (_) {
+            _classCallCheck = _.default;
+        }, function (_a) {
+            _createClass = _a.default;
+        }],
+        execute: function () {
+            PrendusFooter = function () {
+                function PrendusFooter() {
+                    _classCallCheck(this, PrendusFooter);
+                }
+
+                _createClass(PrendusFooter, [{
+                    key: 'beforeRegister',
+                    value: function beforeRegister() {
+                        this.is = 'prendus-footer';
+                    }
+                }, {
+                    key: 'changeURL',
+                    value: function changeURL(e) {
+                        var location = e.target.id;
+                        window.history.pushState({}, '', location);
+                        this.fire('location-changed', {}, { node: window });
+                    }
+                }]);
+
+                return PrendusFooter;
+            }();
+
+            Polymer(PrendusFooter);
+        }
+    };
+});
+$__System.register('c', ['29', '2d', '2a', '3c'], function (_export, _context3) {
+>>>>>>> develop
     "use strict";
 
     var _regeneratorRuntime, _classCallCheck, _createClass, Actions, __awaiter, PrendusHomepage;
@@ -5450,12 +5730,21 @@ $__System.register('a', ['26', '27', '2a', '3a'], function (_export, _context3) 
     return {
         setters: [function (_) {
             _classCallCheck = _.default;
+<<<<<<< HEAD
         }, function (_2) {
             _createClass = _2.default;
         }, function (_a) {
             _regeneratorRuntime = _a.default;
         }, function (_a2) {
             Actions = _a2.Actions;
+=======
+        }, function (_d) {
+            _regeneratorRuntime = _d.default;
+        }, function (_a) {
+            _createClass = _a.default;
+        }, function (_c) {
+            Actions = _c.Actions;
+>>>>>>> develop
         }],
         execute: function () {
             __awaiter = this && this.__awaiter || function (thisArg, _arguments, P, generator) {
@@ -5555,7 +5844,11 @@ $__System.register('a', ['26', '27', '2a', '3a'], function (_export, _context3) 
         }
     };
 });
+<<<<<<< HEAD
 $__System.register('9', ['26', '27', '2a', '3a'], function (_export, _context2) {
+=======
+$__System.register('b', ['29', '2d', '2a', '3c'], function (_export, _context2) {
+>>>>>>> develop
     "use strict";
 
     var _regeneratorRuntime, _classCallCheck, _createClass, Actions, __awaiter, PrendusLogin;
@@ -5563,12 +5856,21 @@ $__System.register('9', ['26', '27', '2a', '3a'], function (_export, _context2) 
     return {
         setters: [function (_) {
             _classCallCheck = _.default;
+<<<<<<< HEAD
         }, function (_2) {
             _createClass = _2.default;
         }, function (_a) {
             _regeneratorRuntime = _a.default;
         }, function (_a2) {
             Actions = _a2.Actions;
+=======
+        }, function (_d) {
+            _regeneratorRuntime = _d.default;
+        }, function (_a) {
+            _createClass = _a.default;
+        }, function (_c) {
+            Actions = _c.Actions;
+>>>>>>> develop
         }],
         execute: function () {
             __awaiter = this && this.__awaiter || function (thisArg, _arguments, P, generator) {
@@ -5658,7 +5960,11 @@ $__System.register('9', ['26', '27', '2a', '3a'], function (_export, _context2) 
         }
     };
 });
+<<<<<<< HEAD
 $__System.register('8', ['26', '27', '3a'], function (_export, _context) {
+=======
+$__System.register('a', ['29', '2a', '3c'], function (_export, _context) {
+>>>>>>> develop
     "use strict";
 
     var _classCallCheck, _createClass, Actions, PrendusNavbar;
@@ -5666,10 +5972,17 @@ $__System.register('8', ['26', '27', '3a'], function (_export, _context) {
     return {
         setters: [function (_) {
             _classCallCheck = _.default;
+<<<<<<< HEAD
         }, function (_2) {
             _createClass = _2.default;
         }, function (_a) {
             Actions = _a.Actions;
+=======
+        }, function (_a) {
+            _createClass = _a.default;
+        }, function (_c) {
+            Actions = _c.Actions;
+>>>>>>> develop
         }],
         execute: function () {
             _export('PrendusNavbar', PrendusNavbar = function () {
@@ -5731,7 +6044,7 @@ $__System.register('8', ['26', '27', '3a'], function (_export, _context) {
         }
     };
 });
-$__System.register('7', ['26', '27'], function (_export, _context) {
+$__System.register('9', ['29', '2a'], function (_export, _context) {
     "use strict";
 
     var _classCallCheck, _createClass, PrendusNotification;
@@ -5739,8 +6052,8 @@ $__System.register('7', ['26', '27'], function (_export, _context) {
     return {
         setters: [function (_) {
             _classCallCheck = _.default;
-        }, function (_2) {
-            _createClass = _2.default;
+        }, function (_a) {
+            _createClass = _a.default;
         }],
         execute: function () {
             PrendusNotification = function () {
@@ -5797,7 +6110,42 @@ $__System.register('7', ['26', '27'], function (_export, _context) {
         }
     };
 });
+<<<<<<< HEAD
 $__System.register('6', ['26', '27', '2a', '3a'], function (_export, _context3) {
+=======
+$__System.register('8', ['29', '2a'], function (_export, _context) {
+    "use strict";
+
+    var _classCallCheck, _createClass, PrendusExample;
+
+    return {
+        setters: [function (_) {
+            _classCallCheck = _.default;
+        }, function (_a) {
+            _createClass = _a.default;
+        }],
+        execute: function () {
+            PrendusExample = function () {
+                function PrendusExample() {
+                    _classCallCheck(this, PrendusExample);
+                }
+
+                _createClass(PrendusExample, [{
+                    key: 'beforeRegister',
+                    value: function beforeRegister() {
+                        this.is = 'prendus-privacy-policy';
+                    }
+                }]);
+
+                return PrendusExample;
+            }();
+
+            Polymer(PrendusExample);
+        }
+    };
+});
+$__System.register('7', ['29', '2d', '2a', '3c'], function (_export, _context3) {
+>>>>>>> develop
     "use strict";
 
     var _regeneratorRuntime, _classCallCheck, _createClass, Actions, __awaiter, PrendusProfile;
@@ -5805,12 +6153,21 @@ $__System.register('6', ['26', '27', '2a', '3a'], function (_export, _context3) 
     return {
         setters: [function (_) {
             _classCallCheck = _.default;
+<<<<<<< HEAD
         }, function (_2) {
             _createClass = _2.default;
         }, function (_a) {
             _regeneratorRuntime = _a.default;
         }, function (_a2) {
             Actions = _a2.Actions;
+=======
+        }, function (_d) {
+            _regeneratorRuntime = _d.default;
+        }, function (_a) {
+            _createClass = _a.default;
+        }, function (_c) {
+            Actions = _c.Actions;
+>>>>>>> develop
         }],
         execute: function () {
             __awaiter = this && this.__awaiter || function (thisArg, _arguments, P, generator) {
@@ -5977,13 +6334,18 @@ $__System.register('6', ['26', '27', '2a', '3a'], function (_export, _context3) 
         }
     };
 });
+<<<<<<< HEAD
 $__System.register('3b', ['29', '2a', '2b', '3c', '2f'], function (_export, _context22) {
+=======
+$__System.register('3d', ['32', '2c', '2d', '2e', '3e'], function (_export, _context22) {
+>>>>>>> develop
     "use strict";
 
     var _toConsumableArray, _regeneratorRuntime, FirebaseService, ConceptModel, UtilitiesService, _this, __awaiter, conceptsPath, dataPath, createOrUpdate, associateConcept, disassociateConcept, getById, getCoursesByUser, courseConceptsToArray, orderCourseConcepts, updateCourseConcepts, deleteCourse, associateCollaborator, disassociateCollaborator, getCollaboratorUids, getAllByVisibility, resolveCourseIds, getConceptIds, associateUserStar, disassociateUserStar, CourseModel;
 
     return {
         setters: [function (_) {
+<<<<<<< HEAD
             _toConsumableArray = _.default;
         }, function (_a) {
             _regeneratorRuntime = _a.default;
@@ -5993,6 +6355,17 @@ $__System.register('3b', ['29', '2a', '2b', '3c', '2f'], function (_export, _con
             ConceptModel = _c.ConceptModel;
         }, function (_f) {
             UtilitiesService = _f.UtilitiesService;
+=======
+            UtilitiesService = _.UtilitiesService;
+        }, function (_c) {
+            _toConsumableArray = _c.default;
+        }, function (_d) {
+            _regeneratorRuntime = _d.default;
+        }, function (_e) {
+            FirebaseService = _e.FirebaseService;
+        }, function (_e2) {
+            ConceptModel = _e2.ConceptModel;
+>>>>>>> develop
         }],
         execute: function () {
             _this = this;
@@ -6773,24 +7146,28 @@ $__System.register('3b', ['29', '2a', '2b', '3c', '2f'], function (_export, _con
         }
     };
 });
+<<<<<<< HEAD
 $__System.register('3c', ['29', '32', '35', '2a', '2b', '2f'], function (_export, _context24) {
+=======
+$__System.register('3e', ['32', '34', '37', '2c', '2d', '2e'], function (_export, _context24) {
+>>>>>>> develop
     "use strict";
 
     var _toConsumableArray, _regeneratorRuntime, FirebaseService, VideoModel, QuizModel, UtilitiesService, _this, __awaiter, dataPath, save, getById, deleteConcept, conceptsObjectToArray, associateCollaborator, associateCollaborators, disassociateCollaborator, getCollaboratorUids, getVideoIds, getQuizIds, resolveConceptIds, associateVideo, disassociateVideo, associateQuiz, disassociateQuiz, filterConceptsByCollaborator, filterConceptDatasByCollaborator, ConceptModel;
 
     return {
         setters: [function (_) {
-            _toConsumableArray = _.default;
+            UtilitiesService = _.UtilitiesService;
         }, function (_2) {
             VideoModel = _2.VideoModel;
         }, function (_3) {
             QuizModel = _3.QuizModel;
-        }, function (_a) {
-            _regeneratorRuntime = _a.default;
-        }, function (_b) {
-            FirebaseService = _b.FirebaseService;
-        }, function (_f) {
-            UtilitiesService = _f.UtilitiesService;
+        }, function (_c) {
+            _toConsumableArray = _c.default;
+        }, function (_d) {
+            _regeneratorRuntime = _d.default;
+        }, function (_e) {
+            FirebaseService = _e.FirebaseService;
         }],
         execute: function () {
             _this = this;
@@ -7581,18 +7958,22 @@ $__System.register('3c', ['29', '32', '35', '2a', '2b', '2f'], function (_export
         }
     };
 });
+<<<<<<< HEAD
 $__System.register('3d', ['29', '2a', '2b'], function (_export, _context24) {
+=======
+$__System.register('3f', ['2c', '2d', '2e'], function (_export, _context24) {
+>>>>>>> develop
     "use strict";
 
     var _toConsumableArray, _regeneratorRuntime, FirebaseService, _this, __awaiter, dataPath, save, updateFirebaseUser, updateMetaData, getById, getMetaDataById, starCourse, unstarCourse, shareCourseWithMe, unshareCourseWithMe, shareConceptWithMe, unshareConceptWithMe, shareVideoWithMe, unshareVideoWithMe, shareQuizWithMe, unshareQuizWithMe, getStarredCoursesIds, getSharedWithMeCoursesIds, getSharedWithMeConceptsIds, getSharedWithMeVideosIds, getSharedWithMeQuizzesIds, getEmailById, getEmailsByIds, UserModel;
 
     return {
-        setters: [function (_) {
-            _toConsumableArray = _.default;
-        }, function (_a) {
-            _regeneratorRuntime = _a.default;
-        }, function (_b) {
-            FirebaseService = _b.FirebaseService;
+        setters: [function (_c) {
+            _toConsumableArray = _c.default;
+        }, function (_d) {
+            _regeneratorRuntime = _d.default;
+        }, function (_e) {
+            FirebaseService = _e.FirebaseService;
         }],
         execute: function () {
             _this = this;
@@ -8366,18 +8747,22 @@ $__System.register('3d', ['29', '2a', '2b'], function (_export, _context24) {
         }
     };
 });
+<<<<<<< HEAD
 $__System.register('32', ['29', '2a', '2b'], function (_export, _context13) {
+=======
+$__System.register('34', ['2c', '2d', '2e'], function (_export, _context13) {
+>>>>>>> develop
     "use strict";
 
     var _toConsumableArray, _regeneratorRuntime, FirebaseService, _this, __awaiter, dataPath, createOrUpdate, getById, removeById, update, associateCollaborator, associateCollaborators, disassociateCollaborator, getCollaboratorUids, resolveVideoIds, filterVideosByCollaborator, VideoModel;
 
     return {
-        setters: [function (_) {
-            _toConsumableArray = _.default;
-        }, function (_a) {
-            _regeneratorRuntime = _a.default;
-        }, function (_b) {
-            FirebaseService = _b.FirebaseService;
+        setters: [function (_c) {
+            _toConsumableArray = _c.default;
+        }, function (_d) {
+            _regeneratorRuntime = _d.default;
+        }, function (_e) {
+            FirebaseService = _e.FirebaseService;
         }],
         execute: function () {
             _this = this;
@@ -8823,7 +9208,7 @@ $__System.register('32', ['29', '2a', '2b'], function (_export, _context13) {
         }
     };
 });
-$__System.register("29", [], function (_export, _context) {
+$__System.register("2c", [], function (_export, _context) {
   "use strict";
 
   return {
@@ -8841,18 +9226,22 @@ $__System.register("29", [], function (_export, _context) {
     }
   };
 });
+<<<<<<< HEAD
 $__System.register('35', ['29', '2a', '2b'], function (_export, _context19) {
+=======
+$__System.register('37', ['2c', '2d', '2e'], function (_export, _context19) {
+>>>>>>> develop
     "use strict";
 
     var _toConsumableArray, _regeneratorRuntime, FirebaseService, _this, __awaiter, dataPath, createOrUpdate, getById, removeById, associateQuestion, disassociateQuestion, associateCollaborator, associateCollaborators, disassociateCollaborator, getCollaboratorUids, setQuestionSetting, setQuizSetting, getQuizSettings, updateTitle, getQuestionIds, resolveQuizIds, filterQuizzesByCollaborator, QuizModel;
 
     return {
-        setters: [function (_) {
-            _toConsumableArray = _.default;
-        }, function (_a) {
-            _regeneratorRuntime = _a.default;
-        }, function (_b) {
-            FirebaseService = _b.FirebaseService;
+        setters: [function (_c) {
+            _toConsumableArray = _c.default;
+        }, function (_d) {
+            _regeneratorRuntime = _d.default;
+        }, function (_e) {
+            FirebaseService = _e.FirebaseService;
         }],
         execute: function () {
             _this = this;
@@ -9491,16 +9880,20 @@ $__System.register('35', ['29', '2a', '2b'], function (_export, _context19) {
         }
     };
 });
+<<<<<<< HEAD
 $__System.register('3e', ['2a', '2b'], function (_export, _context3) {
+=======
+$__System.register('40', ['2d', '2e'], function (_export, _context3) {
+>>>>>>> develop
     "use strict";
 
     var _regeneratorRuntime, FirebaseService, _this, __awaiter, dataPath, setUidByEmail, getUidByEmail, EmailsToUidsModel;
 
     return {
-        setters: [function (_a) {
-            _regeneratorRuntime = _a.default;
-        }, function (_b) {
-            FirebaseService = _b.FirebaseService;
+        setters: [function (_d) {
+            _regeneratorRuntime = _d.default;
+        }, function (_e) {
+            FirebaseService = _e.FirebaseService;
         }],
         execute: function () {
             _this = this;
@@ -9603,7 +9996,11 @@ $__System.register('3e', ['2a', '2b'], function (_export, _context3) {
         }
     };
 });
+<<<<<<< HEAD
 $__System.register('3a', ['32', '35', '2a', '2b', '3b', '3c', '3d', '3e'], function (_export, _context52) {
+=======
+$__System.register('3c', ['34', '37', '40', '2d', '2e', '3d', '3e', '3f'], function (_export, _context52) {
+>>>>>>> develop
     "use strict";
 
     var _regeneratorRuntime, FirebaseService, CourseModel, ConceptModel, UserModel, VideoModel, QuizModel, EmailsToUidsModel, _this, __awaiter, loadCourseCollaboratorEmails, loadConceptCollaboratorEmails, loadVideoCollaboratorEmails, loadQuizCollaboratorEmails, addCourseCollaborator, addConceptCollaborator, addVideoCollaborator, addQuizCollaborator, removeCourseCollaborator, removeConceptCollaborator, removeVideoCollaborator, removeQuizCollaborator, starCourse, unstarCourse, getQuiz, updateQuizTitle, createNewQuiz, loadEditConceptQuizzes, loadViewConceptQuizzes, setCurrentEditQuizId, loadQuizSettings, setQuizSetting, setQuestionSetting, loadQuizQuestionIds, addQuestionToQuiz, removeQuestionFromQuiz, loadUserQuestionIds, loadPublicQuestionIds, deleteVideo, saveVideo, setCurrentVideoInfo, clearCurrentVideoInfo, loadEditConceptVideos, loadViewConceptVideos, loadEditCourseConcepts, loadViewCourseConcepts, createUser, loginUser, updateUserEmail, updateUserMetaData, checkUserAuth, addConcept, getConceptById, addCourse, getCoursesByUser, getStarredCoursesByUser, getSharedCoursesByUser, getCoursesByVisibility, getCourseById, deleteConcept, orderConcepts, updateCourseField, logOutUser, Actions;
@@ -9613,6 +10010,7 @@ $__System.register('3a', ['32', '35', '2a', '2b', '3b', '3c', '3d', '3e'], funct
             VideoModel = _.VideoModel;
         }, function (_2) {
             QuizModel = _2.QuizModel;
+<<<<<<< HEAD
         }, function (_a) {
             _regeneratorRuntime = _a.default;
         }, function (_b) {
@@ -9625,6 +10023,20 @@ $__System.register('3a', ['32', '35', '2a', '2b', '3b', '3c', '3d', '3e'], funct
             UserModel = _d.UserModel;
         }, function (_e) {
             EmailsToUidsModel = _e.EmailsToUidsModel;
+=======
+        }, function (_3) {
+            EmailsToUidsModel = _3.EmailsToUidsModel;
+        }, function (_d) {
+            _regeneratorRuntime = _d.default;
+        }, function (_e) {
+            FirebaseService = _e.FirebaseService;
+        }, function (_d2) {
+            CourseModel = _d2.CourseModel;
+        }, function (_e2) {
+            ConceptModel = _e2.ConceptModel;
+        }, function (_f) {
+            UserModel = _f.UserModel;
+>>>>>>> develop
         }],
         execute: function () {
             _this = this;
@@ -10378,7 +10790,7 @@ $__System.register('3a', ['32', '35', '2a', '2b', '3b', '3c', '3d', '3e'], funct
                                     return QuizModel.createOrUpdate(null, {
                                         id: null,
                                         uid: uid,
-                                        title: '',
+                                        title: 'Default Quiz Title',
                                         private: false,
                                         quizSettings: {
                                             answerFeedback: true,
@@ -11750,7 +12162,7 @@ $__System.register('3a', ['32', '35', '2a', '2b', '3b', '3c', '3d', '3e'], funct
         }
     };
 });
-$__System.register("2f", ["2a"], function (_export, _context2) {
+$__System.register("32", ["2d"], function (_export, _context2) {
     "use strict";
 
     var _regeneratorRuntime, _this, __awaiter, asyncForEach, getPrendusServerEndpointDomain, createUUID, handleServerSideError, UtilitiesService;
@@ -11843,8 +12255,8 @@ $__System.register("2f", ["2a"], function (_export, _context2) {
         return answer;
     }
     return {
-        setters: [function (_a) {
-            _regeneratorRuntime = _a.default;
+        setters: [function (_d) {
+            _regeneratorRuntime = _d.default;
         }],
         execute: function () {
             _this = this;
@@ -11963,14 +12375,14 @@ $__System.register("2f", ["2a"], function (_export, _context2) {
         }
     };
 });
-$__System.register('2b', ['2a'], function (_export, _context11) {
+$__System.register('2e', ['2d'], function (_export, _context11) {
     "use strict";
 
     var _regeneratorRuntime, _this, __awaiter, prendusFirebaseApps, prendusFirebaseApp, set, remove, push, get, update, getAllBy, createUserWithEmailAndPassword, logInUserWithEmailAndPassword, logOutUser, getLoggedInUser, updateUserProfile, init, FirebaseService;
 
     return {
-        setters: [function (_a) {
-            _regeneratorRuntime = _a.default;
+        setters: [function (_d) {
+            _regeneratorRuntime = _d.default;
         }],
         execute: function () {
             _this = this;
@@ -12318,7 +12730,11 @@ $__System.register('2b', ['2a'], function (_export, _context11) {
         }
     };
 });
+<<<<<<< HEAD
 $__System.register('5', ['26', '27', '2a', '3a', '2f', '2b'], function (_export, _context20) {
+=======
+$__System.register('6', ['29', '32', '2d', '2a', '3c', '2e'], function (_export, _context20) {
+>>>>>>> develop
     "use strict";
 
     var _regeneratorRuntime, _classCallCheck, _createClass, Actions, UtilitiesService, FirebaseService, __awaiter, PrendusQuizEditor;
@@ -12327,6 +12743,7 @@ $__System.register('5', ['26', '27', '2a', '3a', '2f', '2b'], function (_export,
         setters: [function (_) {
             _classCallCheck = _.default;
         }, function (_2) {
+<<<<<<< HEAD
             _createClass = _2.default;
         }, function (_a) {
             _regeneratorRuntime = _a.default;
@@ -12336,6 +12753,17 @@ $__System.register('5', ['26', '27', '2a', '3a', '2f', '2b'], function (_export,
             UtilitiesService = _f.UtilitiesService;
         }, function (_b) {
             FirebaseService = _b.FirebaseService;
+=======
+            UtilitiesService = _2.UtilitiesService;
+        }, function (_d) {
+            _regeneratorRuntime = _d.default;
+        }, function (_a) {
+            _createClass = _a.default;
+        }, function (_c) {
+            Actions = _c.Actions;
+        }, function (_e) {
+            FirebaseService = _e.FirebaseService;
+>>>>>>> develop
         }],
         execute: function () {
             __awaiter = this && this.__awaiter || function (thisArg, _arguments, P, generator) {
@@ -12914,7 +13342,7 @@ $__System.register('5', ['26', '27', '2a', '3a', '2f', '2b'], function (_export,
         }
     };
 });
-$__System.register("2a", [], function (_export, _context) {
+$__System.register("2d", [], function (_export, _context) {
   "use strict";
 
   return {
@@ -13563,7 +13991,7 @@ $__System.register("2a", [], function (_export, _context) {
     }
   };
 });
-$__System.register("4", ["26", "27", "2a"], function (_export, _context2) {
+$__System.register("5", ["29", "2d", "2a"], function (_export, _context2) {
     "use strict";
 
     var _regeneratorRuntime, _classCallCheck, _createClass, __awaiter, PrendusRouter;
@@ -13571,10 +13999,10 @@ $__System.register("4", ["26", "27", "2a"], function (_export, _context2) {
     return {
         setters: [function (_) {
             _classCallCheck = _.default;
-        }, function (_2) {
-            _createClass = _2.default;
+        }, function (_d) {
+            _regeneratorRuntime = _d.default;
         }, function (_a) {
-            _regeneratorRuntime = _a.default;
+            _createClass = _a.default;
         }],
         execute: function () {
             __awaiter = this && this.__awaiter || function (thisArg, _arguments, P, generator) {
@@ -13641,7 +14069,38 @@ $__System.register("4", ["26", "27", "2a"], function (_export, _context2) {
         }
     };
 });
-$__System.register('3', ['26', '27'], function (_export, _context) {
+$__System.register('4', ['29', '2a'], function (_export, _context) {
+    "use strict";
+
+    var _classCallCheck, _createClass, PrendusExample;
+
+    return {
+        setters: [function (_) {
+            _classCallCheck = _.default;
+        }, function (_a) {
+            _createClass = _a.default;
+        }],
+        execute: function () {
+            PrendusExample = function () {
+                function PrendusExample() {
+                    _classCallCheck(this, PrendusExample);
+                }
+
+                _createClass(PrendusExample, [{
+                    key: 'beforeRegister',
+                    value: function beforeRegister() {
+                        this.is = 'prendus-terms-of-service';
+                    }
+                }]);
+
+                return PrendusExample;
+            }();
+
+            Polymer(PrendusExample);
+        }
+    };
+});
+$__System.register('3', ['29', '2a'], function (_export, _context) {
     "use strict";
 
     var _classCallCheck, _createClass, PrendusVideoEditor;
@@ -13649,8 +14108,8 @@ $__System.register('3', ['26', '27'], function (_export, _context) {
     return {
         setters: [function (_) {
             _classCallCheck = _.default;
-        }, function (_2) {
-            _createClass = _2.default;
+        }, function (_a) {
+            _createClass = _a.default;
         }],
         execute: function () {
             _export('PrendusVideoEditor', PrendusVideoEditor = function () {
@@ -13729,7 +14188,7 @@ $__System.register('3', ['26', '27'], function (_export, _context) {
         }
     };
 });
-$__System.register('2', ['26', '27'], function (_export, _context) {
+$__System.register('2', ['29', '2a'], function (_export, _context) {
     "use strict";
 
     var _classCallCheck, _createClass, PrendusViewQuizRouter;
@@ -13737,8 +14196,8 @@ $__System.register('2', ['26', '27'], function (_export, _context) {
     return {
         setters: [function (_) {
             _classCallCheck = _.default;
-        }, function (_2) {
-            _createClass = _2.default;
+        }, function (_a) {
+            _createClass = _a.default;
         }],
         execute: function () {
             PrendusViewQuizRouter = function () {
@@ -13768,7 +14227,7 @@ $__System.register('2', ['26', '27'], function (_export, _context) {
         }
     };
 });
-$__System.register("26", [], function (_export, _context) {
+$__System.register("29", [], function (_export, _context) {
   "use strict";
 
   return {
@@ -13782,7 +14241,7 @@ $__System.register("26", [], function (_export, _context) {
     }
   };
 });
-$__System.register("27", [], function (_export, _context) {
+$__System.register("2a", [], function (_export, _context) {
   "use strict";
 
   return {
@@ -13808,7 +14267,7 @@ $__System.register("27", [], function (_export, _context) {
     }
   };
 });
-$__System.register('1', ['26', '27'], function (_export, _context) {
+$__System.register('1', ['29', '2a'], function (_export, _context) {
     "use strict";
 
     var _classCallCheck, _createClass, PrendusViewVideoRouter;
@@ -13816,8 +14275,8 @@ $__System.register('1', ['26', '27'], function (_export, _context) {
     return {
         setters: [function (_) {
             _classCallCheck = _.default;
-        }, function (_2) {
-            _createClass = _2.default;
+        }, function (_a) {
+            _createClass = _a.default;
         }],
         execute: function () {
             PrendusViewVideoRouter = function () {
