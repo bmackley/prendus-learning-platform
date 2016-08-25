@@ -2,6 +2,7 @@ import {Course} from '../../node_modules/prendus-services/interfaces/course.inte
 import {StatechangeEvent} from '../../interfaces/statechange-event.interface.ts';
 import {User} from '../../node_modules/prendus-services/interfaces/user.interface.ts';
 import {Actions} from '../../redux/actions.ts';
+import {FirebaseService} from '../../node_modules/prendus-services/services/firebase.service.ts';
 
 class PrendusCoursePreview {
     public is: string;
@@ -10,6 +11,8 @@ class PrendusCoursePreview {
     public starIcon: string;
     public user: User;
     public numStars: number;
+    public uid: string;
+    public hasEditAccess: boolean;
 
     beforeRegister() {
         this.is = 'prendus-course-preview';
@@ -27,10 +30,30 @@ class PrendusCoursePreview {
         // };
     }
 
-    init(course: Course) {
+    async init(course: Course) {
+      const user = await FirebaseService.getLoggedInUser();
+      if(user && course.collaborators){
+        this.uid = user.uid;
+        if(course.uid === this.uid){
+          this.hasEditAccess = true
+        }else{
+          this.hasEditAccess = this.checkCollaboratorStatus(course.collaborators, this.uid);
+        }
+      }
+
+      Actions.get
         this.action = {
             type: 'DEFAULT_ACTION'
         };
+    }
+
+    checkCollaboratorStatus(collaborators: {  [uid: string]: string}, uid: string){
+      const collaboratorsArray = Object.keys(collaborators).map(val => collaborators[val]);
+      if(collaboratorsArray.indexOf(uid) > -1){
+        return true;
+      }else{
+        return false;
+      }
     }
 
     async starClick(e: any) {
@@ -69,11 +92,12 @@ class PrendusCoursePreview {
         window.history.pushState({}, '', location);
         this.fire('location-changed', {}, {node: window});
     }
-
     mapStateToThis(e: StatechangeEvent) {
         const state = e.detail.state;
 
         this.user = state.currentUser;
+        this.uid = state.currentUser.metaData.uid;
+        this.collaborators = state.courseCollaboratorEmails;
         this.numStars = Object.keys(this.course.userStars || {}).length;
 
         if (this.user && this.course) {
