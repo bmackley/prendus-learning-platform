@@ -4592,7 +4592,6 @@ $__System.register('15', ['29', '2d', '2a', '3c', '2e'], function (_export, _con
                     key: 'mapStateToThis',
                     value: function mapStateToThis(e) {
                         var state = e.detail.state;
-                        this.collaborators = state.courseCollaboratorEmails;
                         this.userCourses = state.courses;
                         this.starredCourses = state.starredCourses;
                         this.sharedCourses = state.sharedCourses;
@@ -4668,13 +4667,6 @@ $__System.register('14', ['29', '2d', '2a', '3c', '2e'], function (_export, _con
                         };
                     }
                 }, {
-                    key: 'ready',
-                    value: function ready() {
-                        // this.action = {
-                        //     type: 'DEFAULT_ACTION'
-                        // };
-                    }
-                }, {
                     key: 'init',
                     value: function init(course) {
                         return __awaiter(this, void 0, void 0, _regeneratorRuntime.mark(function _callee() {
@@ -4697,12 +4689,8 @@ $__System.register('14', ['29', '2d', '2a', '3c', '2e'], function (_export, _con
                                                     this.hasEditAccess = this.checkCollaboratorStatus(course.collaborators, this.uid);
                                                 }
                                             }
-                                            Actions.get;
-                                            this.action = {
-                                                type: 'DEFAULT_ACTION'
-                                            };
 
-                                        case 6:
+                                        case 4:
                                         case 'end':
                                             return _context.stop();
                                     }
@@ -4713,15 +4701,19 @@ $__System.register('14', ['29', '2d', '2a', '3c', '2e'], function (_export, _con
                 }, {
                     key: 'checkCollaboratorStatus',
                     value: function checkCollaboratorStatus(collaborators, uid) {
-                        var collaboratorsArray = Object.keys(collaborators).map(function (val) {
-                            return collaborators[val];
-                        });
-                        if (collaboratorsArray.indexOf(uid) > -1) {
+                        if (collaborators[uid]) {
                             return true;
                         } else {
                             return false;
                         }
                     }
+                    // const collaboratorsArray = Object.keys(collaborators || {}).map(val => collaborators[val]);
+                    // if(collaboratorsArray.indexOf(uid) > -1){
+                    //   return true;
+                    // }else{
+                    //   return false;
+                    // }
+
                 }, {
                     key: 'starClick',
                     value: function starClick(e) {
