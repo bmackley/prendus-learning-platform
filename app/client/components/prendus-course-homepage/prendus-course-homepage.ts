@@ -52,7 +52,6 @@ class PrendusCourseHomepage {
 
   mapStateToThis(e: StatechangeEvent) {
     const state = e.detail.state;
-    this.collaborators = state.courseCollaboratorEmails;
     this.userCourses = state.courses;
     this.starredCourses = state.starredCourses;
     this.sharedCourses = state.sharedCourses;
