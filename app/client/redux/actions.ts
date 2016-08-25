@@ -16,6 +16,18 @@ import {Video} from '../node_modules/prendus-services/interfaces/video.interface
 
 FirebaseService.init('AIzaSyANTSoOA6LZZDxM7vqIlAl37B7IqWL-6MY', 'prendus.firebaseapp.com', 'https://prendus.firebaseio.com', 'prendus.appspot.com', 'Prendus');
 
+const showMainSpinner = (context: any) => {
+    context.action = {
+        type: 'SHOW_MAIN_SPINNER'
+    };
+};
+
+const hideMainSpinner = (context: any) => {
+    context.action = {
+        type: 'HIDE_MAIN_SPINNER'
+    };
+};
+
 const loadCourseCollaboratorEmails = async (context: any, uid: string, courseId: string) => {
 
     try {
@@ -837,5 +849,7 @@ export const Actions = {
     removeVideoCollaborator,
     updateCourseField,
     loadEditCourseConcepts,
-    loadViewCourseConcepts
+    loadViewCourseConcepts,
+    showMainSpinner,
+    hideMainSpinner
 };

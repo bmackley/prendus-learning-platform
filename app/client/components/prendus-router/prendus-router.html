@@ -55,6 +55,18 @@
         margin-right: 16%;
       }
     }
+
+    .absolute-center {
+        position: absolute;
+        z-index: 500;
+        top: 0px;
+        right: 0px;
+        left: 0px;
+        bottom: 0px;
+        margin-right: auto;
+        margin-left: auto;
+        margin-top: 250px;
+    }
   </style>
   <template>
     <redux-store on-statechange="mapStateToThis" action="[[action]]"></redux-store>
@@ -62,18 +74,21 @@
     <app-location route="{{route}}"></app-location>
     <app-route route="[[route]]" pattern="/:page" data="{{pageData}}" tail="{{tail}}" active ="{{pageActive}}"></app-route>
 
-    <iron-pages id="app-container" selected="{{pageData.page}}" category="{{pageData.page}}" attr-for-selected ="data-page">
-      <prendus-homepage data-page=""></prendus-homepage>
-      <prendus-login data-page="login"></prendus-login>
-      <prendus-create-account data-page="signup"></prendus-create-account>
-      <prendus-course-router data-page="courses" route="[[tail]]"></prendus-course-router>
-      <prendus-profile data-page="profile"></prendus-profile>
-      <prendus-privacy-policy data-page="privacy-policy"></prendus-privacy-policy>
-      <prendus-terms-of-service data-page="terms-of-service"></prendus-terms-of-service>
+    <iron-pages selected="[[mainViewToShow]]" attr-for-selected="show">
+        <div show="spinner" style="display: flex; flex-direction: row; align-items: center; justify-content: center; margin-top: 250px">
+            <paper-spinner active></paper-spinner>
+        </div>
+
+        <iron-pages id="app-container" selected="{{pageData.page}}" category="{{pageData.page}}" attr-for-selected ="data-page" show="routes">
+          <prendus-homepage data-page=""></prendus-homepage>
+          <prendus-login data-page="login"></prendus-login>
+          <prendus-create-account data-page="signup"></prendus-create-account>
+          <prendus-course-router data-page="courses" route="[[tail]]"></prendus-course-router>
+          <prendus-profile data-page="profile"></prendus-profile>
+          <prendus-privacy-policy data-page="privacy-policy"></prendus-privacy-policy>
+          <prendus-terms-of-service data-page="terms-of-service"></prendus-terms-of-service>
+        </iron-pages>
     </iron-pages>
-    <!-- <div class = "overlay">
-      <paper-spinner active></paper-spinner>
-    </div> -->
   </template>
 
   <!--<script src="prendus-router.js"></script>-->

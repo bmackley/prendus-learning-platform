@@ -49,4 +49,5 @@ export interface State {
     quizCollaboratorEmails: {
         [conceptId: string]: string[];
     };
+    mainViewToShow: 'routes' | 'spinner';
 }
