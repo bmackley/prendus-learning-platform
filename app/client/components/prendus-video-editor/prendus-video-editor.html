@@ -6,6 +6,7 @@
 <link rel="import" href="../../bower_components/paper-menu-button/paper-menu-button.html">
 <link rel="import" href="../../bower_components/paper-icon-button/paper-icon-button.html">
 <link rel="import" href="../../bower_components/paper-menu/paper-menu.html">
+<link rel="import" href="../../bower_components/video-viewer-component/video-viewer.component.html">
 
 <dom-module id="prendus-video-editor">
     <template>
@@ -36,8 +37,10 @@
                 <div style="display: flex; flex-direction: row; margin-bottom: 25px">
                     <paper-button on-tap="saveClick" raised>Save</paper-button>
                 </div>
-                <div style="display: flex; flex-direction: row; justify-content: center; align-items: center">
-                    <video src="[[url]]" controls></video>
+                <div style="display: flex; flex-direction: column; justify-content: center; align-items: center">
+                    <div style="width: 25vw">
+                        <prendus-video-viewer url="[[url]]" no-xapi></prendus-video-viewer>
+                    </div>
                 </div>
             </div>
         </div>
