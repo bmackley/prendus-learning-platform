@@ -11,6 +11,12 @@ class PrendusCourseHomepage {
   public username: string;
   public formTitle: string;
   public courseDescription: string;
+  public userCourses: Course[];
+  public sharedCourses: Course[];
+  public starredCourses: Course[];
+  public collaborators: {
+    [uid: string]: string[];
+  }
 
   beforeRegister() {
     this.is = 'prendus-course-homepage';
