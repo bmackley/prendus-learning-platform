@@ -57,7 +57,7 @@
           </div>
 
           <div class="card-actions">
-            <template is="dom-if" if="{{hasEditAccess}}">
+            <template is="dom-if" if="[[hasEditAccess]]">
               <paper-button id="[[course.id]]" on-tap="editCourse">Edit</paper-button>  <!-- Go to page from here -->
             </template>
             <paper-button id="[[course.id]]" on-tap="viewCourse">View</paper-button>

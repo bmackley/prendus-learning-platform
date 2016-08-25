@@ -24,12 +24,6 @@ class PrendusCoursePreview {
         };
     }
 
-    ready() {
-        // this.action = {
-        //     type: 'DEFAULT_ACTION'
-        // };
-    }
-
     async init(course: Course) {
       const user = await FirebaseService.getLoggedInUser();
       if(user && course.collaborators){
@@ -40,16 +34,10 @@ class PrendusCoursePreview {
           this.hasEditAccess = this.checkCollaboratorStatus(course.collaborators, this.uid);
         }
       }
-
-      Actions.get
-        this.action = {
-            type: 'DEFAULT_ACTION'
-        };
     }
 
     checkCollaboratorStatus(collaborators: {  [uid: string]: string}, uid: string){
-      const collaboratorsArray = Object.keys(collaborators).map(val => collaborators[val]);
-      if(collaboratorsArray.indexOf(uid) > -1){
+      if (collaborators[uid]){
         return true;
       }else{
         return false;
