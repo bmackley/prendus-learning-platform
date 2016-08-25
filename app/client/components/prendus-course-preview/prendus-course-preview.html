@@ -3,6 +3,7 @@
 <link rel="import" href="../../bower_components/paper-button/paper-button.html">
 <link rel="import" href="../../bower_components/paper-icon-button/paper-icon-button.html">
 <link rel="import" href="../../bower_components/redux-store-element/redux-store.html">
+<link rel="import" href="../../bower_components/paper-toolbar/paper-toolbar.html">
 
 <dom-module id="prendus-course-preview">
     <template>
@@ -10,23 +11,55 @@
             #star-icon {
                 color: rgba(0, 0, 0, .5);
             }
-
+            .course-title{
+              font-size: 1.5vw;
+              font-weight: bold;
+            }
             .course-card{
               margin: 1%;
+              width: 31%;
+            }
+            #no-wrap{
+              overflow: hidden;
+              white-space: nowrap;
+            }
+            @media (max-width: 1200px) {
+              .course-title{
+                font-size: 2vw;
+                font-weight: bold;
+              }
+              .course-card{
+                width: 66%;
+              }
+            }
+            @media (max-width: 600px) {
+              .course-title{
+                font-size: 3vw;
+                font-weight: bold;
+              }
+              .course-card{
+                width: 100%;
+              }
             }
         </style>
-        
+
         <redux-store on-statechange="mapStateToThis" action="[[action]]"></redux-store>
 
-        <paper-card heading="[[course.title]]" class = "course-card">
-            <div>
-                <paper-icon-button id="star-icon" icon="[[starIcon]]" title="click to star or unstar" on-tap="starClick"></paper-icon-button>
-                <div>[[numStars]]</div>
-            </div>
+        <paper-card class = "course-card">
 
-          <div class="card-content">[[course.description]]</div>
+
+          <div class="card-content">
+            <div>
+              <span class = "course-title">[[course.title]]</span>
+              <span id= "no-wrap"><paper-icon-button id="star-icon" icon="[[starIcon]]" title="click to star or unstar" on-tap="starClick"></paper-icon-button>[[numStars]]</span>
+            </div>
+            [[course.description]]
+          </div>
+
           <div class="card-actions">
-            <paper-button id="[[course.id]]" on-tap="editCourse">Edit</paper-button>  <!-- Go to page from here -->
+            <template is="dom-if" if="[[hasEditAccess]]">
+              <paper-button id="[[course.id]]" on-tap="editCourse">Edit</paper-button>  <!-- Go to page from here -->
+            </template>
             <paper-button id="[[course.id]]" on-tap="viewCourse">View</paper-button>
           </div>
         </paper-card>

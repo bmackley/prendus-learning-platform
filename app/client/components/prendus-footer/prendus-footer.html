@@ -1,0 +1,42 @@
+<link href="../../bower_components/polymer/polymer.html" rel="import">
+<link rel="import" href="../../bower_components/paper-header-panel/paper-header-panel.html">
+<link rel="import" href="../../bower_components/paper-toolbar/paper-toolbar.html">
+
+<dom-module id="prendus-footer">
+  <style>
+  footer {
+    position: fixed;
+    background: black;
+    width: 100%;
+    bottom: 0;
+
+  }
+  #privacy-policy, #terms-of-service, #license{
+    margin-left:auto;
+    margin-right:2%;
+    cursor: pointer;
+  }
+  a{
+    color:gray;
+  }
+  a:visited {
+    color: gray;
+}
+  </style>
+  <template>
+    <footer>
+        <paper-header-panel>
+          <paper-toolbar style="color: gray;">
+            <div>&copy; 2016 Prendus LLC</div>
+            <div id ="license">
+              <a rel="license" href="http://creativecommons.org/licenses/by/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by/4.0/80x15.png" /></a><br />This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>.
+            </div>
+            <div id ="terms-of-service" on-tap="changeURL">Terms of Service</div>
+            <div id ="privacy-policy" on-tap="changeURL">Privacy Policy</div>
+          </paper-toolbar>
+        </paper-header-panel>
+    </footer>
+  </template>
+
+  <!--<script src="prendus-footer.js"></script>-->
+</dom-module>
