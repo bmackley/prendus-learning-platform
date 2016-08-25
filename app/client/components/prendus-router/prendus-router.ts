@@ -1,14 +1,18 @@
+import {StatechangeEvent} from '../../interfaces/statechange-event.interface.ts';
 
 class PrendusRouter {
   public is: string;
+  public mainViewToShow: 'routes' | 'spinner';
 
   beforeRegister() {
     this.is =  "prendus-router";
   }
-  mapStateToThis(e) {
+
+  mapStateToThis(e: StatechangeEvent) {
       const state = e.detail.state;
-  }
-  async ready() {
+
+      this.mainViewToShow = state.mainViewToShow;
   }
 }
+
 Polymer(PrendusRouter);
