@@ -16,6 +16,9 @@
               font-weight: bold;
               max-width: 80%;
             }
+            .card-content{
+              height: 175px;
+            }
             .course-card{
               margin: 1%;
               width: 31%;
@@ -59,16 +62,13 @@
         <redux-store on-statechange="mapStateToThis" action="[[action]]"></redux-store>
 
         <paper-card class = "course-card">
-
-
           <div class="card-content">
             <div id = "card-position">
               <div class = "course-title">[[course.title]]</div>
-              <div id= "no-wrap"><div id="no-wrap-content"><paper-icon-button id="star-icon" icon="[[starIcon]]" title="click to star or unstar" on-tap="starClick"></paper-icon-button></div>[[numStars]]</div>
+              <div id= "no-wrap"><div id="no-wrap-content"><paper-icon-button id="star-icon" icon="[[starIcon]]" title="click to star or unstar" on-tap="starClick"></paper-icon-button>[[numStars]]</div></div>
             </div>
             [[course.description]]
           </div>
-
           <div class="card-actions">
             <template is="dom-if" if="[[hasEditAccess]]">
               <paper-button id="[[course.id]]" on-tap="editCourse">Edit</paper-button>  <!-- Go to page from here -->
