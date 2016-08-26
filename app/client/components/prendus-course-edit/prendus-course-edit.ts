@@ -38,7 +38,7 @@ class PrendusCourseEdit {
   async getCourse(){
     if (this.data.courseId) {
         Actions.showMainSpinner(this);
-        await Actions.getCourseById.execute(this, this.data.courseId);
+        await Actions.getCourseEditCourseById(this, this.data.courseId);
         await Actions.loadEditCourseConcepts(this, this.data.courseId);
         Actions.hideMainSpinner(this);
     }
@@ -47,12 +47,12 @@ class PrendusCourseEdit {
   mapStateToThis(e: StatechangeEvent) {
     const state = e.detail.state;
 
-    this.courseId = state.currentCourse.id;
-    this.startDate = state.currentCourse.startDate;
-    this.endDate = state.currentCourse.endDate;
+    this.courseId = state.courseEditCurrentCourse.id;
+    this.startDate = state.courseEditCurrentCourse.startDate;
+    this.endDate = state.courseEditCurrentCourse.endDate;
     this.username = state.currentUser.metaData.email;
     this.uid = state.currentUser.metaData.uid;
-    this.currentCourse = state.currentCourse;
+    this.currentCourse = state.courseEditCurrentCourse;
     this.courseConcepts = state.editCourseConcepts[this.courseId];
     this.courseConceptsLength = this.courseConcepts && this.courseConcepts.length;
   }
@@ -91,7 +91,7 @@ class PrendusCourseEdit {
       };
       try{
         await Actions.addConcept.execute(this, this.courseId, newConcept, this.courseConcepts.length);
-        await Actions.getCourseById.execute(this, this.data.courseId);
+        await Actions.getCourseEditCourseById(this, this.data.courseId);
 
         this.successMessage = '';
         this.successMessage = 'Concept added successfully';

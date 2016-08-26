@@ -2845,7 +2845,8 @@ $__System.register('3b', [], function (_export, _context) {
                 concepts: {},
                 currentConcept: {},
                 courses: [],
-                currentCourse: {},
+                courseEditCurrentCourse: {},
+                courseViewCurrentCourse: {},
                 editCourseConcepts: {},
                 viewCourseConcepts: {},
                 editConceptVideos: {},
@@ -3095,23 +3096,29 @@ $__System.register('3c', ['3b', '3d'], function (_export, _context) {
                     _newState30.courses = action.courses;
                     return _newState30;
                 }
-            case 'GET_COURSE_BY_ID':
+            case 'SET_COURSE_VIEW_CURRENT_COURSE':
                 {
                     var _newState31 = Object.assign({}, state);
-                    _newState31.currentCourse = action.currentCourse;
+                    _newState31.courseViewCurrentCourse = action.currentCourse;
                     return _newState31;
+                }
+            case 'SET_COURSE_EDIT_CURRENT_COURSE':
+                {
+                    var _newState32 = Object.assign({}, state);
+                    _newState32.courseEditCurrentCourse = action.currentCourse;
+                    return _newState32;
                 }
             case 'ADD_COURSE':
                 {
-                    var _newState32 = Object.assign({}, state);
-                    _newState32.courses = action.courses;
-                    return _newState32;
+                    var _newState33 = Object.assign({}, state);
+                    _newState33.courses = action.courses;
+                    return _newState33;
                 }
             case Actions.addConcept.type:
                 {
-                    var _newState33 = Object.assign({}, state);
-                    _newState33.currentCourse = action.currentCourse;
-                    return _newState33;
+                    var _newState34 = Object.assign({}, state);
+                    _newState34.currentCourse = action.currentCourse;
+                    return _newState34;
                 }
             default:
                 {
@@ -4432,7 +4439,7 @@ $__System.register('16', ['29', '2d', '2a', '3d'], function (_export, _context4)
 
                                             Actions.showMainSpinner(this);
                                             _context.next = 4;
-                                            return Actions.getCourseById.execute(this, this.data.courseId);
+                                            return Actions.getCourseEditCourseById(this, this.data.courseId);
 
                                         case 4:
                                             _context.next = 6;
@@ -4453,12 +4460,12 @@ $__System.register('16', ['29', '2d', '2a', '3d'], function (_export, _context4)
                     key: 'mapStateToThis',
                     value: function mapStateToThis(e) {
                         var state = e.detail.state;
-                        this.courseId = state.currentCourse.id;
-                        this.startDate = state.currentCourse.startDate;
-                        this.endDate = state.currentCourse.endDate;
+                        this.courseId = state.courseEditCurrentCourse.id;
+                        this.startDate = state.courseEditCurrentCourse.startDate;
+                        this.endDate = state.courseEditCurrentCourse.endDate;
                         this.username = state.currentUser.metaData.email;
                         this.uid = state.currentUser.metaData.uid;
-                        this.currentCourse = state.currentCourse;
+                        this.currentCourse = state.courseEditCurrentCourse;
                         this.courseConcepts = state.editCourseConcepts[this.courseId];
                         this.courseConceptsLength = this.courseConcepts && this.courseConcepts.length;
                     }
@@ -4518,7 +4525,7 @@ $__System.register('16', ['29', '2d', '2a', '3d'], function (_export, _context4)
 
                                         case 7:
                                             _context2.next = 9;
-                                            return Actions.getCourseById.execute(this, this.data.courseId);
+                                            return Actions.getCourseEditCourseById(this, this.data.courseId);
 
                                         case 9:
                                             this.successMessage = '';
@@ -5096,10 +5103,10 @@ $__System.register('12', ['29', '2d', '2a', '3d'], function (_export, _context3)
                     key: 'mapStateToThis',
                     value: function mapStateToThis(e) {
                         var state = e.detail.state;
-                        this.courseId = state.currentCourse.id;
+                        this.courseId = state.courseViewCurrentCourse.id;
                         this.username = state.currentUser.metaData.email;
                         this.uid = state.currentUser.metaData.uid;
-                        this.currentCourse = state.currentCourse;
+                        this.currentCourse = state.courseViewCurrentCourse;
                         this.courseConcepts = state.viewCourseConcepts[this.courseId];
                     }
                 }, {
@@ -5150,7 +5157,7 @@ $__System.register('12', ['29', '2d', '2a', '3d'], function (_export, _context3)
 
                                             Actions.showMainSpinner(this);
                                             _context.next = 4;
-                                            return Actions.getCourseById.execute(this, this.data.courseId);
+                                            return Actions.getCourseViewCourseById(this, this.data.courseId);
 
                                         case 4:
                                             _context.next = 6;
@@ -5182,7 +5189,7 @@ $__System.register('12', ['29', '2d', '2a', '3d'], function (_export, _context3)
 
                                             Actions.showMainSpinner(this);
                                             _context2.next = 4;
-                                            return Actions.getCourseById.execute(this, this.data.courseId);
+                                            return Actions.getCourseViewCourseById(this, this.data.courseId);
 
                                         case 4:
                                             _context2.next = 6;
@@ -9918,10 +9925,10 @@ $__System.register("42", ["2d", "2c"], function (_export, _context2) {
         }
     };
 });
-$__System.register('3d', ['35', '38', '40', '41', '42', '2d', '2e', '3e', '3f'], function (_export, _context56) {
+$__System.register('3d', ['35', '38', '40', '41', '42', '2d', '2e', '3e', '3f'], function (_export, _context57) {
     "use strict";
 
-    var _regeneratorRuntime, FirebaseService, CourseModel, ConceptModel, UserModel, VideoModel, QuizModel, EmailsToUidsModel, ExecuteAsyncInOrder, _this, __awaiter, showMainSpinner, hideMainSpinner, loadCourseCollaboratorEmails, loadConceptCollaboratorEmails, loadVideoCollaboratorEmails, loadQuizCollaboratorEmails, addCourseCollaborator, addConceptCollaborator, addVideoCollaborator, addQuizCollaborator, removeCourseCollaborator, removeConceptCollaborator, removeVideoCollaborator, removeQuizCollaborator, starCourse, unstarCourse, getQuiz, updateQuizTitle, createNewQuiz, loadEditConceptQuizzes, loadViewConceptQuizzes, setCurrentEditQuizId, loadQuizSettings, setQuizSetting, setQuestionSetting, loadQuizQuestionIds, addQuestionToQuiz, removeQuestionFromQuiz, loadUserQuestionIds, loadPublicQuestionIds, deleteVideo, saveVideo, setCurrentVideoInfo, clearCurrentVideoInfo, loadEditConceptVideos, loadViewConceptVideos, loadEditCourseConcepts, loadViewCourseConcepts, createUser, loginUser, updateUserEmail, updateUserMetaData, checkUserAuth, addConcept, getConceptById, addCourse, getCoursesByUser, getStarredCoursesByUser, getSharedCoursesByUser, getCoursesByVisibility, getCourseById, deleteConcept, orderConcepts, updateCourseField, logOutUser, Actions;
+    var _regeneratorRuntime, FirebaseService, CourseModel, ConceptModel, UserModel, VideoModel, QuizModel, EmailsToUidsModel, ExecuteAsyncInOrder, _this, __awaiter, showMainSpinner, hideMainSpinner, loadCourseCollaboratorEmails, loadConceptCollaboratorEmails, loadVideoCollaboratorEmails, loadQuizCollaboratorEmails, addCourseCollaborator, addConceptCollaborator, addVideoCollaborator, addQuizCollaborator, removeCourseCollaborator, removeConceptCollaborator, removeVideoCollaborator, removeQuizCollaborator, starCourse, unstarCourse, getQuiz, updateQuizTitle, createNewQuiz, loadEditConceptQuizzes, loadViewConceptQuizzes, setCurrentEditQuizId, loadQuizSettings, setQuizSetting, setQuestionSetting, loadQuizQuestionIds, addQuestionToQuiz, removeQuestionFromQuiz, loadUserQuestionIds, loadPublicQuestionIds, deleteVideo, saveVideo, setCurrentVideoInfo, clearCurrentVideoInfo, loadEditConceptVideos, loadViewConceptVideos, loadEditCourseConcepts, loadViewCourseConcepts, createUser, loginUser, updateUserEmail, updateUserMetaData, checkUserAuth, addConcept, getConceptById, addCourse, getCoursesByUser, getStarredCoursesByUser, getSharedCoursesByUser, getCoursesByVisibility, getCourseViewCourseById, getCourseEditCourseById, deleteConcept, orderConcepts, updateCourseField, logOutUser, Actions;
 
     return {
         setters: [function (_) {
@@ -11901,63 +11908,100 @@ $__System.register('3d', ['35', '38', '40', '41', '42', '2d', '2e', '3e', '3f'],
                 }));
             };
 
-            getCourseById = {
-                execute: function execute(context, id) {
-                    return __awaiter(_this, void 0, void 0, _regeneratorRuntime.mark(function _callee51() {
-                        var course;
-                        return _regeneratorRuntime.wrap(function _callee51$(_context51) {
-                            while (1) {
-                                switch (_context51.prev = _context51.next) {
-                                    case 0:
-                                        _context51.prev = 0;
-                                        _context51.next = 3;
-                                        return CourseModel.getById(id);
+            getCourseViewCourseById = function getCourseViewCourseById(context, id) {
+                return __awaiter(_this, void 0, void 0, _regeneratorRuntime.mark(function _callee51() {
+                    var course;
+                    return _regeneratorRuntime.wrap(function _callee51$(_context51) {
+                        while (1) {
+                            switch (_context51.prev = _context51.next) {
+                                case 0:
+                                    _context51.prev = 0;
+                                    _context51.next = 3;
+                                    return CourseModel.getById(id);
 
-                                    case 3:
-                                        course = _context51.sent;
+                                case 3:
+                                    course = _context51.sent;
 
-                                        //   const conceptsArray = await CourseModel.courseConceptsToArray(course);
-                                        //   const orderedConcepts = CourseModel.orderCourseConcepts(conceptsArray);
-                                        //   course.concepts = orderedConcepts;
-                                        context.action = {
-                                            type: 'GET_COURSE_BY_ID',
-                                            currentCourse: course
-                                        };
-                                        _context51.next = 10;
-                                        break;
+                                    //   const conceptsArray = await CourseModel.courseConceptsToArray(course);
+                                    //   const orderedConcepts = CourseModel.orderCourseConcepts(conceptsArray);
+                                    //   course.concepts = orderedConcepts;
+                                    context.action = {
+                                        type: 'SET_COURSE_VIEW_CURRENT_COURSE',
+                                        currentCourse: course
+                                    };
+                                    _context51.next = 10;
+                                    break;
 
-                                    case 7:
-                                        _context51.prev = 7;
-                                        _context51.t0 = _context51['catch'](0);
-                                        throw _context51.t0;
+                                case 7:
+                                    _context51.prev = 7;
+                                    _context51.t0 = _context51['catch'](0);
+                                    throw _context51.t0;
 
-                                    case 10:
-                                    case 'end':
-                                        return _context51.stop();
-                                }
+                                case 10:
+                                case 'end':
+                                    return _context51.stop();
                             }
-                        }, _callee51, this, [[0, 7]]);
-                    }));
-                }
+                        }
+                    }, _callee51, this, [[0, 7]]);
+                }));
             };
+
+            getCourseEditCourseById = function getCourseEditCourseById(context, id) {
+                return __awaiter(_this, void 0, void 0, _regeneratorRuntime.mark(function _callee52() {
+                    var course;
+                    return _regeneratorRuntime.wrap(function _callee52$(_context52) {
+                        while (1) {
+                            switch (_context52.prev = _context52.next) {
+                                case 0:
+                                    _context52.prev = 0;
+                                    _context52.next = 3;
+                                    return CourseModel.getById(id);
+
+                                case 3:
+                                    course = _context52.sent;
+
+                                    //   const conceptsArray = await CourseModel.courseConceptsToArray(course);
+                                    //   const orderedConcepts = CourseModel.orderCourseConcepts(conceptsArray);
+                                    //   course.concepts = orderedConcepts;
+                                    context.action = {
+                                        type: 'SET_COURSE_EDIT_CURRENT_COURSE',
+                                        currentCourse: course
+                                    };
+                                    _context52.next = 10;
+                                    break;
+
+                                case 7:
+                                    _context52.prev = 7;
+                                    _context52.t0 = _context52['catch'](0);
+                                    throw _context52.t0;
+
+                                case 10:
+                                case 'end':
+                                    return _context52.stop();
+                            }
+                        }
+                    }, _callee52, this, [[0, 7]]);
+                }));
+            };
+
             deleteConcept = {
                 execute: function execute(context, courseId, conceptId) {
-                    return __awaiter(_this, void 0, void 0, _regeneratorRuntime.mark(function _callee52() {
+                    return __awaiter(_this, void 0, void 0, _regeneratorRuntime.mark(function _callee53() {
                         var course;
-                        return _regeneratorRuntime.wrap(function _callee52$(_context52) {
+                        return _regeneratorRuntime.wrap(function _callee53$(_context53) {
                             while (1) {
-                                switch (_context52.prev = _context52.next) {
+                                switch (_context53.prev = _context53.next) {
                                     case 0:
-                                        _context52.prev = 0;
-                                        _context52.next = 3;
+                                        _context53.prev = 0;
+                                        _context53.next = 3;
                                         return CourseModel.disassociateConcept(courseId, conceptId);
 
                                     case 3:
-                                        _context52.next = 5;
+                                        _context53.next = 5;
                                         return CourseModel.getById(courseId);
 
                                     case 5:
-                                        course = _context52.sent;
+                                        course = _context53.sent;
 
                                         // const conceptsArray = await CourseModel.courseConceptsToArray(course);
                                         // const orderedConcepts = CourseModel.orderCourseConcepts(conceptsArray);
@@ -11966,78 +12010,71 @@ $__System.register('3d', ['35', '38', '40', '41', '42', '2d', '2e', '3e', '3f'],
                                             type: 'GET_COURSE_BY_ID',
                                             currentCourse: course
                                         };
-                                        _context52.next = 12;
+                                        _context53.next = 12;
                                         break;
 
                                     case 9:
-                                        _context52.prev = 9;
-                                        _context52.t0 = _context52['catch'](0);
-                                        throw _context52.t0;
+                                        _context53.prev = 9;
+                                        _context53.t0 = _context53['catch'](0);
+                                        throw _context53.t0;
 
                                     case 12:
                                     case 'end':
-                                        return _context52.stop();
+                                        return _context53.stop();
                                 }
                             }
-                        }, _callee52, this, [[0, 9]]);
+                        }, _callee53, this, [[0, 9]]);
                     }));
                 }
             };
             orderConcepts = {
                 type: 'ORDER_CONCEPTS',
                 execute: function execute(context, id, courseConceptsArray) {
-                    return __awaiter(_this, void 0, void 0, _regeneratorRuntime.mark(function _callee53() {
-                        return _regeneratorRuntime.wrap(function _callee53$(_context53) {
+                    return __awaiter(_this, void 0, void 0, _regeneratorRuntime.mark(function _callee54() {
+                        return _regeneratorRuntime.wrap(function _callee54$(_context54) {
                             while (1) {
-                                switch (_context53.prev = _context53.next) {
+                                switch (_context54.prev = _context54.next) {
                                     case 0:
-                                        _context53.prev = 0;
-
-                                        console.log('concepts array', courseConceptsArray);
-                                        _context53.next = 4;
+                                        _context54.prev = 0;
+                                        _context54.next = 3;
                                         return CourseModel.updateCourseConcepts(id, courseConceptsArray);
 
-                                    case 4:
-                                        _context53.next = 9;
+                                    case 3:
+                                        _context54.next = 8;
                                         break;
 
-                                    case 6:
-                                        _context53.prev = 6;
-                                        _context53.t0 = _context53['catch'](0);
-                                        throw _context53.t0;
+                                    case 5:
+                                        _context54.prev = 5;
+                                        _context54.t0 = _context54['catch'](0);
+                                        throw _context54.t0;
 
-                                    case 9:
+                                    case 8:
                                     case 'end':
-                                        return _context53.stop();
+                                        return _context54.stop();
                                 }
                             }
-                        }, _callee53, this, [[0, 6]]);
+                        }, _callee54, this, [[0, 5]]);
                     }));
                 }
             };
 
             updateCourseField = function updateCourseField(context, id, field, value) {
-                return __awaiter(_this, void 0, void 0, _regeneratorRuntime.mark(function _callee54() {
+                return __awaiter(_this, void 0, void 0, _regeneratorRuntime.mark(function _callee55() {
                     var course;
-                    return _regeneratorRuntime.wrap(function _callee54$(_context54) {
+                    return _regeneratorRuntime.wrap(function _callee55$(_context55) {
                         while (1) {
-                            switch (_context54.prev = _context54.next) {
+                            switch (_context55.prev = _context55.next) {
                                 case 0:
-                                    _context54.prev = 0;
-
-                                    console.log('actions context', context);
-                                    console.log('actions id', id);
-                                    console.log('actions field', field);
-                                    console.log('actions value', value);
-                                    _context54.next = 7;
+                                    _context55.prev = 0;
+                                    _context55.next = 3;
                                     return CourseModel.updateCourseField(id, field, value);
 
-                                case 7:
-                                    _context54.next = 9;
+                                case 3:
+                                    _context55.next = 5;
                                     return CourseModel.getById(id);
 
-                                case 9:
-                                    course = _context54.sent;
+                                case 5:
+                                    course = _context55.sent;
 
                                     //   const conceptsArray = await CourseModel.courseConceptsToArray(course);
                                     //   const orderedConcepts = CourseModel.orderCourseConcepts(conceptsArray);
@@ -12046,32 +12083,32 @@ $__System.register('3d', ['35', '38', '40', '41', '42', '2d', '2e', '3e', '3f'],
                                         type: 'GET_COURSE_BY_ID',
                                         currentCourse: course
                                     };
-                                    _context54.next = 16;
+                                    _context55.next = 12;
                                     break;
 
-                                case 13:
-                                    _context54.prev = 13;
-                                    _context54.t0 = _context54['catch'](0);
-                                    throw _context54.t0;
+                                case 9:
+                                    _context55.prev = 9;
+                                    _context55.t0 = _context55['catch'](0);
+                                    throw _context55.t0;
 
-                                case 16:
+                                case 12:
                                 case 'end':
-                                    return _context54.stop();
+                                    return _context55.stop();
                             }
                         }
-                    }, _callee54, this, [[0, 13]]);
+                    }, _callee55, this, [[0, 9]]);
                 }));
             };
 
             logOutUser = {
                 type: 'LOGOUT_USER',
                 execute: function execute(context) {
-                    return __awaiter(_this, void 0, void 0, _regeneratorRuntime.mark(function _callee55() {
-                        return _regeneratorRuntime.wrap(function _callee55$(_context55) {
+                    return __awaiter(_this, void 0, void 0, _regeneratorRuntime.mark(function _callee56() {
+                        return _regeneratorRuntime.wrap(function _callee56$(_context56) {
                             while (1) {
-                                switch (_context55.prev = _context55.next) {
+                                switch (_context56.prev = _context56.next) {
                                     case 0:
-                                        _context55.next = 2;
+                                        _context56.next = 2;
                                         return FirebaseService.logOutUser();
 
                                     case 2:
@@ -12081,10 +12118,10 @@ $__System.register('3d', ['35', '38', '40', '41', '42', '2d', '2e', '3e', '3f'],
 
                                     case 3:
                                     case 'end':
-                                        return _context55.stop();
+                                        return _context56.stop();
                                 }
                             }
-                        }, _callee55, this);
+                        }, _callee56, this);
                     }));
                 }
             };
@@ -12121,7 +12158,8 @@ $__System.register('3d', ['35', '38', '40', '41', '42', '2d', '2e', '3e', '3f'],
                 createNewQuiz: createNewQuiz,
                 updateQuizTitle: updateQuizTitle,
                 getQuiz: getQuiz,
-                getCourseById: getCourseById,
+                getCourseViewCourseById: getCourseViewCourseById,
+                getCourseEditCourseById: getCourseEditCourseById,
                 getConceptById: getConceptById,
                 loadPublicQuestionIds: loadPublicQuestionIds,
                 starCourse: starCourse,
