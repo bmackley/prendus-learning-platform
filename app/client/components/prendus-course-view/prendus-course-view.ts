@@ -40,10 +40,10 @@ export class PrendusCourseView {
 
   mapStateToThis(e: StatechangeEvent) {
     const state = e.detail.state;
-    this.courseId = state.currentCourse.id;
+    this.courseId = state.courseViewCurrentCourse.id;
     this.username = state.currentUser.metaData.email;
     this.uid = state.currentUser.metaData.uid;
-    this.currentCourse = state.currentCourse;
+    this.currentCourse = state.courseViewCurrentCourse;
     this.courseConcepts = state.viewCourseConcepts[this.courseId];
   }
   toggle(e) {
@@ -77,7 +77,7 @@ export class PrendusCourseView {
   async viewCourse() {
     if (this.data.courseId) {
         Actions.showMainSpinner(this);
-        await Actions.getCourseById.execute(this, this.data.courseId);
+        await Actions.getCourseViewCourseById(this, this.data.courseId);
         await Actions.loadViewCourseConcepts(this, this.data.courseId);
         Actions.hideMainSpinner(this);
     }
@@ -86,7 +86,7 @@ export class PrendusCourseView {
   async viewData() {
     if (this.data.courseId) {
         Actions.showMainSpinner(this);
-        await Actions.getCourseById.execute(this, this.data.courseId);
+        await Actions.getCourseViewCourseById(this, this.data.courseId);
         await Actions.loadViewCourseConcepts(this, this.data.courseId);
         Actions.hideMainSpinner(this);
     }
