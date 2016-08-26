@@ -191,9 +191,14 @@ export function rootReducer(state: State = InitialState, action: Action): State 
         newState.courses = action.courses;
         return newState;
       }
-      case 'GET_COURSE_BY_ID': {
+      case 'SET_COURSE_VIEW_CURRENT_COURSE': {
         const newState = Object.assign({}, state);
-        newState.currentCourse = action.currentCourse;
+        newState.courseViewCurrentCourse = action.currentCourse;
+        return newState;
+      }
+      case 'SET_COURSE_EDIT_CURRENT_COURSE': {
+        const newState = Object.assign({}, state);
+        newState.courseEditCurrentCourse = action.currentCourse;
         return newState;
       }
       case 'ADD_COURSE': {
