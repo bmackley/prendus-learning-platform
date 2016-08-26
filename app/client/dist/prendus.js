@@ -2752,7 +2752,8 @@ $__System.register('3a', [], function (_export, _context) {
                         email: '',
                         firstName: '',
                         lastName: '',
-                        institution: ''
+                        institution: '',
+                        uid: ''
                     },
                     starredCourses: {},
                     sharedWithMeCourses: {},
@@ -2899,6 +2900,8 @@ $__System.register('3b', ['3a', '3c'], function (_export, _context) {
                     var _newState17 = Object.assign({}, state);
                     _newState17.currentUser = action.user;
                     _newState17.courses = action.courses;
+                    _newState17.starredCourses = action.starredCourses;
+                    _newState17.sharedCourses = action.sharedCourses;
                     return _newState17;
                 }
             case Actions.checkUserAuth.type:
@@ -4558,22 +4561,32 @@ $__System.register('15', ['29', '2d', '2a', '3c', '2e'], function (_export, _con
                                 while (1) {
                                     switch (_context.prev = _context.next) {
                                         case 0:
-                                            _context.next = 2;
+                                            _context.prev = 0;
+                                            _context.next = 3;
                                             return FirebaseService.getLoggedInUser();
 
-                                        case 2:
+                                        case 3:
                                             user = _context.sent;
 
                                             Actions.getCoursesByUser.execute(this);
                                             Actions.getStarredCoursesByUser(this, user.uid);
                                             Actions.getSharedCoursesByUser(this, user.uid);
+                                            _context.next = 13;
+                                            break;
 
-                                        case 6:
+                                        case 9:
+                                            _context.prev = 9;
+                                            _context.t0 = _context['catch'](0);
+
+                                            this.errorMessage = '';
+                                            this.errorMessage = _context.t0.message;
+
+                                        case 13:
                                         case 'end':
                                             return _context.stop();
                                     }
                                 }
-                            }, _callee, this);
+                            }, _callee, this, [[0, 9]]);
                         }));
                     }
                 }, {
@@ -4595,7 +4608,12 @@ $__System.register('15', ['29', '2d', '2a', '3c', '2e'], function (_export, _con
                                 description: this.courseDescription,
                                 uid: this.uid
                             };
-                            Actions.addCourse.execute(this, newCourse);
+                            try {
+                                Actions.addCourse.execute(this, newCourse);
+                            } catch (error) {
+                                this.errorMessage = '';
+                                this.errorMessage = error.message;
+                            }
                             this.querySelector('#courseFormName').value = '';
                         }
                     }
@@ -4686,27 +4704,40 @@ $__System.register('14', ['29', '2d', '2a', '3c', '2e'], function (_export, _con
                                 while (1) {
                                     switch (_context.prev = _context.next) {
                                         case 0:
-                                            _context.next = 2;
+                                            _context.prev = 0;
+                                            _context.next = 3;
                                             return FirebaseService.getLoggedInUser();
 
-                                        case 2:
+                                        case 3:
                                             user = _context.sent;
 
-                                            if (user && course.collaborators) {
+                                            this.numStars = Object.keys(this.course.userStars || {}).length;
+                                            if (user) {
                                                 this.uid = user.uid;
                                                 if (course.uid === this.uid) {
                                                     this.hasEditAccess = true;
-                                                } else {
+                                                } else if (course.collaborators) {
                                                     this.hasEditAccess = this.checkCollaboratorStatus(course.collaborators, this.uid);
                                                 }
+                                            } else {
+                                                this.starIcon = 'icons:star-border';
                                             }
+                                            _context.next = 12;
+                                            break;
 
-                                        case 4:
+                                        case 8:
+                                            _context.prev = 8;
+                                            _context.t0 = _context['catch'](0);
+
+                                            this.errorMessage = '';
+                                            this.errorMessage = _context.t0.message;
+
+                                        case 12:
                                         case 'end':
                                             return _context.stop();
                                     }
                                 }
-                            }, _callee, this);
+                            }, _callee, this, [[0, 8]]);
                         }));
                     }
                 }, {
@@ -4726,61 +4757,75 @@ $__System.register('14', ['29', '2d', '2a', '3c', '2e'], function (_export, _con
                                 while (1) {
                                     switch (_context2.prev = _context2.next) {
                                         case 0:
-                                            if (!this.user) {
-                                                _context2.next = 21;
+                                            _context2.prev = 0;
+
+                                            if (!(this.user && this.user.metaData.uid)) {
+                                                _context2.next = 22;
                                                 break;
                                             }
 
                                             if (!this.user.starredCourses) {
-                                                _context2.next = 11;
+                                                _context2.next = 12;
                                                 break;
                                             }
 
                                             if (!this.user.starredCourses[this.course.id]) {
-                                                _context2.next = 7;
+                                                _context2.next = 8;
                                                 break;
                                             }
 
-                                            _context2.next = 5;
+                                            _context2.next = 6;
                                             return Actions.unstarCourse(this, this.course.id);
 
-                                        case 5:
-                                            _context2.next = 9;
+                                        case 6:
+                                            _context2.next = 10;
                                             break;
 
-                                        case 7:
-                                            _context2.next = 9;
+                                        case 8:
+                                            _context2.next = 10;
                                             return Actions.starCourse(this, this.course.id);
 
-                                        case 9:
-                                            _context2.next = 13;
+                                        case 10:
+                                            _context2.next = 14;
                                             break;
 
-                                        case 11:
-                                            _context2.next = 13;
+                                        case 12:
+                                            _context2.next = 14;
                                             return Actions.starCourse(this, this.course.id);
 
-                                        case 13:
-                                            _context2.next = 15;
+                                        case 14:
+                                            _context2.next = 16;
                                             return Actions.checkUserAuth.execute(this);
 
-                                        case 15:
+                                        case 16:
                                             Actions.getCoursesByVisibility(this, 'public');
                                             Actions.getCoursesByUser.execute(this);
                                             Actions.getStarredCoursesByUser(this, this.user.metaData.uid);
                                             Actions.getSharedCoursesByUser(this, this.user.metaData.uid);
-                                            _context2.next = 22;
+                                            _context2.next = 24;
                                             break;
 
-                                        case 21:
-                                            alert('You must be logged in to star a course');
-
                                         case 22:
+                                            this.errorMessage = '';
+                                            this.errorMessage = 'You must be logged in to star a course';
+
+                                        case 24:
+                                            _context2.next = 30;
+                                            break;
+
+                                        case 26:
+                                            _context2.prev = 26;
+                                            _context2.t0 = _context2['catch'](0);
+
+                                            this.errorMessage = '';
+                                            this.errorMessage = _context2.t0.message;
+
+                                        case 30:
                                         case 'end':
                                             return _context2.stop();
                                     }
                                 }
-                            }, _callee2, this);
+                            }, _callee2, this, [[0, 26]]);
                         }));
                     }
                 }, {
@@ -4803,7 +4848,6 @@ $__System.register('14', ['29', '2d', '2a', '3c', '2e'], function (_export, _con
                         var state = e.detail.state;
                         this.user = state.currentUser;
                         this.uid = state.currentUser.metaData.uid;
-                        this.collaborators = state.courseCollaboratorEmails;
                         this.numStars = Object.keys(this.course.userStars || {}).length;
                         if (this.user && this.course) {
                             if (this.user.starredCourses) {
@@ -5171,7 +5215,7 @@ $__System.register('11', ['29', '2d', '2a', '3c'], function (_export, _context2)
                                             this.$.firstName.value = '';
                                             this.$.lastName.value = '';
                                             this.$.institution.value = '';
-                                            location = 'courses/home';
+                                            location = '';
 
                                             window.history.pushState({}, '', location);
                                             this.fire('location-changed', {}, { node: window });
@@ -5946,8 +5990,8 @@ $__System.register('7', ['29', '2d', '2a', '3c'], function (_export, _context3) 
                                             return Actions.updateUserMetaData.execute(this, this.uid, submitValue);
 
                                         case 8:
-                                            this.updateProfileSuccessToastText = 'Profile Successfully Updated';
-                                            this.$.updateProfileSuccessToast.open();
+                                            this.successMessage = '';
+                                            this.successMessage = 'Profile Updated Successfully';
                                             _context.next = 16;
                                             break;
 
@@ -5955,8 +5999,8 @@ $__System.register('7', ['29', '2d', '2a', '3c'], function (_export, _context3) 
                                             _context.prev = 12;
                                             _context.t0 = _context['catch'](5);
 
-                                            this.updateProfileErrorToastText = _context.t0.message;
-                                            this.$.updateProfileErrorToast.open();
+                                            this.errorMessage = '';
+                                            this.errorMessage = _context.t0.message;
 
                                         case 16:
                                         case 'end':
@@ -5995,8 +6039,8 @@ $__System.register('7', ['29', '2d', '2a', '3c'], function (_export, _context3) 
                                             return Actions.updateUserMetaData.execute(this, this.uid, submitValue);
 
                                         case 7:
-                                            this.updateProfileSuccessToastText = 'Profile & Email Updated Successfully';
-                                            this.$.updateProfileSuccessToast.open();
+                                            this.successMessage = '';
+                                            this.successMessage = 'Profile & Email Updated Successfully';
                                             _context2.next = 15;
                                             break;
 
@@ -6004,8 +6048,8 @@ $__System.register('7', ['29', '2d', '2a', '3c'], function (_export, _context3) 
                                             _context2.prev = 11;
                                             _context2.t0 = _context2['catch'](1);
 
-                                            this.updateProfileErrorToastText = _context2.t0.message;
-                                            this.$.updateProfileErrorToast.open();
+                                            this.errorMessage = '';
+                                            this.errorMessage = _context2.t0.message;
 
                                         case 15:
                                             this.$.changeEmailPassword.value = ''; //need to clear the form
@@ -11099,7 +11143,7 @@ $__System.register('3c', ['34', '37', '40', '2d', '2e', '3d', '3e', '3f'], funct
                 type: 'LOGIN_USER',
                 execute: function execute(context, email, password) {
                     return __awaiter(_this, void 0, void 0, _regeneratorRuntime.mark(function _callee36() {
-                        var loggedInUser, user, courses;
+                        var loggedInUser, user, courses, starredCourseIds, starredCourses, sharedCourseIds, sharedCourses;
                         return _regeneratorRuntime.wrap(function _callee36$(_context36) {
                             while (1) {
                                 switch (_context36.prev = _context36.next) {
@@ -11122,26 +11166,48 @@ $__System.register('3c', ['34', '37', '40', '2d', '2e', '3d', '3e', '3f'], funct
 
                                     case 10:
                                         courses = _context36.sent;
+                                        _context36.next = 13;
+                                        return UserModel.getStarredCoursesIds(loggedInUser.uid);
+
+                                    case 13:
+                                        starredCourseIds = _context36.sent;
+                                        _context36.next = 16;
+                                        return CourseModel.resolveCourseIds(starredCourseIds);
+
+                                    case 16:
+                                        starredCourses = _context36.sent;
+                                        _context36.next = 19;
+                                        return UserModel.getSharedWithMeCoursesIds(loggedInUser.uid);
+
+                                    case 19:
+                                        sharedCourseIds = _context36.sent;
+                                        _context36.next = 22;
+                                        return CourseModel.resolveCourseIds(sharedCourseIds);
+
+                                    case 22:
+                                        sharedCourses = _context36.sent;
 
                                         context.action = {
                                             type: Actions.loginUser.type,
                                             courses: courses,
+                                            starredCourses: starredCourses,
+                                            sharedCourses: sharedCourses,
                                             user: user
                                         };
-                                        _context36.next = 17;
+                                        _context36.next = 29;
                                         break;
 
-                                    case 14:
-                                        _context36.prev = 14;
+                                    case 26:
+                                        _context36.prev = 26;
                                         _context36.t0 = _context36['catch'](0);
                                         throw _context36.t0;
 
-                                    case 17:
+                                    case 29:
                                     case 'end':
                                         return _context36.stop();
                                 }
                             }
-                        }, _callee36, this, [[0, 14]]);
+                        }, _callee36, this, [[0, 26]]);
                     }));
                 }
             };
@@ -11663,26 +11729,24 @@ $__System.register('3c', ['34', '37', '40', '2d', '2e', '3d', '3e', '3f'], funct
                                 switch (_context49.prev = _context49.next) {
                                     case 0:
                                         _context49.prev = 0;
-
-                                        console.log('concepts array', courseConceptsArray);
-                                        _context49.next = 4;
+                                        _context49.next = 3;
                                         return CourseModel.updateCourseConcepts(id, courseConceptsArray);
 
-                                    case 4:
-                                        _context49.next = 9;
+                                    case 3:
+                                        _context49.next = 8;
                                         break;
 
-                                    case 6:
-                                        _context49.prev = 6;
+                                    case 5:
+                                        _context49.prev = 5;
                                         _context49.t0 = _context49['catch'](0);
                                         throw _context49.t0;
 
-                                    case 9:
+                                    case 8:
                                     case 'end':
                                         return _context49.stop();
                                 }
                             }
-                        }, _callee49, this, [[0, 6]]);
+                        }, _callee49, this, [[0, 5]]);
                     }));
                 }
             };
@@ -11695,19 +11759,14 @@ $__System.register('3c', ['34', '37', '40', '2d', '2e', '3d', '3e', '3f'], funct
                             switch (_context50.prev = _context50.next) {
                                 case 0:
                                     _context50.prev = 0;
-
-                                    console.log('actions context', context);
-                                    console.log('actions id', id);
-                                    console.log('actions field', field);
-                                    console.log('actions value', value);
-                                    _context50.next = 7;
+                                    _context50.next = 3;
                                     return CourseModel.updateCourseField(id, field, value);
 
-                                case 7:
-                                    _context50.next = 9;
+                                case 3:
+                                    _context50.next = 5;
                                     return CourseModel.getById(id);
 
-                                case 9:
+                                case 5:
                                     course = _context50.sent;
 
                                     //   const conceptsArray = await CourseModel.courseConceptsToArray(course);
@@ -11717,20 +11776,20 @@ $__System.register('3c', ['34', '37', '40', '2d', '2e', '3d', '3e', '3f'], funct
                                         type: 'GET_COURSE_BY_ID',
                                         currentCourse: course
                                     };
-                                    _context50.next = 16;
+                                    _context50.next = 12;
                                     break;
 
-                                case 13:
-                                    _context50.prev = 13;
+                                case 9:
+                                    _context50.prev = 9;
                                     _context50.t0 = _context50['catch'](0);
                                     throw _context50.t0;
 
-                                case 16:
+                                case 12:
                                 case 'end':
                                     return _context50.stop();
                             }
                         }
-                    }, _callee50, this, [[0, 13]]);
+                    }, _callee50, this, [[0, 9]]);
                 }));
             };
 

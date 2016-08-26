@@ -17119,7 +17119,7 @@ Custom property | Description | Default
     bottom: 0;
 
   }
-  #privacy-policy, #terms-of-service, #license{
+  #privacy-policy, #terms-of-service{
     margin-left:auto;
     margin-right:2%;
     cursor: pointer;
@@ -17136,9 +17136,6 @@ Custom property | Description | Default
         <paper-header-panel>
           <paper-toolbar style="color: gray;">
             <div>© 2016 Prendus LLC</div>
-            <div id="license">
-              <a rel="license" href="http://creativecommons.org/licenses/by/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by/4.0/80x15.png"></a>&nbsp;All publicly available materials licensed under a <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>.
-            </div>
             <div id="terms-of-service" on-tap="changeURL">Terms of Service</div>
             <div id="privacy-policy" on-tap="changeURL">Privacy Policy</div>
           </paper-toolbar>
@@ -22654,6 +22651,356 @@ Custom property | Description | Default
 
   </script>
 
+</dom-module>
+<!--
+@license
+Copyright (c) 2015 The Polymer Project Authors. All rights reserved.
+This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+Code distributed by Google as part of the polymer project is also
+subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+--><script>
+  /**
+   * `Polymer.PaperInkyFocusBehavior` implements a ripple when the element has keyboard focus.
+   *
+   * @polymerBehavior Polymer.PaperInkyFocusBehavior
+   */
+  Polymer.PaperInkyFocusBehaviorImpl = {
+    observers: [
+      '_focusedChanged(receivedFocusFromKeyboard)'
+    ],
+
+    _focusedChanged: function(receivedFocusFromKeyboard) {
+      if (receivedFocusFromKeyboard) {
+        this.ensureRipple();
+      }
+      if (this.hasRipple()) {
+        this._ripple.holdDown = receivedFocusFromKeyboard;
+      }
+    },
+
+    _createRipple: function() {
+      var ripple = Polymer.PaperRippleBehavior._createRipple();
+      ripple.id = 'ink';
+      ripple.setAttribute('center', '');
+      ripple.classList.add('circle');
+      return ripple;
+    }
+  };
+
+  /** @polymerBehavior Polymer.PaperInkyFocusBehavior */
+  Polymer.PaperInkyFocusBehavior = [
+    Polymer.IronButtonState,
+    Polymer.IronControlState,
+    Polymer.PaperRippleBehavior,
+    Polymer.PaperInkyFocusBehaviorImpl
+  ];
+</script>
+<!--
+@license
+Copyright (c) 2015 The Polymer Project Authors. All rights reserved.
+This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+Code distributed by Google as part of the polymer project is also
+subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+--><!--
+Material design: [Icon toggles](https://www.google.com/design/spec/components/buttons.html#buttons-toggle-buttons)
+
+`paper-icon-button` is a button with an image placed at the center. When the user touches
+the button, a ripple effect emanates from the center of the button.
+
+`paper-icon-button` includes a default icon set.  Use `icon` to specify which icon
+from the icon set to use.
+
+    <paper-icon-button icon="menu"></paper-icon-button>
+
+See [`iron-iconset`](iron-iconset) for more information about
+how to use a custom icon set.
+
+Example:
+
+    <link href="path/to/iron-icons/iron-icons.html" rel="import">
+
+    <paper-icon-button icon="favorite"></paper-icon-button>
+    <paper-icon-button src="star.png"></paper-icon-button>
+
+To use `paper-icon-button` as a link, wrap it in an anchor tag. Since `paper-icon-button`
+will already receive focus, you may want to prevent the anchor tag from receiving focus
+as well by setting its tabindex to -1.
+
+    <a href="https://www.polymer-project.org" tabindex="-1">
+      <paper-icon-button icon="polymer"></paper-icon-button>
+    </a>
+
+### Styling
+
+Style the button with CSS as you would a normal DOM element. If you are using the icons
+provided by `iron-icons`, they will inherit the foreground color of the button.
+
+    /* make a red "favorite" button */
+    <paper-icon-button icon="favorite" style="color: red;"></paper-icon-button>
+
+By default, the ripple is the same color as the foreground at 25% opacity. You may
+customize the color using the `--paper-icon-button-ink-color` custom property.
+
+The following custom properties and mixins are available for styling:
+
+Custom property | Description | Default
+----------------|-------------|----------
+`--paper-icon-button-disabled-text` | The color of the disabled button | `--disabled-text-color`
+`--paper-icon-button-ink-color` | Selected/focus ripple color | `--primary-text-color`
+`--paper-icon-button` | Mixin for a button | `{}`
+`--paper-icon-button-disabled` | Mixin for a disabled button | `{}`
+`--paper-icon-button-hover` | Mixin for button on hover | `{}`
+
+@group Paper Elements
+@element paper-icon-button
+@demo demo/index.html
+-->
+
+<dom-module id="paper-icon-button" assetpath="../../bower_components/paper-icon-button/">
+  <template strip-whitespace="">
+    <style>
+      :host {
+        display: inline-block;
+        position: relative;
+        padding: 8px;
+        outline: none;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+        cursor: pointer;
+        z-index: 0;
+        line-height: 1;
+
+        width: 40px;
+        height: 40px;
+
+        /* NOTE: Both values are needed, since some phones require the value to be `transparent`. */
+        -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+        -webkit-tap-highlight-color: transparent;
+
+        /* Because of polymer/2558, this style has lower specificity than * */
+        box-sizing: border-box !important;
+
+        @apply(--paper-icon-button);
+      }
+
+      :host #ink {
+        color: var(--paper-icon-button-ink-color, --primary-text-color);
+        opacity: 0.6;
+      }
+
+      :host([disabled]) {
+        color: var(--paper-icon-button-disabled-text, --disabled-text-color);
+        pointer-events: none;
+        cursor: auto;
+
+        @apply(--paper-icon-button-disabled);
+      }
+
+      :host(:hover) {
+        @apply(--paper-icon-button-hover);
+      }
+
+      iron-icon {
+        --iron-icon-width: 100%;
+        --iron-icon-height: 100%;
+      }
+    </style>
+
+    <iron-icon id="icon" src="[[src]]" icon="[[icon]]" alt$="[[alt]]"></iron-icon>
+  </template>
+
+  <script>
+    Polymer({
+      is: 'paper-icon-button',
+
+      hostAttributes: {
+        role: 'button',
+        tabindex: '0'
+      },
+
+      behaviors: [
+        Polymer.PaperInkyFocusBehavior
+      ],
+
+      properties: {
+        /**
+         * The URL of an image for the icon. If the src property is specified,
+         * the icon property should not be.
+         */
+        src: {
+          type: String
+        },
+
+        /**
+         * Specifies the icon name or index in the set of icons available in
+         * the icon's icon set. If the icon property is specified,
+         * the src property should not be.
+         */
+        icon: {
+          type: String
+        },
+
+        /**
+         * Specifies the alternate text for the button, for accessibility.
+         */
+        alt: {
+          type: String,
+          observer: "_altChanged"
+        }
+      },
+
+      _altChanged: function(newValue, oldValue) {
+        var label = this.getAttribute('aria-label');
+
+        // Don't stomp over a user-set aria-label.
+        if (!label || oldValue == label) {
+          this.setAttribute('aria-label', newValue);
+        }
+      }
+    });
+  </script>
+</dom-module>
+<dom-module id="prendus-course-preview" assetpath="../prendus-course-preview/">
+    <template>
+        <style>
+            #star-icon {
+                color: rgba(0, 0, 0, .5);
+            }
+            .course-title{
+              font-size: 1.5vw;
+              font-weight: bold;
+              max-width: 80%;
+            }
+            .card-content{
+              height: 175px;
+            }
+            .course-card{
+              margin: 1%;
+              width: 30.5%;
+            }
+            #card-position{
+              position: relative;
+              margin: 0 auto;
+            }
+            #no-wrap{
+              position: absolute;
+              top: -3px;
+              left: 80%;
+            }
+            #no-wrap-content{
+              position: absolute;
+              overflow: hidden;
+              white-space: nowrap;
+            }
+            @media (max-width: 1350px) {
+              .course-title{
+                font-size: 2vw;
+                font-weight: bold;
+              }
+              .course-card{
+                width: 30.5%;
+              }
+            }
+            @media (max-width: 900px) {
+              .course-title{
+                font-size: 3vw;
+                font-weight: bold;
+              }
+              .course-card{
+                width: 46%;
+              }
+            }
+            @media (max-width: 600px) {
+              .course-title{
+                font-size: 4.5vw;
+                font-weight: bold;
+              }
+              .course-card{
+                width: 100%;
+              }
+            }
+        </style>
+
+        <redux-store on-statechange="mapStateToThis" action="[[action]]"></redux-store>
+
+        <paper-card class="course-card">
+          <div class="card-content">
+            <div id="card-position">
+              <div class="course-title">[[course.title]]</div>
+              <div id="no-wrap"><div id="no-wrap-content"><paper-icon-button id="star-icon" icon="[[starIcon]]" title="click to star or unstar" on-tap="starClick"></paper-icon-button>[[numStars]]</div></div>
+            </div>
+            [[course.description]]
+          </div>
+          <div class="card-actions">
+            <template is="dom-if" if="[[hasEditAccess]]">
+              <paper-button id="[[course.id]]" on-tap="editCourse">Edit</paper-button>  <!-- Go to page from here -->
+            </template>
+            <paper-button id="[[course.id]]" on-tap="viewCourse">View</paper-button>
+          </div>
+        </paper-card>
+        <prendus-notification error-message="[[errorMessage]]"></prendus-notification>
+    </template>
+</dom-module>
+<dom-module id="prendus-course-homepage" assetpath="../prendus-course-homepage/">
+  <style>
+    /* CSS rules for your element */
+    :host {
+      display: block;
+    }
+    #addFabButton{
+      margin-top: 2%;
+    }
+    #addCourseDialog{
+      width: 33%;
+    }
+  </style>
+  <template>
+    <redux-store on-statechange="mapStateToThis" action="[[action]]"></redux-store>
+
+    <iron-ajax id="sharedWithMeCourseAjax" method="post" content-type="application/json" handle-as="json"></iron-ajax>
+
+    <h1>My Courses</h1>
+    <template id="courseList" is="dom-repeat" items="[[userCourses]]">
+        <prendus-course-preview course="[[item]]"></prendus-course-preview>
+    </template>
+    <br>
+    <paper-fab id="addFabButton" icon="add" title="Add Course" on-tap="addCourse"></paper-fab>
+
+    <paper-dialog id="addCourseDialog" modal="">
+      <h2>Create a Course</h2>
+      <div>
+        <!-- Look up Iron keys to change this -->
+        <paper-input name="courseName" label="Course Name" id="courseFormName" required="" auto-validate=""></paper-input>
+        <paper-input name="courseDescription" label="Short Description" id="courseDescription" required="" auto-validate=""></paper-input>
+        <paper-button dialog-dismiss="">Cancel</paper-button>
+        <paper-button on-tap="addCourseFormDone">Next</paper-button>
+      </div>
+      <div class="buttons">
+      </div>
+    </paper-dialog>
+
+    <h1>Starred Courses</h1>
+
+    <template id="courseList" is="dom-repeat" items="[[starredCourses]]">
+        <prendus-course-preview course="[[item]]"></prendus-course-preview>
+    </template>
+
+    <h1>Courses shared with me</h1>
+
+    <template id="courseList" is="dom-repeat" items="[[sharedCourses]]">
+        <prendus-course-preview course="[[item]]"></prendus-course-preview>
+    </template>
+
+    <prendus-notification errormessage="[[errorMessage]]"></prendus-notification>
+  </template>
+
+  <!--<script src="prendus-course-homepage.js"></script>-->
 </dom-module>
 <!--
 @license
@@ -41519,220 +41866,6 @@ item has bolded text. Please see the `<paper-menu>` docs for which attributes
   })();
 </script>
 </dom-module>
-<!--
-@license
-Copyright (c) 2015 The Polymer Project Authors. All rights reserved.
-This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
-The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
-The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
-Code distributed by Google as part of the polymer project is also
-subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
---><script>
-  /**
-   * `Polymer.PaperInkyFocusBehavior` implements a ripple when the element has keyboard focus.
-   *
-   * @polymerBehavior Polymer.PaperInkyFocusBehavior
-   */
-  Polymer.PaperInkyFocusBehaviorImpl = {
-    observers: [
-      '_focusedChanged(receivedFocusFromKeyboard)'
-    ],
-
-    _focusedChanged: function(receivedFocusFromKeyboard) {
-      if (receivedFocusFromKeyboard) {
-        this.ensureRipple();
-      }
-      if (this.hasRipple()) {
-        this._ripple.holdDown = receivedFocusFromKeyboard;
-      }
-    },
-
-    _createRipple: function() {
-      var ripple = Polymer.PaperRippleBehavior._createRipple();
-      ripple.id = 'ink';
-      ripple.setAttribute('center', '');
-      ripple.classList.add('circle');
-      return ripple;
-    }
-  };
-
-  /** @polymerBehavior Polymer.PaperInkyFocusBehavior */
-  Polymer.PaperInkyFocusBehavior = [
-    Polymer.IronButtonState,
-    Polymer.IronControlState,
-    Polymer.PaperRippleBehavior,
-    Polymer.PaperInkyFocusBehaviorImpl
-  ];
-</script>
-<!--
-@license
-Copyright (c) 2015 The Polymer Project Authors. All rights reserved.
-This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
-The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
-The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
-Code distributed by Google as part of the polymer project is also
-subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
---><!--
-Material design: [Icon toggles](https://www.google.com/design/spec/components/buttons.html#buttons-toggle-buttons)
-
-`paper-icon-button` is a button with an image placed at the center. When the user touches
-the button, a ripple effect emanates from the center of the button.
-
-`paper-icon-button` includes a default icon set.  Use `icon` to specify which icon
-from the icon set to use.
-
-    <paper-icon-button icon="menu"></paper-icon-button>
-
-See [`iron-iconset`](iron-iconset) for more information about
-how to use a custom icon set.
-
-Example:
-
-    <link href="path/to/iron-icons/iron-icons.html" rel="import">
-
-    <paper-icon-button icon="favorite"></paper-icon-button>
-    <paper-icon-button src="star.png"></paper-icon-button>
-
-To use `paper-icon-button` as a link, wrap it in an anchor tag. Since `paper-icon-button`
-will already receive focus, you may want to prevent the anchor tag from receiving focus
-as well by setting its tabindex to -1.
-
-    <a href="https://www.polymer-project.org" tabindex="-1">
-      <paper-icon-button icon="polymer"></paper-icon-button>
-    </a>
-
-### Styling
-
-Style the button with CSS as you would a normal DOM element. If you are using the icons
-provided by `iron-icons`, they will inherit the foreground color of the button.
-
-    /* make a red "favorite" button */
-    <paper-icon-button icon="favorite" style="color: red;"></paper-icon-button>
-
-By default, the ripple is the same color as the foreground at 25% opacity. You may
-customize the color using the `--paper-icon-button-ink-color` custom property.
-
-The following custom properties and mixins are available for styling:
-
-Custom property | Description | Default
-----------------|-------------|----------
-`--paper-icon-button-disabled-text` | The color of the disabled button | `--disabled-text-color`
-`--paper-icon-button-ink-color` | Selected/focus ripple color | `--primary-text-color`
-`--paper-icon-button` | Mixin for a button | `{}`
-`--paper-icon-button-disabled` | Mixin for a disabled button | `{}`
-`--paper-icon-button-hover` | Mixin for button on hover | `{}`
-
-@group Paper Elements
-@element paper-icon-button
-@demo demo/index.html
--->
-
-<dom-module id="paper-icon-button" assetpath="../../bower_components/paper-icon-button/">
-  <template strip-whitespace="">
-    <style>
-      :host {
-        display: inline-block;
-        position: relative;
-        padding: 8px;
-        outline: none;
-        -webkit-user-select: none;
-        -moz-user-select: none;
-        -ms-user-select: none;
-        user-select: none;
-        cursor: pointer;
-        z-index: 0;
-        line-height: 1;
-
-        width: 40px;
-        height: 40px;
-
-        /* NOTE: Both values are needed, since some phones require the value to be `transparent`. */
-        -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
-        -webkit-tap-highlight-color: transparent;
-
-        /* Because of polymer/2558, this style has lower specificity than * */
-        box-sizing: border-box !important;
-
-        @apply(--paper-icon-button);
-      }
-
-      :host #ink {
-        color: var(--paper-icon-button-ink-color, --primary-text-color);
-        opacity: 0.6;
-      }
-
-      :host([disabled]) {
-        color: var(--paper-icon-button-disabled-text, --disabled-text-color);
-        pointer-events: none;
-        cursor: auto;
-
-        @apply(--paper-icon-button-disabled);
-      }
-
-      :host(:hover) {
-        @apply(--paper-icon-button-hover);
-      }
-
-      iron-icon {
-        --iron-icon-width: 100%;
-        --iron-icon-height: 100%;
-      }
-    </style>
-
-    <iron-icon id="icon" src="[[src]]" icon="[[icon]]" alt$="[[alt]]"></iron-icon>
-  </template>
-
-  <script>
-    Polymer({
-      is: 'paper-icon-button',
-
-      hostAttributes: {
-        role: 'button',
-        tabindex: '0'
-      },
-
-      behaviors: [
-        Polymer.PaperInkyFocusBehavior
-      ],
-
-      properties: {
-        /**
-         * The URL of an image for the icon. If the src property is specified,
-         * the icon property should not be.
-         */
-        src: {
-          type: String
-        },
-
-        /**
-         * Specifies the icon name or index in the set of icons available in
-         * the icon's icon set. If the icon property is specified,
-         * the src property should not be.
-         */
-        icon: {
-          type: String
-        },
-
-        /**
-         * Specifies the alternate text for the button, for accessibility.
-         */
-        alt: {
-          type: String,
-          observer: "_altChanged"
-        }
-      },
-
-      _altChanged: function(newValue, oldValue) {
-        var label = this.getAttribute('aria-label');
-
-        // Don't stomp over a user-set aria-label.
-        if (!label || oldValue == label) {
-          this.setAttribute('aria-label', newValue);
-        }
-      }
-    });
-  </script>
-</dom-module>
 <link href="../../node_modules/video.js/dist/video-js.min.css" rel="stylesheet">
 <script src="../../node_modules/video.js/dist/video.min.js">/**
  * @license
@@ -43731,133 +43864,6 @@ Custom property | Description | Default
   </template>
 
   <!--<script src="prendus-course-view.js"></script>-->
-</dom-module>
-<dom-module id="prendus-course-preview" assetpath="../prendus-course-preview/">
-    <template>
-        <style>
-            #star-icon {
-                color: rgba(0, 0, 0, .5);
-            }
-            .course-title{
-              font-size: 1.5vw;
-              font-weight: bold;
-              max-width: 80%;
-            }
-            .card-content{
-              height: 175px;
-            }
-            .course-card{
-              margin: 1%;
-              width: 31%;
-            }
-            #card-position{
-              position: relative;
-              margin: 0 auto;
-            }
-            #no-wrap{
-              position: absolute;
-              top: -3px;
-              left: 80%;
-              z-index: 1000;
-            }
-            #no-wrap-content{
-              position: fixed;
-              width: 4%;
-              overflow: hidden;
-              white-space: nowrap;
-            }
-            @media (max-width: 1200px) {
-              .course-title{
-                font-size: 2vw;
-                font-weight: bold;
-              }
-              .course-card{
-                width: 66%;
-              }
-            }
-            @media (max-width: 600px) {
-              .course-title{
-                font-size: 3vw;
-                font-weight: bold;
-              }
-              .course-card{
-                width: 100%;
-              }
-            }
-        </style>
-
-        <redux-store on-statechange="mapStateToThis" action="[[action]]"></redux-store>
-
-        <paper-card class="course-card">
-          <div class="card-content">
-            <div id="card-position">
-              <div class="course-title">[[course.title]]</div>
-              <div id="no-wrap"><div id="no-wrap-content"><paper-icon-button id="star-icon" icon="[[starIcon]]" title="click to star or unstar" on-tap="starClick"></paper-icon-button>[[numStars]]</div></div>
-            </div>
-            [[course.description]]
-          </div>
-          <div class="card-actions">
-            <template is="dom-if" if="[[hasEditAccess]]">
-              <paper-button id="[[course.id]]" on-tap="editCourse">Edit</paper-button>  <!-- Go to page from here -->
-            </template>
-            <paper-button id="[[course.id]]" on-tap="viewCourse">View</paper-button>
-          </div>
-        </paper-card>
-    </template>
-</dom-module>
-<dom-module id="prendus-course-homepage" assetpath="../prendus-course-homepage/">
-  <style>
-    /* CSS rules for your element */
-    :host {
-      display: block;
-    }
-    #addFabButton{
-      margin-top: 2%;
-    }
-    #addCourseDialog{
-      width: 33%;
-    }
-  </style>
-  <template>
-    <redux-store on-statechange="mapStateToThis" action="[[action]]"></redux-store>
-
-    <iron-ajax id="sharedWithMeCourseAjax" method="post" content-type="application/json" handle-as="json"></iron-ajax>
-
-    <h1>My Courses</h1>
-    <template id="courseList" is="dom-repeat" items="[[userCourses]]">
-        <prendus-course-preview course="[[item]]"></prendus-course-preview>
-    </template>
-    <br>
-    <paper-fab id="addFabButton" icon="add" title="Add Course" on-tap="addCourse"></paper-fab>
-
-    <paper-dialog id="addCourseDialog" modal="">
-      <h2>Create a Course</h2>
-      <div>
-        <!-- Look up Iron keys to change this -->
-        <paper-input name="courseName" label="Course Name" id="courseFormName" required="" auto-validate=""></paper-input>
-        <paper-input name="courseDescription" label="Short Description" id="courseDescription" required="" auto-validate=""></paper-input>
-        <paper-button dialog-dismiss="">Cancel</paper-button>
-        <paper-button on-tap="addCourseFormDone">Next</paper-button>
-      </div>
-      <div class="buttons">
-      </div>
-    </paper-dialog>
-
-    <h1>Starred Courses</h1>
-
-    <template id="courseList" is="dom-repeat" items="[[starredCourses]]">
-        <prendus-course-preview course="[[item]]"></prendus-course-preview>
-    </template>
-
-    <h1>Courses shared with me</h1>
-
-    <template id="courseList" is="dom-repeat" items="[[sharedCourses]]">
-        <prendus-course-preview course="[[item]]"></prendus-course-preview>
-    </template>
-
-  </template>
-
-  <!--<script src="prendus-course-homepage.js"></script>-->
 </dom-module>
 <!--
 @license
@@ -92889,12 +92895,6 @@ event and do your own custom submission:
       paper-button.confirm:hover {
         color: green;
       }
-      #updateProfileErrorToast {
-        --paper-toast-background-color: red;
-      }
-      #updateProfileSuccessToast {
-        --paper-toast-background-color: green;
-      }
   </style>
     <redux-store on-statechange="mapStateToThis" action="[[action]]"></redux-store>
     <paper-toast id="updateProfileErrorToast" duration="5000" verticalalign="top" text="[[updateProfileErrorToastText]]"></paper-toast>
@@ -92911,6 +92911,8 @@ event and do your own custom submission:
       </paper-card>
       <center><div id="toastTarget" style="height: 70px;"></div></center>
     </center>
+    <prendus-notification error-message="[[errorMessage]]"></prendus-notification>
+    <prendus-notification success-message="[[successMessage]]"></prendus-notification>
     <paper-dialog id="confirmEmailChange" modal="" on-iron-overlay-closed="closeOverlay">
     <h2>Password Verification</h2>
     <paper-dialog-scrollable>
@@ -93057,6 +93059,12 @@ event and do your own custom submission:
       }
     }
     @media (max-width: 1200px) {
+      #app-container{
+        margin-left: 13%;
+        margin-right: 13%;
+      }
+    }
+    @media (max-width: 1500px) {
       #app-container{
         margin-left: 16%;
         margin-right: 16%;
