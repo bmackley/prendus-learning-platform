@@ -10,7 +10,7 @@ export interface Action {
   videos: Video[];
   quizzes: Quiz[];
   currentConcept: {};
-  currentCourse: {};
+  currentCourse: Course;
   currentConceptVideoId: string;
   currentConceptVideoTitle: string;
   currentConceptVideoUrl: string
