@@ -13,8 +13,7 @@ import {UserMetaData} from '../node_modules/prendus-services/interfaces/user-met
 import {User} from '../node_modules/prendus-services/interfaces/user.interface.ts';
 import {EmailsToUidsModel} from '../node_modules/prendus-services/models/emails-to-uids.model.ts';
 import {Video} from '../node_modules/prendus-services/interfaces/video.interface.ts';
-
-FirebaseService.init('AIzaSyANTSoOA6LZZDxM7vqIlAl37B7IqWL-6MY', 'prendus.firebaseapp.com', 'https://prendus.firebaseio.com', 'prendus.appspot.com', 'Prendus');
+import {ExecuteAsyncInOrder} from '../node_modules/prendus-services/services/execute-async-in-order.ts';
 
 const showMainSpinner = (context: any) => {
     context.action = {
@@ -30,109 +29,126 @@ const hideMainSpinner = (context: any) => {
 
 const loadCourseCollaboratorEmails = async (context: any, uid: string, courseId: string) => {
 
-    try {
-        const uids = await CourseModel.getCollaboratorUids(courseId);
+    ExecuteAsyncInOrder.execute(operation);
 
-        await FirebaseService.set(`security/${uid}/collaboratorSecurityInfo`, {
-            collection: CourseModel.dataPath,
-            id: courseId
-        });
-        const emails = await UserModel.getEmailsByIds(uids);
+    async function operation() {
+        try {
+            const uids = await CourseModel.getCollaboratorUids(courseId);
 
-        context.action = {
-            type: 'SET_COURSE_COLLABORATOR_EMAILS',
-            emails,
-            uid
-        };
+            await FirebaseService.set(`security/${uid}/collaboratorSecurityInfo`, {
+                collection: CourseModel.dataPath,
+                id: courseId
+            });
+            const emails = await UserModel.getEmailsByIds(uids);
 
-        const conceptIds = await CourseModel.getConceptIds(courseId);
-        conceptIds.forEach((conceptId) => {
-            loadConceptCollaboratorEmails(context, courseId, conceptId);
-        });
-    }
-    catch(error) {
-        throw error;
+            context.action = {
+                type: 'SET_COURSE_COLLABORATOR_EMAILS',
+                emails,
+                uid
+            };
+
+            const conceptIds = await CourseModel.getConceptIds(courseId);
+            conceptIds.forEach((conceptId) => {
+                loadConceptCollaboratorEmails(context, courseId, conceptId);
+            });
+        }
+        catch(error) {
+            throw error;
+        }
     }
 };
 
 const loadConceptCollaboratorEmails = async (context: any, courseId: string, conceptId: string) => {
-    try {
-        const user = await FirebaseService.getLoggedInUser();
 
-        const uids = await ConceptModel.getCollaboratorUids(conceptId);
+    ExecuteAsyncInOrder.execute(operation);
 
-        await FirebaseService.set(`security/${user.uid}/collaboratorSecurityInfo`, {
-            collection: ConceptModel.dataPath,
-            id: conceptId
-        });
-        const emails = await UserModel.getEmailsByIds(uids);
+    async function operation() {
+        try {
+            const user = await FirebaseService.getLoggedInUser();
 
-        context.action = {
-            type: 'SET_CONCEPT_COLLABORATOR_EMAILS',
-            emails,
-            courseId
-        };
+            const uids = await ConceptModel.getCollaboratorUids(conceptId);
 
-        const videoIds = await ConceptModel.getVideoIds(conceptId);
-        videoIds.forEach((videoId) => {
-            loadVideoCollaboratorEmails(context, conceptId, videoId);
-        });
+            await FirebaseService.set(`security/${user.uid}/collaboratorSecurityInfo`, {
+                collection: ConceptModel.dataPath,
+                id: conceptId
+            });
+            const emails = await UserModel.getEmailsByIds(uids);
 
-        const quizIds = await ConceptModel.getQuizIds(conceptId);
-        quizIds.forEach((quizId) => {
-            loadQuizCollaboratorEmails(context, conceptId, quizId);
-        });
-    }
-    catch(error) {
-        throw error;
+            context.action = {
+                type: 'SET_CONCEPT_COLLABORATOR_EMAILS',
+                emails,
+                courseId
+            };
+
+            const videoIds = await ConceptModel.getVideoIds(conceptId);
+            videoIds.forEach((videoId) => {
+                loadVideoCollaboratorEmails(context, conceptId, videoId);
+            });
+
+            const quizIds = await ConceptModel.getQuizIds(conceptId);
+            quizIds.forEach((quizId) => {
+                loadQuizCollaboratorEmails(context, conceptId, quizId);
+            });
+        }
+        catch(error) {
+            throw error;
+        }
     }
 };
 
 const loadVideoCollaboratorEmails = async (context: any, conceptId: string, videoId: string) => {
 
-    try {
-        const user = await FirebaseService.getLoggedInUser();
+    ExecuteAsyncInOrder.execute(operation);
 
-        const uids = await VideoModel.getCollaboratorUids(videoId);
+    async function operation() {
+        try {
+            const user = await FirebaseService.getLoggedInUser();
 
-        await FirebaseService.set(`security/${user.uid}/collaboratorSecurityInfo`, {
-            collection: VideoModel.dataPath,
-            id: videoId
-        });
-        const emails = await UserModel.getEmailsByIds(uids);
+            const uids = await VideoModel.getCollaboratorUids(videoId);
 
-        context.action = {
-            type: 'SET_VIDEO_COLLABORATOR_EMAILS',
-            emails,
-            conceptId
-        };
-    }
-    catch(error) {
-        throw error;
+            await FirebaseService.set(`security/${user.uid}/collaboratorSecurityInfo`, {
+                collection: VideoModel.dataPath,
+                id: videoId
+            });
+            const emails = await UserModel.getEmailsByIds(uids);
+
+            context.action = {
+                type: 'SET_VIDEO_COLLABORATOR_EMAILS',
+                emails,
+                conceptId
+            };
+        }
+        catch(error) {
+            throw error;
+        }
     }
 };
 
 const loadQuizCollaboratorEmails = async (context: any, conceptId: string, quizId: string) => {
 
-    try {
-        const user = await FirebaseService.getLoggedInUser();
+    ExecuteAsyncInOrder.execute(operation);
 
-        const uids = await QuizModel.getCollaboratorUids(quizId);
+    async function operation() {
+        try {
+            const user = await FirebaseService.getLoggedInUser();
 
-        await FirebaseService.set(`security/${user.uid}/collaboratorSecurityInfo`, {
-            collection: QuizModel.dataPath,
-            id: quizId
-        });
-        const emails = await UserModel.getEmailsByIds(uids);
+            const uids = await QuizModel.getCollaboratorUids(quizId);
 
-        context.action = {
-            type: 'SET_QUIZ_COLLABORATOR_EMAILS',
-            emails,
-            conceptId
-        };
-    }
-    catch(error) {
-        throw error;
+            await FirebaseService.set(`security/${user.uid}/collaboratorSecurityInfo`, {
+                collection: QuizModel.dataPath,
+                id: quizId
+            });
+            const emails = await UserModel.getEmailsByIds(uids);
+
+            context.action = {
+                type: 'SET_QUIZ_COLLABORATOR_EMAILS',
+                emails,
+                conceptId
+            };
+        }
+        catch(error) {
+            throw error;
+        }
     }
 };
 
@@ -721,22 +737,38 @@ const getCoursesByVisibility = async (context: any, visibility: CourseVisibility
     };
 };
 
-const getCourseById = {
-  execute: async (context: any, id: string) => {
+const getCourseViewCourseById = async (context: any, id: string) => {
     try {
       const course = await CourseModel.getById(id);
     //   const conceptsArray = await CourseModel.courseConceptsToArray(course);
     //   const orderedConcepts = CourseModel.orderCourseConcepts(conceptsArray);
     //   course.concepts = orderedConcepts;
       context.action = {
-          type: 'GET_COURSE_BY_ID',
+          type: 'SET_COURSE_VIEW_CURRENT_COURSE',
           currentCourse: course
       };
-    }catch(error){
+    }
+    catch(error){
       throw error;
     }
-  }
 };
+
+const getCourseEditCourseById = async (context: any, id: string) => {
+    try {
+      const course = await CourseModel.getById(id);
+    //   const conceptsArray = await CourseModel.courseConceptsToArray(course);
+    //   const orderedConcepts = CourseModel.orderCourseConcepts(conceptsArray);
+    //   course.concepts = orderedConcepts;
+      context.action = {
+          type: 'SET_COURSE_EDIT_CURRENT_COURSE',
+          currentCourse: course
+      };
+    }
+    catch(error){
+      throw error;
+    }
+};
+
 const deleteConcept = {
   execute: async (context: any, courseId: string, conceptId: string) => {
       try {
@@ -758,7 +790,6 @@ const orderConcepts = {
   type: 'ORDER_CONCEPTS',
   execute: async (context: any, id: string, courseConceptsArray: Concept[]) => {
     try{
-      console.log('concepts array', courseConceptsArray);
       await CourseModel.updateCourseConcepts(id, courseConceptsArray);
     }catch(error){
       throw error;
@@ -768,10 +799,6 @@ const orderConcepts = {
 
 const updateCourseField = async (context: any, id: string, field: string, value: string) => {
     try{
-      console.log('actions context', context)
-      console.log('actions id', id)
-      console.log('actions field', field)
-      console.log('actions value', value)
       await CourseModel.updateCourseField(id, field, value);
       const course = await CourseModel.getById(id);
     //   const conceptsArray = await CourseModel.courseConceptsToArray(course);
@@ -828,7 +855,8 @@ export const Actions = {
     createNewQuiz,
     updateQuizTitle,
     getQuiz,
-    getCourseById,
+    getCourseViewCourseById,
+    getCourseEditCourseById,
     getConceptById,
     loadPublicQuestionIds,
     starCourse,
