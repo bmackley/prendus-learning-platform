@@ -25,7 +25,17 @@
         </style>
 
         <script>
-            //TODO put there the PRENDUS_ENV variable, just like in nodejs with the NODE_ENV variable
+            var environment = getEnvironment(window.location.hostname);
+            window.PRENDUS_ENV = environment;
+
+            function getEnvironment(hostname) {
+                if (hostname === 'localhost' || hostname === '127.0.0.1') {
+                    return 'development';
+                }
+                else {
+                    return 'production';
+                }
+            }
         </script>
 
         <link rel="import" href="/dist/prendus.html">

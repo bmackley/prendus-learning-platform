@@ -1760,7 +1760,7 @@ $__System.register("33", [], function (_export, _context) {
 $__System.register('22', ['29', '32', '33', '34', '35', '36', '2d', '2a', '2e'], function (_export, _context3) {
     "use strict";
 
-    var _defineProperty, _regeneratorRuntime, _classCallCheck, _createClass, FirebaseService, VideoModel, UtilitiesService, XAPIService, SVGFixer, __awaiter, PrendusVideoComponent;
+    var _defineProperty, _regeneratorRuntime, _classCallCheck, _createClass, FirebaseService, VideoModel, UtilitiesService, XAPIService, SVGFixer, __awaiter;
 
     return {
         setters: [function (_) {
@@ -1808,316 +1808,296 @@ $__System.register('22', ['29', '32', '33', '34', '35', '36', '2d', '2a', '2e'],
                 });
             };
 
-            FirebaseService.init('AIzaSyANTSoOA6LZZDxM7vqIlAl37B7IqWL-6MY', 'prendus.firebaseapp.com', 'https://prendus.firebaseio.com', 'prendus.appspot.com', 'Prendus');
+            if (window.PRENDUS_ENV === 'production') {
+                FirebaseService.init('AIzaSyANTSoOA6LZZDxM7vqIlAl37B7IqWL-6MY', 'prendus.firebaseapp.com', 'https://prendus.firebaseio.com', 'prendus.appspot.com', 'Prendus');
+            } else {
+                FirebaseService.init('AIzaSyANTSoOA6LZZDxM7vqIlAl37B7IqWL-6MY', 'prendus.firebaseapp.com', 'https://prendus.firebaseio.com', 'prendus.appspot.com', 'Prendus');
+            }
+            (function () {
+                var PrendusVideoComponent = function () {
+                    function PrendusVideoComponent() {
+                        _classCallCheck(this, PrendusVideoComponent);
 
-            PrendusVideoComponent = function () {
-                function PrendusVideoComponent() {
-                    _classCallCheck(this, PrendusVideoComponent);
-
-                    //TODO everything that has to do with mutating the below should perhaps be done in redux or more functionally somehow
-                    this.timeBeforeSeek = 0;
-                    this.seeking = false;
-                }
-
-                _createClass(PrendusVideoComponent, [{
-                    key: 'beforeRegister',
-                    value: function beforeRegister() {
-                        this.is = 'prendus-video-viewer';
-                        this.properties = {
-                            course: {
-                                type: String
-                            },
-                            content: {
-                                type: String
-                            },
-                            userFullName: {
-                                type: String
-                            },
-                            userEmail: {
-                                type: String
-                            },
-                            url: {
-                                type: String
-                            },
-                            noXapi: {
-                                type: Boolean
-                            }
-                        };
-                        this.observers = ['initXAPI(course, content, userFullName, userEmail)', 'initNoXAPI(url, noXapi)'];
+                        //TODO everything that has to do with mutating the below should perhaps be done in redux or more functionally somehow
+                        this.timeBeforeSeek = 0;
+                        this.seeking = false;
                     }
-                }, {
-                    key: 'initXAPI',
-                    value: function initXAPI() {
-                        return __awaiter(this, void 0, void 0, _regeneratorRuntime.mark(function _callee2() {
-                            var _this = this;
 
-                            return _regeneratorRuntime.wrap(function _callee2$(_context2) {
-                                while (1) {
-                                    switch (_context2.prev = _context2.next) {
-                                        case 0:
-                                            //TODO this setTimeout is a hack to deal with some kind of synchronization/loading issue that plyr.js was having...not sure what it was, but letting the event loop run once with this setTimeout seems to fix it
-                                            setTimeout(function () {
-                                                return __awaiter(_this, void 0, void 0, _regeneratorRuntime.mark(function _callee() {
-                                                    var prendusServerEndpointDomain, video, urlInfo, player;
-                                                    return _regeneratorRuntime.wrap(function _callee$(_context) {
-                                                        while (1) {
-                                                            switch (_context.prev = _context.next) {
-                                                                case 0:
-                                                                    if (!(this.course && this.content && this.userFullName && this.userEmail)) {
-                                                                        _context.next = 9;
-                                                                        break;
-                                                                    }
+                    _createClass(PrendusVideoComponent, [{
+                        key: 'beforeRegister',
+                        value: function beforeRegister() {
+                            this.is = 'prendus-video-viewer';
+                            this.properties = {
+                                course: {
+                                    type: String
+                                },
+                                content: {
+                                    type: String
+                                },
+                                userFullName: {
+                                    type: String
+                                },
+                                userEmail: {
+                                    type: String
+                                },
+                                url: {
+                                    type: String
+                                },
+                                noXapi: {
+                                    type: Boolean
+                                }
+                            };
+                            this.observers = ['initXAPI(course, content, userFullName, userEmail)', 'initNoXAPI(url, noXapi)'];
+                        }
+                    }, {
+                        key: 'initXAPI',
+                        value: function initXAPI() {
+                            return __awaiter(this, void 0, void 0, _regeneratorRuntime.mark(function _callee2() {
+                                var _this = this;
 
-                                                                    prendusServerEndpointDomain = UtilitiesService.getPrendusServerEndpointDomain();
-                                                                    _context.next = 4;
-                                                                    return VideoModel.getById(this.content);
+                                return _regeneratorRuntime.wrap(function _callee2$(_context2) {
+                                    while (1) {
+                                        switch (_context2.prev = _context2.next) {
+                                            case 0:
+                                                //TODO this setTimeout is a hack to deal with some kind of synchronization/loading issue that plyr.js was having...not sure what it was, but letting the event loop run once with this setTimeout seems to fix it
+                                                setTimeout(function () {
+                                                    return __awaiter(_this, void 0, void 0, _regeneratorRuntime.mark(function _callee() {
+                                                        var prendusServerEndpointDomain, video, player;
+                                                        return _regeneratorRuntime.wrap(function _callee$(_context) {
+                                                            while (1) {
+                                                                switch (_context.prev = _context.next) {
+                                                                    case 0:
+                                                                        if (!(this.course && this.content && this.userFullName && this.userEmail)) {
+                                                                            _context.next = 7;
+                                                                            break;
+                                                                        }
 
-                                                                case 4:
-                                                                    video = _context.sent;
+                                                                        prendusServerEndpointDomain = UtilitiesService.getPrendusServerEndpointDomain();
+                                                                        _context.next = 4;
+                                                                        return VideoModel.getById(this.content);
 
-                                                                    //TODO this code is repeated! Should break it out into pure functions as much as possible
-                                                                    urlInfo = urlParser.parse(video.url);
-                                                                    //TODO functionalize and make declarative all of this, it is very imperative
+                                                                    case 4:
+                                                                        video = _context.sent;
+                                                                        player = this.initPlayer(video.url);
 
-                                                                    player = void 0;
+                                                                        this.attachInternalListeners(player, this.course, this.content, this.userFullName, this.userEmail, prendusServerEndpointDomain + '/api/xapi/video/sendstatement');
 
-                                                                    if (urlInfo && urlInfo.provider === 'youtube') {
-                                                                        this.querySelector('#player-container').innerHTML = '<div class="youtube-player" data-type="youtube" data-video-id="' + urlInfo.id + '"></div>';
-                                                                        player = plyr.setup(this.querySelector('.youtube-player'))[0];
-                                                                        player.on('ready', function () {
-                                                                            SVGFixer.fixSVGRefs();
-                                                                        });
-                                                                    } else if (urlInfo && urlInfo.provider === 'vimeo') {
-                                                                        this.querySelector('#player-container').innerHTML = '<div class="vimeo-player" data-type="vimeo" data-video-id="' + urlInfo.id + '"></div>';
-                                                                        player = plyr.setup(this.querySelector('.vimeo-player'))[0];
-                                                                        player.on('ready', function () {
-                                                                            SVGFixer.fixSVGRefs();
-                                                                        });
-                                                                    } else {
-                                                                        // const previousVideoPlayer = this.querySelector('.video-player');
-                                                                        //
-                                                                        // if (previousVideoPlayer) {
-                                                                        //     previousVideoPlayer.pause();
-                                                                        //     previousVideoPlayer.src = video.url;
-                                                                        //     //previousVideoPlayer.pause();
-                                                                        //     //previousVideoPlayer.src = '';
-                                                                        //     //previousVideoPlayer.parentNode.removeChild(previousVideoPlayer);
-                                                                        // }
-                                                                        // else {
-                                                                        //     this.querySelector('#player-container').innerHTML = `<video class="video-player" src="${video.url}"></video>`;
-                                                                        //     player = plyr.setup(this.querySelector('.video-player'))[0];
-                                                                        //     SVGFixer.fixSVGRefs();
-                                                                        // }
-                                                                        this.querySelector('#player-container').innerHTML = '<video class="video-player" src="' + video.url + '" preload="metadata"></video>';
-                                                                        player = plyr.setup(this.querySelector('.video-player'))[0];
-                                                                        SVGFixer.fixSVGRefs();
-                                                                    }
-                                                                    //TODO this code is repeated! Should break it out into pure functions as much as possible
-                                                                    this.attachInternalListeners(player, this.course, this.content, this.userFullName, this.userEmail, prendusServerEndpointDomain + '/api/xapi/video/sendstatement');
-
-                                                                case 9:
-                                                                case 'end':
-                                                                    return _context.stop();
+                                                                    case 7:
+                                                                    case 'end':
+                                                                        return _context.stop();
+                                                                }
                                                             }
-                                                        }
-                                                    }, _callee, this);
-                                                }));
-                                            });
+                                                        }, _callee, this);
+                                                    }));
+                                                }, 200);
 
-                                        case 1:
-                                        case 'end':
-                                            return _context2.stop();
+                                            case 1:
+                                            case 'end':
+                                                return _context2.stop();
+                                        }
+                                    }
+                                }, _callee2, this);
+                            }));
+                        }
+                    }, {
+                        key: 'initNoXAPI',
+                        value: function initNoXAPI(url, noXapi) {
+                            this.initPlayer(url);
+                        }
+                    }, {
+                        key: 'initPlayer',
+                        value: function initPlayer(url) {
+                            var urlInfo = urlParser.parse(url);
+                            var player = determinePlayer(this, urlInfo);
+                            return player;
+                            function determinePlayer(context, urlInfo) {
+                                if (!urlInfo) {
+                                    return initVideo(context, url);
+                                }
+                                if (urlInfo.provider === 'youtube') {
+                                    return initYouTube(context, urlInfo.id);
+                                }
+                                if (urlInfo.provider === 'vimeo') {
+                                    return initVimeo(context, urlInfo.id);
+                                }
+                            }
+                            function initYouTube(context, url) {
+                                context.querySelector('#player-container').innerHTML = '<div class="youtube-player" data-type="youtube" data-video-id="' + urlInfo.id + '"></div>';
+                                var player = plyr.setup(context.querySelector('.youtube-player'))[0];
+                                player.on('ready', function () {
+                                    SVGFixer.fixSVGRefs();
+                                });
+                                return player;
+                            }
+                            function initVimeo(context, url) {
+                                context.querySelector('#player-container').innerHTML = '<div class="vimeo-player" data-type="vimeo" data-video-id="' + urlInfo.id + '"></div>';
+                                var player = plyr.setup(context.querySelector('.vimeo-player'))[0];
+                                player.on('ready', function () {
+                                    SVGFixer.fixSVGRefs();
+                                });
+                                return player;
+                            }
+                            function initVideo(context, url) {
+                                context.querySelector('#player-container').innerHTML = '<video class="video-player" src="' + url + '" preload="metadata"></video>';
+                                var player = plyr.setup(context.querySelector('.video-player'))[0];
+                                SVGFixer.fixSVGRefs();
+                                return player;
+                            }
+                        }
+                    }, {
+                        key: 'attachInternalListeners',
+                        value: function attachInternalListeners(player, course, content, theUserFullName, theUserEmail, endpointUrl) {
+                            var _this2 = this;
+
+                            var videoId = content;
+                            var userFullName = theUserFullName;
+                            var courseId = course;
+                            var userEmail = theUserEmail;
+                            var baseUri = window.location.origin;
+                            var fullUrl = baseUri + window.location.pathname;
+                            player.on('enterfullscreen', function (e) {
+                                var verb = 'enter_fullscreen';
+                                var staticValues = getStaticValues();
+                                var dynamicValues = getDynamicValues(_this2, player);
+                                var extensions = _defineProperty({}, baseUri + '/playerTime', dynamicValues.videoTime);
+                                XAPIService.sendVideoStatement(endpointUrl, verb, extensions, staticValues, dynamicValues);
+                            });
+                            player.on('exitfullscreen', function (e) {
+                                var verb = 'exit_fullscreen';
+                                var staticValues = getStaticValues();
+                                var dynamicValues = getDynamicValues(_this2, player);
+                                var extensions = _defineProperty({}, baseUri + '/playerTime', dynamicValues.videoTime);
+                                XAPIService.sendVideoStatement(endpointUrl, verb, extensions, staticValues, dynamicValues);
+                            });
+                            player.on('playing', function (e) {
+                                var dynamicValues = getDynamicValues(_this2, player);
+                                var staticValues = getStaticValues();
+                                var verb = getVerb(dynamicValues.videoTime);
+                                var extensions = getExtensions(dynamicValues.videoTime);
+                                XAPIService.sendVideoStatement(endpointUrl, verb, extensions, staticValues, dynamicValues);
+                                function getVerb(videoTime) {
+                                    if (videoTime === 0) {
+                                        return 'started';
+                                    } else {
+                                        return 'played';
                                     }
                                 }
-                            }, _callee2, this);
-                        }));
-                    }
-                }, {
-                    key: 'initNoXAPI',
-                    value: function initNoXAPI(url, noXapi) {
-                        //TODO this code is repeated! Should break it out into pure functions as much as possible
-                        var urlInfo = urlParser.parse(url);
-                        //TODO functionalize and make declarative all of this, it is very imperative
-                        var player = void 0;
-                        if (urlInfo && urlInfo.provider === 'youtube') {
-                            this.querySelector('#player-container').innerHTML = '<div class="youtube-player" data-type="youtube" data-video-id="' + urlInfo.id + '"></div>';
-                            player = plyr.setup(this.querySelector('.youtube-player'))[0];
-                            player.on('ready', function () {
-                                SVGFixer.fixSVGRefs();
+                                function getExtensions(videoTime) {
+                                    if (videoTime === 0) {
+                                        return {};
+                                    } else {
+                                        return _defineProperty({}, baseUri + '/playerTime', videoTime);
+                                    }
+                                }
                             });
-                        } else if (urlInfo && urlInfo.provider === 'vimeo') {
-                            this.querySelector('#player-container').innerHTML = '<div class="vimeo-player" data-type="vimeo" data-video-id="' + urlInfo.id + '"></div>';
-                            player = plyr.setup(this.querySelector('.vimeo-player'))[0];
-                            player.on('ready', function () {
-                                SVGFixer.fixSVGRefs();
+                            player.on('ended', function (e) {
+                                var dynamicValues = getDynamicValues(_this2, player);
+                                var staticValues = getStaticValues();
+                                var verb = 'ended';
+                                var extensions = _defineProperty({}, baseUri + '/playerTime', dynamicValues.videoTime);
+                                XAPIService.sendVideoStatement(endpointUrl, verb, extensions, staticValues, dynamicValues);
                             });
-                        } else {
-                            // const previousVideoPlayer = this.querySelector('.video-player');
-                            //
-                            // if (previousVideoPlayer) {
-                            //     previousVideoPlayer.pause();
-                            //     previousVideoPlayer.src = '';
-                            //     previousVideoPlayer.parentNode.removeChild(previousVideoPlayer);
-                            // }
-                            this.querySelector('#player-container').innerHTML = '<video class="video-player" src="' + url + '" preload="metadata"></video>';
-                            player = plyr.setup(this.querySelector('.video-player'))[0];
-                            SVGFixer.fixSVGRefs();
+                            player.on('pause', function (e) {
+                                var dynamicValues = getDynamicValues(_this2, player);
+                                var staticValues = getStaticValues();
+                                var verb = 'paused';
+                                var extensions = _defineProperty({}, baseUri + '/playerTime', dynamicValues.videoTime);
+                                XAPIService.sendVideoStatement(endpointUrl, verb, extensions, staticValues, dynamicValues);
+                            });
+                            player.on('timeupdate', function (e) {
+                                var dynamicValues = getDynamicValues(_this2, player);
+                                if (!_this2.seeking) {
+                                    _this2.timeBeforeSeek = dynamicValues.videoTime;
+                                    _this2.seeking = true;
+                                }
+                            });
+                            player.on('seeked', function (e) {
+                                var dynamicValues = getDynamicValues(_this2, player);
+                                var staticValues = getStaticValues();
+                                var verb = 'jumped';
+                                var extensions = getExtensions(dynamicValues.videoTime, _this2.timeBeforeSeek);
+                                XAPIService.sendVideoStatement(endpointUrl, verb, extensions, staticValues, dynamicValues);
+                                _this2.seeking = false;
+                                function getExtensions(videoTime, timeBeforeSeek) {
+                                    var _ref2;
+
+                                    return _ref2 = {}, _defineProperty(_ref2, baseUri + '/oldTime', getJumpStartTime(timeBeforeSeek, videoTime)), _defineProperty(_ref2, baseUri + '/newTime', videoTime), _ref2;
+                                }
+                                function getJumpStartTime(timeBeforeSeek, videoTime) {
+                                    if (timeBeforeSeek === videoTime) {
+                                        return 0;
+                                    }
+                                    return timeBeforeSeek;
+                                }
+                            });
+                            player.on('volumechange', function (e) {
+                                var _extensions5;
+
+                                var dynamicValues = getDynamicValues(_this2, player);
+                                var staticValues = getStaticValues();
+                                var verb = 'changed_volume';
+                                var extensions = (_extensions5 = {}, _defineProperty(_extensions5, baseUri + '/playerTime', dynamicValues.videoTime), _defineProperty(_extensions5, baseUri + '/volume', dynamicValues.muted ? 0 : dynamicValues.currentVolume), _extensions5);
+                                XAPIService.sendVideoStatement(endpointUrl, verb, extensions, staticValues, dynamicValues);
+                            });
+                            //TODO this event does not yet exist for the plyr library
+                            // player.on('ratechange', (e: Event) => {
+                            //     const dynamicValues = getDynamicValues(this, player);
+                            //     const staticValues = getStaticValues();
+                            //     const verb = 'changed_playrate';
+                            //     const extensions = {
+                            //         [`${baseUri}/playerTime`]: dynamicValues.videoTime,
+                            //         [`${baseUri}/playRate`]: dynamicValues.currentRate
+                            //     };
+                            //     XAPIService.sendVideoStatement(endpointUrl, verb, extensions, staticValues, dynamicValues);
+                            // });
+                            document.addEventListener('visibilitychange', function (e) {
+                                var dynamicValues = getDynamicValues(_this2, player);
+                                var staticValues = getStaticValues();
+                                var verb = getVerb();
+                                var extensions = _defineProperty({}, baseUri + '/playerTime', dynamicValues.videoTime);
+                                XAPIService.sendVideoStatement(endpointUrl, verb, extensions, staticValues, dynamicValues);
+                                function getVerb() {
+                                    if (document.visibilityState === 'visible') {
+                                        return 'resumed';
+                                    } else {
+                                        return 'suspended';
+                                    }
+                                }
+                            });
+                            window.addEventListener('beforeunload', function (e) {
+                                var dynamicValues = getDynamicValues(_this2, player);
+                                var staticValues = getStaticValues();
+                                var verb = 'closed_video';
+                                var extensions = _defineProperty({}, baseUri + '/playerTime', dynamicValues.videoTime);
+                                XAPIService.sendVideoStatement(endpointUrl, verb, extensions, staticValues, dynamicValues, true);
+                            });
+                            function getStaticValues() {
+                                return {
+                                    videoId: videoId,
+                                    userFullName: userFullName,
+                                    userEmail: userEmail,
+                                    courseId: courseId,
+                                    baseUri: baseUri,
+                                    fullUrl: fullUrl
+                                };
+                            }
+                            function getDynamicValues(context, player) {
+                                return {
+                                    timestamp: new Date(),
+                                    videoTime: player.getCurrentTime(),
+                                    muted: player.muted,
+                                    currentRate: player.playbackRate,
+                                    currentVolume: player.volume //TODO getting volume currently isn't implemented by the plyr, but should be soonish: https://github.com/Selz/plyr/issues/346
+                                };
+                            }
                         }
-                        //TODO this code is repeated! Should break it out into pure functions as much as possible
-                    }
-                }, {
-                    key: 'attachInternalListeners',
-                    value: function attachInternalListeners(player, course, content, theUserFullName, theUserEmail, endpointUrl) {
-                        var _this2 = this;
+                    }]);
 
-                        var videoId = content;
-                        var userFullName = theUserFullName;
-                        var courseId = course;
-                        var userEmail = theUserEmail;
-                        var baseUri = window.location.origin;
-                        var fullUrl = baseUri + window.location.pathname;
-                        player.on('enterfullscreen', function (e) {
-                            var verb = 'enter_fullscreen';
-                            var staticValues = getStaticValues();
-                            var dynamicValues = getDynamicValues(_this2, player);
-                            var extensions = _defineProperty({}, baseUri + '/playerTime', dynamicValues.videoTime);
-                            XAPIService.sendVideoStatement(endpointUrl, verb, extensions, staticValues, dynamicValues);
-                        });
-                        player.on('exitfullscreen', function (e) {
-                            var verb = 'exit_fullscreen';
-                            var staticValues = getStaticValues();
-                            var dynamicValues = getDynamicValues(_this2, player);
-                            var extensions = _defineProperty({}, baseUri + '/playerTime', dynamicValues.videoTime);
-                            XAPIService.sendVideoStatement(endpointUrl, verb, extensions, staticValues, dynamicValues);
-                        });
-                        player.on('playing', function (e) {
-                            var dynamicValues = getDynamicValues(_this2, player);
-                            var staticValues = getStaticValues();
-                            var verb = getVerb(dynamicValues.videoTime);
-                            var extensions = getExtensions(dynamicValues.videoTime);
-                            XAPIService.sendVideoStatement(endpointUrl, verb, extensions, staticValues, dynamicValues);
-                            function getVerb(videoTime) {
-                                if (videoTime === 0) {
-                                    return 'started';
-                                } else {
-                                    return 'played';
-                                }
-                            }
-                            function getExtensions(videoTime) {
-                                if (videoTime === 0) {
-                                    return {};
-                                } else {
-                                    return _defineProperty({}, baseUri + '/playerTime', videoTime);
-                                }
-                            }
-                        });
-                        player.on('ended', function (e) {
-                            var dynamicValues = getDynamicValues(_this2, player);
-                            var staticValues = getStaticValues();
-                            var verb = 'ended';
-                            var extensions = _defineProperty({}, baseUri + '/playerTime', dynamicValues.videoTime);
-                            XAPIService.sendVideoStatement(endpointUrl, verb, extensions, staticValues, dynamicValues);
-                        });
-                        player.on('pause', function (e) {
-                            var dynamicValues = getDynamicValues(_this2, player);
-                            var staticValues = getStaticValues();
-                            var verb = 'paused';
-                            var extensions = _defineProperty({}, baseUri + '/playerTime', dynamicValues.videoTime);
-                            XAPIService.sendVideoStatement(endpointUrl, verb, extensions, staticValues, dynamicValues);
-                        });
-                        player.on('timeupdate', function (e) {
-                            var dynamicValues = getDynamicValues(_this2, player);
-                            if (!_this2.seeking) {
-                                _this2.timeBeforeSeek = dynamicValues.videoTime;
-                                _this2.seeking = true;
-                            }
-                        });
-                        player.on('seeked', function (e) {
-                            var dynamicValues = getDynamicValues(_this2, player);
-                            var staticValues = getStaticValues();
-                            var verb = 'jumped';
-                            var extensions = getExtensions(dynamicValues.videoTime, _this2.timeBeforeSeek);
-                            XAPIService.sendVideoStatement(endpointUrl, verb, extensions, staticValues, dynamicValues);
-                            _this2.seeking = false;
-                            function getExtensions(videoTime, timeBeforeSeek) {
-                                var _ref2;
+                    return PrendusVideoComponent;
+                }();
 
-                                return _ref2 = {}, _defineProperty(_ref2, baseUri + '/oldTime', getJumpStartTime(timeBeforeSeek, videoTime)), _defineProperty(_ref2, baseUri + '/newTime', videoTime), _ref2;
-                            }
-                            function getJumpStartTime(timeBeforeSeek, videoTime) {
-                                if (timeBeforeSeek === videoTime) {
-                                    return 0;
-                                }
-                                return timeBeforeSeek;
-                            }
-                        });
-                        player.on('volumechange', function (e) {
-                            var _extensions5;
-
-                            var dynamicValues = getDynamicValues(_this2, player);
-                            var staticValues = getStaticValues();
-                            var verb = 'changed_volume';
-                            var extensions = (_extensions5 = {}, _defineProperty(_extensions5, baseUri + '/playerTime', dynamicValues.videoTime), _defineProperty(_extensions5, baseUri + '/volume', dynamicValues.muted ? 0 : dynamicValues.currentVolume), _extensions5);
-                            XAPIService.sendVideoStatement(endpointUrl, verb, extensions, staticValues, dynamicValues);
-                        });
-                        //TODO this event does not yet exist for the plyr library
-                        // player.on('ratechange', (e: Event) => {
-                        //     const dynamicValues = getDynamicValues(this, player);
-                        //     const staticValues = getStaticValues();
-                        //     const verb = 'changed_playrate';
-                        //     const extensions = {
-                        //         [`${baseUri}/playerTime`]: dynamicValues.videoTime,
-                        //         [`${baseUri}/playRate`]: dynamicValues.currentRate
-                        //     };
-                        //     XAPIService.sendVideoStatement(endpointUrl, verb, extensions, staticValues, dynamicValues);
-                        // });
-                        document.addEventListener('visibilitychange', function (e) {
-                            var dynamicValues = getDynamicValues(_this2, player);
-                            var staticValues = getStaticValues();
-                            var verb = getVerb();
-                            var extensions = _defineProperty({}, baseUri + '/playerTime', dynamicValues.videoTime);
-                            XAPIService.sendVideoStatement(endpointUrl, verb, extensions, staticValues, dynamicValues);
-                            function getVerb() {
-                                if (document.visibilityState === 'visible') {
-                                    return 'resumed';
-                                } else {
-                                    return 'suspended';
-                                }
-                            }
-                        });
-                        window.addEventListener('beforeunload', function (e) {
-                            var dynamicValues = getDynamicValues(_this2, player);
-                            var staticValues = getStaticValues();
-                            var verb = 'closed_video';
-                            var extensions = _defineProperty({}, baseUri + '/playerTime', dynamicValues.videoTime);
-                            XAPIService.sendVideoStatement(endpointUrl, verb, extensions, staticValues, dynamicValues, true);
-                        });
-                        function getStaticValues() {
-                            return {
-                                videoId: videoId,
-                                userFullName: userFullName,
-                                userEmail: userEmail,
-                                courseId: courseId,
-                                baseUri: baseUri,
-                                fullUrl: fullUrl
-                            };
-                        }
-                        function getDynamicValues(context, player) {
-                            return {
-                                timestamp: new Date(),
-                                videoTime: player.getCurrentTime(),
-                                muted: player.muted,
-                                currentRate: player.playbackRate,
-                                currentVolume: player.volume //TODO getting volume currently isn't implemented by the plyr, but should be soonish: https://github.com/Selz/plyr/issues/346
-                            };
-                        }
-                    }
-                }]);
-
-                return PrendusVideoComponent;
-            }();
-
-            Polymer(PrendusVideoComponent);
+                Polymer(PrendusVideoComponent);
+            })();
         }
     };
 });
@@ -3151,16 +3131,18 @@ $__System.register('3c', ['3b', '3d'], function (_export, _context) {
         execute: function () {}
     };
 });
-$__System.register('1e', ['29', '2a', '3c'], function (_export, _context) {
+$__System.register('1e', ['29', '2a', '2e', '3c'], function (_export, _context) {
     "use strict";
 
-    var _classCallCheck, _createClass, rootReducer, PrendusApp;
+    var _classCallCheck, _createClass, FirebaseService, rootReducer, PrendusApp;
 
     return {
         setters: [function (_) {
             _classCallCheck = _.default;
         }, function (_a) {
             _createClass = _a.default;
+        }, function (_e) {
+            FirebaseService = _e.FirebaseService;
         }, function (_c) {
             rootReducer = _c.rootReducer;
         }],
@@ -3184,6 +3166,11 @@ $__System.register('1e', ['29', '2a', '3c'], function (_export, _context) {
                 }, {
                     key: 'ready',
                     value: function ready() {
+                        if (window.PRENDUS_ENV === 'production') {
+                            FirebaseService.init('AIzaSyANTSoOA6LZZDxM7vqIlAl37B7IqWL-6MY', 'prendus.firebaseapp.com', 'https://prendus.firebaseio.com', 'prendus.appspot.com', 'Prendus');
+                        } else {
+                            FirebaseService.init('AIzaSyANTSoOA6LZZDxM7vqIlAl37B7IqWL-6MY', 'prendus.firebaseapp.com', 'https://prendus.firebaseio.com', 'prendus.appspot.com', 'Prendus');
+                        }
                         this.rootReducer = rootReducer;
                     }
                 }]);
@@ -6163,10 +6150,10 @@ $__System.register('7', ['29', '2d', '2a', '3d'], function (_export, _context3) 
         }
     };
 });
-$__System.register('3e', ['32', '2c', '2d', '2e', '3f'], function (_export, _context22) {
+$__System.register('3e', ['32', '2c', '2d', '2e', '3f'], function (_export, _context24) {
     "use strict";
 
-    var _toConsumableArray, _regeneratorRuntime, FirebaseService, ConceptModel, UtilitiesService, _this, __awaiter, conceptsPath, dataPath, createOrUpdate, associateConcept, disassociateConcept, getById, getCoursesByUser, courseConceptsToArray, orderCourseConcepts, updateCourseConcepts, deleteCourse, associateCollaborator, disassociateCollaborator, getCollaboratorUids, getAllByVisibility, resolveCourseIds, getConceptIds, associateUserStar, disassociateUserStar, CourseModel;
+    var _toConsumableArray, _regeneratorRuntime, FirebaseService, ConceptModel, UtilitiesService, _this, __awaiter, conceptsPath, dataPath, createOrUpdate, associateConcept, disassociateConcept, getById, getCoursesByUser, courseConceptsToArray, orderCourseConcepts, updateCourseConcepts, deleteCourse, associateCollaborator, disassociateCollaborator, getCollaboratorUids, getAllByVisibility, resolveCourseIds, updateCourseField, getConceptIds, associateUserStar, disassociateUserStar, CourseModel;
 
     return {
         setters: [function (_) {
@@ -6454,437 +6441,412 @@ $__System.register('3e', ['32', '2c', '2d', '2e', '3f'], function (_export, _con
             };
 
             updateCourseConcepts = function updateCourseConcepts(id, conceptArray) {
-                return __awaiter(_this, void 0, void 0, _regeneratorRuntime.mark(function _callee7() {
-                    var key, path;
-                    return _regeneratorRuntime.wrap(function _callee7$(_context7) {
-                        while (1) {
-                            switch (_context7.prev = _context7.next) {
-                                case 0:
-                                    _context7.prev = 0;
-                                    _context7.t0 = _regeneratorRuntime.keys(conceptArray);
-
-                                case 2:
-                                    if ((_context7.t1 = _context7.t0()).done) {
-                                        _context7.next = 9;
-                                        break;
-                                    }
-
-                                    key = _context7.t1.value;
-                                    path = dataPath + '/' + id + '/concepts/' + conceptArray[key].key;
-                                    _context7.next = 7;
-                                    return FirebaseService.update(path, conceptArray[key]);
-
-                                case 7:
-                                    _context7.next = 2;
-                                    break;
-
-                                case 9:
-                                    return _context7.abrupt('return');
-
-                                case 12:
-                                    _context7.prev = 12;
-                                    _context7.t2 = _context7['catch'](0);
-                                    throw _context7.t2;
-
-                                case 15:
-                                case 'end':
-                                    return _context7.stop();
-                            }
-                        }
-                    }, _callee7, this, [[0, 12]]);
-                }));
-            };
-
-            deleteCourse = function deleteCourse(key) {
                 return __awaiter(_this, void 0, void 0, _regeneratorRuntime.mark(function _callee8() {
-                    var path;
+                    var _this3 = this;
+
                     return _regeneratorRuntime.wrap(function _callee8$(_context8) {
                         while (1) {
                             switch (_context8.prev = _context8.next) {
                                 case 0:
                                     _context8.prev = 0;
-                                    path = dataPath + '/' + key;
-                                    _context8.next = 4;
-                                    return FirebaseService.remove(path);
+                                    _context8.next = 3;
+                                    return UtilitiesService.asyncForEach(conceptArray, function (concept) {
+                                        return __awaiter(_this3, void 0, void 0, _regeneratorRuntime.mark(function _callee7() {
+                                            var path;
+                                            return _regeneratorRuntime.wrap(function _callee7$(_context7) {
+                                                while (1) {
+                                                    switch (_context7.prev = _context7.next) {
+                                                        case 0:
+                                                            path = dataPath + '/' + id + '/concepts/' + concept.id;
+                                                            _context7.next = 3;
+                                                            return FirebaseService.update(path, concept);
 
-                                case 4:
-                                    return _context8.abrupt('return', _context8.sent);
+                                                        case 3:
+                                                        case 'end':
+                                                            return _context7.stop();
+                                                    }
+                                                }
+                                            }, _callee7, this);
+                                        }));
+                                    });
 
-                                case 7:
-                                    _context8.prev = 7;
+                                case 3:
+                                    _context8.next = 8;
+                                    break;
+
+                                case 5:
+                                    _context8.prev = 5;
                                     _context8.t0 = _context8['catch'](0);
                                     throw _context8.t0;
 
-                                case 10:
+                                case 8:
                                 case 'end':
                                     return _context8.stop();
                             }
                         }
-                    }, _callee8, this, [[0, 7]]);
+                    }, _callee8, this, [[0, 5]]);
+                }));
+            };
+
+            deleteCourse = function deleteCourse(key) {
+                return __awaiter(_this, void 0, void 0, _regeneratorRuntime.mark(function _callee9() {
+                    var path;
+                    return _regeneratorRuntime.wrap(function _callee9$(_context9) {
+                        while (1) {
+                            switch (_context9.prev = _context9.next) {
+                                case 0:
+                                    _context9.prev = 0;
+                                    path = dataPath + '/' + key;
+                                    _context9.next = 4;
+                                    return FirebaseService.remove(path);
+
+                                case 4:
+                                    return _context9.abrupt('return', _context9.sent);
+
+                                case 7:
+                                    _context9.prev = 7;
+                                    _context9.t0 = _context9['catch'](0);
+                                    throw _context9.t0;
+
+                                case 10:
+                                case 'end':
+                                    return _context9.stop();
+                            }
+                        }
+                    }, _callee9, this, [[0, 7]]);
                 }));
             };
 
             associateCollaborator = function associateCollaborator(courseId, uid) {
-                return __awaiter(_this, void 0, Promise, _regeneratorRuntime.mark(function _callee10() {
-                    var _this3 = this;
+                return __awaiter(_this, void 0, Promise, _regeneratorRuntime.mark(function _callee11() {
+                    var _this4 = this;
 
                     var path, _conceptsPath, conceptsObject, conceptIds;
 
-                    return _regeneratorRuntime.wrap(function _callee10$(_context10) {
+                    return _regeneratorRuntime.wrap(function _callee11$(_context11) {
                         while (1) {
-                            switch (_context10.prev = _context10.next) {
+                            switch (_context11.prev = _context11.next) {
                                 case 0:
-                                    _context10.prev = 0;
+                                    _context11.prev = 0;
 
                                     //TODO it would be nice to do the following in a transaction, so that if adding collaborators fails anywhere it fails everywhere
                                     path = dataPath + '/' + courseId + '/collaborators/' + uid;
-                                    _context10.next = 4;
+                                    _context11.next = 4;
                                     return FirebaseService.set(path, uid);
 
                                 case 4:
                                     _conceptsPath = dataPath + '/' + courseId + '/concepts';
-                                    _context10.next = 7;
+                                    _context11.next = 7;
                                     return FirebaseService.get(_conceptsPath);
 
                                 case 7:
-                                    conceptsObject = _context10.sent;
+                                    conceptsObject = _context11.sent;
                                     conceptIds = Object.keys(conceptsObject || {});
-                                    _context10.next = 11;
+                                    _context11.next = 11;
                                     return UtilitiesService.asyncForEach(conceptIds, function (conceptId) {
-                                        return __awaiter(_this3, void 0, void 0, _regeneratorRuntime.mark(function _callee9() {
-                                            return _regeneratorRuntime.wrap(function _callee9$(_context9) {
+                                        return __awaiter(_this4, void 0, void 0, _regeneratorRuntime.mark(function _callee10() {
+                                            return _regeneratorRuntime.wrap(function _callee10$(_context10) {
                                                 while (1) {
-                                                    switch (_context9.prev = _context9.next) {
+                                                    switch (_context10.prev = _context10.next) {
                                                         case 0:
-                                                            _context9.next = 2;
+                                                            _context10.next = 2;
                                                             return ConceptModel.associateCollaborator(conceptId, uid);
 
                                                         case 2:
                                                         case 'end':
-                                                            return _context9.stop();
+                                                            return _context10.stop();
                                                     }
                                                 }
-                                            }, _callee9, this);
+                                            }, _callee10, this);
                                         }));
                                     });
 
                                 case 11:
-                                    _context10.next = 16;
+                                    _context11.next = 16;
                                     break;
 
                                 case 13:
-                                    _context10.prev = 13;
-                                    _context10.t0 = _context10['catch'](0);
-                                    throw _context10.t0;
+                                    _context11.prev = 13;
+                                    _context11.t0 = _context11['catch'](0);
+                                    throw _context11.t0;
 
                                 case 16:
                                 case 'end':
-                                    return _context10.stop();
+                                    return _context11.stop();
                             }
                         }
-                    }, _callee10, this, [[0, 13]]);
+                    }, _callee11, this, [[0, 13]]);
                 }));
             };
 
             disassociateCollaborator = function disassociateCollaborator(courseId, uid) {
-                return __awaiter(_this, void 0, Promise, _regeneratorRuntime.mark(function _callee12() {
-                    var _this4 = this;
+                return __awaiter(_this, void 0, Promise, _regeneratorRuntime.mark(function _callee13() {
+                    var _this5 = this;
 
                     var path, _conceptsPath2, conceptsObject, conceptIds;
 
-                    return _regeneratorRuntime.wrap(function _callee12$(_context12) {
-                        while (1) {
-                            switch (_context12.prev = _context12.next) {
-                                case 0:
-                                    _context12.prev = 0;
-
-                                    //TODO it would be nice to do the following in a transaction, so that if adding collaborators fails anywhere it fails everywhere
-                                    path = dataPath + '/' + courseId + '/collaborators/' + uid;
-                                    _context12.next = 4;
-                                    return FirebaseService.remove(path);
-
-                                case 4:
-                                    _conceptsPath2 = dataPath + '/' + courseId + '/concepts';
-                                    _context12.next = 7;
-                                    return FirebaseService.get(_conceptsPath2);
-
-                                case 7:
-                                    conceptsObject = _context12.sent;
-                                    conceptIds = Object.keys(conceptsObject || {});
-                                    _context12.next = 11;
-                                    return UtilitiesService.asyncForEach(conceptIds, function (conceptId) {
-                                        return __awaiter(_this4, void 0, void 0, _regeneratorRuntime.mark(function _callee11() {
-                                            return _regeneratorRuntime.wrap(function _callee11$(_context11) {
-                                                while (1) {
-                                                    switch (_context11.prev = _context11.next) {
-                                                        case 0:
-                                                            _context11.next = 2;
-                                                            return ConceptModel.disassociateCollaborator(conceptId, uid);
-
-                                                        case 2:
-                                                        case 'end':
-                                                            return _context11.stop();
-                                                    }
-                                                }
-                                            }, _callee11, this);
-                                        }));
-                                    });
-
-                                case 11:
-                                    _context12.next = 16;
-                                    break;
-
-                                case 13:
-                                    _context12.prev = 13;
-                                    _context12.t0 = _context12['catch'](0);
-                                    throw _context12.t0;
-
-                                case 16:
-                                case 'end':
-                                    return _context12.stop();
-                            }
-                        }
-                    }, _callee12, this, [[0, 13]]);
-                }));
-            };
-
-            getCollaboratorUids = function getCollaboratorUids(courseId) {
-                return __awaiter(_this, void 0, Promise, _regeneratorRuntime.mark(function _callee13() {
-                    var path, collaboratorUidsObject, collaboratorUids;
                     return _regeneratorRuntime.wrap(function _callee13$(_context13) {
                         while (1) {
                             switch (_context13.prev = _context13.next) {
                                 case 0:
                                     _context13.prev = 0;
-                                    path = dataPath + '/' + courseId + '/collaborators';
+
+                                    //TODO it would be nice to do the following in a transaction, so that if adding collaborators fails anywhere it fails everywhere
+                                    path = dataPath + '/' + courseId + '/collaborators/' + uid;
                                     _context13.next = 4;
-                                    return FirebaseService.get(path);
+                                    return FirebaseService.remove(path);
 
                                 case 4:
-                                    collaboratorUidsObject = _context13.sent;
-                                    collaboratorUids = Object.keys(collaboratorUidsObject || {});
-                                    return _context13.abrupt('return', collaboratorUids);
+                                    _conceptsPath2 = dataPath + '/' + courseId + '/concepts';
+                                    _context13.next = 7;
+                                    return FirebaseService.get(_conceptsPath2);
 
-                                case 9:
-                                    _context13.prev = 9;
+                                case 7:
+                                    conceptsObject = _context13.sent;
+                                    conceptIds = Object.keys(conceptsObject || {});
+                                    _context13.next = 11;
+                                    return UtilitiesService.asyncForEach(conceptIds, function (conceptId) {
+                                        return __awaiter(_this5, void 0, void 0, _regeneratorRuntime.mark(function _callee12() {
+                                            return _regeneratorRuntime.wrap(function _callee12$(_context12) {
+                                                while (1) {
+                                                    switch (_context12.prev = _context12.next) {
+                                                        case 0:
+                                                            _context12.next = 2;
+                                                            return ConceptModel.disassociateCollaborator(conceptId, uid);
+
+                                                        case 2:
+                                                        case 'end':
+                                                            return _context12.stop();
+                                                    }
+                                                }
+                                            }, _callee12, this);
+                                        }));
+                                    });
+
+                                case 11:
+                                    _context13.next = 16;
+                                    break;
+
+                                case 13:
+                                    _context13.prev = 13;
                                     _context13.t0 = _context13['catch'](0);
                                     throw _context13.t0;
 
-                                case 12:
+                                case 16:
                                 case 'end':
                                     return _context13.stop();
                             }
                         }
-                    }, _callee13, this, [[0, 9]]);
+                    }, _callee13, this, [[0, 13]]);
+                }));
+            };
+
+            getCollaboratorUids = function getCollaboratorUids(courseId) {
+                return __awaiter(_this, void 0, Promise, _regeneratorRuntime.mark(function _callee14() {
+                    var path, collaboratorUidsObject, collaboratorUids;
+                    return _regeneratorRuntime.wrap(function _callee14$(_context14) {
+                        while (1) {
+                            switch (_context14.prev = _context14.next) {
+                                case 0:
+                                    _context14.prev = 0;
+                                    path = dataPath + '/' + courseId + '/collaborators';
+                                    _context14.next = 4;
+                                    return FirebaseService.get(path);
+
+                                case 4:
+                                    collaboratorUidsObject = _context14.sent;
+                                    collaboratorUids = Object.keys(collaboratorUidsObject || {});
+                                    return _context14.abrupt('return', collaboratorUids);
+
+                                case 9:
+                                    _context14.prev = 9;
+                                    _context14.t0 = _context14['catch'](0);
+                                    throw _context14.t0;
+
+                                case 12:
+                                case 'end':
+                                    return _context14.stop();
+                            }
+                        }
+                    }, _callee14, this, [[0, 9]]);
                 }));
             };
 
             getAllByVisibility = function getAllByVisibility(visibility) {
-                return __awaiter(_this, void 0, void 0, _regeneratorRuntime.mark(function _callee15() {
-                    var _this5 = this;
+                return __awaiter(_this, void 0, void 0, _regeneratorRuntime.mark(function _callee16() {
+                    var _this6 = this;
 
                     var _ret2;
 
-                    return _regeneratorRuntime.wrap(function _callee15$(_context15) {
+                    return _regeneratorRuntime.wrap(function _callee16$(_context16) {
                         while (1) {
-                            switch (_context15.prev = _context15.next) {
+                            switch (_context16.prev = _context16.next) {
                                 case 0:
-                                    _context15.prev = 0;
-                                    return _context15.delegateYield(_regeneratorRuntime.mark(function _callee14() {
+                                    _context16.prev = 0;
+                                    return _context16.delegateYield(_regeneratorRuntime.mark(function _callee15() {
                                         var path, coursesObject, coursesArray;
-                                        return _regeneratorRuntime.wrap(function _callee14$(_context14) {
+                                        return _regeneratorRuntime.wrap(function _callee15$(_context15) {
                                             while (1) {
-                                                switch (_context14.prev = _context14.next) {
+                                                switch (_context15.prev = _context15.next) {
                                                     case 0:
                                                         path = '' + dataPath;
-                                                        _context14.next = 3;
+                                                        _context15.next = 3;
                                                         return FirebaseService.getAllBy(path, 'visibility', visibility);
 
                                                     case 3:
-                                                        coursesObject = _context14.sent;
+                                                        coursesObject = _context15.sent;
                                                         coursesArray = Object.keys(coursesObject || {}).map(function (key) {
                                                             return Object.assign({}, coursesObject[key], {
                                                                 id: key
                                                             });
                                                         });
-                                                        return _context14.abrupt('return', {
+                                                        return _context15.abrupt('return', {
                                                             v: coursesArray
                                                         });
 
                                                     case 6:
                                                     case 'end':
-                                                        return _context14.stop();
+                                                        return _context15.stop();
                                                 }
                                             }
-                                        }, _callee14, _this5);
+                                        }, _callee15, _this6);
                                     })(), 't0', 2);
 
                                 case 2:
-                                    _ret2 = _context15.t0;
+                                    _ret2 = _context16.t0;
 
                                     if (!(typeof _ret2 === "object")) {
-                                        _context15.next = 5;
+                                        _context16.next = 5;
                                         break;
                                     }
 
-                                    return _context15.abrupt('return', _ret2.v);
+                                    return _context16.abrupt('return', _ret2.v);
 
                                 case 5:
-                                    _context15.next = 10;
+                                    _context16.next = 10;
                                     break;
 
                                 case 7:
-                                    _context15.prev = 7;
-                                    _context15.t1 = _context15['catch'](0);
-                                    throw _context15.t1;
+                                    _context16.prev = 7;
+                                    _context16.t1 = _context16['catch'](0);
+                                    throw _context16.t1;
 
                                 case 10:
                                 case 'end':
-                                    return _context15.stop();
+                                    return _context16.stop();
                             }
                         }
-                    }, _callee15, this, [[0, 7]]);
+                    }, _callee16, this, [[0, 7]]);
                 }));
             };
 
             resolveCourseIds = function resolveCourseIds(courseIds) {
-                return __awaiter(_this, void 0, Promise, _regeneratorRuntime.mark(function _callee18() {
-                    var _this6 = this;
+                return __awaiter(_this, void 0, Promise, _regeneratorRuntime.mark(function _callee19() {
+                    var _this7 = this;
 
                     var _ret3;
 
-                    return _regeneratorRuntime.wrap(function _callee18$(_context18) {
-                        while (1) {
-                            switch (_context18.prev = _context18.next) {
-                                case 0:
-                                    _context18.prev = 0;
-                                    return _context18.delegateYield(_regeneratorRuntime.mark(function _callee17() {
-                                        var asyncReduce = function asyncReduce(courseIds, courses) {
-                                            return __awaiter(this, void 0, Promise, _regeneratorRuntime.mark(function _callee16() {
-                                                var courseId, course;
-                                                return _regeneratorRuntime.wrap(function _callee16$(_context16) {
-                                                    while (1) {
-                                                        switch (_context16.prev = _context16.next) {
-                                                            case 0:
-                                                                if (!(courseIds.length === 0)) {
-                                                                    _context16.next = 2;
-                                                                    break;
-                                                                }
-
-                                                                return _context16.abrupt('return', courses);
-
-                                                            case 2:
-                                                                courseId = courseIds[0];
-                                                                _context16.next = 5;
-                                                                return getById(courseId);
-
-                                                            case 5:
-                                                                course = _context16.sent;
-
-                                                                course.id = courseId;
-                                                                return _context16.abrupt('return', asyncReduce(courseIds.slice(1), [].concat(_toConsumableArray(courses), [course])));
-
-                                                            case 8:
-                                                            case 'end':
-                                                                return _context16.stop();
-                                                        }
-                                                    }
-                                                }, _callee16, this);
-                                            }));
-                                        };
-
-                                        var courses;
-                                        return _regeneratorRuntime.wrap(function _callee17$(_context17) {
-                                            while (1) {
-                                                switch (_context17.prev = _context17.next) {
-                                                    case 0:
-                                                        _context17.next = 2;
-                                                        return asyncReduce(courseIds, []);
-
-                                                    case 2:
-                                                        courses = _context17.sent;
-                                                        return _context17.abrupt('return', {
-                                                            v: courses
-                                                        });
-
-                                                    case 4:
-                                                    case 'end':
-                                                        return _context17.stop();
-                                                }
-                                            }
-                                        }, _callee17, _this6);
-                                    })(), 't0', 2);
-
-                                case 2:
-                                    _ret3 = _context18.t0;
-
-                                    if (!(typeof _ret3 === "object")) {
-                                        _context18.next = 5;
-                                        break;
-                                    }
-
-                                    return _context18.abrupt('return', _ret3.v);
-
-                                case 5:
-                                    _context18.next = 10;
-                                    break;
-
-                                case 7:
-                                    _context18.prev = 7;
-                                    _context18.t1 = _context18['catch'](0);
-                                    throw _context18.t1;
-
-                                case 10:
-                                case 'end':
-                                    return _context18.stop();
-                            }
-                        }
-                    }, _callee18, this, [[0, 7]]);
-                }));
-            };
-
-            getConceptIds = function getConceptIds(courseId) {
-                return __awaiter(_this, void 0, Promise, _regeneratorRuntime.mark(function _callee19() {
-                    var path, conceptIdsObject, conceptIds;
                     return _regeneratorRuntime.wrap(function _callee19$(_context19) {
                         while (1) {
                             switch (_context19.prev = _context19.next) {
                                 case 0:
                                     _context19.prev = 0;
-                                    path = dataPath + '/' + courseId + '/concepts';
-                                    _context19.next = 4;
-                                    return FirebaseService.get(path);
+                                    return _context19.delegateYield(_regeneratorRuntime.mark(function _callee18() {
+                                        var asyncReduce = function asyncReduce(courseIds, courses) {
+                                            return __awaiter(this, void 0, Promise, _regeneratorRuntime.mark(function _callee17() {
+                                                var courseId, course;
+                                                return _regeneratorRuntime.wrap(function _callee17$(_context17) {
+                                                    while (1) {
+                                                        switch (_context17.prev = _context17.next) {
+                                                            case 0:
+                                                                if (!(courseIds.length === 0)) {
+                                                                    _context17.next = 2;
+                                                                    break;
+                                                                }
 
-                                case 4:
-                                    conceptIdsObject = _context19.sent;
-                                    conceptIds = Object.keys(conceptIdsObject || {});
-                                    return _context19.abrupt('return', conceptIds);
+                                                                return _context17.abrupt('return', courses);
 
-                                case 9:
-                                    _context19.prev = 9;
-                                    _context19.t0 = _context19['catch'](0);
-                                    throw _context19.t0;
+                                                            case 2:
+                                                                courseId = courseIds[0];
+                                                                _context17.next = 5;
+                                                                return getById(courseId);
 
-                                case 12:
+                                                            case 5:
+                                                                course = _context17.sent;
+
+                                                                course.id = courseId;
+                                                                return _context17.abrupt('return', asyncReduce(courseIds.slice(1), [].concat(_toConsumableArray(courses), [course])));
+
+                                                            case 8:
+                                                            case 'end':
+                                                                return _context17.stop();
+                                                        }
+                                                    }
+                                                }, _callee17, this);
+                                            }));
+                                        };
+
+                                        var courses;
+                                        return _regeneratorRuntime.wrap(function _callee18$(_context18) {
+                                            while (1) {
+                                                switch (_context18.prev = _context18.next) {
+                                                    case 0:
+                                                        _context18.next = 2;
+                                                        return asyncReduce(courseIds, []);
+
+                                                    case 2:
+                                                        courses = _context18.sent;
+                                                        return _context18.abrupt('return', {
+                                                            v: courses
+                                                        });
+
+                                                    case 4:
+                                                    case 'end':
+                                                        return _context18.stop();
+                                                }
+                                            }
+                                        }, _callee18, _this7);
+                                    })(), 't0', 2);
+
+                                case 2:
+                                    _ret3 = _context19.t0;
+
+                                    if (!(typeof _ret3 === "object")) {
+                                        _context19.next = 5;
+                                        break;
+                                    }
+
+                                    return _context19.abrupt('return', _ret3.v);
+
+                                case 5:
+                                    _context19.next = 10;
+                                    break;
+
+                                case 7:
+                                    _context19.prev = 7;
+                                    _context19.t1 = _context19['catch'](0);
+                                    throw _context19.t1;
+
+                                case 10:
                                 case 'end':
                                     return _context19.stop();
                             }
                         }
-                    }, _callee19, this, [[0, 9]]);
+                    }, _callee19, this, [[0, 7]]);
                 }));
             };
 
-            associateUserStar = function associateUserStar(courseId, uid) {
-                return __awaiter(_this, void 0, Promise, _regeneratorRuntime.mark(function _callee20() {
+            updateCourseField = function updateCourseField(id, field, value) {
+                return __awaiter(_this, void 0, void 0, _regeneratorRuntime.mark(function _callee20() {
                     var path;
                     return _regeneratorRuntime.wrap(function _callee20$(_context20) {
                         while (1) {
                             switch (_context20.prev = _context20.next) {
                                 case 0:
                                     _context20.prev = 0;
-                                    path = dataPath + '/' + courseId + '/userStars/' + uid;
+                                    path = dataPath + '/' + id + '/' + field;
                                     _context20.next = 4;
-                                    return FirebaseService.set(path, uid);
+                                    return FirebaseService.set(path, value);
 
                                 case 4:
                                     _context20.next = 9;
@@ -6904,33 +6866,94 @@ $__System.register('3e', ['32', '2c', '2d', '2e', '3f'], function (_export, _con
                 }));
             };
 
-            disassociateUserStar = function disassociateUserStar(courseId, uid) {
+            getConceptIds = function getConceptIds(courseId) {
                 return __awaiter(_this, void 0, Promise, _regeneratorRuntime.mark(function _callee21() {
-                    var path;
+                    var path, conceptIdsObject, conceptIds;
                     return _regeneratorRuntime.wrap(function _callee21$(_context21) {
                         while (1) {
                             switch (_context21.prev = _context21.next) {
                                 case 0:
                                     _context21.prev = 0;
-                                    path = dataPath + '/' + courseId + '/userStars/' + uid;
+                                    path = dataPath + '/' + courseId + '/concepts';
                                     _context21.next = 4;
-                                    return FirebaseService.remove(path);
+                                    return FirebaseService.get(path);
 
                                 case 4:
-                                    _context21.next = 9;
-                                    break;
+                                    conceptIdsObject = _context21.sent;
+                                    conceptIds = Object.keys(conceptIdsObject || {});
+                                    return _context21.abrupt('return', conceptIds);
 
-                                case 6:
-                                    _context21.prev = 6;
+                                case 9:
+                                    _context21.prev = 9;
                                     _context21.t0 = _context21['catch'](0);
                                     throw _context21.t0;
 
-                                case 9:
+                                case 12:
                                 case 'end':
                                     return _context21.stop();
                             }
                         }
-                    }, _callee21, this, [[0, 6]]);
+                    }, _callee21, this, [[0, 9]]);
+                }));
+            };
+
+            associateUserStar = function associateUserStar(courseId, uid) {
+                return __awaiter(_this, void 0, Promise, _regeneratorRuntime.mark(function _callee22() {
+                    var path;
+                    return _regeneratorRuntime.wrap(function _callee22$(_context22) {
+                        while (1) {
+                            switch (_context22.prev = _context22.next) {
+                                case 0:
+                                    _context22.prev = 0;
+                                    path = dataPath + '/' + courseId + '/userStars/' + uid;
+                                    _context22.next = 4;
+                                    return FirebaseService.set(path, uid);
+
+                                case 4:
+                                    _context22.next = 9;
+                                    break;
+
+                                case 6:
+                                    _context22.prev = 6;
+                                    _context22.t0 = _context22['catch'](0);
+                                    throw _context22.t0;
+
+                                case 9:
+                                case 'end':
+                                    return _context22.stop();
+                            }
+                        }
+                    }, _callee22, this, [[0, 6]]);
+                }));
+            };
+
+            disassociateUserStar = function disassociateUserStar(courseId, uid) {
+                return __awaiter(_this, void 0, Promise, _regeneratorRuntime.mark(function _callee23() {
+                    var path;
+                    return _regeneratorRuntime.wrap(function _callee23$(_context23) {
+                        while (1) {
+                            switch (_context23.prev = _context23.next) {
+                                case 0:
+                                    _context23.prev = 0;
+                                    path = dataPath + '/' + courseId + '/userStars/' + uid;
+                                    _context23.next = 4;
+                                    return FirebaseService.remove(path);
+
+                                case 4:
+                                    _context23.next = 9;
+                                    break;
+
+                                case 6:
+                                    _context23.prev = 6;
+                                    _context23.t0 = _context23['catch'](0);
+                                    throw _context23.t0;
+
+                                case 9:
+                                case 'end':
+                                    return _context23.stop();
+                            }
+                        }
+                    }, _callee23, this, [[0, 6]]);
                 }));
             };
 
@@ -6950,6 +6973,7 @@ $__System.register('3e', ['32', '2c', '2d', '2e', '3f'], function (_export, _con
                 getAllByVisibility: getAllByVisibility,
                 resolveCourseIds: resolveCourseIds,
                 dataPath: dataPath,
+                updateCourseField: updateCourseField,
                 getConceptIds: getConceptIds,
                 associateUserStar: associateUserStar,
                 disassociateUserStar: disassociateUserStar
@@ -9839,8 +9863,6 @@ $__System.register('3d', ['35', '38', '40', '41', '2d', '2e', '3e', '3f'], funct
                     step((generator = generator.apply(thisArg, _arguments)).next());
                 });
             };
-
-            FirebaseService.init('AIzaSyANTSoOA6LZZDxM7vqIlAl37B7IqWL-6MY', 'prendus.firebaseapp.com', 'https://prendus.firebaseio.com', 'prendus.appspot.com', 'Prendus');
 
             showMainSpinner = function showMainSpinner(context) {
                 context.action = {
