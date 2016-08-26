@@ -17137,7 +17137,7 @@ Custom property | Description | Default
           <paper-toolbar style="color: gray;">
             <div>© 2016 Prendus LLC</div>
             <div id="license">
-              <a rel="license" href="http://creativecommons.org/licenses/by/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by/4.0/80x15.png"></a><br>This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>.
+              <a rel="license" href="http://creativecommons.org/licenses/by/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by/4.0/80x15.png"></a>&nbsp;All publicly available materials licensed under a <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>.
             </div>
             <div id="terms-of-service" on-tap="changeURL">Terms of Service</div>
             <div id="privacy-policy" on-tap="changeURL">Privacy Policy</div>
@@ -43741,12 +43741,28 @@ Custom property | Description | Default
             .course-title{
               font-size: 1.5vw;
               font-weight: bold;
+              max-width: 80%;
+            }
+            .card-content{
+              height: 175px;
             }
             .course-card{
               margin: 1%;
               width: 31%;
             }
+            #card-position{
+              position: relative;
+              margin: 0 auto;
+            }
             #no-wrap{
+              position: absolute;
+              top: -3px;
+              left: 80%;
+              z-index: 1000;
+            }
+            #no-wrap-content{
+              position: fixed;
+              width: 4%;
               overflow: hidden;
               white-space: nowrap;
             }
@@ -43773,16 +43789,13 @@ Custom property | Description | Default
         <redux-store on-statechange="mapStateToThis" action="[[action]]"></redux-store>
 
         <paper-card class="course-card">
-
-
           <div class="card-content">
-            <div>
-              <span class="course-title">[[course.title]]</span>
-              <span id="no-wrap"><paper-icon-button id="star-icon" icon="[[starIcon]]" title="click to star or unstar" on-tap="starClick"></paper-icon-button>[[numStars]]</span>
+            <div id="card-position">
+              <div class="course-title">[[course.title]]</div>
+              <div id="no-wrap"><div id="no-wrap-content"><paper-icon-button id="star-icon" icon="[[starIcon]]" title="click to star or unstar" on-tap="starClick"></paper-icon-button>[[numStars]]</div></div>
             </div>
             [[course.description]]
           </div>
-
           <div class="card-actions">
             <template is="dom-if" if="[[hasEditAccess]]">
               <paper-button id="[[course.id]]" on-tap="editCourse">Edit</paper-button>  <!-- Go to page from here -->
@@ -92316,6 +92329,7 @@ Custom property | Description | Default
   <style>
     :host {
       display: block;
+      margin-bottom:64px;
     }
   </style>
 

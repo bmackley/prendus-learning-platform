@@ -29,7 +29,8 @@ export interface State {
     starredCourses: Course[];
     currentConcept: {};
     concepts: {};
-    currentCourse: Course;
+    courseViewCurrentCourse: Course;
+    courseEditCurrentCourse: Course;
     currentConceptVideoId: string;
     currentConceptVideoTitle: string;
     currentConceptVideoUrl: string

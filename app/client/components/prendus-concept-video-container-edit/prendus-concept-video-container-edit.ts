@@ -1,7 +1,7 @@
 import {Video} from '../../node_modules/prendus-services/interfaces/video.interface.ts';
 import {Actions} from '../../redux/actions.ts';
 import {StatechangeEvent} from '../../interfaces/statechange-event.interface.ts';
-import {VideoEditorComponent} from '../prendus-video-editor/prendus-video-editor.ts';
+import {FirebaseService} from '../../node_modules/prendus-services/services/firebase.service.ts';
 
 class PrendusConceptVideoContainerEdit {
     public is: string;
@@ -12,10 +12,6 @@ class PrendusConceptVideoContainerEdit {
     public currentVideoId: string;
     public currentVideoTitle: string;
     public currentVideoUrl: string;
-    public $: {
-        editVideoDialog: any,
-        videoEditor: VideoEditorComponent
-    };
 
     beforeRegister() {
         this.is = 'prendus-concept-video-container-edit';
@@ -58,8 +54,11 @@ class PrendusConceptVideoContainerEdit {
         const title = e.detail.title;
         const url = e.detail.url;
 
+        const user = await FirebaseService.getLoggedInUser();
+
         const video: Video = {
             id: null,
+            uid: user.uid,
             title,
             url,
             collaborators: {}
