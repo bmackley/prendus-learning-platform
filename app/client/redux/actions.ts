@@ -14,8 +14,6 @@ import {User} from '../node_modules/prendus-services/interfaces/user.interface.t
 import {EmailsToUidsModel} from '../node_modules/prendus-services/models/emails-to-uids.model.ts';
 import {Video} from '../node_modules/prendus-services/interfaces/video.interface.ts';
 
-FirebaseService.init('AIzaSyANTSoOA6LZZDxM7vqIlAl37B7IqWL-6MY', 'prendus.firebaseapp.com', 'https://prendus.firebaseio.com', 'prendus.appspot.com', 'Prendus');
-
 const showMainSpinner = (context: any) => {
     context.action = {
         type: 'SHOW_MAIN_SPINNER'
