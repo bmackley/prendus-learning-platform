@@ -555,9 +555,16 @@ const loginUser = {
           let user = await UserModel.getById(loggedInUser.uid); //sets ancillary user data such as name, institution, etc.
           user.metaData.uid = loggedInUser.uid;
           const courses = await CourseModel.getCoursesByUser(loggedInUser.uid);
+          //need to go here so that user info loads when a user logs in. If not, starred courses and shared courses don't appear once they
+          const starredCourseIds = await UserModel.getStarredCoursesIds(loggedInUser.uid);
+          const starredCourses = await CourseModel.resolveCourseIds(starredCourseIds);
+          const sharedCourseIds = await UserModel.getSharedWithMeCoursesIds(loggedInUser.uid);
+          const sharedCourses = await CourseModel.resolveCourseIds(sharedCourseIds);
           context.action = {
             type: Actions.loginUser.type,
             courses: courses,
+            starredCourses: starredCourses,
+            sharedCourses: sharedCourses,
             user
           };
         }catch(error){
@@ -758,7 +765,6 @@ const orderConcepts = {
   type: 'ORDER_CONCEPTS',
   execute: async (context: any, id: string, courseConceptsArray: Concept[]) => {
     try{
-      console.log('concepts array', courseConceptsArray);
       await CourseModel.updateCourseConcepts(id, courseConceptsArray);
     }catch(error){
       throw error;
@@ -768,10 +774,6 @@ const orderConcepts = {
 
 const updateCourseField = async (context: any, id: string, field: string, value: string) => {
     try{
-      console.log('actions context', context)
-      console.log('actions id', id)
-      console.log('actions field', field)
-      console.log('actions value', value)
       await CourseModel.updateCourseField(id, field, value);
       const course = await CourseModel.getById(id);
     //   const conceptsArray = await CourseModel.courseConceptsToArray(course);
