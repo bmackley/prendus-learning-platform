@@ -1724,10 +1724,9 @@ $__System.register('23', ['29', '32', '2d', '2a'], function (_export, _context6)
         }
     };
 });
-$__System.register('22', ['29', '32', '33', '34', '35', '2d', '2a', '2e'], function (_export, _context2) {
+$__System.register("33", [], function (_export, _context) {
     "use strict";
 
-<<<<<<< HEAD
     var fixSVGRefs, SVGFixer;
     return {
         setters: [],
@@ -1762,9 +1761,6 @@ $__System.register('22', ['29', '32', '33', '34', '35', '36', '2d', '2a', '2e'],
     "use strict";
 
     var _defineProperty, _regeneratorRuntime, _classCallCheck, _createClass, FirebaseService, VideoModel, UtilitiesService, XAPIService, SVGFixer, __awaiter;
-=======
-    var _defineProperty, _regeneratorRuntime, _classCallCheck, _createClass, FirebaseService, VideoModel, UtilitiesService, XAPIService, __awaiter, PrendusVideoComponent;
->>>>>>> develop
 
     return {
         setters: [function (_) {
@@ -1772,11 +1768,13 @@ $__System.register('22', ['29', '32', '33', '34', '35', '36', '2d', '2a', '2e'],
         }, function (_2) {
             UtilitiesService = _2.UtilitiesService;
         }, function (_3) {
-            _defineProperty = _3.default;
+            SVGFixer = _3.SVGFixer;
         }, function (_4) {
-            VideoModel = _4.VideoModel;
+            _defineProperty = _4.default;
         }, function (_5) {
-            XAPIService = _5.XAPIService;
+            VideoModel = _5.VideoModel;
+        }, function (_6) {
+            XAPIService = _6.XAPIService;
         }, function (_d) {
             _regeneratorRuntime = _d.default;
         }, function (_a) {
@@ -1857,7 +1855,6 @@ $__System.register('22', ['29', '32', '33', '34', '35', '36', '2d', '2a', '2e'],
                             return __awaiter(this, void 0, void 0, _regeneratorRuntime.mark(function _callee2() {
                                 var _this = this;
 
-<<<<<<< HEAD
                                 return _regeneratorRuntime.wrap(function _callee2$(_context2) {
                                     while (1) {
                                         switch (_context2.prev = _context2.next) {
@@ -1898,55 +1895,6 @@ $__System.register('22', ['29', '32', '33', '34', '35', '36', '2d', '2a', '2e'],
                                             case 'end':
                                                 return _context2.stop();
                                         }
-=======
-                _createClass(PrendusVideoComponent, [{
-                    key: 'beforeRegister',
-                    value: function beforeRegister() {
-                        this.is = 'prendus-video-viewer';
-                        this.properties = {
-                            course: {
-                                type: String
-                            },
-                            content: {
-                                type: String
-                            },
-                            userFullName: {
-                                type: String
-                            },
-                            userEmail: {
-                                type: String
-                            }
-                        };
-                        this.observers = ['init(course, content, userFullName, userEmail)'];
-                    }
-                }, {
-                    key: 'init',
-                    value: function init() {
-                        return __awaiter(this, void 0, void 0, _regeneratorRuntime.mark(function _callee() {
-                            var prendusServerEndpointDomain, video;
-                            return _regeneratorRuntime.wrap(function _callee$(_context) {
-                                while (1) {
-                                    switch (_context.prev = _context.next) {
-                                        case 0:
-                                            if (!(this.course && this.content && this.userFullName && this.userEmail)) {
-                                                _context.next = 7;
-                                                break;
-                                            }
-
-                                            prendusServerEndpointDomain = UtilitiesService.getPrendusServerEndpointDomain();
-                                            _context.next = 4;
-                                            return VideoModel.getById(this.content);
-
-                                        case 4:
-                                            video = _context.sent;
-
-                                            this.videoSrc = video.url;
-                                            this.attachInternalListeners(this.course, this.content, this.userFullName, this.userEmail, prendusServerEndpointDomain + '/api/xapi/video/sendstatement');
-
-                                        case 7:
-                                        case 'end':
-                                            return _context.stop();
->>>>>>> develop
                                     }
                                 }, _callee2, this);
                             }));
@@ -1966,7 +1914,6 @@ $__System.register('22', ['29', '32', '33', '34', '35', '36', '2d', '2a', '2e'],
                                 if (!urlInfo) {
                                     return initVideo(context, url);
                                 }
-<<<<<<< HEAD
                                 if (urlInfo.provider === 'youtube') {
                                     return initYouTube(context, urlInfo.id);
                                 }
@@ -2034,50 +1981,6 @@ $__System.register('22', ['29', '32', '33', '34', '35', '36', '2d', '2a', '2e'],
                                     } else {
                                         return 'played';
                                     }
-=======
-                            }, _callee, this);
-                        }));
-                    }
-                }, {
-                    key: 'attachInternalListeners',
-                    value: function attachInternalListeners(course, content, theUserFullName, theUserEmail, endpointUrl) {
-                        var _this = this;
-
-                        var videoId = content;
-                        var userFullName = theUserFullName;
-                        var courseId = course;
-                        var userEmail = theUserEmail;
-                        var baseUri = window.location.origin;
-                        var fullUrl = baseUri + window.location.pathname;
-                        var videoJSPlayer = videojs('theVideoPlayer');
-                        var html5Player = this.$.theVideoPlayer;
-                        videoJSPlayer.on('fullscreenchange', function (e) {
-                            var isFullscreen = videoJSPlayer.isFullscreen();
-                            var verb = getVerb(isFullscreen);
-                            var staticValues = getStaticValues();
-                            var dynamicValues = getDynamicValues(_this);
-                            var extensions = _defineProperty({}, baseUri + '/playerTime', dynamicValues.videoTime);
-                            XAPIService.sendVideoStatement(endpointUrl, verb, extensions, staticValues, dynamicValues);
-                            function getVerb(isFullScreen) {
-                                if (isFullScreen) {
-                                    return 'enter_fullscreen';
-                                } else {
-                                    return 'exit_fullscreen';
-                                }
-                            }
-                        });
-                        html5Player.addEventListener('playing', function (e) {
-                            var dynamicValues = getDynamicValues(_this);
-                            var staticValues = getStaticValues();
-                            var verb = getVerb(dynamicValues.videoTime);
-                            var extensions = getExtensions(dynamicValues.videoTime);
-                            XAPIService.sendVideoStatement(endpointUrl, verb, extensions, staticValues, dynamicValues);
-                            function getVerb(videoTime) {
-                                if (videoTime === 0) {
-                                    return 'started';
-                                } else {
-                                    return 'played';
->>>>>>> develop
                                 }
                                 function getExtensions(videoTime) {
                                     if (videoTime === 0) {
@@ -2086,7 +1989,6 @@ $__System.register('22', ['29', '32', '33', '34', '35', '36', '2d', '2a', '2e'],
                                         return _defineProperty({}, baseUri + '/playerTime', videoTime);
                                     }
                                 }
-<<<<<<< HEAD
                             });
                             player.on('ended', function (e) {
                                 var dynamicValues = getDynamicValues(_this2, player);
@@ -2120,79 +2022,6 @@ $__System.register('22', ['29', '32', '33', '34', '35', '36', '2d', '2a', '2e'],
                                     var _ref2;
 
                                     return _ref2 = {}, _defineProperty(_ref2, baseUri + '/oldTime', getJumpStartTime(timeBeforeSeek, videoTime)), _defineProperty(_ref2, baseUri + '/newTime', videoTime), _ref2;
-=======
-                            }
-                        });
-                        html5Player.addEventListener('ended', function (e) {
-                            var dynamicValues = getDynamicValues(_this);
-                            var staticValues = getStaticValues();
-                            var verb = 'ended';
-                            var extensions = _defineProperty({}, baseUri + '/playerTime', dynamicValues.videoTime);
-                            XAPIService.sendVideoStatement(endpointUrl, verb, extensions, staticValues, dynamicValues);
-                        });
-                        html5Player.addEventListener('pause', function (e) {
-                            var dynamicValues = getDynamicValues(_this);
-                            var staticValues = getStaticValues();
-                            var verb = 'paused';
-                            var extensions = _defineProperty({}, baseUri + '/playerTime', dynamicValues.videoTime);
-                            XAPIService.sendVideoStatement(endpointUrl, verb, extensions, staticValues, dynamicValues);
-                        });
-                        html5Player.addEventListener('timeupdate', function (e) {
-                            var dynamicValues = getDynamicValues(_this);
-                            if (!_this.seeking) {
-                                _this.timeBeforeSeek = dynamicValues.videoTime;
-                                _this.seeking = true;
-                            }
-                        });
-                        html5Player.addEventListener('seeked', function (e) {
-                            var dynamicValues = getDynamicValues(_this);
-                            var staticValues = getStaticValues();
-                            var verb = 'jumped';
-                            var extensions = getExtensions(dynamicValues.videoTime, _this.timeBeforeSeek);
-                            XAPIService.sendVideoStatement(endpointUrl, verb, extensions, staticValues, dynamicValues);
-                            _this.seeking = false;
-                            function getExtensions(videoTime, timeBeforeSeek) {
-                                var _ref2;
-
-                                return _ref2 = {}, _defineProperty(_ref2, baseUri + '/oldTime', getJumpStartTime(timeBeforeSeek, videoTime)), _defineProperty(_ref2, baseUri + '/newTime', videoTime), _ref2;
-                            }
-                            function getJumpStartTime(timeBeforeSeek, videoTime) {
-                                if (timeBeforeSeek === videoTime) {
-                                    return 0;
-                                }
-                                return timeBeforeSeek;
-                            }
-                        });
-                        html5Player.addEventListener('volumechange', function (e) {
-                            var _extensions4;
-
-                            var dynamicValues = getDynamicValues(_this);
-                            var staticValues = getStaticValues();
-                            var verb = 'changed_volume';
-                            var extensions = (_extensions4 = {}, _defineProperty(_extensions4, baseUri + '/playerTime', dynamicValues.videoTime), _defineProperty(_extensions4, baseUri + '/volume', dynamicValues.muted ? 0 : dynamicValues.currentVolume), _extensions4);
-                            XAPIService.sendVideoStatement(endpointUrl, verb, extensions, staticValues, dynamicValues);
-                        });
-                        html5Player.addEventListener('ratechange', function (e) {
-                            var _extensions5;
-
-                            var dynamicValues = getDynamicValues(_this);
-                            var staticValues = getStaticValues();
-                            var verb = 'changed_playrate';
-                            var extensions = (_extensions5 = {}, _defineProperty(_extensions5, baseUri + '/playerTime', dynamicValues.videoTime), _defineProperty(_extensions5, baseUri + '/playRate', dynamicValues.currentRate), _extensions5);
-                            XAPIService.sendVideoStatement(endpointUrl, verb, extensions, staticValues, dynamicValues);
-                        });
-                        document.addEventListener('visibilitychange', function (e) {
-                            var dynamicValues = getDynamicValues(_this);
-                            var staticValues = getStaticValues();
-                            var verb = getVerb();
-                            var extensions = _defineProperty({}, baseUri + '/playerTime', dynamicValues.videoTime);
-                            XAPIService.sendVideoStatement(endpointUrl, verb, extensions, staticValues, dynamicValues);
-                            function getVerb() {
-                                if (document.visibilityState === 'visible') {
-                                    return 'resumed';
-                                } else {
-                                    return 'suspended';
->>>>>>> develop
                                 }
                                 function getJumpStartTime(timeBeforeSeek, videoTime) {
                                     if (timeBeforeSeek === videoTime) {
@@ -2261,35 +2090,6 @@ $__System.register('22', ['29', '32', '33', '34', '35', '36', '2d', '2a', '2e'],
                                     currentVolume: player.volume //TODO getting volume currently isn't implemented by the plyr, but should be soonish: https://github.com/Selz/plyr/issues/346
                                 };
                             }
-<<<<<<< HEAD
-=======
-                        });
-                        window.addEventListener('beforeunload', function (e) {
-                            var dynamicValues = getDynamicValues(_this);
-                            var staticValues = getStaticValues();
-                            var verb = 'closed_video';
-                            var extensions = _defineProperty({}, baseUri + '/playerTime', dynamicValues.videoTime);
-                            XAPIService.sendVideoStatement(endpointUrl, verb, extensions, staticValues, dynamicValues, true);
-                        });
-                        function getStaticValues() {
-                            return {
-                                videoId: videoId,
-                                userFullName: userFullName,
-                                userEmail: userEmail,
-                                courseId: courseId,
-                                baseUri: baseUri,
-                                fullUrl: fullUrl
-                            };
-                        }
-                        function getDynamicValues(context) {
-                            return {
-                                timestamp: new Date(),
-                                videoTime: context.$.theVideoPlayer.currentTime,
-                                muted: context.$.theVideoPlayer.muted,
-                                currentRate: context.$.theVideoPlayer.playbackRate,
-                                currentVolume: context.$.theVideoPlayer.volume
-                            };
->>>>>>> develop
                         }
                     }]);
 
@@ -2344,7 +2144,7 @@ $__System.register('21', ['29', '2a'], function (_export, _context) {
         }
     };
 });
-$__System.register("33", [], function (_export, _context) {
+$__System.register("34", [], function (_export, _context) {
   "use strict";
 
   return {
@@ -2367,7 +2167,7 @@ $__System.register("33", [], function (_export, _context) {
     }
   };
 });
-$__System.register('36', ['32', '37', '2d'], function (_export, _context5) {
+$__System.register('37', ['32', '38', '2d'], function (_export, _context5) {
     "use strict";
 
     var _regeneratorRuntime, UtilitiesService, QuizModel, _this, __awaiter, loadQuizSession, endQuizSession, clearQuestions, loadQuestionIds, Actions;
@@ -2577,7 +2377,7 @@ $__System.register('36', ['32', '37', '2d'], function (_export, _context5) {
         }
     };
 });
-$__System.register('35', [], function (_export, _context) {
+$__System.register('36', [], function (_export, _context) {
     "use strict";
 
     var sendStatement, sendVideoStatement, sendQuizStatement, XAPIService;
@@ -2634,7 +2434,7 @@ $__System.register('35', [], function (_export, _context) {
         }
     };
 });
-$__System.register('20', ['29', '32', '33', '35', '36', '2d', '2a'], function (_export, _context3) {
+$__System.register('20', ['29', '32', '34', '36', '37', '2d', '2a'], function (_export, _context3) {
     "use strict";
 
     var _defineProperty, _regeneratorRuntime, _classCallCheck, _createClass, UtilitiesService, Actions, XAPIService, __awaiter, TakeQuizComponent;
@@ -2900,7 +2700,7 @@ $__System.register('20', ['29', '32', '33', '35', '36', '2d', '2a'], function (_
         }
     };
 });
-$__System.register('38', [], function (_export, _context) {
+$__System.register('39', [], function (_export, _context) {
     "use strict";
 
     var InitialState;
@@ -2918,7 +2718,7 @@ $__System.register('38', [], function (_export, _context) {
         }
     };
 });
-$__System.register('39', ['38'], function (_export, _context) {
+$__System.register('3a', ['39'], function (_export, _context) {
     "use strict";
 
     var InitialState, RootReducer;
@@ -2969,7 +2769,7 @@ $__System.register('39', ['38'], function (_export, _context) {
         }
     };
 });
-$__System.register('1f', ['29', '39', '2a'], function (_export, _context) {
+$__System.register('1f', ['29', '2a', '3a'], function (_export, _context) {
     "use strict";
 
     var _classCallCheck, _createClass, RootReducer, ViewQuizComponent;
@@ -2977,10 +2777,10 @@ $__System.register('1f', ['29', '39', '2a'], function (_export, _context) {
     return {
         setters: [function (_) {
             _classCallCheck = _.default;
-        }, function (_2) {
-            RootReducer = _2.RootReducer;
         }, function (_a) {
             _createClass = _a.default;
+        }, function (_a2) {
+            RootReducer = _a2.RootReducer;
         }],
         execute: function () {
             ViewQuizComponent = function () {
@@ -3033,7 +2833,7 @@ $__System.register('1f', ['29', '39', '2a'], function (_export, _context) {
         }
     };
 });
-$__System.register('3a', [], function (_export, _context) {
+$__System.register('3b', [], function (_export, _context) {
     "use strict";
 
     var InitialState;
@@ -3089,7 +2889,7 @@ $__System.register('3a', [], function (_export, _context) {
         }
     };
 });
-$__System.register('3b', ['3a', '3c'], function (_export, _context) {
+$__System.register('3c', ['3b', '3d'], function (_export, _context) {
     "use strict";
 
     var InitialState, Actions;
@@ -3323,19 +3123,15 @@ $__System.register('3b', ['3a', '3c'], function (_export, _context) {
     _export('rootReducer', rootReducer);
 
     return {
-        setters: [function (_a) {
-            InitialState = _a.InitialState;
-        }, function (_c) {
-            Actions = _c.Actions;
+        setters: [function (_b) {
+            InitialState = _b.InitialState;
+        }, function (_d) {
+            Actions = _d.Actions;
         }],
         execute: function () {}
     };
 });
-<<<<<<< HEAD
 $__System.register('1e', ['29', '2a', '2e', '3c'], function (_export, _context) {
-=======
-$__System.register('1e', ['29', '2a', '3b'], function (_export, _context) {
->>>>>>> develop
     "use strict";
 
     var _classCallCheck, _createClass, FirebaseService, rootReducer, PrendusApp;
@@ -3345,15 +3141,10 @@ $__System.register('1e', ['29', '2a', '3b'], function (_export, _context) {
             _classCallCheck = _.default;
         }, function (_a) {
             _createClass = _a.default;
-<<<<<<< HEAD
         }, function (_e) {
             FirebaseService = _e.FirebaseService;
         }, function (_c) {
             rootReducer = _c.rootReducer;
-=======
-        }, function (_b) {
-            rootReducer = _b.rootReducer;
->>>>>>> develop
         }],
         execute: function () {
             PrendusApp = function () {
@@ -3391,7 +3182,7 @@ $__System.register('1e', ['29', '2a', '3b'], function (_export, _context) {
         }
     };
 });
-$__System.register('1d', ['29', '2d', '2a', '3c'], function (_export, _context7) {
+$__System.register('1d', ['29', '2d', '2a', '3d'], function (_export, _context7) {
     "use strict";
 
     var _regeneratorRuntime, _classCallCheck, _createClass, Actions, __awaiter, PrendusCollaboratorMenuContent;
@@ -3403,8 +3194,8 @@ $__System.register('1d', ['29', '2d', '2a', '3c'], function (_export, _context7)
             _regeneratorRuntime = _d.default;
         }, function (_a) {
             _createClass = _a.default;
-        }, function (_c) {
-            Actions = _c.Actions;
+        }, function (_d2) {
+            Actions = _d2.Actions;
         }],
         execute: function () {
             __awaiter = this && this.__awaiter || function (thisArg, _arguments, P, generator) {
@@ -3780,7 +3571,7 @@ $__System.register('1d', ['29', '2d', '2a', '3c'], function (_export, _context7)
         }
     };
 });
-$__System.register('1c', ['29', '2d', '2a', '3c', '2e'], function (_export, _context2) {
+$__System.register('1c', ['29', '2d', '2a', '3d', '2e'], function (_export, _context2) {
     "use strict";
 
     var _regeneratorRuntime, _classCallCheck, _createClass, Actions, FirebaseService, __awaiter, PrendusConceptContainerEdit;
@@ -3792,8 +3583,8 @@ $__System.register('1c', ['29', '2d', '2a', '3c', '2e'], function (_export, _con
             _regeneratorRuntime = _d.default;
         }, function (_a) {
             _createClass = _a.default;
-        }, function (_c) {
-            Actions = _c.Actions;
+        }, function (_d2) {
+            Actions = _d2.Actions;
         }, function (_e) {
             FirebaseService = _e.FirebaseService;
         }],
@@ -4025,7 +3816,7 @@ $__System.register('1b', ['29', '2d', '2a', '2e'], function (_export, _context2)
         }
     };
 });
-$__System.register('1a', ['29', '2d', '2a', '3c'], function (_export, _context3) {
+$__System.register('1a', ['29', '2d', '2a', '3d'], function (_export, _context3) {
     "use strict";
 
     var _regeneratorRuntime, _classCallCheck, _createClass, Actions, __awaiter, PrendusConceptQuizContainerEdit;
@@ -4037,8 +3828,8 @@ $__System.register('1a', ['29', '2d', '2a', '3c'], function (_export, _context3)
             _regeneratorRuntime = _d.default;
         }, function (_a) {
             _createClass = _a.default;
-        }, function (_c) {
-            Actions = _c.Actions;
+        }, function (_d2) {
+            Actions = _d2.Actions;
         }],
         execute: function () {
             __awaiter = this && this.__awaiter || function (thisArg, _arguments, P, generator) {
@@ -4156,7 +3947,7 @@ $__System.register('1a', ['29', '2d', '2a', '3c'], function (_export, _context3)
         }
     };
 });
-$__System.register('19', ['29', '2d', '2a', '3c'], function (_export, _context2) {
+$__System.register('19', ['29', '2d', '2a', '3d'], function (_export, _context2) {
     "use strict";
 
     var _regeneratorRuntime, _classCallCheck, _createClass, Actions, __awaiter, PrendusConceptQuizContainer;
@@ -4168,8 +3959,8 @@ $__System.register('19', ['29', '2d', '2a', '3c'], function (_export, _context2)
             _regeneratorRuntime = _d.default;
         }, function (_a) {
             _createClass = _a.default;
-        }, function (_c) {
-            Actions = _c.Actions;
+        }, function (_d2) {
+            Actions = _d2.Actions;
         }],
         execute: function () {
             __awaiter = this && this.__awaiter || function (thisArg, _arguments, P, generator) {
@@ -4263,10 +4054,10 @@ $__System.register('19', ['29', '2d', '2a', '3c'], function (_export, _context2)
         }
     };
 });
-$__System.register('18', ['29', '2d', '2a', '3c'], function (_export, _context4) {
+$__System.register('18', ['29', '2d', '2a', '3d', '2e'], function (_export, _context4) {
     "use strict";
 
-    var _regeneratorRuntime, _classCallCheck, _createClass, Actions, __awaiter, PrendusConceptVideoContainerEdit;
+    var _regeneratorRuntime, _classCallCheck, _createClass, Actions, FirebaseService, __awaiter, PrendusConceptVideoContainerEdit;
 
     return {
         setters: [function (_) {
@@ -4275,8 +4066,10 @@ $__System.register('18', ['29', '2d', '2a', '3c'], function (_export, _context4)
             _regeneratorRuntime = _d.default;
         }, function (_a) {
             _createClass = _a.default;
-        }, function (_c) {
-            Actions = _c.Actions;
+        }, function (_d2) {
+            Actions = _d2.Actions;
+        }, function (_e) {
+            FirebaseService = _e.FirebaseService;
         }],
         execute: function () {
             __awaiter = this && this.__awaiter || function (thisArg, _arguments, P, generator) {
@@ -4363,29 +4156,35 @@ $__System.register('18', ['29', '2d', '2a', '3c'], function (_export, _context4)
                     key: 'saveVideo',
                     value: function saveVideo(e) {
                         return __awaiter(this, void 0, void 0, _regeneratorRuntime.mark(function _callee2() {
-                            var title, url, video;
+                            var title, url, user, video;
                             return _regeneratorRuntime.wrap(function _callee2$(_context2) {
                                 while (1) {
                                     switch (_context2.prev = _context2.next) {
                                         case 0:
                                             title = e.detail.title;
                                             url = e.detail.url;
+                                            _context2.next = 4;
+                                            return FirebaseService.getLoggedInUser();
+
+                                        case 4:
+                                            user = _context2.sent;
                                             video = {
                                                 id: null,
+                                                uid: user.uid,
                                                 title: title,
                                                 url: url,
                                                 collaborators: {}
                                             };
-                                            _context2.next = 5;
+                                            _context2.next = 8;
                                             return Actions.saveVideo(this, this.conceptId, this.currentVideoId, video);
 
-                                        case 5:
+                                        case 8:
                                             this.$.videoEditor.indicateSaved();
                                             Actions.setCurrentVideoInfo(this, this.currentVideoId, title, url);
-                                            _context2.next = 9;
+                                            _context2.next = 12;
                                             return Actions.loadEditConceptVideos(this, this.conceptId);
 
-                                        case 9:
+                                        case 12:
                                         case 'end':
                                             return _context2.stop();
                                     }
@@ -4438,7 +4237,7 @@ $__System.register('18', ['29', '2d', '2a', '3c'], function (_export, _context4)
         }
     };
 });
-$__System.register('17', ['29', '2d', '2a', '3c'], function (_export, _context2) {
+$__System.register('17', ['29', '2d', '2a', '3d'], function (_export, _context2) {
     "use strict";
 
     var _regeneratorRuntime, _classCallCheck, _createClass, Actions, __awaiter, PrendusConceptVideoContainer;
@@ -4450,8 +4249,8 @@ $__System.register('17', ['29', '2d', '2a', '3c'], function (_export, _context2)
             _regeneratorRuntime = _d.default;
         }, function (_a) {
             _createClass = _a.default;
-        }, function (_c) {
-            Actions = _c.Actions;
+        }, function (_d2) {
+            Actions = _d2.Actions;
         }],
         execute: function () {
             __awaiter = this && this.__awaiter || function (thisArg, _arguments, P, generator) {
@@ -4558,7 +4357,7 @@ $__System.register('17', ['29', '2d', '2a', '3c'], function (_export, _context2)
         }
     };
 });
-$__System.register('16', ['29', '2d', '2a', '3c'], function (_export, _context4) {
+$__System.register('16', ['29', '2d', '2a', '3d'], function (_export, _context4) {
     "use strict";
 
     var _regeneratorRuntime, _classCallCheck, _createClass, Actions, __awaiter, PrendusCourseEdit;
@@ -4570,8 +4369,8 @@ $__System.register('16', ['29', '2d', '2a', '3c'], function (_export, _context4)
             _regeneratorRuntime = _d.default;
         }, function (_a) {
             _createClass = _a.default;
-        }, function (_c) {
-            Actions = _c.Actions;
+        }, function (_d2) {
+            Actions = _d2.Actions;
         }],
         execute: function () {
             __awaiter = this && this.__awaiter || function (thisArg, _arguments, P, generator) {
@@ -4820,7 +4619,7 @@ $__System.register('16', ['29', '2d', '2a', '3c'], function (_export, _context4)
         }
     };
 });
-$__System.register('15', ['29', '2d', '2a', '3c', '2e'], function (_export, _context2) {
+$__System.register('15', ['29', '2d', '2a', '3d', '2e'], function (_export, _context2) {
     "use strict";
 
     var _regeneratorRuntime, _classCallCheck, _createClass, Actions, FirebaseService, __awaiter, PrendusCourseHomepage;
@@ -4832,8 +4631,8 @@ $__System.register('15', ['29', '2d', '2a', '3c', '2e'], function (_export, _con
             _regeneratorRuntime = _d.default;
         }, function (_a) {
             _createClass = _a.default;
-        }, function (_c) {
-            Actions = _c.Actions;
+        }, function (_d2) {
+            Actions = _d2.Actions;
         }, function (_e) {
             FirebaseService = _e.FirebaseService;
         }],
@@ -4942,7 +4741,7 @@ $__System.register('15', ['29', '2d', '2a', '3c', '2e'], function (_export, _con
         }
     };
 });
-$__System.register('14', ['29', '2d', '2a', '3c', '2e'], function (_export, _context3) {
+$__System.register('14', ['29', '2d', '2a', '3d', '2e'], function (_export, _context3) {
     "use strict";
 
     var _regeneratorRuntime, _classCallCheck, _createClass, Actions, FirebaseService, __awaiter, PrendusCoursePreview;
@@ -4954,8 +4753,8 @@ $__System.register('14', ['29', '2d', '2a', '3c', '2e'], function (_export, _con
             _regeneratorRuntime = _d.default;
         }, function (_a) {
             _createClass = _a.default;
-        }, function (_c) {
-            Actions = _c.Actions;
+        }, function (_d2) {
+            Actions = _d2.Actions;
         }, function (_e) {
             FirebaseService = _e.FirebaseService;
         }],
@@ -5225,7 +5024,7 @@ $__System.register('13', ['29', '2d', '2a'], function (_export, _context2) {
         }
     };
 });
-$__System.register('12', ['29', '2d', '2a', '3c'], function (_export, _context3) {
+$__System.register('12', ['29', '2d', '2a', '3d'], function (_export, _context3) {
     "use strict";
 
     var _regeneratorRuntime, _classCallCheck, _createClass, Actions, __awaiter, PrendusCourseView;
@@ -5237,8 +5036,8 @@ $__System.register('12', ['29', '2d', '2a', '3c'], function (_export, _context3)
             _regeneratorRuntime = _d.default;
         }, function (_a) {
             _createClass = _a.default;
-        }, function (_c) {
-            Actions = _c.Actions;
+        }, function (_d2) {
+            Actions = _d2.Actions;
         }],
         execute: function () {
             __awaiter = this && this.__awaiter || function (thisArg, _arguments, P, generator) {
@@ -5411,7 +5210,7 @@ $__System.register('12', ['29', '2d', '2a', '3c'], function (_export, _context3)
         }
     };
 });
-$__System.register('11', ['29', '2d', '2a', '3c'], function (_export, _context2) {
+$__System.register('11', ['29', '2d', '2a', '3d'], function (_export, _context2) {
     "use strict";
 
     var _regeneratorRuntime, _classCallCheck, _createClass, Actions, __awaiter, PrendusCreateAccount;
@@ -5423,8 +5222,8 @@ $__System.register('11', ['29', '2d', '2a', '3c'], function (_export, _context2)
             _regeneratorRuntime = _d.default;
         }, function (_a) {
             _createClass = _a.default;
-        }, function (_c) {
-            Actions = _c.Actions;
+        }, function (_d2) {
+            Actions = _d2.Actions;
         }],
         execute: function () {
             __awaiter = this && this.__awaiter || function (thisArg, _arguments, P, generator) {
@@ -5793,7 +5592,7 @@ $__System.register('d', ['29', '2a'], function (_export, _context) {
         }
     };
 });
-$__System.register('c', ['29', '2d', '2a', '3c'], function (_export, _context3) {
+$__System.register('c', ['29', '2d', '2a', '3d'], function (_export, _context3) {
     "use strict";
 
     var _regeneratorRuntime, _classCallCheck, _createClass, Actions, __awaiter, PrendusHomepage;
@@ -5805,8 +5604,8 @@ $__System.register('c', ['29', '2d', '2a', '3c'], function (_export, _context3) 
             _regeneratorRuntime = _d.default;
         }, function (_a) {
             _createClass = _a.default;
-        }, function (_c) {
-            Actions = _c.Actions;
+        }, function (_d2) {
+            Actions = _d2.Actions;
         }],
         execute: function () {
             __awaiter = this && this.__awaiter || function (thisArg, _arguments, P, generator) {
@@ -5906,7 +5705,7 @@ $__System.register('c', ['29', '2d', '2a', '3c'], function (_export, _context3) 
         }
     };
 });
-$__System.register('b', ['29', '2d', '2a', '3c'], function (_export, _context2) {
+$__System.register('b', ['29', '2d', '2a', '3d'], function (_export, _context2) {
     "use strict";
 
     var _regeneratorRuntime, _classCallCheck, _createClass, Actions, __awaiter, PrendusLogin;
@@ -5918,8 +5717,8 @@ $__System.register('b', ['29', '2d', '2a', '3c'], function (_export, _context2) 
             _regeneratorRuntime = _d.default;
         }, function (_a) {
             _createClass = _a.default;
-        }, function (_c) {
-            Actions = _c.Actions;
+        }, function (_d2) {
+            Actions = _d2.Actions;
         }],
         execute: function () {
             __awaiter = this && this.__awaiter || function (thisArg, _arguments, P, generator) {
@@ -6009,7 +5808,7 @@ $__System.register('b', ['29', '2d', '2a', '3c'], function (_export, _context2) 
         }
     };
 });
-$__System.register('a', ['29', '2a', '3c'], function (_export, _context) {
+$__System.register('a', ['29', '2a', '3d'], function (_export, _context) {
     "use strict";
 
     var _classCallCheck, _createClass, Actions, PrendusNavbar;
@@ -6019,8 +5818,8 @@ $__System.register('a', ['29', '2a', '3c'], function (_export, _context) {
             _classCallCheck = _.default;
         }, function (_a) {
             _createClass = _a.default;
-        }, function (_c) {
-            Actions = _c.Actions;
+        }, function (_d) {
+            Actions = _d.Actions;
         }],
         execute: function () {
             _export('PrendusNavbar', PrendusNavbar = function () {
@@ -6179,7 +5978,7 @@ $__System.register('8', ['29', '2a'], function (_export, _context) {
         }
     };
 });
-$__System.register('7', ['29', '2d', '2a', '3c'], function (_export, _context3) {
+$__System.register('7', ['29', '2d', '2a', '3d'], function (_export, _context3) {
     "use strict";
 
     var _regeneratorRuntime, _classCallCheck, _createClass, Actions, __awaiter, PrendusProfile;
@@ -6191,8 +5990,8 @@ $__System.register('7', ['29', '2d', '2a', '3c'], function (_export, _context3) 
             _regeneratorRuntime = _d.default;
         }, function (_a) {
             _createClass = _a.default;
-        }, function (_c) {
-            Actions = _c.Actions;
+        }, function (_d2) {
+            Actions = _d2.Actions;
         }],
         execute: function () {
             __awaiter = this && this.__awaiter || function (thisArg, _arguments, P, generator) {
@@ -6359,11 +6158,7 @@ $__System.register('7', ['29', '2d', '2a', '3c'], function (_export, _context3) 
         }
     };
 });
-<<<<<<< HEAD
 $__System.register('3e', ['32', '2c', '2d', '2e', '3f'], function (_export, _context24) {
-=======
-$__System.register('3d', ['32', '2c', '2d', '2e', '3e'], function (_export, _context22) {
->>>>>>> develop
     "use strict";
 
     var _toConsumableArray, _regeneratorRuntime, FirebaseService, ConceptModel, UtilitiesService, _this, __awaiter, conceptsPath, dataPath, createOrUpdate, associateConcept, disassociateConcept, getById, getCoursesByUser, courseConceptsToArray, orderCourseConcepts, updateCourseConcepts, deleteCourse, associateCollaborator, disassociateCollaborator, getCollaboratorUids, getAllByVisibility, resolveCourseIds, updateCourseField, getConceptIds, associateUserStar, disassociateUserStar, CourseModel;
@@ -6377,8 +6172,8 @@ $__System.register('3d', ['32', '2c', '2d', '2e', '3e'], function (_export, _con
             _regeneratorRuntime = _d.default;
         }, function (_e) {
             FirebaseService = _e.FirebaseService;
-        }, function (_e2) {
-            ConceptModel = _e2.ConceptModel;
+        }, function (_f) {
+            ConceptModel = _f.ConceptModel;
         }],
         execute: function () {
             _this = this;
@@ -7196,7 +6991,7 @@ $__System.register('3d', ['32', '2c', '2d', '2e', '3e'], function (_export, _con
         }
     };
 });
-$__System.register('3e', ['32', '34', '37', '2c', '2d', '2e'], function (_export, _context24) {
+$__System.register('3f', ['32', '35', '38', '2c', '2d', '2e'], function (_export, _context24) {
     "use strict";
 
     var _toConsumableArray, _regeneratorRuntime, FirebaseService, VideoModel, QuizModel, UtilitiesService, _this, __awaiter, dataPath, save, getById, deleteConcept, conceptsObjectToArray, associateCollaborator, associateCollaborators, disassociateCollaborator, getCollaboratorUids, getVideoIds, getQuizIds, resolveConceptIds, associateVideo, disassociateVideo, associateQuiz, disassociateQuiz, filterConceptsByCollaborator, filterConceptDatasByCollaborator, ConceptModel;
@@ -8004,7 +7799,7 @@ $__System.register('3e', ['32', '34', '37', '2c', '2d', '2e'], function (_export
         }
     };
 });
-$__System.register('3f', ['2c', '2d', '2e'], function (_export, _context24) {
+$__System.register('40', ['2c', '2d', '2e'], function (_export, _context24) {
     "use strict";
 
     var _toConsumableArray, _regeneratorRuntime, FirebaseService, _this, __awaiter, dataPath, save, updateFirebaseUser, updateMetaData, getById, getMetaDataById, starCourse, unstarCourse, shareCourseWithMe, unshareCourseWithMe, shareConceptWithMe, unshareConceptWithMe, shareVideoWithMe, unshareVideoWithMe, shareQuizWithMe, unshareQuizWithMe, getStarredCoursesIds, getSharedWithMeCoursesIds, getSharedWithMeConceptsIds, getSharedWithMeVideosIds, getSharedWithMeQuizzesIds, getEmailById, getEmailsByIds, UserModel;
@@ -8789,7 +8584,7 @@ $__System.register('3f', ['2c', '2d', '2e'], function (_export, _context24) {
         }
     };
 });
-$__System.register('34', ['2c', '2d', '2e'], function (_export, _context13) {
+$__System.register('35', ['2c', '2d', '2e'], function (_export, _context13) {
     "use strict";
 
     var _toConsumableArray, _regeneratorRuntime, FirebaseService, _this, __awaiter, dataPath, createOrUpdate, getById, removeById, update, associateCollaborator, associateCollaborators, disassociateCollaborator, getCollaboratorUids, resolveVideoIds, filterVideosByCollaborator, VideoModel;
@@ -9264,7 +9059,7 @@ $__System.register("2c", [], function (_export, _context) {
     }
   };
 });
-$__System.register('37', ['2c', '2d', '2e'], function (_export, _context19) {
+$__System.register('38', ['2c', '2d', '2e'], function (_export, _context19) {
     "use strict";
 
     var _toConsumableArray, _regeneratorRuntime, FirebaseService, _this, __awaiter, dataPath, createOrUpdate, getById, removeById, associateQuestion, disassociateQuestion, associateCollaborator, associateCollaborators, disassociateCollaborator, getCollaboratorUids, setQuestionSetting, setQuizSetting, getQuizSettings, updateTitle, getQuestionIds, resolveQuizIds, filterQuizzesByCollaborator, QuizModel;
@@ -9914,7 +9709,7 @@ $__System.register('37', ['2c', '2d', '2e'], function (_export, _context19) {
         }
     };
 });
-$__System.register('40', ['2d', '2e'], function (_export, _context3) {
+$__System.register('41', ['2d', '2e'], function (_export, _context3) {
     "use strict";
 
     var _regeneratorRuntime, FirebaseService, _this, __awaiter, dataPath, setUidByEmail, getUidByEmail, EmailsToUidsModel;
@@ -10026,7 +9821,7 @@ $__System.register('40', ['2d', '2e'], function (_export, _context3) {
         }
     };
 });
-$__System.register('3c', ['34', '37', '40', '2d', '2e', '3d', '3e', '3f'], function (_export, _context52) {
+$__System.register('3d', ['35', '38', '40', '41', '2d', '2e', '3e', '3f'], function (_export, _context52) {
     "use strict";
 
     var _regeneratorRuntime, FirebaseService, CourseModel, ConceptModel, UserModel, VideoModel, QuizModel, EmailsToUidsModel, _this, __awaiter, showMainSpinner, hideMainSpinner, loadCourseCollaboratorEmails, loadConceptCollaboratorEmails, loadVideoCollaboratorEmails, loadQuizCollaboratorEmails, addCourseCollaborator, addConceptCollaborator, addVideoCollaborator, addQuizCollaborator, removeCourseCollaborator, removeConceptCollaborator, removeVideoCollaborator, removeQuizCollaborator, starCourse, unstarCourse, getQuiz, updateQuizTitle, createNewQuiz, loadEditConceptQuizzes, loadViewConceptQuizzes, setCurrentEditQuizId, loadQuizSettings, setQuizSetting, setQuestionSetting, loadQuizQuestionIds, addQuestionToQuiz, removeQuestionFromQuiz, loadUserQuestionIds, loadPublicQuestionIds, deleteVideo, saveVideo, setCurrentVideoInfo, clearCurrentVideoInfo, loadEditConceptVideos, loadViewConceptVideos, loadEditCourseConcepts, loadViewCourseConcepts, createUser, loginUser, updateUserEmail, updateUserMetaData, checkUserAuth, addConcept, getConceptById, addCourse, getCoursesByUser, getStarredCoursesByUser, getSharedCoursesByUser, getCoursesByVisibility, getCourseById, deleteConcept, orderConcepts, updateCourseField, logOutUser, Actions;
@@ -10037,17 +9832,17 @@ $__System.register('3c', ['34', '37', '40', '2d', '2e', '3d', '3e', '3f'], funct
         }, function (_2) {
             QuizModel = _2.QuizModel;
         }, function (_3) {
-            EmailsToUidsModel = _3.EmailsToUidsModel;
+            UserModel = _3.UserModel;
+        }, function (_4) {
+            EmailsToUidsModel = _4.EmailsToUidsModel;
         }, function (_d) {
             _regeneratorRuntime = _d.default;
         }, function (_e) {
             FirebaseService = _e.FirebaseService;
-        }, function (_d2) {
-            CourseModel = _d2.CourseModel;
         }, function (_e2) {
-            ConceptModel = _e2.ConceptModel;
+            CourseModel = _e2.CourseModel;
         }, function (_f) {
-            UserModel = _f.UserModel;
+            ConceptModel = _f.ConceptModel;
         }],
         execute: function () {
             _this = this;
@@ -13402,7 +13197,7 @@ $__System.register('2e', ['2d'], function (_export, _context11) {
         }
     };
 });
-$__System.register('6', ['29', '32', '2d', '2a', '3c', '2e'], function (_export, _context20) {
+$__System.register('6', ['29', '32', '2d', '2a', '3d', '2e'], function (_export, _context20) {
     "use strict";
 
     var _regeneratorRuntime, _classCallCheck, _createClass, Actions, UtilitiesService, FirebaseService, __awaiter, PrendusQuizEditor;
@@ -13416,8 +13211,8 @@ $__System.register('6', ['29', '32', '2d', '2a', '3c', '2e'], function (_export,
             _regeneratorRuntime = _d.default;
         }, function (_a) {
             _createClass = _a.default;
-        }, function (_c) {
-            Actions = _c.Actions;
+        }, function (_d2) {
+            Actions = _d2.Actions;
         }, function (_e) {
             FirebaseService = _e.FirebaseService;
         }],
