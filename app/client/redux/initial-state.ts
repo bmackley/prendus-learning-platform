@@ -24,7 +24,8 @@ export const InitialState: State = {
             email: '',
             firstName: '',
             lastName: '',
-            institution: ''
+            institution: '',
+            uid: ''
         },
         starredCourses: {},
         sharedWithMeCourses: {},

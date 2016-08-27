@@ -571,9 +571,16 @@ const loginUser = {
           let user = await UserModel.getById(loggedInUser.uid); //sets ancillary user data such as name, institution, etc.
           user.metaData.uid = loggedInUser.uid;
           const courses = await CourseModel.getCoursesByUser(loggedInUser.uid);
+          //need to go here so that user info loads when a user logs in. If not, starred courses and shared courses don't appear once they
+          const starredCourseIds = await UserModel.getStarredCoursesIds(loggedInUser.uid);
+          const starredCourses = await CourseModel.resolveCourseIds(starredCourseIds);
+          const sharedCourseIds = await UserModel.getSharedWithMeCoursesIds(loggedInUser.uid);
+          const sharedCourses = await CourseModel.resolveCourseIds(sharedCourseIds);
           context.action = {
             type: Actions.loginUser.type,
             courses: courses,
+            starredCourses: starredCourses,
+            sharedCourses: sharedCourses,
             user
           };
         }catch(error){
