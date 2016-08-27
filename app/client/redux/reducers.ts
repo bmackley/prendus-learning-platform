@@ -114,6 +114,8 @@ export function rootReducer(state: State = InitialState, action: Action): State 
           const newState = Object.assign({}, state);
           newState.currentUser = action.user;
           newState.courses = action.courses;
+          newState.starredCourses = action.starredCourses;
+          newState.sharedCourses = action.sharedCourses;
           return newState;
       }
       case Actions.checkUserAuth.type: {

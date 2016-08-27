@@ -2,6 +2,7 @@
 <link href="../../bower_components/paper-card/paper-card.html" rel="import">
 <link href="../../bower_components/paper-dialog/paper-dialog.html" rel="import">
 <link rel="import" href="../prendus-course-preview/prendus-course-preview.html">
+<link rel="import" href="../prendus-notification/prendus-notification.html">
 
 <dom-module id="prendus-course-homepage">
   <style>
@@ -53,6 +54,7 @@
         <prendus-course-preview course="[[item]]"></prendus-course-preview>
     </template>
 
+    <prendus-notification errorMessage = "[[errorMessage]]"></prendus-notification>
   </template>
 
   <!--<script src="prendus-course-homepage.js"></script>-->
