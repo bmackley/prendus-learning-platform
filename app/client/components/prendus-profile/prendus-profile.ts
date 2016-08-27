@@ -12,6 +12,8 @@ export class PrendusProfile {
   public uid: string;
   public updateProfileSuccessToastText: string;
   public updateProfileErrorToastText: string;
+  public errorMessage: string;
+  public successMessage: string;
 
   beforeRegister() {
     this.is = 'prendus-profile';
@@ -36,12 +38,12 @@ export class PrendusProfile {
       }
       try{
         await Actions.updateUserMetaData.execute(this, this.uid, submitValue);
-        this.updateProfileSuccessToastText = 'Profile Successfully Updated';
-        this.$.updateProfileSuccessToast.open();
+        this.successMessage = '';
+        this.successMessage = 'Profile Updated Successfully';
       }
       catch(error){
-        this.updateProfileErrorToastText = error.message;
-        this.$.updateProfileErrorToast.open();
+        this.errorMessage = '';
+        this.errorMessage = error.message;
       }
     }
 
@@ -57,11 +59,11 @@ export class PrendusProfile {
         }
         await Actions.updateUserEmail.execute(this, this.pastEmail, this.$.changeEmailPassword.value, submitValue.email);
         await Actions.updateUserMetaData.execute(this, this.uid, submitValue);
-        this.updateProfileSuccessToastText = 'Profile & Email Updated Successfully';
-        this.$.updateProfileSuccessToast.open();
+        this.successMessage = '';
+        this.successMessage = 'Profile & Email Updated Successfully';
       }catch(error){
-        this.updateProfileErrorToastText = error.message;
-        this.$.updateProfileErrorToast.open();
+        this.errorMessage = '';
+        this.errorMessage = error.message;
       }
     }
     this.$.changeEmailPassword.value = ''; //need to clear the form
