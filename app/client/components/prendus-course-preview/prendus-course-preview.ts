@@ -13,6 +13,7 @@ class PrendusCoursePreview {
     public numStars: number;
     public uid: string;
     public hasEditAccess: boolean;
+    public errorMessage: string;
 
     beforeRegister() {
         this.is = 'prendus-course-preview';
@@ -25,14 +26,22 @@ class PrendusCoursePreview {
     }
 
     async init(course: Course) {
-      const user = await FirebaseService.getLoggedInUser();
-      if(user && course.collaborators){
-        this.uid = user.uid;
-        if(course.uid === this.uid){
-          this.hasEditAccess = true
+      try{
+        const user = await FirebaseService.getLoggedInUser();
+        this.numStars = Object.keys(this.course.userStars || {}).length;
+        if(user){
+          this.uid = user.uid
+          if(course.uid === this.uid){
+            this.hasEditAccess = true;
+          }else if(course.collaborators){
+            this.hasEditAccess = this.checkCollaboratorStatus(course.collaborators, this.uid);
+          }
         }else{
-          this.hasEditAccess = this.checkCollaboratorStatus(course.collaborators, this.uid);
+          this.starIcon = `icons:star-border`;
         }
+      }catch(error){
+        this.errorMessage = '';
+        this.errorMessage = error.message;
       }
     }
 
@@ -45,7 +54,8 @@ class PrendusCoursePreview {
     }
 
     async starClick(e: any) {
-        if (this.user) {
+      try{
+        if (this.user && this.user.metaData.uid) {
             if (this.user.starredCourses) {
                 if (this.user.starredCourses[this.course.id]) {
                     await Actions.unstarCourse(this, this.course.id);
@@ -57,16 +67,19 @@ class PrendusCoursePreview {
             else {
                 await Actions.starCourse(this, this.course.id);
             }
-
-            await Actions.checkUserAuth.execute(this);
-            Actions.getCoursesByVisibility(this, 'public');
-            Actions.getCoursesByUser.execute(this);
-            Actions.getStarredCoursesByUser(this, this.user.metaData.uid);
-            Actions.getSharedCoursesByUser(this, this.user.metaData.uid);
+              await Actions.checkUserAuth.execute(this);
+              Actions.getCoursesByVisibility(this, 'public');
+              Actions.getCoursesByUser.execute(this);
+              Actions.getStarredCoursesByUser(this, this.user.metaData.uid);
+              Actions.getSharedCoursesByUser(this, this.user.metaData.uid);
+        }else {
+          this.errorMessage = '';
+          this.errorMessage = 'You must be logged in to star a course';
         }
-        else {
-            alert('You must be logged in to star a course');
-        }
+      }catch(error){
+        this.errorMessage = '';
+        this.errorMessage = error.message;
+      }
     }
 
     editCourse(e: any) {
@@ -85,9 +98,7 @@ class PrendusCoursePreview {
 
         this.user = state.currentUser;
         this.uid = state.currentUser.metaData.uid;
-        this.collaborators = state.courseCollaboratorEmails;
         this.numStars = Object.keys(this.course.userStars || {}).length;
-
         if (this.user && this.course) {
             if (this.user.starredCourses) {
                 if (this.user.starredCourses[this.course.id]) {

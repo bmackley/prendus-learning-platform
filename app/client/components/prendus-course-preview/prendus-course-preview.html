@@ -4,6 +4,7 @@
 <link rel="import" href="../../bower_components/paper-icon-button/paper-icon-button.html">
 <link rel="import" href="../../bower_components/redux-store-element/redux-store.html">
 <link rel="import" href="../../bower_components/paper-toolbar/paper-toolbar.html">
+<link rel="import" href="../prendus-notification/prendus-notification.html">
 
 <dom-module id="prendus-course-preview">
     <template>
@@ -21,7 +22,7 @@
             }
             .course-card{
               margin: 1%;
-              width: 31%;
+              width: 30.5%;
             }
             #card-position{
               position: relative;
@@ -31,26 +32,33 @@
               position: absolute;
               top: -3px;
               left: 80%;
-              z-index: 1000;
             }
             #no-wrap-content{
-              position: fixed;
-              width: 4%;
+              position: absolute;
               overflow: hidden;
               white-space: nowrap;
             }
-            @media (max-width: 1200px) {
+            @media (max-width: 1350px) {
               .course-title{
                 font-size: 2vw;
                 font-weight: bold;
               }
               .course-card{
-                width: 66%;
+                width: 30.5%;
+              }
+            }
+            @media (max-width: 900px) {
+              .course-title{
+                font-size: 3vw;
+                font-weight: bold;
+              }
+              .course-card{
+                width: 46%;
               }
             }
             @media (max-width: 600px) {
               .course-title{
-                font-size: 3vw;
+                font-size: 4.5vw;
                 font-weight: bold;
               }
               .course-card{
@@ -76,5 +84,6 @@
             <paper-button id="[[course.id]]" on-tap="viewCourse">View</paper-button>
           </div>
         </paper-card>
+        <prendus-notification error-message = "[[errorMessage]]"></prendus-notification>
     </template>
 </dom-module>
