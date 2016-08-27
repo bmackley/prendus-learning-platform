@@ -521,7 +521,7 @@ $__System.register('2b', ['2c', '2d', '2e'], function (_export, _context12) {
 $__System.register('2f', ['2d', '2b'], function (_export, _context5) {
     "use strict";
 
-    var _regeneratorRuntime, QuestionModel, _this, __awaiter, initialLoadQuestion, saveQuestion, savePreviewQuestion, Actions;
+    var _regeneratorRuntime, QuestionModel, _this, __awaiter, reset, initialLoadQuestion, saveQuestion, savePreviewQuestion, Actions;
 
     function getQuestionInfo(context) {
         return __awaiter(this, void 0, Promise, _regeneratorRuntime.mark(function _callee4() {
@@ -584,6 +584,12 @@ $__System.register('2f', ['2d', '2b'], function (_export, _context5) {
                     }
                     step((generator = generator.apply(thisArg, _arguments)).next());
                 });
+            };
+
+            reset = function reset(context) {
+                context.action = {
+                    type: 'RESET'
+                };
             };
 
             initialLoadQuestion = function initialLoadQuestion(context, questionId) {
@@ -705,7 +711,8 @@ $__System.register('2f', ['2d', '2b'], function (_export, _context5) {
             _export('Actions', Actions = {
                 initialLoadQuestion: initialLoadQuestion,
                 saveQuestion: saveQuestion,
-                savePreviewQuestion: savePreviewQuestion
+                savePreviewQuestion: savePreviewQuestion,
+                reset: reset
             });
 
             _export('Actions', Actions);
@@ -765,6 +772,10 @@ $__System.register('31', ['30'], function (_export, _context) {
                             _newState2.previewQuestionId = action.previewQuestionId;
                             _newState2.initialLoad = true;
                             return _newState2;
+                        }
+                    case 'RESET':
+                        {
+                            return InitialState;
                         }
                     default:
                         {
@@ -872,7 +883,7 @@ $__System.register('27', ['29', '31', '32', '2d', '2a', '2f'], function (_export
                                     switch (_context2.prev = _context2.next) {
                                         case 0:
                                             if (!(this.questionId && this.jwt)) {
-                                                _context2.next = 11;
+                                                _context2.next = 13;
                                                 break;
                                             }
 
@@ -897,11 +908,36 @@ $__System.register('27', ['29', '31', '32', '2d', '2a', '2f'], function (_export
                                             this.$.toast.open();
 
                                         case 11:
+                                            _context2.next = 23;
+                                            break;
+
+                                        case 13:
+                                            if (!(!this.questionId && this.jwt)) {
+                                                _context2.next = 23;
+                                                break;
+                                            }
+
+                                            _context2.prev = 14;
+                                            _context2.next = 17;
+                                            return Actions.reset(this);
+
+                                        case 17:
+                                            _context2.next = 23;
+                                            break;
+
+                                        case 19:
+                                            _context2.prev = 19;
+                                            _context2.t1 = _context2['catch'](14);
+
+                                            this.toastMessage = _context2.t1.errorMessage || _context2.t1.toString();
+                                            this.$.toast.open();
+
+                                        case 23:
                                         case 'end':
                                             return _context2.stop();
                                     }
                                 }
-                            }, _callee2, this, [[2, 7]]);
+                            }, _callee2, this, [[2, 7], [14, 19]]);
                         }));
                     }
                 }, {
@@ -13761,9 +13797,12 @@ $__System.register('6', ['29', '32', '2d', '2a', '3d', '2e'], function (_export,
                         window.history.pushState({}, '', 'courses/edit-question/question');
                         this.fire('location-changed', {}, { node: window });
                         //TODO this is evil, make sure to remove it once edit problem component can reload itself in response to property changes
+                        //TODO all of this is evil. We are just mutating the component's state not explicitly
                         var editProblemComponent = document.getElementById('editProblemComponent');
+                        editProblemComponent.questionId = undefined;
                         editProblemComponent.originalText = '';
                         editProblemComponent.originalCode = '';
+                        editProblemComponent.init();
                         //TODO this is evil, make sure to remove it once edit problem component can reload itself in response to property changes
                     }
                 }, {
@@ -13773,6 +13812,7 @@ $__System.register('6', ['29', '32', '2d', '2a', '3d', '2e'], function (_export,
                         window.history.pushState({}, '', 'courses/edit-question/question/' + questionId);
                         this.fire('location-changed', {}, { node: window });
                         //TODO this is evil, make sure to remove it once edit problem component can reload itself in response to property changes
+                        //TODO all of this is evil. We are just mutating the component's state not explicitly
                         var editProblemComponent = document.getElementById('editProblemComponent');
                         editProblemComponent.initialLoad = false;
                         editProblemComponent.init();
