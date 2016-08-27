@@ -19,7 +19,7 @@
     "app-route": "PolymerElements/app-route#^0.9.1",
     "solutia-maxima-components": "git@github.com:lastmjs/solutia-maxima-components.git#0.0.6",
     "view-quiz-component": "git@github.com:lastmjs/view-quiz-component.git#0.0.4",
-    "video-viewer-component": "git@github.com:lastmjs/video-viewer-component.git#0.1.0",
+    "video-viewer-component": "git@github.com:lastmjs/video-viewer-component.git#jordan",
     "paper-tabs": "^1.6.2",
     "paper-menu-button": "^1.5.1",
     "paper-menu": "^1.2.2",

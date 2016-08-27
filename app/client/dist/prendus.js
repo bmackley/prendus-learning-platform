@@ -1940,7 +1940,9 @@ $__System.register('22', ['29', '32', '33', '34', '35', '36', '2d', '2a', '2e'],
                             function initVideo(context, url) {
                                 context.querySelector('#player-container').innerHTML = '<video class="video-player" src="' + url + '" preload="metadata"></video>';
                                 var player = plyr.setup(context.querySelector('.video-player'))[0];
-                                SVGFixer.fixSVGRefs();
+                                player.on('ready', function () {
+                                    SVGFixer.fixSVGRefs();
+                                });
                                 return player;
                             }
                         }
@@ -3174,9 +3176,9 @@ $__System.register('1e', ['29', '2a', '2e', '3c'], function (_export, _context) 
                     key: 'ready',
                     value: function ready() {
                         if (window.PRENDUS_ENV === 'production') {
-                            FirebaseService.init('AIzaSyANTSoOA6LZZDxM7vqIlAl37B7IqWL-6MY', 'prendus.firebaseapp.com', 'https://prendus.firebaseio.com', 'prendus.appspot.com', 'Prendus');
+                            FirebaseService.init('AIzaSyAKxLCb9pQdng5_1qi6SGnv4YVdkuO_iG4', 'prendus-production.firebaseapp.com', 'https://prendus-production.firebaseio.com', 'prendus-production.appspot.com', 'prendus-production');
                         } else {
-                            FirebaseService.init('AIzaSyANTSoOA6LZZDxM7vqIlAl37B7IqWL-6MY', 'prendus.firebaseapp.com', 'https://prendus.firebaseio.com', 'prendus.appspot.com', 'Prendus');
+                            FirebaseService.init('AIzaSyBv1mFan0M_QmBhQ7Hkgd0McMidMJtNFRg', 'prendus-development.firebaseapp.com', 'https://prendus-development.firebaseio.com', 'prendus.appspot.com', 'Prendus');
                         }
                         this.rootReducer = rootReducer;
                     }
@@ -13947,7 +13949,7 @@ $__System.register('6', ['29', '32', '2d', '2a', '3d', '2e'], function (_export,
 
                                         case 3:
                                             _context18.next = 5;
-                                            return Actions.loadConceptQuizzes(this, this.conceptId);
+                                            return Actions.loadEditConceptQuizzes(this, this.conceptId);
 
                                         case 5:
                                         case 'end':
