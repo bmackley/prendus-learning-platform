@@ -17,16 +17,22 @@ class PrendusCourseHomepage {
   public collaborators: {
     [uid: string]: string[];
   }
+  public errorMessage: string;
 
   beforeRegister() {
     this.is = 'prendus-course-homepage';
   }
 
   async ready() {
-      const user = await FirebaseService.getLoggedInUser();
-      Actions.getCoursesByUser.execute(this);
-      Actions.getStarredCoursesByUser(this, user.uid);
-      Actions.getSharedCoursesByUser(this, user.uid);
+      try{
+          const user = await FirebaseService.getLoggedInUser();
+          Actions.getCoursesByUser.execute(this);
+          Actions.getStarredCoursesByUser(this, user.uid);
+          Actions.getSharedCoursesByUser(this, user.uid);
+      }catch(error){
+          this.errorMessage = '';
+          this.errorMessage = error.message;
+      }
   }
 
   addCourse(e) {
@@ -45,7 +51,12 @@ class PrendusCourseHomepage {
         description: this.courseDescription,
         uid: this.uid
       }
-      Actions.addCourse.execute(this, newCourse);
+      try{
+        Actions.addCourse.execute(this, newCourse);
+      }catch(error){
+        this.errorMessage = '';
+        this.errorMessage = error.message;
+      }
       this.querySelector('#courseFormName').value = '';
     }
   }
