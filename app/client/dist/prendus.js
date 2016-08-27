@@ -14180,6 +14180,13 @@ $__System.register('3', ['29', '2a'], function (_export, _context) {
                     key: 'ready',
                     value: function ready() {
                         this.$.savedToast.fitInto = this;
+                        this.addEventListener('mousedown', function (e) {
+                            e.stopPropagation();
+                        });
+                        //TODO you might need this in the future
+                        // this.addEventListener('mousemove', (e) => {
+                        //     e.stopPropagation();
+                        // });
                     }
                 }, {
                     key: 'saveClick',
