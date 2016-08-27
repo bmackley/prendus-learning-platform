@@ -38,7 +38,7 @@ class PrendusCreateAccount {
         this.$.firstName.value = '';
         this.$.lastName.value = '';
         this.$.institution.value= '';
-        const location = 'courses/home';
+        const location = '';
         window.history.pushState({}, '', location);
         this.fire('location-changed', {}, {node: window});
     }

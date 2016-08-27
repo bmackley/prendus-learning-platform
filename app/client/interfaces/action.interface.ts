@@ -6,6 +6,8 @@ import {CourseConceptData} from '../node_modules/prendus-services/interfaces/cou
 
 export interface Action {
   courses: Course[];
+  starredCourses: Course[];
+  sharedCourses: Course[];
   concepts: CourseConceptData[];
   videos: Video[];
   quizzes: Quiz[];
