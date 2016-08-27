@@ -22,10 +22,10 @@ class PrendusApp {
 
   ready(){
       if (window.PRENDUS_ENV === 'production') {
-          FirebaseService.init('AIzaSyANTSoOA6LZZDxM7vqIlAl37B7IqWL-6MY', 'prendus.firebaseapp.com', 'https://prendus.firebaseio.com', 'prendus.appspot.com', 'Prendus');
+          FirebaseService.init('AIzaSyAKxLCb9pQdng5_1qi6SGnv4YVdkuO_iG4', 'prendus-production.firebaseapp.com', 'https://prendus-production.firebaseio.com', 'prendus-production.appspot.com', 'prendus-production');
       }
       else {
-          FirebaseService.init('AIzaSyANTSoOA6LZZDxM7vqIlAl37B7IqWL-6MY', 'prendus.firebaseapp.com', 'https://prendus.firebaseio.com', 'prendus.appspot.com', 'Prendus');
+          FirebaseService.init('AIzaSyBv1mFan0M_QmBhQ7Hkgd0McMidMJtNFRg', 'prendus-development.firebaseapp.com', 'https://prendus-development.firebaseio.com', 'prendus-development.appspot.com', 'prendus-development');
       }
 
     this.rootReducer = rootReducer;
