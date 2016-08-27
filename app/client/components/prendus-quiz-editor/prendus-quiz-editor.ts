@@ -96,9 +96,12 @@ class PrendusQuizEditor {
         this.fire('location-changed', {}, {node: window});
 
         //TODO this is evil, make sure to remove it once edit problem component can reload itself in response to property changes
+        //TODO all of this is evil. We are just mutating the component's state not explicitly
         const editProblemComponent = document.getElementById('editProblemComponent');
+        editProblemComponent.questionId = undefined;
         editProblemComponent.originalText = '';
         editProblemComponent.originalCode = '';
+        editProblemComponent.init();
         //TODO this is evil, make sure to remove it once edit problem component can reload itself in response to property changes
     }
 
@@ -109,6 +112,7 @@ class PrendusQuizEditor {
         this.fire('location-changed', {}, {node: window});
 
         //TODO this is evil, make sure to remove it once edit problem component can reload itself in response to property changes
+        //TODO all of this is evil. We are just mutating the component's state not explicitly
         const editProblemComponent = document.getElementById('editProblemComponent');
         editProblemComponent.initialLoad = false;
         editProblemComponent.init();
