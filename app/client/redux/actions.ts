@@ -328,7 +328,7 @@ const createNewQuiz = async (context: any, conceptId: string) => {
             showHint: true,
             showCode: true,
             graded: false,
-            showConfidenceLevel: true,
+            showConfidenceLevel: false,
             allowGeneration: true
         },
         questions: {},
