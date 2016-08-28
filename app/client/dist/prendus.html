@@ -46892,11 +46892,11 @@ respectively.
 
                         <div class="flex-row">
                             <template is="dom-if" if="[[answer]]">
-                                <paper-button class="check-answer-button" on-tap="showAnswer" raised="">Answer</paper-button>
+                                <paper-button class="check-answer-button" on-tap="showAnswer" raised="">Show Answer</paper-button>
                             </template>
 
                             <template is="dom-if" if="[[hint]]">
-                                <paper-button class="check-answer-button" on-tap="showHint" raised="">Hint</paper-button>
+                                <paper-button class="check-answer-button" on-tap="showHint" raised="">Show Hint</paper-button>
                             </template>
 
                             <template is="dom-if" if="[[showCheckAnswer]]">
@@ -46918,8 +46918,8 @@ respectively.
 
                         <template is="dom-if" if="[[showQuestionGenerationButtons]]">
                             <div class="flex-row" style="margin-top: 25px;">
-                                <paper-button on-tap="loadPrevProblem" raised="">Prev</paper-button>
-                                <paper-button on-tap="loadNextProblem" style="margin-left: auto" raised="">Next</paper-button>
+                                <!-- <paper-button on-tap="loadPrevProblem" raised>Prev</paper-button> -->
+                                <paper-button on-tap="loadNextProblem" style="margin-left: auto" raised="">Regenerate</paper-button>
                             </div>
                         </template>
                     </div>
@@ -92273,6 +92273,8 @@ Custom property | Description | Default
             <div>Correct answer: [[item.correctAnswer]]</div>
             <br>
         </template>
+        <br>
+        <paper-button on-tap="backButtonClick" raised="">Back</paper-button>
     </template>
 
     <!-- <script>System.import('/bower_components/view-quiz-component/quiz-results.component.ts');</script> -->
