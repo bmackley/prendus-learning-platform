@@ -11850,41 +11850,50 @@ $__System.register('3d', ['35', '38', '40', '41', '42', '2d', '2e', '3e', '3f'],
                 type: 'ADD_COURSE',
                 execute: function execute(context, newCourse) {
                     return __awaiter(_this, void 0, void 0, _regeneratorRuntime.mark(function _callee46() {
-                        var courseId, courses;
+                        var user, courseId, courses;
                         return _regeneratorRuntime.wrap(function _callee46$(_context46) {
                             while (1) {
                                 switch (_context46.prev = _context46.next) {
                                     case 0:
                                         _context46.prev = 0;
                                         _context46.next = 3;
-                                        return CourseModel.createOrUpdate(null, newCourse);
+                                        return FirebaseService.getLoggedInUser();
 
                                     case 3:
-                                        courseId = _context46.sent;
+                                        user = _context46.sent;
                                         _context46.next = 6;
-                                        return CourseModel.getCoursesByUser(newCourse.uid);
+                                        return CourseModel.createOrUpdate(null, newCourse);
 
                                     case 6:
+                                        courseId = _context46.sent;
+                                        _context46.next = 9;
+                                        return addCourseCollaborator(context, courseId, user.email);
+
+                                    case 9:
+                                        _context46.next = 11;
+                                        return CourseModel.getCoursesByUser(newCourse.uid);
+
+                                    case 11:
                                         courses = _context46.sent;
 
                                         context.action = {
                                             type: Actions.addCourse.type,
                                             courses: courses
                                         };
-                                        _context46.next = 13;
+                                        _context46.next = 18;
                                         break;
 
-                                    case 10:
-                                        _context46.prev = 10;
+                                    case 15:
+                                        _context46.prev = 15;
                                         _context46.t0 = _context46['catch'](0);
                                         throw _context46.t0;
 
-                                    case 13:
+                                    case 18:
                                     case 'end':
                                         return _context46.stop();
                                 }
                             }
-                        }, _callee46, this, [[0, 10]]);
+                        }, _callee46, this, [[0, 15]]);
                     }));
                 }
             };
