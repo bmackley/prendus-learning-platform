@@ -11527,25 +11527,23 @@ $__System.register('3d', ['35', '38', '40', '41', '42', '2d', '2e', '3e', '3f'],
                                         return EmailsToUidsModel.setUidByEmail(data.email, loggedInUser.uid);
 
                                     case 11:
-                                        data.email = loggedInUser.email;
-                                        context.action = {
-                                            type: Actions.createUser.type,
-                                            currentUser: data
-                                        };
-                                        _context39.next = 18;
+                                        //TODO I'm doing this because we're about to launch and it will fix the errors we've been having with synchronizing the user after signup.
+                                        //This just refreshes the whole app with the user logged in. Might want to change this, seems to work well though.
+                                        window.location.href = '';
+                                        _context39.next = 17;
                                         break;
 
-                                    case 15:
-                                        _context39.prev = 15;
+                                    case 14:
+                                        _context39.prev = 14;
                                         _context39.t0 = _context39['catch'](0);
                                         throw _context39.t0;
 
-                                    case 18:
+                                    case 17:
                                     case 'end':
                                         return _context39.stop();
                                 }
                             }
-                        }, _callee39, this, [[0, 15]]);
+                        }, _callee39, this, [[0, 14]]);
                     }));
                 }
             };
@@ -12252,9 +12250,12 @@ $__System.register('3d', ['35', '38', '40', '41', '42', '2d', '2e', '3e', '3f'],
                                         return FirebaseService.logOutUser();
 
                                     case 2:
-                                        context.action = {
-                                            type: Actions.logOutUser.type
-                                        };
+                                        //TODO I'm doing this because we're about to launch and it will fix the errors we've been having with synchronizing the user after signup.
+                                        //This just refreshes the whole app with the user logged in. Might want to change this, seems to work well though.
+                                        window.location.href = '';
+                                    //   context.action = {
+                                    //     type: Actions.logOutUser.type,
+                                    // };
 
                                     case 3:
                                     case 'end':
