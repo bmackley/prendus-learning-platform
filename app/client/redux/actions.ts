@@ -684,7 +684,11 @@ const addCourse = {
   type: 'ADD_COURSE',
   execute: async (context: any, newCourse: Course) => {
       try {
+        const user = await FirebaseService.getLoggedInUser();
+
         const courseId = await CourseModel.createOrUpdate(null, newCourse);
+        await addCourseCollaborator(context, courseId, user.email);
+
         const courses = await CourseModel.getCoursesByUser(newCourse.uid);
         context.action = {
             type: Actions.addCourse.type,
