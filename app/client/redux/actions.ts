@@ -557,11 +557,16 @@ const createUser = {
       const loggedInUser = await FirebaseService.logInUserWithEmailAndPassword(data.email, password);
       await UserModel.updateMetaData(loggedInUser.uid, data);
       await EmailsToUidsModel.setUidByEmail(data.email, loggedInUser.uid);
-      data.email = loggedInUser.email
-      context.action = {
-        type: Actions.createUser.type,
-        currentUser: data,
-      };
+
+      //TODO I'm doing this because we're about to launch and it will fix the errors we've been having with synchronizing the user after signup.
+      //This just refreshes the whole app with the user logged in. Might want to change this, seems to work well though.
+      window.location.href = '';
+
+    //   data.email = loggedInUser.email
+    //   context.action = {
+    //     type: Actions.createUser.type,
+    //     currentUser: data,
+    //   };
     }catch(error){
       throw error;
     }
@@ -828,9 +833,14 @@ const logOutUser = {
   type: 'LOGOUT_USER',
   execute: async (context: any) => {
     await FirebaseService.logOutUser();
-    context.action = {
-      type: Actions.logOutUser.type,
-    }
+
+    //TODO I'm doing this because we're about to launch and it will fix the errors we've been having with synchronizing the user after signup.
+    //This just refreshes the whole app with the user logged in. Might want to change this, seems to work well though.
+    window.location.href = '';
+
+  //   context.action = {
+  //     type: Actions.logOutUser.type,
+  // };
   }
 };
 
