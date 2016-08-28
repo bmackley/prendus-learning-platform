@@ -157,127 +157,191 @@ const loadQuizCollaboratorEmails = async (context: any, conceptId: string, quizI
 };
 
 const addCourseCollaborator = async (context: any, courseId: string, email: string) => {
-    try {
-        const uid = await EmailsToUidsModel.getUidByEmail(email);
 
-        if (!uid) {
-            throw 'The user does not exist';
+    ExecuteAsyncInOrder.execute(operation);
+
+    async function operation() {
+        try {
+            const user = await FirebaseService.getLoggedInUser();
+
+            await FirebaseService.set(`security/${user.uid}/emailToUidSecurityInfo/encodedEmail`, btoa(email));
+            const uid = await EmailsToUidsModel.getUidByEmail(email);
+
+            if (!uid) {
+                throw 'The user does not exist';
+            }
+
+            await CourseModel.associateCollaborator(courseId, uid);
+            await UserModel.shareCourseWithMe(uid, courseId);
         }
-
-        await CourseModel.associateCollaborator(courseId, uid);
-        await UserModel.shareCourseWithMe(uid, courseId);
-    }
-    catch(error) {
-        throw error;
+        catch(error) {
+            throw error;
+        }
     }
 };
 
 const addConceptCollaborator = async (context: any, conceptId: string, email: string) => {
-    try {
-        const uid = await EmailsToUidsModel.getUidByEmail(email);
 
-        if (!uid) {
-            throw 'The user does not exist';
+    ExecuteAsyncInOrder.execute(operation);
+
+    async function operation() {
+        try {
+            const user = await FirebaseService.getLoggedInUser();
+
+            await FirebaseService.set(`security/${user.uid}/emailToUidSecurityInfo/encodedEmail`, btoa(email));
+            const uid = await EmailsToUidsModel.getUidByEmail(email);
+
+            if (!uid) {
+                throw 'The user does not exist';
+            }
+
+            await ConceptModel.associateCollaborator(conceptId, uid);
+            await UserModel.shareConceptWithMe(uid, conceptId);
         }
-
-        await ConceptModel.associateCollaborator(conceptId, uid);
-        await UserModel.shareConceptWithMe(uid, conceptId);
-    }
-    catch(error) {
-        throw error;
+        catch(error) {
+            throw error;
+        }
     }
 };
 
 const addVideoCollaborator = async (context: any, videoId: string, email: string) => {
-    try {
-        const uid = await EmailsToUidsModel.getUidByEmail(email);
 
-        if (!uid) {
-            throw 'The user does not exist';
+    ExecuteAsyncInOrder.execute(operation);
+
+    async function operation() {
+        try {
+            const user = await FirebaseService.getLoggedInUser();
+
+            await FirebaseService.set(`security/${user.uid}/emailToUidSecurityInfo/encodedEmail`, btoa(email));
+            const uid = await EmailsToUidsModel.getUidByEmail(email);
+
+            if (!uid) {
+                throw 'The user does not exist';
+            }
+
+            await VideoModel.associateCollaborator(videoId, uid);
+            await UserModel.shareVideoWithMe(uid, videoId);
         }
-
-        await VideoModel.associateCollaborator(videoId, uid);
-        await UserModel.shareVideoWithMe(uid, videoId);
-    }
-    catch(error) {
-        throw error;
+        catch(error) {
+            throw error;
+        }
     }
 };
 
 const addQuizCollaborator = async (context: any, quizId: string, email: string) => {
-    try {
-        const uid = await EmailsToUidsModel.getUidByEmail(email);
 
-        if (!uid) {
-            throw 'The user does not exist';
+    ExecuteAsyncInOrder.execute(operation);
+
+    async function operation() {
+        try {
+            const user = await FirebaseService.getLoggedInUser();
+
+            await FirebaseService.set(`security/${user.uid}/emailToUidSecurityInfo/encodedEmail`, btoa(email));
+            const uid = await EmailsToUidsModel.getUidByEmail(email);
+
+            if (!uid) {
+                throw 'The user does not exist';
+            }
+
+            await QuizModel.associateCollaborator(quizId, uid);
+            await UserModel.shareQuizWithMe(uid, quizId);
         }
-
-        await QuizModel.associateCollaborator(quizId, uid);
-        await UserModel.shareQuizWithMe(uid, quizId);
-    }
-    catch(error) {
-        throw error;
+        catch(error) {
+            throw error;
+        }
     }
 };
 
 const removeCourseCollaborator = async (context: any, courseId: string, email: string) => {
-    try {
-        const uid = await EmailsToUidsModel.getUidByEmail(email);
 
-        if (!uid) {
-            throw 'The user does not exist';
+    ExecuteAsyncInOrder.execute(operation);
+
+    async function operation() {
+        try {
+            const user = await FirebaseService.getLoggedInUser();
+
+            await FirebaseService.set(`security/${user.uid}/emailToUidSecurityInfo/encodedEmail`, btoa(email));
+            const uid = await EmailsToUidsModel.getUidByEmail(email);
+
+            if (!uid) {
+                throw 'The user does not exist';
+            }
+
+            await CourseModel.disassociateCollaborator(courseId, uid);
+            await UserModel.unshareCourseWithMe(uid, courseId);
         }
-
-        await CourseModel.disassociateCollaborator(courseId, uid);
-        await UserModel.unshareCourseWithMe(uid, courseId);
-    }
-    catch(error) {
-        throw error;
+        catch(error) {
+            throw error;
+        }
     }
 };
 
 const removeConceptCollaborator = async (context: any, conceptId: string, email: string) => {
-    try {
-        const uid = await EmailsToUidsModel.getUidByEmail(email);
 
-        if (!uid) {
-            throw 'The user does not exist';
+    ExecuteAsyncInOrder.execute(operation);
+
+    async function operation() {
+        try {
+            const user = await FirebaseService.getLoggedInUser();
+
+            await FirebaseService.set(`security/${user.uid}/emailToUidSecurityInfo/encodedEmail`, btoa(email));
+            const uid = await EmailsToUidsModel.getUidByEmail(email);
+
+            if (!uid) {
+                throw 'The user does not exist';
+            }
+
+            await ConceptModel.disassociateCollaborator(conceptId, uid);
         }
-
-        await ConceptModel.disassociateCollaborator(conceptId, uid);
-    }
-    catch(error) {
-        throw error;
+        catch(error) {
+            throw error;
+        }
     }
 };
 
 const removeVideoCollaborator = async (context: any, videoId: string, email: string) => {
-    try {
-        const uid = await EmailsToUidsModel.getUidByEmail(email);
 
-        if (!uid) {
-            throw 'The user does not exist';
+    ExecuteAsyncInOrder.execute(operation);
+
+    async function operation() {
+        try {
+            const user = await FirebaseService.getLoggedInUser();
+
+            await FirebaseService.set(`security/${user.uid}/emailToUidSecurityInfo/encodedEmail`, btoa(email));
+            const uid = await EmailsToUidsModel.getUidByEmail(email);
+
+            if (!uid) {
+                throw 'The user does not exist';
+            }
+
+            await VideoModel.disassociateCollaborator(videoId, uid);
         }
-
-        await VideoModel.disassociateCollaborator(videoId, uid);
-    }
-    catch(error) {
-        throw error;
+        catch(error) {
+            throw error;
+        }
     }
 };
 
 const removeQuizCollaborator = async (context: any, quizId: string, email: string) => {
-    try {
-        const uid = await EmailsToUidsModel.getUidByEmail(email);
 
-        if (!uid) {
-            throw 'The user does not exist';
+    ExecuteAsyncInOrder.execute(operation);
+
+    async function operation() {
+        try {
+            const user = await FirebaseService.getLoggedInUser();
+
+            await FirebaseService.set(`security/${user.uid}/emailToUidSecurityInfo/encodedEmail`, btoa(email));
+            const uid = await EmailsToUidsModel.getUidByEmail(email);
+
+            if (!uid) {
+                throw 'The user does not exist';
+            }
+
+            await QuizModel.disassociateCollaborator(quizId, uid);
         }
-
-        await QuizModel.disassociateCollaborator(quizId, uid);
-    }
-    catch(error) {
-        throw error;
+        catch(error) {
+            throw error;
+        }
     }
 };
 
