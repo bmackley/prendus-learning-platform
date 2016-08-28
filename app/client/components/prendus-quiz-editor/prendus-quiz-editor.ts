@@ -92,6 +92,8 @@ class PrendusQuizEditor {
     }
 
     createQuestion(e) {
+        Actions.showMainSpinner(this);
+
         window.history.pushState({}, '', `courses/edit-question/question`);
         this.fire('location-changed', {}, {node: window});
 
@@ -106,6 +108,8 @@ class PrendusQuizEditor {
     }
 
     editQuestion(e) {
+        Actions.showMainSpinner(this);
+
         const questionId = e.model.item;
 
         window.history.pushState({}, '', `courses/edit-question/question/${questionId}`);

@@ -25,4 +25,6 @@ export interface Action {
   uid: string;
   courseId: string;
   conceptId: string;
+  quizId: string;
+  videoId: string;
 }
