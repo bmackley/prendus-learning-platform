@@ -18,7 +18,7 @@
     "iron-ajax": "PolymerElements/iron-ajax#^1.2.0",
     "app-route": "PolymerElements/app-route#^0.9.1",
     "solutia-maxima-components": "git@github.com:lastmjs/solutia-maxima-components.git#jordan",
-    "view-quiz-component": "git@github.com:lastmjs/view-quiz-component.git#0.0.4",
+    "view-quiz-component": "git@github.com:lastmjs/view-quiz-component.git#jordan",
     "video-viewer-component": "git@github.com:lastmjs/video-viewer-component.git#jordan",
     "paper-tabs": "^1.6.2",
     "paper-menu-button": "^1.5.1",

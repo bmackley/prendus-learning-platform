@@ -2173,6 +2173,15 @@ $__System.register('21', ['29', '2a'], function (_export, _context) {
                         return index + 1;
                     }
                 }, {
+                    key: 'backButtonClick',
+                    value: function backButtonClick() {
+                        //TODO this is evil, but until we make all of our components able to reset their state appropriately, this is a quick fix
+                        window.history.back();
+                        setTimeout(function () {
+                            window.location.reload();
+                        });
+                    }
+                }, {
                     key: 'mapStateToThis',
                     value: function mapStateToThis(e) {
                         var state = e.detail.state;
@@ -2588,13 +2597,13 @@ $__System.register('20', ['29', '32', '34', '36', '37', '2d', '2a'], function (_
                                             i = 0;
 
                                         case 1:
-                                            if (!(i < this.questions.length)) {
+                                            if (!(i < this.questionIds.length)) {
                                                 _context2.next = 7;
                                                 break;
                                             }
 
                                             _context2.next = 4;
-                                            return this.querySelector('#' + this.questions[i].id).checkAnswer();
+                                            return this.querySelector('#' + this.questionIds[i]).checkAnswer();
 
                                         case 4:
                                             i++;
@@ -10910,7 +10919,7 @@ $__System.register('3d', ['35', '38', '40', '41', '42', '2d', '2e', '3e', '3f'],
                                             showHint: true,
                                             showCode: true,
                                             graded: false,
-                                            showConfidenceLevel: true,
+                                            showConfidenceLevel: false,
                                             allowGeneration: true
                                         },
                                         questions: {},
