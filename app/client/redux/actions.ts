@@ -44,7 +44,8 @@ const loadCourseCollaboratorEmails = async (context: any, uid: string, courseId:
             context.action = {
                 type: 'SET_COURSE_COLLABORATOR_EMAILS',
                 emails,
-                uid
+                uid,
+                courseId
             };
 
             const conceptIds = await CourseModel.getConceptIds(courseId);
@@ -77,7 +78,8 @@ const loadConceptCollaboratorEmails = async (context: any, courseId: string, con
             context.action = {
                 type: 'SET_CONCEPT_COLLABORATOR_EMAILS',
                 emails,
-                courseId
+                courseId,
+                conceptId
             };
 
             const videoIds = await ConceptModel.getVideoIds(conceptId);
@@ -115,7 +117,8 @@ const loadVideoCollaboratorEmails = async (context: any, conceptId: string, vide
             context.action = {
                 type: 'SET_VIDEO_COLLABORATOR_EMAILS',
                 emails,
-                conceptId
+                conceptId,
+                videoId
             };
         }
         catch(error) {
@@ -143,7 +146,8 @@ const loadQuizCollaboratorEmails = async (context: any, conceptId: string, quizI
             context.action = {
                 type: 'SET_QUIZ_COLLABORATOR_EMAILS',
                 emails,
-                conceptId
+                conceptId,
+                quizId
             };
         }
         catch(error) {

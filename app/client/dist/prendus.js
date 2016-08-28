@@ -883,12 +883,12 @@ $__System.register('27', ['29', '31', '32', '2d', '2a', '2f'], function (_export
                                     switch (_context2.prev = _context2.next) {
                                         case 0:
                                             if (!(this.questionId && this.jwt)) {
-                                                _context2.next = 13;
+                                                _context2.next = 14;
                                                 break;
                                             }
 
                                             if (this.initialLoad) {
-                                                _context2.next = 11;
+                                                _context2.next = 12;
                                                 break;
                                             }
 
@@ -897,47 +897,53 @@ $__System.register('27', ['29', '31', '32', '2d', '2a', '2f'], function (_export
                                             return Actions.initialLoadQuestion(this, this.questionId);
 
                                         case 5:
-                                            _context2.next = 11;
+                                            this.fire('loaded', {}, {
+                                                bubbles: false
+                                            });
+                                            _context2.next = 12;
                                             break;
 
-                                        case 7:
-                                            _context2.prev = 7;
+                                        case 8:
+                                            _context2.prev = 8;
                                             _context2.t0 = _context2['catch'](2);
 
                                             this.toastMessage = _context2.t0.errorMessage || _context2.t0.toString();
                                             this.$.toast.open();
 
-                                        case 11:
-                                            _context2.next = 23;
+                                        case 12:
+                                            _context2.next = 25;
                                             break;
 
-                                        case 13:
+                                        case 14:
                                             if (!(!this.questionId && this.jwt)) {
-                                                _context2.next = 23;
+                                                _context2.next = 25;
                                                 break;
                                             }
 
-                                            _context2.prev = 14;
-                                            _context2.next = 17;
+                                            _context2.prev = 15;
+                                            _context2.next = 18;
                                             return Actions.reset(this);
 
-                                        case 17:
-                                            _context2.next = 23;
+                                        case 18:
+                                            this.fire('loaded', {}, {
+                                                bubbles: false
+                                            });
+                                            _context2.next = 25;
                                             break;
 
-                                        case 19:
-                                            _context2.prev = 19;
-                                            _context2.t1 = _context2['catch'](14);
+                                        case 21:
+                                            _context2.prev = 21;
+                                            _context2.t1 = _context2['catch'](15);
 
                                             this.toastMessage = _context2.t1.errorMessage || _context2.t1.toString();
                                             this.$.toast.open();
 
-                                        case 23:
+                                        case 25:
                                         case 'end':
                                             return _context2.stop();
                                     }
                                 }
-                            }, _callee2, this, [[2, 7], [14, 19]]);
+                            }, _callee2, this, [[2, 8], [15, 21]]);
                         }));
                     }
                 }, {
@@ -2182,29 +2188,6 @@ $__System.register('21', ['29', '2a'], function (_export, _context) {
         }
     };
 });
-$__System.register("34", [], function (_export, _context) {
-  "use strict";
-
-  return {
-    setters: [],
-    execute: function () {
-      _export("default", function (obj, key, value) {
-        if (key in obj) {
-          Object.defineProperty(obj, key, {
-            value: value,
-            enumerable: true,
-            configurable: true,
-            writable: true
-          });
-        } else {
-          obj[key] = value;
-        }
-
-        return obj;
-      });
-    }
-  };
-});
 $__System.register('37', ['32', '38', '2d'], function (_export, _context5) {
     "use strict";
 
@@ -2871,6 +2854,29 @@ $__System.register('1f', ['29', '2a', '3a'], function (_export, _context) {
         }
     };
 });
+$__System.register("34", [], function (_export, _context) {
+  "use strict";
+
+  return {
+    setters: [],
+    execute: function () {
+      _export("default", function (obj, key, value) {
+        if (key in obj) {
+          Object.defineProperty(obj, key, {
+            value: value,
+            enumerable: true,
+            configurable: true,
+            writable: true
+          });
+        } else {
+          obj[key] = value;
+        }
+
+        return obj;
+      });
+    }
+  };
+});
 $__System.register('3b', [], function (_export, _context) {
     "use strict";
 
@@ -2929,10 +2935,11 @@ $__System.register('3b', [], function (_export, _context) {
         }
     };
 });
-$__System.register('3c', ['3b', '3d'], function (_export, _context) {
+$__System.register('3c', ['34', '3b', '3d'], function (_export, _context) {
     "use strict";
 
-    var InitialState, Actions;
+    var _defineProperty, InitialState, Actions;
+
     function rootReducer() {
         var state = arguments.length <= 0 || arguments[0] === undefined ? InitialState : arguments[0];
         var action = arguments[1];
@@ -2953,25 +2960,41 @@ $__System.register('3c', ['3b', '3d'], function (_export, _context) {
             case 'SET_COURSE_COLLABORATOR_EMAILS':
                 {
                     var _newState2 = Object.assign({}, state);
-                    _newState2.courseCollaboratorEmails[action.uid] = action.emails;
+                    if (_newState2.courseCollaboratorEmails[action.uid]) {
+                        _newState2.courseCollaboratorEmails[action.uid][action.courseId] = action.emails;
+                    } else {
+                        _newState2.courseCollaboratorEmails[action.uid] = _defineProperty({}, action.courseId, action.emails);
+                    }
                     return _newState2;
                 }
             case 'SET_CONCEPT_COLLABORATOR_EMAILS':
                 {
                     var _newState3 = Object.assign({}, state);
-                    _newState3.conceptCollaboratorEmails[action.courseId] = action.emails;
+                    if (_newState3.conceptCollaboratorEmails[action.courseId]) {
+                        _newState3.conceptCollaboratorEmails[action.courseId][action.conceptId] = action.emails;
+                    } else {
+                        _newState3.conceptCollaboratorEmails[action.courseId] = _defineProperty({}, action.conceptId, action.emails);
+                    }
                     return _newState3;
                 }
             case 'SET_VIDEO_COLLABORATOR_EMAILS':
                 {
                     var _newState4 = Object.assign({}, state);
-                    _newState4.videoCollaboratorEmails[action.conceptId] = action.emails;
+                    if (_newState4.videoCollaboratorEmails[action.conceptId]) {
+                        _newState4.videoCollaboratorEmails[action.conceptId][action.videoId] = action.emails;
+                    } else {
+                        _newState4.videoCollaboratorEmails[action.conceptId] = _defineProperty({}, action.videoId, action.emails);
+                    }
                     return _newState4;
                 }
             case 'SET_QUIZ_COLLABORATOR_EMAILS':
                 {
                     var _newState5 = Object.assign({}, state);
-                    _newState5.quizCollaboratorEmails[action.conceptId] = action.emails;
+                    if (_newState5.quizCollaboratorEmails[action.conceptId]) {
+                        _newState5.quizCollaboratorEmails[action.conceptId][action.quizId] = action.emails;
+                    } else {
+                        _newState5.quizCollaboratorEmails[action.conceptId] = _defineProperty({}, action.quizId, action.emails);
+                    }
                     return _newState5;
                 }
             case 'SET_SHARED_COURSES':
@@ -3171,7 +3194,9 @@ $__System.register('3c', ['3b', '3d'], function (_export, _context) {
     _export('rootReducer', rootReducer);
 
     return {
-        setters: [function (_b) {
+        setters: [function (_) {
+            _defineProperty = _.default;
+        }, function (_b) {
             InitialState = _b.InitialState;
         }, function (_d) {
             Actions = _d.Actions;
@@ -3598,16 +3623,16 @@ $__System.register('1d', ['29', '2d', '2a', '3d'], function (_export, _context7)
                     value: function mapStateToThis(e) {
                         var state = e.detail.state;
                         if (this.uid && this.courseId) {
-                            this.collaboratorEmails = state.courseCollaboratorEmails[this.uid];
+                            this.collaboratorEmails = state.courseCollaboratorEmails[this.uid] && state.courseCollaboratorEmails[this.uid][this.courseId];
                         }
                         if (this.courseId && this.conceptId) {
-                            this.collaboratorEmails = state.conceptCollaboratorEmails[this.courseId];
+                            this.collaboratorEmails = state.conceptCollaboratorEmails[this.courseId] && state.conceptCollaboratorEmails[this.courseId][this.conceptId];
                         }
                         if (this.conceptId && this.videoId) {
-                            this.collaboratorEmails = state.videoCollaboratorEmails[this.conceptId];
+                            this.collaboratorEmails = state.videoCollaboratorEmails[this.conceptId] && state.videoCollaboratorEmails[this.conceptId][this.videoId];
                         }
                         if (this.conceptId && this.quizId) {
-                            this.collaboratorEmails = state.quizCollaboratorEmails[this.conceptId];
+                            this.collaboratorEmails = state.quizCollaboratorEmails[this.conceptId] && state.quizCollaboratorEmails[this.conceptId][this.quizId];
                         }
                     }
                 }]);
@@ -5417,10 +5442,10 @@ $__System.register('11', ['29', '2d', '2a', '3d'], function (_export, _context2)
         }
     };
 });
-$__System.register('10', ['29', '2d', '2a'], function (_export, _context2) {
+$__System.register('10', ['29', '2d', '2a', '3d'], function (_export, _context2) {
     "use strict";
 
-    var _regeneratorRuntime, _classCallCheck, _createClass, __awaiter, PrendusEditQuestionRouter;
+    var _regeneratorRuntime, _classCallCheck, _createClass, Actions, __awaiter, PrendusEditQuestionRouter;
 
     return {
         setters: [function (_) {
@@ -5429,6 +5454,8 @@ $__System.register('10', ['29', '2d', '2a'], function (_export, _context2) {
             _regeneratorRuntime = _d.default;
         }, function (_a) {
             _createClass = _a.default;
+        }, function (_d2) {
+            Actions = _d2.Actions;
         }],
         execute: function () {
             __awaiter = this && this.__awaiter || function (thisArg, _arguments, P, generator) {
@@ -5465,6 +5492,11 @@ $__System.register('10', ['29', '2d', '2a'], function (_export, _context2) {
                     key: 'beforeRegister',
                     value: function beforeRegister() {
                         this.is = 'prendus-edit-question-router';
+                    }
+                }, {
+                    key: 'editProblemComponentLoaded',
+                    value: function editProblemComponentLoaded(e) {
+                        Actions.hideMainSpinner(this);
                     }
                 }, {
                     key: 'mapStateToThis',
@@ -10108,7 +10140,8 @@ $__System.register('3d', ['35', '38', '40', '41', '42', '2d', '2e', '3e', '3f'],
                                                             context.action = {
                                                                 type: 'SET_COURSE_COLLABORATOR_EMAILS',
                                                                 emails: emails,
-                                                                uid: uid
+                                                                uid: uid,
+                                                                courseId: courseId
                                                             };
                                                             _context.next = 12;
                                                             return CourseModel.getConceptIds(courseId);
@@ -10188,7 +10221,8 @@ $__System.register('3d', ['35', '38', '40', '41', '42', '2d', '2e', '3e', '3f'],
                                                             context.action = {
                                                                 type: 'SET_CONCEPT_COLLABORATOR_EMAILS',
                                                                 emails: emails,
-                                                                courseId: courseId
+                                                                courseId: courseId,
+                                                                conceptId: conceptId
                                                             };
                                                             _context3.next = 15;
                                                             return ConceptModel.getVideoIds(conceptId);
@@ -10277,7 +10311,8 @@ $__System.register('3d', ['35', '38', '40', '41', '42', '2d', '2e', '3e', '3f'],
                                                             context.action = {
                                                                 type: 'SET_VIDEO_COLLABORATOR_EMAILS',
                                                                 emails: emails,
-                                                                conceptId: conceptId
+                                                                conceptId: conceptId,
+                                                                videoId: videoId
                                                             };
                                                             _context5.next = 18;
                                                             break;
@@ -10348,7 +10383,8 @@ $__System.register('3d', ['35', '38', '40', '41', '42', '2d', '2e', '3e', '3f'],
                                                             context.action = {
                                                                 type: 'SET_QUIZ_COLLABORATOR_EMAILS',
                                                                 emails: emails,
-                                                                conceptId: conceptId
+                                                                conceptId: conceptId,
+                                                                quizId: quizId
                                                             };
                                                             _context7.next = 18;
                                                             break;
@@ -13794,6 +13830,7 @@ $__System.register('6', ['29', '32', '2d', '2a', '3d', '2e'], function (_export,
                 }, {
                     key: 'createQuestion',
                     value: function createQuestion(e) {
+                        Actions.showMainSpinner(this);
                         window.history.pushState({}, '', 'courses/edit-question/question');
                         this.fire('location-changed', {}, { node: window });
                         //TODO this is evil, make sure to remove it once edit problem component can reload itself in response to property changes
@@ -13808,6 +13845,7 @@ $__System.register('6', ['29', '32', '2d', '2a', '3d', '2e'], function (_export,
                 }, {
                     key: 'editQuestion',
                     value: function editQuestion(e) {
+                        Actions.showMainSpinner(this);
                         var questionId = e.model.item;
                         window.history.pushState({}, '', 'courses/edit-question/question/' + questionId);
                         this.fire('location-changed', {}, { node: window });
