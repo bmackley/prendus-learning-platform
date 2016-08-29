@@ -3,6 +3,8 @@
 <link rel="import" href="../../bower_components/paper-toast/paper-toast.html">
 <link rel="import" href="../../bower_components/paper-input/paper-input.html">
 <link rel="import" href="../../bower_components/paper-card/paper-card.html">
+<link rel="import"href="../../bower_components/paper-dialog/paper-dialog.html" >
+
 <link rel="import" href="../prendus-notification/prendus-notification.html">
 
 <dom-module id="prendus-login">
@@ -25,6 +27,10 @@
             width: 100%;
           }
         }
+        #forgot-password{
+          color: blue;
+          cursor: pointer;
+        }
     </style>
   </style>
   <template>
@@ -41,10 +47,20 @@
             <paper-button raised id="signin-submit">Submit</paper-button>
             <br>
             <br>
-            <a href= "#"> Forgot Password </a>
+            <div id ="forgot-password" on-tap="sendResetEmailTrigger"> Forgot Password </div>
           </form>
         </div>
       </paper-card>
+      <paper-dialog id = "forgotPasswordModal" modal>
+        <div>
+          <!-- Look up Iron keys to change this -->
+          <form is="iron-form">
+          <paper-input name="resetPasswordEmail" id = "resetPasswordEmail" label="Email" required auto-validate></paper-input>
+            <paper-button dialog-dismiss>Cancel</paper-button>
+            <paper-button id = "sendResetEmailSubmit" on-click="sendResetEmail">Send Reset Email</paper-button>
+          </form>
+        </div>
+      </paper-dialog>
       <prendus-notification error-message="[[errorMessage]]"></prendus-notification>
     </center>
   </template>
