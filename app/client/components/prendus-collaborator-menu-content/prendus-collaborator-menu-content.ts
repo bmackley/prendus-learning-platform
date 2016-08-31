@@ -169,6 +169,5 @@ class PrendusCollaboratorMenuContent {
         }
     }
 }
-addEventListener('WebComponentsReady', function() {
-  Polymer(PrendusCollaboratorMenuContent);
-})
+
+Polymer(PrendusCollaboratorMenuContent);

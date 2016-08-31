@@ -12,6 +12,5 @@ class PrendusExample {
     this.username = state.currentUser.email;
   }
 }
-addEventListener('WebComponentsReady', function() {
-  Polymer(PrendusExample);
-})
+
+Polymer(PrendusExample);

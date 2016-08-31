@@ -92,6 +92,5 @@ export class PrendusCourseView {
     }
   }
 }
-addEventListener('WebComponentsReady', function() {
-  Polymer(PrendusCourseView);
-})
+
+Polymer(PrendusCourseView);

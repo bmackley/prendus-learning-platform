@@ -19,6 +19,5 @@ class PrendusViewQuizRouter {
       this.jwt = state.jwt;
     }
 }
-addEventListener('WebComponentsReady', function() {
-  Polymer(PrendusViewQuizRouter);
-})
+
+Polymer(PrendusViewQuizRouter);

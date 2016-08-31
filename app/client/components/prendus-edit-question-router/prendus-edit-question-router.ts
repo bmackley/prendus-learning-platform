@@ -20,6 +20,5 @@ class PrendusEditQuestionRouter {
         //TODO this is evil, figure out another way to manually reload the questions without a DOM search
     }
 }
-addEventListener('WebComponentsReady', function() {
-  Polymer(PrendusEditQuestionRouter);
-})
+
+Polymer(PrendusEditQuestionRouter);

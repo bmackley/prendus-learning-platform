@@ -67,6 +67,5 @@ export class PrendusVideoEditor {
         this.$.savedToast.open();
     }
 }
-addEventListener('WebComponentsReady', function() {
-  Polymer(PrendusVideoEditor);
-})
+
+Polymer(PrendusVideoEditor);
