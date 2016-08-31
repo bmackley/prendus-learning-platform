@@ -33,6 +33,14 @@ export class PrendusVideoEditor {
 
     ready() {
         this.$.savedToast.fitInto = this;
+        this.addEventListener('mousedown', (e) => {
+            e.stopPropagation();
+        });
+
+        //TODO you might need this in the future
+        // this.addEventListener('mousemove', (e) => {
+        //     e.stopPropagation();
+        // });
     }
 
     saveClick() {
