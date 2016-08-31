@@ -117,6 +117,5 @@ class PrendusCoursePreview {
         }
     }
 }
-addEventListener('WebComponentsReady', function() {
-  Polymer(PrendusCoursePreview);
-})
+
+Polymer(PrendusCoursePreview);

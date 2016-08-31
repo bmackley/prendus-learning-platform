@@ -209,6 +209,5 @@ class PrendusQuizEditor {
         this.collaboratorEmails = state.collaboratorEmails;
     }
 }
-addEventListener('WebComponentsReady', function() {
-  Polymer(PrendusQuizEditor);
-})
+
+Polymer(PrendusQuizEditor);

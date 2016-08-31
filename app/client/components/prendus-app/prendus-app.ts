@@ -31,6 +31,5 @@ class PrendusApp {
     this.rootReducer = rootReducer;
   }
 }
-addEventListener('WebComponentsReady', function() {
-  Polymer(PrendusApp);
-})
+
+Polymer(PrendusApp);

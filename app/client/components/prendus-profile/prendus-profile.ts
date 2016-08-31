@@ -73,6 +73,5 @@ export class PrendusProfile {
     this.$.updateProfileSuccessToast.fitInto = this.$.toastTarget;
   }
 }
-addEventListener('WebComponentsReady', function() {
-  Polymer(PrendusProfile);
-})
+
+Polymer(PrendusProfile);

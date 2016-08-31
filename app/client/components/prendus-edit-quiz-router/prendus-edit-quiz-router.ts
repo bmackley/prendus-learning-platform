@@ -42,6 +42,5 @@ class PrendusEditQuizRouter {
         //TODO this is evil, make sure to remove it once edit problem component can reload itself in response to property changes
     }
 }
-addEventListener('WebComponentsReady', function() {
-  Polymer(PrendusEditQuizRouter);
-})
+
+Polymer(PrendusEditQuizRouter);

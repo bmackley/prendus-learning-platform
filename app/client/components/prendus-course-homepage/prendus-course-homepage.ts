@@ -70,6 +70,5 @@ class PrendusCourseHomepage {
     this.uid = state.currentUser.metaData.uid;
   }
 }
-addEventListener('WebComponentsReady', function() {
-  Polymer(PrendusCourseHomepage);
-})
+
+Polymer(PrendusCourseHomepage);
