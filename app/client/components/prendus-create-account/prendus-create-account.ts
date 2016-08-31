@@ -57,6 +57,5 @@ class PrendusCreateAccount {
   ready (e){
   }
 }
-addEventListener('WebComponentsReady', function() {
-  Polymer(PrendusCreateAccount);
-})
+
+Polymer(PrendusCreateAccount);

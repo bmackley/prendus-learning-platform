@@ -47,6 +47,5 @@ class PrendusLogin {
     }
   }
 }
-addEventListener('WebComponentsReady', function() {
-  Polymer(PrendusLogin);
-})
+
+Polymer(PrendusLogin);

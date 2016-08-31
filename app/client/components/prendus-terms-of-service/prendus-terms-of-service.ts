@@ -6,6 +6,5 @@ class PrendusTermsOfService {
     this.is = 'prendus-terms-of-service';
   }
 }
-addEventListener('WebComponentsReady', function() {
-  Polymer(PrendusTermsOfService);
-})
+
+Polymer(PrendusTermsOfService);
