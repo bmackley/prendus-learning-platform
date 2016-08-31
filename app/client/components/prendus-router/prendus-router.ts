@@ -14,5 +14,6 @@ class PrendusRouter {
       this.mainViewToShow = state.mainViewToShow;
   }
 }
-
-Polymer(PrendusRouter);
+addEventListener('WebComponentsReady', function() {
+  Polymer(PrendusRouter);
+})

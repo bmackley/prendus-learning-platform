@@ -66,5 +66,6 @@ class PrendusConceptVideoContainer {
         this.currentVideoUrl = state.currentConceptVideoUrl;
     }
 }
-
-Polymer(PrendusConceptVideoContainer);
+addEventListener('WebComponentsReady', function() {
+  Polymer(PrendusConceptVideoContainer);
+})
