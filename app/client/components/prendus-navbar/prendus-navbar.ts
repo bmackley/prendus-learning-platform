@@ -43,5 +43,6 @@ export class PrendusNavbar {
     Actions.checkUserAuth.execute(this);
   }
 }
-
-Polymer(PrendusNavbar);
+addEventListener('WebComponentsReady', function() {
+  Polymer(PrendusNavbar);
+})

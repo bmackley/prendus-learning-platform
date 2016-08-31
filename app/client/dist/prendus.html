@@ -17113,7 +17113,7 @@ Custom property | Description | Default
 <dom-module id="prendus-footer" assetpath="../prendus-footer/">
   <style>
   footer {
-    position: absolute;
+    position: fixed;
     background: black;
     width: 100%;
     bottom: 0;
@@ -22418,6 +22418,50 @@ element.
 
   <!--<script src="prendus-login.js"></script>-->
 </dom-module>
+<dom-module id="prendus-terms-of-service" assetpath="../prendus-terms-of-service/">
+  <style>
+    /* CSS rules for your element */
+  </style>
+  <template>
+    <h2> Web Site Terms and Conditions of Use </h2>
+
+<h3>
+	1. Creation Agreement
+</h3>
+<ol type="a">
+  <li>
+    Any materials generated online are licensed under the <a rel="license" href="http://creativecommons.org/licenses/by/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by/4.0/80x15.png"></a><br><a rel="license" href="http://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a> unless explicitly stated.
+    By creating any materials you agree to license the materials with the creative commons license.
+  </li>
+  <li>
+    If you decide to revise a material for your own purpose, you need to recognize the original creator.
+  </li>
+</ol>
+<h3>
+	2. Use License
+</h3>
+
+<ol type="a">
+  <li>
+    All quizzes provided online are licensed under the creative commons 4.0 attribution license. You are free to distribute, remix, revise, and modify these materials, even commercially as long as the original creator is given credit.
+  </li>
+  <li>
+    Videos are hosted on other applications such as YouTube and are not property of Prendus and are not licensed under the creative commons license.
+  </li>
+  <li>
+    If you area  collaborator in a course, your email will be visible to other collaborators. 
+  </li>
+</ol>
+
+
+    <br>
+    <br>
+    <br>
+    <br>
+  </template>
+
+  <!--<script src="prendus-example.js"></script>-->
+</dom-module>
 <dom-module id="prendus-create-account" assetpath="../prendus-create-account/">
   <style>
     /* CSS rules for your element */
@@ -22441,6 +22485,16 @@ element.
           margin-left: 2%;
         }
       }
+      #ToS{
+        color: blue;
+      }
+      #ToS-container{
+        margin-top: 2%;
+        margin-bottom: 2%;
+      }
+      #signup-submit{
+        margin-bottom: 2%;
+      }
     </style>
   
   <template>
@@ -22455,11 +22509,18 @@ element.
             <paper-input name="firstName" id="firstName" label="First Name"></paper-input>
             <paper-input name="lastName" id="lastName" label="Last Name"></paper-input>
             <paper-input name="Intitution" id="institution" label="Institution (school)"></paper-input>
-            <div class="output"></div>
+            <div id="ToS-container">By creating an account, you agree to Prendus's <span id="ToS" on-tap="openTermsOfService"> Terms of Service </span></div>
             <paper-button raised="" id="signup-submit">Submit</paper-button>
           </form>
-        
       </paper-card>
+      <paper-dialog id="terms-of-service-modal">
+        <paper-dialog-scrollable>
+          <prendus-terms-of-service></prendus-terms-of-service>
+        </paper-dialog-scrollable>
+        <div class="buttons">
+          <paper-button class="cancel" dialog-dismiss="">OK</paper-button>
+        </div>
+      </paper-dialog>
     <prendus-notification error-message="[[errorMessage]]"></prendus-notification>
   </center></template>
 
@@ -92919,16 +92980,16 @@ event and do your own custom submission:
     <prendus-notification error-message="[[errorMessage]]"></prendus-notification>
     <prendus-notification success-message="[[successMessage]]"></prendus-notification>
     <paper-dialog id="confirmEmailChange" modal="" on-iron-overlay-closed="closeOverlay">
-    <h2>Password Verification</h2>
-    <paper-dialog-scrollable>
-      You are changing your email. Your account password is needed to perform this function.
-      <paper-input type="password" name="password" id="changeEmailPassword" label="Password"></paper-input>
-    </paper-dialog-scrollable>
-    <div class="buttons">
-      <paper-button class="cancel" dialog-dismiss="">Cancel</paper-button>
-      <paper-button class="confirm" dialog-confirm="">Continue</paper-button>
-    </div>
-  </paper-dialog>
+      <h2>Password Verification</h2>
+      <paper-dialog-scrollable>
+        You are changing your email. Your account password is needed to perform this function.
+        <paper-input type="password" name="password" id="changeEmailPassword" label="Password"></paper-input>
+      </paper-dialog-scrollable>
+      <div class="buttons">
+        <paper-button class="cancel" dialog-dismiss="">Cancel</paper-button>
+        <paper-button class="confirm" dialog-confirm="">Continue</paper-button>
+      </div>
+    </paper-dialog>
   </template>
 
   <!--<script src="prendus-profile.js"></script>-->
@@ -92978,47 +93039,6 @@ event and do your own custom submission:
     <p> You have control over your personal data to add, edit, or remove data from your profile. Any personal data you delete cannot be recovered.</p>
     <p> Information you create for the course with the free account is creative commons data.  As creator of a course, you have the ability to add, edit, or remove data from the course. This data, however, is open for others to copy and use at their discretion. Because the data is under a creative commons license, you will not be able to delete the content.</p>
     <p> Plagiarized content will be removed immediately and the owners posting the content will be warned.  Elicit content will also be removed and the owners warned. </p>
-    <br>
-    <br>
-    <br>
-  </template>
-
-  <!--<script src="prendus-example.js"></script>-->
-</dom-module>
-<dom-module id="prendus-terms-of-service" assetpath="../prendus-terms-of-service/">
-  <style>
-    /* CSS rules for your element */
-  </style>
-  <template>
-    <h2> Web Site Terms and Conditions of Use </h2>
-
-<h3>
-	1. Creation Agreement
-</h3>
-<ol type="a">
-  <li>
-    Any materials generated online are licensed under the <a rel="license" href="http://creativecommons.org/licenses/by/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by/4.0/80x15.png"></a><br><a rel="license" href="http://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a> unless explicitly stated.
-    By creating any materials you agree to license the materials with the creative commons license.
-  </li>
-  <li>
-    If you decide to revise a material for your own purpose, you need to recognize the original creator.
-  </li>
-</ol>
-<h3>
-	2. Use License
-</h3>
-
-<ol type="a">
-  <li>
-    All quizzes provided online are licensed under the creative commons 4.0 attribution license. You are free to distribute, remix, revise, and modify these materials, even commercially as long as the original creator is given credit.
-  </li>
-  <li>
-    Videos are hosted on other applications such as YouTube and are not property of Prendus and are not licensed under the creative commons license.
-  </li>
-</ol>
-
-
-    <br>
     <br>
     <br>
     <br>

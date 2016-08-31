@@ -54,5 +54,6 @@ class PrendusConceptQuizContainerEdit {
         this.quizzes = state.editConceptQuizzes[this.conceptId];
     }
 }
-
-Polymer(PrendusConceptQuizContainerEdit);
+addEventListener('WebComponentsReady', function() {
+  Polymer(PrendusConceptQuizContainerEdit);
+})

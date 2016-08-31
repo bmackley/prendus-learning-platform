@@ -50,5 +50,6 @@ class PrendusConceptContainer {
     this.selected = 0;
   }
 }
-
-Polymer(PrendusConceptContainer);
+addEventListener('WebComponentsReady', function() {
+  Polymer(PrendusConceptContainer);
+})

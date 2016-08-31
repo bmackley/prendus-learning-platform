@@ -16,13 +16,3 @@ body {
 .page-title {
   outline: none;
 }
-
-footer {
-  position: fixed;
-  background: white;
-  width: 100%;
-  bottom: 0;
-}
-google-map {
-   height: 600px;
-}
