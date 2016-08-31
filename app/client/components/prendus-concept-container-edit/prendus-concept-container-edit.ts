@@ -44,5 +44,6 @@ export class PrendusConceptContainerEdit {
     this.selected = 0;
   }
 }
-
-Polymer(PrendusConceptContainerEdit);
+addEventListener('WebComponentsReady', function() {
+  Polymer(PrendusConceptContainerEdit);
+})

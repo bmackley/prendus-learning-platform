@@ -49,5 +49,6 @@ class PrendusConceptQuizContainer {
         this.quizzes = state.viewConceptQuizzes[this.conceptId];
     }
 }
-
-Polymer(PrendusConceptQuizContainer);
+addEventListener('WebComponentsReady', function() {
+  Polymer(PrendusConceptQuizContainer);
+})

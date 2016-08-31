@@ -6,4 +6,6 @@ class PrendusExample {
     this.is = 'prendus-privacy-policy';
   }
 }
-Polymer(PrendusExample);
+addEventListener('WebComponentsReady', function() {
+  Polymer(PrendusExample);
+})
