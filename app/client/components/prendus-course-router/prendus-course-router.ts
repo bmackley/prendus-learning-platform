@@ -12,4 +12,6 @@ class PrendusCourseRouter {
   async ready() {
   }
 }
-Polymer(PrendusCourseRouter);
+addEventListener('WebComponentsReady', function() {
+  Polymer(PrendusCourseRouter);
+})

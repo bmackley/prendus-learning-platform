@@ -19,6 +19,13 @@ class PrendusCreateAccount {
     }
   }
 
+  openTermsOfService(){
+    this.querySelector('#terms-of-service-modal').open()
+    // const location = '/terms-of-service';
+    // window.history.pushState({}, '', location);
+    // this.fire('location-changed', {}, {node: window});
+  }
+
   async createUser(e){
     this.email = this.$.formEmail.value;
     this.firstName = this.$.firstName.value;
@@ -50,4 +57,6 @@ class PrendusCreateAccount {
   ready (e){
   }
 }
-Polymer(PrendusCreateAccount);
+addEventListener('WebComponentsReady', function() {
+  Polymer(PrendusCreateAccount);
+})

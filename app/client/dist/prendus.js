@@ -3188,7 +3188,9 @@ $__System.register('1e', ['29', '2a', '2e', '3c'], function (_export, _context) 
                 return PrendusApp;
             }();
 
-            Polymer(PrendusApp);
+            addEventListener('WebComponentsReady', function () {
+                Polymer(PrendusApp);
+            });
         }
     };
 });
@@ -3577,7 +3579,9 @@ $__System.register('1d', ['29', '2d', '2a', '3d'], function (_export, _context7)
                 return PrendusCollaboratorMenuContent;
             }();
 
-            Polymer(PrendusCollaboratorMenuContent);
+            addEventListener('WebComponentsReady', function () {
+                Polymer(PrendusCollaboratorMenuContent);
+            });
         }
     };
 });
@@ -3698,7 +3702,9 @@ $__System.register('1c', ['29', '2d', '2a', '3d', '2e'], function (_export, _con
 
             _export('PrendusConceptContainerEdit', PrendusConceptContainerEdit);
 
-            Polymer(PrendusConceptContainerEdit);
+            addEventListener('WebComponentsReady', function () {
+                Polymer(PrendusConceptContainerEdit);
+            });
         }
     };
 });
@@ -3822,7 +3828,9 @@ $__System.register('1b', ['29', '2d', '2a', '2e'], function (_export, _context2)
                 return PrendusConceptContainer;
             }();
 
-            Polymer(PrendusConceptContainer);
+            addEventListener('WebComponentsReady', function () {
+                Polymer(PrendusConceptContainer);
+            });
         }
     };
 });
@@ -3953,7 +3961,9 @@ $__System.register('1a', ['29', '2d', '2a', '3d'], function (_export, _context3)
                 return PrendusConceptQuizContainerEdit;
             }();
 
-            Polymer(PrendusConceptQuizContainerEdit);
+            addEventListener('WebComponentsReady', function () {
+                Polymer(PrendusConceptQuizContainerEdit);
+            });
         }
     };
 });
@@ -4060,7 +4070,9 @@ $__System.register('19', ['29', '2d', '2a', '3d'], function (_export, _context2)
                 return PrendusConceptQuizContainer;
             }();
 
-            Polymer(PrendusConceptQuizContainer);
+            addEventListener('WebComponentsReady', function () {
+                Polymer(PrendusConceptQuizContainer);
+            });
         }
     };
 });
@@ -4243,7 +4255,9 @@ $__System.register('18', ['29', '2d', '2a', '3d', '2e'], function (_export, _con
                 return PrendusConceptVideoContainerEdit;
             }();
 
-            Polymer(PrendusConceptVideoContainerEdit);
+            addEventListener('WebComponentsReady', function () {
+                Polymer(PrendusConceptVideoContainerEdit);
+            });
         }
     };
 });
@@ -4363,7 +4377,9 @@ $__System.register('17', ['29', '2d', '2a', '3d'], function (_export, _context2)
                 return PrendusConceptVideoContainer;
             }();
 
-            Polymer(PrendusConceptVideoContainer);
+            addEventListener('WebComponentsReady', function () {
+                Polymer(PrendusConceptVideoContainer);
+            });
         }
     };
 });
@@ -4625,7 +4641,9 @@ $__System.register('16', ['29', '2d', '2a', '3d'], function (_export, _context4)
                 return PrendusCourseEdit;
             }();
 
-            Polymer(PrendusCourseEdit);
+            addEventListener('WebComponentsReady', function () {
+                Polymer(PrendusCourseEdit);
+            });
         }
     };
 });
@@ -4762,7 +4780,9 @@ $__System.register('15', ['29', '2d', '2a', '3d', '2e'], function (_export, _con
                 return PrendusCourseHomepage;
             }();
 
-            Polymer(PrendusCourseHomepage);
+            addEventListener('WebComponentsReady', function () {
+                Polymer(PrendusCourseHomepage);
+            });
         }
     };
 });
@@ -4998,7 +5018,9 @@ $__System.register('14', ['29', '2d', '2a', '3d', '2e'], function (_export, _con
                 return PrendusCoursePreview;
             }();
 
-            Polymer(PrendusCoursePreview);
+            addEventListener('WebComponentsReady', function () {
+                Polymer(PrendusCoursePreview);
+            });
         }
     };
 });
@@ -5071,7 +5093,9 @@ $__System.register('13', ['29', '2d', '2a'], function (_export, _context2) {
                 return PrendusCourseRouter;
             }();
 
-            Polymer(PrendusCourseRouter);
+            addEventListener('WebComponentsReady', function () {
+                Polymer(PrendusCourseRouter);
+            });
         }
     };
 });
@@ -5257,7 +5281,9 @@ $__System.register('12', ['29', '2d', '2a', '3d'], function (_export, _context3)
 
             _export('PrendusCourseView', PrendusCourseView);
 
-            Polymer(PrendusCourseView);
+            addEventListener('WebComponentsReady', function () {
+                Polymer(PrendusCourseView);
+            });
         }
     };
 });
@@ -5314,6 +5340,14 @@ $__System.register('11', ['29', '2d', '2a', '3d'], function (_export, _context2)
                         this.listeners = {
                             'signup-submit.tap': 'createUser'
                         };
+                    }
+                }, {
+                    key: 'openTermsOfService',
+                    value: function openTermsOfService() {
+                        this.querySelector('#terms-of-service-modal').open();
+                        // const location = '/terms-of-service';
+                        // window.history.pushState({}, '', location);
+                        // this.fire('location-changed', {}, {node: window});
                     }
                 }, {
                     key: 'createUser',
@@ -5375,7 +5409,9 @@ $__System.register('11', ['29', '2d', '2a', '3d'], function (_export, _context2)
                 return PrendusCreateAccount;
             }();
 
-            Polymer(PrendusCreateAccount);
+            addEventListener('WebComponentsReady', function () {
+                Polymer(PrendusCreateAccount);
+            });
         }
     };
 });
@@ -5462,7 +5498,9 @@ $__System.register('10', ['29', '2d', '2a'], function (_export, _context2) {
                 return PrendusEditQuestionRouter;
             }();
 
-            Polymer(PrendusEditQuestionRouter);
+            addEventListener('WebComponentsReady', function () {
+                Polymer(PrendusEditQuestionRouter);
+            });
         }
     };
 });
@@ -5564,7 +5602,9 @@ $__System.register('f', ['29', '2d', '2a'], function (_export, _context2) {
                 return PrendusEditQuizRouter;
             }();
 
-            Polymer(PrendusEditQuizRouter);
+            addEventListener('WebComponentsReady', function () {
+                Polymer(PrendusEditQuizRouter);
+            });
         }
     };
 });
@@ -5601,7 +5641,9 @@ $__System.register('e', ['29', '2a'], function (_export, _context) {
                 return PrendusExample;
             }();
 
-            Polymer(PrendusExample);
+            addEventListener('WebComponentsReady', function () {
+                Polymer(PrendusExample);
+            });
         }
     };
 });
@@ -5639,7 +5681,9 @@ $__System.register('d', ['29', '2a'], function (_export, _context) {
                 return PrendusFooter;
             }();
 
-            Polymer(PrendusFooter);
+            addEventListener('WebComponentsReady', function () {
+                Polymer(PrendusFooter);
+            });
         }
     };
 });
@@ -5752,7 +5796,9 @@ $__System.register('c', ['29', '2d', '2a', '3d'], function (_export, _context3) 
                 return PrendusHomepage;
             }();
 
-            Polymer(PrendusHomepage);
+            addEventListener('WebComponentsReady', function () {
+                Polymer(PrendusHomepage);
+            });
         }
     };
 });
@@ -5857,12 +5903,13 @@ $__System.register('b', ['29', '2d', '2a', '3d', '2e'], function (_export, _cont
                 }, {
                     key: 'sendResetEmail',
                     value: function sendResetEmail(e) {
-                        console.log('hello');
                         e.preventDefault();
-                        console.log('email value', this.querySelector('#resetPasswordEmail').value);
                         var emailReset = this.querySelector('#resetPasswordEmail').value;
                         try {
                             FirebaseService.sendPasswordResetEmail(this.querySelector('#resetPasswordEmail').value);
+                            this.querySelector('#forgotPasswordModal').close();
+                            this.successMessage = '';
+                            this.successMessage = 'Password sent. Check your inbox for a ';
                         } catch (error) {
                             this.errorMessage = '';
                             this.errorMessage = error.message;
@@ -5873,7 +5920,9 @@ $__System.register('b', ['29', '2d', '2a', '3d', '2e'], function (_export, _cont
                 return PrendusLogin;
             }();
 
-            Polymer(PrendusLogin);
+            addEventListener('WebComponentsReady', function () {
+                Polymer(PrendusLogin);
+            });
         }
     };
 });
@@ -5946,7 +5995,9 @@ $__System.register('a', ['29', '2a', '3d'], function (_export, _context) {
 
             _export('PrendusNavbar', PrendusNavbar);
 
-            Polymer(PrendusNavbar);
+            addEventListener('WebComponentsReady', function () {
+                Polymer(PrendusNavbar);
+            });
         }
     };
 });
@@ -6012,7 +6063,9 @@ $__System.register('9', ['29', '2a'], function (_export, _context) {
                 return PrendusNotification;
             }();
 
-            Polymer(PrendusNotification);
+            addEventListener('WebComponentsReady', function () {
+                Polymer(PrendusNotification);
+            });
         }
     };
 });
@@ -6043,7 +6096,9 @@ $__System.register('8', ['29', '2a'], function (_export, _context) {
                 return PrendusExample;
             }();
 
-            Polymer(PrendusExample);
+            addEventListener('WebComponentsReady', function () {
+                Polymer(PrendusExample);
+            });
         }
     };
 });
@@ -6223,7 +6278,9 @@ $__System.register('7', ['29', '2d', '2a', '3d'], function (_export, _context3) 
 
             _export('PrendusProfile', PrendusProfile);
 
-            Polymer(PrendusProfile);
+            addEventListener('WebComponentsReady', function () {
+                Polymer(PrendusProfile);
+            });
         }
     };
 });
@@ -14111,7 +14168,9 @@ $__System.register('6', ['29', '32', '2d', '2a', '3d', '2e'], function (_export,
                 return PrendusQuizEditor;
             }();
 
-            Polymer(PrendusQuizEditor);
+            addEventListener('WebComponentsReady', function () {
+                Polymer(PrendusQuizEditor);
+            });
         }
     };
 });
@@ -14148,14 +14207,16 @@ $__System.register("5", ["29", "2a"], function (_export, _context) {
                 return PrendusRouter;
             }();
 
-            Polymer(PrendusRouter);
+            addEventListener('WebComponentsReady', function () {
+                Polymer(PrendusRouter);
+            });
         }
     };
 });
 $__System.register('4', ['29', '2a'], function (_export, _context) {
     "use strict";
 
-    var _classCallCheck, _createClass, PrendusExample;
+    var _classCallCheck, _createClass, PrendusTermsOfService;
 
     return {
         setters: [function (_) {
@@ -14164,22 +14225,24 @@ $__System.register('4', ['29', '2a'], function (_export, _context) {
             _createClass = _a.default;
         }],
         execute: function () {
-            PrendusExample = function () {
-                function PrendusExample() {
-                    _classCallCheck(this, PrendusExample);
+            PrendusTermsOfService = function () {
+                function PrendusTermsOfService() {
+                    _classCallCheck(this, PrendusTermsOfService);
                 }
 
-                _createClass(PrendusExample, [{
+                _createClass(PrendusTermsOfService, [{
                     key: 'beforeRegister',
                     value: function beforeRegister() {
                         this.is = 'prendus-terms-of-service';
                     }
                 }]);
 
-                return PrendusExample;
+                return PrendusTermsOfService;
             }();
 
-            Polymer(PrendusExample);
+            addEventListener('WebComponentsReady', function () {
+                Polymer(PrendusTermsOfService);
+            });
         }
     };
 });
@@ -14267,7 +14330,9 @@ $__System.register('3', ['29', '2a'], function (_export, _context) {
 
             _export('PrendusVideoEditor', PrendusVideoEditor);
 
-            Polymer(PrendusVideoEditor);
+            addEventListener('WebComponentsReady', function () {
+                Polymer(PrendusVideoEditor);
+            });
         }
     };
 });
@@ -14306,7 +14371,9 @@ $__System.register('2', ['29', '2a'], function (_export, _context) {
                 return PrendusViewQuizRouter;
             }();
 
-            Polymer(PrendusViewQuizRouter);
+            addEventListener('WebComponentsReady', function () {
+                Polymer(PrendusViewQuizRouter);
+            });
         }
     };
 });
@@ -14384,7 +14451,9 @@ $__System.register('1', ['29', '2a'], function (_export, _context) {
                 return PrendusViewVideoRouter;
             }();
 
-            Polymer(PrendusViewVideoRouter);
+            addEventListener('WebComponentsReady', function () {
+                Polymer(PrendusViewVideoRouter);
+            });
         }
     };
 });

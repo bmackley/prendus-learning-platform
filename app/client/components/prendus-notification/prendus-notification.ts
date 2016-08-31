@@ -42,4 +42,6 @@ class PrendusNotification {
   ready(){
   }
 }
-Polymer(PrendusNotification);
+addEventListener('WebComponentsReady', function() {
+  Polymer(PrendusNotification);
+})

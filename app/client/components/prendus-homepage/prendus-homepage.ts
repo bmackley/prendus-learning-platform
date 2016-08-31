@@ -32,5 +32,6 @@ class PrendusHomepage {
         this.publicCourses = state.publicCourses;
     }
 }
-
-Polymer(PrendusHomepage);
+addEventListener('WebComponentsReady', function() {
+  Polymer(PrendusHomepage);
+})

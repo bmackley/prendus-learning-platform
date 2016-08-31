@@ -16,4 +16,6 @@ class PrendusViewVideoRouter {
       this.userEmail = state.currentUser.metaData.email;
     }
 }
-Polymer(PrendusViewVideoRouter);
+addEventListener('WebComponentsReady', function() {
+  Polymer(PrendusViewVideoRouter);
+})
