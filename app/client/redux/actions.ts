@@ -641,21 +641,26 @@ const loginUser = {
     execute: async (context: any, email: string, password: string) => {
         try {
           const loggedInUser = await FirebaseService.logInUserWithEmailAndPassword(email, password);
-          let user = await UserModel.getById(loggedInUser.uid); //sets ancillary user data such as name, institution, etc.
-          user.metaData.uid = loggedInUser.uid;
-          const courses = await CourseModel.getCoursesByUser(loggedInUser.uid);
+          //let user = await UserModel.getById(loggedInUser.uid); //sets ancillary user data such as name, institution, etc.
+          //user.metaData.uid = loggedInUser.uid;
+          //const courses = await CourseModel.getCoursesByUser(loggedInUser.uid);
           //need to go here so that user info loads when a user logs in. If not, starred courses and shared courses don't appear once they
-          const starredCourseIds = await UserModel.getStarredCoursesIds(loggedInUser.uid);
-          const starredCourses = await CourseModel.resolveCourseIds(starredCourseIds);
-          const sharedCourseIds = await UserModel.getSharedWithMeCoursesIds(loggedInUser.uid);
-          const sharedCourses = await CourseModel.resolveCourseIds(sharedCourseIds);
-          context.action = {
-            type: Actions.loginUser.type,
-            courses: courses,
-            starredCourses: starredCourses,
-            sharedCourses: sharedCourses,
-            user
-          };
+          //const starredCourseIds = await UserModel.getStarredCoursesIds(loggedInUser.uid);
+          //const starredCourses = await CourseModel.resolveCourseIds(starredCourseIds);
+          //const sharedCourseIds = await UserModel.getSharedWithMeCoursesIds(loggedInUser.uid);
+          //const sharedCourses = await CourseModel.resolveCourseIds(sharedCourseIds);
+
+          //TODO I'm doing this because we're about to launch and it will fix the errors we've been having with synchronizing the user after signup.
+          //This just refreshes the whole app with the user logged in. Might want to change this, seems to work well though.
+          window.location.href = '';
+
+        //   context.action = {
+        //     type: Actions.loginUser.type,
+        //     courses: courses,
+        //     starredCourses: starredCourses,
+        //     sharedCourses: sharedCourses,
+        //     user
+        //   };
         }catch(error){
           throw error;
         }
