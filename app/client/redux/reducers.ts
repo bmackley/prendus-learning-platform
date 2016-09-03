@@ -22,28 +22,56 @@ export function rootReducer(state: State = InitialState, action: Action): State 
         case 'SET_COURSE_COLLABORATOR_EMAILS': {
             const newState = Object.assign({}, state);
 
-            newState.courseCollaboratorEmails[action.uid] = action.emails;
+            if (newState.courseCollaboratorEmails[action.uid]) {
+                newState.courseCollaboratorEmails[action.uid][action.courseId] = action.emails;
+            }
+            else {
+                newState.courseCollaboratorEmails[action.uid] = {
+                    [action.courseId]: action.emails
+                };
+            }
 
             return newState;
         }
         case 'SET_CONCEPT_COLLABORATOR_EMAILS': {
             const newState = Object.assign({}, state);
 
-            newState.conceptCollaboratorEmails[action.courseId] = action.emails;
+            if (newState.conceptCollaboratorEmails[action.courseId]) {
+                newState.conceptCollaboratorEmails[action.courseId][action.conceptId] = action.emails;
+            }
+            else {
+                newState.conceptCollaboratorEmails[action.courseId] = {
+                    [action.conceptId]: action.emails
+                };
+            }
 
             return newState;
         }
         case 'SET_VIDEO_COLLABORATOR_EMAILS': {
             const newState = Object.assign({}, state);
 
-            newState.videoCollaboratorEmails[action.conceptId] = action.emails;
+            if (newState.videoCollaboratorEmails[action.conceptId]) {
+                newState.videoCollaboratorEmails[action.conceptId][action.videoId] = action.emails;
+            }
+            else {
+                newState.videoCollaboratorEmails[action.conceptId] = {
+                    [action.videoId]: action.emails
+                };
+            }
 
             return newState;
         }
         case 'SET_QUIZ_COLLABORATOR_EMAILS': {
             const newState = Object.assign({}, state);
 
-            newState.quizCollaboratorEmails[action.conceptId] = action.emails;
+            if (newState.quizCollaboratorEmails[action.conceptId]) {
+                newState.quizCollaboratorEmails[action.conceptId][action.quizId] = action.emails;
+            }
+            else {
+                newState.quizCollaboratorEmails[action.conceptId] = {
+                    [action.quizId]: action.emails
+                };
+            }
 
             return newState;
         }
