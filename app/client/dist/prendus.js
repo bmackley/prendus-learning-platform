@@ -1757,10 +1757,10 @@ $__System.register("33", [], function (_export, _context) {
         }
     };
 });
-$__System.register('22', ['29', '32', '33', '34', '35', '36', '2d', '2a', '2e'], function (_export, _context3) {
+$__System.register('22', ['29', '32', '33', '34', '35', '36', '2d', '2a'], function (_export, _context3) {
     "use strict";
 
-    var _defineProperty, _regeneratorRuntime, _classCallCheck, _createClass, FirebaseService, VideoModel, UtilitiesService, XAPIService, SVGFixer, __awaiter;
+    var _defineProperty, _regeneratorRuntime, _classCallCheck, _createClass, VideoModel, UtilitiesService, XAPIService, SVGFixer, __awaiter;
 
     return {
         setters: [function (_) {
@@ -1779,8 +1779,6 @@ $__System.register('22', ['29', '32', '33', '34', '35', '36', '2d', '2a', '2e'],
             _regeneratorRuntime = _d.default;
         }, function (_a) {
             _createClass = _a.default;
-        }, function (_e) {
-            FirebaseService = _e.FirebaseService;
         }],
         execute: function () {
             __awaiter = this && this.__awaiter || function (thisArg, _arguments, P, generator) {
@@ -1808,11 +1806,6 @@ $__System.register('22', ['29', '32', '33', '34', '35', '36', '2d', '2a', '2e'],
                 });
             };
 
-            if (window.PRENDUS_ENV === 'production') {
-                FirebaseService.init('AIzaSyANTSoOA6LZZDxM7vqIlAl37B7IqWL-6MY', 'prendus.firebaseapp.com', 'https://prendus.firebaseio.com', 'prendus.appspot.com', 'Prendus');
-            } else {
-                FirebaseService.init('AIzaSyANTSoOA6LZZDxM7vqIlAl37B7IqWL-6MY', 'prendus.firebaseapp.com', 'https://prendus.firebaseio.com', 'prendus.appspot.com', 'Prendus');
-            }
             (function () {
                 var PrendusVideoComponent = function () {
                     function PrendusVideoComponent() {
@@ -1940,7 +1933,9 @@ $__System.register('22', ['29', '32', '33', '34', '35', '36', '2d', '2a', '2e'],
                             function initVideo(context, url) {
                                 context.querySelector('#player-container').innerHTML = '<video class="video-player" src="' + url + '" preload="metadata"></video>';
                                 var player = plyr.setup(context.querySelector('.video-player'))[0];
-                                SVGFixer.fixSVGRefs();
+                                player.on('ready', function () {
+                                    SVGFixer.fixSVGRefs();
+                                });
                                 return player;
                             }
                         }
@@ -4681,6 +4676,12 @@ $__System.register('15', ['29', '2d', '2a', '3d', '2e'], function (_export, _con
                     key: 'beforeRegister',
                     value: function beforeRegister() {
                         this.is = 'prendus-course-homepage';
+                        this.properties = {
+                            tags: {
+                                type: String,
+                                observer: 'updateTags'
+                            }
+                        };
                     }
                 }, {
                     key: 'ready',
@@ -4718,6 +4719,12 @@ $__System.register('15', ['29', '2d', '2a', '3d', '2e'], function (_export, _con
                                 }
                             }, _callee, this, [[0, 9]]);
                         }));
+                    }
+                }, {
+                    key: 'updateTags',
+                    value: function updateTags(e) {
+                        console.log('updating tags', e);
+                        console.log('updating tags tags value', this.tags);
                     }
                 }, {
                     key: 'addCourse',
@@ -5257,9 +5264,7 @@ $__System.register('12', ['29', '2d', '2a', '3d'], function (_export, _context3)
 
             _export('PrendusCourseView', PrendusCourseView);
 
-            addEventListener('WebComponentsReady', function () {
-                Polymer(PrendusCourseView);
-            });
+            Polymer(PrendusCourseView);
         }
     };
 });
@@ -5385,9 +5390,7 @@ $__System.register('11', ['29', '2d', '2a', '3d'], function (_export, _context2)
                 return PrendusCreateAccount;
             }();
 
-            addEventListener('WebComponentsReady', function () {
-                Polymer(PrendusCreateAccount);
-            });
+            Polymer(PrendusCreateAccount);
         }
     };
 });
@@ -5474,9 +5477,7 @@ $__System.register('10', ['29', '2d', '2a'], function (_export, _context2) {
                 return PrendusEditQuestionRouter;
             }();
 
-            addEventListener('WebComponentsReady', function () {
-                Polymer(PrendusEditQuestionRouter);
-            });
+            Polymer(PrendusEditQuestionRouter);
         }
     };
 });
@@ -5578,9 +5579,7 @@ $__System.register('f', ['29', '2d', '2a'], function (_export, _context2) {
                 return PrendusEditQuizRouter;
             }();
 
-            addEventListener('WebComponentsReady', function () {
-                Polymer(PrendusEditQuizRouter);
-            });
+            Polymer(PrendusEditQuizRouter);
         }
     };
 });
@@ -5617,9 +5616,7 @@ $__System.register('e', ['29', '2a'], function (_export, _context) {
                 return PrendusExample;
             }();
 
-            addEventListener('WebComponentsReady', function () {
-                Polymer(PrendusExample);
-            });
+            Polymer(PrendusExample);
         }
     };
 });
@@ -5657,9 +5654,7 @@ $__System.register('d', ['29', '2a'], function (_export, _context) {
                 return PrendusFooter;
             }();
 
-            addEventListener('WebComponentsReady', function () {
-                Polymer(PrendusFooter);
-            });
+            Polymer(PrendusFooter);
         }
     };
 });
@@ -5772,9 +5767,7 @@ $__System.register('c', ['29', '2d', '2a', '3d'], function (_export, _context3) 
                 return PrendusHomepage;
             }();
 
-            addEventListener('WebComponentsReady', function () {
-                Polymer(PrendusHomepage);
-            });
+            Polymer(PrendusHomepage);
         }
     };
 });
@@ -5896,9 +5889,7 @@ $__System.register('b', ['29', '2d', '2a', '3d', '2e'], function (_export, _cont
                 return PrendusLogin;
             }();
 
-            addEventListener('WebComponentsReady', function () {
-                Polymer(PrendusLogin);
-            });
+            Polymer(PrendusLogin);
         }
     };
 });
@@ -5971,9 +5962,7 @@ $__System.register('a', ['29', '2a', '3d'], function (_export, _context) {
 
             _export('PrendusNavbar', PrendusNavbar);
 
-            addEventListener('WebComponentsReady', function () {
-                Polymer(PrendusNavbar);
-            });
+            Polymer(PrendusNavbar);
         }
     };
 });
@@ -6039,9 +6028,7 @@ $__System.register('9', ['29', '2a'], function (_export, _context) {
                 return PrendusNotification;
             }();
 
-            addEventListener('WebComponentsReady', function () {
-                Polymer(PrendusNotification);
-            });
+            Polymer(PrendusNotification);
         }
     };
 });
@@ -6072,9 +6059,7 @@ $__System.register('8', ['29', '2a'], function (_export, _context) {
                 return PrendusExample;
             }();
 
-            addEventListener('WebComponentsReady', function () {
-                Polymer(PrendusExample);
-            });
+            Polymer(PrendusExample);
         }
     };
 });
@@ -6254,9 +6239,7 @@ $__System.register('7', ['29', '2d', '2a', '3d'], function (_export, _context3) 
 
             _export('PrendusProfile', PrendusProfile);
 
-            addEventListener('WebComponentsReady', function () {
-                Polymer(PrendusProfile);
-            });
+            Polymer(PrendusProfile);
         }
     };
 });
@@ -14144,9 +14127,7 @@ $__System.register('6', ['29', '32', '2d', '2a', '3d', '2e'], function (_export,
                 return PrendusQuizEditor;
             }();
 
-            addEventListener('WebComponentsReady', function () {
-                Polymer(PrendusQuizEditor);
-            });
+            Polymer(PrendusQuizEditor);
         }
     };
 });
@@ -14183,9 +14164,7 @@ $__System.register("5", ["29", "2a"], function (_export, _context) {
                 return PrendusRouter;
             }();
 
-            addEventListener('WebComponentsReady', function () {
-                Polymer(PrendusRouter);
-            });
+            Polymer(PrendusRouter);
         }
     };
 });
@@ -14216,9 +14195,7 @@ $__System.register('4', ['29', '2a'], function (_export, _context) {
                 return PrendusTermsOfService;
             }();
 
-            addEventListener('WebComponentsReady', function () {
-                Polymer(PrendusTermsOfService);
-            });
+            Polymer(PrendusTermsOfService);
         }
     };
 });
@@ -14306,9 +14283,7 @@ $__System.register('3', ['29', '2a'], function (_export, _context) {
 
             _export('PrendusVideoEditor', PrendusVideoEditor);
 
-            addEventListener('WebComponentsReady', function () {
-                Polymer(PrendusVideoEditor);
-            });
+            Polymer(PrendusVideoEditor);
         }
     };
 });
@@ -14347,9 +14322,7 @@ $__System.register('2', ['29', '2a'], function (_export, _context) {
                 return PrendusViewQuizRouter;
             }();
 
-            addEventListener('WebComponentsReady', function () {
-                Polymer(PrendusViewQuizRouter);
-            });
+            Polymer(PrendusViewQuizRouter);
         }
     };
 });
@@ -14427,9 +14400,7 @@ $__System.register('1', ['29', '2a'], function (_export, _context) {
                 return PrendusViewVideoRouter;
             }();
 
-            addEventListener('WebComponentsReady', function () {
-                Polymer(PrendusViewVideoRouter);
-            });
+            Polymer(PrendusViewVideoRouter);
         }
     };
 });
