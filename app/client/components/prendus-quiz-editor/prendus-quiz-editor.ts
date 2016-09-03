@@ -92,23 +92,31 @@ class PrendusQuizEditor {
     }
 
     createQuestion(e) {
+        Actions.showMainSpinner(this);
+
         window.history.pushState({}, '', `courses/edit-question/question`);
         this.fire('location-changed', {}, {node: window});
 
         //TODO this is evil, make sure to remove it once edit problem component can reload itself in response to property changes
+        //TODO all of this is evil. We are just mutating the component's state not explicitly
         const editProblemComponent = document.getElementById('editProblemComponent');
+        editProblemComponent.questionId = undefined;
         editProblemComponent.originalText = '';
         editProblemComponent.originalCode = '';
+        editProblemComponent.init();
         //TODO this is evil, make sure to remove it once edit problem component can reload itself in response to property changes
     }
 
     editQuestion(e) {
+        Actions.showMainSpinner(this);
+
         const questionId = e.model.item;
 
         window.history.pushState({}, '', `courses/edit-question/question/${questionId}`);
         this.fire('location-changed', {}, {node: window});
 
         //TODO this is evil, make sure to remove it once edit problem component can reload itself in response to property changes
+        //TODO all of this is evil. We are just mutating the component's state not explicitly
         const editProblemComponent = document.getElementById('editProblemComponent');
         editProblemComponent.initialLoad = false;
         editProblemComponent.init();
@@ -189,7 +197,7 @@ class PrendusQuizEditor {
     async titleChanged(e) {
         const value = e.target.value;
         await Actions.updateQuizTitle(this.quizId, value);
-        await Actions.loadConceptQuizzes(this, this.conceptId);
+        await Actions.loadEditConceptQuizzes(this, this.conceptId);
     }
 
     async applySettings(settingName: string, value: number | boolean) {

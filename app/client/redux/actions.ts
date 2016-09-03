@@ -44,7 +44,8 @@ const loadCourseCollaboratorEmails = async (context: any, uid: string, courseId:
             context.action = {
                 type: 'SET_COURSE_COLLABORATOR_EMAILS',
                 emails,
-                uid
+                uid,
+                courseId
             };
 
             const conceptIds = await CourseModel.getConceptIds(courseId);
@@ -77,7 +78,8 @@ const loadConceptCollaboratorEmails = async (context: any, courseId: string, con
             context.action = {
                 type: 'SET_CONCEPT_COLLABORATOR_EMAILS',
                 emails,
-                courseId
+                courseId,
+                conceptId
             };
 
             const videoIds = await ConceptModel.getVideoIds(conceptId);
@@ -115,7 +117,8 @@ const loadVideoCollaboratorEmails = async (context: any, conceptId: string, vide
             context.action = {
                 type: 'SET_VIDEO_COLLABORATOR_EMAILS',
                 emails,
-                conceptId
+                conceptId,
+                videoId
             };
         }
         catch(error) {
@@ -143,7 +146,8 @@ const loadQuizCollaboratorEmails = async (context: any, conceptId: string, quizI
             context.action = {
                 type: 'SET_QUIZ_COLLABORATOR_EMAILS',
                 emails,
-                conceptId
+                conceptId,
+                quizId
             };
         }
         catch(error) {
@@ -153,127 +157,191 @@ const loadQuizCollaboratorEmails = async (context: any, conceptId: string, quizI
 };
 
 const addCourseCollaborator = async (context: any, courseId: string, email: string) => {
-    try {
-        const uid = await EmailsToUidsModel.getUidByEmail(email);
 
-        if (!uid) {
-            throw 'The user does not exist';
+    ExecuteAsyncInOrder.execute(operation);
+
+    async function operation() {
+        try {
+            const user = await FirebaseService.getLoggedInUser();
+
+            await FirebaseService.set(`security/${user.uid}/emailToUidSecurityInfo/encodedEmail`, btoa(email));
+            const uid = await EmailsToUidsModel.getUidByEmail(email);
+
+            if (!uid) {
+                throw 'The user does not exist';
+            }
+
+            await CourseModel.associateCollaborator(courseId, uid);
+            await UserModel.shareCourseWithMe(uid, courseId);
         }
-
-        await CourseModel.associateCollaborator(courseId, uid);
-        await UserModel.shareCourseWithMe(uid, courseId);
-    }
-    catch(error) {
-        throw error;
+        catch(error) {
+            throw error;
+        }
     }
 };
 
 const addConceptCollaborator = async (context: any, conceptId: string, email: string) => {
-    try {
-        const uid = await EmailsToUidsModel.getUidByEmail(email);
 
-        if (!uid) {
-            throw 'The user does not exist';
+    ExecuteAsyncInOrder.execute(operation);
+
+    async function operation() {
+        try {
+            const user = await FirebaseService.getLoggedInUser();
+
+            await FirebaseService.set(`security/${user.uid}/emailToUidSecurityInfo/encodedEmail`, btoa(email));
+            const uid = await EmailsToUidsModel.getUidByEmail(email);
+
+            if (!uid) {
+                throw 'The user does not exist';
+            }
+
+            await ConceptModel.associateCollaborator(conceptId, uid);
+            await UserModel.shareConceptWithMe(uid, conceptId);
         }
-
-        await ConceptModel.associateCollaborator(conceptId, uid);
-        await UserModel.shareConceptWithMe(uid, conceptId);
-    }
-    catch(error) {
-        throw error;
+        catch(error) {
+            throw error;
+        }
     }
 };
 
 const addVideoCollaborator = async (context: any, videoId: string, email: string) => {
-    try {
-        const uid = await EmailsToUidsModel.getUidByEmail(email);
 
-        if (!uid) {
-            throw 'The user does not exist';
+    ExecuteAsyncInOrder.execute(operation);
+
+    async function operation() {
+        try {
+            const user = await FirebaseService.getLoggedInUser();
+
+            await FirebaseService.set(`security/${user.uid}/emailToUidSecurityInfo/encodedEmail`, btoa(email));
+            const uid = await EmailsToUidsModel.getUidByEmail(email);
+
+            if (!uid) {
+                throw 'The user does not exist';
+            }
+
+            await VideoModel.associateCollaborator(videoId, uid);
+            await UserModel.shareVideoWithMe(uid, videoId);
         }
-
-        await VideoModel.associateCollaborator(videoId, uid);
-        await UserModel.shareVideoWithMe(uid, videoId);
-    }
-    catch(error) {
-        throw error;
+        catch(error) {
+            throw error;
+        }
     }
 };
 
 const addQuizCollaborator = async (context: any, quizId: string, email: string) => {
-    try {
-        const uid = await EmailsToUidsModel.getUidByEmail(email);
 
-        if (!uid) {
-            throw 'The user does not exist';
+    ExecuteAsyncInOrder.execute(operation);
+
+    async function operation() {
+        try {
+            const user = await FirebaseService.getLoggedInUser();
+
+            await FirebaseService.set(`security/${user.uid}/emailToUidSecurityInfo/encodedEmail`, btoa(email));
+            const uid = await EmailsToUidsModel.getUidByEmail(email);
+
+            if (!uid) {
+                throw 'The user does not exist';
+            }
+
+            await QuizModel.associateCollaborator(quizId, uid);
+            await UserModel.shareQuizWithMe(uid, quizId);
         }
-
-        await QuizModel.associateCollaborator(quizId, uid);
-        await UserModel.shareQuizWithMe(uid, quizId);
-    }
-    catch(error) {
-        throw error;
+        catch(error) {
+            throw error;
+        }
     }
 };
 
 const removeCourseCollaborator = async (context: any, courseId: string, email: string) => {
-    try {
-        const uid = await EmailsToUidsModel.getUidByEmail(email);
 
-        if (!uid) {
-            throw 'The user does not exist';
+    ExecuteAsyncInOrder.execute(operation);
+
+    async function operation() {
+        try {
+            const user = await FirebaseService.getLoggedInUser();
+
+            await FirebaseService.set(`security/${user.uid}/emailToUidSecurityInfo/encodedEmail`, btoa(email));
+            const uid = await EmailsToUidsModel.getUidByEmail(email);
+
+            if (!uid) {
+                throw 'The user does not exist';
+            }
+
+            await CourseModel.disassociateCollaborator(courseId, uid);
+            await UserModel.unshareCourseWithMe(uid, courseId);
         }
-
-        await CourseModel.disassociateCollaborator(courseId, uid);
-        await UserModel.unshareCourseWithMe(uid, courseId);
-    }
-    catch(error) {
-        throw error;
+        catch(error) {
+            throw error;
+        }
     }
 };
 
 const removeConceptCollaborator = async (context: any, conceptId: string, email: string) => {
-    try {
-        const uid = await EmailsToUidsModel.getUidByEmail(email);
 
-        if (!uid) {
-            throw 'The user does not exist';
+    ExecuteAsyncInOrder.execute(operation);
+
+    async function operation() {
+        try {
+            const user = await FirebaseService.getLoggedInUser();
+
+            await FirebaseService.set(`security/${user.uid}/emailToUidSecurityInfo/encodedEmail`, btoa(email));
+            const uid = await EmailsToUidsModel.getUidByEmail(email);
+
+            if (!uid) {
+                throw 'The user does not exist';
+            }
+
+            await ConceptModel.disassociateCollaborator(conceptId, uid);
         }
-
-        await ConceptModel.disassociateCollaborator(conceptId, uid);
-    }
-    catch(error) {
-        throw error;
+        catch(error) {
+            throw error;
+        }
     }
 };
 
 const removeVideoCollaborator = async (context: any, videoId: string, email: string) => {
-    try {
-        const uid = await EmailsToUidsModel.getUidByEmail(email);
 
-        if (!uid) {
-            throw 'The user does not exist';
+    ExecuteAsyncInOrder.execute(operation);
+
+    async function operation() {
+        try {
+            const user = await FirebaseService.getLoggedInUser();
+
+            await FirebaseService.set(`security/${user.uid}/emailToUidSecurityInfo/encodedEmail`, btoa(email));
+            const uid = await EmailsToUidsModel.getUidByEmail(email);
+
+            if (!uid) {
+                throw 'The user does not exist';
+            }
+
+            await VideoModel.disassociateCollaborator(videoId, uid);
         }
-
-        await VideoModel.disassociateCollaborator(videoId, uid);
-    }
-    catch(error) {
-        throw error;
+        catch(error) {
+            throw error;
+        }
     }
 };
 
 const removeQuizCollaborator = async (context: any, quizId: string, email: string) => {
-    try {
-        const uid = await EmailsToUidsModel.getUidByEmail(email);
 
-        if (!uid) {
-            throw 'The user does not exist';
+    ExecuteAsyncInOrder.execute(operation);
+
+    async function operation() {
+        try {
+            const user = await FirebaseService.getLoggedInUser();
+
+            await FirebaseService.set(`security/${user.uid}/emailToUidSecurityInfo/encodedEmail`, btoa(email));
+            const uid = await EmailsToUidsModel.getUidByEmail(email);
+
+            if (!uid) {
+                throw 'The user does not exist';
+            }
+
+            await QuizModel.disassociateCollaborator(quizId, uid);
         }
-
-        await QuizModel.disassociateCollaborator(quizId, uid);
-    }
-    catch(error) {
-        throw error;
+        catch(error) {
+            throw error;
+        }
     }
 };
 
@@ -324,7 +392,7 @@ const createNewQuiz = async (context: any, conceptId: string) => {
             showHint: true,
             showCode: true,
             graded: false,
-            showConfidenceLevel: true,
+            showConfidenceLevel: false,
             allowGeneration: true
         },
         questions: {},
@@ -553,11 +621,16 @@ const createUser = {
       const loggedInUser = await FirebaseService.logInUserWithEmailAndPassword(data.email, password);
       await UserModel.updateMetaData(loggedInUser.uid, data);
       await EmailsToUidsModel.setUidByEmail(data.email, loggedInUser.uid);
-      data.email = loggedInUser.email
-      context.action = {
-        type: Actions.createUser.type,
-        currentUser: data,
-      };
+
+      //TODO I'm doing this because we're about to launch and it will fix the errors we've been having with synchronizing the user after signup.
+      //This just refreshes the whole app with the user logged in. Might want to change this, seems to work well though.
+      window.location.href = '';
+
+    //   data.email = loggedInUser.email
+    //   context.action = {
+    //     type: Actions.createUser.type,
+    //     currentUser: data,
+    //   };
     }catch(error){
       throw error;
     }
@@ -568,21 +641,26 @@ const loginUser = {
     execute: async (context: any, email: string, password: string) => {
         try {
           const loggedInUser = await FirebaseService.logInUserWithEmailAndPassword(email, password);
-          let user = await UserModel.getById(loggedInUser.uid); //sets ancillary user data such as name, institution, etc.
-          user.metaData.uid = loggedInUser.uid;
-          const courses = await CourseModel.getCoursesByUser(loggedInUser.uid);
+          //let user = await UserModel.getById(loggedInUser.uid); //sets ancillary user data such as name, institution, etc.
+          //user.metaData.uid = loggedInUser.uid;
+          //const courses = await CourseModel.getCoursesByUser(loggedInUser.uid);
           //need to go here so that user info loads when a user logs in. If not, starred courses and shared courses don't appear once they
-          const starredCourseIds = await UserModel.getStarredCoursesIds(loggedInUser.uid);
-          const starredCourses = await CourseModel.resolveCourseIds(starredCourseIds);
-          const sharedCourseIds = await UserModel.getSharedWithMeCoursesIds(loggedInUser.uid);
-          const sharedCourses = await CourseModel.resolveCourseIds(sharedCourseIds);
-          context.action = {
-            type: Actions.loginUser.type,
-            courses: courses,
-            starredCourses: starredCourses,
-            sharedCourses: sharedCourses,
-            user
-          };
+          //const starredCourseIds = await UserModel.getStarredCoursesIds(loggedInUser.uid);
+          //const starredCourses = await CourseModel.resolveCourseIds(starredCourseIds);
+          //const sharedCourseIds = await UserModel.getSharedWithMeCoursesIds(loggedInUser.uid);
+          //const sharedCourses = await CourseModel.resolveCourseIds(sharedCourseIds);
+
+          //TODO I'm doing this because we're about to launch and it will fix the errors we've been having with synchronizing the user after signup.
+          //This just refreshes the whole app with the user logged in. Might want to change this, seems to work well though.
+          window.location.href = '';
+
+        //   context.action = {
+        //     type: Actions.loginUser.type,
+        //     courses: courses,
+        //     starredCourses: starredCourses,
+        //     sharedCourses: sharedCourses,
+        //     user
+        //   };
         }catch(error){
           throw error;
         }
@@ -677,7 +755,11 @@ const addCourse = {
   type: 'ADD_COURSE',
   execute: async (context: any, newCourse: Course) => {
       try {
+        const user = await FirebaseService.getLoggedInUser();
+
         const courseId = await CourseModel.createOrUpdate(null, newCourse);
+        await addCourseCollaborator(context, courseId, user.email);
+
         const courses = await CourseModel.getCoursesByUser(newCourse.uid);
         context.action = {
             type: Actions.addCourse.type,
@@ -826,9 +908,14 @@ const logOutUser = {
   type: 'LOGOUT_USER',
   execute: async (context: any) => {
     await FirebaseService.logOutUser();
-    context.action = {
-      type: Actions.logOutUser.type,
-    }
+
+    //TODO I'm doing this because we're about to launch and it will fix the errors we've been having with synchronizing the user after signup.
+    //This just refreshes the whole app with the user logged in. Might want to change this, seems to work well though.
+    window.location.href = '';
+
+  //   context.action = {
+  //     type: Actions.logOutUser.type,
+  // };
   }
 };
 
