@@ -1,4 +1,4 @@
-import {FirebaseService} from '../../node_modules/prendus-services/services/firebase.service.ts';
+import {Actions} from '../../redux/actions.ts';
 
 class PrendusEditQuestionRouter {
     public is: string;
@@ -6,6 +6,10 @@ class PrendusEditQuestionRouter {
 
     beforeRegister() {
         this.is = 'prendus-edit-question-router';
+    }
+
+    editProblemComponentLoaded(e) {
+        Actions.hideMainSpinner(this);
     }
 
     mapStateToThis(e) {

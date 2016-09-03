@@ -153,19 +153,19 @@ class PrendusCollaboratorMenuContent {
         const state = e.detail.state;
 
         if (this.uid && this.courseId) {
-            this.collaboratorEmails = state.courseCollaboratorEmails[this.uid];
+            this.collaboratorEmails = state.courseCollaboratorEmails[this.uid] && state.courseCollaboratorEmails[this.uid][this.courseId];
         }
 
         if (this.courseId && this.conceptId) {
-            this.collaboratorEmails = state.conceptCollaboratorEmails[this.courseId];
+            this.collaboratorEmails = state.conceptCollaboratorEmails[this.courseId] && state.conceptCollaboratorEmails[this.courseId][this.conceptId];
         }
 
         if (this.conceptId && this.videoId) {
-            this.collaboratorEmails = state.videoCollaboratorEmails[this.conceptId];
+            this.collaboratorEmails = state.videoCollaboratorEmails[this.conceptId] && state.videoCollaboratorEmails[this.conceptId][this.videoId];
         }
 
         if (this.conceptId && this.quizId) {
-            this.collaboratorEmails = state.quizCollaboratorEmails[this.conceptId];
+            this.collaboratorEmails = state.quizCollaboratorEmails[this.conceptId] && state.quizCollaboratorEmails[this.conceptId][this.quizId];
         }
     }
 }

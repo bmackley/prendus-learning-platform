@@ -39,16 +39,24 @@ export interface State {
     currentEditConceptId: '';
     jwt: string;
     courseCollaboratorEmails: {
-        [uid: string]: string[];
+        [uid: string]: {
+            [courseId: string]: string[];
+        };
     };
     conceptCollaboratorEmails: {
-        [courseId: string]: string[];
+        [courseId: string]: {
+            [conceptId: string]: string[];
+        };
     };
     videoCollaboratorEmails: {
-        [conceptId: string]: string[];
+        [conceptId: string]: {
+            [videoId: string]: string[];
+        };
     };
     quizCollaboratorEmails: {
-        [conceptId: string]: string[];
+        [conceptId: string]: {
+            [quizId: string]: string[];
+        };
     };
     mainViewToShow: 'routes' | 'spinner';
 }

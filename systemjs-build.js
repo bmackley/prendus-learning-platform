@@ -1,4 +1,5 @@
 const Builder = require('systemjs-builder');
+const fs = require('mz/fs');
 
 const builder = new Builder();
 
@@ -41,4 +42,17 @@ builder.buildStatic(`
     (app/client/bower_components/video-viewer-component/*.ts)
     `, 'app/client/dist/prendus.js', {
     minify: false
+}).then(function() {
+    console.log('hello')
+    fs.readFile(__dirname + '/app/client/dist/prendus.js', 'utf8').then(function(fileContents) {
+        fs.writeFile(__dirname + '/app/client/dist/prendus.js', `
+            window.addEventListener('WebComponentsReady', function() {
+                ${fileContents}
+            });
+        `).catch(function(error) {
+            console.log(error);
+        });
+    }).catch(function(error) {
+        console.log(error);
+    });
 });
