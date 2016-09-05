@@ -1,10 +1,6 @@
 {
   "name": "prendus-learning-platform",
-<<<<<<< HEAD
   "version": "0.0.3",
-=======
-  "version": "0.0.2",
->>>>>>> develop
   "description": "The tool to create and upload videos and quizzes",
   "watch": {
     "build": {
