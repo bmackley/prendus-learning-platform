@@ -5,7 +5,7 @@
     "codemirror": "5.16.0",
     "jshint": "2.9.2",
     "prendus-services": "git+ssh://git@github.com/lastmjs/prendus-services.git#jordan",
-    "quill": "^1.0.0-beta.11",
+    "quill": "1.0.0-beta.11",
     "redux": "^3.5.2"
   }
 }
