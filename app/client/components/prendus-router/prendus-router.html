@@ -1,0 +1,101 @@
+<link href="../../bower_components/polymer/polymer.html" rel="import">
+
+<link rel="import" href="../../bower_components/app-route/app-route.html">
+<link rel="import" href="../../bower_components/app-route/app-location.html">
+<link rel="import" href="../../bower_components/paper-spinner/paper-spinner.html">
+<link rel="import" href="../../bower_components/iron-pages/iron-pages.html">
+<link rel="import" href="../prendus-login/prendus-login.html">
+<link rel="import" href="../prendus-create-account/prendus-create-account.html">
+<link rel="import" href="../prendus-course-router/prendus-course-router.html">
+<link rel="import" href="../prendus-homepage/prendus-homepage.html">
+<link rel="import" href="../prendus-profile/prendus-profile.html">
+<link rel="import" href="../prendus-privacy-policy/prendus-privacy-policy.html">
+<link rel="import" href="../prendus-terms-of-service/prendus-terms-of-service.html">
+
+<dom-module id="prendus-router">
+  <style>
+    /* CSS rules for your element */
+    /*.overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      background: #FFF;
+    }*/
+    #app-container{
+      display: flex;
+      flex-direction: column;
+      flex: auto;
+      margin-left: 24%;
+      margin-right: 24%;
+      margin-top: 2%;
+      position: relative;
+      height: 0%;
+    }
+    @media (max-width: 600px) {
+      #app-container{
+        margin-left: .5%;
+        margin-right: .5%;
+      }
+    }
+    @media (max-width: 800px) {
+      #app-container{
+        margin-left: 8%;
+        margin-right: 8%;
+      }
+    }
+    @media (max-width: 1200px) {
+      #app-container{
+        margin-left: 13%;
+        margin-right: 13%;
+      }
+    }
+    @media (max-width: 1500px) {
+      #app-container{
+        margin-left: 16%;
+        margin-right: 16%;
+      }
+    }
+
+    .absolute-center {
+        position: absolute;
+        z-index: 500;
+        top: 0px;
+        right: 0px;
+        left: 0px;
+        bottom: 0px;
+        margin-right: auto;
+        margin-left: auto;
+        margin-top: 250px;
+    }
+  </style>
+  <template>
+    <redux-store on-statechange="mapStateToThis" action="[[action]]"></redux-store>
+
+    <app-location route="{{route}}"></app-location>
+    <app-route route="[[route]]" pattern="/:page" data="{{pageData}}" tail="{{tail}}" active ="{{pageActive}}"></app-route>
+
+    <iron-pages selected="[[mainViewToShow]]" attr-for-selected="show">
+        <div show="spinner" style="display: flex; flex-direction: row; align-items: center; justify-content: center; margin-top: 250px">
+            <paper-spinner active></paper-spinner>
+        </div>
+
+        <iron-pages id="app-container" selected="{{pageData.page}}" category="{{pageData.page}}" attr-for-selected ="data-page" show="routes">
+          <prendus-homepage data-page=""></prendus-homepage>
+          <prendus-login data-page="login"></prendus-login>
+          <prendus-create-account data-page="signup"></prendus-create-account>
+          <prendus-course-router data-page="courses" route="[[tail]]"></prendus-course-router>
+          <prendus-profile data-page="profile"></prendus-profile>
+          <prendus-privacy-policy data-page="privacy-policy"></prendus-privacy-policy>
+          <prendus-terms-of-service data-page="terms-of-service"></prendus-terms-of-service>
+        </iron-pages>
+    </iron-pages>
+  </template>
+
+  <!--<script src="prendus-router.js"></script>-->
+</dom-module>

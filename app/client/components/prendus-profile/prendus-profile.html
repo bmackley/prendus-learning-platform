@@ -1,0 +1,69 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/iron-form/iron-form.html">
+<link rel="import" href="../../bower_components/paper-card/paper-card.html">
+<link rel="import" href="../../bower_components/paper-input/paper-input.html">
+<link rel="import" href="../../bower_components/paper-toast/paper-toast.html">
+<link rel="import" href="../../bower_components/paper-dialog/paper-dialog.html" >
+<link rel="import" href="../prendus-notification/prendus-notification.html">
+
+<dom-module id="prendus-profile">
+  <template>
+  <style>
+    :host {
+      display: block;
+    }
+    #profileFormCard, #toastTarget{
+        width: 88%;
+      }
+      @media (max-width: 1200px) {
+        #profileFormCard, #toastTarget{
+          width: 98%;
+        }
+      }
+      @media (max-width: 600px) {
+        #profileFormCard, #toastTarget{
+          width: 100%;
+        }
+      }
+      #profileFormCard {
+        --paper-toast-background-color: red;
+      }
+      paper-button.cancel:hover {
+        color: red;
+      }
+      paper-button.confirm:hover {
+        color: green;
+      }
+  </style>
+    <redux-store on-statechange="mapStateToThis" action="[[action]]"></redux-store>
+    <paper-toast id="updateProfileErrorToast" duration="5000" verticalAlign="top" text=[[updateProfileErrorToastText]]></paper-toast>
+    <paper-toast id="updateProfileSuccessToast" duration="5000" verticalAlign="top" text=[[updateProfileSuccessToastText]]></paper-toast>
+    <center>
+      <paper-card id = "profileFormCard" heading ="Update Profile">
+        <form is="iron-form" id="form" method="post" action="/form/handler">
+          <paper-input name="firstName" id="firstName" label="First Name" value="[[firstName]]"></paper-input>
+          <paper-input name="lastName" id="lastName" label="Last Name" value="[[lastName]]"></paper-input>
+          <paper-input name="Intitution" id="institution" label="Institution (school)" value="[[institution]]"></paper-input>
+          <paper-input name="Email" id="updateEmail" label="Email" required value="[[email]]"></paper-input>
+          <paper-button raised on-tap="changeProfile">Submit</paper-button>
+        </form>
+      </paper-card>
+      <center><div id="toastTarget" style = "height: 70px;"></div></center>
+    </center>
+    <prendus-notification error-message="[[errorMessage]]"></prendus-notification>
+    <prendus-notification success-message="[[successMessage]]"></prendus-notification>
+    <paper-dialog id="confirmEmailChange" modal on-iron-overlay-closed="closeOverlay">
+    <h2>Password Verification</h2>
+    <paper-dialog-scrollable>
+      You are changing your email. Your account password is needed to perform this function.
+      <paper-input type= "password" name="password" id="changeEmailPassword" label="Password"></paper-input>
+    </paper-dialog-scrollable>
+    <div class="buttons">
+      <paper-button class="cancel" dialog-dismiss>Cancel</paper-button>
+      <paper-button class = "confirm" dialog-confirm>Continue</paper-button>
+    </div>
+  </paper-dialog>
+  </template>
+
+  <!--<script src="prendus-profile.js"></script>-->
+</dom-module>

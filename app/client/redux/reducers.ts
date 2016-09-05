@@ -1,11 +1,111 @@
 import {InitialState} from './initial-state.ts';
 import {Actions} from './actions.ts';
+import {State} from '../interfaces/state.interface.ts';
+import {Action} from '../interfaces/action.interface.ts';
 
-export function rootReducer(state = InitialState, action) {
+export function rootReducer(state: State = InitialState, action: Action): State {
     switch(action.type) {
-        case 'LOAD_CONCEPT_QUIZZES': {
+        case 'SHOW_MAIN_SPINNER': {
             const newState = Object.assign({}, state);
-            newState.conceptQuizzes[action.conceptId] = action.quizzes;
+
+            newState.mainViewToShow = 'spinner';
+
+            return newState;
+        }
+        case 'HIDE_MAIN_SPINNER': {
+            const newState = Object.assign({}, state);
+
+            newState.mainViewToShow = 'routes';
+
+            return newState;
+        }
+        case 'SET_COURSE_COLLABORATOR_EMAILS': {
+            const newState = Object.assign({}, state);
+
+            if (newState.courseCollaboratorEmails[action.uid]) {
+                newState.courseCollaboratorEmails[action.uid][action.courseId] = action.emails;
+            }
+            else {
+                newState.courseCollaboratorEmails[action.uid] = {
+                    [action.courseId]: action.emails
+                };
+            }
+
+            return newState;
+        }
+        case 'SET_CONCEPT_COLLABORATOR_EMAILS': {
+            const newState = Object.assign({}, state);
+
+            if (newState.conceptCollaboratorEmails[action.courseId]) {
+                newState.conceptCollaboratorEmails[action.courseId][action.conceptId] = action.emails;
+            }
+            else {
+                newState.conceptCollaboratorEmails[action.courseId] = {
+                    [action.conceptId]: action.emails
+                };
+            }
+
+            return newState;
+        }
+        case 'SET_VIDEO_COLLABORATOR_EMAILS': {
+            const newState = Object.assign({}, state);
+
+            if (newState.videoCollaboratorEmails[action.conceptId]) {
+                newState.videoCollaboratorEmails[action.conceptId][action.videoId] = action.emails;
+            }
+            else {
+                newState.videoCollaboratorEmails[action.conceptId] = {
+                    [action.videoId]: action.emails
+                };
+            }
+
+            return newState;
+        }
+        case 'SET_QUIZ_COLLABORATOR_EMAILS': {
+            const newState = Object.assign({}, state);
+
+            if (newState.quizCollaboratorEmails[action.conceptId]) {
+                newState.quizCollaboratorEmails[action.conceptId][action.quizId] = action.emails;
+            }
+            else {
+                newState.quizCollaboratorEmails[action.conceptId] = {
+                    [action.quizId]: action.emails
+                };
+            }
+
+            return newState;
+        }
+        case 'SET_SHARED_COURSES': {
+            const newState = Object.assign({}, state);
+
+            newState.sharedCourses = action.courses;
+
+            return newState;
+        }
+        case 'SET_STARRED_COURSES': {
+            const newState = Object.assign({}, state);
+
+            newState.starredCourses = action.courses;
+
+            return newState;
+        }
+        case 'SET_COURSES_BY_VISIBILITY': {
+            const newState = Object.assign({}, state);
+
+            if (action.visibility === 'public') {
+                newState.publicCourses = action.courses;
+            }
+
+            return newState;
+        }
+        case 'LOAD_EDIT_CONCEPT_QUIZZES': {
+            const newState = Object.assign({}, state);
+            newState.editConceptQuizzes[action.conceptId] = action.quizzes;
+            return newState;
+        }
+        case 'LOAD_VIEW_CONCEPT_QUIZZES': {
+            const newState = Object.assign({}, state);
+            newState.viewConceptQuizzes[action.conceptId] = action.quizzes;
             return newState;
         }
         case 'SET_CURRENT_EDIT_QUIZ_ID': {
@@ -40,35 +140,19 @@ export function rootReducer(state = InitialState, action) {
       }
       case Actions.loginUser.type: {
           const newState = Object.assign({}, state);
-          newState.currentUser = action.currentUser;
+          newState.currentUser = action.user;
+          newState.courses = action.courses;
+          newState.starredCourses = action.starredCourses;
+          newState.sharedCourses = action.sharedCourses;
           return newState;
       }
       case Actions.checkUserAuth.type: {
         const newState = Object.assign({}, state);
-        newState.currentUser = action.currentUser;
+        newState.currentUser = action.user;
+        newState.jwt = action.jwt;
         return newState;
       }
-      // case Actions.addConcept.type: {
-      //   const newState = Object.assign({}, state);
-      //   newState.concepts[action.key] = action;
-      //   newState.courseConcepts = [...newState.courseConcepts, action.key];
-      //   // newState.newConcept = newState.concepts[action.key];
-      //   return newState;
-      // }
-      case Actions.setConcepts.type: {
-        const newState = Object.assign({}, state);
-        newState.concepts = {
-          title: action.title,
-        };
-        return newState;
-      }
-      // case Actions.getConcepts.type: {
-      //   const newState = Object.assign({}, state);
-      //   newState.currentConcept = action.concept;
-      //   return newState;
-      // }
       case 'GET_CONCEPT_BY_ID': {
-        console.log('reducers get concept by id')
         const newState = Object.assign({}, state);
         newState.currentConcept = action.concept;
         return newState;
@@ -80,8 +164,9 @@ export function rootReducer(state = InitialState, action) {
         return newState;
       }
       case Actions.logOutUser.type: {
-        const newState = Object.assign({}, state);
-        newState.currentUser = {uid: '', username: '', permissions: ''};
+        let newState = Object.assign({}, state);
+        newState = InitialState;
+        // newState.currentUser.metaData = {email: '', firstName: '', lastName: '', uid: ''};
         return newState;
       }
       case Actions.updateUserMetaData.type: {
@@ -90,9 +175,24 @@ export function rootReducer(state = InitialState, action) {
         newState.currentUser = newUser;
         return newState;
       }
-      case 'LOAD_CONCEPT_VIDEOS': {
+      case 'LOAD_EDIT_CONCEPT_VIDEOS': {
           const newState = Object.assign({}, state);
-          newState.conceptVideos[action.conceptId] = action.videos;
+          newState.editConceptVideos[action.conceptId] = action.videos;
+          return newState;
+      }
+      case 'LOAD_VIEW_CONCEPT_VIDEOS': {
+          const newState = Object.assign({}, state);
+          newState.viewConceptVideos[action.conceptId] = action.videos;
+          return newState;
+      }
+      case 'LOAD_EDIT_COURSE_CONCEPTS': {
+          const newState = Object.assign({}, state);
+          newState.editCourseConcepts[action.courseId] = action.concepts;
+          return newState;
+      }
+      case 'LOAD_VIEW_COURSE_CONCEPTS': {
+          const newState = Object.assign({}, state);
+          newState.viewCourseConcepts[action.courseId] = action.concepts;
           return newState;
       }
       case 'SET_CURRENT_VIDEO_INFO': {
@@ -117,25 +217,26 @@ export function rootReducer(state = InitialState, action) {
       case 'GET_COURSES_BY_USER': {
         const newState = Object.assign({}, state);
         newState.courses = action.courses;
-        //newState.currentConceptVideoId = action.newCourse;
         return newState;
       }
-      case 'GET_COURSE_BY_ID': {
+      case 'SET_COURSE_VIEW_CURRENT_COURSE': {
         const newState = Object.assign({}, state);
-        newState.currentCourse = action.currentCourse;
-        newState.courseConcepts = action.currentCourse.concepts;
-        //newState.currentConceptVideoId = action.newCourse;
+        newState.courseViewCurrentCourse = action.currentCourse;
+        return newState;
+      }
+      case 'SET_COURSE_EDIT_CURRENT_COURSE': {
+        const newState = Object.assign({}, state);
+        newState.courseEditCurrentCourse = action.currentCourse;
         return newState;
       }
       case 'ADD_COURSE': {
         const newState = Object.assign({}, state);
-        newState.courses = [...newState.courses, action.newCourse];
+        newState.courses = action.courses;
         return newState;
       }
       case Actions.addConcept.type: {
         const newState = Object.assign({}, state);
         newState.currentCourse = action.currentCourse;
-        newState.courseConcepts = action.currentCourse.concepts;
         return newState;
       }
       default: {
