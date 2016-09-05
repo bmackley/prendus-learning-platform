@@ -1,11 +1,371 @@
 import {FirebaseService} from '../node_modules/prendus-services/services/firebase.service.ts';
-import {CourseModel} from '../models/course.model.ts';
-import {ConceptModel} from '../models/concept.model.ts';
+import {CourseModel} from '../node_modules/prendus-services/models/course.model.ts';
+import {ConceptModel} from '../node_modules/prendus-services/models/concept.model.ts';
+import {CourseConceptData} from '../node_modules/prendus-services/interfaces/course-concept-data.interface.ts';
 import {UserModel} from '../node_modules/prendus-services/models/user.model.ts';
 import {VideoModel} from '../node_modules/prendus-services/models/video.model.ts';
 import {QuizModel} from '../node_modules/prendus-services/models/quiz.model.ts';
 import {Course} from '../node_modules/prendus-services/interfaces/course.interface.ts';
+import {Concept} from '../node_modules/prendus-services/interfaces/concept.interface.ts';
 import {QuestionSettings} from '../node_modules/prendus-services/interfaces/question-settings.interface.ts';
+import {CourseVisibility} from '../node_modules/prendus-services/interfaces/course-visibility.type.ts';
+import {UserMetaData} from '../node_modules/prendus-services/interfaces/user-meta-data.interface.ts';
+import {User} from '../node_modules/prendus-services/interfaces/user.interface.ts';
+import {EmailsToUidsModel} from '../node_modules/prendus-services/models/emails-to-uids.model.ts';
+import {Video} from '../node_modules/prendus-services/interfaces/video.interface.ts';
+import {ExecuteAsyncInOrder} from '../node_modules/prendus-services/services/execute-async-in-order.ts';
+
+const showMainSpinner = (context: any) => {
+    context.action = {
+        type: 'SHOW_MAIN_SPINNER'
+    };
+};
+
+const hideMainSpinner = (context: any) => {
+    context.action = {
+        type: 'HIDE_MAIN_SPINNER'
+    };
+};
+
+const loadCourseCollaboratorEmails = async (context: any, uid: string, courseId: string) => {
+
+    ExecuteAsyncInOrder.execute(operation);
+
+    async function operation() {
+        try {
+            const uids = await CourseModel.getCollaboratorUids(courseId);
+
+            await FirebaseService.set(`security/${uid}/collaboratorSecurityInfo`, {
+                collection: CourseModel.dataPath,
+                id: courseId
+            });
+            const emails = await UserModel.getEmailsByIds(uids);
+
+            context.action = {
+                type: 'SET_COURSE_COLLABORATOR_EMAILS',
+                emails,
+                uid,
+                courseId
+            };
+
+            const conceptIds = await CourseModel.getConceptIds(courseId);
+            conceptIds.forEach((conceptId) => {
+                loadConceptCollaboratorEmails(context, courseId, conceptId);
+            });
+        }
+        catch(error) {
+            throw error;
+        }
+    }
+};
+
+const loadConceptCollaboratorEmails = async (context: any, courseId: string, conceptId: string) => {
+
+    ExecuteAsyncInOrder.execute(operation);
+
+    async function operation() {
+        try {
+            const user = await FirebaseService.getLoggedInUser();
+
+            const uids = await ConceptModel.getCollaboratorUids(conceptId);
+
+            await FirebaseService.set(`security/${user.uid}/collaboratorSecurityInfo`, {
+                collection: ConceptModel.dataPath,
+                id: conceptId
+            });
+            const emails = await UserModel.getEmailsByIds(uids);
+
+            context.action = {
+                type: 'SET_CONCEPT_COLLABORATOR_EMAILS',
+                emails,
+                courseId,
+                conceptId
+            };
+
+            const videoIds = await ConceptModel.getVideoIds(conceptId);
+            videoIds.forEach((videoId) => {
+                loadVideoCollaboratorEmails(context, conceptId, videoId);
+            });
+
+            const quizIds = await ConceptModel.getQuizIds(conceptId);
+            quizIds.forEach((quizId) => {
+                loadQuizCollaboratorEmails(context, conceptId, quizId);
+            });
+        }
+        catch(error) {
+            throw error;
+        }
+    }
+};
+
+const loadVideoCollaboratorEmails = async (context: any, conceptId: string, videoId: string) => {
+
+    ExecuteAsyncInOrder.execute(operation);
+
+    async function operation() {
+        try {
+            const user = await FirebaseService.getLoggedInUser();
+
+            const uids = await VideoModel.getCollaboratorUids(videoId);
+
+            await FirebaseService.set(`security/${user.uid}/collaboratorSecurityInfo`, {
+                collection: VideoModel.dataPath,
+                id: videoId
+            });
+            const emails = await UserModel.getEmailsByIds(uids);
+
+            context.action = {
+                type: 'SET_VIDEO_COLLABORATOR_EMAILS',
+                emails,
+                conceptId,
+                videoId
+            };
+        }
+        catch(error) {
+            throw error;
+        }
+    }
+};
+
+const loadQuizCollaboratorEmails = async (context: any, conceptId: string, quizId: string) => {
+
+    ExecuteAsyncInOrder.execute(operation);
+
+    async function operation() {
+        try {
+            const user = await FirebaseService.getLoggedInUser();
+
+            const uids = await QuizModel.getCollaboratorUids(quizId);
+
+            await FirebaseService.set(`security/${user.uid}/collaboratorSecurityInfo`, {
+                collection: QuizModel.dataPath,
+                id: quizId
+            });
+            const emails = await UserModel.getEmailsByIds(uids);
+
+            context.action = {
+                type: 'SET_QUIZ_COLLABORATOR_EMAILS',
+                emails,
+                conceptId,
+                quizId
+            };
+        }
+        catch(error) {
+            throw error;
+        }
+    }
+};
+
+const addCourseCollaborator = async (context: any, courseId: string, email: string) => {
+
+    ExecuteAsyncInOrder.execute(operation);
+
+    async function operation() {
+        try {
+            const user = await FirebaseService.getLoggedInUser();
+
+            await FirebaseService.set(`security/${user.uid}/emailToUidSecurityInfo/encodedEmail`, btoa(email));
+            const uid = await EmailsToUidsModel.getUidByEmail(email);
+
+            if (!uid) {
+                throw 'The user does not exist';
+            }
+
+            await CourseModel.associateCollaborator(courseId, uid);
+            await UserModel.shareCourseWithMe(uid, courseId);
+        }
+        catch(error) {
+            throw error;
+        }
+    }
+};
+
+const addConceptCollaborator = async (context: any, conceptId: string, email: string) => {
+
+    ExecuteAsyncInOrder.execute(operation);
+
+    async function operation() {
+        try {
+            const user = await FirebaseService.getLoggedInUser();
+
+            await FirebaseService.set(`security/${user.uid}/emailToUidSecurityInfo/encodedEmail`, btoa(email));
+            const uid = await EmailsToUidsModel.getUidByEmail(email);
+
+            if (!uid) {
+                throw 'The user does not exist';
+            }
+
+            await ConceptModel.associateCollaborator(conceptId, uid);
+            await UserModel.shareConceptWithMe(uid, conceptId);
+        }
+        catch(error) {
+            throw error;
+        }
+    }
+};
+
+const addVideoCollaborator = async (context: any, videoId: string, email: string) => {
+
+    ExecuteAsyncInOrder.execute(operation);
+
+    async function operation() {
+        try {
+            const user = await FirebaseService.getLoggedInUser();
+
+            await FirebaseService.set(`security/${user.uid}/emailToUidSecurityInfo/encodedEmail`, btoa(email));
+            const uid = await EmailsToUidsModel.getUidByEmail(email);
+
+            if (!uid) {
+                throw 'The user does not exist';
+            }
+
+            await VideoModel.associateCollaborator(videoId, uid);
+            await UserModel.shareVideoWithMe(uid, videoId);
+        }
+        catch(error) {
+            throw error;
+        }
+    }
+};
+
+const addQuizCollaborator = async (context: any, quizId: string, email: string) => {
+
+    ExecuteAsyncInOrder.execute(operation);
+
+    async function operation() {
+        try {
+            const user = await FirebaseService.getLoggedInUser();
+
+            await FirebaseService.set(`security/${user.uid}/emailToUidSecurityInfo/encodedEmail`, btoa(email));
+            const uid = await EmailsToUidsModel.getUidByEmail(email);
+
+            if (!uid) {
+                throw 'The user does not exist';
+            }
+
+            await QuizModel.associateCollaborator(quizId, uid);
+            await UserModel.shareQuizWithMe(uid, quizId);
+        }
+        catch(error) {
+            throw error;
+        }
+    }
+};
+
+const removeCourseCollaborator = async (context: any, courseId: string, email: string) => {
+
+    ExecuteAsyncInOrder.execute(operation);
+
+    async function operation() {
+        try {
+            const user = await FirebaseService.getLoggedInUser();
+
+            await FirebaseService.set(`security/${user.uid}/emailToUidSecurityInfo/encodedEmail`, btoa(email));
+            const uid = await EmailsToUidsModel.getUidByEmail(email);
+
+            if (!uid) {
+                throw 'The user does not exist';
+            }
+
+            await CourseModel.disassociateCollaborator(courseId, uid);
+            await UserModel.unshareCourseWithMe(uid, courseId);
+        }
+        catch(error) {
+            throw error;
+        }
+    }
+};
+
+const removeConceptCollaborator = async (context: any, conceptId: string, email: string) => {
+
+    ExecuteAsyncInOrder.execute(operation);
+
+    async function operation() {
+        try {
+            const user = await FirebaseService.getLoggedInUser();
+
+            await FirebaseService.set(`security/${user.uid}/emailToUidSecurityInfo/encodedEmail`, btoa(email));
+            const uid = await EmailsToUidsModel.getUidByEmail(email);
+
+            if (!uid) {
+                throw 'The user does not exist';
+            }
+
+            await ConceptModel.disassociateCollaborator(conceptId, uid);
+        }
+        catch(error) {
+            throw error;
+        }
+    }
+};
+
+const removeVideoCollaborator = async (context: any, videoId: string, email: string) => {
+
+    ExecuteAsyncInOrder.execute(operation);
+
+    async function operation() {
+        try {
+            const user = await FirebaseService.getLoggedInUser();
+
+            await FirebaseService.set(`security/${user.uid}/emailToUidSecurityInfo/encodedEmail`, btoa(email));
+            const uid = await EmailsToUidsModel.getUidByEmail(email);
+
+            if (!uid) {
+                throw 'The user does not exist';
+            }
+
+            await VideoModel.disassociateCollaborator(videoId, uid);
+        }
+        catch(error) {
+            throw error;
+        }
+    }
+};
+
+const removeQuizCollaborator = async (context: any, quizId: string, email: string) => {
+
+    ExecuteAsyncInOrder.execute(operation);
+
+    async function operation() {
+        try {
+            const user = await FirebaseService.getLoggedInUser();
+
+            await FirebaseService.set(`security/${user.uid}/emailToUidSecurityInfo/encodedEmail`, btoa(email));
+            const uid = await EmailsToUidsModel.getUidByEmail(email);
+
+            if (!uid) {
+                throw 'The user does not exist';
+            }
+
+            await QuizModel.disassociateCollaborator(quizId, uid);
+        }
+        catch(error) {
+            throw error;
+        }
+    }
+};
+
+const starCourse = async (context: any, courseId: string) => {
+    const user = await FirebaseService.getLoggedInUser();
+
+    await CourseModel.associateUserStar(courseId, user.uid);
+    await UserModel.starCourse(user.uid, courseId);
+
+    context.action = {
+        type: 'STAR_COURSE'
+    };
+};
+
+const unstarCourse = async (context: any, courseId: string) => {
+    const user = await FirebaseService.getLoggedInUser();
+
+    await CourseModel.disassociateUserStar(courseId, user.uid);
+    await UserModel.unstarCourse(user.uid, courseId);
+
+    context.action = {
+        type: 'UNSTAR_COURSE'
+    };
+};
 
 const getQuiz = async (quizId: string) => {
     const quiz = await QuizModel.getById(quizId);
@@ -24,8 +384,7 @@ const createNewQuiz = async (context: any, conceptId: string) => {
     const quizId = await QuizModel.createOrUpdate(null, {
         id: null,
         uid,
-        conceptId,
-        title: '',
+        title: `Untitled Quiz`,
         private: false,
         quizSettings: {
             answerFeedback: true,
@@ -33,20 +392,40 @@ const createNewQuiz = async (context: any, conceptId: string) => {
             showHint: true,
             showCode: true,
             graded: false,
-            showConfidenceLevel: true,
+            showConfidenceLevel: false,
             allowGeneration: true
         },
-        questions: {}
+        questions: {},
+        collaborators: {}
     });
+    await ConceptModel.associateQuiz(conceptId, quizId);
+
+    const conceptCollaboratorUids = await ConceptModel.getCollaboratorUids(conceptId);
+    await QuizModel.associateCollaborators(quizId, conceptCollaboratorUids);
 
     return quizId;
 };
 
-const loadConceptQuizzes = async (context: any, conceptId: string) => {
-    const quizzes = await QuizModel.getAllByConcept(conceptId);
+const loadEditConceptQuizzes = async (context: any, conceptId: string) => {
+    const user = await FirebaseService.getLoggedInUser();
+    const concept = await ConceptModel.getById(conceptId);
+
+    const quizzIds = await ConceptModel.getQuizIds(conceptId);
+    const quizzes = await QuizModel.filterQuizzesByCollaborator(quizzIds, concept.uid, user.uid);
 
     context.action = {
-        type: 'LOAD_CONCEPT_QUIZZES',
+        type: 'LOAD_EDIT_CONCEPT_QUIZZES',
+        conceptId,
+        quizzes
+    };
+};
+
+const loadViewConceptQuizzes = async (context: any, conceptId: string) => {
+    const quizzIds = await ConceptModel.getQuizIds(conceptId);
+    const quizzes = await QuizModel.resolveQuizIds(quizzIds);
+
+    context.action = {
+        type: 'LOAD_VIEW_CONCEPT_QUIZZES',
         conceptId,
         quizzes
     };
@@ -77,7 +456,7 @@ const setQuestionSetting = async (context: any, quizId: string, questionId: stri
 };
 
 const loadQuizQuestionIds = async (context: any, quizId: string) => {
-    const quizQuestionIds = await QuizModel.getAllQuestionIds(quizId);
+    const quizQuestionIds = await QuizModel.getQuestionIds(quizId);
 
     context.action = {
         type: 'LOAD_QUIZ_QUESTION_IDS',
@@ -86,11 +465,11 @@ const loadQuizQuestionIds = async (context: any, quizId: string) => {
 };
 
 const addQuestionToQuiz = async (context: any, quizId: string, questionId: string) => {
-    await QuizModel.addQuestion(quizId, questionId);
+    await QuizModel.associateQuestion(quizId, questionId);
 };
 
 const removeQuestionFromQuiz = async (context: any, quizId: string, questionId: string) => {
-    await QuizModel.removeQuestion(quizId, questionId);
+    await QuizModel.disassociateQuestion(quizId, questionId);
 };
 
 const loadUserQuestionIds = async (context: any, getUserQuestionIdsAjax: any) => {
@@ -117,18 +496,24 @@ const loadPublicQuestionIds = async (context: any, getPublicQuestionIdsAjax: any
     };
 };
 
-const deleteVideo = async (context, id: string) => {
+const deleteVideo = async (context: any, conceptId: string, videoId: string) => {
     try {
-        await VideoModel.removeById(id);
+        await ConceptModel.disassociateVideo(conceptId, videoId);
     }
     catch(error) {
         throw error;
     }
 };
 
-const saveVideo = async (context, id: string, video: Video) => {
+const saveVideo = async (context: any, conceptId: string, videoId: string, video: Video) => {
     try {
-        const newId = await VideoModel.createOrUpdate(id, video);
+        const newId = await VideoModel.createOrUpdate(videoId, video);
+        await ConceptModel.associateVideo(conceptId, newId);
+
+        if (!videoId) {
+            const conceptCollaboratorUids = await ConceptModel.getCollaboratorUids(conceptId);
+            await VideoModel.associateCollaborators(newId, conceptCollaboratorUids);
+        }
 
         context.action = {
             type: 'SET_CURRENT_VIDEO_ID',
@@ -140,7 +525,7 @@ const saveVideo = async (context, id: string, video: Video) => {
     }
 };
 
-const setCurrentVideoInfo = (context, id: string, title: string, url: string) => {
+const setCurrentVideoInfo = (context: any, id: string, title: string, url: string) => {
     context.action = {
         type: 'SET_CURRENT_VIDEO_INFO',
         id,
@@ -149,18 +534,22 @@ const setCurrentVideoInfo = (context, id: string, title: string, url: string) =>
     };
 };
 
-const clearCurrentVideoInfo = (context) => {
+const clearCurrentVideoInfo = (context: any) => {
     context.action = {
         type: 'CLEAR_CURRENT_VIDEO_INFO'
     };
 };
 
-const loadConceptVideos = async (context, conceptId: string) => {
+const loadEditConceptVideos = async (context: any, conceptId: string) => {
     try {
-        const videos = await VideoModel.getAllByConcept(conceptId);
+        const user = await FirebaseService.getLoggedInUser();
+        const concept = await ConceptModel.getById(conceptId);
+
+        const videoIds = await ConceptModel.getVideoIds(conceptId);
+        const videos = await VideoModel.filterVideosByCollaborator(videoIds, concept.uid, user.uid);
 
         context.action = {
-            type: 'LOAD_CONCEPT_VIDEOS',
+            type: 'LOAD_EDIT_CONCEPT_VIDEOS',
             videos,
             conceptId
         };
@@ -170,18 +559,78 @@ const loadConceptVideos = async (context, conceptId: string) => {
     }
 };
 
+const loadViewConceptVideos = async (context: any, conceptId: string) => {
+    try {
+        const videoIds = await ConceptModel.getVideoIds(conceptId);
+        const videos = await VideoModel.resolveVideoIds(videoIds);
+
+        context.action = {
+            type: 'LOAD_VIEW_CONCEPT_VIDEOS',
+            videos,
+            conceptId
+        };
+    }
+    catch(error) {
+        throw error;
+    }
+};
+
+const loadEditCourseConcepts = async (context: any, courseId: string) => {
+    try {
+        const user = await FirebaseService.getLoggedInUser();
+
+        const course = await CourseModel.getById(courseId);
+        const conceptDatasObject = course.concepts;
+
+        const concepts = await ConceptModel.filterConceptDatasByCollaborator(conceptDatasObject, course.uid, user.uid);
+
+        context.action = {
+            type: 'LOAD_EDIT_COURSE_CONCEPTS',
+            concepts,
+            courseId
+        };
+    }
+    catch(error) {
+        throw error;
+    }
+};
+
+const loadViewCourseConcepts = async (context: any, courseId: string) => {
+    try {
+        const course = await CourseModel.getById(courseId);
+        const conceptDatasObject = course.concepts;
+
+        const concepts = Object.keys(conceptDatasObject || {}).map((conceptDataId) => conceptDatasObject[conceptDataId]);
+
+        context.action = {
+            type: 'LOAD_VIEW_COURSE_CONCEPTS',
+            concepts,
+            courseId
+        };
+    }
+    catch(error) {
+        throw error;
+    }
+};
+
 const createUser = {
   type: 'CREATE_USER',
-  execute: async (context, data, password) => {
+  execute: async (context: any, data: UserMetaData, password: string) => {
     try {
       const success = await FirebaseService.createUserWithEmailAndPassword(data.email, password);
       const loggedInUser = await FirebaseService.logInUserWithEmailAndPassword(data.email, password);
       await UserModel.updateMetaData(loggedInUser.uid, data);
-      data.email = loggedInUser.email
-      context.action = {
-        type: Actions.createUser.type,
-        currentUser: data,
-      };
+      await EmailsToUidsModel.setUidByEmail(data.email, loggedInUser.uid);
+
+      //TODO I'm doing this because we're about to launch and it will fix the errors we've been having with synchronizing the user after signup.
+      //This just refreshes the whole app with the user logged in. Might want to change this, seems to work well though.
+      window.location.href = '';
+
+    //   data.email = loggedInUser.email
+    //   context.action = {
+    //     type: Actions.createUser.type,
+    //     currentUser: data,
+    //   };
     }catch(error){
       throw error;
     }
@@ -189,15 +638,29 @@ const createUser = {
 };
 const loginUser = {
     type: 'LOGIN_USER',
-    execute: async (context, email, password) => {
+    execute: async (context: any, email: string, password: string) => {
         try {
           const loggedInUser = await FirebaseService.logInUserWithEmailAndPassword(email, password);
-          let userData = await UserModel.getMetaDataById(loggedInUser.uid); //sets ancillary user data such as name, institution, etc.
-          userData.uid = loggedInUser.uid;
-          context.action = {
-            type: Actions.loginUser.type,
-            currentUser : userData,
-          };
+          //let user = await UserModel.getById(loggedInUser.uid); //sets ancillary user data such as name, institution, etc.
+          //user.metaData.uid = loggedInUser.uid;
+          //const courses = await CourseModel.getCoursesByUser(loggedInUser.uid);
+          //need to go here so that user info loads when a user logs in. If not, starred courses and shared courses don't appear once they
+          //const starredCourseIds = await UserModel.getStarredCoursesIds(loggedInUser.uid);
+          //const starredCourses = await CourseModel.resolveCourseIds(starredCourseIds);
+          //const sharedCourseIds = await UserModel.getSharedWithMeCoursesIds(loggedInUser.uid);
+          //const sharedCourses = await CourseModel.resolveCourseIds(sharedCourseIds);
+
+          //TODO I'm doing this because we're about to launch and it will fix the errors we've been having with synchronizing the user after signup.
+          //This just refreshes the whole app with the user logged in. Might want to change this, seems to work well though.
+          window.location.href = '';
+
+        //   context.action = {
+        //     type: Actions.loginUser.type,
+        //     courses: courses,
+        //     starredCourses: starredCourses,
+        //     sharedCourses: sharedCourses,
+        //     user
+        //   };
         }catch(error){
           throw error;
         }
@@ -205,7 +668,7 @@ const loginUser = {
 };
 const updateUserEmail = {
   type: 'UPDATE_USER_PROFILE',
-  execute: async (context, pastEmail, password, newEmail) => {
+  execute: async (context: any, pastEmail: string, password: string, newEmail: string) => {
     try{
       const loggedInUser = await FirebaseService.logInUserWithEmailAndPassword(pastEmail, password);
       await UserModel.updateFirebaseUser(loggedInUser, newEmail);
@@ -216,9 +679,9 @@ const updateUserEmail = {
 };
 const updateUserMetaData = {
   type: 'UPDATE_USER_META_DATA',
-  execute: async (context, uid, metaData) => {
-    await UserModel.updateMetaData(uid, metaData);
+  execute: async (context: any, uid: string, metaData: UserMetaData) => {
     try{
+      await UserModel.updateMetaData(uid, metaData);
       context.action = {
         type: Actions.updateUserMetaData.type,
         user: metaData,
@@ -230,15 +693,17 @@ const updateUserMetaData = {
 };
 const checkUserAuth = {
   type: 'CHECK_USER_AUTH',
-  execute: async (context) => {
+  execute: async (context: any) => {
     try {
       const loggedInUser = await FirebaseService.getLoggedInUser();
       if(loggedInUser){
-        let userData = await UserModel.getMetaDataById(loggedInUser.uid, 'metaData');
-        userData.uid = loggedInUser.uid; //OK because its being created here.
+        let user = await UserModel.getById(loggedInUser.uid);
+        user.metaData.uid = loggedInUser.uid; //OK because its being created here.
+        const jwt = await loggedInUser.getToken();
         context.action = {
           type: Actions.checkUserAuth.type,
-          currentUser: userData,
+          user,
+          jwt
         };
       }
     }catch(error){
@@ -246,47 +711,29 @@ const checkUserAuth = {
     }
   }
 };
-const setConcepts = {
-    type: 'SET_CONCEPTS',
-    execute: async (context, newConcept) => {
-      try {
-        const conceptSuccess = await ConceptModel.save(null, newConcept);
-        context.action = newConcept;
-      }catch(error){
-        throw error;
-      }
-    }
-};
 const addConcept = {
   type: 'ADD_CONCEPT',
-  execute: async (context, courseId, newConcept, conceptPos: number) => {
+  execute: async (context: any, courseId: string, newConcept: Concept, conceptPos: number) => {
     try {
       const conceptId = await ConceptModel.save(null, newConcept);
-      const courseUpdate = await CourseModel.createCourseConcept(courseId, conceptId, conceptPos)
+      await CourseModel.associateConcept(courseId, conceptId, conceptPos);
       const course = await CourseModel.getById(courseId);
+      const conceptsArray = await CourseModel.courseConceptsToArray(course);
+      const orderedConcepts = CourseModel.orderCourseConcepts(conceptsArray);
+      course.concepts = orderedConcepts;
       context.action = {
           type: 'ADD_CONCEPT',  //same as get course by id
-          currentCourse: course,
-      }
+          currentCourse: course
+      };
+
+      const courseCollaboratorUids = await CourseModel.getCollaboratorUids(courseId);
+      await ConceptModel.associateCollaborators(conceptId, courseCollaboratorUids);
     }catch(error){
       throw error;
     }
   }
 };
-const getConcepts = {
-  type: 'GET_CONCEPTS',
-  execute: async (context) => {
-    // try {
-    //   const modelConcepts = await ConceptModel.getConcepts();
-    //   context.action = {
-    //       type: Actions.getConcepts.type,
-    //       concepts: modelConcepts,
-    //   }
-    // }catch(error){
-    //   throw error;
-    // }
-  }
-};
+
 const getConceptById = {
   type: 'GET_CONCEPT_BY_ID',
   execute: async (context: any, id: string) => {
@@ -306,12 +753,15 @@ const addCourse = {
   type: 'ADD_COURSE',
   execute: async (context: any, newCourse: Course) => {
       try {
+        const user = await FirebaseService.getLoggedInUser();
+
         const courseId = await CourseModel.createOrUpdate(null, newCourse);
-        let savedCourse = Object.assign({}, newCourse);
-        savedCourse.courseId = courseId;
+        await addCourseCollaborator(context, courseId, user.email);
+
+        const courses = await CourseModel.getCoursesByUser(newCourse.uid);
         context.action = {
             type: Actions.addCourse.type,
-            newCourse: savedCourse,
+            courses: courses,
         }
       }catch(error){
         throw error;
@@ -326,39 +776,100 @@ const getCoursesByUser = {
         const courses = await CourseModel.getCoursesByUser(loggedInUser.uid);
         context.action = {
             type: 'GET_COURSES_BY_USER',
-            courses: courses,
-        }
+            courses: courses
+        };
       }
     }catch(error){
       throw error;
     }
   }
 };
-const getCourseById = {
-  execute: async (context: any, id: string) => {
+
+const getStarredCoursesByUser = async (context: any, uid: string) => {
+    try {
+        const courseIds = await UserModel.getStarredCoursesIds(uid);
+        const courses = await CourseModel.resolveCourseIds(courseIds);
+
+        context.action = {
+            type: 'SET_STARRED_COURSES',
+            courses
+        };
+    }
+    catch(error) {
+        throw error;
+    }
+};
+
+const getSharedCoursesByUser = async (context: any, uid: string) => {
+    try {
+        const courseIds = await UserModel.getSharedWithMeCoursesIds(uid);
+        const courses = await CourseModel.resolveCourseIds(courseIds);
+
+        context.action = {
+            type: 'SET_SHARED_COURSES',
+            courses
+        };
+    }
+    catch(error) {
+        throw error;
+    }
+};
+
+const getCoursesByVisibility = async (context: any, visibility: CourseVisibility) => {
+
+    const courses = await CourseModel.getAllByVisibility(visibility);
+
+    context.action = {
+        type: 'SET_COURSES_BY_VISIBILITY',
+        visibility,
+        courses
+    };
+};
+
+const getCourseViewCourseById = async (context: any, id: string) => {
     try {
       const course = await CourseModel.getById(id);
+    //   const conceptsArray = await CourseModel.courseConceptsToArray(course);
+    //   const orderedConcepts = CourseModel.orderCourseConcepts(conceptsArray);
+    //   course.concepts = orderedConcepts;
       context.action = {
-          type: 'GET_COURSE_BY_ID',
-          currentCourse: course,
-          //currentCourseConcepts: courseConcepts,
-      }
-    }catch(error){
+          type: 'SET_COURSE_VIEW_CURRENT_COURSE',
+          currentCourse: course
+      };
+    }
+    catch(error){
       throw error;
     }
-  }
 };
+
+const getCourseEditCourseById = async (context: any, id: string) => {
+    try {
+      const course = await CourseModel.getById(id);
+    //   const conceptsArray = await CourseModel.courseConceptsToArray(course);
+    //   const orderedConcepts = CourseModel.orderCourseConcepts(conceptsArray);
+    //   course.concepts = orderedConcepts;
+      context.action = {
+          type: 'SET_COURSE_EDIT_CURRENT_COURSE',
+          currentCourse: course
+      };
+    }
+    catch(error){
+      throw error;
+    }
+};
+
 const deleteConcept = {
-  type: 'DELETE_CONCEPT',
-  execute: async (context, key, conceptsArray) => {
+  execute: async (context: any, courseId: string, conceptId: string) => {
       try {
-        await ConceptModel.deleteConcept(key);
-        //figure out how to do this.
-        await ConceptModel.deleteCourseConcept(courseId, key);
+        await CourseModel.disassociateConcept(courseId, conceptId);
+        const course = await CourseModel.getById(courseId);
+        // const conceptsArray = await CourseModel.courseConceptsToArray(course);
+        // const orderedConcepts = CourseModel.orderCourseConcepts(conceptsArray);
+        // course.concepts = orderedConcepts;
         context.action = {
-            type: Actions.deleteConcept.type,
-            conceptKey: key,
-        }
+            type: 'GET_COURSE_BY_ID',
+            currentCourse: course
+        };
       }catch(error){
         throw error;
       }
@@ -366,32 +877,49 @@ const deleteConcept = {
 };
 const orderConcepts = {
   type: 'ORDER_CONCEPTS',
-  execute: async (context: any, id: string, courseConceptsArray) => {
-      //thre use cases: Reorder concepts, delete a concept
-      try{
-        await CourseModel.orderCourseConcepts(id, courseConceptsArray);
-      }catch(error){
-        throw error;
-      }
+  execute: async (context: any, id: string, courseConceptsArray: Concept[]) => {
+    try{
+      await CourseModel.updateCourseConcepts(id, courseConceptsArray);
+    }catch(error){
+      throw error;
+    }
   }
 };
+
+const updateCourseField = async (context: any, id: string, field: string, value: string) => {
+    try{
+      await CourseModel.updateCourseField(id, field, value);
+      const course = await CourseModel.getById(id);
+    //   const conceptsArray = await CourseModel.courseConceptsToArray(course);
+    //   const orderedConcepts = CourseModel.orderCourseConcepts(conceptsArray);
+    //   course.concepts = orderedConcepts;
+      context.action = {
+        type: 'GET_COURSE_BY_ID',
+        currentCourse: course
+      }
+    }catch(error){
+      throw error;
+    }
+};
+
 const logOutUser = {
   type: 'LOGOUT_USER',
-  execute: async (context) => {
-    //Need to come up with a list of things to clear with the logout. Maybe have a clear everything function?
+  execute: async (context: any) => {
     await FirebaseService.logOutUser();
-    context.action = {
-      type: Actions.logOutUser.type,
-      user: '',
-    }
+
+    //TODO I'm doing this because we're about to launch and it will fix the errors we've been having with synchronizing the user after signup.
+    //This just refreshes the whole app with the user logged in. Might want to change this, seems to work well though.
+    window.location.href = '';
+
+  //   context.action = {
+  //     type: Actions.logOutUser.type,
+  // };
   }
 };
 
 export const Actions = {
     loginUser,
     checkUserAuth,
-    setConcepts,
-    getConcepts,
     deleteConcept,
     orderConcepts,
     addConcept,
@@ -399,13 +927,15 @@ export const Actions = {
     logOutUser,
     updateUserEmail,
     updateUserMetaData,
-    loadConceptVideos,
+    loadEditConceptVideos,
+    loadViewConceptVideos,
     setCurrentVideoInfo,
     saveVideo,
     clearCurrentVideoInfo,
     deleteVideo,
     addCourse,
     getCoursesByUser,
+    getCoursesByVisibility,
     loadUserQuestionIds,
     addQuestionToQuiz,
     loadQuizQuestionIds,
@@ -414,11 +944,34 @@ export const Actions = {
     setQuestionSetting,
     loadQuizSettings,
     setCurrentEditQuizId,
-    loadConceptQuizzes,
+    loadEditConceptQuizzes,
+    loadViewConceptQuizzes,
     createNewQuiz,
     updateQuizTitle,
     getQuiz,
-    getCourseById,
+    getCourseViewCourseById,
+    getCourseEditCourseById,
     getConceptById,
-    loadPublicQuestionIds
+    loadPublicQuestionIds,
+    starCourse,
+    unstarCourse,
+    getStarredCoursesByUser,
+    addQuizCollaborator,
+    loadQuizCollaboratorEmails,
+    removeQuizCollaborator,
+    getSharedCoursesByUser,
+    loadCourseCollaboratorEmails,
+    loadConceptCollaboratorEmails,
+    loadVideoCollaboratorEmails,
+    addCourseCollaborator,
+    addConceptCollaborator,
+    addVideoCollaborator,
+    removeCourseCollaborator,
+    removeConceptCollaborator,
+    removeVideoCollaborator,
+    updateCourseField,
+    loadEditCourseConcepts,
+    loadViewCourseConcepts,
+    showMainSpinner,
+    hideMainSpinner
 };

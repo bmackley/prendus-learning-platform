@@ -1,6 +1,10 @@
 {
   "name": "learning-platform-component",
+<<<<<<< HEAD
   "version": "0.0.3",
+=======
+  "version": "0.0.2",
+>>>>>>> develop
   "description": "An outcome management system and instrucitonal materials generation tool",
   "authors": [
     "Jordan Last <jordan.michael.last@gmail.com>",
@@ -14,19 +18,47 @@
     "tests"
   ],
   "dependencies": {
-    "polymer": "Polymer/polymer#^1.4.0",
+    "polymer": "Polymer/polymer#^1.6.1",
     "iron-ajax": "PolymerElements/iron-ajax#^1.2.0",
-    "iron-elements": "PolymerElements/iron-elements#^1.0.10",
-    "paper-elements": "PolymerElements/paper-elements#^1.0.7",
-    "carbon-route": "PolymerElements/carbon-route#^0.8.5",
     "app-route": "PolymerElements/app-route#^0.9.1",
+<<<<<<< HEAD
     "paper-date-picker": "polymer-paper-date-picker#^1.1.4",
     "solutia-maxima-components": "git@github.com:lastmjs/solutia-maxima-components.git#^0.0.4",
     "view-quiz-component": "git@github.com:lastmjs/view-quiz-component.git#^0.0.3",
     "video-viewer-component": "git@github.com:lastmjs/video-viewer-component.git#^0.0.2",
     "redux-store-element": "^0.2.3",
+=======
+    "solutia-maxima-components": "git@github.com:lastmjs/solutia-maxima-components.git#0.0.7",
+    "view-quiz-component": "git@github.com:lastmjs/view-quiz-component.git#0.0.5",
+    "video-viewer-component": "git@github.com:lastmjs/video-viewer-component.git#0.2.1",
+>>>>>>> develop
     "paper-tabs": "^1.6.2",
     "paper-menu-button": "^1.5.1",
-    "paper-menu": "^1.2.2"
+    "paper-menu": "^1.2.2",
+    "redux-store-element": "^0.2.4",
+    "paper-fab": "^1.2.0",
+    "paper-button": "^1.0.13",
+    "paper-input": "^1.1.17",
+    "iron-collapse": "^1.2.1",
+    "paper-header-panel": "^1.1.6",
+    "paper-spinner": "^1.2.0",
+    "Sortable": "^1.4.2",
+    "moment": "^2.14.1",
+    "iron-icons": "^1.1.3",
+    "paper-item": "^1.2.1",
+    "paper-dialog": "^1.1.0",
+    "paper-dialog-behavior": "^1.2.7",
+    "iron-pages": "^1.0.8",
+    "iron-selector": "^1.5.2",
+    "paper-toast": "^1.3.0",
+    "paper-toolbar": "^1.1.6",
+    "paper-icon-button": "^1.1.2",
+    "paper-listbox": "^1.1.2",
+    "iron-dropdown": "^1.5.1",
+    "iron-form": "^1.1.2",
+    "iron-input": "^1.0.10",
+    "paper-toggle-button": "^1.2.0",
+    "paper-card": "PolymerElements/paper-card#^1.1.2",
+    "paper-date-picker": "polymer-paper-date-picker#^1.1.5"
   }
 }

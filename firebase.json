@@ -1,5 +1,5 @@
 {
-  "firebase": "prendus",
+  "firebase": "prendus-production",
   "public": "app/client",
   "rewrites": [ {
     "source": "**",

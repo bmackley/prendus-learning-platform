@@ -1,0 +1,18 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/solutia-maxima-components/components/edit-problem/edit-problem.component.html">
+<link rel="import" href="../../bower_components/redux-store-element/redux-store.html">
+<link rel="import" href="../../bower_components/app-route/app-route.html">
+<link href="../../bower_components/redux-store-element/redux-store.html" rel="import">
+
+<dom-module id="prendus-edit-question-router">
+    <template>
+        <redux-store action="[[action]]" on-statechange="mapStateToThis"></redux-store>
+        <app-route route="[[route]]" pattern="/edit-question/question/:questionId" data="{{data}}" tail="{{tail}}"></app-route>
+
+        <div style="margin-left: -25%; margin-right: -25%; margin-bottom: 25px; margin-top: 25px">
+            <solutia-maxima-edit-problem id="editProblemComponent" jwt="[[jwt]]" question-id="[[data.questionId]]" on-savequestion="questionSaved" on-loaded="editProblemComponentLoaded"></solutia-maxima-edit-problem>
+        </div>
+    </template>
+
+    <!--<script src="prendus-edit-question-router.js"></script>-->
+</dom-module>

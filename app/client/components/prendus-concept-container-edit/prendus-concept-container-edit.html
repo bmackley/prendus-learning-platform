@@ -1,0 +1,48 @@
+<link href="../../bower_components/polymer/polymer.html" rel="import">
+<link href="../../bower_components/iron-collapse/iron-collapse.html" rel="import">
+<link href="../../bower_components/paper-item/paper-icon-item.html" rel="import">
+<link href="../../bower_components/paper-header-panel/paper-header-panel.html" rel="import">
+<link href="../../bower_components/paper-spinner/paper-spinner.html" rel="import">
+<link href="../prendus-concept-video-container-edit/prendus-concept-video-container-edit.html" rel="import">
+<link href="../prendus-concept-quiz-container-edit/prendus-concept-quiz-container-edit.html" rel="import">
+<link rel="import" href="../../styles/color-styles.html">
+
+<dom-module id="prendus-concept-container-edit">
+  <template>
+  <style include="color-styles"></style>
+  <style>
+  #resource-tabs{
+    --paper-tabs-selection-bar-color: var(--prendus-primary-color);
+  }
+  #concept-container-div{
+    padding-left: 2%
+  }
+  #videosContainer{
+    margin-left: 50%;
+  }
+  </style>
+    <redux-store on-statechange="mapStateToThis" action="[[action]]"></redux-store>
+    <div id ="concept-container-div">
+      <div>
+        <h3 on-tap="toggle">[[title]]</h3>
+      </div>
+      <iron-collapse class="conceptToggle" id= "concept-[[item.pos]]">
+        <div id = "classContent">
+          <paper-tabs id="resource-tabs" selected="{{selected}}">
+              <paper-tab>QUIZZES</paper-tab>
+              <paper-tab>VIDEOS</paper-tab>
+          </paper-tabs>
+          <iron-pages selected="{{selected}}" style="position: relative">
+            <div class = "flex-horizontal" id = "quizzesContainer">
+              <prendus-concept-quiz-container-edit concept-id="[[conceptId]]"></prendus-concept-quiz-container-edit>
+            </div>
+            <div class = "flex-horizontal" id = "videosContainer">
+              <prendus-concept-video-container-edit concept-id="[[conceptId]]"></prendus-concept-video-container-edit>
+            </div>
+          </iron-pages>
+        </div>
+      </iron-collapse>
+    </div>
+  </template>
+  <!-- <script>System.import('/components/prendus-concept-container-edit/prendus-concept-container-edit.ts');</script> -->
+</dom-module>

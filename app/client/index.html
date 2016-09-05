@@ -3,13 +3,12 @@
 
     <head>
         <base href="/">
-
         <script src="/bower_components/webcomponentsjs/webcomponents-lite.min.js"></script>
-        <script src="/node_modules/systemjs/dist/system.js"></script>
-        <script src="/node_modules/es-no-build/config.js"></script>
-        <script src="https://www.gstatic.com/firebasejs/live/3.0/firebase.js"></script>
-        <script>System.import('/services/database-init.service.ts')</script>
-        <link rel="import" href="/components/app-element/app-element.html">
+        <link rel="stylesheet" href="/styles/prendus-initial-spinner.css">
+    </head>
+    <body>
+        <div id="initial-spinner" class="loading-spinner absolute-center"></div>
+        <script src="https://www.gstatic.com/firebasejs/3.3.0/firebase.js"></script>
         <link rel="stylesheet" href="/styles/main.css">
         <script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML"></script>
         <script type="text/x-mathjax-config">
@@ -19,9 +18,41 @@
             }
           });
         </script>
-    </head>
-    <body unresolved class ="fullbleed layout vertical">
-        <app-element></app-element>
+        <style>
+            .CodeMirror-placeholder {
+                color: grey !important;
+            }
+        </style>
+
+        <script>
+            var environment = getEnvironment(window.location.hostname);
+            window.PRENDUS_ENV = environment;
+
+            function getEnvironment(hostname) {
+                if (hostname === 'localhost' || hostname === '127.0.0.1') {
+                    return 'development';
+                }
+                else {
+                    return 'production';
+                }
+            }
+        </script>
+
+        <link rel="import" href="/dist/prendus.html">
+        <script src="/dist/prendus.js"></script>
+
+        <script>
+            var initialSpinner = document.getElementById('initial-spinner');
+            initialSpinner.style.opacity = 0;
+            setTimeout(function() {
+                initialSpinner.parentNode.removeChild(initialSpinner);
+            }, 500);
+        </script>
+
+        <prendus-app></prendus-app>
+
+        <script src="https://cdn.socket.io/socket.io-1.4.5.js"></script>
+        <script src="live-reload-client.js"></script>
     </body>
 
 </html>
