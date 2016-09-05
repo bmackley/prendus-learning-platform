@@ -1,6 +1,6 @@
 {
   "name": "learning-platform-client",
-  "version": "0.0.0",
+  "version": "0.0.4",
   "dependencies": {
     "codemirror": "5.16.0",
     "jshint": "2.9.2",
