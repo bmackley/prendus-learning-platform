@@ -33,15 +33,16 @@ class PrendusLogin {
     }
   }
 
-  sendResetEmail(e: any){
+  async sendResetEmail(e: any){
     e.preventDefault();
     const emailReset = this.querySelector('#resetPasswordEmail').value
     try{
-      FirebaseService.sendPasswordResetEmail(this.querySelector('#resetPasswordEmail').value)
+      await FirebaseService.sendPasswordResetEmail(this.querySelector('#resetPasswordEmail').value)
       this.querySelector('#forgotPasswordModal').close()
       this.successMessage = '';
       this.successMessage = 'Password sent. Check your inbox for a '
     }catch(error){
+      this.querySelector('#forgotPasswordModal').close()
       this.errorMessage = '';
       this.errorMessage = error.message;
     }
