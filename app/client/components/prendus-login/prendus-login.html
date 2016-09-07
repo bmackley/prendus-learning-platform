@@ -7,46 +7,38 @@
 
 <dom-module id="prendus-login">
   <style>
-    /* CSS rules for your element */
-    <style>
-      :host {
-        display: block;
-      }
-      #loginFormCard, #toastTarget{
-          width: 75%;
-        }
-        @media (max-width: 1200px) {
-          #loginFormCard, #toastTarget{
-            width: 85%;
-          }
-        }
-        @media (max-width: 600px) {
-          #loginFormCard, #toastTarget{
-            width: 100%;
-          }
-        }
-    </style>
+    :host {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    paper-card {
+      width: 100%;
+      max-width: 320px;
+    }
+    paper-button.indigo {
+      background-color: var(--paper-indigo-500);
+      color: white;
+      --paper-button-raised-keyboard-focus: {
+        background-color: var(--paper-pink-a200) !important;
+        color: white !important;
+      };
+    }
   </style>
   <template>
-    <!-- local DOM for your element -->
     <redux-store action="[[action]]"></redux-store>
-    <center>
-      <paper-card id = "loginFormCard" heading ="Login">
-        <div>
-          <form is="iron-form" method="get" action="/" id="loginForm">
-            <paper-input name="email" id = "loginEmail" label="Email" required auto-validate></paper-input>
-            <paper-input name="password" id = "loginPassword" label="Password" type="password" required auto-validate></paper-input>
-            <div class="output"></div>
-            <br>
-            <paper-button raised id="signin-submit">Submit</paper-button>
-            <br>
-            <br>
-            <a href= "#"> Forgot Password </a>
-          </form>
-        </div>
-      </paper-card>
-      <prendus-notification error-message="[[errorMessage]]"></prendus-notification>
-    </center>
+    <paper-card id = "loginFormCard" heading ="Login">
+      <form class="card-content" is="iron-form" method="get" action="/" id="loginForm">
+        <paper-input name="email" id = "loginEmail" label="Email" required auto-validate></paper-input>
+        <paper-input name="password" id = "loginPassword" label="Password" type="password" required auto-validate></paper-input>
+      </form>
+      <div class="card-actions">
+        <paper-button id="signin-submit" class="indigo">Log In</paper-button>
+        <paper-button>Forgot </paper-button>
+      </div>
+    </paper-card>
+    <prendus-notification error-message="[[errorMessage]]"></prendus-notification>
   </template>
 
   <!--<script src="prendus-login.js"></script>-->

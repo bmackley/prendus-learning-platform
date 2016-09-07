@@ -2,18 +2,18 @@
             window.addEventListener('WebComponentsReady', function() {
                 !function(e){function r(e,r,t){e in l||(l[e]={name:e,declarative:!0,deps:r,declare:t,normalizedDeps:r})}function t(e){return p[e]||(p[e]={name:e,dependencies:[],exports:{},importers:[]})}function n(r){if(!r.module){var o=r.module=t(r.name),a=r.module.exports,u=r.declare.call(e,function(e,r){if(o.locked=!0,"object"==typeof e)for(var t in e)a[t]=e[t];else a[e]=r;for(var n=0,u=o.importers.length;u>n;n++){var i=o.importers[n];if(!i.locked)for(var l=0;l<i.dependencies.length;++l)i.dependencies[l]===o&&i.setters[l](a)}return o.locked=!1,r},r.name);o.setters=u.setters,o.execute=u.execute;for(var s=0,d=r.normalizedDeps.length;d>s;s++){var f,c=r.normalizedDeps[s],v=l[c],m=p[c];m?f=m.exports:v&&!v.declarative?f=v.esModule:v?(n(v),m=v.module,f=m.exports):f=i(c),m&&m.importers?(m.importers.push(o),o.dependencies.push(m)):o.dependencies.push(null),o.setters[s]&&o.setters[s](f)}}}function o(r){var t={};if(("object"==typeof r||"function"==typeof r)&&r!==e)if(d)for(var n in r)"default"!==n&&a(t,r,n);else{var o=r&&r.hasOwnProperty;for(var n in r)"default"===n||o&&!r.hasOwnProperty(n)||(t[n]=r[n])}return t["default"]=r,c(t,"__useDefault",{value:!0}),t}function a(e,r,t){try{var n;(n=Object.getOwnPropertyDescriptor(r,t))&&c(e,t,n)}catch(o){return e[t]=r[t],!1}}function u(r,t){var n=l[r];if(n&&!n.evaluated&&n.declarative){t.push(r);for(var o=0,a=n.normalizedDeps.length;a>o;o++){var d=n.normalizedDeps[o];-1==s.call(t,d)&&(l[d]?u(d,t):i(d))}n.evaluated||(n.evaluated=!0,n.module.execute.call(e))}}function i(e){if(m[e])return m[e];if("@node/"==e.substr(0,6))return m[e]=o(v(e.substr(6)));var r=l[e];if(!r)throw"Module "+e+" not present.";return n(l[e]),u(e,[]),l[e]=void 0,r.declarative&&c(r.module.exports,"__esModule",{value:!0}),m[e]=r.declarative?r.module.exports:r.esModule}var l={},s=Array.prototype.indexOf||function(e){for(var r=0,t=this.length;t>r;r++)if(this[r]===e)return r;return-1},d=!0;try{Object.getOwnPropertyDescriptor({a:0},"a")}catch(f){d=!1}var c;!function(){try{Object.defineProperty({},"a",{})&&(c=Object.defineProperty)}catch(e){c=function(e,r,t){try{e[r]=t.value||t.get.call(e)}catch(n){}}}}();var p={},v="undefined"!=typeof System&&System._nodeRequire||"undefined"!=typeof require&&require.resolve&&"undefined"!=typeof process&&require,m={"@empty":{}};return function(e,t,n,a){return function(u){u(function(u){for(var l=0;l<t.length;l++)(function(e,r){r&&r.__esModule?m[e]=r:m[e]=o(r)})(t[l],arguments[l]);a({register:r});var s=i(e[0]);if(e.length>1)for(var l=1;l<e.length;l++)i(e[l]);return n?s["default"]:s})}}}("undefined"!=typeof self?self:global)
 
-(["1","2","3","4","5","6","7","8","9","a","b","c","d","e","f","10","11","12","13","14","15","16","17","18","19","1a","1b","1c","1d","1e","1f","20","21","22","23","24","25","26","27","28"], [], false, function($__System) {
+(["1","2","3","4","5","6","7","8","9","a","b","c","d","e","f","10","11","12","13","14","15","16","17","18","19","1a","1b","1c","1d","1e","1f","20","21","22","23","24","25","26","27","28","29"], [], false, function($__System) {
 var require = this.require, exports = this.exports, module = this.module;
-$__System.register('28', ['29', '2a'], function (_export, _context) {
+$__System.register('29', ['2a', '2b'], function (_export, _context) {
     "use strict";
 
     var _classCallCheck, _createClass, CodeEditorComponent;
 
     return {
-        setters: [function (_) {
-            _classCallCheck = _.default;
-        }, function (_a) {
-            _createClass = _a.default;
+        setters: [function (_a) {
+            _classCallCheck = _a.default;
+        }, function (_b) {
+            _createClass = _b.default;
         }],
         execute: function () {
             CodeEditorComponent = function () {
@@ -90,18 +90,18 @@ $__System.register('28', ['29', '2a'], function (_export, _context) {
         }
     };
 });
-$__System.register('2b', ['2c', '2d', '2e'], function (_export, _context12) {
+$__System.register('2c', ['2d', '2e', '2f'], function (_export, _context12) {
     "use strict";
 
     var _toConsumableArray, _regeneratorRuntime, FirebaseService, _this, __awaiter, dataPath, save, update, removeById, getById, getAllIdsBy, getAllIdsByUid, getAllIdsByVisibility, resolveQuestionIds, QuestionModel;
 
     return {
-        setters: [function (_c) {
-            _toConsumableArray = _c.default;
-        }, function (_d) {
-            _regeneratorRuntime = _d.default;
+        setters: [function (_d) {
+            _toConsumableArray = _d.default;
         }, function (_e) {
-            FirebaseService = _e.FirebaseService;
+            _regeneratorRuntime = _e.default;
+        }, function (_f) {
+            FirebaseService = _f.FirebaseService;
         }],
         execute: function () {
             _this = this;
@@ -520,7 +520,7 @@ $__System.register('2b', ['2c', '2d', '2e'], function (_export, _context12) {
         }
     };
 });
-$__System.register('2f', ['2d', '2b'], function (_export, _context5) {
+$__System.register('30', ['2e', '2c'], function (_export, _context5) {
     "use strict";
 
     var _regeneratorRuntime, QuestionModel, _this, __awaiter, reset, initialLoadQuestion, saveQuestion, savePreviewQuestion, Actions;
@@ -555,10 +555,10 @@ $__System.register('2f', ['2d', '2b'], function (_export, _context5) {
         }));
     }
     return {
-        setters: [function (_d) {
-            _regeneratorRuntime = _d.default;
-        }, function (_b) {
-            QuestionModel = _b.QuestionModel;
+        setters: [function (_e) {
+            _regeneratorRuntime = _e.default;
+        }, function (_c) {
+            QuestionModel = _c.QuestionModel;
         }],
         execute: function () {
             _this = this;
@@ -721,7 +721,7 @@ $__System.register('2f', ['2d', '2b'], function (_export, _context5) {
         }
     };
 });
-$__System.register('30', [], function (_export, _context) {
+$__System.register('31', [], function (_export, _context) {
     "use strict";
 
     var InitialState;
@@ -739,7 +739,7 @@ $__System.register('30', [], function (_export, _context) {
         }
     };
 });
-$__System.register('31', ['30'], function (_export, _context) {
+$__System.register('32', ['31'], function (_export, _context) {
     "use strict";
 
     var InitialState, RootReducer;
@@ -790,24 +790,24 @@ $__System.register('31', ['30'], function (_export, _context) {
         }
     };
 });
-$__System.register('27', ['29', '31', '32', '2d', '2a', '2f'], function (_export, _context6) {
+$__System.register('28', ['30', '32', '33', '2e', '2a', '2b'], function (_export, _context6) {
     "use strict";
 
     var _regeneratorRuntime, _classCallCheck, _createClass, Actions, RootReducer, UtilitiesService, __awaiter, EditProblemComponent;
 
     return {
         setters: [function (_) {
-            _classCallCheck = _.default;
+            Actions = _.Actions;
         }, function (_2) {
             RootReducer = _2.RootReducer;
         }, function (_3) {
             UtilitiesService = _3.UtilitiesService;
-        }, function (_d) {
-            _regeneratorRuntime = _d.default;
+        }, function (_e) {
+            _regeneratorRuntime = _e.default;
         }, function (_a) {
-            _createClass = _a.default;
-        }, function (_f) {
-            Actions = _f.Actions;
+            _classCallCheck = _a.default;
+        }, function (_b) {
+            _createClass = _b.default;
         }],
         execute: function () {
             __awaiter = this && this.__awaiter || function (thisArg, _arguments, P, generator) {
@@ -1138,16 +1138,16 @@ $__System.register('27', ['29', '31', '32', '2d', '2a', '2f'], function (_export
         }
     };
 });
-$__System.register('26', ['29', '2a'], function (_export, _context) {
+$__System.register('27', ['2a', '2b'], function (_export, _context) {
     "use strict";
 
     var _classCallCheck, _createClass, HelpComponent;
 
     return {
-        setters: [function (_) {
-            _classCallCheck = _.default;
-        }, function (_a) {
-            _createClass = _a.default;
+        setters: [function (_a) {
+            _classCallCheck = _a.default;
+        }, function (_b) {
+            _createClass = _b.default;
         }],
         execute: function () {
             HelpComponent = function () {
@@ -1169,16 +1169,16 @@ $__System.register('26', ['29', '2a'], function (_export, _context) {
         }
     };
 });
-$__System.register('25', ['29', '2a'], function (_export, _context) {
+$__System.register('26', ['2a', '2b'], function (_export, _context) {
     "use strict";
 
     var _classCallCheck, _createClass, RenderMathComponent;
 
     return {
-        setters: [function (_) {
-            _classCallCheck = _.default;
-        }, function (_a) {
-            _createClass = _a.default;
+        setters: [function (_a) {
+            _classCallCheck = _a.default;
+        }, function (_b) {
+            _createClass = _b.default;
         }],
         execute: function () {
             RenderMathComponent = function () {
@@ -1245,16 +1245,16 @@ $__System.register('25', ['29', '2a'], function (_export, _context) {
         }
     };
 });
-$__System.register('24', ['29', '2a'], function (_export, _context) {
+$__System.register('25', ['2a', '2b'], function (_export, _context) {
     "use strict";
 
     var _classCallCheck, _createClass, TextEditorComponent;
 
     return {
-        setters: [function (_) {
-            _classCallCheck = _.default;
-        }, function (_a) {
-            _createClass = _a.default;
+        setters: [function (_a) {
+            _classCallCheck = _a.default;
+        }, function (_b) {
+            _createClass = _b.default;
         }],
         execute: function () {
             TextEditorComponent = function () {
@@ -1316,20 +1316,20 @@ $__System.register('24', ['29', '2a'], function (_export, _context) {
         }
     };
 });
-$__System.register('23', ['29', '32', '2d', '2a'], function (_export, _context6) {
+$__System.register('24', ['33', '2e', '2a', '2b'], function (_export, _context6) {
     "use strict";
 
     var _regeneratorRuntime, _classCallCheck, _createClass, UtilitiesService, __awaiter;
 
     return {
         setters: [function (_) {
-            _classCallCheck = _.default;
-        }, function (_2) {
-            UtilitiesService = _2.UtilitiesService;
-        }, function (_d) {
-            _regeneratorRuntime = _d.default;
+            UtilitiesService = _.UtilitiesService;
+        }, function (_e) {
+            _regeneratorRuntime = _e.default;
         }, function (_a) {
-            _createClass = _a.default;
+            _classCallCheck = _a.default;
+        }, function (_b) {
+            _createClass = _b.default;
         }],
         execute: function () {
             __awaiter = this && this.__awaiter || function (thisArg, _arguments, P, generator) {
@@ -1768,7 +1768,7 @@ $__System.register('23', ['29', '32', '2d', '2a'], function (_export, _context6)
         }
     };
 });
-$__System.register("33", [], function (_export, _context) {
+$__System.register("34", [], function (_export, _context) {
     "use strict";
 
     var fixSVGRefs, SVGFixer;
@@ -1801,28 +1801,28 @@ $__System.register("33", [], function (_export, _context) {
         }
     };
 });
-$__System.register('22', ['29', '32', '33', '34', '35', '36', '2d', '2a'], function (_export, _context3) {
+$__System.register('23', ['33', '34', '35', '36', '37', '2e', '2a', '2b'], function (_export, _context3) {
     "use strict";
 
     var _defineProperty, _regeneratorRuntime, _classCallCheck, _createClass, VideoModel, UtilitiesService, XAPIService, SVGFixer, __awaiter;
 
     return {
         setters: [function (_) {
-            _classCallCheck = _.default;
+            UtilitiesService = _.UtilitiesService;
         }, function (_2) {
-            UtilitiesService = _2.UtilitiesService;
+            SVGFixer = _2.SVGFixer;
         }, function (_3) {
-            SVGFixer = _3.SVGFixer;
+            _defineProperty = _3.default;
         }, function (_4) {
-            _defineProperty = _4.default;
+            VideoModel = _4.VideoModel;
         }, function (_5) {
-            VideoModel = _5.VideoModel;
-        }, function (_6) {
-            XAPIService = _6.XAPIService;
-        }, function (_d) {
-            _regeneratorRuntime = _d.default;
+            XAPIService = _5.XAPIService;
+        }, function (_e) {
+            _regeneratorRuntime = _e.default;
         }, function (_a) {
-            _createClass = _a.default;
+            _classCallCheck = _a.default;
+        }, function (_b) {
+            _createClass = _b.default;
         }],
         execute: function () {
             __awaiter = this && this.__awaiter || function (thisArg, _arguments, P, generator) {
@@ -2140,16 +2140,16 @@ $__System.register('22', ['29', '32', '33', '34', '35', '36', '2d', '2a'], funct
         }
     };
 });
-$__System.register('21', ['29', '2a'], function (_export, _context) {
+$__System.register('22', ['2a', '2b'], function (_export, _context) {
     "use strict";
 
     var _classCallCheck, _createClass, QuizResultsComponent;
 
     return {
-        setters: [function (_) {
-            _classCallCheck = _.default;
-        }, function (_a) {
-            _createClass = _a.default;
+        setters: [function (_a) {
+            _classCallCheck = _a.default;
+        }, function (_b) {
+            _createClass = _b.default;
         }],
         execute: function () {
             QuizResultsComponent = function () {
@@ -2192,7 +2192,7 @@ $__System.register('21', ['29', '2a'], function (_export, _context) {
         }
     };
 });
-$__System.register('37', ['32', '38', '2d'], function (_export, _context5) {
+$__System.register('38', ['33', '39', '2e'], function (_export, _context5) {
     "use strict";
 
     var _regeneratorRuntime, UtilitiesService, QuizModel, _this, __awaiter, loadQuizSession, endQuizSession, clearQuestions, loadQuestionIds, Actions;
@@ -2202,8 +2202,8 @@ $__System.register('37', ['32', '38', '2d'], function (_export, _context5) {
             UtilitiesService = _.UtilitiesService;
         }, function (_2) {
             QuizModel = _2.QuizModel;
-        }, function (_d) {
-            _regeneratorRuntime = _d.default;
+        }, function (_e) {
+            _regeneratorRuntime = _e.default;
         }],
         execute: function () {
             _this = this;
@@ -2402,7 +2402,7 @@ $__System.register('37', ['32', '38', '2d'], function (_export, _context5) {
         }
     };
 });
-$__System.register('36', [], function (_export, _context) {
+$__System.register('37', [], function (_export, _context) {
     "use strict";
 
     var sendStatement, sendVideoStatement, sendQuizStatement, XAPIService;
@@ -2459,26 +2459,26 @@ $__System.register('36', [], function (_export, _context) {
         }
     };
 });
-$__System.register('20', ['29', '32', '34', '36', '37', '2d', '2a'], function (_export, _context3) {
+$__System.register('21', ['33', '35', '37', '38', '2e', '2a', '2b'], function (_export, _context3) {
     "use strict";
 
     var _defineProperty, _regeneratorRuntime, _classCallCheck, _createClass, UtilitiesService, Actions, XAPIService, __awaiter, TakeQuizComponent;
 
     return {
         setters: [function (_) {
-            _classCallCheck = _.default;
+            UtilitiesService = _.UtilitiesService;
         }, function (_2) {
-            UtilitiesService = _2.UtilitiesService;
+            _defineProperty = _2.default;
         }, function (_3) {
-            _defineProperty = _3.default;
+            XAPIService = _3.XAPIService;
         }, function (_4) {
-            XAPIService = _4.XAPIService;
-        }, function (_5) {
-            Actions = _5.Actions;
-        }, function (_d) {
-            _regeneratorRuntime = _d.default;
+            Actions = _4.Actions;
+        }, function (_e) {
+            _regeneratorRuntime = _e.default;
         }, function (_a) {
-            _createClass = _a.default;
+            _classCallCheck = _a.default;
+        }, function (_b) {
+            _createClass = _b.default;
         }],
         execute: function () {
             __awaiter = this && this.__awaiter || function (thisArg, _arguments, P, generator) {
@@ -2725,7 +2725,7 @@ $__System.register('20', ['29', '32', '34', '36', '37', '2d', '2a'], function (_
         }
     };
 });
-$__System.register('39', [], function (_export, _context) {
+$__System.register('3a', [], function (_export, _context) {
     "use strict";
 
     var InitialState;
@@ -2743,13 +2743,13 @@ $__System.register('39', [], function (_export, _context) {
         }
     };
 });
-$__System.register('3a', ['39'], function (_export, _context) {
+$__System.register('3b', ['3a'], function (_export, _context) {
     "use strict";
 
     var InitialState, RootReducer;
     return {
-        setters: [function (_) {
-            InitialState = _.InitialState;
+        setters: [function (_a) {
+            InitialState = _a.InitialState;
         }],
         execute: function () {
             _export('RootReducer', RootReducer = function RootReducer() {
@@ -2794,18 +2794,18 @@ $__System.register('3a', ['39'], function (_export, _context) {
         }
     };
 });
-$__System.register('1f', ['29', '2a', '3a'], function (_export, _context) {
+$__System.register('20', ['2a', '2b', '3b'], function (_export, _context) {
     "use strict";
 
     var _classCallCheck, _createClass, RootReducer, ViewQuizComponent;
 
     return {
-        setters: [function (_) {
-            _classCallCheck = _.default;
-        }, function (_a) {
-            _createClass = _a.default;
-        }, function (_a2) {
-            RootReducer = _a2.RootReducer;
+        setters: [function (_a) {
+            _classCallCheck = _a.default;
+        }, function (_b) {
+            _createClass = _b.default;
+        }, function (_b2) {
+            RootReducer = _b2.RootReducer;
         }],
         execute: function () {
             ViewQuizComponent = function () {
@@ -2858,7 +2858,7 @@ $__System.register('1f', ['29', '2a', '3a'], function (_export, _context) {
         }
     };
 });
-$__System.register("34", [], function (_export, _context) {
+$__System.register("35", [], function (_export, _context) {
   "use strict";
 
   return {
@@ -2881,7 +2881,7 @@ $__System.register("34", [], function (_export, _context) {
     }
   };
 });
-$__System.register('3b', [], function (_export, _context) {
+$__System.register('3c', [], function (_export, _context) {
     "use strict";
 
     var InitialState;
@@ -2939,7 +2939,7 @@ $__System.register('3b', [], function (_export, _context) {
         }
     };
 });
-$__System.register('3c', ['34', '3b', '3d'], function (_export, _context) {
+$__System.register('3d', ['35', '3c', '3e'], function (_export, _context) {
     "use strict";
 
     var _defineProperty, InitialState, Actions;
@@ -3200,28 +3200,28 @@ $__System.register('3c', ['34', '3b', '3d'], function (_export, _context) {
     return {
         setters: [function (_) {
             _defineProperty = _.default;
-        }, function (_b) {
-            InitialState = _b.InitialState;
-        }, function (_d) {
-            Actions = _d.Actions;
+        }, function (_c) {
+            InitialState = _c.InitialState;
+        }, function (_e) {
+            Actions = _e.Actions;
         }],
         execute: function () {}
     };
 });
-$__System.register('1e', ['29', '2a', '2e', '3c'], function (_export, _context) {
+$__System.register('1f', ['2a', '2b', '2f', '3d'], function (_export, _context) {
     "use strict";
 
     var _classCallCheck, _createClass, FirebaseService, rootReducer, PrendusApp;
 
     return {
-        setters: [function (_) {
-            _classCallCheck = _.default;
-        }, function (_a) {
-            _createClass = _a.default;
-        }, function (_e) {
-            FirebaseService = _e.FirebaseService;
-        }, function (_c) {
-            rootReducer = _c.rootReducer;
+        setters: [function (_a) {
+            _classCallCheck = _a.default;
+        }, function (_b) {
+            _createClass = _b.default;
+        }, function (_f) {
+            FirebaseService = _f.FirebaseService;
+        }, function (_d) {
+            rootReducer = _d.rootReducer;
         }],
         execute: function () {
             PrendusApp = function () {
@@ -3259,20 +3259,20 @@ $__System.register('1e', ['29', '2a', '2e', '3c'], function (_export, _context) 
         }
     };
 });
-$__System.register('1d', ['29', '2d', '2a', '3d'], function (_export, _context7) {
+$__System.register('1e', ['2e', '2a', '2b', '3e'], function (_export, _context7) {
     "use strict";
 
     var _regeneratorRuntime, _classCallCheck, _createClass, Actions, __awaiter, PrendusCollaboratorMenuContent;
 
     return {
-        setters: [function (_) {
-            _classCallCheck = _.default;
-        }, function (_d) {
-            _regeneratorRuntime = _d.default;
+        setters: [function (_e) {
+            _regeneratorRuntime = _e.default;
         }, function (_a) {
-            _createClass = _a.default;
-        }, function (_d2) {
-            Actions = _d2.Actions;
+            _classCallCheck = _a.default;
+        }, function (_b) {
+            _createClass = _b.default;
+        }, function (_e2) {
+            Actions = _e2.Actions;
         }],
         execute: function () {
             __awaiter = this && this.__awaiter || function (thisArg, _arguments, P, generator) {
@@ -3648,22 +3648,22 @@ $__System.register('1d', ['29', '2d', '2a', '3d'], function (_export, _context7)
         }
     };
 });
-$__System.register('1c', ['29', '2d', '2a', '3d', '2e'], function (_export, _context2) {
+$__System.register('1d', ['2e', '2a', '2b', '3e', '2f'], function (_export, _context2) {
     "use strict";
 
     var _regeneratorRuntime, _classCallCheck, _createClass, Actions, FirebaseService, __awaiter, PrendusConceptContainerEdit;
 
     return {
-        setters: [function (_) {
-            _classCallCheck = _.default;
-        }, function (_d) {
-            _regeneratorRuntime = _d.default;
+        setters: [function (_e) {
+            _regeneratorRuntime = _e.default;
         }, function (_a) {
-            _createClass = _a.default;
-        }, function (_d2) {
-            Actions = _d2.Actions;
-        }, function (_e) {
-            FirebaseService = _e.FirebaseService;
+            _classCallCheck = _a.default;
+        }, function (_b) {
+            _createClass = _b.default;
+        }, function (_e2) {
+            Actions = _e2.Actions;
+        }, function (_f) {
+            FirebaseService = _f.FirebaseService;
         }],
         execute: function () {
             __awaiter = this && this.__awaiter || function (thisArg, _arguments, P, generator) {
@@ -3769,20 +3769,20 @@ $__System.register('1c', ['29', '2d', '2a', '3d', '2e'], function (_export, _con
         }
     };
 });
-$__System.register('1b', ['29', '2d', '2a', '2e'], function (_export, _context2) {
+$__System.register('1c', ['2e', '2a', '2b', '2f'], function (_export, _context2) {
     "use strict";
 
     var _regeneratorRuntime, _classCallCheck, _createClass, FirebaseService, __awaiter, PrendusConceptContainer;
 
     return {
-        setters: [function (_) {
-            _classCallCheck = _.default;
-        }, function (_d) {
-            _regeneratorRuntime = _d.default;
+        setters: [function (_e) {
+            _regeneratorRuntime = _e.default;
         }, function (_a) {
-            _createClass = _a.default;
-        }, function (_e) {
-            FirebaseService = _e.FirebaseService;
+            _classCallCheck = _a.default;
+        }, function (_b) {
+            _createClass = _b.default;
+        }, function (_f) {
+            FirebaseService = _f.FirebaseService;
         }],
         execute: function () {
             __awaiter = this && this.__awaiter || function (thisArg, _arguments, P, generator) {
@@ -3893,20 +3893,20 @@ $__System.register('1b', ['29', '2d', '2a', '2e'], function (_export, _context2)
         }
     };
 });
-$__System.register('1a', ['29', '2d', '2a', '3d'], function (_export, _context3) {
+$__System.register('1b', ['2e', '2a', '2b', '3e'], function (_export, _context3) {
     "use strict";
 
     var _regeneratorRuntime, _classCallCheck, _createClass, Actions, __awaiter, PrendusConceptQuizContainerEdit;
 
     return {
-        setters: [function (_) {
-            _classCallCheck = _.default;
-        }, function (_d) {
-            _regeneratorRuntime = _d.default;
+        setters: [function (_e) {
+            _regeneratorRuntime = _e.default;
         }, function (_a) {
-            _createClass = _a.default;
-        }, function (_d2) {
-            Actions = _d2.Actions;
+            _classCallCheck = _a.default;
+        }, function (_b) {
+            _createClass = _b.default;
+        }, function (_e2) {
+            Actions = _e2.Actions;
         }],
         execute: function () {
             __awaiter = this && this.__awaiter || function (thisArg, _arguments, P, generator) {
@@ -4024,20 +4024,20 @@ $__System.register('1a', ['29', '2d', '2a', '3d'], function (_export, _context3)
         }
     };
 });
-$__System.register('19', ['29', '2d', '2a', '3d'], function (_export, _context2) {
+$__System.register('1a', ['2e', '2a', '2b', '3e'], function (_export, _context2) {
     "use strict";
 
     var _regeneratorRuntime, _classCallCheck, _createClass, Actions, __awaiter, PrendusConceptQuizContainer;
 
     return {
-        setters: [function (_) {
-            _classCallCheck = _.default;
-        }, function (_d) {
-            _regeneratorRuntime = _d.default;
+        setters: [function (_e) {
+            _regeneratorRuntime = _e.default;
         }, function (_a) {
-            _createClass = _a.default;
-        }, function (_d2) {
-            Actions = _d2.Actions;
+            _classCallCheck = _a.default;
+        }, function (_b) {
+            _createClass = _b.default;
+        }, function (_e2) {
+            Actions = _e2.Actions;
         }],
         execute: function () {
             __awaiter = this && this.__awaiter || function (thisArg, _arguments, P, generator) {
@@ -4131,22 +4131,22 @@ $__System.register('19', ['29', '2d', '2a', '3d'], function (_export, _context2)
         }
     };
 });
-$__System.register('18', ['29', '2d', '2a', '3d', '2e'], function (_export, _context4) {
+$__System.register('19', ['2e', '2a', '2b', '3e', '2f'], function (_export, _context4) {
     "use strict";
 
     var _regeneratorRuntime, _classCallCheck, _createClass, Actions, FirebaseService, __awaiter, PrendusConceptVideoContainerEdit;
 
     return {
-        setters: [function (_) {
-            _classCallCheck = _.default;
-        }, function (_d) {
-            _regeneratorRuntime = _d.default;
+        setters: [function (_e) {
+            _regeneratorRuntime = _e.default;
         }, function (_a) {
-            _createClass = _a.default;
-        }, function (_d2) {
-            Actions = _d2.Actions;
-        }, function (_e) {
-            FirebaseService = _e.FirebaseService;
+            _classCallCheck = _a.default;
+        }, function (_b) {
+            _createClass = _b.default;
+        }, function (_e2) {
+            Actions = _e2.Actions;
+        }, function (_f) {
+            FirebaseService = _f.FirebaseService;
         }],
         execute: function () {
             __awaiter = this && this.__awaiter || function (thisArg, _arguments, P, generator) {
@@ -4314,20 +4314,20 @@ $__System.register('18', ['29', '2d', '2a', '3d', '2e'], function (_export, _con
         }
     };
 });
-$__System.register('17', ['29', '2d', '2a', '3d'], function (_export, _context2) {
+$__System.register('18', ['2e', '2a', '2b', '3e'], function (_export, _context2) {
     "use strict";
 
     var _regeneratorRuntime, _classCallCheck, _createClass, Actions, __awaiter, PrendusConceptVideoContainer;
 
     return {
-        setters: [function (_) {
-            _classCallCheck = _.default;
-        }, function (_d) {
-            _regeneratorRuntime = _d.default;
+        setters: [function (_e) {
+            _regeneratorRuntime = _e.default;
         }, function (_a) {
-            _createClass = _a.default;
-        }, function (_d2) {
-            Actions = _d2.Actions;
+            _classCallCheck = _a.default;
+        }, function (_b) {
+            _createClass = _b.default;
+        }, function (_e2) {
+            Actions = _e2.Actions;
         }],
         execute: function () {
             __awaiter = this && this.__awaiter || function (thisArg, _arguments, P, generator) {
@@ -4434,20 +4434,20 @@ $__System.register('17', ['29', '2d', '2a', '3d'], function (_export, _context2)
         }
     };
 });
-$__System.register('16', ['29', '2d', '2a', '3d'], function (_export, _context4) {
+$__System.register('17', ['2e', '2a', '2b', '3e'], function (_export, _context4) {
     "use strict";
 
     var _regeneratorRuntime, _classCallCheck, _createClass, Actions, __awaiter, PrendusCourseEdit;
 
     return {
-        setters: [function (_) {
-            _classCallCheck = _.default;
-        }, function (_d) {
-            _regeneratorRuntime = _d.default;
+        setters: [function (_e) {
+            _regeneratorRuntime = _e.default;
         }, function (_a) {
-            _createClass = _a.default;
-        }, function (_d2) {
-            Actions = _d2.Actions;
+            _classCallCheck = _a.default;
+        }, function (_b) {
+            _createClass = _b.default;
+        }, function (_e2) {
+            Actions = _e2.Actions;
         }],
         execute: function () {
             __awaiter = this && this.__awaiter || function (thisArg, _arguments, P, generator) {
@@ -4696,22 +4696,22 @@ $__System.register('16', ['29', '2d', '2a', '3d'], function (_export, _context4)
         }
     };
 });
-$__System.register('15', ['29', '2d', '2a', '3d', '2e'], function (_export, _context2) {
+$__System.register('16', ['2e', '2a', '2b', '3e', '2f'], function (_export, _context2) {
     "use strict";
 
     var _regeneratorRuntime, _classCallCheck, _createClass, Actions, FirebaseService, __awaiter, PrendusCourseHomepage;
 
     return {
-        setters: [function (_) {
-            _classCallCheck = _.default;
-        }, function (_d) {
-            _regeneratorRuntime = _d.default;
+        setters: [function (_e) {
+            _regeneratorRuntime = _e.default;
         }, function (_a) {
-            _createClass = _a.default;
-        }, function (_d2) {
-            Actions = _d2.Actions;
-        }, function (_e) {
-            FirebaseService = _e.FirebaseService;
+            _classCallCheck = _a.default;
+        }, function (_b) {
+            _createClass = _b.default;
+        }, function (_e2) {
+            Actions = _e2.Actions;
+        }, function (_f) {
+            FirebaseService = _f.FirebaseService;
         }],
         execute: function () {
             __awaiter = this && this.__awaiter || function (thisArg, _arguments, P, generator) {
@@ -4833,22 +4833,22 @@ $__System.register('15', ['29', '2d', '2a', '3d', '2e'], function (_export, _con
         }
     };
 });
-$__System.register('14', ['29', '2d', '2a', '3d', '2e'], function (_export, _context3) {
+$__System.register('15', ['2e', '2a', '2b', '3e', '2f'], function (_export, _context3) {
     "use strict";
 
     var _regeneratorRuntime, _classCallCheck, _createClass, Actions, FirebaseService, __awaiter, PrendusCoursePreview;
 
     return {
-        setters: [function (_) {
-            _classCallCheck = _.default;
-        }, function (_d) {
-            _regeneratorRuntime = _d.default;
+        setters: [function (_e) {
+            _regeneratorRuntime = _e.default;
         }, function (_a) {
-            _createClass = _a.default;
-        }, function (_d2) {
-            Actions = _d2.Actions;
-        }, function (_e) {
-            FirebaseService = _e.FirebaseService;
+            _classCallCheck = _a.default;
+        }, function (_b) {
+            _createClass = _b.default;
+        }, function (_e2) {
+            Actions = _e2.Actions;
+        }, function (_f) {
+            FirebaseService = _f.FirebaseService;
         }],
         execute: function () {
             __awaiter = this && this.__awaiter || function (thisArg, _arguments, P, generator) {
@@ -5069,18 +5069,18 @@ $__System.register('14', ['29', '2d', '2a', '3d', '2e'], function (_export, _con
         }
     };
 });
-$__System.register('13', ['29', '2d', '2a'], function (_export, _context2) {
+$__System.register('14', ['2e', '2a', '2b'], function (_export, _context2) {
     "use strict";
 
     var _regeneratorRuntime, _classCallCheck, _createClass, __awaiter, PrendusCourseRouter;
 
     return {
-        setters: [function (_) {
-            _classCallCheck = _.default;
-        }, function (_d) {
-            _regeneratorRuntime = _d.default;
+        setters: [function (_e) {
+            _regeneratorRuntime = _e.default;
         }, function (_a) {
-            _createClass = _a.default;
+            _classCallCheck = _a.default;
+        }, function (_b) {
+            _createClass = _b.default;
         }],
         execute: function () {
             __awaiter = this && this.__awaiter || function (thisArg, _arguments, P, generator) {
@@ -5142,20 +5142,20 @@ $__System.register('13', ['29', '2d', '2a'], function (_export, _context2) {
         }
     };
 });
-$__System.register('12', ['29', '2d', '2a', '3d'], function (_export, _context3) {
+$__System.register('13', ['2e', '2a', '2b', '3e'], function (_export, _context3) {
     "use strict";
 
     var _regeneratorRuntime, _classCallCheck, _createClass, Actions, __awaiter, PrendusCourseView;
 
     return {
-        setters: [function (_) {
-            _classCallCheck = _.default;
-        }, function (_d) {
-            _regeneratorRuntime = _d.default;
+        setters: [function (_e) {
+            _regeneratorRuntime = _e.default;
         }, function (_a) {
-            _createClass = _a.default;
-        }, function (_d2) {
-            Actions = _d2.Actions;
+            _classCallCheck = _a.default;
+        }, function (_b) {
+            _createClass = _b.default;
+        }, function (_e2) {
+            Actions = _e2.Actions;
         }],
         execute: function () {
             __awaiter = this && this.__awaiter || function (thisArg, _arguments, P, generator) {
@@ -5328,20 +5328,20 @@ $__System.register('12', ['29', '2d', '2a', '3d'], function (_export, _context3)
         }
     };
 });
-$__System.register('11', ['29', '2d', '2a', '3d'], function (_export, _context2) {
+$__System.register('12', ['2e', '2a', '2b', '3e'], function (_export, _context2) {
     "use strict";
 
     var _regeneratorRuntime, _classCallCheck, _createClass, Actions, __awaiter, PrendusCreateAccount;
 
     return {
-        setters: [function (_) {
-            _classCallCheck = _.default;
-        }, function (_d) {
-            _regeneratorRuntime = _d.default;
+        setters: [function (_e) {
+            _regeneratorRuntime = _e.default;
         }, function (_a) {
-            _createClass = _a.default;
-        }, function (_d2) {
-            Actions = _d2.Actions;
+            _classCallCheck = _a.default;
+        }, function (_b) {
+            _createClass = _b.default;
+        }, function (_e2) {
+            Actions = _e2.Actions;
         }],
         execute: function () {
             __awaiter = this && this.__awaiter || function (thisArg, _arguments, P, generator) {
@@ -5446,20 +5446,20 @@ $__System.register('11', ['29', '2d', '2a', '3d'], function (_export, _context2)
         }
     };
 });
-$__System.register('10', ['29', '2d', '2a', '3d'], function (_export, _context2) {
+$__System.register('11', ['2e', '2a', '2b', '3e'], function (_export, _context2) {
     "use strict";
 
     var _regeneratorRuntime, _classCallCheck, _createClass, Actions, __awaiter, PrendusEditQuestionRouter;
 
     return {
-        setters: [function (_) {
-            _classCallCheck = _.default;
-        }, function (_d) {
-            _regeneratorRuntime = _d.default;
+        setters: [function (_e) {
+            _regeneratorRuntime = _e.default;
         }, function (_a) {
-            _createClass = _a.default;
-        }, function (_d2) {
-            Actions = _d2.Actions;
+            _classCallCheck = _a.default;
+        }, function (_b) {
+            _createClass = _b.default;
+        }, function (_e2) {
+            Actions = _e2.Actions;
         }],
         execute: function () {
             __awaiter = this && this.__awaiter || function (thisArg, _arguments, P, generator) {
@@ -5540,18 +5540,18 @@ $__System.register('10', ['29', '2d', '2a', '3d'], function (_export, _context2)
         }
     };
 });
-$__System.register('f', ['29', '2d', '2a'], function (_export, _context2) {
+$__System.register('10', ['2e', '2a', '2b'], function (_export, _context2) {
     "use strict";
 
     var _regeneratorRuntime, _classCallCheck, _createClass, __awaiter, PrendusEditQuizRouter;
 
     return {
-        setters: [function (_) {
-            _classCallCheck = _.default;
-        }, function (_d) {
-            _regeneratorRuntime = _d.default;
+        setters: [function (_e) {
+            _regeneratorRuntime = _e.default;
         }, function (_a) {
-            _createClass = _a.default;
+            _classCallCheck = _a.default;
+        }, function (_b) {
+            _createClass = _b.default;
         }],
         execute: function () {
             __awaiter = this && this.__awaiter || function (thisArg, _arguments, P, generator) {
@@ -5642,16 +5642,16 @@ $__System.register('f', ['29', '2d', '2a'], function (_export, _context2) {
         }
     };
 });
-$__System.register('e', ['29', '2a'], function (_export, _context) {
+$__System.register('f', ['2a', '2b'], function (_export, _context) {
     "use strict";
 
     var _classCallCheck, _createClass, PrendusExample;
 
     return {
-        setters: [function (_) {
-            _classCallCheck = _.default;
-        }, function (_a) {
-            _createClass = _a.default;
+        setters: [function (_a) {
+            _classCallCheck = _a.default;
+        }, function (_b) {
+            _createClass = _b.default;
         }],
         execute: function () {
             PrendusExample = function () {
@@ -5679,16 +5679,16 @@ $__System.register('e', ['29', '2a'], function (_export, _context) {
         }
     };
 });
-$__System.register('d', ['29', '2a'], function (_export, _context) {
+$__System.register('e', ['2a', '2b'], function (_export, _context) {
     "use strict";
 
     var _classCallCheck, _createClass, PrendusFooter;
 
     return {
-        setters: [function (_) {
-            _classCallCheck = _.default;
-        }, function (_a) {
-            _createClass = _a.default;
+        setters: [function (_a) {
+            _classCallCheck = _a.default;
+        }, function (_b) {
+            _createClass = _b.default;
         }],
         execute: function () {
             PrendusFooter = function () {
@@ -5717,20 +5717,20 @@ $__System.register('d', ['29', '2a'], function (_export, _context) {
         }
     };
 });
-$__System.register('c', ['29', '2d', '2a', '3d'], function (_export, _context3) {
+$__System.register('d', ['2e', '2a', '2b', '3e'], function (_export, _context3) {
     "use strict";
 
     var _regeneratorRuntime, _classCallCheck, _createClass, Actions, __awaiter, PrendusHomepage;
 
     return {
-        setters: [function (_) {
-            _classCallCheck = _.default;
-        }, function (_d) {
-            _regeneratorRuntime = _d.default;
+        setters: [function (_e) {
+            _regeneratorRuntime = _e.default;
         }, function (_a) {
-            _createClass = _a.default;
-        }, function (_d2) {
-            Actions = _d2.Actions;
+            _classCallCheck = _a.default;
+        }, function (_b) {
+            _createClass = _b.default;
+        }, function (_e2) {
+            Actions = _e2.Actions;
         }],
         execute: function () {
             __awaiter = this && this.__awaiter || function (thisArg, _arguments, P, generator) {
@@ -5830,20 +5830,58 @@ $__System.register('c', ['29', '2d', '2a', '3d'], function (_export, _context3) 
         }
     };
 });
-$__System.register('b', ['29', '2d', '2a', '3d'], function (_export, _context2) {
+$__System.register('c', ['2a', '2b'], function (_export, _context) {
+    "use strict";
+
+    var _classCallCheck, _createClass, PrendusLanding;
+
+    return {
+        setters: [function (_a) {
+            _classCallCheck = _a.default;
+        }, function (_b) {
+            _createClass = _b.default;
+        }],
+        execute: function () {
+            PrendusLanding = function () {
+                function PrendusLanding() {
+                    _classCallCheck(this, PrendusLanding);
+                }
+
+                _createClass(PrendusLanding, [{
+                    key: 'beforeRegister',
+                    value: function beforeRegister() {
+                        this.is = 'prendus-landing';
+                    }
+                }, {
+                    key: 'changeURL',
+                    value: function changeURL(e) {
+                        var location = e.target.id;
+                        window.history.pushState({}, '', location);
+                        this.fire('location-changed', {}, { node: window });
+                    }
+                }]);
+
+                return PrendusLanding;
+            }();
+
+            Polymer(PrendusLanding);
+        }
+    };
+});
+$__System.register('b', ['2e', '2a', '2b', '3e'], function (_export, _context2) {
     "use strict";
 
     var _regeneratorRuntime, _classCallCheck, _createClass, Actions, __awaiter, PrendusLogin;
 
     return {
-        setters: [function (_) {
-            _classCallCheck = _.default;
-        }, function (_d) {
-            _regeneratorRuntime = _d.default;
+        setters: [function (_e) {
+            _regeneratorRuntime = _e.default;
         }, function (_a) {
-            _createClass = _a.default;
-        }, function (_d2) {
-            Actions = _d2.Actions;
+            _classCallCheck = _a.default;
+        }, function (_b) {
+            _createClass = _b.default;
+        }, function (_e2) {
+            Actions = _e2.Actions;
         }],
         execute: function () {
             __awaiter = this && this.__awaiter || function (thisArg, _arguments, P, generator) {
@@ -5933,18 +5971,18 @@ $__System.register('b', ['29', '2d', '2a', '3d'], function (_export, _context2) 
         }
     };
 });
-$__System.register('a', ['29', '2a', '3d'], function (_export, _context) {
+$__System.register('a', ['2a', '2b', '3e'], function (_export, _context) {
     "use strict";
 
     var _classCallCheck, _createClass, Actions, PrendusNavbar;
 
     return {
-        setters: [function (_) {
-            _classCallCheck = _.default;
-        }, function (_a) {
-            _createClass = _a.default;
-        }, function (_d) {
-            Actions = _d.Actions;
+        setters: [function (_a) {
+            _classCallCheck = _a.default;
+        }, function (_b) {
+            _createClass = _b.default;
+        }, function (_e) {
+            Actions = _e.Actions;
         }],
         execute: function () {
             _export('PrendusNavbar', PrendusNavbar = function () {
@@ -6006,16 +6044,16 @@ $__System.register('a', ['29', '2a', '3d'], function (_export, _context) {
         }
     };
 });
-$__System.register('9', ['29', '2a'], function (_export, _context) {
+$__System.register('9', ['2a', '2b'], function (_export, _context) {
     "use strict";
 
     var _classCallCheck, _createClass, PrendusNotification;
 
     return {
-        setters: [function (_) {
-            _classCallCheck = _.default;
-        }, function (_a) {
-            _createClass = _a.default;
+        setters: [function (_a) {
+            _classCallCheck = _a.default;
+        }, function (_b) {
+            _createClass = _b.default;
         }],
         execute: function () {
             PrendusNotification = function () {
@@ -6072,16 +6110,16 @@ $__System.register('9', ['29', '2a'], function (_export, _context) {
         }
     };
 });
-$__System.register('8', ['29', '2a'], function (_export, _context) {
+$__System.register('8', ['2a', '2b'], function (_export, _context) {
     "use strict";
 
     var _classCallCheck, _createClass, PrendusExample;
 
     return {
-        setters: [function (_) {
-            _classCallCheck = _.default;
-        }, function (_a) {
-            _createClass = _a.default;
+        setters: [function (_a) {
+            _classCallCheck = _a.default;
+        }, function (_b) {
+            _createClass = _b.default;
         }],
         execute: function () {
             PrendusExample = function () {
@@ -6103,20 +6141,20 @@ $__System.register('8', ['29', '2a'], function (_export, _context) {
         }
     };
 });
-$__System.register('7', ['29', '2d', '2a', '3d'], function (_export, _context3) {
+$__System.register('7', ['2e', '2a', '2b', '3e'], function (_export, _context3) {
     "use strict";
 
     var _regeneratorRuntime, _classCallCheck, _createClass, Actions, __awaiter, PrendusProfile;
 
     return {
-        setters: [function (_) {
-            _classCallCheck = _.default;
-        }, function (_d) {
-            _regeneratorRuntime = _d.default;
+        setters: [function (_e) {
+            _regeneratorRuntime = _e.default;
         }, function (_a) {
-            _createClass = _a.default;
-        }, function (_d2) {
-            Actions = _d2.Actions;
+            _classCallCheck = _a.default;
+        }, function (_b) {
+            _createClass = _b.default;
+        }, function (_e2) {
+            Actions = _e2.Actions;
         }],
         execute: function () {
             __awaiter = this && this.__awaiter || function (thisArg, _arguments, P, generator) {
@@ -6283,7 +6321,7 @@ $__System.register('7', ['29', '2d', '2a', '3d'], function (_export, _context3) 
         }
     };
 });
-$__System.register('3e', ['32', '2c', '2d', '2e', '3f'], function (_export, _context24) {
+$__System.register('3f', ['33', '40', '2d', '2e', '2f'], function (_export, _context24) {
     "use strict";
 
     var _toConsumableArray, _regeneratorRuntime, FirebaseService, ConceptModel, UtilitiesService, _this, __awaiter, conceptsPath, dataPath, createOrUpdate, associateConcept, disassociateConcept, getById, getCoursesByUser, courseConceptsToArray, orderCourseConcepts, updateCourseConcepts, deleteCourse, associateCollaborator, disassociateCollaborator, getCollaboratorUids, getAllByVisibility, resolveCourseIds, updateCourseField, getConceptIds, associateUserStar, disassociateUserStar, CourseModel;
@@ -6291,14 +6329,14 @@ $__System.register('3e', ['32', '2c', '2d', '2e', '3f'], function (_export, _con
     return {
         setters: [function (_) {
             UtilitiesService = _.UtilitiesService;
-        }, function (_c) {
-            _toConsumableArray = _c.default;
+        }, function (_2) {
+            ConceptModel = _2.ConceptModel;
         }, function (_d) {
-            _regeneratorRuntime = _d.default;
+            _toConsumableArray = _d.default;
         }, function (_e) {
-            FirebaseService = _e.FirebaseService;
+            _regeneratorRuntime = _e.default;
         }, function (_f) {
-            ConceptModel = _f.ConceptModel;
+            FirebaseService = _f.FirebaseService;
         }],
         execute: function () {
             _this = this;
@@ -7116,7 +7154,7 @@ $__System.register('3e', ['32', '2c', '2d', '2e', '3f'], function (_export, _con
         }
     };
 });
-$__System.register('3f', ['32', '35', '38', '2c', '2d', '2e'], function (_export, _context24) {
+$__System.register('40', ['33', '36', '39', '2d', '2e', '2f'], function (_export, _context24) {
     "use strict";
 
     var _toConsumableArray, _regeneratorRuntime, FirebaseService, VideoModel, QuizModel, UtilitiesService, _this, __awaiter, dataPath, save, getById, deleteConcept, conceptsObjectToArray, associateCollaborator, associateCollaborators, disassociateCollaborator, getCollaboratorUids, getVideoIds, getQuizIds, resolveConceptIds, associateVideo, disassociateVideo, associateQuiz, disassociateQuiz, filterConceptsByCollaborator, filterConceptDatasByCollaborator, ConceptModel;
@@ -7128,12 +7166,12 @@ $__System.register('3f', ['32', '35', '38', '2c', '2d', '2e'], function (_export
             VideoModel = _2.VideoModel;
         }, function (_3) {
             QuizModel = _3.QuizModel;
-        }, function (_c) {
-            _toConsumableArray = _c.default;
         }, function (_d) {
-            _regeneratorRuntime = _d.default;
+            _toConsumableArray = _d.default;
         }, function (_e) {
-            FirebaseService = _e.FirebaseService;
+            _regeneratorRuntime = _e.default;
+        }, function (_f) {
+            FirebaseService = _f.FirebaseService;
         }],
         execute: function () {
             _this = this;
@@ -7924,18 +7962,18 @@ $__System.register('3f', ['32', '35', '38', '2c', '2d', '2e'], function (_export
         }
     };
 });
-$__System.register('40', ['2c', '2d', '2e'], function (_export, _context24) {
+$__System.register('41', ['2d', '2e', '2f'], function (_export, _context24) {
     "use strict";
 
     var _toConsumableArray, _regeneratorRuntime, FirebaseService, _this, __awaiter, dataPath, save, updateFirebaseUser, updateMetaData, getById, getMetaDataById, starCourse, unstarCourse, shareCourseWithMe, unshareCourseWithMe, shareConceptWithMe, unshareConceptWithMe, shareVideoWithMe, unshareVideoWithMe, shareQuizWithMe, unshareQuizWithMe, getStarredCoursesIds, getSharedWithMeCoursesIds, getSharedWithMeConceptsIds, getSharedWithMeVideosIds, getSharedWithMeQuizzesIds, getEmailById, getEmailsByIds, UserModel;
 
     return {
-        setters: [function (_c) {
-            _toConsumableArray = _c.default;
-        }, function (_d) {
-            _regeneratorRuntime = _d.default;
+        setters: [function (_d) {
+            _toConsumableArray = _d.default;
         }, function (_e) {
-            FirebaseService = _e.FirebaseService;
+            _regeneratorRuntime = _e.default;
+        }, function (_f) {
+            FirebaseService = _f.FirebaseService;
         }],
         execute: function () {
             _this = this;
@@ -8709,18 +8747,18 @@ $__System.register('40', ['2c', '2d', '2e'], function (_export, _context24) {
         }
     };
 });
-$__System.register('35', ['2c', '2d', '2e'], function (_export, _context13) {
+$__System.register('36', ['2d', '2e', '2f'], function (_export, _context13) {
     "use strict";
 
     var _toConsumableArray, _regeneratorRuntime, FirebaseService, _this, __awaiter, dataPath, createOrUpdate, getById, removeById, update, associateCollaborator, associateCollaborators, disassociateCollaborator, getCollaboratorUids, resolveVideoIds, filterVideosByCollaborator, VideoModel;
 
     return {
-        setters: [function (_c) {
-            _toConsumableArray = _c.default;
-        }, function (_d) {
-            _regeneratorRuntime = _d.default;
+        setters: [function (_d) {
+            _toConsumableArray = _d.default;
         }, function (_e) {
-            FirebaseService = _e.FirebaseService;
+            _regeneratorRuntime = _e.default;
+        }, function (_f) {
+            FirebaseService = _f.FirebaseService;
         }],
         execute: function () {
             _this = this;
@@ -9166,18 +9204,18 @@ $__System.register('35', ['2c', '2d', '2e'], function (_export, _context13) {
         }
     };
 });
-$__System.register('38', ['2c', '2d', '2e'], function (_export, _context19) {
+$__System.register('39', ['2d', '2e', '2f'], function (_export, _context19) {
     "use strict";
 
     var _toConsumableArray, _regeneratorRuntime, FirebaseService, _this, __awaiter, dataPath, createOrUpdate, getById, removeById, associateQuestion, disassociateQuestion, associateCollaborator, associateCollaborators, disassociateCollaborator, getCollaboratorUids, setQuestionSetting, setQuizSetting, getQuizSettings, updateTitle, getQuestionIds, resolveQuizIds, filterQuizzesByCollaborator, QuizModel;
 
     return {
-        setters: [function (_c) {
-            _toConsumableArray = _c.default;
-        }, function (_d) {
-            _regeneratorRuntime = _d.default;
+        setters: [function (_d) {
+            _toConsumableArray = _d.default;
         }, function (_e) {
-            FirebaseService = _e.FirebaseService;
+            _regeneratorRuntime = _e.default;
+        }, function (_f) {
+            FirebaseService = _f.FirebaseService;
         }],
         execute: function () {
             _this = this;
@@ -9816,16 +9854,16 @@ $__System.register('38', ['2c', '2d', '2e'], function (_export, _context19) {
         }
     };
 });
-$__System.register('41', ['2d', '2e'], function (_export, _context3) {
+$__System.register('42', ['2e', '2f'], function (_export, _context3) {
     "use strict";
 
     var _regeneratorRuntime, FirebaseService, _this, __awaiter, dataPath, setUidByEmail, getUidByEmail, EmailsToUidsModel;
 
     return {
-        setters: [function (_d) {
-            _regeneratorRuntime = _d.default;
-        }, function (_e) {
-            FirebaseService = _e.FirebaseService;
+        setters: [function (_e) {
+            _regeneratorRuntime = _e.default;
+        }, function (_f) {
+            FirebaseService = _f.FirebaseService;
         }],
         execute: function () {
             _this = this;
@@ -9928,7 +9966,7 @@ $__System.register('41', ['2d', '2e'], function (_export, _context3) {
         }
     };
 });
-$__System.register("2c", [], function (_export, _context) {
+$__System.register("2d", [], function (_export, _context) {
   "use strict";
 
   return {
@@ -9946,16 +9984,16 @@ $__System.register("2c", [], function (_export, _context) {
     }
   };
 });
-$__System.register("42", ["2d", "2c"], function (_export, _context2) {
+$__System.register("43", ["2e", "2d"], function (_export, _context2) {
     "use strict";
 
     var _regeneratorRuntime, _toConsumableArray, _this, __awaiter, queue, transactionOccurring, execute, ExecuteAsyncInOrder;
 
     return {
-        setters: [function (_d) {
-            _regeneratorRuntime = _d.default;
-        }, function (_c) {
-            _toConsumableArray = _c.default;
+        setters: [function (_e) {
+            _regeneratorRuntime = _e.default;
+        }, function (_d) {
+            _toConsumableArray = _d.default;
         }],
         execute: function () {
             _this = this;
@@ -10043,7 +10081,7 @@ $__System.register("42", ["2d", "2c"], function (_export, _context2) {
         }
     };
 });
-$__System.register('3d',['35','38','40','41','42','2d','2e','3e','3f'],function(_export,_context65){"use strict";var _regeneratorRuntime,FirebaseService,CourseModel,ConceptModel,UserModel,VideoModel,QuizModel,EmailsToUidsModel,ExecuteAsyncInOrder,_this,__awaiter,showMainSpinner,hideMainSpinner,loadCourseCollaboratorEmails,loadConceptCollaboratorEmails,loadVideoCollaboratorEmails,loadQuizCollaboratorEmails,addCourseCollaborator,addConceptCollaborator,addVideoCollaborator,addQuizCollaborator,removeCourseCollaborator,removeConceptCollaborator,removeVideoCollaborator,removeQuizCollaborator,starCourse,unstarCourse,getQuiz,updateQuizTitle,createNewQuiz,loadEditConceptQuizzes,loadViewConceptQuizzes,setCurrentEditQuizId,loadQuizSettings,setQuizSetting,setQuestionSetting,loadQuizQuestionIds,addQuestionToQuiz,removeQuestionFromQuiz,loadUserQuestionIds,loadPublicQuestionIds,deleteVideo,saveVideo,setCurrentVideoInfo,clearCurrentVideoInfo,loadEditConceptVideos,loadViewConceptVideos,loadEditCourseConcepts,loadViewCourseConcepts,createUser,loginUser,updateUserEmail,updateUserMetaData,checkUserAuth,addConcept,getConceptById,addCourse,getCoursesByUser,getStarredCoursesByUser,getSharedCoursesByUser,getCoursesByVisibility,getCourseViewCourseById,getCourseEditCourseById,deleteConcept,orderConcepts,updateCourseField,logOutUser,Actions;return{setters:[function(_){VideoModel=_.VideoModel;},function(_2){QuizModel=_2.QuizModel;},function(_3){UserModel=_3.UserModel;},function(_4){EmailsToUidsModel=_4.EmailsToUidsModel;},function(_5){ExecuteAsyncInOrder=_5.ExecuteAsyncInOrder;},function(_d){_regeneratorRuntime=_d.default;},function(_e){FirebaseService=_e.FirebaseService;},function(_e2){CourseModel=_e2.CourseModel;},function(_f){ConceptModel=_f.ConceptModel;}],execute:function(){_this=this;__awaiter=this&&this.__awaiter||function(thisArg,_arguments,P,generator){return new(P||(P=Promise))(function(resolve,reject){function fulfilled(value){try{step(generator.next(value));}catch(e){reject(e);}}function rejected(value){try{step(generator.throw(value));}catch(e){reject(e);}}function step(result){result.done?resolve(result.value):new P(function(resolve){resolve(result.value);}).then(fulfilled,rejected);}step((generator=generator.apply(thisArg,_arguments)).next());});};showMainSpinner=function showMainSpinner(context){context.action={type:'SHOW_MAIN_SPINNER'};};hideMainSpinner=function hideMainSpinner(context){context.action={type:'HIDE_MAIN_SPINNER'};};loadCourseCollaboratorEmails=function loadCourseCollaboratorEmails(context,uid,courseId){return __awaiter(_this,void 0,void 0,_regeneratorRuntime.mark(function _callee2(){var operation;return _regeneratorRuntime.wrap(function _callee2$(_context2){while(1){switch(_context2.prev=_context2.next){case 0:operation=function operation(){return __awaiter(this,void 0,void 0,_regeneratorRuntime.mark(function _callee(){var uids,emails,conceptIds;return _regeneratorRuntime.wrap(function _callee$(_context){while(1){switch(_context.prev=_context.next){case 0:_context.prev=0;_context.next=3;return CourseModel.getCollaboratorUids(courseId);case 3:uids=_context.sent;_context.next=6;return FirebaseService.set('security/'+uid+'/collaboratorSecurityInfo',{collection:CourseModel.dataPath,id:courseId});case 6:_context.next=8;return UserModel.getEmailsByIds(uids);case 8:emails=_context.sent;context.action={type:'SET_COURSE_COLLABORATOR_EMAILS',emails:emails,uid:uid,courseId:courseId};_context.next=12;return CourseModel.getConceptIds(courseId);case 12:conceptIds=_context.sent;conceptIds.forEach(function(conceptId){loadConceptCollaboratorEmails(context,courseId,conceptId);});_context.next=19;break;case 16:_context.prev=16;_context.t0=_context['catch'](0);throw _context.t0;case 19:case'end':return _context.stop();}}},_callee,this,[[0,16]]);}));};ExecuteAsyncInOrder.execute(operation);case 2:case'end':return _context2.stop();}}},_callee2,this);}));};loadConceptCollaboratorEmails=function loadConceptCollaboratorEmails(context,courseId,conceptId){return __awaiter(_this,void 0,void 0,_regeneratorRuntime.mark(function _callee4(){var operation;return _regeneratorRuntime.wrap(function _callee4$(_context4){while(1){switch(_context4.prev=_context4.next){case 0:operation=function operation(){return __awaiter(this,void 0,void 0,_regeneratorRuntime.mark(function _callee3(){var user,uids,emails,videoIds,quizIds;return _regeneratorRuntime.wrap(function _callee3$(_context3){while(1){switch(_context3.prev=_context3.next){case 0:_context3.prev=0;_context3.next=3;return FirebaseService.getLoggedInUser();case 3:user=_context3.sent;_context3.next=6;return ConceptModel.getCollaboratorUids(conceptId);case 6:uids=_context3.sent;_context3.next=9;return FirebaseService.set('security/'+user.uid+'/collaboratorSecurityInfo',{collection:ConceptModel.dataPath,id:conceptId});case 9:_context3.next=11;return UserModel.getEmailsByIds(uids);case 11:emails=_context3.sent;context.action={type:'SET_CONCEPT_COLLABORATOR_EMAILS',emails:emails,courseId:courseId,conceptId:conceptId};_context3.next=15;return ConceptModel.getVideoIds(conceptId);case 15:videoIds=_context3.sent;videoIds.forEach(function(videoId){loadVideoCollaboratorEmails(context,conceptId,videoId);});_context3.next=19;return ConceptModel.getQuizIds(conceptId);case 19:quizIds=_context3.sent;quizIds.forEach(function(quizId){loadQuizCollaboratorEmails(context,conceptId,quizId);});_context3.next=26;break;case 23:_context3.prev=23;_context3.t0=_context3['catch'](0);throw _context3.t0;case 26:case'end':return _context3.stop();}}},_callee3,this,[[0,23]]);}));};ExecuteAsyncInOrder.execute(operation);case 2:case'end':return _context4.stop();}}},_callee4,this);}));};loadVideoCollaboratorEmails=function loadVideoCollaboratorEmails(context,conceptId,videoId){return __awaiter(_this,void 0,void 0,_regeneratorRuntime.mark(function _callee6(){var operation;return _regeneratorRuntime.wrap(function _callee6$(_context6){while(1){switch(_context6.prev=_context6.next){case 0:operation=function operation(){return __awaiter(this,void 0,void 0,_regeneratorRuntime.mark(function _callee5(){var user,uids,emails;return _regeneratorRuntime.wrap(function _callee5$(_context5){while(1){switch(_context5.prev=_context5.next){case 0:_context5.prev=0;_context5.next=3;return FirebaseService.getLoggedInUser();case 3:user=_context5.sent;_context5.next=6;return VideoModel.getCollaboratorUids(videoId);case 6:uids=_context5.sent;_context5.next=9;return FirebaseService.set('security/'+user.uid+'/collaboratorSecurityInfo',{collection:VideoModel.dataPath,id:videoId});case 9:_context5.next=11;return UserModel.getEmailsByIds(uids);case 11:emails=_context5.sent;context.action={type:'SET_VIDEO_COLLABORATOR_EMAILS',emails:emails,conceptId:conceptId,videoId:videoId};_context5.next=18;break;case 15:_context5.prev=15;_context5.t0=_context5['catch'](0);throw _context5.t0;case 18:case'end':return _context5.stop();}}},_callee5,this,[[0,15]]);}));};ExecuteAsyncInOrder.execute(operation);case 2:case'end':return _context6.stop();}}},_callee6,this);}));};loadQuizCollaboratorEmails=function loadQuizCollaboratorEmails(context,conceptId,quizId){return __awaiter(_this,void 0,void 0,_regeneratorRuntime.mark(function _callee8(){var operation;return _regeneratorRuntime.wrap(function _callee8$(_context8){while(1){switch(_context8.prev=_context8.next){case 0:operation=function operation(){return __awaiter(this,void 0,void 0,_regeneratorRuntime.mark(function _callee7(){var user,uids,emails;return _regeneratorRuntime.wrap(function _callee7$(_context7){while(1){switch(_context7.prev=_context7.next){case 0:_context7.prev=0;_context7.next=3;return FirebaseService.getLoggedInUser();case 3:user=_context7.sent;_context7.next=6;return QuizModel.getCollaboratorUids(quizId);case 6:uids=_context7.sent;_context7.next=9;return FirebaseService.set('security/'+user.uid+'/collaboratorSecurityInfo',{collection:QuizModel.dataPath,id:quizId});case 9:_context7.next=11;return UserModel.getEmailsByIds(uids);case 11:emails=_context7.sent;context.action={type:'SET_QUIZ_COLLABORATOR_EMAILS',emails:emails,conceptId:conceptId,quizId:quizId};_context7.next=18;break;case 15:_context7.prev=15;_context7.t0=_context7['catch'](0);throw _context7.t0;case 18:case'end':return _context7.stop();}}},_callee7,this,[[0,15]]);}));};ExecuteAsyncInOrder.execute(operation);case 2:case'end':return _context8.stop();}}},_callee8,this);}));};addCourseCollaborator=function addCourseCollaborator(context,courseId,email){return __awaiter(_this,void 0,void 0,_regeneratorRuntime.mark(function _callee10(){var operation;return _regeneratorRuntime.wrap(function _callee10$(_context10){while(1){switch(_context10.prev=_context10.next){case 0:operation=function operation(){return __awaiter(this,void 0,void 0,_regeneratorRuntime.mark(function _callee9(){var user,uid;return _regeneratorRuntime.wrap(function _callee9$(_context9){while(1){switch(_context9.prev=_context9.next){case 0:_context9.prev=0;_context9.next=3;return FirebaseService.getLoggedInUser();case 3:user=_context9.sent;_context9.next=6;return FirebaseService.set('security/'+user.uid+'/emailToUidSecurityInfo/encodedEmail',btoa(email));case 6:_context9.next=8;return EmailsToUidsModel.getUidByEmail(email);case 8:uid=_context9.sent;if(uid){_context9.next=11;break;}throw'The user does not exist';case 11:_context9.next=13;return CourseModel.associateCollaborator(courseId,uid);case 13:_context9.next=15;return UserModel.shareCourseWithMe(uid,courseId);case 15:_context9.next=20;break;case 17:_context9.prev=17;_context9.t0=_context9['catch'](0);throw _context9.t0;case 20:case'end':return _context9.stop();}}},_callee9,this,[[0,17]]);}));};ExecuteAsyncInOrder.execute(operation);case 2:case'end':return _context10.stop();}}},_callee10,this);}));};addConceptCollaborator=function addConceptCollaborator(context,conceptId,email){return __awaiter(_this,void 0,void 0,_regeneratorRuntime.mark(function _callee12(){var operation;return _regeneratorRuntime.wrap(function _callee12$(_context12){while(1){switch(_context12.prev=_context12.next){case 0:operation=function operation(){return __awaiter(this,void 0,void 0,_regeneratorRuntime.mark(function _callee11(){var user,uid;return _regeneratorRuntime.wrap(function _callee11$(_context11){while(1){switch(_context11.prev=_context11.next){case 0:_context11.prev=0;_context11.next=3;return FirebaseService.getLoggedInUser();case 3:user=_context11.sent;_context11.next=6;return FirebaseService.set('security/'+user.uid+'/emailToUidSecurityInfo/encodedEmail',btoa(email));case 6:_context11.next=8;return EmailsToUidsModel.getUidByEmail(email);case 8:uid=_context11.sent;if(uid){_context11.next=11;break;}throw'The user does not exist';case 11:_context11.next=13;return ConceptModel.associateCollaborator(conceptId,uid);case 13:_context11.next=15;return UserModel.shareConceptWithMe(uid,conceptId);case 15:_context11.next=20;break;case 17:_context11.prev=17;_context11.t0=_context11['catch'](0);throw _context11.t0;case 20:case'end':return _context11.stop();}}},_callee11,this,[[0,17]]);}));};ExecuteAsyncInOrder.execute(operation);case 2:case'end':return _context12.stop();}}},_callee12,this);}));};addVideoCollaborator=function addVideoCollaborator(context,videoId,email){return __awaiter(_this,void 0,void 0,_regeneratorRuntime.mark(function _callee14(){var operation;return _regeneratorRuntime.wrap(function _callee14$(_context14){while(1){switch(_context14.prev=_context14.next){case 0:operation=function operation(){return __awaiter(this,void 0,void 0,_regeneratorRuntime.mark(function _callee13(){var user,uid;return _regeneratorRuntime.wrap(function _callee13$(_context13){while(1){switch(_context13.prev=_context13.next){case 0:_context13.prev=0;_context13.next=3;return FirebaseService.getLoggedInUser();case 3:user=_context13.sent;_context13.next=6;return FirebaseService.set('security/'+user.uid+'/emailToUidSecurityInfo/encodedEmail',btoa(email));case 6:_context13.next=8;return EmailsToUidsModel.getUidByEmail(email);case 8:uid=_context13.sent;if(uid){_context13.next=11;break;}throw'The user does not exist';case 11:_context13.next=13;return VideoModel.associateCollaborator(videoId,uid);case 13:_context13.next=15;return UserModel.shareVideoWithMe(uid,videoId);case 15:_context13.next=20;break;case 17:_context13.prev=17;_context13.t0=_context13['catch'](0);throw _context13.t0;case 20:case'end':return _context13.stop();}}},_callee13,this,[[0,17]]);}));};ExecuteAsyncInOrder.execute(operation);case 2:case'end':return _context14.stop();}}},_callee14,this);}));};addQuizCollaborator=function addQuizCollaborator(context,quizId,email){return __awaiter(_this,void 0,void 0,_regeneratorRuntime.mark(function _callee16(){var operation;return _regeneratorRuntime.wrap(function _callee16$(_context16){while(1){switch(_context16.prev=_context16.next){case 0:operation=function operation(){return __awaiter(this,void 0,void 0,_regeneratorRuntime.mark(function _callee15(){var user,uid;return _regeneratorRuntime.wrap(function _callee15$(_context15){while(1){switch(_context15.prev=_context15.next){case 0:_context15.prev=0;_context15.next=3;return FirebaseService.getLoggedInUser();case 3:user=_context15.sent;_context15.next=6;return FirebaseService.set('security/'+user.uid+'/emailToUidSecurityInfo/encodedEmail',btoa(email));case 6:_context15.next=8;return EmailsToUidsModel.getUidByEmail(email);case 8:uid=_context15.sent;if(uid){_context15.next=11;break;}throw'The user does not exist';case 11:_context15.next=13;return QuizModel.associateCollaborator(quizId,uid);case 13:_context15.next=15;return UserModel.shareQuizWithMe(uid,quizId);case 15:_context15.next=20;break;case 17:_context15.prev=17;_context15.t0=_context15['catch'](0);throw _context15.t0;case 20:case'end':return _context15.stop();}}},_callee15,this,[[0,17]]);}));};ExecuteAsyncInOrder.execute(operation);case 2:case'end':return _context16.stop();}}},_callee16,this);}));};removeCourseCollaborator=function removeCourseCollaborator(context,courseId,email){return __awaiter(_this,void 0,void 0,_regeneratorRuntime.mark(function _callee18(){var operation;return _regeneratorRuntime.wrap(function _callee18$(_context18){while(1){switch(_context18.prev=_context18.next){case 0:operation=function operation(){return __awaiter(this,void 0,void 0,_regeneratorRuntime.mark(function _callee17(){var user,uid;return _regeneratorRuntime.wrap(function _callee17$(_context17){while(1){switch(_context17.prev=_context17.next){case 0:_context17.prev=0;_context17.next=3;return FirebaseService.getLoggedInUser();case 3:user=_context17.sent;_context17.next=6;return FirebaseService.set('security/'+user.uid+'/emailToUidSecurityInfo/encodedEmail',btoa(email));case 6:_context17.next=8;return EmailsToUidsModel.getUidByEmail(email);case 8:uid=_context17.sent;if(uid){_context17.next=11;break;}throw'The user does not exist';case 11:_context17.next=13;return CourseModel.disassociateCollaborator(courseId,uid);case 13:_context17.next=15;return UserModel.unshareCourseWithMe(uid,courseId);case 15:_context17.next=20;break;case 17:_context17.prev=17;_context17.t0=_context17['catch'](0);throw _context17.t0;case 20:case'end':return _context17.stop();}}},_callee17,this,[[0,17]]);}));};ExecuteAsyncInOrder.execute(operation);case 2:case'end':return _context18.stop();}}},_callee18,this);}));};removeConceptCollaborator=function removeConceptCollaborator(context,conceptId,email){return __awaiter(_this,void 0,void 0,_regeneratorRuntime.mark(function _callee20(){var operation;return _regeneratorRuntime.wrap(function _callee20$(_context20){while(1){switch(_context20.prev=_context20.next){case 0:operation=function operation(){return __awaiter(this,void 0,void 0,_regeneratorRuntime.mark(function _callee19(){var user,uid;return _regeneratorRuntime.wrap(function _callee19$(_context19){while(1){switch(_context19.prev=_context19.next){case 0:_context19.prev=0;_context19.next=3;return FirebaseService.getLoggedInUser();case 3:user=_context19.sent;_context19.next=6;return FirebaseService.set('security/'+user.uid+'/emailToUidSecurityInfo/encodedEmail',btoa(email));case 6:_context19.next=8;return EmailsToUidsModel.getUidByEmail(email);case 8:uid=_context19.sent;if(uid){_context19.next=11;break;}throw'The user does not exist';case 11:_context19.next=13;return ConceptModel.disassociateCollaborator(conceptId,uid);case 13:_context19.next=18;break;case 15:_context19.prev=15;_context19.t0=_context19['catch'](0);throw _context19.t0;case 18:case'end':return _context19.stop();}}},_callee19,this,[[0,15]]);}));};ExecuteAsyncInOrder.execute(operation);case 2:case'end':return _context20.stop();}}},_callee20,this);}));};removeVideoCollaborator=function removeVideoCollaborator(context,videoId,email){return __awaiter(_this,void 0,void 0,_regeneratorRuntime.mark(function _callee22(){var operation;return _regeneratorRuntime.wrap(function _callee22$(_context22){while(1){switch(_context22.prev=_context22.next){case 0:operation=function operation(){return __awaiter(this,void 0,void 0,_regeneratorRuntime.mark(function _callee21(){var user,uid;return _regeneratorRuntime.wrap(function _callee21$(_context21){while(1){switch(_context21.prev=_context21.next){case 0:_context21.prev=0;_context21.next=3;return FirebaseService.getLoggedInUser();case 3:user=_context21.sent;_context21.next=6;return FirebaseService.set('security/'+user.uid+'/emailToUidSecurityInfo/encodedEmail',btoa(email));case 6:_context21.next=8;return EmailsToUidsModel.getUidByEmail(email);case 8:uid=_context21.sent;if(uid){_context21.next=11;break;}throw'The user does not exist';case 11:_context21.next=13;return VideoModel.disassociateCollaborator(videoId,uid);case 13:_context21.next=18;break;case 15:_context21.prev=15;_context21.t0=_context21['catch'](0);throw _context21.t0;case 18:case'end':return _context21.stop();}}},_callee21,this,[[0,15]]);}));};ExecuteAsyncInOrder.execute(operation);case 2:case'end':return _context22.stop();}}},_callee22,this);}));};removeQuizCollaborator=function removeQuizCollaborator(context,quizId,email){return __awaiter(_this,void 0,void 0,_regeneratorRuntime.mark(function _callee24(){var operation;return _regeneratorRuntime.wrap(function _callee24$(_context24){while(1){switch(_context24.prev=_context24.next){case 0:operation=function operation(){return __awaiter(this,void 0,void 0,_regeneratorRuntime.mark(function _callee23(){var user,uid;return _regeneratorRuntime.wrap(function _callee23$(_context23){while(1){switch(_context23.prev=_context23.next){case 0:_context23.prev=0;_context23.next=3;return FirebaseService.getLoggedInUser();case 3:user=_context23.sent;_context23.next=6;return FirebaseService.set('security/'+user.uid+'/emailToUidSecurityInfo/encodedEmail',btoa(email));case 6:_context23.next=8;return EmailsToUidsModel.getUidByEmail(email);case 8:uid=_context23.sent;if(uid){_context23.next=11;break;}throw'The user does not exist';case 11:_context23.next=13;return QuizModel.disassociateCollaborator(quizId,uid);case 13:_context23.next=18;break;case 15:_context23.prev=15;_context23.t0=_context23['catch'](0);throw _context23.t0;case 18:case'end':return _context23.stop();}}},_callee23,this,[[0,15]]);}));};ExecuteAsyncInOrder.execute(operation);case 2:case'end':return _context24.stop();}}},_callee24,this);}));};starCourse=function starCourse(context,courseId){return __awaiter(_this,void 0,void 0,_regeneratorRuntime.mark(function _callee25(){var user;return _regeneratorRuntime.wrap(function _callee25$(_context25){while(1){switch(_context25.prev=_context25.next){case 0:_context25.next=2;return FirebaseService.getLoggedInUser();case 2:user=_context25.sent;_context25.next=5;return CourseModel.associateUserStar(courseId,user.uid);case 5:_context25.next=7;return UserModel.starCourse(user.uid,courseId);case 7:context.action={type:'STAR_COURSE'};case 8:case'end':return _context25.stop();}}},_callee25,this);}));};unstarCourse=function unstarCourse(context,courseId){return __awaiter(_this,void 0,void 0,_regeneratorRuntime.mark(function _callee26(){var user;return _regeneratorRuntime.wrap(function _callee26$(_context26){while(1){switch(_context26.prev=_context26.next){case 0:_context26.next=2;return FirebaseService.getLoggedInUser();case 2:user=_context26.sent;_context26.next=5;return CourseModel.disassociateUserStar(courseId,user.uid);case 5:_context26.next=7;return UserModel.unstarCourse(user.uid,courseId);case 7:context.action={type:'UNSTAR_COURSE'};case 8:case'end':return _context26.stop();}}},_callee26,this);}));};getQuiz=function getQuiz(quizId){return __awaiter(_this,void 0,void 0,_regeneratorRuntime.mark(function _callee27(){var quiz;return _regeneratorRuntime.wrap(function _callee27$(_context27){while(1){switch(_context27.prev=_context27.next){case 0:_context27.next=2;return QuizModel.getById(quizId);case 2:quiz=_context27.sent;return _context27.abrupt('return',quiz);case 4:case'end':return _context27.stop();}}},_callee27,this);}));};updateQuizTitle=function updateQuizTitle(quizId,title){return __awaiter(_this,void 0,void 0,_regeneratorRuntime.mark(function _callee28(){return _regeneratorRuntime.wrap(function _callee28$(_context28){while(1){switch(_context28.prev=_context28.next){case 0:_context28.next=2;return QuizModel.updateTitle(quizId,title);case 2:case'end':return _context28.stop();}}},_callee28,this);}));};createNewQuiz=function createNewQuiz(context,conceptId){return __awaiter(_this,void 0,void 0,_regeneratorRuntime.mark(function _callee29(){var user,uid,quizId,conceptCollaboratorUids;return _regeneratorRuntime.wrap(function _callee29$(_context29){while(1){switch(_context29.prev=_context29.next){case 0:_context29.next=2;return FirebaseService.getLoggedInUser();case 2:user=_context29.sent;uid=user.uid;_context29.next=6;return QuizModel.createOrUpdate(null,{id:null,uid:uid,title:'Untitled Quiz',private:false,quizSettings:{answerFeedback:true,showAnswer:true,showHint:true,showCode:true,graded:false,showConfidenceLevel:false,allowGeneration:true},questions:{},collaborators:{}});case 6:quizId=_context29.sent;_context29.next=9;return ConceptModel.associateQuiz(conceptId,quizId);case 9:_context29.next=11;return ConceptModel.getCollaboratorUids(conceptId);case 11:conceptCollaboratorUids=_context29.sent;_context29.next=14;return QuizModel.associateCollaborators(quizId,conceptCollaboratorUids);case 14:return _context29.abrupt('return',quizId);case 15:case'end':return _context29.stop();}}},_callee29,this);}));};loadEditConceptQuizzes=function loadEditConceptQuizzes(context,conceptId){return __awaiter(_this,void 0,void 0,_regeneratorRuntime.mark(function _callee30(){var user,concept,quizzIds,quizzes;return _regeneratorRuntime.wrap(function _callee30$(_context30){while(1){switch(_context30.prev=_context30.next){case 0:_context30.next=2;return FirebaseService.getLoggedInUser();case 2:user=_context30.sent;_context30.next=5;return ConceptModel.getById(conceptId);case 5:concept=_context30.sent;_context30.next=8;return ConceptModel.getQuizIds(conceptId);case 8:quizzIds=_context30.sent;_context30.next=11;return QuizModel.filterQuizzesByCollaborator(quizzIds,concept.uid,user.uid);case 11:quizzes=_context30.sent;context.action={type:'LOAD_EDIT_CONCEPT_QUIZZES',conceptId:conceptId,quizzes:quizzes};case 13:case'end':return _context30.stop();}}},_callee30,this);}));};loadViewConceptQuizzes=function loadViewConceptQuizzes(context,conceptId){return __awaiter(_this,void 0,void 0,_regeneratorRuntime.mark(function _callee31(){var quizzIds,quizzes;return _regeneratorRuntime.wrap(function _callee31$(_context31){while(1){switch(_context31.prev=_context31.next){case 0:_context31.next=2;return ConceptModel.getQuizIds(conceptId);case 2:quizzIds=_context31.sent;_context31.next=5;return QuizModel.resolveQuizIds(quizzIds);case 5:quizzes=_context31.sent;context.action={type:'LOAD_VIEW_CONCEPT_QUIZZES',conceptId:conceptId,quizzes:quizzes};case 7:case'end':return _context31.stop();}}},_callee31,this);}));};setCurrentEditQuizId=function setCurrentEditQuizId(context,quizId){context.action={type:'SET_CURRENT_EDIT_QUIZ_ID',quizId:quizId};};loadQuizSettings=function loadQuizSettings(context,quizId){return __awaiter(_this,void 0,void 0,_regeneratorRuntime.mark(function _callee32(){var quizSettings;return _regeneratorRuntime.wrap(function _callee32$(_context32){while(1){switch(_context32.prev=_context32.next){case 0:_context32.next=2;return QuizModel.getQuizSettings(quizId);case 2:quizSettings=_context32.sent;context.action={type:'LOAD_QUIZ_SETTINGS',quizSettings:quizSettings};case 4:case'end':return _context32.stop();}}},_callee32,this);}));};setQuizSetting=function setQuizSetting(context,quizId,settingName,value){return __awaiter(_this,void 0,void 0,_regeneratorRuntime.mark(function _callee33(){return _regeneratorRuntime.wrap(function _callee33$(_context33){while(1){switch(_context33.prev=_context33.next){case 0:_context33.next=2;return QuizModel.setQuizSetting(quizId,settingName,value);case 2:case'end':return _context33.stop();}}},_callee33,this);}));};setQuestionSetting=function setQuestionSetting(context,quizId,questionId,settingName,value){return __awaiter(_this,void 0,void 0,_regeneratorRuntime.mark(function _callee34(){return _regeneratorRuntime.wrap(function _callee34$(_context34){while(1){switch(_context34.prev=_context34.next){case 0:_context34.next=2;return QuizModel.setQuestionSetting(quizId,questionId,settingName,value);case 2:case'end':return _context34.stop();}}},_callee34,this);}));};loadQuizQuestionIds=function loadQuizQuestionIds(context,quizId){return __awaiter(_this,void 0,void 0,_regeneratorRuntime.mark(function _callee35(){var quizQuestionIds;return _regeneratorRuntime.wrap(function _callee35$(_context35){while(1){switch(_context35.prev=_context35.next){case 0:_context35.next=2;return QuizModel.getQuestionIds(quizId);case 2:quizQuestionIds=_context35.sent;context.action={type:'LOAD_QUIZ_QUESTION_IDS',quizQuestionIds:quizQuestionIds};case 4:case'end':return _context35.stop();}}},_callee35,this);}));};addQuestionToQuiz=function addQuestionToQuiz(context,quizId,questionId){return __awaiter(_this,void 0,void 0,_regeneratorRuntime.mark(function _callee36(){return _regeneratorRuntime.wrap(function _callee36$(_context36){while(1){switch(_context36.prev=_context36.next){case 0:_context36.next=2;return QuizModel.associateQuestion(quizId,questionId);case 2:case'end':return _context36.stop();}}},_callee36,this);}));};removeQuestionFromQuiz=function removeQuestionFromQuiz(context,quizId,questionId){return __awaiter(_this,void 0,void 0,_regeneratorRuntime.mark(function _callee37(){return _regeneratorRuntime.wrap(function _callee37$(_context37){while(1){switch(_context37.prev=_context37.next){case 0:_context37.next=2;return QuizModel.disassociateQuestion(quizId,questionId);case 2:case'end':return _context37.stop();}}},_callee37,this);}));};loadUserQuestionIds=function loadUserQuestionIds(context,getUserQuestionIdsAjax){return __awaiter(_this,void 0,void 0,_regeneratorRuntime.mark(function _callee38(){var request,userQuestionIds;return _regeneratorRuntime.wrap(function _callee38$(_context38){while(1){switch(_context38.prev=_context38.next){case 0:request=getUserQuestionIdsAjax.generateRequest();_context38.next=3;return request.completes;case 3:userQuestionIds=request.response.questionIds;context.action={type:'LOAD_USER_QUESTION_IDS',userQuestionIds:userQuestionIds};case 5:case'end':return _context38.stop();}}},_callee38,this);}));};loadPublicQuestionIds=function loadPublicQuestionIds(context,getPublicQuestionIdsAjax){return __awaiter(_this,void 0,void 0,_regeneratorRuntime.mark(function _callee39(){var request,publicQuestionIds;return _regeneratorRuntime.wrap(function _callee39$(_context39){while(1){switch(_context39.prev=_context39.next){case 0:request=getPublicQuestionIdsAjax.generateRequest();_context39.next=3;return request.completes;case 3:publicQuestionIds=request.response.questionIds;context.action={type:'LOAD_PUBLIC_QUESTION_IDS',publicQuestionIds:publicQuestionIds};case 5:case'end':return _context39.stop();}}},_callee39,this);}));};deleteVideo=function deleteVideo(context,conceptId,videoId){return __awaiter(_this,void 0,void 0,_regeneratorRuntime.mark(function _callee40(){return _regeneratorRuntime.wrap(function _callee40$(_context40){while(1){switch(_context40.prev=_context40.next){case 0:_context40.prev=0;_context40.next=3;return ConceptModel.disassociateVideo(conceptId,videoId);case 3:_context40.next=8;break;case 5:_context40.prev=5;_context40.t0=_context40['catch'](0);throw _context40.t0;case 8:case'end':return _context40.stop();}}},_callee40,this,[[0,5]]);}));};saveVideo=function saveVideo(context,conceptId,videoId,video){return __awaiter(_this,void 0,void 0,_regeneratorRuntime.mark(function _callee41(){var newId,conceptCollaboratorUids;return _regeneratorRuntime.wrap(function _callee41$(_context41){while(1){switch(_context41.prev=_context41.next){case 0:_context41.prev=0;_context41.next=3;return VideoModel.createOrUpdate(videoId,video);case 3:newId=_context41.sent;_context41.next=6;return ConceptModel.associateVideo(conceptId,newId);case 6:if(videoId){_context41.next=12;break;}_context41.next=9;return ConceptModel.getCollaboratorUids(conceptId);case 9:conceptCollaboratorUids=_context41.sent;_context41.next=12;return VideoModel.associateCollaborators(newId,conceptCollaboratorUids);case 12:context.action={type:'SET_CURRENT_VIDEO_ID',id:newId};_context41.next=18;break;case 15:_context41.prev=15;_context41.t0=_context41['catch'](0);throw _context41.t0;case 18:case'end':return _context41.stop();}}},_callee41,this,[[0,15]]);}));};setCurrentVideoInfo=function setCurrentVideoInfo(context,id,title,url){context.action={type:'SET_CURRENT_VIDEO_INFO',id:id,title:title,url:url};};clearCurrentVideoInfo=function clearCurrentVideoInfo(context){context.action={type:'CLEAR_CURRENT_VIDEO_INFO'};};loadEditConceptVideos=function loadEditConceptVideos(context,conceptId){return __awaiter(_this,void 0,void 0,_regeneratorRuntime.mark(function _callee42(){var user,concept,videoIds,videos;return _regeneratorRuntime.wrap(function _callee42$(_context42){while(1){switch(_context42.prev=_context42.next){case 0:_context42.prev=0;_context42.next=3;return FirebaseService.getLoggedInUser();case 3:user=_context42.sent;_context42.next=6;return ConceptModel.getById(conceptId);case 6:concept=_context42.sent;_context42.next=9;return ConceptModel.getVideoIds(conceptId);case 9:videoIds=_context42.sent;_context42.next=12;return VideoModel.filterVideosByCollaborator(videoIds,concept.uid,user.uid);case 12:videos=_context42.sent;context.action={type:'LOAD_EDIT_CONCEPT_VIDEOS',videos:videos,conceptId:conceptId};_context42.next=19;break;case 16:_context42.prev=16;_context42.t0=_context42['catch'](0);throw _context42.t0;case 19:case'end':return _context42.stop();}}},_callee42,this,[[0,16]]);}));};loadViewConceptVideos=function loadViewConceptVideos(context,conceptId){return __awaiter(_this,void 0,void 0,_regeneratorRuntime.mark(function _callee43(){var videoIds,videos;return _regeneratorRuntime.wrap(function _callee43$(_context43){while(1){switch(_context43.prev=_context43.next){case 0:_context43.prev=0;_context43.next=3;return ConceptModel.getVideoIds(conceptId);case 3:videoIds=_context43.sent;_context43.next=6;return VideoModel.resolveVideoIds(videoIds);case 6:videos=_context43.sent;context.action={type:'LOAD_VIEW_CONCEPT_VIDEOS',videos:videos,conceptId:conceptId};_context43.next=13;break;case 10:_context43.prev=10;_context43.t0=_context43['catch'](0);throw _context43.t0;case 13:case'end':return _context43.stop();}}},_callee43,this,[[0,10]]);}));};loadEditCourseConcepts=function loadEditCourseConcepts(context,courseId){return __awaiter(_this,void 0,void 0,_regeneratorRuntime.mark(function _callee44(){var user,course,conceptDatasObject,concepts;return _regeneratorRuntime.wrap(function _callee44$(_context44){while(1){switch(_context44.prev=_context44.next){case 0:_context44.prev=0;_context44.next=3;return FirebaseService.getLoggedInUser();case 3:user=_context44.sent;_context44.next=6;return CourseModel.getById(courseId);case 6:course=_context44.sent;conceptDatasObject=course.concepts;_context44.next=10;return ConceptModel.filterConceptDatasByCollaborator(conceptDatasObject,course.uid,user.uid);case 10:concepts=_context44.sent;context.action={type:'LOAD_EDIT_COURSE_CONCEPTS',concepts:concepts,courseId:courseId};_context44.next=17;break;case 14:_context44.prev=14;_context44.t0=_context44['catch'](0);throw _context44.t0;case 17:case'end':return _context44.stop();}}},_callee44,this,[[0,14]]);}));};loadViewCourseConcepts=function loadViewCourseConcepts(context,courseId){return __awaiter(_this,void 0,void 0,_regeneratorRuntime.mark(function _callee46(){var _this2=this;return _regeneratorRuntime.wrap(function _callee46$(_context46){while(1){switch(_context46.prev=_context46.next){case 0:_context46.prev=0;return _context46.delegateYield(_regeneratorRuntime.mark(function _callee45(){var course,conceptDatasObject,concepts;return _regeneratorRuntime.wrap(function _callee45$(_context45){while(1){switch(_context45.prev=_context45.next){case 0:_context45.next=2;return CourseModel.getById(courseId);case 2:course=_context45.sent;conceptDatasObject=course.concepts;concepts=Object.keys(conceptDatasObject||{}).map(function(conceptDataId){return conceptDatasObject[conceptDataId];});context.action={type:'LOAD_VIEW_COURSE_CONCEPTS',concepts:concepts,courseId:courseId};case 6:case'end':return _context45.stop();}}},_callee45,_this2);})(),'t0',2);case 2:_context46.next=7;break;case 4:_context46.prev=4;_context46.t1=_context46['catch'](0);throw _context46.t1;case 7:case'end':return _context46.stop();}}},_callee46,this,[[0,4]]);}));};createUser={type:'CREATE_USER',execute:function execute(context,data,password){return __awaiter(_this,void 0,void 0,_regeneratorRuntime.mark(function _callee47(){var success,loggedInUser;return _regeneratorRuntime.wrap(function _callee47$(_context47){while(1){switch(_context47.prev=_context47.next){case 0:_context47.prev=0;_context47.next=3;return FirebaseService.createUserWithEmailAndPassword(data.email,password);case 3:success=_context47.sent;_context47.next=6;return FirebaseService.logInUserWithEmailAndPassword(data.email,password);case 6:loggedInUser=_context47.sent;_context47.next=9;return UserModel.updateMetaData(loggedInUser.uid,data);case 9:_context47.next=11;return EmailsToUidsModel.setUidByEmail(data.email,loggedInUser.uid);case 11://TODO I'm doing this because we're about to launch and it will fix the errors we've been having with synchronizing the user after signup.
+$__System.register('3e',['36','39','40','41','42','43','2e','2f','3f'],function(_export,_context65){"use strict";var _regeneratorRuntime,FirebaseService,CourseModel,ConceptModel,UserModel,VideoModel,QuizModel,EmailsToUidsModel,ExecuteAsyncInOrder,_this,__awaiter,showMainSpinner,hideMainSpinner,loadCourseCollaboratorEmails,loadConceptCollaboratorEmails,loadVideoCollaboratorEmails,loadQuizCollaboratorEmails,addCourseCollaborator,addConceptCollaborator,addVideoCollaborator,addQuizCollaborator,removeCourseCollaborator,removeConceptCollaborator,removeVideoCollaborator,removeQuizCollaborator,starCourse,unstarCourse,getQuiz,updateQuizTitle,createNewQuiz,loadEditConceptQuizzes,loadViewConceptQuizzes,setCurrentEditQuizId,loadQuizSettings,setQuizSetting,setQuestionSetting,loadQuizQuestionIds,addQuestionToQuiz,removeQuestionFromQuiz,loadUserQuestionIds,loadPublicQuestionIds,deleteVideo,saveVideo,setCurrentVideoInfo,clearCurrentVideoInfo,loadEditConceptVideos,loadViewConceptVideos,loadEditCourseConcepts,loadViewCourseConcepts,createUser,loginUser,updateUserEmail,updateUserMetaData,checkUserAuth,addConcept,getConceptById,addCourse,getCoursesByUser,getStarredCoursesByUser,getSharedCoursesByUser,getCoursesByVisibility,getCourseViewCourseById,getCourseEditCourseById,deleteConcept,orderConcepts,updateCourseField,logOutUser,Actions;return{setters:[function(_){VideoModel=_.VideoModel;},function(_2){QuizModel=_2.QuizModel;},function(_3){ConceptModel=_3.ConceptModel;},function(_4){UserModel=_4.UserModel;},function(_5){EmailsToUidsModel=_5.EmailsToUidsModel;},function(_6){ExecuteAsyncInOrder=_6.ExecuteAsyncInOrder;},function(_e){_regeneratorRuntime=_e.default;},function(_f){FirebaseService=_f.FirebaseService;},function(_f2){CourseModel=_f2.CourseModel;}],execute:function(){_this=this;__awaiter=this&&this.__awaiter||function(thisArg,_arguments,P,generator){return new(P||(P=Promise))(function(resolve,reject){function fulfilled(value){try{step(generator.next(value));}catch(e){reject(e);}}function rejected(value){try{step(generator.throw(value));}catch(e){reject(e);}}function step(result){result.done?resolve(result.value):new P(function(resolve){resolve(result.value);}).then(fulfilled,rejected);}step((generator=generator.apply(thisArg,_arguments)).next());});};showMainSpinner=function showMainSpinner(context){context.action={type:'SHOW_MAIN_SPINNER'};};hideMainSpinner=function hideMainSpinner(context){context.action={type:'HIDE_MAIN_SPINNER'};};loadCourseCollaboratorEmails=function loadCourseCollaboratorEmails(context,uid,courseId){return __awaiter(_this,void 0,void 0,_regeneratorRuntime.mark(function _callee2(){var operation;return _regeneratorRuntime.wrap(function _callee2$(_context2){while(1){switch(_context2.prev=_context2.next){case 0:operation=function operation(){return __awaiter(this,void 0,void 0,_regeneratorRuntime.mark(function _callee(){var uids,emails,conceptIds;return _regeneratorRuntime.wrap(function _callee$(_context){while(1){switch(_context.prev=_context.next){case 0:_context.prev=0;_context.next=3;return CourseModel.getCollaboratorUids(courseId);case 3:uids=_context.sent;_context.next=6;return FirebaseService.set('security/'+uid+'/collaboratorSecurityInfo',{collection:CourseModel.dataPath,id:courseId});case 6:_context.next=8;return UserModel.getEmailsByIds(uids);case 8:emails=_context.sent;context.action={type:'SET_COURSE_COLLABORATOR_EMAILS',emails:emails,uid:uid,courseId:courseId};_context.next=12;return CourseModel.getConceptIds(courseId);case 12:conceptIds=_context.sent;conceptIds.forEach(function(conceptId){loadConceptCollaboratorEmails(context,courseId,conceptId);});_context.next=19;break;case 16:_context.prev=16;_context.t0=_context['catch'](0);throw _context.t0;case 19:case'end':return _context.stop();}}},_callee,this,[[0,16]]);}));};ExecuteAsyncInOrder.execute(operation);case 2:case'end':return _context2.stop();}}},_callee2,this);}));};loadConceptCollaboratorEmails=function loadConceptCollaboratorEmails(context,courseId,conceptId){return __awaiter(_this,void 0,void 0,_regeneratorRuntime.mark(function _callee4(){var operation;return _regeneratorRuntime.wrap(function _callee4$(_context4){while(1){switch(_context4.prev=_context4.next){case 0:operation=function operation(){return __awaiter(this,void 0,void 0,_regeneratorRuntime.mark(function _callee3(){var user,uids,emails,videoIds,quizIds;return _regeneratorRuntime.wrap(function _callee3$(_context3){while(1){switch(_context3.prev=_context3.next){case 0:_context3.prev=0;_context3.next=3;return FirebaseService.getLoggedInUser();case 3:user=_context3.sent;_context3.next=6;return ConceptModel.getCollaboratorUids(conceptId);case 6:uids=_context3.sent;_context3.next=9;return FirebaseService.set('security/'+user.uid+'/collaboratorSecurityInfo',{collection:ConceptModel.dataPath,id:conceptId});case 9:_context3.next=11;return UserModel.getEmailsByIds(uids);case 11:emails=_context3.sent;context.action={type:'SET_CONCEPT_COLLABORATOR_EMAILS',emails:emails,courseId:courseId,conceptId:conceptId};_context3.next=15;return ConceptModel.getVideoIds(conceptId);case 15:videoIds=_context3.sent;videoIds.forEach(function(videoId){loadVideoCollaboratorEmails(context,conceptId,videoId);});_context3.next=19;return ConceptModel.getQuizIds(conceptId);case 19:quizIds=_context3.sent;quizIds.forEach(function(quizId){loadQuizCollaboratorEmails(context,conceptId,quizId);});_context3.next=26;break;case 23:_context3.prev=23;_context3.t0=_context3['catch'](0);throw _context3.t0;case 26:case'end':return _context3.stop();}}},_callee3,this,[[0,23]]);}));};ExecuteAsyncInOrder.execute(operation);case 2:case'end':return _context4.stop();}}},_callee4,this);}));};loadVideoCollaboratorEmails=function loadVideoCollaboratorEmails(context,conceptId,videoId){return __awaiter(_this,void 0,void 0,_regeneratorRuntime.mark(function _callee6(){var operation;return _regeneratorRuntime.wrap(function _callee6$(_context6){while(1){switch(_context6.prev=_context6.next){case 0:operation=function operation(){return __awaiter(this,void 0,void 0,_regeneratorRuntime.mark(function _callee5(){var user,uids,emails;return _regeneratorRuntime.wrap(function _callee5$(_context5){while(1){switch(_context5.prev=_context5.next){case 0:_context5.prev=0;_context5.next=3;return FirebaseService.getLoggedInUser();case 3:user=_context5.sent;_context5.next=6;return VideoModel.getCollaboratorUids(videoId);case 6:uids=_context5.sent;_context5.next=9;return FirebaseService.set('security/'+user.uid+'/collaboratorSecurityInfo',{collection:VideoModel.dataPath,id:videoId});case 9:_context5.next=11;return UserModel.getEmailsByIds(uids);case 11:emails=_context5.sent;context.action={type:'SET_VIDEO_COLLABORATOR_EMAILS',emails:emails,conceptId:conceptId,videoId:videoId};_context5.next=18;break;case 15:_context5.prev=15;_context5.t0=_context5['catch'](0);throw _context5.t0;case 18:case'end':return _context5.stop();}}},_callee5,this,[[0,15]]);}));};ExecuteAsyncInOrder.execute(operation);case 2:case'end':return _context6.stop();}}},_callee6,this);}));};loadQuizCollaboratorEmails=function loadQuizCollaboratorEmails(context,conceptId,quizId){return __awaiter(_this,void 0,void 0,_regeneratorRuntime.mark(function _callee8(){var operation;return _regeneratorRuntime.wrap(function _callee8$(_context8){while(1){switch(_context8.prev=_context8.next){case 0:operation=function operation(){return __awaiter(this,void 0,void 0,_regeneratorRuntime.mark(function _callee7(){var user,uids,emails;return _regeneratorRuntime.wrap(function _callee7$(_context7){while(1){switch(_context7.prev=_context7.next){case 0:_context7.prev=0;_context7.next=3;return FirebaseService.getLoggedInUser();case 3:user=_context7.sent;_context7.next=6;return QuizModel.getCollaboratorUids(quizId);case 6:uids=_context7.sent;_context7.next=9;return FirebaseService.set('security/'+user.uid+'/collaboratorSecurityInfo',{collection:QuizModel.dataPath,id:quizId});case 9:_context7.next=11;return UserModel.getEmailsByIds(uids);case 11:emails=_context7.sent;context.action={type:'SET_QUIZ_COLLABORATOR_EMAILS',emails:emails,conceptId:conceptId,quizId:quizId};_context7.next=18;break;case 15:_context7.prev=15;_context7.t0=_context7['catch'](0);throw _context7.t0;case 18:case'end':return _context7.stop();}}},_callee7,this,[[0,15]]);}));};ExecuteAsyncInOrder.execute(operation);case 2:case'end':return _context8.stop();}}},_callee8,this);}));};addCourseCollaborator=function addCourseCollaborator(context,courseId,email){return __awaiter(_this,void 0,void 0,_regeneratorRuntime.mark(function _callee10(){var operation;return _regeneratorRuntime.wrap(function _callee10$(_context10){while(1){switch(_context10.prev=_context10.next){case 0:operation=function operation(){return __awaiter(this,void 0,void 0,_regeneratorRuntime.mark(function _callee9(){var user,uid;return _regeneratorRuntime.wrap(function _callee9$(_context9){while(1){switch(_context9.prev=_context9.next){case 0:_context9.prev=0;_context9.next=3;return FirebaseService.getLoggedInUser();case 3:user=_context9.sent;_context9.next=6;return FirebaseService.set('security/'+user.uid+'/emailToUidSecurityInfo/encodedEmail',btoa(email));case 6:_context9.next=8;return EmailsToUidsModel.getUidByEmail(email);case 8:uid=_context9.sent;if(uid){_context9.next=11;break;}throw'The user does not exist';case 11:_context9.next=13;return CourseModel.associateCollaborator(courseId,uid);case 13:_context9.next=15;return UserModel.shareCourseWithMe(uid,courseId);case 15:_context9.next=20;break;case 17:_context9.prev=17;_context9.t0=_context9['catch'](0);throw _context9.t0;case 20:case'end':return _context9.stop();}}},_callee9,this,[[0,17]]);}));};ExecuteAsyncInOrder.execute(operation);case 2:case'end':return _context10.stop();}}},_callee10,this);}));};addConceptCollaborator=function addConceptCollaborator(context,conceptId,email){return __awaiter(_this,void 0,void 0,_regeneratorRuntime.mark(function _callee12(){var operation;return _regeneratorRuntime.wrap(function _callee12$(_context12){while(1){switch(_context12.prev=_context12.next){case 0:operation=function operation(){return __awaiter(this,void 0,void 0,_regeneratorRuntime.mark(function _callee11(){var user,uid;return _regeneratorRuntime.wrap(function _callee11$(_context11){while(1){switch(_context11.prev=_context11.next){case 0:_context11.prev=0;_context11.next=3;return FirebaseService.getLoggedInUser();case 3:user=_context11.sent;_context11.next=6;return FirebaseService.set('security/'+user.uid+'/emailToUidSecurityInfo/encodedEmail',btoa(email));case 6:_context11.next=8;return EmailsToUidsModel.getUidByEmail(email);case 8:uid=_context11.sent;if(uid){_context11.next=11;break;}throw'The user does not exist';case 11:_context11.next=13;return ConceptModel.associateCollaborator(conceptId,uid);case 13:_context11.next=15;return UserModel.shareConceptWithMe(uid,conceptId);case 15:_context11.next=20;break;case 17:_context11.prev=17;_context11.t0=_context11['catch'](0);throw _context11.t0;case 20:case'end':return _context11.stop();}}},_callee11,this,[[0,17]]);}));};ExecuteAsyncInOrder.execute(operation);case 2:case'end':return _context12.stop();}}},_callee12,this);}));};addVideoCollaborator=function addVideoCollaborator(context,videoId,email){return __awaiter(_this,void 0,void 0,_regeneratorRuntime.mark(function _callee14(){var operation;return _regeneratorRuntime.wrap(function _callee14$(_context14){while(1){switch(_context14.prev=_context14.next){case 0:operation=function operation(){return __awaiter(this,void 0,void 0,_regeneratorRuntime.mark(function _callee13(){var user,uid;return _regeneratorRuntime.wrap(function _callee13$(_context13){while(1){switch(_context13.prev=_context13.next){case 0:_context13.prev=0;_context13.next=3;return FirebaseService.getLoggedInUser();case 3:user=_context13.sent;_context13.next=6;return FirebaseService.set('security/'+user.uid+'/emailToUidSecurityInfo/encodedEmail',btoa(email));case 6:_context13.next=8;return EmailsToUidsModel.getUidByEmail(email);case 8:uid=_context13.sent;if(uid){_context13.next=11;break;}throw'The user does not exist';case 11:_context13.next=13;return VideoModel.associateCollaborator(videoId,uid);case 13:_context13.next=15;return UserModel.shareVideoWithMe(uid,videoId);case 15:_context13.next=20;break;case 17:_context13.prev=17;_context13.t0=_context13['catch'](0);throw _context13.t0;case 20:case'end':return _context13.stop();}}},_callee13,this,[[0,17]]);}));};ExecuteAsyncInOrder.execute(operation);case 2:case'end':return _context14.stop();}}},_callee14,this);}));};addQuizCollaborator=function addQuizCollaborator(context,quizId,email){return __awaiter(_this,void 0,void 0,_regeneratorRuntime.mark(function _callee16(){var operation;return _regeneratorRuntime.wrap(function _callee16$(_context16){while(1){switch(_context16.prev=_context16.next){case 0:operation=function operation(){return __awaiter(this,void 0,void 0,_regeneratorRuntime.mark(function _callee15(){var user,uid;return _regeneratorRuntime.wrap(function _callee15$(_context15){while(1){switch(_context15.prev=_context15.next){case 0:_context15.prev=0;_context15.next=3;return FirebaseService.getLoggedInUser();case 3:user=_context15.sent;_context15.next=6;return FirebaseService.set('security/'+user.uid+'/emailToUidSecurityInfo/encodedEmail',btoa(email));case 6:_context15.next=8;return EmailsToUidsModel.getUidByEmail(email);case 8:uid=_context15.sent;if(uid){_context15.next=11;break;}throw'The user does not exist';case 11:_context15.next=13;return QuizModel.associateCollaborator(quizId,uid);case 13:_context15.next=15;return UserModel.shareQuizWithMe(uid,quizId);case 15:_context15.next=20;break;case 17:_context15.prev=17;_context15.t0=_context15['catch'](0);throw _context15.t0;case 20:case'end':return _context15.stop();}}},_callee15,this,[[0,17]]);}));};ExecuteAsyncInOrder.execute(operation);case 2:case'end':return _context16.stop();}}},_callee16,this);}));};removeCourseCollaborator=function removeCourseCollaborator(context,courseId,email){return __awaiter(_this,void 0,void 0,_regeneratorRuntime.mark(function _callee18(){var operation;return _regeneratorRuntime.wrap(function _callee18$(_context18){while(1){switch(_context18.prev=_context18.next){case 0:operation=function operation(){return __awaiter(this,void 0,void 0,_regeneratorRuntime.mark(function _callee17(){var user,uid;return _regeneratorRuntime.wrap(function _callee17$(_context17){while(1){switch(_context17.prev=_context17.next){case 0:_context17.prev=0;_context17.next=3;return FirebaseService.getLoggedInUser();case 3:user=_context17.sent;_context17.next=6;return FirebaseService.set('security/'+user.uid+'/emailToUidSecurityInfo/encodedEmail',btoa(email));case 6:_context17.next=8;return EmailsToUidsModel.getUidByEmail(email);case 8:uid=_context17.sent;if(uid){_context17.next=11;break;}throw'The user does not exist';case 11:_context17.next=13;return CourseModel.disassociateCollaborator(courseId,uid);case 13:_context17.next=15;return UserModel.unshareCourseWithMe(uid,courseId);case 15:_context17.next=20;break;case 17:_context17.prev=17;_context17.t0=_context17['catch'](0);throw _context17.t0;case 20:case'end':return _context17.stop();}}},_callee17,this,[[0,17]]);}));};ExecuteAsyncInOrder.execute(operation);case 2:case'end':return _context18.stop();}}},_callee18,this);}));};removeConceptCollaborator=function removeConceptCollaborator(context,conceptId,email){return __awaiter(_this,void 0,void 0,_regeneratorRuntime.mark(function _callee20(){var operation;return _regeneratorRuntime.wrap(function _callee20$(_context20){while(1){switch(_context20.prev=_context20.next){case 0:operation=function operation(){return __awaiter(this,void 0,void 0,_regeneratorRuntime.mark(function _callee19(){var user,uid;return _regeneratorRuntime.wrap(function _callee19$(_context19){while(1){switch(_context19.prev=_context19.next){case 0:_context19.prev=0;_context19.next=3;return FirebaseService.getLoggedInUser();case 3:user=_context19.sent;_context19.next=6;return FirebaseService.set('security/'+user.uid+'/emailToUidSecurityInfo/encodedEmail',btoa(email));case 6:_context19.next=8;return EmailsToUidsModel.getUidByEmail(email);case 8:uid=_context19.sent;if(uid){_context19.next=11;break;}throw'The user does not exist';case 11:_context19.next=13;return ConceptModel.disassociateCollaborator(conceptId,uid);case 13:_context19.next=18;break;case 15:_context19.prev=15;_context19.t0=_context19['catch'](0);throw _context19.t0;case 18:case'end':return _context19.stop();}}},_callee19,this,[[0,15]]);}));};ExecuteAsyncInOrder.execute(operation);case 2:case'end':return _context20.stop();}}},_callee20,this);}));};removeVideoCollaborator=function removeVideoCollaborator(context,videoId,email){return __awaiter(_this,void 0,void 0,_regeneratorRuntime.mark(function _callee22(){var operation;return _regeneratorRuntime.wrap(function _callee22$(_context22){while(1){switch(_context22.prev=_context22.next){case 0:operation=function operation(){return __awaiter(this,void 0,void 0,_regeneratorRuntime.mark(function _callee21(){var user,uid;return _regeneratorRuntime.wrap(function _callee21$(_context21){while(1){switch(_context21.prev=_context21.next){case 0:_context21.prev=0;_context21.next=3;return FirebaseService.getLoggedInUser();case 3:user=_context21.sent;_context21.next=6;return FirebaseService.set('security/'+user.uid+'/emailToUidSecurityInfo/encodedEmail',btoa(email));case 6:_context21.next=8;return EmailsToUidsModel.getUidByEmail(email);case 8:uid=_context21.sent;if(uid){_context21.next=11;break;}throw'The user does not exist';case 11:_context21.next=13;return VideoModel.disassociateCollaborator(videoId,uid);case 13:_context21.next=18;break;case 15:_context21.prev=15;_context21.t0=_context21['catch'](0);throw _context21.t0;case 18:case'end':return _context21.stop();}}},_callee21,this,[[0,15]]);}));};ExecuteAsyncInOrder.execute(operation);case 2:case'end':return _context22.stop();}}},_callee22,this);}));};removeQuizCollaborator=function removeQuizCollaborator(context,quizId,email){return __awaiter(_this,void 0,void 0,_regeneratorRuntime.mark(function _callee24(){var operation;return _regeneratorRuntime.wrap(function _callee24$(_context24){while(1){switch(_context24.prev=_context24.next){case 0:operation=function operation(){return __awaiter(this,void 0,void 0,_regeneratorRuntime.mark(function _callee23(){var user,uid;return _regeneratorRuntime.wrap(function _callee23$(_context23){while(1){switch(_context23.prev=_context23.next){case 0:_context23.prev=0;_context23.next=3;return FirebaseService.getLoggedInUser();case 3:user=_context23.sent;_context23.next=6;return FirebaseService.set('security/'+user.uid+'/emailToUidSecurityInfo/encodedEmail',btoa(email));case 6:_context23.next=8;return EmailsToUidsModel.getUidByEmail(email);case 8:uid=_context23.sent;if(uid){_context23.next=11;break;}throw'The user does not exist';case 11:_context23.next=13;return QuizModel.disassociateCollaborator(quizId,uid);case 13:_context23.next=18;break;case 15:_context23.prev=15;_context23.t0=_context23['catch'](0);throw _context23.t0;case 18:case'end':return _context23.stop();}}},_callee23,this,[[0,15]]);}));};ExecuteAsyncInOrder.execute(operation);case 2:case'end':return _context24.stop();}}},_callee24,this);}));};starCourse=function starCourse(context,courseId){return __awaiter(_this,void 0,void 0,_regeneratorRuntime.mark(function _callee25(){var user;return _regeneratorRuntime.wrap(function _callee25$(_context25){while(1){switch(_context25.prev=_context25.next){case 0:_context25.next=2;return FirebaseService.getLoggedInUser();case 2:user=_context25.sent;_context25.next=5;return CourseModel.associateUserStar(courseId,user.uid);case 5:_context25.next=7;return UserModel.starCourse(user.uid,courseId);case 7:context.action={type:'STAR_COURSE'};case 8:case'end':return _context25.stop();}}},_callee25,this);}));};unstarCourse=function unstarCourse(context,courseId){return __awaiter(_this,void 0,void 0,_regeneratorRuntime.mark(function _callee26(){var user;return _regeneratorRuntime.wrap(function _callee26$(_context26){while(1){switch(_context26.prev=_context26.next){case 0:_context26.next=2;return FirebaseService.getLoggedInUser();case 2:user=_context26.sent;_context26.next=5;return CourseModel.disassociateUserStar(courseId,user.uid);case 5:_context26.next=7;return UserModel.unstarCourse(user.uid,courseId);case 7:context.action={type:'UNSTAR_COURSE'};case 8:case'end':return _context26.stop();}}},_callee26,this);}));};getQuiz=function getQuiz(quizId){return __awaiter(_this,void 0,void 0,_regeneratorRuntime.mark(function _callee27(){var quiz;return _regeneratorRuntime.wrap(function _callee27$(_context27){while(1){switch(_context27.prev=_context27.next){case 0:_context27.next=2;return QuizModel.getById(quizId);case 2:quiz=_context27.sent;return _context27.abrupt('return',quiz);case 4:case'end':return _context27.stop();}}},_callee27,this);}));};updateQuizTitle=function updateQuizTitle(quizId,title){return __awaiter(_this,void 0,void 0,_regeneratorRuntime.mark(function _callee28(){return _regeneratorRuntime.wrap(function _callee28$(_context28){while(1){switch(_context28.prev=_context28.next){case 0:_context28.next=2;return QuizModel.updateTitle(quizId,title);case 2:case'end':return _context28.stop();}}},_callee28,this);}));};createNewQuiz=function createNewQuiz(context,conceptId){return __awaiter(_this,void 0,void 0,_regeneratorRuntime.mark(function _callee29(){var user,uid,quizId,conceptCollaboratorUids;return _regeneratorRuntime.wrap(function _callee29$(_context29){while(1){switch(_context29.prev=_context29.next){case 0:_context29.next=2;return FirebaseService.getLoggedInUser();case 2:user=_context29.sent;uid=user.uid;_context29.next=6;return QuizModel.createOrUpdate(null,{id:null,uid:uid,title:'Untitled Quiz',private:false,quizSettings:{answerFeedback:true,showAnswer:true,showHint:true,showCode:true,graded:false,showConfidenceLevel:false,allowGeneration:true},questions:{},collaborators:{}});case 6:quizId=_context29.sent;_context29.next=9;return ConceptModel.associateQuiz(conceptId,quizId);case 9:_context29.next=11;return ConceptModel.getCollaboratorUids(conceptId);case 11:conceptCollaboratorUids=_context29.sent;_context29.next=14;return QuizModel.associateCollaborators(quizId,conceptCollaboratorUids);case 14:return _context29.abrupt('return',quizId);case 15:case'end':return _context29.stop();}}},_callee29,this);}));};loadEditConceptQuizzes=function loadEditConceptQuizzes(context,conceptId){return __awaiter(_this,void 0,void 0,_regeneratorRuntime.mark(function _callee30(){var user,concept,quizzIds,quizzes;return _regeneratorRuntime.wrap(function _callee30$(_context30){while(1){switch(_context30.prev=_context30.next){case 0:_context30.next=2;return FirebaseService.getLoggedInUser();case 2:user=_context30.sent;_context30.next=5;return ConceptModel.getById(conceptId);case 5:concept=_context30.sent;_context30.next=8;return ConceptModel.getQuizIds(conceptId);case 8:quizzIds=_context30.sent;_context30.next=11;return QuizModel.filterQuizzesByCollaborator(quizzIds,concept.uid,user.uid);case 11:quizzes=_context30.sent;context.action={type:'LOAD_EDIT_CONCEPT_QUIZZES',conceptId:conceptId,quizzes:quizzes};case 13:case'end':return _context30.stop();}}},_callee30,this);}));};loadViewConceptQuizzes=function loadViewConceptQuizzes(context,conceptId){return __awaiter(_this,void 0,void 0,_regeneratorRuntime.mark(function _callee31(){var quizzIds,quizzes;return _regeneratorRuntime.wrap(function _callee31$(_context31){while(1){switch(_context31.prev=_context31.next){case 0:_context31.next=2;return ConceptModel.getQuizIds(conceptId);case 2:quizzIds=_context31.sent;_context31.next=5;return QuizModel.resolveQuizIds(quizzIds);case 5:quizzes=_context31.sent;context.action={type:'LOAD_VIEW_CONCEPT_QUIZZES',conceptId:conceptId,quizzes:quizzes};case 7:case'end':return _context31.stop();}}},_callee31,this);}));};setCurrentEditQuizId=function setCurrentEditQuizId(context,quizId){context.action={type:'SET_CURRENT_EDIT_QUIZ_ID',quizId:quizId};};loadQuizSettings=function loadQuizSettings(context,quizId){return __awaiter(_this,void 0,void 0,_regeneratorRuntime.mark(function _callee32(){var quizSettings;return _regeneratorRuntime.wrap(function _callee32$(_context32){while(1){switch(_context32.prev=_context32.next){case 0:_context32.next=2;return QuizModel.getQuizSettings(quizId);case 2:quizSettings=_context32.sent;context.action={type:'LOAD_QUIZ_SETTINGS',quizSettings:quizSettings};case 4:case'end':return _context32.stop();}}},_callee32,this);}));};setQuizSetting=function setQuizSetting(context,quizId,settingName,value){return __awaiter(_this,void 0,void 0,_regeneratorRuntime.mark(function _callee33(){return _regeneratorRuntime.wrap(function _callee33$(_context33){while(1){switch(_context33.prev=_context33.next){case 0:_context33.next=2;return QuizModel.setQuizSetting(quizId,settingName,value);case 2:case'end':return _context33.stop();}}},_callee33,this);}));};setQuestionSetting=function setQuestionSetting(context,quizId,questionId,settingName,value){return __awaiter(_this,void 0,void 0,_regeneratorRuntime.mark(function _callee34(){return _regeneratorRuntime.wrap(function _callee34$(_context34){while(1){switch(_context34.prev=_context34.next){case 0:_context34.next=2;return QuizModel.setQuestionSetting(quizId,questionId,settingName,value);case 2:case'end':return _context34.stop();}}},_callee34,this);}));};loadQuizQuestionIds=function loadQuizQuestionIds(context,quizId){return __awaiter(_this,void 0,void 0,_regeneratorRuntime.mark(function _callee35(){var quizQuestionIds;return _regeneratorRuntime.wrap(function _callee35$(_context35){while(1){switch(_context35.prev=_context35.next){case 0:_context35.next=2;return QuizModel.getQuestionIds(quizId);case 2:quizQuestionIds=_context35.sent;context.action={type:'LOAD_QUIZ_QUESTION_IDS',quizQuestionIds:quizQuestionIds};case 4:case'end':return _context35.stop();}}},_callee35,this);}));};addQuestionToQuiz=function addQuestionToQuiz(context,quizId,questionId){return __awaiter(_this,void 0,void 0,_regeneratorRuntime.mark(function _callee36(){return _regeneratorRuntime.wrap(function _callee36$(_context36){while(1){switch(_context36.prev=_context36.next){case 0:_context36.next=2;return QuizModel.associateQuestion(quizId,questionId);case 2:case'end':return _context36.stop();}}},_callee36,this);}));};removeQuestionFromQuiz=function removeQuestionFromQuiz(context,quizId,questionId){return __awaiter(_this,void 0,void 0,_regeneratorRuntime.mark(function _callee37(){return _regeneratorRuntime.wrap(function _callee37$(_context37){while(1){switch(_context37.prev=_context37.next){case 0:_context37.next=2;return QuizModel.disassociateQuestion(quizId,questionId);case 2:case'end':return _context37.stop();}}},_callee37,this);}));};loadUserQuestionIds=function loadUserQuestionIds(context,getUserQuestionIdsAjax){return __awaiter(_this,void 0,void 0,_regeneratorRuntime.mark(function _callee38(){var request,userQuestionIds;return _regeneratorRuntime.wrap(function _callee38$(_context38){while(1){switch(_context38.prev=_context38.next){case 0:request=getUserQuestionIdsAjax.generateRequest();_context38.next=3;return request.completes;case 3:userQuestionIds=request.response.questionIds;context.action={type:'LOAD_USER_QUESTION_IDS',userQuestionIds:userQuestionIds};case 5:case'end':return _context38.stop();}}},_callee38,this);}));};loadPublicQuestionIds=function loadPublicQuestionIds(context,getPublicQuestionIdsAjax){return __awaiter(_this,void 0,void 0,_regeneratorRuntime.mark(function _callee39(){var request,publicQuestionIds;return _regeneratorRuntime.wrap(function _callee39$(_context39){while(1){switch(_context39.prev=_context39.next){case 0:request=getPublicQuestionIdsAjax.generateRequest();_context39.next=3;return request.completes;case 3:publicQuestionIds=request.response.questionIds;context.action={type:'LOAD_PUBLIC_QUESTION_IDS',publicQuestionIds:publicQuestionIds};case 5:case'end':return _context39.stop();}}},_callee39,this);}));};deleteVideo=function deleteVideo(context,conceptId,videoId){return __awaiter(_this,void 0,void 0,_regeneratorRuntime.mark(function _callee40(){return _regeneratorRuntime.wrap(function _callee40$(_context40){while(1){switch(_context40.prev=_context40.next){case 0:_context40.prev=0;_context40.next=3;return ConceptModel.disassociateVideo(conceptId,videoId);case 3:_context40.next=8;break;case 5:_context40.prev=5;_context40.t0=_context40['catch'](0);throw _context40.t0;case 8:case'end':return _context40.stop();}}},_callee40,this,[[0,5]]);}));};saveVideo=function saveVideo(context,conceptId,videoId,video){return __awaiter(_this,void 0,void 0,_regeneratorRuntime.mark(function _callee41(){var newId,conceptCollaboratorUids;return _regeneratorRuntime.wrap(function _callee41$(_context41){while(1){switch(_context41.prev=_context41.next){case 0:_context41.prev=0;_context41.next=3;return VideoModel.createOrUpdate(videoId,video);case 3:newId=_context41.sent;_context41.next=6;return ConceptModel.associateVideo(conceptId,newId);case 6:if(videoId){_context41.next=12;break;}_context41.next=9;return ConceptModel.getCollaboratorUids(conceptId);case 9:conceptCollaboratorUids=_context41.sent;_context41.next=12;return VideoModel.associateCollaborators(newId,conceptCollaboratorUids);case 12:context.action={type:'SET_CURRENT_VIDEO_ID',id:newId};_context41.next=18;break;case 15:_context41.prev=15;_context41.t0=_context41['catch'](0);throw _context41.t0;case 18:case'end':return _context41.stop();}}},_callee41,this,[[0,15]]);}));};setCurrentVideoInfo=function setCurrentVideoInfo(context,id,title,url){context.action={type:'SET_CURRENT_VIDEO_INFO',id:id,title:title,url:url};};clearCurrentVideoInfo=function clearCurrentVideoInfo(context){context.action={type:'CLEAR_CURRENT_VIDEO_INFO'};};loadEditConceptVideos=function loadEditConceptVideos(context,conceptId){return __awaiter(_this,void 0,void 0,_regeneratorRuntime.mark(function _callee42(){var user,concept,videoIds,videos;return _regeneratorRuntime.wrap(function _callee42$(_context42){while(1){switch(_context42.prev=_context42.next){case 0:_context42.prev=0;_context42.next=3;return FirebaseService.getLoggedInUser();case 3:user=_context42.sent;_context42.next=6;return ConceptModel.getById(conceptId);case 6:concept=_context42.sent;_context42.next=9;return ConceptModel.getVideoIds(conceptId);case 9:videoIds=_context42.sent;_context42.next=12;return VideoModel.filterVideosByCollaborator(videoIds,concept.uid,user.uid);case 12:videos=_context42.sent;context.action={type:'LOAD_EDIT_CONCEPT_VIDEOS',videos:videos,conceptId:conceptId};_context42.next=19;break;case 16:_context42.prev=16;_context42.t0=_context42['catch'](0);throw _context42.t0;case 19:case'end':return _context42.stop();}}},_callee42,this,[[0,16]]);}));};loadViewConceptVideos=function loadViewConceptVideos(context,conceptId){return __awaiter(_this,void 0,void 0,_regeneratorRuntime.mark(function _callee43(){var videoIds,videos;return _regeneratorRuntime.wrap(function _callee43$(_context43){while(1){switch(_context43.prev=_context43.next){case 0:_context43.prev=0;_context43.next=3;return ConceptModel.getVideoIds(conceptId);case 3:videoIds=_context43.sent;_context43.next=6;return VideoModel.resolveVideoIds(videoIds);case 6:videos=_context43.sent;context.action={type:'LOAD_VIEW_CONCEPT_VIDEOS',videos:videos,conceptId:conceptId};_context43.next=13;break;case 10:_context43.prev=10;_context43.t0=_context43['catch'](0);throw _context43.t0;case 13:case'end':return _context43.stop();}}},_callee43,this,[[0,10]]);}));};loadEditCourseConcepts=function loadEditCourseConcepts(context,courseId){return __awaiter(_this,void 0,void 0,_regeneratorRuntime.mark(function _callee44(){var user,course,conceptDatasObject,concepts;return _regeneratorRuntime.wrap(function _callee44$(_context44){while(1){switch(_context44.prev=_context44.next){case 0:_context44.prev=0;_context44.next=3;return FirebaseService.getLoggedInUser();case 3:user=_context44.sent;_context44.next=6;return CourseModel.getById(courseId);case 6:course=_context44.sent;conceptDatasObject=course.concepts;_context44.next=10;return ConceptModel.filterConceptDatasByCollaborator(conceptDatasObject,course.uid,user.uid);case 10:concepts=_context44.sent;context.action={type:'LOAD_EDIT_COURSE_CONCEPTS',concepts:concepts,courseId:courseId};_context44.next=17;break;case 14:_context44.prev=14;_context44.t0=_context44['catch'](0);throw _context44.t0;case 17:case'end':return _context44.stop();}}},_callee44,this,[[0,14]]);}));};loadViewCourseConcepts=function loadViewCourseConcepts(context,courseId){return __awaiter(_this,void 0,void 0,_regeneratorRuntime.mark(function _callee46(){var _this2=this;return _regeneratorRuntime.wrap(function _callee46$(_context46){while(1){switch(_context46.prev=_context46.next){case 0:_context46.prev=0;return _context46.delegateYield(_regeneratorRuntime.mark(function _callee45(){var course,conceptDatasObject,concepts;return _regeneratorRuntime.wrap(function _callee45$(_context45){while(1){switch(_context45.prev=_context45.next){case 0:_context45.next=2;return CourseModel.getById(courseId);case 2:course=_context45.sent;conceptDatasObject=course.concepts;concepts=Object.keys(conceptDatasObject||{}).map(function(conceptDataId){return conceptDatasObject[conceptDataId];});context.action={type:'LOAD_VIEW_COURSE_CONCEPTS',concepts:concepts,courseId:courseId};case 6:case'end':return _context45.stop();}}},_callee45,_this2);})(),'t0',2);case 2:_context46.next=7;break;case 4:_context46.prev=4;_context46.t1=_context46['catch'](0);throw _context46.t1;case 7:case'end':return _context46.stop();}}},_callee46,this,[[0,4]]);}));};createUser={type:'CREATE_USER',execute:function execute(context,data,password){return __awaiter(_this,void 0,void 0,_regeneratorRuntime.mark(function _callee47(){var success,loggedInUser;return _regeneratorRuntime.wrap(function _callee47$(_context47){while(1){switch(_context47.prev=_context47.next){case 0:_context47.prev=0;_context47.next=3;return FirebaseService.createUserWithEmailAndPassword(data.email,password);case 3:success=_context47.sent;_context47.next=6;return FirebaseService.logInUserWithEmailAndPassword(data.email,password);case 6:loggedInUser=_context47.sent;_context47.next=9;return UserModel.updateMetaData(loggedInUser.uid,data);case 9:_context47.next=11;return EmailsToUidsModel.setUidByEmail(data.email,loggedInUser.uid);case 11://TODO I'm doing this because we're about to launch and it will fix the errors we've been having with synchronizing the user after signup.
 //This just refreshes the whole app with the user logged in. Might want to change this, seems to work well though.
 window.location.href='';_context47.next=17;break;case 14:_context47.prev=14;_context47.t0=_context47['catch'](0);throw _context47.t0;case 17:case'end':return _context47.stop();}}},_callee47,this,[[0,14]]);}));}};loginUser={type:'LOGIN_USER',execute:function execute(context,email,password){return __awaiter(_this,void 0,void 0,_regeneratorRuntime.mark(function _callee48(){var loggedInUser;return _regeneratorRuntime.wrap(function _callee48$(_context48){while(1){switch(_context48.prev=_context48.next){case 0:_context48.prev=0;_context48.next=3;return FirebaseService.logInUserWithEmailAndPassword(email,password);case 3:loggedInUser=_context48.sent;//let user = await UserModel.getById(loggedInUser.uid); //sets ancillary user data such as name, institution, etc.
 //user.metaData.uid = loggedInUser.uid;
@@ -10074,7 +10112,7 @@ window.location.href='';//   context.action = {
 //     type: Actions.logOutUser.type,
 // };
 case 3:case'end':return _context64.stop();}}},_callee64,this);}));}};_export('Actions',Actions={loginUser:loginUser,checkUserAuth:checkUserAuth,deleteConcept:deleteConcept,orderConcepts:orderConcepts,addConcept:addConcept,createUser:createUser,logOutUser:logOutUser,updateUserEmail:updateUserEmail,updateUserMetaData:updateUserMetaData,loadEditConceptVideos:loadEditConceptVideos,loadViewConceptVideos:loadViewConceptVideos,setCurrentVideoInfo:setCurrentVideoInfo,saveVideo:saveVideo,clearCurrentVideoInfo:clearCurrentVideoInfo,deleteVideo:deleteVideo,addCourse:addCourse,getCoursesByUser:getCoursesByUser,getCoursesByVisibility:getCoursesByVisibility,loadUserQuestionIds:loadUserQuestionIds,addQuestionToQuiz:addQuestionToQuiz,loadQuizQuestionIds:loadQuizQuestionIds,removeQuestionFromQuiz:removeQuestionFromQuiz,setQuizSetting:setQuizSetting,setQuestionSetting:setQuestionSetting,loadQuizSettings:loadQuizSettings,setCurrentEditQuizId:setCurrentEditQuizId,loadEditConceptQuizzes:loadEditConceptQuizzes,loadViewConceptQuizzes:loadViewConceptQuizzes,createNewQuiz:createNewQuiz,updateQuizTitle:updateQuizTitle,getQuiz:getQuiz,getCourseViewCourseById:getCourseViewCourseById,getCourseEditCourseById:getCourseEditCourseById,getConceptById:getConceptById,loadPublicQuestionIds:loadPublicQuestionIds,starCourse:starCourse,unstarCourse:unstarCourse,getStarredCoursesByUser:getStarredCoursesByUser,addQuizCollaborator:addQuizCollaborator,loadQuizCollaboratorEmails:loadQuizCollaboratorEmails,removeQuizCollaborator:removeQuizCollaborator,getSharedCoursesByUser:getSharedCoursesByUser,loadCourseCollaboratorEmails:loadCourseCollaboratorEmails,loadConceptCollaboratorEmails:loadConceptCollaboratorEmails,loadVideoCollaboratorEmails:loadVideoCollaboratorEmails,addCourseCollaborator:addCourseCollaborator,addConceptCollaborator:addConceptCollaborator,addVideoCollaborator:addVideoCollaborator,removeCourseCollaborator:removeCourseCollaborator,removeConceptCollaborator:removeConceptCollaborator,removeVideoCollaborator:removeVideoCollaborator,updateCourseField:updateCourseField,loadEditCourseConcepts:loadEditCourseConcepts,loadViewCourseConcepts:loadViewCourseConcepts,showMainSpinner:showMainSpinner,hideMainSpinner:hideMainSpinner});_export('Actions',Actions);}};});
-$__System.register("32", ["2d"], function (_export, _context2) {
+$__System.register("33", ["2e"], function (_export, _context2) {
     "use strict";
 
     var _regeneratorRuntime, _this, __awaiter, asyncForEach, getPrendusServerEndpointDomain, createUUID, handleServerSideError, UtilitiesService;
@@ -10167,8 +10205,8 @@ $__System.register("32", ["2d"], function (_export, _context2) {
         return answer;
     }
     return {
-        setters: [function (_d) {
-            _regeneratorRuntime = _d.default;
+        setters: [function (_e) {
+            _regeneratorRuntime = _e.default;
         }],
         execute: function () {
             _this = this;
@@ -10287,7 +10325,7 @@ $__System.register("32", ["2d"], function (_export, _context2) {
         }
     };
 });
-$__System.register("2d", [], function (_export, _context) {
+$__System.register("2e", [], function (_export, _context) {
   "use strict";
 
   return {
@@ -10936,14 +10974,14 @@ $__System.register("2d", [], function (_export, _context) {
     }
   };
 });
-$__System.register('2e', ['2d'], function (_export, _context11) {
+$__System.register('2f', ['2e'], function (_export, _context12) {
     "use strict";
 
-    var _regeneratorRuntime, _this, __awaiter, prendusFirebaseApps, prendusFirebaseApp, set, remove, push, get, update, getAllBy, createUserWithEmailAndPassword, logInUserWithEmailAndPassword, logOutUser, getLoggedInUser, updateUserProfile, init, FirebaseService;
+    var _regeneratorRuntime, _this, __awaiter, prendusFirebaseApps, prendusFirebaseApp, set, remove, push, get, update, getAllBy, createUserWithEmailAndPassword, logInUserWithEmailAndPassword, logOutUser, getLoggedInUser, updateUserProfile, sendPasswordResetEmail, init, FirebaseService;
 
     return {
-        setters: [function (_d) {
-            _regeneratorRuntime = _d.default;
+        setters: [function (_e) {
+            _regeneratorRuntime = _e.default;
         }],
         execute: function () {
             _this = this;
@@ -11259,6 +11297,34 @@ $__System.register('2e', ['2d'], function (_export, _context11) {
                 }));
             };
 
+            sendPasswordResetEmail = function sendPasswordResetEmail(email) {
+                return __awaiter(_this, void 0, void 0, _regeneratorRuntime.mark(function _callee11() {
+                    return _regeneratorRuntime.wrap(function _callee11$(_context11) {
+                        while (1) {
+                            switch (_context11.prev = _context11.next) {
+                                case 0:
+                                    _context11.prev = 0;
+                                    _context11.next = 3;
+                                    return prendusFirebaseApp.auth().sendPasswordResetEmail(email);
+
+                                case 3:
+                                    _context11.next = 8;
+                                    break;
+
+                                case 5:
+                                    _context11.prev = 5;
+                                    _context11.t0 = _context11['catch'](0);
+                                    throw _context11.t0;
+
+                                case 8:
+                                case 'end':
+                                    return _context11.stop();
+                            }
+                        }
+                    }, _callee11, this, [[0, 5]]);
+                }));
+            };
+
             init = function init(apiKey, authDomain, databaseURL, storageBucket, name) {
                 prendusFirebaseApp = prendusFirebaseApps[name];
                 if (!prendusFirebaseApp) {
@@ -11284,31 +11350,32 @@ $__System.register('2e', ['2d'], function (_export, _context11) {
                 logOutUser: logOutUser,
                 getLoggedInUser: getLoggedInUser,
                 updateUserProfile: updateUserProfile,
-                getAllBy: getAllBy
+                getAllBy: getAllBy,
+                sendPasswordResetEmail: sendPasswordResetEmail
             });
 
             _export('FirebaseService', FirebaseService);
         }
     };
 });
-$__System.register('6', ['29', '32', '2d', '2a', '3d', '2e'], function (_export, _context20) {
+$__System.register('6', ['33', '2e', '2a', '2b', '3e', '2f'], function (_export, _context20) {
     "use strict";
 
     var _regeneratorRuntime, _classCallCheck, _createClass, Actions, UtilitiesService, FirebaseService, __awaiter, PrendusQuizEditor;
 
     return {
         setters: [function (_) {
-            _classCallCheck = _.default;
-        }, function (_2) {
-            UtilitiesService = _2.UtilitiesService;
-        }, function (_d) {
-            _regeneratorRuntime = _d.default;
-        }, function (_a) {
-            _createClass = _a.default;
-        }, function (_d2) {
-            Actions = _d2.Actions;
+            UtilitiesService = _.UtilitiesService;
         }, function (_e) {
-            FirebaseService = _e.FirebaseService;
+            _regeneratorRuntime = _e.default;
+        }, function (_a) {
+            _classCallCheck = _a.default;
+        }, function (_b) {
+            _createClass = _b.default;
+        }, function (_e2) {
+            Actions = _e2.Actions;
+        }, function (_f) {
+            FirebaseService = _f.FirebaseService;
         }],
         execute: function () {
             __awaiter = this && this.__awaiter || function (thisArg, _arguments, P, generator) {
@@ -11893,16 +11960,16 @@ $__System.register('6', ['29', '32', '2d', '2a', '3d', '2e'], function (_export,
         }
     };
 });
-$__System.register("5", ["29", "2a"], function (_export, _context) {
+$__System.register("5", ["2a", "2b"], function (_export, _context) {
     "use strict";
 
     var _classCallCheck, _createClass, PrendusRouter;
 
     return {
-        setters: [function (_) {
-            _classCallCheck = _.default;
-        }, function (_a) {
-            _createClass = _a.default;
+        setters: [function (_a) {
+            _classCallCheck = _a.default;
+        }, function (_b) {
+            _createClass = _b.default;
         }],
         execute: function () {
             PrendusRouter = function () {
@@ -11930,16 +11997,16 @@ $__System.register("5", ["29", "2a"], function (_export, _context) {
         }
     };
 });
-$__System.register('4', ['29', '2a'], function (_export, _context) {
+$__System.register('4', ['2a', '2b'], function (_export, _context) {
     "use strict";
 
     var _classCallCheck, _createClass, PrendusExample;
 
     return {
-        setters: [function (_) {
-            _classCallCheck = _.default;
-        }, function (_a) {
-            _createClass = _a.default;
+        setters: [function (_a) {
+            _classCallCheck = _a.default;
+        }, function (_b) {
+            _createClass = _b.default;
         }],
         execute: function () {
             PrendusExample = function () {
@@ -11961,16 +12028,16 @@ $__System.register('4', ['29', '2a'], function (_export, _context) {
         }
     };
 });
-$__System.register('3', ['29', '2a'], function (_export, _context) {
+$__System.register('3', ['2a', '2b'], function (_export, _context) {
     "use strict";
 
     var _classCallCheck, _createClass, PrendusVideoEditor;
 
     return {
-        setters: [function (_) {
-            _classCallCheck = _.default;
-        }, function (_a) {
-            _createClass = _a.default;
+        setters: [function (_a) {
+            _classCallCheck = _a.default;
+        }, function (_b) {
+            _createClass = _b.default;
         }],
         execute: function () {
             _export('PrendusVideoEditor', PrendusVideoEditor = function () {
@@ -12056,16 +12123,16 @@ $__System.register('3', ['29', '2a'], function (_export, _context) {
         }
     };
 });
-$__System.register('2', ['29', '2a'], function (_export, _context) {
+$__System.register('2', ['2a', '2b'], function (_export, _context) {
     "use strict";
 
     var _classCallCheck, _createClass, PrendusViewQuizRouter;
 
     return {
-        setters: [function (_) {
-            _classCallCheck = _.default;
-        }, function (_a) {
-            _createClass = _a.default;
+        setters: [function (_a) {
+            _classCallCheck = _a.default;
+        }, function (_b) {
+            _createClass = _b.default;
         }],
         execute: function () {
             PrendusViewQuizRouter = function () {
@@ -12095,7 +12162,7 @@ $__System.register('2', ['29', '2a'], function (_export, _context) {
         }
     };
 });
-$__System.register("29", [], function (_export, _context) {
+$__System.register("2a", [], function (_export, _context) {
   "use strict";
 
   return {
@@ -12109,7 +12176,7 @@ $__System.register("29", [], function (_export, _context) {
     }
   };
 });
-$__System.register("2a", [], function (_export, _context) {
+$__System.register("2b", [], function (_export, _context) {
   "use strict";
 
   return {
@@ -12135,16 +12202,16 @@ $__System.register("2a", [], function (_export, _context) {
     }
   };
 });
-$__System.register('1', ['29', '2a'], function (_export, _context) {
+$__System.register('1', ['2a', '2b'], function (_export, _context) {
     "use strict";
 
     var _classCallCheck, _createClass, PrendusViewVideoRouter;
 
     return {
-        setters: [function (_) {
-            _classCallCheck = _.default;
-        }, function (_a) {
-            _createClass = _a.default;
+        setters: [function (_a) {
+            _classCallCheck = _a.default;
+        }, function (_b) {
+            _createClass = _b.default;
         }],
         execute: function () {
             PrendusViewVideoRouter = function () {
