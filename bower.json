@@ -51,6 +51,7 @@
   },
   "resolutions": {
     "paper-input": "^1.1.11",
-    "paper-icon-button": "^1.0.0"
+    "paper-icon-button": "^1.0.0",
+    "solutia-maxima-components": "0.0.7"
   }
 }
