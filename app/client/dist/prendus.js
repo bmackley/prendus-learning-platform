@@ -11986,6 +11986,8 @@ $__System.register("5", ["2a", "2b"], function (_export, _context) {
                     key: "mapStateToThis",
                     value: function mapStateToThis(e) {
                         var state = e.detail.state;
+                        this.username = state.currentUser.metaData.email;
+                        this.loggedIn = this.username ? "true" : "false";
                         this.mainViewToShow = state.mainViewToShow;
                     }
                 }]);
