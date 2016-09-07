@@ -7,6 +7,7 @@
 <link rel="import" href="../prendus-login/prendus-login.html">
 <link rel="import" href="../prendus-create-account/prendus-create-account.html">
 <link rel="import" href="../prendus-course-router/prendus-course-router.html">
+<link rel="import" href="../prendus-landing/prendus-landing.html">
 <link rel="import" href="../prendus-homepage/prendus-homepage.html">
 <link rel="import" href="../prendus-profile/prendus-profile.html">
 <link rel="import" href="../prendus-privacy-policy/prendus-privacy-policy.html">
@@ -30,36 +31,14 @@
     #app-container{
       display: flex;
       flex-direction: column;
-      flex: auto;
-      margin-left: 24%;
-      margin-right: 24%;
-      margin-top: 2%;
+      align-items: center;
       position: relative;
-      height: 0%;
+      min-height: calc(100vh - 128px);
     }
-    @media (max-width: 600px) {
-      #app-container{
-        margin-left: .5%;
-        margin-right: .5%;
-      }
-    }
-    @media (max-width: 800px) {
-      #app-container{
-        margin-left: 8%;
-        margin-right: 8%;
-      }
-    }
-    @media (max-width: 1200px) {
-      #app-container{
-        margin-left: 13%;
-        margin-right: 13%;
-      }
-    }
-    @media (max-width: 1500px) {
-      #app-container{
-        margin-left: 16%;
-        margin-right: 16%;
-      }
+
+    .app-window {
+      margin: 20px 50px;
+      max-width: 800px;
     }
 
     .absolute-center {
@@ -86,13 +65,14 @@
         </div>
 
         <iron-pages id="app-container" selected="{{pageData.page}}" category="{{pageData.page}}" attr-for-selected ="data-page" show="routes">
-          <prendus-homepage data-page=""></prendus-homepage>
-          <prendus-login data-page="login"></prendus-login>
-          <prendus-create-account data-page="signup"></prendus-create-account>
-          <prendus-course-router data-page="courses" route="[[tail]]"></prendus-course-router>
-          <prendus-profile data-page="profile"></prendus-profile>
-          <prendus-privacy-policy data-page="privacy-policy"></prendus-privacy-policy>
-          <prendus-terms-of-service data-page="terms-of-service"></prendus-terms-of-service>
+          <prendus-landing data-page="landing"></prendus-landing>
+          <prendus-homepage class="app-window" data-page=""></prendus-homepage>
+          <prendus-login class="app-window" data-page="login"></prendus-login>
+          <prendus-create-account class="app-window" data-page="signup"></prendus-create-account>
+          <prendus-course-router class="app-window" data-page="courses" route="[[tail]]"></prendus-course-router>
+          <prendus-profile class="app-window" data-page="profile"></prendus-profile>
+          <prendus-privacy-policy class="app-window" data-page="privacy-policy"></prendus-privacy-policy>
+          <prendus-terms-of-service class="app-window" data-page="terms-of-service"></prendus-terms-of-service>
         </iron-pages>
     </iron-pages>
   </template>
