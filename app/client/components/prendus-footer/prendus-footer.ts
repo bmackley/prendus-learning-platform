@@ -12,4 +12,5 @@ class PrendusFooter {
     this.fire('location-changed', {}, {node: window});
   }
 }
+
 Polymer(PrendusFooter);

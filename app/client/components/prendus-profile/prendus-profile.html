@@ -55,16 +55,16 @@
     <prendus-notification error-message="[[errorMessage]]"></prendus-notification>
     <prendus-notification success-message="[[successMessage]]"></prendus-notification>
     <paper-dialog id="confirmEmailChange" modal on-iron-overlay-closed="closeOverlay">
-    <h2>Password Verification</h2>
-    <paper-dialog-scrollable>
-      You are changing your email. Your account password is needed to perform this function.
-      <paper-input type= "password" name="password" id="changeEmailPassword" label="Password"></paper-input>
-    </paper-dialog-scrollable>
-    <div class="buttons">
-      <paper-button class="cancel" dialog-dismiss>Cancel</paper-button>
-      <paper-button class = "confirm" dialog-confirm>Continue</paper-button>
-    </div>
-  </paper-dialog>
+      <h2>Password Verification</h2>
+      <paper-dialog-scrollable>
+        You are changing your email. Your account password is needed to perform this function.
+        <paper-input type= "password" name="password" id="changeEmailPassword" label="Password"></paper-input>
+      </paper-dialog-scrollable>
+      <div class="buttons">
+        <paper-button class="cancel" dialog-dismiss>Cancel</paper-button>
+        <paper-button class = "confirm" dialog-confirm>Continue</paper-button>
+      </div>
+    </paper-dialog>
   </template>
 
   <!--<script src="prendus-profile.js"></script>-->
