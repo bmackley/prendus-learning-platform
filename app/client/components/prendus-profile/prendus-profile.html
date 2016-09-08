@@ -10,46 +10,48 @@
   <template>
   <style>
     :host {
-      display: block;
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
     }
-    #profileFormCard, #toastTarget{
-        width: 88%;
-      }
-      @media (max-width: 1200px) {
-        #profileFormCard, #toastTarget{
-          width: 98%;
-        }
-      }
-      @media (max-width: 600px) {
-        #profileFormCard, #toastTarget{
-          width: 100%;
-        }
-      }
-      #profileFormCard {
-        --paper-toast-background-color: red;
-      }
-      paper-button.cancel:hover {
-        color: red;
-      }
-      paper-button.confirm:hover {
-        color: green;
-      }
+    paper-card {
+      width: 100%;
+      max-width: 320px;
+    }
+    paper-button.indigo {
+      background-color: var(--paper-indigo-500);
+      color: white;
+      --paper-button-raised-keyboard-focus: {
+        background-color: var(--paper-pink-a200) !important;
+        color: white !important;
+      };
+    }
+    #profileFormCard {
+      --paper-toast-background-color: red;
+    }
+    paper-button.cancel:hover {
+      color: red;
+    }
+    paper-button.confirm:hover {
+      color: green;
+    }
   </style>
     <redux-store on-statechange="mapStateToThis" action="[[action]]"></redux-store>
     <paper-toast id="updateProfileErrorToast" duration="5000" verticalAlign="top" text=[[updateProfileErrorToastText]]></paper-toast>
     <paper-toast id="updateProfileSuccessToast" duration="5000" verticalAlign="top" text=[[updateProfileSuccessToastText]]></paper-toast>
-    <center>
-      <paper-card id = "profileFormCard" heading ="Update Profile">
-        <form is="iron-form" id="form" method="post" action="/form/handler">
-          <paper-input name="firstName" id="firstName" label="First Name" value="[[firstName]]"></paper-input>
-          <paper-input name="lastName" id="lastName" label="Last Name" value="[[lastName]]"></paper-input>
-          <paper-input name="Intitution" id="institution" label="Institution (school)" value="[[institution]]"></paper-input>
-          <paper-input name="Email" id="updateEmail" label="Email" required value="[[email]]"></paper-input>
-          <paper-button raised on-tap="changeProfile">Submit</paper-button>
-        </form>
-      </paper-card>
-      <center><div id="toastTarget" style = "height: 70px;"></div></center>
-    </center>
+    <paper-card id = "profileFormCard" heading ="Update Profile">
+      <form class="card-content" is="iron-form" id="form" method="post" action="/form/handler">
+        <paper-input name="firstName" id="firstName" label="First Name" value="[[firstName]]"></paper-input>
+        <paper-input name="lastName" id="lastName" label="Last Name" value="[[lastName]]"></paper-input>
+        <paper-input name="Intitution" id="institution" label="Institution (school)" value="[[institution]]"></paper-input>
+        <paper-input name="Email" id="updateEmail" label="Email" required value="[[email]]"></paper-input>
+      </form>
+      <div class="card-actions">
+        <paper-button raised on-tap="changeProfile">Submit</paper-button>
+      </div>
+    </paper-card>
+    <div id="toastTarget"></div>
     <prendus-notification error-message="[[errorMessage]]"></prendus-notification>
     <prendus-notification success-message="[[successMessage]]"></prendus-notification>
     <paper-dialog id="confirmEmailChange" modal on-iron-overlay-closed="closeOverlay">

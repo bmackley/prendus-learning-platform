@@ -1,0 +1,46 @@
+<link href="../../bower_components/polymer/polymer.html" rel="import">
+<link href="../../bower_components/paper-button/paper-button.html" rel="import">
+
+<dom-module id="prendus-landing">
+  <style>
+    :host {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      width: 100vw;
+      color: white;
+      text-align: center;
+      background-color: #000;
+      position: relative;
+      z-index: 0;
+    }
+
+    :host::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      opacity: .7;
+      z-index: -1;
+      background: url('../../images/landing-image.jpg') center;
+      background-size: cover;
+    }
+
+    paper-button.indigo {
+      background-color: var(--paper-indigo-500);
+      color: white;
+      --paper-button-raised-keyboard-focus: {
+        background-color: var(--paper-pink-a200) !important;
+        color: white !important;
+      };
+    }
+  </style>
+  <template>
+    <h1>Discover how you learn.</h1>
+    <paper-button id="signup" class="indigo" on-tap="changeURL" raised>Sign Up</paper-button>
+  </template>
+</dom-module>
