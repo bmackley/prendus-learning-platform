@@ -17112,35 +17112,24 @@ Custom property | Description | Default
 </dom-module>
 <dom-module id="prendus-footer" assetpath="../prendus-footer/">
   <style>
-  footer {
-    position: fixed;
-    background: black;
-    width: 100%;
-    bottom: 0;
-
-  }
-  #privacy-policy, #terms-of-service{
-    margin-left:auto;
-    margin-right:2%;
-    cursor: pointer;
-  }
-  a{
-    color:gray;
-  }
-  a:visited {
-    color: gray;
-}
+    footer {
+      width: 100%;
+    }
+    .footer-items {
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
   </style>
   <template>
-    <footer>
-        <paper-header-panel>
-          <paper-toolbar style="color: gray;">
-            <div>© 2016 Prendus LLC</div>
-            <div id="terms-of-service" on-tap="changeURL">Terms of Service</div>
-            <div id="privacy-policy" on-tap="changeURL">Privacy Policy</div>
-          </paper-toolbar>
-        </paper-header-panel>
-    </footer>
+    <paper-toolbar>
+      <footer class="footer-items">
+        <div>© 2016 Prendus LLC</div>
+        <paper-button id="terms-of-service" on-tap="changeURL" noink="">Terms of Service</paper-button>
+        <paper-button id="privacy-policy" on-tap="changeURL" noink="">Privacy Policy</paper-button>
+      </footer>
+    </paper-toolbar>
   </template>
 
   <!--<script src="prendus-footer.js"></script>-->
@@ -22360,173 +22349,149 @@ element.
 </dom-module>
 <dom-module id="prendus-login" assetpath="../prendus-login/">
   <style>
-    /* CSS rules for your element */
-    <style>
-      :host {
-        display: block;
-      }
+    :host {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    paper-card {
+      width: 100%;
+      max-width: 320px;
+    }
+    paper-button.indigo {
+      background-color: var(--paper-indigo-500);
+      color: white;
+      --paper-button-raised-keyboard-focus: {
+        background-color: var(--paper-pink-a200) !important;
+        color: white !important;
+      };
+    }
+    /*#loginFormCard, #toastTarget{
+        width: 75%;
+    }
+    @media (max-width: 1200px) {
       #loginFormCard, #toastTarget{
-          width: 75%;
-        }
-        @media (max-width: 1200px) {
-          #loginFormCard, #toastTarget{
-            width: 85%;
-          }
-        }
-        @media (max-width: 600px) {
-          #loginFormCard, #toastTarget{
-            width: 100%;
-          }
-        }
-        #forgot-password{
-          color: blue;
-          cursor: pointer;
-        }
-    </style>
-  
+        width: 85%;
+      }
+    }
+    @media (max-width: 600px) {
+      #loginFormCard, #toastTarget{
+        width: 100%;
+      }
+    }*/
+    #forgot-password{
+      color: blue;
+      cursor: pointer;
+    }
+  </style>
   <template>
-    <!-- local DOM for your element -->
     <redux-store action="[[action]]"></redux-store>
-    <center>
       <paper-card id="loginFormCard" heading="Login">
-        <div>
-          <form is="iron-form" method="get" action="/" id="loginForm">
-            <paper-input name="email" id="loginEmail" label="Email" required="" auto-validate=""></paper-input>
-            <paper-input name="password" id="loginPassword" label="Password" type="password" required="" auto-validate=""></paper-input>
-            <div class="output"></div>
-            <br>
-            <paper-button raised="" id="signin-submit">Submit</paper-button>
-            <br>
-            <br>
-            <div id="forgot-password" on-tap="sendResetEmailTrigger"> Forgot Password </div>
-          </form>
+        <form class="card-content" is="iron-form" method="get" action="/" id="loginForm">
+          <paper-input name="email" id="loginEmail" label="Email" required="" auto-validate=""></paper-input>
+          <paper-input name="password" id="loginPassword" label="Password" type="password" required="" auto-validate=""></paper-input>
+        </form>
+        <div class="card-actions">
+          <paper-button id="signin-submit" class="indigo">Log In</paper-button>
+          <paper-button on-click="sendResetEmailTrigger">Forgot</paper-button>
         </div>
       </paper-card>
       <paper-dialog id="forgotPasswordModal" modal="">
         <div>
           <!-- Look up Iron keys to change this -->
           <form is="iron-form">
-            <h2>Forgot Password</h2>
+            <h2>Enter Email to Send Password Reset Link</h2>
             <paper-input name="resetPasswordEmail" id="resetPasswordEmail" label="Email" required="" auto-validate=""></paper-input>
             <paper-button dialog-dismiss="">Cancel</paper-button>
-            <paper-button id="sendResetEmailSubmit" on-click="sendResetEmail">Send Reset Email</paper-button>
+            <paper-button id="sendResetEmailSubmit" on-click="sendResetEmail">Submit</paper-button>
           </form>
         </div>
       </paper-dialog>
       <prendus-notification error-message="[[errorMessage]]"></prendus-notification>
-    </center>
   </template>
 
   <!--<script src="prendus-login.js"></script>-->
 </dom-module>
 <dom-module id="prendus-terms-of-service" assetpath="../prendus-terms-of-service/">
   <style>
-    /* CSS rules for your element */
+
   </style>
   <template>
-    <h2> Web Site Terms and Conditions of Use </h2>
+    <h1> Web Site Terms and Conditions of Use </h1>
 
-<h3>
-	1. Creation Agreement
-</h3>
-<ol type="a">
-  <li>
-    Any materials generated online are licensed under the <a rel="license" href="http://creativecommons.org/licenses/by/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by/4.0/80x15.png"></a><br><a rel="license" href="http://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a> unless explicitly stated.
-    By creating any materials you agree to license the materials with the creative commons license.
-  </li>
-  <li>
-    If you decide to revise a material for your own purpose, you need to recognize the original creator.
-  </li>
-</ol>
-<h3>
-	2. Use License
-</h3>
+    <h2>
+    	1. Creation Agreement
+    </h2>
+    <ol type="a">
+      <li>
+        Any materials generated online are licensed under the <a rel="license" href="http://creativecommons.org/licenses/by/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by/4.0/80x15.png"></a> <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a> unless explicitly stated.  By creating any materials you agree to license the materials with the creative commons license.
+      </li>
+      <li>
+        If you decide to revise a material for your own purpose, you need to recognize the original creator.
+      </li>
+    </ol>
+    <h2>
+    	2. Use License
+    </h2>
 
-<ol type="a">
-  <li>
-    All quizzes provided online are licensed under the creative commons 4.0 attribution license. You are free to distribute, remix, revise, and modify these materials, even commercially as long as the original creator is given credit.
-  </li>
-  <li>
-    Videos are hosted on other applications such as YouTube and are not property of Prendus and are not licensed under the creative commons license.
-  </li>
-  <li>
-    If you area  collaborator in a course, your email will be visible to other collaborators.
-  </li>
-  <li>
-    Any interactions you have with the system will be stored for internal and external research. Any research that is published will NOT include any personal data and will be reported at the aggregate level. You can opt out of the research at any time by emailing benjaminprendus@gmail.com with your email address used for Prendus access. 
-  </li>
-</ol>
-
-
-    <br>
-    <br>
-    <br>
-    <br>
-  </template>
+  <ol type="a">
+    <li>
+      All quizzes provided online are licensed under the creative commons 4.0 attribution license. You are free to distribute, remix, revise, and modify these materials, even commercially as long as the original creator is given credit.
+    </li>
+    <li>
+      Videos are hosted on other applications such as YouTube and are not property of Prendus and are not licensed under the creative commons license.
+    </li>
+    <li>
+      If you area  collaborator in a course, your email will be visible to other collaborators.
+    </li>
+    <li>
+      Any interactions you have with the system will be stored for internal and external research. Any research that is published will NOT include any personal data and will be reported at the aggregate level. You can opt out of the research at any time by emailing benjaminprendus@gmail.com with your email address used for Prendus access.
+    </li>
+  </ol>
+</template>
 
   <!--<script src="prendus-example.js"></script>-->
 </dom-module>
 <dom-module id="prendus-create-account" assetpath="../prendus-create-account/">
   <style>
-    /* CSS rules for your element */
-    <style>
       :host {
-        display: block;
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
       }
-      #signupForm, #toastTarget{
-        width: 75%;
+      paper-card {
+        width: 100%;
+        max-width: 320px;
       }
-      @media (max-width: 1200px) {
-        #signupForm, #toastTarget{
-          float: left;
-          width: 85%;
-          margin-left: 16%;
-        }
-      }
-      @media (max-width: 600px) {
-        #signupForm, #toastTarget{
-          width: 98%;
-          margin-left: 2%;
-        }
-      }
-      #ToS{
-        color: blue;
-      }
-      #ToS-container{
-        margin-top: 2%;
-        margin-bottom: 2%;
-      }
-      #signup-submit{
-        margin-bottom: 2%;
+      paper-button.indigo {
+        background-color: var(--paper-indigo-500);
+        color: white;
+        --paper-button-raised-keyboard-focus: {
+          background-color: var(--paper-pink-a200) !important;
+          color: white !important;
+        };
       }
     </style>
-  
-  <template>
-    <!-- local DOM for your element -->
-    <center>
+    <template>
       <redux-store action="[[action]]"></redux-store>
       <paper-card id="signupForm" heading="Create Account">
-          <form is="iron-form" method="get" action="/createclass" id="signupFormlocater">
-            <paper-input name="email" id="formEmail" label="Email" required="" auto-validate=""></paper-input>
-            <paper-input name="password" id="formPassword" label="Password" type="password" required="" auto-validate=""></paper-input>
-            <paper-input name="verify_password" id="retypePassword" label="Retype password" type="password" required="" auto-validate=""></paper-input>
-            <paper-input name="firstName" id="firstName" label="First Name"></paper-input>
-            <paper-input name="lastName" id="lastName" label="Last Name"></paper-input>
-            <paper-input name="Intitution" id="institution" label="Institution (school)"></paper-input>
-            <div id="ToS-container">By creating an account, you agree to Prendus's <span id="ToS" on-tap="openTermsOfService"> Terms of Service </span></div>
-            <paper-button raised="" id="signup-submit">Submit</paper-button>
-          </form>
-      </paper-card>
-      <paper-dialog id="terms-of-service-modal">
-        <paper-dialog-scrollable>
-          <prendus-terms-of-service></prendus-terms-of-service>
-        </paper-dialog-scrollable>
-        <div class="buttons">
-          <paper-button class="cancel" dialog-dismiss="">OK</paper-button>
+        <form is="iron-form" class="card-content" method="get" action="/createclass" id="signupFormlocater">
+          <paper-input name="email" id="formEmail" label="Email" required="" auto-validate=""></paper-input>
+          <paper-input name="password" id="formPassword" label="Password" type="password" required="" auto-validate=""></paper-input>
+          <paper-input name="verify_password" id="retypePassword" label="Retype password" type="password" required="" auto-validate=""></paper-input>
+          <paper-input name="firstName" id="firstName" label="First Name"></paper-input>
+          <paper-input name="lastName" id="lastName" label="Last Name"></paper-input>
+          <paper-input name="Intitution" id="institution" label="Institution (school)"></paper-input>
+        </form>
+        <div class="card-actions">
+          <paper-button id="signup-submit" class="indigo" raised="">Submit</paper-button>
         </div>
-      </paper-dialog>
+      </paper-card>
+
     <prendus-notification error-message="[[errorMessage]]"></prendus-notification>
-  </center></template>
+  </template>
 
   <!--<script src="prendus-create-account.js"></script>-->
 </dom-module>
@@ -92926,6 +92891,49 @@ Custom property | Description | Default
 
     <!--<script src="prendus-course-router.js"></script>-->
 </dom-module>
+<dom-module id="prendus-landing" assetpath="../prendus-landing/">
+  <style>
+    :host {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      width: 100vw;
+      color: white;
+      text-align: center;
+      background-color: #000;
+      position: relative;
+      z-index: 0;
+    }
+
+    :host::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      opacity: .7;
+      z-index: -1;
+      background: url("../../images/landing-image.jpg") center;
+      background-size: cover;
+    }
+
+    paper-button.indigo {
+      background-color: var(--paper-indigo-500);
+      color: white;
+      --paper-button-raised-keyboard-focus: {
+        background-color: var(--paper-pink-a200) !important;
+        color: white !important;
+      };
+    }
+  </style>
+  <template>
+    <h1>Discover how you learn.</h1>
+    <paper-button id="signup" class="indigo" on-tap="changeURL" raised="">Sign Up</paper-button>
+  </template>
+</dom-module>
 <dom-module id="prendus-homepage" assetpath="../prendus-homepage/">
   <style>
   </style>
@@ -93454,46 +93462,48 @@ event and do your own custom submission:
   <template>
   <style>
     :host {
-      display: block;
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
     }
-    #profileFormCard, #toastTarget{
-        width: 88%;
-      }
-      @media (max-width: 1200px) {
-        #profileFormCard, #toastTarget{
-          width: 98%;
-        }
-      }
-      @media (max-width: 600px) {
-        #profileFormCard, #toastTarget{
-          width: 100%;
-        }
-      }
-      #profileFormCard {
-        --paper-toast-background-color: red;
-      }
-      paper-button.cancel:hover {
-        color: red;
-      }
-      paper-button.confirm:hover {
-        color: green;
-      }
+    paper-card {
+      width: 100%;
+      max-width: 320px;
+    }
+    paper-button.indigo {
+      background-color: var(--paper-indigo-500);
+      color: white;
+      --paper-button-raised-keyboard-focus: {
+        background-color: var(--paper-pink-a200) !important;
+        color: white !important;
+      };
+    }
+    #profileFormCard {
+      --paper-toast-background-color: red;
+    }
+    paper-button.cancel:hover {
+      color: red;
+    }
+    paper-button.confirm:hover {
+      color: green;
+    }
   </style>
     <redux-store on-statechange="mapStateToThis" action="[[action]]"></redux-store>
     <paper-toast id="updateProfileErrorToast" duration="5000" verticalalign="top" text="[[updateProfileErrorToastText]]"></paper-toast>
     <paper-toast id="updateProfileSuccessToast" duration="5000" verticalalign="top" text="[[updateProfileSuccessToastText]]"></paper-toast>
-    <center>
-      <paper-card id="profileFormCard" heading="Update Profile">
-        <form is="iron-form" id="form" method="post" action="/form/handler">
-          <paper-input name="firstName" id="firstName" label="First Name" value="[[firstName]]"></paper-input>
-          <paper-input name="lastName" id="lastName" label="Last Name" value="[[lastName]]"></paper-input>
-          <paper-input name="Intitution" id="institution" label="Institution (school)" value="[[institution]]"></paper-input>
-          <paper-input name="Email" id="updateEmail" label="Email" required="" value="[[email]]"></paper-input>
-          <paper-button raised="" on-tap="changeProfile">Submit</paper-button>
-        </form>
-      </paper-card>
-      <center><div id="toastTarget" style="height: 70px;"></div></center>
-    </center>
+    <paper-card id="profileFormCard" heading="Update Profile">
+      <form class="card-content" is="iron-form" id="form" method="post" action="/form/handler">
+        <paper-input name="firstName" id="firstName" label="First Name" value="[[firstName]]"></paper-input>
+        <paper-input name="lastName" id="lastName" label="Last Name" value="[[lastName]]"></paper-input>
+        <paper-input name="Intitution" id="institution" label="Institution (school)" value="[[institution]]"></paper-input>
+        <paper-input name="Email" id="updateEmail" label="Email" required="" value="[[email]]"></paper-input>
+      </form>
+      <div class="card-actions">
+        <paper-button raised="" on-tap="changeProfile">Submit</paper-button>
+      </div>
+    </paper-card>
+    <div id="toastTarget"></div>
     <prendus-notification error-message="[[errorMessage]]"></prendus-notification>
     <prendus-notification success-message="[[successMessage]]"></prendus-notification>
     <paper-dialog id="confirmEmailChange" modal="" on-iron-overlay-closed="closeOverlay">
@@ -93513,7 +93523,7 @@ event and do your own custom submission:
 </dom-module>
 <dom-module id="prendus-privacy-policy" assetpath="../prendus-privacy-policy/">
   <style>
-    /* CSS rules for your element */
+
   </style>
   <template>
     <h1>Prendus Privacy policy </h1>
@@ -93557,9 +93567,6 @@ event and do your own custom submission:
     <p> Information you create for the course with the free account is creative commons data.  As creator of a course, you have the ability to add, edit, or remove data from the course. This data, however, is open for others to copy and use at their discretion. Because the data is under a creative commons license, you will not be able to delete the content.</p>
     <p> Plagiarized content will be removed immediately and the owners posting the content will be warned.  Elicit content will also be removed and the owners warned. </p>
     <p> All interactions with the data will be stored and analyzed to enhance the product and may be used for publishing purposes. Any data used for publication will be reported at the aggregate level and no personal data will be used in any publication. Even if an account is deleted this interaction data will persist. </p>
-    <br>
-    <br>
-    <br>
   </template>
 
   <!--<script src="prendus-example.js"></script>-->
@@ -93582,70 +93589,47 @@ event and do your own custom submission:
     #app-container{
       display: flex;
       flex-direction: column;
-      flex: auto;
-      margin-left: 24%;
-      margin-right: 24%;
-      margin-top: 2%;
+      align-items: center;
       position: relative;
-      height: 0%;
-    }
-    @media (max-width: 600px) {
-      #app-container{
-        margin-left: .5%;
-        margin-right: .5%;
-      }
-    }
-    @media (max-width: 800px) {
-      #app-container{
-        margin-left: 8%;
-        margin-right: 8%;
-      }
-    }
-    @media (max-width: 1200px) {
-      #app-container{
-        margin-left: 13%;
-        margin-right: 13%;
-      }
-    }
-    @media (max-width: 1500px) {
-      #app-container{
-        margin-left: 16%;
-        margin-right: 16%;
-      }
+      min-height: calc(100vh - 128px);
     }
 
-    .absolute-center {
-        position: absolute;
-        z-index: 500;
-        top: 0px;
-        right: 0px;
-        left: 0px;
-        bottom: 0px;
-        margin-right: auto;
-        margin-left: auto;
-        margin-top: 250px;
+    .app-window {
+      margin: 20px 50px;
+      max-width: 800px;
     }
+
+    .loading-spinner {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: center;
+      margin-top: 250px;
+    }
+
   </style>
   <template>
     <redux-store on-statechange="mapStateToThis" action="[[action]]"></redux-store>
 
     <app-location route="{{route}}"></app-location>
     <app-route route="[[route]]" pattern="/:page" data="{{pageData}}" tail="{{tail}}" active="{{pageActive}}"></app-route>
-
     <iron-pages selected="[[mainViewToShow]]" attr-for-selected="show">
-        <div show="spinner" style="display: flex; flex-direction: row; align-items: center; justify-content: center; margin-top: 250px">
-            <paper-spinner active=""></paper-spinner>
-        </div>
+      <div class="loading-spinner" show="spinner">
+          <paper-spinner active=""></paper-spinner>
+      </div>
 
-        <iron-pages id="app-container" selected="{{pageData.page}}" category="{{pageData.page}}" attr-for-selected="data-page" show="routes">
-          <prendus-homepage data-page=""></prendus-homepage>
-          <prendus-login data-page="login"></prendus-login>
-          <prendus-create-account data-page="signup"></prendus-create-account>
-          <prendus-course-router data-page="courses" route="[[tail]]"></prendus-course-router>
-          <prendus-profile data-page="profile"></prendus-profile>
-          <prendus-privacy-policy data-page="privacy-policy"></prendus-privacy-policy>
-          <prendus-terms-of-service data-page="terms-of-service"></prendus-terms-of-service>
+      <iron-pages id="app-container" selected="{{pageData.page}}" category="{{pageData.page}}" attr-for-selected="data-page" show="routes">
+        <iron-pages data-page="" selected="[[loggedIn]]" attr-for-selected="logged-in">
+          <prendus-landing logged-in="false"></prendus-landing>
+          <prendus-homepage logged-in="true" class="app-window"></prendus-homepage>
         </iron-pages>
+        <prendus-login class="app-window" data-page="login"></prendus-login>
+        <prendus-create-account class="app-window" data-page="signup"></prendus-create-account>
+        <prendus-course-router class="app-window" data-page="courses" route="[[tail]]"></prendus-course-router>
+        <prendus-profile class="app-window" data-page="profile"></prendus-profile>
+        <prendus-privacy-policy class="app-window" data-page="privacy-policy"></prendus-privacy-policy>
+        <prendus-terms-of-service class="app-window" data-page="terms-of-service"></prendus-terms-of-service>
+      </iron-pages>
     </iron-pages>
   </template>
 
