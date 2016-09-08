@@ -666,6 +666,7 @@ const loginUser = {
         }
     }
 };
+
 const updateUserEmail = {
   type: 'UPDATE_USER_PROFILE',
   execute: async (context: any, pastEmail: string, password: string, newEmail: string) => {
@@ -677,6 +678,7 @@ const updateUserEmail = {
     }
   }
 };
+
 const updateUserMetaData = {
   type: 'UPDATE_USER_META_DATA',
   execute: async (context: any, uid: string, metaData: UserMetaData) => {

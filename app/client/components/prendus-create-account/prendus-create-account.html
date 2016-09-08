@@ -3,44 +3,48 @@
 <link rel="import" href="../../bower_components/paper-toast/paper-toast.html">
 <link rel="import" href="../../bower_components/paper-input/paper-input.html">
 <link rel="import" href="../../bower_components/paper-card/paper-card.html">
+<link rel="import" href="../../bower_components/paper-dialog/paper-dialog.html" >
 <link rel="import" href="../prendus-notification/prendus-notification.html">
+<link rel="import" href="../prendus-terms-of-service/prendus-terms-of-service.html">
+
 
 <dom-module id="prendus-create-account">
   <style>
-    :host {
-      width: 100%;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-    }
-    paper-card {
-      width: 100%;
-      max-width: 320px;
-    }
-    paper-button.indigo {
-      background-color: var(--paper-indigo-500);
-      color: white;
-      --paper-button-raised-keyboard-focus: {
-        background-color: var(--paper-pink-a200) !important;
-        color: white !important;
-      };
-    }
-  </style>
-  <template>
-    <redux-store action="[[action]]"></redux-store>
-    <paper-card id = "signupForm" heading ="Create Account">
-      <form is="iron-form" class="card-content" method="get" action="/createclass" id="signupFormlocater">
-        <paper-input name="email" id = "formEmail" label="Email" required auto-validate></paper-input>
-        <paper-input name="password" id = "formPassword"label="Password" type="password" required auto-validate></paper-input>
-        <paper-input name="verify_password" id= "retypePassword" label="Retype password" type="password" required auto-validate></paper-input>
-        <paper-input name="firstName" id="firstName" label="First Name"></paper-input>
-        <paper-input name="lastName" id="lastName" label="Last Name"></paper-input>
-        <paper-input name="Intitution" id="institution" label="Institution (school)"></paper-input>
-      </form>
-      <div class="card-actions">
-        <paper-button id="signup-submit" class="indigo" raised>Submit</paper-button>
-      </div>
-    </paper-card>
+      :host {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+      paper-card {
+        width: 100%;
+        max-width: 320px;
+      }
+      paper-button.indigo {
+        background-color: var(--paper-indigo-500);
+        color: white;
+        --paper-button-raised-keyboard-focus: {
+          background-color: var(--paper-pink-a200) !important;
+          color: white !important;
+        };
+      }
+    </style>
+    <template>
+      <redux-store action="[[action]]"></redux-store>
+      <paper-card id = "signupForm" heading ="Create Account">
+        <form is="iron-form" class="card-content" method="get" action="/createclass" id="signupFormlocater">
+          <paper-input name="email" id = "formEmail" label="Email" required auto-validate></paper-input>
+          <paper-input name="password" id = "formPassword"label="Password" type="password" required auto-validate></paper-input>
+          <paper-input name="verify_password" id= "retypePassword" label="Retype password" type="password" required auto-validate></paper-input>
+          <paper-input name="firstName" id="firstName" label="First Name"></paper-input>
+          <paper-input name="lastName" id="lastName" label="Last Name"></paper-input>
+          <paper-input name="Intitution" id="institution" label="Institution (school)"></paper-input>
+        </form>
+        <div class="card-actions">
+          <paper-button id="signup-submit" class="indigo" raised>Submit</paper-button>
+        </div>
+      </paper-card>
+
     <prendus-notification error-message="[[errorMessage]]"></prendus-notification>
   </template>
 

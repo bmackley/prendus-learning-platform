@@ -1,6 +1,7 @@
 <link href="../../bower_components/polymer/polymer.html" rel="import">
 <link href="../../bower_components/paper-card/paper-card.html" rel="import">
 <link href="../../bower_components/paper-dialog/paper-dialog.html" rel="import">
+<link href="../../bower_components/paper-tags-input/paper-tags-input.html" rel="import">
 <link rel="import" href="../prendus-course-preview/prendus-course-preview.html">
 <link rel="import" href="../prendus-notification/prendus-notification.html">
 
@@ -33,8 +34,9 @@
       <h2>Create a Course</h2>
       <div>
         <!-- Look up Iron keys to change this -->
-        <paper-input name="courseName" label="Course Name" id ="courseFormName" required auto-validate></paper-input>
+        <paper-input name="courseName" label="Course Name" id ="courseFormName" required auto-validate empty-error-message="Course Name Required"></paper-input>
         <paper-input name="courseDescription" label="Short Description" id ="courseDescription" required auto-validate></paper-input>
+        <paper-tags-input placeholder = "Add a tag to the course (optional). Press enter to add another tag." label = "Course Tags" duplicate-error-message="Tag cannot be a duplicate" tags="[[tags]]"></paper-tags-input>
         <paper-button dialog-dismiss>Cancel</paper-button>
         <paper-button on-tap="addCourseFormDone">Next</paper-button>
       </div>
