@@ -6,4 +6,5 @@ class PrendusExample {
     this.is = 'prendus-privacy-policy';
   }
 }
+
 Polymer(PrendusExample);

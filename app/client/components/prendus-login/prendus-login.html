@@ -3,6 +3,8 @@
 <link rel="import" href="../../bower_components/paper-toast/paper-toast.html">
 <link rel="import" href="../../bower_components/paper-input/paper-input.html">
 <link rel="import" href="../../bower_components/paper-card/paper-card.html">
+<link rel="import"href="../../bower_components/paper-dialog/paper-dialog.html" >
+
 <link rel="import" href="../prendus-notification/prendus-notification.html">
 
 <dom-module id="prendus-login">
@@ -25,20 +27,48 @@
         color: white !important;
       };
     }
+    /*#loginFormCard, #toastTarget{
+        width: 75%;
+    }
+    @media (max-width: 1200px) {
+      #loginFormCard, #toastTarget{
+        width: 85%;
+      }
+    }
+    @media (max-width: 600px) {
+      #loginFormCard, #toastTarget{
+        width: 100%;
+      }
+    }*/
+    #forgot-password{
+      color: blue;
+      cursor: pointer;
+    }
   </style>
   <template>
     <redux-store action="[[action]]"></redux-store>
-    <paper-card id = "loginFormCard" heading ="Login">
-      <form class="card-content" is="iron-form" method="get" action="/" id="loginForm">
-        <paper-input name="email" id = "loginEmail" label="Email" required auto-validate></paper-input>
-        <paper-input name="password" id = "loginPassword" label="Password" type="password" required auto-validate></paper-input>
-      </form>
-      <div class="card-actions">
-        <paper-button id="signin-submit" class="indigo">Log In</paper-button>
-        <paper-button>Forgot </paper-button>
-      </div>
-    </paper-card>
-    <prendus-notification error-message="[[errorMessage]]"></prendus-notification>
+      <paper-card id = "loginFormCard" heading ="Login">
+        <form class="card-content" is="iron-form" method="get" action="/" id="loginForm">
+          <paper-input name="email" id = "loginEmail" label="Email" required auto-validate></paper-input>
+          <paper-input name="password" id = "loginPassword" label="Password" type="password" required auto-validate></paper-input>
+        </form>
+        <div class="card-actions">
+          <paper-button id="signin-submit" class="indigo">Log In</paper-button>
+          <paper-button on-click="sendResetEmailTrigger">Forgot</paper-button>
+        </div>
+      </paper-card>
+      <paper-dialog id = "forgotPasswordModal" modal>
+        <div>
+          <!-- Look up Iron keys to change this -->
+          <form is="iron-form">
+            <h2>Enter Email to Send Password Reset Link</h2>
+            <paper-input name="resetPasswordEmail" id = "resetPasswordEmail" label="Email" required auto-validate></paper-input>
+            <paper-button dialog-dismiss>Cancel</paper-button>
+            <paper-button id = "sendResetEmailSubmit" on-click="sendResetEmail">Submit</paper-button>
+          </form>
+        </div>
+      </paper-dialog>
+      <prendus-notification error-message="[[errorMessage]]"></prendus-notification>
   </template>
 
   <!--<script src="prendus-login.js"></script>-->

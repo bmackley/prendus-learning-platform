@@ -4748,6 +4748,12 @@ $__System.register('16', ['2e', '2a', '2b', '3e', '2f'], function (_export, _con
                     key: 'beforeRegister',
                     value: function beforeRegister() {
                         this.is = 'prendus-course-homepage';
+                        this.properties = {
+                            tags: {
+                                type: String,
+                                observer: 'updateTags'
+                            }
+                        };
                     }
                 }, {
                     key: 'ready',
@@ -4785,6 +4791,12 @@ $__System.register('16', ['2e', '2a', '2b', '3e', '2f'], function (_export, _con
                                 }
                             }, _callee, this, [[0, 9]]);
                         }));
+                    }
+                }, {
+                    key: 'updateTags',
+                    value: function updateTags(e) {
+                        console.log('updating tags', e);
+                        console.log('updating tags tags value', this.tags);
                     }
                 }, {
                     key: 'addCourse',
@@ -5383,6 +5395,14 @@ $__System.register('12', ['2e', '2a', '2b', '3e'], function (_export, _context2)
                         };
                     }
                 }, {
+                    key: 'openTermsOfService',
+                    value: function openTermsOfService() {
+                        this.querySelector('#terms-of-service-modal').open();
+                        // const location = '/terms-of-service';
+                        // window.history.pushState({}, '', location);
+                        // this.fire('location-changed', {}, {node: window});
+                    }
+                }, {
                     key: 'createUser',
                     value: function createUser(e) {
                         return __awaiter(this, void 0, void 0, _regeneratorRuntime.mark(function _callee() {
@@ -5868,10 +5888,10 @@ $__System.register('c', ['2a', '2b'], function (_export, _context) {
         }
     };
 });
-$__System.register('b', ['2e', '2a', '2b', '3e'], function (_export, _context2) {
+$__System.register('b', ['2e', '2a', '2b', '3e', '2f'], function (_export, _context3) {
     "use strict";
 
-    var _regeneratorRuntime, _classCallCheck, _createClass, Actions, __awaiter, PrendusLogin;
+    var _regeneratorRuntime, _classCallCheck, _createClass, Actions, FirebaseService, __awaiter, PrendusLogin;
 
     return {
         setters: [function (_e) {
@@ -5882,6 +5902,8 @@ $__System.register('b', ['2e', '2a', '2b', '3e'], function (_export, _context2) 
             _createClass = _b.default;
         }, function (_e2) {
             Actions = _e2.Actions;
+        }, function (_f) {
+            FirebaseService = _f.FirebaseService;
         }],
         execute: function () {
             __awaiter = this && this.__awaiter || function (thisArg, _arguments, P, generator) {
@@ -5922,6 +5944,11 @@ $__System.register('b', ['2e', '2a', '2b', '3e'], function (_export, _context2) 
                         };
                     }
                 }, {
+                    key: 'sendResetEmailTrigger',
+                    value: function sendResetEmailTrigger() {
+                        this.querySelector('#forgotPasswordModal').open();
+                    }
+                }, {
                     key: 'loginTap',
                     value: function loginTap(e) {
                         return __awaiter(this, void 0, void 0, _regeneratorRuntime.mark(function _callee() {
@@ -5960,8 +5987,43 @@ $__System.register('b', ['2e', '2a', '2b', '3e'], function (_export, _context2) 
                         }));
                     }
                 }, {
-                    key: 'ready',
-                    value: function ready() {}
+                    key: 'sendResetEmail',
+                    value: function sendResetEmail(e) {
+                        return __awaiter(this, void 0, void 0, _regeneratorRuntime.mark(function _callee2() {
+                            var emailReset;
+                            return _regeneratorRuntime.wrap(function _callee2$(_context2) {
+                                while (1) {
+                                    switch (_context2.prev = _context2.next) {
+                                        case 0:
+                                            e.preventDefault();
+                                            emailReset = this.querySelector('#resetPasswordEmail').value;
+                                            _context2.prev = 2;
+                                            _context2.next = 5;
+                                            return FirebaseService.sendPasswordResetEmail(this.querySelector('#resetPasswordEmail').value);
+
+                                        case 5:
+                                            this.querySelector('#forgotPasswordModal').close();
+                                            this.successMessage = '';
+                                            this.successMessage = 'Password sent. Check your inbox for a ';
+                                            _context2.next = 15;
+                                            break;
+
+                                        case 10:
+                                            _context2.prev = 10;
+                                            _context2.t0 = _context2['catch'](2);
+
+                                            this.querySelector('#forgotPasswordModal').close();
+                                            this.errorMessage = '';
+                                            this.errorMessage = _context2.t0.message;
+
+                                        case 15:
+                                        case 'end':
+                                            return _context2.stop();
+                                    }
+                                }
+                            }, _callee2, this, [[2, 10]]);
+                        }));
+                    }
                 }]);
 
                 return PrendusLogin;
@@ -12002,7 +12064,7 @@ $__System.register("5", ["2a", "2b"], function (_export, _context) {
 $__System.register('4', ['2a', '2b'], function (_export, _context) {
     "use strict";
 
-    var _classCallCheck, _createClass, PrendusExample;
+    var _classCallCheck, _createClass, PrendusTermsOfService;
 
     return {
         setters: [function (_a) {
@@ -12011,22 +12073,22 @@ $__System.register('4', ['2a', '2b'], function (_export, _context) {
             _createClass = _b.default;
         }],
         execute: function () {
-            PrendusExample = function () {
-                function PrendusExample() {
-                    _classCallCheck(this, PrendusExample);
+            PrendusTermsOfService = function () {
+                function PrendusTermsOfService() {
+                    _classCallCheck(this, PrendusTermsOfService);
                 }
 
-                _createClass(PrendusExample, [{
+                _createClass(PrendusTermsOfService, [{
                     key: 'beforeRegister',
                     value: function beforeRegister() {
                         this.is = 'prendus-terms-of-service';
                     }
                 }]);
 
-                return PrendusExample;
+                return PrendusTermsOfService;
             }();
 
-            Polymer(PrendusExample);
+            Polymer(PrendusTermsOfService);
         }
     };
 });

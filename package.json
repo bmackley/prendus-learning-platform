@@ -26,7 +26,9 @@
     "url": "git+ssh://git@github.com:bmackley/prendus-learning-platform.git"
   },
   "homepage": "https://github.com/bmackley/prendus-learning-platform",
-  "dependencies": {},
+  "dependencies": {
+    "single-page-server": "^0.1.0"
+  },
   "devDependencies": {
     "concurrently": "^2.2.0",
     "es-no-build": "^0.1.0",
