@@ -27,7 +27,6 @@
   },
   "homepage": "https://github.com/bmackley/prendus-learning-platform",
   "dependencies": {
-    "single-page-server": "^0.1.0"
   },
   "devDependencies": {
     "concurrently": "^2.2.0",
