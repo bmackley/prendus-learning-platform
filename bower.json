@@ -47,7 +47,8 @@
     "iron-input": "^1.0.10",
     "paper-toggle-button": "^1.2.0",
     "paper-card": "PolymerElements/paper-card#^1.1.2",
-    "paper-date-picker": "polymer-paper-date-picker#^1.1.5"
+    "paper-date-picker": "polymer-paper-date-picker#^1.1.5",
+    "paper-tags-input": "^1.2.3"
   },
   "resolutions": {
     "paper-input": "^1.1.11",
