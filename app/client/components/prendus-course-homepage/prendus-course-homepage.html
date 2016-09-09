@@ -17,19 +17,39 @@
     #addCourseDialog{
       width: 33%;
     }
+    paper-button.indigo {
+      background-color: var(--paper-indigo-500);
+      color: white;
+      --paper-button-raised-keyboard-focus: {
+        background-color: var(--paper-pink-a200) !important;
+        color: white !important;
+      };
+    }
   </style>
   <template>
     <redux-store on-statechange="mapStateToThis" action="[[action]]"></redux-store>
 
     <iron-ajax id="sharedWithMeCourseAjax" method="post" content-type="application/json" handle-as="json"></iron-ajax>
 
-    <h1>My Courses</h1>
-    <template id="courseList" is="dom-repeat" items="[[userCourses]]">
-        <prendus-course-preview course="[[item]]"></prendus-course-preview>
+    <template is="dom-if" if="[[userCourses.length]]">
+      <h1>My Courses</h1>
+      <template id="courseList" is="dom-repeat" items="[[userCourses]]">
+          <prendus-course-preview course="[[item]]"></prendus-course-preview>
+      </template>
+      <paper-fab id="addFabButton" icon = "add" title = "Add Course" on-tap="addCourse"></paper-fab>
     </template>
-    <br>
-    <paper-fab id="addFabButton" icon = "add" title = "Add Course" on-tap="addCourse"></paper-fab>
-
+    <template is="dom-if" if="[[!userCourses.length]]">
+      <h2>Create Your Own Course</h2>
+      <paper-button icon = "add" class = "indigo" title = "Add Course" on-tap="addCourse">Create Course</paper-button>
+      <template is="dom-if" if="[[!starredCourses.length]]">
+        <template is="dom-if" if="[[!sharedCourses.length]]">
+          <h2>Recommended Courses</h2>
+          <template id="courseList" is="dom-repeat" items="[[publicCourses]]">
+            <prendus-course-preview course="[[item]]"></prendus-course-preview>
+          </template>
+        </template>
+      </template>
+    </template>
     <paper-dialog id = "addCourseDialog" modal>
       <h2>Create a Course</h2>
       <div>
@@ -44,16 +64,18 @@
       </div>
     </paper-dialog>
 
-    <h1>Starred Courses</h1>
-
-    <template id="courseList" is="dom-repeat" items="[[starredCourses]]">
-        <prendus-course-preview course="[[item]]"></prendus-course-preview>
+    <template is="dom-if" if="[[starredCourses.length]]">
+      <h1>Starred Courses</h1>
+      <template id="courseList" is="dom-repeat" items="[[starredCourses]]">
+          <prendus-course-preview course="[[item]]"></prendus-course-preview>
+      </template>
     </template>
 
-    <h1>Courses shared with me</h1>
-
-    <template id="courseList" is="dom-repeat" items="[[sharedCourses]]">
-        <prendus-course-preview course="[[item]]"></prendus-course-preview>
+    <template is="dom-if" if="[[sharedCourses.length]]">
+      <h1>Courses shared with me</h1>
+      <template id="courseList" is="dom-repeat" items="[[sharedCourses]]">
+          <prendus-course-preview course="[[item]]"></prendus-course-preview>
+      </template>
     </template>
 
     <prendus-notification errorMessage = "[[errorMessage]]"></prendus-notification>
