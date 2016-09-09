@@ -4830,9 +4830,11 @@ $__System.register('16', ['2e', '2a', '2b', '3e', '2f'], function (_export, _con
                     key: 'mapStateToThis',
                     value: function mapStateToThis(e) {
                         var state = e.detail.state;
+                        console.log('state', state);
                         this.userCourses = state.courses;
                         this.starredCourses = state.starredCourses;
                         this.sharedCourses = state.sharedCourses;
+                        this.publicCourses = state.publicCourses;
                         this.username = state.currentUser.metaData.email;
                         this.uid = state.currentUser.metaData.uid;
                     }
