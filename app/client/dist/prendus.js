@@ -4830,7 +4830,6 @@ $__System.register('16', ['2e', '2a', '2b', '3e', '2f'], function (_export, _con
                     key: 'mapStateToThis',
                     value: function mapStateToThis(e) {
                         var state = e.detail.state;
-                        console.log('state', state);
                         this.userCourses = state.courses;
                         this.starredCourses = state.starredCourses;
                         this.sharedCourses = state.sharedCourses;
@@ -4910,7 +4909,7 @@ $__System.register('15', ['2e', '2a', '2b', '3e', '2f'], function (_export, _con
                     key: 'init',
                     value: function init(course) {
                         return __awaiter(this, void 0, void 0, _regeneratorRuntime.mark(function _callee() {
-                            var user;
+                            var currentUser;
                             return _regeneratorRuntime.wrap(function _callee$(_context) {
                                 while (1) {
                                     switch (_context.prev = _context.next) {
@@ -4920,11 +4919,11 @@ $__System.register('15', ['2e', '2a', '2b', '3e', '2f'], function (_export, _con
                                             return FirebaseService.getLoggedInUser();
 
                                         case 3:
-                                            user = _context.sent;
+                                            currentUser = _context.sent;
 
                                             this.numStars = Object.keys(this.course.userStars || {}).length;
-                                            if (user) {
-                                                this.uid = user.uid;
+                                            if (this.user) {
+                                                this.uid = currentUser.uid;
                                                 if (course.uid === this.uid) {
                                                     this.hasEditAccess = true;
                                                 } else if (course.collaborators) {
@@ -4969,44 +4968,43 @@ $__System.register('15', ['2e', '2a', '2b', '3e', '2f'], function (_export, _con
                                     switch (_context2.prev = _context2.next) {
                                         case 0:
                                             _context2.prev = 0;
+                                            _context2.next = 3;
+                                            return Actions.checkUserAuth.execute(this);
 
+                                        case 3:
                                             if (!(this.user && this.user.metaData.uid)) {
                                                 _context2.next = 22;
                                                 break;
                                             }
 
                                             if (!this.user.starredCourses) {
-                                                _context2.next = 12;
+                                                _context2.next = 14;
                                                 break;
                                             }
 
                                             if (!this.user.starredCourses[this.course.id]) {
-                                                _context2.next = 8;
+                                                _context2.next = 10;
                                                 break;
                                             }
 
-                                            _context2.next = 6;
+                                            _context2.next = 8;
                                             return Actions.unstarCourse(this, this.course.id);
 
-                                        case 6:
-                                            _context2.next = 10;
-                                            break;
-
                                         case 8:
-                                            _context2.next = 10;
-                                            return Actions.starCourse(this, this.course.id);
+                                            _context2.next = 12;
+                                            break;
 
                                         case 10:
-                                            _context2.next = 14;
-                                            break;
+                                            _context2.next = 12;
+                                            return Actions.starCourse(this, this.course.id);
 
                                         case 12:
-                                            _context2.next = 14;
-                                            return Actions.starCourse(this, this.course.id);
+                                            _context2.next = 16;
+                                            break;
 
                                         case 14:
                                             _context2.next = 16;
-                                            return Actions.checkUserAuth.execute(this);
+                                            return Actions.starCourse(this, this.course.id);
 
                                         case 16:
                                             Actions.getCoursesByVisibility(this, 'public');

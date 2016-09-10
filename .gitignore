@@ -3,3 +3,4 @@ example
 /npm-debug.log
 /app/client/node_modules
 /app/client/bower_components
+/app/client/dist

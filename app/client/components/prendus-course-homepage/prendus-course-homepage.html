@@ -42,15 +42,17 @@
     <template is="dom-if" if="[[!userCourses.length]]">
       <h2>Create Your Own Course</h2>
       <paper-button icon = "add" class = "indigo" title = "Add Course" on-tap="addCourse">Create Course</paper-button>
-      <template is="dom-if" if="[[!starredCourses.length]]">
-        <template is="dom-if" if="[[!sharedCourses.length]]">
-          <h2>Recommended Courses</h2>
-          <template id="courseList" is="dom-repeat" items="[[publicCourses]]">
-            <prendus-course-preview course="[[item]]"></prendus-course-preview>
-          </template>
+    </template>
+
+    <template is="dom-if" if="[[!starredCourses.length]]">
+      <template is="dom-if" if="[[!sharedCourses.length]]">
+        <h2>Recommended Courses</h2>
+        <template id="courseList" is="dom-repeat" items="[[publicCourses]]">
+          <prendus-course-preview course="[[item]]"></prendus-course-preview>
         </template>
       </template>
     </template>
+
     <paper-dialog id = "addCourseDialog" modal>
       <h2>Create a Course</h2>
       <div>
@@ -65,18 +67,15 @@
       </div>
     </paper-dialog>
 
-    <template is="dom-if" if="[[starredCourses.length]]">
-      <h1>Starred Courses</h1>
-      <template id="courseList" is="dom-repeat" items="[[starredCourses]]">
-          <prendus-course-preview course="[[item]]"></prendus-course-preview>
-      </template>
+    <h1 hidden$="[[!starredCourses.length]]">Starred Courses</h1>
+    <template id="courseList" is="dom-repeat" items="[[starredCourses]]">
+        <prendus-course-preview course="[[item]]"></prendus-course-preview>
     </template>
 
-    <template is="dom-if" if="[[sharedCourses.length]]">
-      <h1>Courses shared with me</h1>
-      <template id="courseList" is="dom-repeat" items="[[sharedCourses]]">
-          <prendus-course-preview course="[[item]]"></prendus-course-preview>
-      </template>
+    <h1 hidden$="[[!sharedCourses.length]]">Courses shared with me</h1>
+
+    <template id="courseList" is="dom-repeat" items="[[sharedCourses]]">
+        <prendus-course-preview course="[[item]]"></prendus-course-preview>
     </template>
 
     <prendus-notification errorMessage = "[[errorMessage]]"></prendus-notification>
