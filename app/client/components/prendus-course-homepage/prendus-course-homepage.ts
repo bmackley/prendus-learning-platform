@@ -80,7 +80,6 @@ class PrendusCourseHomepage {
 
   mapStateToThis(e: StatechangeEvent) {
     const state = e.detail.state;
-    console.log('state', state)
     this.userCourses = state.courses;
     this.starredCourses = state.starredCourses;
     this.sharedCourses = state.sharedCourses;
