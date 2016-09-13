@@ -42,14 +42,9 @@
     <template is="dom-if" if="[[!userCourses.length]]">
       <h2>Create Your Own Course</h2>
       <paper-button icon = "add" class = "indigo" title = "Add Course" on-tap="addCourse">Create Course</paper-button>
-    </template>
-
-    <template is="dom-if" if="[[!starredCourses.length]]">
-      <template is="dom-if" if="[[!sharedCourses.length]]">
-        <h2>Recommended Courses</h2>
-        <template id="courseList" is="dom-repeat" items="[[publicCourses]]">
-          <prendus-course-preview course="[[item]]"></prendus-course-preview>
-        </template>
+      <h2>Recommended Courses</h2>
+      <template id="courseList" is="dom-repeat" items="[[publicCourses]]">
+        <prendus-course-preview course="[[item]]"></prendus-course-preview>
       </template>
     </template>
 
