@@ -27,10 +27,10 @@ class PrendusCoursePreview {
 
     async init(course: Course) {
       try{
-        const user = await FirebaseService.getLoggedInUser();
+        const currentUser = await FirebaseService.getLoggedInUser();
         this.numStars = Object.keys(this.course.userStars || {}).length;
-        if(user){
-          this.uid = user.uid
+        if(this.user){
+          this.uid = currentUser.uid
           if(course.uid === this.uid){
             this.hasEditAccess = true;
           }else if(course.collaborators){
@@ -55,9 +55,11 @@ class PrendusCoursePreview {
 
     async starClick(e: any) {
       try{
+        await Actions.checkUserAuth.execute(this);
         if (this.user && this.user.metaData.uid) {
             if (this.user.starredCourses) {
                 if (this.user.starredCourses[this.course.id]) {
+                  console.log('unstar course')
                     await Actions.unstarCourse(this, this.course.id);
                 }
                 else {
@@ -67,11 +69,10 @@ class PrendusCoursePreview {
             else {
                 await Actions.starCourse(this, this.course.id);
             }
-              await Actions.checkUserAuth.execute(this);
-              Actions.getCoursesByVisibility(this, 'public');
-              Actions.getCoursesByUser.execute(this);
-              Actions.getStarredCoursesByUser(this, this.user.metaData.uid);
-              Actions.getSharedCoursesByUser(this, this.user.metaData.uid);
+            Actions.getCoursesByVisibility(this, 'public');
+            Actions.getCoursesByUser.execute(this);
+            Actions.getStarredCoursesByUser(this, this.user.metaData.uid);
+            Actions.getSharedCoursesByUser(this, this.user.metaData.uid);
         }else {
           this.errorMessage = '';
           this.errorMessage = 'You must be logged in to star a course';
@@ -101,18 +102,23 @@ class PrendusCoursePreview {
         this.numStars = Object.keys(this.course.userStars || {}).length;
         if (this.user && this.course) {
             if (this.user.starredCourses) {
+              console.log('this user starred Courses', this.user.starredCourses)
                 if (this.user.starredCourses[this.course.id]) {
+                  console.log('icon star', this.course.id )
                     this.starIcon = 'icons:star';
                 }
                 else {
+                  console.log('icon star border', this.course.id )
                     this.starIcon = 'icons:star-border';
                 }
             }
             else {
+              console.log('icon star border', this.course.id )
                 this.starIcon = `icons:star-border`;
             }
         }
         else {
+          console.log('icon star border', this.course.id )
             this.starIcon = `icons:star-border`;
         }
     }
