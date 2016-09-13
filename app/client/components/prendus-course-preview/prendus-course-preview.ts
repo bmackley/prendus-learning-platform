@@ -63,16 +63,18 @@ class PrendusCoursePreview {
                     await Actions.unstarCourse(this, this.course.id);
                 }
                 else {
+                  console.log('star course')
                     await Actions.starCourse(this, this.course.id);
                 }
             }
             else {
+                console.log('star course none starred')
                 await Actions.starCourse(this, this.course.id);
             }
             Actions.getCoursesByVisibility(this, 'public');
             Actions.getCoursesByUser.execute(this);
-            Actions.getStarredCoursesByUser(this, this.user.metaData.uid);
             Actions.getSharedCoursesByUser(this, this.user.metaData.uid);
+            Actions.getStarredCoursesByUser(this, this.user.metaData.uid);
         }else {
           this.errorMessage = '';
           this.errorMessage = 'You must be logged in to star a course';
@@ -96,29 +98,23 @@ class PrendusCoursePreview {
     }
     mapStateToThis(e: StatechangeEvent) {
         const state = e.detail.state;
-
         this.user = state.currentUser;
         this.uid = state.currentUser.metaData.uid;
         this.numStars = Object.keys(this.course.userStars || {}).length;
         if (this.user && this.course) {
             if (this.user.starredCourses) {
-              console.log('this user starred Courses', this.user.starredCourses)
                 if (this.user.starredCourses[this.course.id]) {
-                  console.log('icon star', this.course.id )
                     this.starIcon = 'icons:star';
                 }
                 else {
-                  console.log('icon star border', this.course.id )
                     this.starIcon = 'icons:star-border';
                 }
             }
             else {
-              console.log('icon star border', this.course.id )
                 this.starIcon = `icons:star-border`;
             }
         }
         else {
-          console.log('icon star border', this.course.id )
             this.starIcon = `icons:star-border`;
         }
     }
