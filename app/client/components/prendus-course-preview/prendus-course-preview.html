@@ -1,6 +1,7 @@
 <link rel="import" href="../../bower_components/polymer/polymer.html">
 <link rel="import" href="../../bower_components/paper-card/paper-card.html">
 <link rel="import" href="../../bower_components/paper-icon-button/paper-icon-button.html">
+<link rel="import" href="../../bower_components/paper-tooltip/paper-tooltip.html">
 <link rel="import" href="../../bower_components/iron-icon/iron-icon.html">
 <link rel="import" href="../../bower_components/redux-store-element/redux-store.html">
 <link rel="import" href="../../bower_components/paper-toolbar/paper-toolbar.html">
@@ -11,7 +12,7 @@
 
     <style>
 
-      #star-icon {
+      .course-icon {
           color: rgba(0, 0, 0, .5);
       }
 
@@ -33,9 +34,11 @@
         [[course.description]]
       </div>
       <div class="card-actions">
-        <paper-icon-button id="star-icon" icon="[[starIcon]]" on-tap="starClick"></paper-icon-button>[[numStars]]
+        <paper-icon-button id="star-course" class="course-icon" icon="[[starIcon]]" on-tap="starClick"></paper-icon-button>[[numStars]]
+        <paper-tooltip for="star-course" offset="0">Star Course</paper-tooltip>
         <template is="dom-if" if="[[hasEditAccess]]">
-          <paper-icon-button icon="create" on-tap="editCourse"></paper-icon-button>  <!-- Go to page from here -->
+          <paper-icon-button id="edit-course" class="course-icon" icon="create" on-tap="editCourse"></paper-icon-button>  <!-- Go to page from here -->
+          <paper-tooltip for="edit-course" offset="0">Edit Course</paper-tooltip>
         </template>
       </div>
     </paper-card>
