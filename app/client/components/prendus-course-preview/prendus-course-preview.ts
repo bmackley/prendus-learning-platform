@@ -27,17 +27,14 @@ class PrendusCoursePreview {
 
     async init(course: Course) {
       try{
-        const user = await FirebaseService.getLoggedInUser();
+        await Actions.checkUserAuth.execute(this); //Really just need an update from Redux here, but I don't know if firing an empty redux element is really kosher
         this.numStars = Object.keys(this.course.userStars || {}).length;
-        if(user){
-          this.uid = user.uid
+        if(this.user){
           if(course.uid === this.uid){
             this.hasEditAccess = true;
           }else if(course.collaborators){
             this.hasEditAccess = this.checkCollaboratorStatus(course.collaborators, this.uid);
           }
-        }else{
-          this.starIcon = `icons:star-border`;
         }
       }catch(error){
         this.errorMessage = '';
@@ -54,7 +51,9 @@ class PrendusCoursePreview {
     }
 
     async starClick(e: any) {
+      e.cancelBubble = true;
       try{
+        await Actions.checkUserAuth.execute(this);
         if (this.user && this.user.metaData.uid) {
             if (this.user.starredCourses) {
                 if (this.user.starredCourses[this.course.id]) {
@@ -67,11 +66,10 @@ class PrendusCoursePreview {
             else {
                 await Actions.starCourse(this, this.course.id);
             }
-              await Actions.checkUserAuth.execute(this);
-              Actions.getCoursesByVisibility(this, 'public');
-              Actions.getCoursesByUser.execute(this);
-              Actions.getStarredCoursesByUser(this, this.user.metaData.uid);
-              Actions.getSharedCoursesByUser(this, this.user.metaData.uid);
+            Actions.getCoursesByVisibility(this, 'public');
+            Actions.getCoursesByUser.execute(this);
+            Actions.getSharedCoursesByUser(this, this.user.metaData.uid);
+            Actions.getStarredCoursesByUser(this, this.user.metaData.uid);
         }else {
           this.errorMessage = '';
           this.errorMessage = 'You must be logged in to star a course';
@@ -83,6 +81,7 @@ class PrendusCoursePreview {
     }
 
     editCourse(e: any) {
+        e.cancelBubble = true;
         const location = `/courses/edit/${this.course.id}`
         window.history.pushState({}, '', location);
         this.fire('location-changed', {}, {node: window});
@@ -95,21 +94,15 @@ class PrendusCoursePreview {
     }
     mapStateToThis(e: StatechangeEvent) {
         const state = e.detail.state;
-
         this.user = state.currentUser;
         this.uid = state.currentUser.metaData.uid;
         this.numStars = Object.keys(this.course.userStars || {}).length;
-        if (this.user && this.course) {
-            if (this.user.starredCourses) {
-                if (this.user.starredCourses[this.course.id]) {
-                    this.starIcon = 'icons:star';
-                }
-                else {
-                    this.starIcon = 'icons:star-border';
-                }
+        if (this.user && this.user.starredCourses && this.course) {
+            if (this.user.starredCourses[this.course.id]) {
+                this.starIcon = 'icons:star';
             }
             else {
-                this.starIcon = `icons:star-border`;
+                this.starIcon = 'icons:star-border';
             }
         }
         else {

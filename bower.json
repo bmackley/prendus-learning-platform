@@ -47,6 +47,13 @@
     "iron-input": "^1.0.10",
     "paper-toggle-button": "^1.2.0",
     "paper-card": "PolymerElements/paper-card#^1.1.2",
-    "paper-date-picker": "polymer-paper-date-picker#^1.1.5"
+    "paper-date-picker": "polymer-paper-date-picker#^1.1.5",
+    "paper-tags-input": "^1.2.3",
+    "paper-tooltip": "^1.1.3"
+  },
+  "resolutions": {
+    "paper-input": "^1.1.11",
+    "paper-icon-button": "^1.0.0",
+    "solutia-maxima-components": "0.0.7"
   }
 }

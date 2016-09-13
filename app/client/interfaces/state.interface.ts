@@ -27,6 +27,7 @@ export interface State {
     userCourses: Course[];
     sharedCourses: Course[];
     starredCourses: Course[];
+    publicCourses: Course[];
     currentConcept: {};
     concepts: {};
     courseViewCurrentCourse: Course;

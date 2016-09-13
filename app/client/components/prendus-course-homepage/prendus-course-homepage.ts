@@ -5,6 +5,7 @@ import {StatechangeEvent} from '../../interfaces/statechange-event.interface.ts'
 
 class PrendusCourseHomepage {
   public is: string;
+  public properties: any;
   public courses: string[];
   public newCourse: Course;
   private uid: string;
@@ -14,13 +15,24 @@ class PrendusCourseHomepage {
   public userCourses: Course[];
   public sharedCourses: Course[];
   public starredCourses: Course[];
+  public publicCourses: Course[];
+  public userCoursesLength: number;
+  public sharedCoursesLength: number;
+  public starredCoursesLength: number;
   public collaborators: {
     [uid: string]: string[];
   }
   public errorMessage: string;
+  public tags: string;
 
   beforeRegister() {
     this.is = 'prendus-course-homepage';
+    this.properties = {
+      tags: {
+        type: String,
+        observer: 'updateTags'
+      },
+    }
   }
 
   async ready() {
@@ -33,6 +45,11 @@ class PrendusCourseHomepage {
           this.errorMessage = '';
           this.errorMessage = error.message;
       }
+  }
+
+  updateTags(e){
+    console.log('updating tags', e)
+    console.log('updating tags tags value', this.tags)
   }
 
   addCourse(e) {
@@ -66,6 +83,7 @@ class PrendusCourseHomepage {
     this.userCourses = state.courses;
     this.starredCourses = state.starredCourses;
     this.sharedCourses = state.sharedCourses;
+    this.publicCourses = state.publicCourses;
     this.username = state.currentUser.metaData.email;
     this.uid = state.currentUser.metaData.uid;
   }
