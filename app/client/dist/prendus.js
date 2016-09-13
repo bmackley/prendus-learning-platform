@@ -4973,68 +4973,69 @@ $__System.register('15', ['2e', '2a', '2b', '3e', '2f'], function (_export, _con
 
                                         case 3:
                                             if (!(this.user && this.user.metaData.uid)) {
-                                                _context2.next = 22;
+                                                _context2.next = 23;
                                                 break;
                                             }
 
                                             if (!this.user.starredCourses) {
-                                                _context2.next = 14;
+                                                _context2.next = 15;
                                                 break;
                                             }
 
                                             if (!this.user.starredCourses[this.course.id]) {
-                                                _context2.next = 10;
+                                                _context2.next = 11;
                                                 break;
                                             }
 
-                                            _context2.next = 8;
+                                            console.log('unstar course');
+                                            _context2.next = 9;
                                             return Actions.unstarCourse(this, this.course.id);
 
-                                        case 8:
-                                            _context2.next = 12;
+                                        case 9:
+                                            _context2.next = 13;
                                             break;
 
-                                        case 10:
-                                            _context2.next = 12;
+                                        case 11:
+                                            _context2.next = 13;
                                             return Actions.starCourse(this, this.course.id);
 
-                                        case 12:
-                                            _context2.next = 16;
+                                        case 13:
+                                            _context2.next = 17;
                                             break;
 
-                                        case 14:
-                                            _context2.next = 16;
+                                        case 15:
+                                            _context2.next = 17;
                                             return Actions.starCourse(this, this.course.id);
 
-                                        case 16:
+                                        case 17:
                                             Actions.getCoursesByVisibility(this, 'public');
                                             Actions.getCoursesByUser.execute(this);
                                             Actions.getStarredCoursesByUser(this, this.user.metaData.uid);
                                             Actions.getSharedCoursesByUser(this, this.user.metaData.uid);
-                                            _context2.next = 24;
+                                            _context2.next = 25;
                                             break;
 
-                                        case 22:
+                                        case 23:
                                             this.errorMessage = '';
                                             this.errorMessage = 'You must be logged in to star a course';
 
-                                        case 24:
-                                            _context2.next = 30;
+                                        case 25:
+                                            _context2.next = 31;
                                             break;
 
-                                        case 26:
-                                            _context2.prev = 26;
+                                        case 27:
+                                            _context2.prev = 27;
                                             _context2.t0 = _context2['catch'](0);
 
                                             this.errorMessage = '';
                                             this.errorMessage = _context2.t0.message;
 
-                                        case 30:
+                                        case 31:
                                         case 'end':
                                             return _context2.stop();
                                     }
                                 }
-                            }, _callee2, this, [[0, 26]]);
+                            }, _callee2, this, [[0, 27]]);
                         }));
                     }
                 }, {
@@ -5060,15 +5061,20 @@ $__System.register('15', ['2e', '2a', '2b', '3e', '2f'], function (_export, _con
                         this.numStars = Object.keys(this.course.userStars || {}).length;
                         if (this.user && this.course) {
                             if (this.user.starredCourses) {
+                                console.log('this user starred Courses', this.user.starredCourses);
                                 if (this.user.starredCourses[this.course.id]) {
+                                    console.log('icon star', this.course.id);
                                     this.starIcon = 'icons:star';
                                 } else {
+                                    console.log('icon star border', this.course.id);
                                     this.starIcon = 'icons:star-border';
                                 }
                             } else {
+                                console.log('icon star border', this.course.id);
                                 this.starIcon = 'icons:star-border';
                             }
                         } else {
+                            console.log('icon star border', this.course.id);
                             this.starIcon = 'icons:star-border';
                         }
                     }

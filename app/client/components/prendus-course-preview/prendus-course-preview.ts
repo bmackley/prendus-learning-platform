@@ -59,6 +59,7 @@ class PrendusCoursePreview {
         if (this.user && this.user.metaData.uid) {
             if (this.user.starredCourses) {
                 if (this.user.starredCourses[this.course.id]) {
+                  console.log('unstar course')
                     await Actions.unstarCourse(this, this.course.id);
                 }
                 else {
@@ -101,18 +102,23 @@ class PrendusCoursePreview {
         this.numStars = Object.keys(this.course.userStars || {}).length;
         if (this.user && this.course) {
             if (this.user.starredCourses) {
+              console.log('this user starred Courses', this.user.starredCourses)
                 if (this.user.starredCourses[this.course.id]) {
+                  console.log('icon star', this.course.id )
                     this.starIcon = 'icons:star';
                 }
                 else {
+                  console.log('icon star border', this.course.id )
                     this.starIcon = 'icons:star-border';
                 }
             }
             else {
+              console.log('icon star border', this.course.id )
                 this.starIcon = `icons:star-border`;
             }
         }
         else {
+          console.log('icon star border', this.course.id )
             this.starIcon = `icons:star-border`;
         }
     }
