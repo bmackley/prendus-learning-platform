@@ -4966,80 +4966,82 @@ $__System.register('15', ['2e', '2a', '2b', '3e', '2f'], function (_export, _con
                                 while (1) {
                                     switch (_context2.prev = _context2.next) {
                                         case 0:
-                                            _context2.prev = 0;
+                                            e.cancelBubble = true;
+                                            _context2.prev = 1;
 
                                             if (!(this.user && this.user.metaData.uid)) {
-                                                _context2.next = 22;
+                                                _context2.next = 23;
                                                 break;
                                             }
 
                                             if (!this.user.starredCourses) {
-                                                _context2.next = 12;
+                                                _context2.next = 13;
                                                 break;
                                             }
 
                                             if (!this.user.starredCourses[this.course.id]) {
-                                                _context2.next = 8;
+                                                _context2.next = 9;
                                                 break;
                                             }
 
-                                            _context2.next = 6;
+                                            _context2.next = 7;
                                             return Actions.unstarCourse(this, this.course.id);
 
-                                        case 6:
-                                            _context2.next = 10;
+                                        case 7:
+                                            _context2.next = 11;
                                             break;
 
-                                        case 8:
-                                            _context2.next = 10;
+                                        case 9:
+                                            _context2.next = 11;
                                             return Actions.starCourse(this, this.course.id);
 
-                                        case 10:
-                                            _context2.next = 14;
+                                        case 11:
+                                            _context2.next = 15;
                                             break;
 
-                                        case 12:
-                                            _context2.next = 14;
+                                        case 13:
+                                            _context2.next = 15;
                                             return Actions.starCourse(this, this.course.id);
 
-                                        case 14:
-                                            _context2.next = 16;
+                                        case 15:
+                                            _context2.next = 17;
                                             return Actions.checkUserAuth.execute(this);
 
-                                        case 16:
+                                        case 17:
                                             Actions.getCoursesByVisibility(this, 'public');
                                             Actions.getCoursesByUser.execute(this);
                                             Actions.getStarredCoursesByUser(this, this.user.metaData.uid);
                                             Actions.getSharedCoursesByUser(this, this.user.metaData.uid);
-                                            _context2.next = 24;
+                                            _context2.next = 25;
                                             break;
 
-                                        case 22:
+                                        case 23:
                                             this.errorMessage = '';
                                             this.errorMessage = 'You must be logged in to star a course';
 
-                                        case 24:
-                                            _context2.next = 30;
+                                        case 25:
+                                            _context2.next = 31;
                                             break;
 
-                                        case 26:
-                                            _context2.prev = 26;
-                                            _context2.t0 = _context2['catch'](0);
+                                        case 27:
+                                            _context2.prev = 27;
+                                            _context2.t0 = _context2['catch'](1);
 
                                             this.errorMessage = '';
                                             this.errorMessage = _context2.t0.message;
 
-                                        case 30:
+                                        case 31:
                                         case 'end':
                                             return _context2.stop();
                                     }
                                 }
-                            }, _callee2, this, [[0, 26]]);
+                            }, _callee2, this, [[1, 27]]);
                         }));
                     }
                 }, {
                     key: 'editCourse',
                     value: function editCourse(e) {
+                        e.cancelBubble = true;
                         var location = '/courses/edit/' + this.course.id;
                         window.history.pushState({}, '', location);
                         this.fire('location-changed', {}, { node: window });
