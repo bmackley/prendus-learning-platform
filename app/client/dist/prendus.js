@@ -4846,10 +4846,10 @@ $__System.register('16', ['2e', '2a', '2b', '3e', '2f'], function (_export, _con
         }
     };
 });
-$__System.register('15', ['2e', '2a', '2b', '3e', '2f'], function (_export, _context3) {
+$__System.register('15', ['2e', '2a', '2b', '3e'], function (_export, _context3) {
     "use strict";
 
-    var _regeneratorRuntime, _classCallCheck, _createClass, Actions, FirebaseService, __awaiter, PrendusCoursePreview;
+    var _regeneratorRuntime, _classCallCheck, _createClass, Actions, __awaiter, PrendusCoursePreview;
 
     return {
         setters: [function (_e) {
@@ -4860,8 +4860,6 @@ $__System.register('15', ['2e', '2a', '2b', '3e', '2f'], function (_export, _con
             _createClass = _b.default;
         }, function (_e2) {
             Actions = _e2.Actions;
-        }, function (_f) {
-            FirebaseService = _f.FirebaseService;
         }],
         execute: function () {
             __awaiter = this && this.__awaiter || function (thisArg, _arguments, P, generator) {
@@ -4909,45 +4907,40 @@ $__System.register('15', ['2e', '2a', '2b', '3e', '2f'], function (_export, _con
                     key: 'init',
                     value: function init(course) {
                         return __awaiter(this, void 0, void 0, _regeneratorRuntime.mark(function _callee() {
-                            var currentUser;
                             return _regeneratorRuntime.wrap(function _callee$(_context) {
                                 while (1) {
                                     switch (_context.prev = _context.next) {
                                         case 0:
                                             _context.prev = 0;
                                             _context.next = 3;
-                                            return FirebaseService.getLoggedInUser();
+                                            return Actions.checkUserAuth.execute(this);
 
                                         case 3:
-                                            currentUser = _context.sent;
-
+                                            //Really just need an update from Redux here, but I don't know if firing an empty redux element is really kosher
                                             this.numStars = Object.keys(this.course.userStars || {}).length;
                                             if (this.user) {
-                                                this.uid = currentUser.uid;
                                                 if (course.uid === this.uid) {
                                                     this.hasEditAccess = true;
                                                 } else if (course.collaborators) {
                                                     this.hasEditAccess = this.checkCollaboratorStatus(course.collaborators, this.uid);
                                                 }
-                                            } else {
-                                                this.starIcon = 'icons:star-border';
                                             }
-                                            _context.next = 12;
+                                            _context.next = 11;
                                             break;
 
-                                        case 8:
-                                            _context.prev = 8;
+                                        case 7:
+                                            _context.prev = 7;
                                             _context.t0 = _context['catch'](0);
 
                                             this.errorMessage = '';
                                             this.errorMessage = _context.t0.message;
 
-                                        case 12:
+                                        case 11:
                                         case 'end':
                                             return _context.stop();
                                     }
                                 }
-                            }, _callee, this, [[0, 8]]);
+                            }, _callee, this, [[0, 7]]);
                         }));
                     }
                 }, {
@@ -4967,113 +4960,51 @@ $__System.register('15', ['2e', '2a', '2b', '3e', '2f'], function (_export, _con
                                 while (1) {
                                     switch (_context2.prev = _context2.next) {
                                         case 0:
-<<<<<<< HEAD
-                                            _context2.prev = 0;
-                                            _context2.next = 3;
-                                            return Actions.checkUserAuth.execute(this);
-=======
                                             e.cancelBubble = true;
                                             _context2.prev = 1;
->>>>>>> develop
+                                            _context2.next = 4;
+                                            return Actions.checkUserAuth.execute(this);
 
-                                        case 3:
+                                        case 4:
                                             if (!(this.user && this.user.metaData.uid)) {
-<<<<<<< HEAD
-                                                _context2.next = 25;
-=======
                                                 _context2.next = 23;
->>>>>>> develop
                                                 break;
                                             }
 
                                             if (!this.user.starredCourses) {
-<<<<<<< HEAD
-                                                _context2.next = 16;
-=======
-                                                _context2.next = 13;
->>>>>>> develop
+                                                _context2.next = 15;
                                                 break;
                                             }
 
                                             if (!this.user.starredCourses[this.course.id]) {
-<<<<<<< HEAD
                                                 _context2.next = 11;
                                                 break;
                                             }
 
-                                            console.log('unstar course');
                                             _context2.next = 9;
                                             return Actions.unstarCourse(this, this.course.id);
 
                                         case 9:
-                                            _context2.next = 14;
+                                            _context2.next = 13;
                                             break;
 
                                         case 11:
-                                            console.log('star course');
-                                            _context2.next = 14;
+                                            _context2.next = 13;
                                             return Actions.starCourse(this, this.course.id);
-
-                                        case 14:
-                                            _context2.next = 19;
-                                            break;
-
-                                        case 16:
-                                            console.log('star course none starred');
-                                            _context2.next = 19;
-                                            return Actions.starCourse(this, this.course.id);
-
-                                        case 19:
-=======
-                                                _context2.next = 9;
-                                                break;
-                                            }
-
-                                            _context2.next = 7;
-                                            return Actions.unstarCourse(this, this.course.id);
-
-                                        case 7:
-                                            _context2.next = 11;
-                                            break;
-
-                                        case 9:
-                                            _context2.next = 11;
-                                            return Actions.starCourse(this, this.course.id);
-
-                                        case 11:
-                                            _context2.next = 15;
-                                            break;
 
                                         case 13:
-                                            _context2.next = 15;
-                                            return Actions.starCourse(this, this.course.id);
+                                            _context2.next = 17;
+                                            break;
 
                                         case 15:
                                             _context2.next = 17;
-                                            return Actions.checkUserAuth.execute(this);
+                                            return Actions.starCourse(this, this.course.id);
 
                                         case 17:
->>>>>>> develop
                                             Actions.getCoursesByVisibility(this, 'public');
                                             Actions.getCoursesByUser.execute(this);
                                             Actions.getSharedCoursesByUser(this, this.user.metaData.uid);
-<<<<<<< HEAD
                                             Actions.getStarredCoursesByUser(this, this.user.metaData.uid);
-                                            _context2.next = 27;
-                                            break;
-
-                                        case 25:
-                                            this.errorMessage = '';
-                                            this.errorMessage = 'You must be logged in to star a course';
-
-                                        case 27:
-                                            _context2.next = 33;
-                                            break;
-
-                                        case 29:
-                                            _context2.prev = 29;
-                                            _context2.t0 = _context2['catch'](0);
-=======
                                             _context2.next = 25;
                                             break;
 
@@ -5088,25 +5019,16 @@ $__System.register('15', ['2e', '2a', '2b', '3e', '2f'], function (_export, _con
                                         case 27:
                                             _context2.prev = 27;
                                             _context2.t0 = _context2['catch'](1);
->>>>>>> develop
 
                                             this.errorMessage = '';
                                             this.errorMessage = _context2.t0.message;
 
-<<<<<<< HEAD
-                                        case 33:
-=======
                                         case 31:
->>>>>>> develop
                                         case 'end':
                                             return _context2.stop();
                                     }
                                 }
-<<<<<<< HEAD
-                            }, _callee2, this, [[0, 29]]);
-=======
                             }, _callee2, this, [[1, 27]]);
->>>>>>> develop
                         }));
                     }
                 }, {
@@ -5131,13 +5053,9 @@ $__System.register('15', ['2e', '2a', '2b', '3e', '2f'], function (_export, _con
                         this.user = state.currentUser;
                         this.uid = state.currentUser.metaData.uid;
                         this.numStars = Object.keys(this.course.userStars || {}).length;
-                        if (this.user && this.course) {
-                            if (this.user.starredCourses) {
-                                if (this.user.starredCourses[this.course.id]) {
-                                    this.starIcon = 'icons:star';
-                                } else {
-                                    this.starIcon = 'icons:star-border';
-                                }
+                        if (this.user && this.user.starredCourses && this.course) {
+                            if (this.user.starredCourses[this.course.id]) {
+                                this.starIcon = 'icons:star';
                             } else {
                                 this.starIcon = 'icons:star-border';
                             }

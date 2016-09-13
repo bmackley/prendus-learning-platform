@@ -27,17 +27,14 @@ class PrendusCoursePreview {
 
     async init(course: Course) {
       try{
-        const currentUser = await FirebaseService.getLoggedInUser();
+        await Actions.checkUserAuth.execute(this); //Really just need an update from Redux here, but I don't know if firing an empty redux element is really kosher
         this.numStars = Object.keys(this.course.userStars || {}).length;
         if(this.user){
-          this.uid = currentUser.uid
           if(course.uid === this.uid){
             this.hasEditAccess = true;
           }else if(course.collaborators){
             this.hasEditAccess = this.checkCollaboratorStatus(course.collaborators, this.uid);
           }
-        }else{
-          this.starIcon = `icons:star-border`;
         }
       }catch(error){
         this.errorMessage = '';
@@ -60,16 +57,13 @@ class PrendusCoursePreview {
         if (this.user && this.user.metaData.uid) {
             if (this.user.starredCourses) {
                 if (this.user.starredCourses[this.course.id]) {
-                  console.log('unstar course')
                     await Actions.unstarCourse(this, this.course.id);
                 }
                 else {
-                  console.log('star course')
                     await Actions.starCourse(this, this.course.id);
                 }
             }
             else {
-                console.log('star course none starred')
                 await Actions.starCourse(this, this.course.id);
             }
             Actions.getCoursesByVisibility(this, 'public');
@@ -103,17 +97,12 @@ class PrendusCoursePreview {
         this.user = state.currentUser;
         this.uid = state.currentUser.metaData.uid;
         this.numStars = Object.keys(this.course.userStars || {}).length;
-        if (this.user && this.course) {
-            if (this.user.starredCourses) {
-                if (this.user.starredCourses[this.course.id]) {
-                    this.starIcon = 'icons:star';
-                }
-                else {
-                    this.starIcon = 'icons:star-border';
-                }
+        if (this.user && this.user.starredCourses && this.course) {
+            if (this.user.starredCourses[this.course.id]) {
+                this.starIcon = 'icons:star';
             }
             else {
-                this.starIcon = `icons:star-border`;
+                this.starIcon = 'icons:star-border';
             }
         }
         else {
