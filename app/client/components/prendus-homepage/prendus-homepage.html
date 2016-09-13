@@ -6,15 +6,31 @@
 
 <dom-module id="prendus-homepage">
   <style>
+
+    .homepage-courses {
+      display: flex;
+      flex-wrap: wrap;
+      max-width: 800px;
+    }
+
+    .course-preview {
+      margin: 10px;
+      flex-basis: 30%;
+      flex-grow: 1;
+      min-width: 0;
+    }
   </style>
 
   <template>
 
-      <redux-store on-statechange="mapStateToThis" action="[[action]]"></redux-store>
+    <redux-store on-statechange="mapStateToThis" action="[[action]]"></redux-store>
 
-    <template id="courseList" is="dom-repeat" items="[[publicCourses]]">
-      <prendus-course-preview course="[[item]]"></prendus-course-preview>
-    </template>
+    <div class="homepage-courses">
+      <template id="courseList" is="dom-repeat" items="[[publicCourses]]">
+        <prendus-course-preview class="course-preview" course="[[item]]"></prendus-course-preview>
+      </template>
+    </div>
+
 
   </template>
 
