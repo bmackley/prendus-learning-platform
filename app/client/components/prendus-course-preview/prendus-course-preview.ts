@@ -54,6 +54,7 @@ class PrendusCoursePreview {
     }
 
     async starClick(e: any) {
+      e.cancelBubble = true;
       try{
         if (this.user && this.user.metaData.uid) {
             if (this.user.starredCourses) {
@@ -83,6 +84,7 @@ class PrendusCoursePreview {
     }
 
     editCourse(e: any) {
+        e.cancelBubble = true;
         const location = `/courses/edit/${this.course.id}`
         window.history.pushState({}, '', location);
         this.fire('location-changed', {}, {node: window});
