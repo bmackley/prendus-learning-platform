@@ -15,6 +15,10 @@ class PrendusCourseHomepage {
   public userCourses: Course[];
   public sharedCourses: Course[];
   public starredCourses: Course[];
+  public publicCourses: Course[];
+  public userCoursesLength: number;
+  public sharedCoursesLength: number;
+  public starredCoursesLength: number;
   public collaborators: {
     [uid: string]: string[];
   }
@@ -79,6 +83,7 @@ class PrendusCourseHomepage {
     this.userCourses = state.courses;
     this.starredCourses = state.starredCourses;
     this.sharedCourses = state.sharedCourses;
+    this.publicCourses = state.publicCourses;
     this.username = state.currentUser.metaData.email;
     this.uid = state.currentUser.metaData.uid;
   }
