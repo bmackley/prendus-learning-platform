@@ -1,5 +1,7 @@
 <link rel="import" href="../../bower_components/polymer/polymer.html">
 <link rel="import" href="../../bower_components/app-route/app-route.html">
+<link rel="import" href="../../bower_components/paper-card/paper-card.html">
+<link rel="import" href="../../bower_components/paper-button/paper-button.html">
 <link rel="import" href="../../bower_components/video-viewer-component/video-viewer.component.html">
 <link href="../../bower_components/redux-store-element/redux-store.html" rel="import">
 
@@ -7,7 +9,18 @@
     <template>
         <redux-store on-statechange="mapStateToThis"></redux-store>
         <app-route route="[[route]]" pattern="/view-video/course/:courseId/video/:videoId" data="{{data}}"></app-route>
-
+        <template is="dom-if" if="[[!userEmail]]">
+          <paper-card id = "signInMessageCard" heading ="Login to View Quizzes">
+            <div class= "card-content">
+              Sorry! We are working on getting access to the content without signing up.For now if you would like to view videos, please login or create an account to get started.<br>Its Free, and its worth it!
+            </div>
+            <paper-button id="courses/home" on-click="changeRoute">Back to Browse</paper-button>
+            <div class="card-actions">
+              <paper-button id="login" on-click="changeRoute">Log In</paper-button>
+              <paper-button id="signup" on-click="changeRoute">Create Account</paper-button>
+            </div>
+          </paper-card>
+        </template>
         <prendus-video-viewer course="[[data.courseId]]" content="[[data.videoId]]" user-full-name="[[userFullName]]" user-email="[[userEmail]]"></prendus-video-viewer>
     </template>
 
