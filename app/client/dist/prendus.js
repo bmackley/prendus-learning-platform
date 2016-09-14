@@ -4833,6 +4833,7 @@ $__System.register('16', ['2e', '2a', '2b', '3e', '2f'], function (_export, _con
                         this.userCourses = state.courses;
                         this.starredCourses = state.starredCourses;
                         this.sharedCourses = state.sharedCourses;
+                        this.publicCourses = state.publicCourses;
                         this.username = state.currentUser.metaData.email;
                         this.uid = state.currentUser.metaData.uid;
                     }
@@ -4845,10 +4846,10 @@ $__System.register('16', ['2e', '2a', '2b', '3e', '2f'], function (_export, _con
         }
     };
 });
-$__System.register('15', ['2e', '2a', '2b', '3e', '2f'], function (_export, _context3) {
+$__System.register('15', ['2e', '2a', '2b', '3e'], function (_export, _context3) {
     "use strict";
 
-    var _regeneratorRuntime, _classCallCheck, _createClass, Actions, FirebaseService, __awaiter, PrendusCoursePreview;
+    var _regeneratorRuntime, _classCallCheck, _createClass, Actions, __awaiter, PrendusCoursePreview;
 
     return {
         setters: [function (_e) {
@@ -4859,8 +4860,6 @@ $__System.register('15', ['2e', '2a', '2b', '3e', '2f'], function (_export, _con
             _createClass = _b.default;
         }, function (_e2) {
             Actions = _e2.Actions;
-        }, function (_f) {
-            FirebaseService = _f.FirebaseService;
         }],
         execute: function () {
             __awaiter = this && this.__awaiter || function (thisArg, _arguments, P, generator) {
@@ -4908,45 +4907,40 @@ $__System.register('15', ['2e', '2a', '2b', '3e', '2f'], function (_export, _con
                     key: 'init',
                     value: function init(course) {
                         return __awaiter(this, void 0, void 0, _regeneratorRuntime.mark(function _callee() {
-                            var user;
                             return _regeneratorRuntime.wrap(function _callee$(_context) {
                                 while (1) {
                                     switch (_context.prev = _context.next) {
                                         case 0:
                                             _context.prev = 0;
                                             _context.next = 3;
-                                            return FirebaseService.getLoggedInUser();
+                                            return Actions.checkUserAuth.execute(this);
 
                                         case 3:
-                                            user = _context.sent;
-
+                                            //Really just need an update from Redux here, but I don't know if firing an empty redux element is really kosher
                                             this.numStars = Object.keys(this.course.userStars || {}).length;
-                                            if (user) {
-                                                this.uid = user.uid;
+                                            if (this.user) {
                                                 if (course.uid === this.uid) {
                                                     this.hasEditAccess = true;
                                                 } else if (course.collaborators) {
                                                     this.hasEditAccess = this.checkCollaboratorStatus(course.collaborators, this.uid);
                                                 }
-                                            } else {
-                                                this.starIcon = 'icons:star-border';
                                             }
-                                            _context.next = 12;
+                                            _context.next = 11;
                                             break;
 
-                                        case 8:
-                                            _context.prev = 8;
+                                        case 7:
+                                            _context.prev = 7;
                                             _context.t0 = _context['catch'](0);
 
                                             this.errorMessage = '';
                                             this.errorMessage = _context.t0.message;
 
-                                        case 12:
+                                        case 11:
                                         case 'end':
                                             return _context.stop();
                                     }
                                 }
-                            }, _callee, this, [[0, 8]]);
+                            }, _callee, this, [[0, 7]]);
                         }));
                     }
                 }, {
@@ -4968,50 +4962,49 @@ $__System.register('15', ['2e', '2a', '2b', '3e', '2f'], function (_export, _con
                                         case 0:
                                             e.cancelBubble = true;
                                             _context2.prev = 1;
+                                            _context2.next = 4;
+                                            return Actions.checkUserAuth.execute(this);
 
+                                        case 4:
                                             if (!(this.user && this.user.metaData.uid)) {
                                                 _context2.next = 23;
                                                 break;
                                             }
 
                                             if (!this.user.starredCourses) {
-                                                _context2.next = 13;
+                                                _context2.next = 15;
                                                 break;
                                             }
 
                                             if (!this.user.starredCourses[this.course.id]) {
-                                                _context2.next = 9;
+                                                _context2.next = 11;
                                                 break;
                                             }
 
-                                            _context2.next = 7;
+                                            _context2.next = 9;
                                             return Actions.unstarCourse(this, this.course.id);
 
-                                        case 7:
-                                            _context2.next = 11;
-                                            break;
-
                                         case 9:
-                                            _context2.next = 11;
-                                            return Actions.starCourse(this, this.course.id);
+                                            _context2.next = 13;
+                                            break;
 
                                         case 11:
-                                            _context2.next = 15;
-                                            break;
+                                            _context2.next = 13;
+                                            return Actions.starCourse(this, this.course.id);
 
                                         case 13:
-                                            _context2.next = 15;
-                                            return Actions.starCourse(this, this.course.id);
+                                            _context2.next = 17;
+                                            break;
 
                                         case 15:
                                             _context2.next = 17;
-                                            return Actions.checkUserAuth.execute(this);
+                                            return Actions.starCourse(this, this.course.id);
 
                                         case 17:
                                             Actions.getCoursesByVisibility(this, 'public');
                                             Actions.getCoursesByUser.execute(this);
-                                            Actions.getStarredCoursesByUser(this, this.user.metaData.uid);
                                             Actions.getSharedCoursesByUser(this, this.user.metaData.uid);
+                                            Actions.getStarredCoursesByUser(this, this.user.metaData.uid);
                                             _context2.next = 25;
                                             break;
 
@@ -5060,13 +5053,9 @@ $__System.register('15', ['2e', '2a', '2b', '3e', '2f'], function (_export, _con
                         this.user = state.currentUser;
                         this.uid = state.currentUser.metaData.uid;
                         this.numStars = Object.keys(this.course.userStars || {}).length;
-                        if (this.user && this.course) {
-                            if (this.user.starredCourses) {
-                                if (this.user.starredCourses[this.course.id]) {
-                                    this.starIcon = 'icons:star';
-                                } else {
-                                    this.starIcon = 'icons:star-border';
-                                }
+                        if (this.user && this.user.starredCourses && this.course) {
+                            if (this.user.starredCourses[this.course.id]) {
+                                this.starIcon = 'icons:star';
                             } else {
                                 this.starIcon = 'icons:star-border';
                             }
