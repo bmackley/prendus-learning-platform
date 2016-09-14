@@ -33,6 +33,12 @@ class PrendusLogin {
     }
   }
 
+  createAccount(){
+      let location = 'signup'
+      window.history.pushState({}, '', location);
+      this.fire('location-changed', {}, {node: window});
+  }
+
   async sendResetEmail(e: any){
     e.preventDefault();
     const emailReset = this.querySelector('#resetPasswordEmail').value

@@ -5978,6 +5978,13 @@ $__System.register('b', ['2e', '2a', '2b', '3e', '2f'], function (_export, _cont
                         }));
                     }
                 }, {
+                    key: 'createAccount',
+                    value: function createAccount() {
+                        var location = 'signup';
+                        window.history.pushState({}, '', location);
+                        this.fire('location-changed', {}, { node: window });
+                    }
+                }, {
                     key: 'sendResetEmail',
                     value: function sendResetEmail(e) {
                         return __awaiter(this, void 0, void 0, _regeneratorRuntime.mark(function _callee2() {
@@ -12199,6 +12206,14 @@ $__System.register('2', ['2a', '2b'], function (_export, _context) {
                     key: 'beforeRegister',
                     value: function beforeRegister() {
                         this.is = 'prendus-view-quiz-router';
+                    }
+                }, {
+                    key: 'changeRoute',
+                    value: function changeRoute(e) {
+                        console.log('e', e);
+                        // let location = 'courses/home'
+                        // window.history.pushState({}, '', location);
+                        // this.fire('location-changed', {}, {node: window});
                     }
                 }, {
                     key: 'mapStateToThis',
