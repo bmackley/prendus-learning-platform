@@ -16,15 +16,9 @@ export class PrendusNavbar {
     this.username = state.currentUser.metaData.email;
   }
 
-  changeURL(e: any){
-    const location = e.target.id
-    window.history.pushState({}, '', location);
-    this.fire('location-changed', {}, {node: window});
-  }
-
-  goHome() {
-      window.history.pushState({}, '', '');
-      this.fire('location-changed', {}, {node: window});
+  getMenuButton(element: any) {
+    console.log(this.$[element]);
+    return this.$[element];
   }
 
   openDropdown(e: any){
