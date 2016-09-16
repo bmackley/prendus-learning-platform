@@ -5940,8 +5940,8 @@ $__System.register('b', ['2e', '2a', '2b', '3e', '2f'], function (_export, _cont
                         this.querySelector('#forgotPasswordModal').open();
                     }
                 }, {
-                    key: 'loginTap',
-                    value: function loginTap(e) {
+                    key: 'login',
+                    value: function login(e) {
                         return __awaiter(this, void 0, void 0, _regeneratorRuntime.mark(function _callee() {
                             var location;
                             return _regeneratorRuntime.wrap(function _callee$(_context) {
@@ -5976,6 +5976,16 @@ $__System.register('b', ['2e', '2a', '2b', '3e', '2f'], function (_export, _cont
                                 }
                             }, _callee, this, [[0, 10]]);
                         }));
+                    }
+                }, {
+                    key: 'loginTap',
+                    value: function loginTap(e) {
+                        this.login(e);
+                    }
+                }, {
+                    key: 'loginKeydown',
+                    value: function loginKeydown(e) {
+                        if (e.keyCode === 13) this.login(e);
                     }
                 }, {
                     key: 'sendResetEmail',
@@ -6055,17 +6065,10 @@ $__System.register('a', ['2a', '2b', '3e'], function (_export, _context) {
                         this.username = state.currentUser.metaData.email;
                     }
                 }, {
-                    key: 'changeURL',
-                    value: function changeURL(e) {
-                        var location = e.target.id;
-                        window.history.pushState({}, '', location);
-                        this.fire('location-changed', {}, { node: window });
-                    }
-                }, {
-                    key: 'goHome',
-                    value: function goHome() {
-                        window.history.pushState({}, '', '');
-                        this.fire('location-changed', {}, { node: window });
+                    key: 'getMenuButton',
+                    value: function getMenuButton(element) {
+                        console.log(this.$[element]);
+                        return this.$[element];
                     }
                 }, {
                     key: 'openDropdown',
