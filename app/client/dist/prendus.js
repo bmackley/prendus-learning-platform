@@ -6065,24 +6065,14 @@ $__System.register('a', ['2a', '2b', '3e'], function (_export, _context) {
                         this.username = state.currentUser.metaData.email;
                     }
                 }, {
-                    key: 'getMenuButton',
-                    value: function getMenuButton(element) {
-                        console.log(this.$[element]);
-                        return this.$[element];
-                    }
-                }, {
-                    key: 'openDropdown',
-                    value: function openDropdown(e) {
-                        var btn = document.querySelector("iron-dropdown");
-                        btn.toggle();
+                    key: 'toggleMenu',
+                    value: function toggleMenu(e) {
+                        document.querySelector("#menu-items").toggle();
                     }
                 }, {
                     key: 'logOutUser',
                     value: function logOutUser(e) {
                         Actions.logOutUser.execute(this);
-                        var location = "/login";
-                        window.history.pushState({}, '', location);
-                        this.fire('location-changed', {}, { node: window });
                     }
                 }, {
                     key: 'ready',

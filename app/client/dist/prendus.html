@@ -17089,7 +17089,7 @@ Custom property | Description | Default
     }
 
     #menu-holder {
-      border: solid pink 1px;
+      align-self: flex-end;
     }
 
   </style>
@@ -17101,20 +17101,20 @@ Custom property | Description | Default
         <paper-toolbar>
           <a id="home-button" href="/">Prendus</a>
           <template is="dom-if" if="{{username}}">
-            <paper-button id="menu-button" on-tap="openDropdown" noink="">Menu</paper-button>
-            <iron-dropdown id="menu-items" horizontal-align="right" no-auto-focus="" position-target="[[getMenuButton(menuHolder)]]">
-              <paper-listbox class="dropdown-content" id="user-menu-listbox">
-                <paper-item><paper-button class="route" id="/profile" on-tap="changeURL">Account</paper-button></paper-item>
-                <paper-item><paper-button class="route" id="/courses/home" on-tap="changeURL">Courses</paper-button></paper-item>
-                <paper-item><paper-button class="route" id="/login" on-tap="logOutUser">Logout</paper-button></paper-item>
-              </paper-listbox>
-            </iron-dropdown>
+            <paper-button id="menu-button" on-tap="toggleMenu" noink="">Menu</paper-button>
             <div id="menu-holder">
+              <iron-dropdown id="menu-items" horizontal-align="right" no-auto-focus="">
+                <paper-listbox class="dropdown-content" id="user-menu-listbox">
+                  <paper-item><a href="/profile" tabindex="-1"><paper-button on-tap="toggleMenu">Account</paper-button></a></paper-item>
+                  <paper-item><a href="/courses/home" tabindex="-1"><paper-button on-tap="toggleMenu">Courses</paper-button></a></paper-item>
+                  <paper-item><paper-button on-tap="logOutUser">Logout</paper-button></paper-item>
+                </paper-listbox>
+              </iron-dropdown>
             </div>
           </template>
           <template is="dom-if" if="{{!username}}">
-            <paper-button class="route" id="login" on-tap="changeURL">Login</paper-button>
-            <paper-button class="route" id="signup" on-tap="changeURL">Sign Up</paper-button>
+            <a href="/login" tabindex="-1"><paper-button>Login</paper-button></a>
+            <a href="/signup" tabindex="-1"><paper-button>Sign Up</paper-button></a>
           </template>
         </paper-toolbar>
     </paper-header-panel>
