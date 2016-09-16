@@ -13,7 +13,7 @@ class PrendusLogin {
   beforeRegister() {
     this.is = 'prendus-login',
     this.listeners =  {
-      'signin-submit.tap': 'loginTap',
+      'signin-submit.tap': 'loginTap'
     }
   }
   sendResetEmailTrigger(){
