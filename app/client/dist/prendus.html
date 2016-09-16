@@ -17078,14 +17078,14 @@ Custom property | Description | Default
       text-decoration: none;
     }
 
-    #home-button {
+    paper-item:hover {
+      background-color: rgba(0, 0, 0, 0.2);
+    }
+
+    #home-link {
       font-size: 1.3em;
       font-weight: 100;
       margin-right: auto;
-    }
-
-    paper-item:hover {
-      background-color: rgba(0, 0, 0, 0.2);
     }
 
     #menu-holder {
@@ -17099,7 +17099,7 @@ Custom property | Description | Default
     <redux-store on-statechange="mapStateToThis" action="[[action]]"></redux-store>
     <paper-header-panel>
         <paper-toolbar>
-          <a id="home-button" href="/">Prendus</a>
+          <a id="home-link" href="/">Prendus</a>
           <template is="dom-if" if="{{username}}">
             <paper-button id="menu-button" on-tap="toggleMenu" noink="">Menu</paper-button>
             <div id="menu-holder">
