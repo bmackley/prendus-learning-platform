@@ -19,7 +19,7 @@ class PrendusLogin {
   sendResetEmailTrigger(){
     this.querySelector('#forgotPasswordModal').open()
   }
-  async loginTap(e: any){
+  async login(e: any){
     try{
       await Actions.loginUser.execute(this, this.$.loginEmail.value, this.$.loginPassword.value);
       this.$.loginEmail.value = '';
@@ -32,7 +32,12 @@ class PrendusLogin {
       this.errorMessage = error.message;
     }
   }
-
+  loginTap(e: any) {
+    this.login(e);
+  }
+  loginKeydown(e: any) {
+    if(e.keyCode === 13) this.login(e);
+  }
   async sendResetEmail(e: any){
     e.preventDefault();
     const emailReset = this.querySelector('#resetPasswordEmail').value
