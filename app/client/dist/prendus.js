@@ -5514,6 +5514,11 @@ $__System.register('11', ['2e', '2a', '2b', '3e'], function (_export, _context2)
                         Actions.hideMainSpinner(this);
                     }
                 }, {
+                    key: 'backToQuiz',
+                    value: function backToQuiz() {
+                        window.history.back();
+                    }
+                }, {
                     key: 'mapStateToThis',
                     value: function mapStateToThis(e) {
                         var state = e.detail.state;

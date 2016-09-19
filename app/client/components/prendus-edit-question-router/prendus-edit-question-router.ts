@@ -12,6 +12,10 @@ class PrendusEditQuestionRouter {
         Actions.hideMainSpinner(this);
     }
 
+    backToQuiz(){
+      window.history.back();
+    }
+    
     mapStateToThis(e) {
       const state = e.detail.state;
       this.jwt = state.jwt;
