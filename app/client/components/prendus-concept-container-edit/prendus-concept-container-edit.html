@@ -1,5 +1,7 @@
 <link href="../../bower_components/polymer/polymer.html" rel="import">
 <link href="../../bower_components/iron-collapse/iron-collapse.html" rel="import">
+<link href="../../bower_components/iron-icons/editor-icons.html" rel="import">
+<link href="../../bower_components/iron-icons/iron-icons.html" rel="import">
 <link href="../../bower_components/paper-item/paper-icon-item.html" rel="import">
 <link href="../../bower_components/paper-header-panel/paper-header-panel.html" rel="import">
 <link href="../../bower_components/paper-spinner/paper-spinner.html" rel="import">
@@ -9,40 +11,81 @@
 
 <dom-module id="prendus-concept-container-edit">
   <template>
+
   <style include="color-styles"></style>
   <style>
-  #resource-tabs{
-    --paper-tabs-selection-bar-color: var(--prendus-primary-color);
-  }
-  #concept-container-div{
-    padding-left: 2%
-  }
-  #videosContainer{
-    margin-left: 50%;
-  }
+
+    :host {
+
+    }
+
+    #resource-tabs {
+      --paper-tabs-selection-bar-color: var(--prendus-primary-color);
+    }
+
+    #title-buttons {
+      display: flex;
+      align-items: center;
+      padding: 10px;
+      cursor: pointer;
+    }
+
+    #title-buttons > * + * {
+      margin-left: 10px;
+    }
+
+    #concept-title {
+      margin: 0;
+      flex-grow: 1;
+    }
+
+    #videosContainer {
+      margin-left: 50%;
+    }
+
+    .drag-icon {
+      visibility: hidden;
+    }
+
+    :host:hover .drag-icon {
+      visibility: visible;
+    }
+
   </style>
+
     <redux-store on-statechange="mapStateToThis" action="[[action]]"></redux-store>
-    <div id ="concept-container-div">
-      <div>
-        <h3 on-tap="toggle">[[title]]</h3>
-      </div>
-      <iron-collapse class="conceptToggle" id= "concept-[[item.pos]]">
-        <div id = "classContent">
-          <paper-tabs id="resource-tabs" selected="{{selected}}">
-              <paper-tab>QUIZZES</paper-tab>
-              <paper-tab>VIDEOS</paper-tab>
-          </paper-tabs>
-          <iron-pages selected="{{selected}}" style="position: relative">
-            <div class = "flex-horizontal" id = "quizzesContainer">
-              <prendus-concept-quiz-container-edit concept-id="[[conceptId]]"></prendus-concept-quiz-container-edit>
-            </div>
-            <div class = "flex-horizontal" id = "videosContainer">
-              <prendus-concept-video-container-edit concept-id="[[conceptId]]"></prendus-concept-video-container-edit>
-            </div>
-          </iron-pages>
-        </div>
-      </iron-collapse>
+    <div id="title-buttons" on-tap="toggle">
+      <iron-icon class="drag-icon" icon="editor:drag-handle"></iron-icon>
+      <h3 id="concept-title">[[title]]</h3>
+      <!-- TODO: Change this menu to use icons instead -->
+      <!-- Currently opening this menu will expand the concept, but menu will be removed shortly -->
+      <paper-menu-button ignore-select no-animations allow-outside-scroll>
+        <iron-icon class="dropdown-trigger" icon="icons:more-vert" title="concept settings"></iron-icon>
+        <paper-menu class="dropdown-content">
+          <paper-submenu>
+            <paper-item class="menu-trigger">Collaborators</paper-item>
+            <prendus-collaborator-menu-content class="menu-content" course-id="[[courseId]]" concept-id="[[item.id]]" concept></prendus-collaborator-menu-content>
+          </paper-submenu>
+          <paper-item role="menuitem" id="[[item.key]]" on-tap="deleteItem"><iron-icon class = "end-justified" icon="icons:delete" item-icon ></iron-icon>Delete</paper-item>
+        </paper-menu>
+      </paper-menu-button>
     </div>
+    <iron-collapse class="conceptToggle" id="concept-[[item.pos]]">
+      <div id="classContent">
+        <paper-tabs id="resource-tabs" selected="{{selected}}">
+            <paper-tab>QUIZZES</paper-tab>
+            <paper-tab>VIDEOS</paper-tab>
+        </paper-tabs>
+        <iron-pages selected="{{selected}}" style="position: relative">
+          <div class = "flex-horizontal" id = "quizzesContainer">
+            <prendus-concept-quiz-container-edit concept-id="[[conceptId]]"></prendus-concept-quiz-container-edit>
+          </div>
+          <div class = "flex-horizontal" id = "videosContainer">
+            <prendus-concept-video-container-edit concept-id="[[conceptId]]"></prendus-concept-video-container-edit>
+          </div>
+        </iron-pages>
+      </div>
+    </iron-collapse>
   </template>
   <!-- <script>System.import('/components/prendus-concept-container-edit/prendus-concept-container-edit.ts');</script> -->
 </dom-module>
