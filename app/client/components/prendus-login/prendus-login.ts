@@ -19,7 +19,7 @@ class PrendusLogin {
   sendResetEmailTrigger(){
     this.querySelector('#forgotPasswordModal').open()
   }
-  async loginTap(e: any){
+  async login(e: any){
     try{
       await Actions.loginUser.execute(this, this.$.loginEmail.value, this.$.loginPassword.value);
       this.$.loginEmail.value = '';
@@ -37,6 +37,14 @@ class PrendusLogin {
       let location = 'signup'
       window.history.pushState({}, '', location);
       this.fire('location-changed', {}, {node: window});
+  }
+  
+  loginTap(e: any) {
+    this.login(e);
+  }
+
+  loginKeydown(e: any) {
+    if(e.keyCode === 13) this.login(e);
   }
 
   async sendResetEmail(e: any){

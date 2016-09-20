@@ -16,27 +16,12 @@ export class PrendusNavbar {
     this.username = state.currentUser.metaData.email;
   }
 
-  changeURL(e: any){
-    const location = e.target.id
-    window.history.pushState({}, '', location);
-    this.fire('location-changed', {}, {node: window});
-  }
-
-  goHome() {
-      window.history.pushState({}, '', '');
-      this.fire('location-changed', {}, {node: window});
-  }
-
-  openDropdown(e: any){
-    const btn = document.querySelector("iron-dropdown");
-    btn.toggle()
+  toggleMenu(e: any){
+    document.querySelector("#menu-items").toggle();
   }
 
   logOutUser(e: any){
     Actions.logOutUser.execute(this);
-    const location = "/login"
-    window.history.pushState({}, '', location);
-    this.fire('location-changed', {}, {node: window});
   }
 
   ready(){
