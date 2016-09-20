@@ -69,13 +69,6 @@ class PrendusCourseEdit {
     this.querySelector('#selectEndDate').open();
   }
 
-  deleteItem(e){
-    // this.querySelector('#deleteConfirm').open();
-    // Actions.deleteConcept.execute(this, this.courseId, e.target.id);
-    // Actions.loadCourseConcepts(this, this.data.courseId);
-    alert('fix this');
-  }
-
   toggle(e) {
     const collapseTarget = (e.target.id);
     this.querySelector('#Concept' + collapseTarget).toggle();

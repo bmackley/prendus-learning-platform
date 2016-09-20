@@ -3754,6 +3754,14 @@ $__System.register('1d', ['2e', '2a', '2b', '3e', '2f'], function (_export, _con
                         this.conceptData = state.currentConcept;
                     }
                 }, {
+                    key: 'deleteItem',
+                    value: function deleteItem(e) {
+                        // this.querySelector('#deleteConfirm').open();
+                        // Actions.deleteConcept.execute(this, this.courseId, e.target.id);
+                        // Actions.loadCourseConcepts(this, this.data.courseId);
+                        alert('Unable to delete concept (not implemented)');
+                    }
+                }, {
                     key: 'ready',
                     value: function ready() {
                         this.selected = 0;
@@ -4553,14 +4561,6 @@ $__System.register('17', ['2e', '2a', '2b', '3e'], function (_export, _context4)
                     key: 'openEndDatePicker',
                     value: function openEndDatePicker(e) {
                         this.querySelector('#selectEndDate').open();
-                    }
-                }, {
-                    key: 'deleteItem',
-                    value: function deleteItem(e) {
-                        // this.querySelector('#deleteConfirm').open();
-                        // Actions.deleteConcept.execute(this, this.courseId, e.target.id);
-                        // Actions.loadCourseConcepts(this, this.data.courseId);
-                        alert('fix this');
                     }
                 }, {
                     key: 'toggle',
