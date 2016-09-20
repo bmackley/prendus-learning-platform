@@ -40,6 +40,12 @@ export class PrendusConceptContainerEdit {
     this.conceptData = state.currentConcept;
 
   }
+  deleteItem(e: any) {
+    // this.querySelector('#deleteConfirm').open();
+    // Actions.deleteConcept.execute(this, this.courseId, e.target.id);
+    // Actions.loadCourseConcepts(this, this.data.courseId);
+    alert('Unable to delete concept (not implemented)');
+  }
   ready() {
     this.selected = 0;
   }
