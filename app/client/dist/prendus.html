@@ -43214,10 +43214,6 @@ g(Ye.controls,"mouseenter mouseleave",function(e){Ye.controls.hover="mouseenter"
   <style include="color-styles"></style>
   <style>
 
-    :host {
-
-    }
-
     #resource-tabs {
       --paper-tabs-selection-bar-color: var(--prendus-primary-color);
     }
@@ -43227,6 +43223,14 @@ g(Ye.controls,"mouseenter mouseleave",function(e){Ye.controls.hover="mouseenter"
       align-items: center;
       padding: 10px;
       cursor: pointer;
+    }
+
+    .drag-icon {
+      visibility: hidden;
+    }
+
+    #title-buttons:hover .drag-icon {
+      visibility: visible;
     }
 
     #title-buttons > * + * {
@@ -43240,14 +43244,6 @@ g(Ye.controls,"mouseenter mouseleave",function(e){Ye.controls.hover="mouseenter"
 
     #videosContainer {
       margin-left: 50%;
-    }
-
-    .drag-icon {
-      visibility: hidden;
-    }
-
-    :host:hover .drag-icon {
-      visibility: visible;
     }
 
   </style>
