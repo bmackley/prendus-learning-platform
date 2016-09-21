@@ -972,7 +972,7 @@ $__System.register('28', ['30', '32', '33', '2e', '2a', '2b'], function (_export
 
                                         case 5:
                                             _context3.next = 7;
-                                            return Actions.saveQuestion(this, this.questionId, {
+                                            return Actions.saveQuestion(this, this.questionId || null, {
                                                 id: this.questionId || null,
                                                 uid: null,
                                                 text: text,
@@ -5537,9 +5537,10 @@ $__System.register('11', ['2e', '2a', '2b', '3e'], function (_export, _context2)
                                             quizEditorComponent = document.getElementById('quizEditorComponent');
 
                                             quizEditorComponent.manuallyReloadQuestions();
+                                            this.successMessage = 'Question saved successfully';
                                         //TODO this is evil, figure out another way to manually reload the questions without a DOM search
 
-                                        case 2:
+                                        case 3:
                                         case 'end':
                                             return _context.stop();
                                     }
@@ -5983,13 +5984,13 @@ $__System.register('b', ['2e', '2a', '2b', '3e', '2f'], function (_export, _cont
                         }));
                     }
                 }, {
-<<<<<<< HEAD
                     key: 'createAccount',
                     value: function createAccount() {
                         var location = 'signup';
                         window.history.pushState({}, '', location);
                         this.fire('location-changed', {}, { node: window });
-=======
+                    }
+                }, {
                     key: 'loginTap',
                     value: function loginTap(e) {
                         this.login(e);
@@ -5998,7 +5999,6 @@ $__System.register('b', ['2e', '2a', '2b', '3e', '2f'], function (_export, _cont
                     key: 'loginKeydown',
                     value: function loginKeydown(e) {
                         if (e.keyCode === 13) this.login(e);
->>>>>>> develop
                     }
                 }, {
                     key: 'sendResetEmail',
