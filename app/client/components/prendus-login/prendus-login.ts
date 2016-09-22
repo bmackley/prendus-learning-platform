@@ -38,7 +38,7 @@ class PrendusLogin {
       window.history.pushState({}, '', location);
       this.fire('location-changed', {}, {node: window});
   }
-  
+
   loginTap(e: any) {
     this.login(e);
   }
@@ -54,7 +54,7 @@ class PrendusLogin {
       await FirebaseService.sendPasswordResetEmail(this.querySelector('#resetPasswordEmail').value)
       this.querySelector('#forgotPasswordModal').close()
       this.successMessage = '';
-      this.successMessage = 'Password sent. Check your inbox for a '
+      this.successMessage = 'Password sent'
     }catch(error){
       this.querySelector('#forgotPasswordModal').close()
       this.errorMessage = '';
