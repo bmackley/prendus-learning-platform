@@ -5507,6 +5507,15 @@ $__System.register('11', ['2e', '2a', '2b', '3e'], function (_export, _context2)
                     key: 'beforeRegister',
                     value: function beforeRegister() {
                         this.is = 'prendus-edit-question-router';
+                        this.observers = ['_routeChanged(route.*)'];
+                    }
+                }, {
+                    key: '_routeChanged',
+                    value: function _routeChanged(route) {
+                        if (!route.data) {
+                            this.originalText = '';
+                            this.originalCode = '';
+                        }
                     }
                 }, {
                     key: 'editProblemComponentLoaded',
