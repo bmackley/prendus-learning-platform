@@ -23,18 +23,18 @@
 <dom-module id="prendus-course-edit">
   <template>
     <style>
-      :host {
-        display: block;
-      }
 
       #course-container {
+        width: 100%;
+      }
+
+      #course-content {
         display: flex;
         flex-direction: column;
-        background-color: #fff;
         padding: 20px;
       }
 
-      #course-container > * + * {
+      #course-content > * + * {
         margin-top: 20px;
       }
 
@@ -85,8 +85,8 @@
     <prendus-notification success-message="[[successMessage]]"></prendus-notification>
     <prendus-notification error-message="[[errorMessage]]"></prendus-notification>
 
-    <paper-card>
-      <div id="course-container" class="card-content">
+    <paper-card id="course-container">
+      <div id="course-content" class="card-content">
         <template is="dom-if" if="[[username]]">
           <paper-menu-button id="collaborators-menu" ignore-select no-animations allow-outside-scroll>
               <paper-button class="dropdown-trigger">Collaborators</paper-button>
