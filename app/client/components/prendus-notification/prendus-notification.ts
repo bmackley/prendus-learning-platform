@@ -30,7 +30,6 @@ class PrendusNotification {
     }
   }
   showSuccessMessage(){
-    console.log('successMessage notification')
     if(this.successMessage){
       this.toastText = this.successMessage;
       this.querySelector('#successToastContainer').open();

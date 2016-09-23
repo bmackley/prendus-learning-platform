@@ -103,7 +103,7 @@
             <p>Click the plus button to begin adding concepts to the Course.</p>
           </template>
           <sortable-js id="concept-list" on-sort="sortableEnded">
-            <template is="dom-repeat" items=[[courseConcepts]]>
+            <template is="dom-repeat" items="[[courseConcepts]]">
               <div class="concept-container">
                 <prendus-concept-container-edit class="concept-edit-container" concept-id="[[item.id]]"></prendus-concept-container-edit>
               </div>

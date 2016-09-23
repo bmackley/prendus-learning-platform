@@ -21,7 +21,7 @@ class PrendusCourseHomepage {
   public starredCoursesLength: number;
   public collaborators: {
     [uid: string]: string[];
-  }
+  };
   public errorMessage: string;
   public tags: string;
 
