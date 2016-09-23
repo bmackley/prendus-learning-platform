@@ -68,6 +68,9 @@ export class PrendusProfile {
     }
     this.$.changeEmailPassword.value = ''; //need to clear the form
   }
+  submitKeydown(e){
+    if(e.keyCode === 13) this.changeProfile(e);
+  }
   ready(e){
     this.$.updateProfileErrorToast.fitInto = this.$.toastTarget;
     this.$.updateProfileSuccessToast.fitInto = this.$.toastTarget;

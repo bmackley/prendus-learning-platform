@@ -70,8 +70,8 @@ class PrendusCourseEdit {
   }
 
   toggle(e) {
-    const collapseTarget = (e.target.id);
-    this.querySelector('#Concept' + collapseTarget).toggle();
+    const collapseTarget = e.target.id;
+    this.querySelector('#concept' + collapseTarget).toggle();
   }
 
   async addConceptFormDone(e){
