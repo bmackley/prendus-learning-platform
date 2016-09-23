@@ -17,7 +17,7 @@ export class PrendusNavbar {
   }
 
   toggleMenu(e: any){
-    document.querySelector("#menu-items").toggle();
+    this.querySelector("#menu-items").toggle();
   }
 
   logOutUser(e: any){

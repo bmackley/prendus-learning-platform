@@ -41,7 +41,7 @@
     <paper-toast id="updateProfileErrorToast" duration="5000" verticalAlign="top" text=[[updateProfileErrorToastText]]></paper-toast>
     <paper-toast id="updateProfileSuccessToast" duration="5000" verticalAlign="top" text=[[updateProfileSuccessToastText]]></paper-toast>
     <paper-card id = "profileFormCard" heading ="Update Profile">
-      <form class="card-content" is="iron-form" id="form" method="post" action="/form/handler">
+      <form class="card-content" is="iron-form" id="form" method="post" action="/form/handler" on-keydown="submitKeydown">
         <paper-input name="firstName" id="firstName" label="First Name" value="[[firstName]]"></paper-input>
         <paper-input name="lastName" id="lastName" label="Last Name" value="[[lastName]]"></paper-input>
         <paper-input name="Intitution" id="institution" label="Institution (school)" value="[[institution]]"></paper-input>
