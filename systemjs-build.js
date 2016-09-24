@@ -43,7 +43,6 @@ builder.buildStatic(`
     `, 'app/client/dist/prendus.js', {
     minify: false
 }).then(function() {
-    console.log('hello')
     fs.readFile(__dirname + '/app/client/dist/prendus.js', 'utf8').then(function(fileContents) {
         fs.writeFile(__dirname + '/app/client/dist/prendus.js', `
             window.addEventListener('WebComponentsReady', function() {
