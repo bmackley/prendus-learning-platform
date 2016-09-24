@@ -28,22 +28,10 @@
         color: white !important;
       };
     }
-    /*#loginFormCard, #toastTarget{
-        width: 75%;
-    }
-    @media (max-width: 1200px) {
-      #loginFormCard, #toastTarget{
-        width: 85%;
-      }
-    }
-    @media (max-width: 600px) {
-      #loginFormCard, #toastTarget{
-        width: 100%;
-      }
-    }*/
-    #forgot-password{
-      color: blue;
+    #create-account {
       cursor: pointer;
+      position: relative;
+      padding: 16px;
     }
   </style>
   <template>
@@ -55,9 +43,9 @@
         </form>
         <div class="card-actions">
           <paper-button id="signin-submit" class="indigo">Log In</paper-button>
-          <paper-button on-click="sendResetEmailTrigger">Forgot</paper-button>
+          <paper-button on-click="sendResetEmailTrigger">Forgot Password</paper-button>
         </div>
-        <div>Don't have an Account? <span on-tap="createAccount">Create Account</span></div>
+        <div id="create-account">Don't have an Account? <span on-tap="create-account">Create Account</span></div>
       </paper-card>
       <paper-dialog id = "forgotPasswordModal" modal>
         <div>
