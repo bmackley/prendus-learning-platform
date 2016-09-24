@@ -22,6 +22,7 @@ class PrendusLogin {
   async login(e: any){
     try{
       await Actions.loginUser(this, this.$.loginEmail.value, this.$.loginPassword.value);
+      // await Actions.checkUserAuth(this);
       this.$.loginEmail.value = '';
       this.$.loginPassword.value = '';
       let location = 'courses/home'
