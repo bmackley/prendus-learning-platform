@@ -21,7 +21,7 @@ class PrendusLogin {
   }
   async login(e: any){
     try{
-      await Actions.loginUser.execute(this, this.$.loginEmail.value, this.$.loginPassword.value);
+      await Actions.loginUser(this, this.$.loginEmail.value, this.$.loginPassword.value);
       this.$.loginEmail.value = '';
       this.$.loginPassword.value = '';
       let location = 'courses/home'
@@ -32,12 +32,21 @@ class PrendusLogin {
       this.errorMessage = error.message;
     }
   }
+
+  createAccount(){
+      let location = 'signup'
+      window.history.pushState({}, '', location);
+      this.fire('location-changed', {}, {node: window});
+  }
+
   loginTap(e: any) {
     this.login(e);
   }
+
   loginKeydown(e: any) {
     if(e.keyCode === 13) this.login(e);
   }
+
   async sendResetEmail(e: any){
     e.preventDefault();
     const emailReset = this.querySelector('#resetPasswordEmail').value
@@ -45,7 +54,7 @@ class PrendusLogin {
       await FirebaseService.sendPasswordResetEmail(this.querySelector('#resetPasswordEmail').value)
       this.querySelector('#forgotPasswordModal').close()
       this.successMessage = '';
-      this.successMessage = 'Password sent. Check your inbox for a '
+      this.successMessage = 'Password sent'
     }catch(error){
       this.querySelector('#forgotPasswordModal').close()
       this.errorMessage = '';
