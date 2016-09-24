@@ -94,17 +94,8 @@ class PrendusQuizEditor {
     createQuestion(e) {
         Actions.showMainSpinner(this);
 
-        window.history.pushState({}, '', `courses/edit-question/question`);
+        window.history.pushState({}, '', `courses/edit-question/question/create`);
         this.fire('location-changed', {}, {node: window});
-
-        //TODO this is evil, make sure to remove it once edit problem component can reload itself in response to property changes
-        //TODO all of this is evil. We are just mutating the component's state not explicitly
-        const editProblemComponent = document.getElementById('editProblemComponent');
-        editProblemComponent.questionId = undefined;
-        editProblemComponent.originalText = '';
-        editProblemComponent.originalCode = '';
-        editProblemComponent.init();
-        //TODO this is evil, make sure to remove it once edit problem component can reload itself in response to property changes
     }
 
     editQuestion(e) {
@@ -114,13 +105,6 @@ class PrendusQuizEditor {
 
         window.history.pushState({}, '', `courses/edit-question/question/${questionId}`);
         this.fire('location-changed', {}, {node: window});
-
-        //TODO this is evil, make sure to remove it once edit problem component can reload itself in response to property changes
-        //TODO all of this is evil. We are just mutating the component's state not explicitly
-        const editProblemComponent = document.getElementById('editProblemComponent');
-        editProblemComponent.initialLoad = false;
-        editProblemComponent.init();
-        //TODO this is evil, make sure to remove it once edit problem component can reload itself in response to property changes
     }
 
     showEmptyQuizQuestionsText(quizQuestionIds: string[]) {
