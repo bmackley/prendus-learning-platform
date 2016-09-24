@@ -94,7 +94,7 @@ class PrendusQuizEditor {
     createQuestion(e) {
         Actions.showMainSpinner(this);
 
-        window.history.pushState({}, '', `courses/edit-question/question`);
+        window.history.pushState({}, '', `courses/edit-question/question/${this.conceptId}/${this.quizId}`);
         this.fire('location-changed', {}, {node: window});
 
         //TODO this is evil, make sure to remove it once edit problem component can reload itself in response to property changes
@@ -112,7 +112,7 @@ class PrendusQuizEditor {
 
         const questionId = e.model.item;
 
-        window.history.pushState({}, '', `courses/edit-question/question/${questionId}`);
+        window.history.pushState({}, '', `courses/edit-question/question/${questionId}/${this.conceptId}/${this.quizId}`);
         this.fire('location-changed', {}, {node: window});
 
         //TODO this is evil, make sure to remove it once edit problem component can reload itself in response to property changes

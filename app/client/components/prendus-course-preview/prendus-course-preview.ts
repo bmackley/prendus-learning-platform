@@ -27,7 +27,7 @@ class PrendusCoursePreview {
 
     async init(course: Course) {
       try{
-        await Actions.checkUserAuth.execute(this); //Really just need an update from Redux here, but I don't know if firing an empty redux element is really kosher
+        await Actions.checkUserAuth(this);
         this.numStars = Object.keys(this.course.userStars || {}).length;
         if(this.user){
           if(course.uid === this.uid){
@@ -51,9 +51,9 @@ class PrendusCoursePreview {
     }
 
     async starClick(e: any) {
-      e.cancelBubble = true;
+      e.stopPropogation = true;
       try{
-        await Actions.checkUserAuth.execute(this);
+        await Actions.checkUserAuth(this);
         if (this.user && this.user.metaData.uid) {
             if (this.user.starredCourses) {
                 if (this.user.starredCourses[this.course.id]) {
@@ -67,7 +67,7 @@ class PrendusCoursePreview {
                 await Actions.starCourse(this, this.course.id);
             }
             Actions.getCoursesByVisibility(this, 'public');
-            Actions.getCoursesByUser.execute(this);
+            Actions.getCoursesByUser(this);
             Actions.getSharedCoursesByUser(this, this.user.metaData.uid);
             Actions.getStarredCoursesByUser(this, this.user.metaData.uid);
         }else {
