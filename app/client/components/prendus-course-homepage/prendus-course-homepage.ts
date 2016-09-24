@@ -38,7 +38,7 @@ class PrendusCourseHomepage {
   async ready() {
       try{
           const user = await FirebaseService.getLoggedInUser();
-          Actions.getCoursesByUser.execute(this);
+          Actions.getCoursesByUser(this);
           Actions.getStarredCoursesByUser(this, user.uid);
           Actions.getSharedCoursesByUser(this, user.uid);
       }catch(error){
@@ -69,7 +69,7 @@ class PrendusCourseHomepage {
         uid: this.uid
       }
       try{
-        Actions.addCourse.execute(this, newCourse);
+        Actions.addCourse(this, newCourse);
       }catch(error){
         this.errorMessage = '';
         this.errorMessage = error.message;

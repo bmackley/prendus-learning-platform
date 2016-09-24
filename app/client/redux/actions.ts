@@ -618,37 +618,24 @@ const loadViewCourseConcepts = async (context: any, courseId: string) => {
     }
 };
 
-const createUser = {
-  execute: async (context: any, data: UserMetaData, password: string) => {
+const createUser = async (context: any, data: UserMetaData, password: string) => {
     try {
       const success = await FirebaseService.createUserWithEmailAndPassword(data.email, password);
       const loggedInUser = await FirebaseService.logInUserWithEmailAndPassword(data.email, password);
       await UserModel.updateMetaData(loggedInUser.uid, data);
       await EmailsToUidsModel.setUidByEmail(data.email, loggedInUser.uid);
-
-      //TODO I'm doing this because we're about to launch and it will fix the errors we've been having with synchronizing the user after signup.
-      //This just refreshes the whole app with the user logged in. Might want to change this, seems to work well though.
       window.location.href = '';
-
-    //   data.email = loggedInUser.email
-    //   context.action = {
-    //     type: Actions.createUser.type,
-    //     currentUser: data,
-    //   };
     }catch(error){
       throw error;
     }
-  }
 };
-const loginUser = {
-    execute: async (context: any, email: string, password: string) => {
-        try {
-          const loggedInUser = await FirebaseService.logInUserWithEmailAndPassword(email, password);
-          window.location.href = '';
-        }catch(error){
-          throw error;
-        }
-    }
+const loginUser = async (context: any, email: string, password: string) => {
+      try {
+        const loggedInUser = await FirebaseService.logInUserWithEmailAndPassword(email, password);
+        window.location.href = '';
+      }catch(error){
+        throw error;
+      }
 };
 
 const updateUserEmail = async (context: any, pastEmail: string, password: string, newEmail: string) => {
@@ -830,13 +817,11 @@ const deleteConcept = async (context: any, courseId: string, conceptId: string) 
         throw error;
       }
 };
-const orderConcepts = {
-  execute: async (context: any, id: string, courseConceptsArray: Concept[]) => {
-    try{
-      await CourseModel.updateCourseConcepts(id, courseConceptsArray);
-    }catch(error){
-      throw error;
-    }
+const orderConcepts = async (context: any, id: string, courseConceptsArray: Concept[]) => {
+  try{
+    await CourseModel.updateCourseConcepts(id, courseConceptsArray);
+  }catch(error){
+    throw error;
   }
 };
 
@@ -853,12 +838,9 @@ const updateCourseField = async (context: any, id: string, field: string, value:
     }
 };
 
-const logOutUser = {
-  type: 'LOGOUT_USER',
-  execute: async (context: any) => {
+const logOutUser = async (context: any) => {
     await FirebaseService.logOutUser();
     window.location.href = '';
-  }
 };
 
 export const Actions = {
