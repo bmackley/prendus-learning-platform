@@ -83,7 +83,7 @@ class PrendusCourseEdit {
         title: this.$.conceptFormName.value,
       };
       try{
-        await Actions.addConcept.execute(this, this.courseId, newConcept, this.courseConcepts.length);
+        await Actions.addConcept(this, this.courseId, newConcept, this.courseConcepts.length);
         await Actions.getCourseEditCourseById(this, this.data.courseId);
 
         this.successMessage = '';
@@ -108,7 +108,7 @@ class PrendusCourseEdit {
         }
       }
       try{
-        Actions.orderConcepts.execute(this, this.courseId, updateConceptPositionArray);
+        Actions.orderConcepts(this, this.courseId, updateConceptPositionArray);
         this.successMessage = '';
         this.successMessage = 'Concept ordered successfully';
       }catch(error){

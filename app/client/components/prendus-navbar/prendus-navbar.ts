@@ -21,11 +21,11 @@ export class PrendusNavbar {
   }
 
   logOutUser(e: any){
-    Actions.logOutUser.execute(this);
+    Actions.logOutUser(this);
   }
 
   ready(){
-    Actions.checkUserAuth.execute(this);
+    Actions.checkUserAuth(this);
   }
 }
 

@@ -37,7 +37,7 @@ export class PrendusProfile {
         institution: this.$.institution.value,
       }
       try{
-        await Actions.updateUserMetaData.execute(this, this.uid, submitValue);
+        await Actions.updateUserMetaData(this, this.uid, submitValue);
         this.successMessage = '';
         this.successMessage = 'Profile Updated Successfully';
       }
@@ -57,8 +57,8 @@ export class PrendusProfile {
           institution: this.$.institution.value,
           email:  this.$.updateEmail.value,
         }
-        await Actions.updateUserEmail.execute(this, this.pastEmail, this.$.changeEmailPassword.value, submitValue.email);
-        await Actions.updateUserMetaData.execute(this, this.uid, submitValue);
+        await Actions.updateUserEmail(this, this.pastEmail, this.$.changeEmailPassword.value, submitValue.email);
+        await Actions.updateUserMetaData(this, this.uid, submitValue);
         this.successMessage = '';
         this.successMessage = 'Profile & Email Updated Successfully';
       }catch(error){
