@@ -625,7 +625,6 @@ const createUser = async (context: any, data: UserMetaData, password: string) =>
       await UserModel.updateMetaData(loggedInUser.uid, data);
       await EmailsToUidsModel.setUidByEmail(data.email, loggedInUser.uid);
       checkUserAuth(context);
-      // window.location.href = '';
     }catch(error){
       throw error;
     }
@@ -661,14 +660,11 @@ const updateUserMetaData = async (context: any, uid: string, metaData: UserMetaD
 };
 const checkUserAuth = async (context: any) => {
   try {
-    console.log('in the check user auth')
     const loggedInUser = await FirebaseService.getLoggedInUser();
     if(loggedInUser){
-      console.log('user logged in')
       let user = await UserModel.getById(loggedInUser.uid);
       user.metaData.uid = loggedInUser.uid; //OK because its being created here.
       const jwt = await loggedInUser.getToken();
-      console.log('user meta data', user)
       context.action = {
         type: 'CHECK_USER_AUTH',
         user,
@@ -844,7 +840,7 @@ const updateCourseField = async (context: any, id: string, field: string, value:
 
 const logOutUser = async (context: any) => {
     await FirebaseService.logOutUser();
-    window.location.href = ''; //need to reset the state instead of reloading everything. 
+    window.location.href = ''; //need to reset the state instead of reloading everything.
 };
 
 export const Actions = {
