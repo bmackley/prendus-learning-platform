@@ -19,8 +19,6 @@ class PrendusEditQuestionRouter {
         };
     }
     setData() {
-      console.log('setting route', this.route)
-      console.log('setting data', this.data)
       this.conceptId = this.data.conceptId;
       this.quizId = this.data.quizId;
     }

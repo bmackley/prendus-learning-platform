@@ -624,7 +624,8 @@ const createUser = async (context: any, data: UserMetaData, password: string) =>
       const loggedInUser = await FirebaseService.logInUserWithEmailAndPassword(data.email, password);
       await UserModel.updateMetaData(loggedInUser.uid, data);
       await EmailsToUidsModel.setUidByEmail(data.email, loggedInUser.uid);
-      window.location.href = '';
+      checkUserAuth(context);
+      // window.location.href = '';
     }catch(error){
       throw error;
     }
@@ -632,7 +633,7 @@ const createUser = async (context: any, data: UserMetaData, password: string) =>
 const loginUser = async (context: any, email: string, password: string) => {
       try {
         const loggedInUser = await FirebaseService.logInUserWithEmailAndPassword(email, password);
-        window.location.href = '';
+        checkUserAuth(context);
       }catch(error){
         throw error;
       }
@@ -660,11 +661,14 @@ const updateUserMetaData = async (context: any, uid: string, metaData: UserMetaD
 };
 const checkUserAuth = async (context: any) => {
   try {
+    console.log('in the check user auth')
     const loggedInUser = await FirebaseService.getLoggedInUser();
     if(loggedInUser){
+      console.log('user logged in')
       let user = await UserModel.getById(loggedInUser.uid);
       user.metaData.uid = loggedInUser.uid; //OK because its being created here.
       const jwt = await loggedInUser.getToken();
+      console.log('user meta data', user)
       context.action = {
         type: 'CHECK_USER_AUTH',
         user,
@@ -716,7 +720,7 @@ const addCourse = async (context: any, newCourse: Course) => {
 
       const courses = await CourseModel.getCoursesByUser(newCourse.uid);
       context.action = {
-          type: Actions.addCourse.type,
+          type: 'ADD_COURSE',
           courses: courses,
       }
     }catch(error){
@@ -810,7 +814,7 @@ const deleteConcept = async (context: any, courseId: string, conceptId: string) 
         await CourseModel.disassociateConcept(courseId, conceptId);
         const course = await CourseModel.getById(courseId);
         context.action = {
-            type: 'GET_COURSE_BY_ID',
+            type: 'DELETE_CONCEPT',
             currentCourse: course
         };
       }catch(error){
@@ -840,7 +844,7 @@ const updateCourseField = async (context: any, id: string, field: string, value:
 
 const logOutUser = async (context: any) => {
     await FirebaseService.logOutUser();
-    window.location.href = '';
+    window.location.href = ''; //need to reset the state instead of reloading everything. 
 };
 
 export const Actions = {
