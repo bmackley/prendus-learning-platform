@@ -624,7 +624,7 @@ const createUser = async (context: any, data: UserMetaData, password: string) =>
       const loggedInUser = await FirebaseService.logInUserWithEmailAndPassword(data.email, password);
       await UserModel.updateMetaData(loggedInUser.uid, data);
       await EmailsToUidsModel.setUidByEmail(data.email, loggedInUser.uid);
-      window.location.href = '';
+      checkUserAuth(context);
     }catch(error){
       throw error;
     }
@@ -632,7 +632,7 @@ const createUser = async (context: any, data: UserMetaData, password: string) =>
 const loginUser = async (context: any, email: string, password: string) => {
       try {
         const loggedInUser = await FirebaseService.logInUserWithEmailAndPassword(email, password);
-        window.location.href = '';
+        checkUserAuth(context);
       }catch(error){
         throw error;
       }
@@ -716,7 +716,7 @@ const addCourse = async (context: any, newCourse: Course) => {
 
       const courses = await CourseModel.getCoursesByUser(newCourse.uid);
       context.action = {
-          type: Actions.addCourse.type,
+          type: 'ADD_COURSE',
           courses: courses,
       }
     }catch(error){
@@ -810,7 +810,7 @@ const deleteConcept = async (context: any, courseId: string, conceptId: string) 
         await CourseModel.disassociateConcept(courseId, conceptId);
         const course = await CourseModel.getById(courseId);
         context.action = {
-            type: 'GET_COURSE_BY_ID',
+            type: 'DELETE_CONCEPT',
             currentCourse: course
         };
       }catch(error){
@@ -840,7 +840,7 @@ const updateCourseField = async (context: any, id: string, field: string, value:
 
 const logOutUser = async (context: any) => {
     await FirebaseService.logOutUser();
-    window.location.href = '';
+    window.location.href = ''; //need to reset the state instead of reloading everything.
 };
 
 export const Actions = {
