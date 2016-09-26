@@ -17,15 +17,15 @@ export class PrendusNavbar {
   }
 
   toggleMenu(e: any){
-    document.querySelector("#menu-items").toggle();
+    this.querySelector("#menu-items").toggle();
   }
 
   logOutUser(e: any){
-    Actions.logOutUser.execute(this);
+    Actions.logOutUser(this);
   }
 
   ready(){
-    Actions.checkUserAuth.execute(this);
+    Actions.checkUserAuth(this);
   }
 }
 

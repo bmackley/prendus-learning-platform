@@ -11,6 +11,12 @@ class PrendusViewQuizRouter {
         this.is = 'prendus-view-quiz-router';
     }
 
+    changeRoute(e){
+      console.log('e', e)
+      let location = 'courses/home'
+      window.history.pushState({}, '', location);
+      this.fire('location-changed', {}, {node: window});
+    }
     mapStateToThis(e) {
       const state = e.detail.state;
 
