@@ -58,7 +58,7 @@ export class PrendusCourseView {
         creator: this.uid,
         title: this.$.conceptFormName.value,
       };
-      Actions.addConcept.execute(this, this.courseId, newConcept, this.courseConcepts.length);
+      Actions.addConcept(this, this.courseId, newConcept, this.courseConcepts.length);
     }
   }
   sortableEnded(e){
@@ -70,7 +70,7 @@ export class PrendusCourseView {
           updateConceptPositionArray.push(this.concepts[i])
         }
       }
-      Actions.orderConcepts.execute(this, this.courseId, updateConceptPositionArray);
+      Actions.orderConcepts(this, this.courseId, updateConceptPositionArray);
     }
   }
 
