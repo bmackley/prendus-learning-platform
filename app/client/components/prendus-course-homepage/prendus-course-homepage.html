@@ -16,7 +16,7 @@
       position: fixed;
       right: 5%;
       bottom: 6%;
-      #This is sort of hacky too, but we want the floating action button to be on the top level on the page
+      /*This is sort of hacky too, but we want the floating action button to be on the top level on the page*/
       z-index: 10;
     }
     #addCourseDialog{
@@ -42,21 +42,23 @@
       <template id="courseList" is="dom-repeat" items="[[userCourses]]">
           <prendus-course-preview course="[[item]]"></prendus-course-preview>
       </template>
-      <paper-fab id="addFabButton" icon = "add" title = "Add Course" on-tap="addCourse"></paper-fab>
+      <paper-fab id="addFabButton" icon="add" title="Add Course" on-tap="addCourse"></paper-fab>
     </template>
 
-    <paper-dialog id = "addCourseDialog" modal>
-      <h2>Create a Course</h2>
-      <div>
-        <!-- Look up Iron keys to change this -->
-        <paper-input name="courseName" label="Course Name" id ="courseFormName" required auto-validate empty-error-message="Course Name Required"></paper-input>
-        <paper-input name="courseDescription" label="Short Description" id ="courseDescription" required auto-validate></paper-input>
-        <paper-tags-input placeholder = "Add a tag to the course (optional). Press enter to add another tag." label = "Course Tags" duplicate-error-message="Tag cannot be a duplicate" tags="[[tags]]"></paper-tags-input>
-        <paper-button dialog-dismiss>Cancel</paper-button>
-        <paper-button on-tap="addCourseFormDone">Next</paper-button>
-      </div>
-      <div class="buttons">
-      </div>
+    <paper-dialog id="addCourseDialog" modal>
+      <paper-dialog-scrollable>
+        <h2>Create a Course</h2>
+        <div>
+          <!-- Look up Iron keys to change this -->
+          <paper-input name="courseName" label="Course Name" id ="courseFormName" required auto-validate empty-error-message="Course Name Required"></paper-input>
+          <paper-input name="courseDescription" label="Short Description" id="courseDescription" required auto-validate></paper-input>
+          <paper-tags-input placeholder="Add a tag to the course (optional). Press enter to add another tag." label="Course Tags" id="tags" duplicate-error-message="Tag cannot be a duplicate" tags="[[tags]]"></paper-tags-input>
+          <paper-button dialog-dismiss>Cancel</paper-button>
+          <paper-button on-tap="addCourseFormDone">Next</paper-button>
+        </div>
+        <div class="buttons">
+        </div>
+      </paper-dialog-scrollable>  
     </paper-dialog>
 
     <h1 hidden$="[[!starredCourses.length]]">Starred Courses</h1>
@@ -72,14 +74,14 @@
 
     <template is="dom-if" if="[[!userCourses.length]]">
       <h2>Create Your Own Course</h2>
-      <paper-button icon = "add" class = "indigo" title = "Add Course" on-tap="addCourse">Create Course</paper-button>
+      <paper-button icon="add" class="indigo" title="Add Course" on-tap="addCourse">Create Course</paper-button>
       <h2>Recommended Courses</h2>
       <template id="courseList" is="dom-repeat" items="[[publicCourses]]">
         <prendus-course-preview course="[[item]]"></prendus-course-preview>
       </template>
     </template>
 
-    <prendus-notification errorMessage = "[[errorMessage]]"></prendus-notification>
+    <prendus-notification errorMessage="[[errorMessage]]"></prendus-notification>
   </template>
 
   <!--<script src="prendus-course-homepage.js"></script>-->
