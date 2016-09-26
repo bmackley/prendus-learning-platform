@@ -57,9 +57,9 @@ class PrendusCourseHomepage {
         visibility: 'public',
         title: formTitle,
         description: courseDescription,
-        tags: tags,
+        tags,
         uid: this.uid
-      }
+      };
 
       try {
         Actions.addCourse(this, newCourse);
