@@ -1,6 +1,7 @@
 <link href="../../bower_components/polymer/polymer.html" rel="import">
 <link href="../../bower_components/paper-card/paper-card.html" rel="import">
 <link href="../../bower_components/paper-dialog/paper-dialog.html" rel="import">
+<link href="../../bower_components/paper-tags-input/paper-tags-input.html" rel="import">
 <link rel="import" href="../prendus-course-preview/prendus-course-preview.html">
 <link rel="import" href="../prendus-notification/prendus-notification.html">
 
@@ -15,6 +16,15 @@
     }
     #addCourseDialog{
       width: 33%;
+      min-width: 300px;
+    }
+    paper-button.indigo {
+      background-color: var(--paper-indigo-500);
+      color: white;
+      --paper-button-raised-keyboard-focus: {
+        background-color: var(--paper-pink-a200) !important;
+        color: white !important;
+      };
     }
   </style>
   <template>
@@ -22,19 +32,21 @@
 
     <iron-ajax id="sharedWithMeCourseAjax" method="post" content-type="application/json" handle-as="json"></iron-ajax>
 
-    <h1>My Courses</h1>
-    <template id="courseList" is="dom-repeat" items="[[userCourses]]">
-        <prendus-course-preview course="[[item]]"></prendus-course-preview>
+    <template is="dom-if" if="[[userCourses.length]]">
+      <h1>My Courses</h1>
+      <template id="courseList" is="dom-repeat" items="[[userCourses]]">
+          <prendus-course-preview course="[[item]]"></prendus-course-preview>
+      </template>
+      <paper-fab id="addFabButton" icon = "add" title = "Add Course" on-tap="addCourse"></paper-fab>
     </template>
-    <br>
-    <paper-fab id="addFabButton" icon = "add" title = "Add Course" on-tap="addCourse"></paper-fab>
 
     <paper-dialog id = "addCourseDialog" modal>
       <h2>Create a Course</h2>
       <div>
         <!-- Look up Iron keys to change this -->
-        <paper-input name="courseName" label="Course Name" id ="courseFormName" required auto-validate></paper-input>
+        <paper-input name="courseName" label="Course Name" id ="courseFormName" required auto-validate empty-error-message="Course Name Required"></paper-input>
         <paper-input name="courseDescription" label="Short Description" id ="courseDescription" required auto-validate></paper-input>
+        <paper-tags-input placeholder = "Add a tag to the course (optional). Press enter to add another tag." label = "Course Tags" duplicate-error-message="Tag cannot be a duplicate" tags="[[tags]]"></paper-tags-input>
         <paper-button dialog-dismiss>Cancel</paper-button>
         <paper-button on-tap="addCourseFormDone">Next</paper-button>
       </div>
@@ -42,18 +54,26 @@
       </div>
     </paper-dialog>
 
-    <h1>Starred Courses</h1>
-
+    <h1 hidden$="[[!starredCourses.length]]">Starred Courses</h1>
     <template id="courseList" is="dom-repeat" items="[[starredCourses]]">
         <prendus-course-preview course="[[item]]"></prendus-course-preview>
     </template>
 
-    <h1>Courses shared with me</h1>
+    <h1 hidden$="[[!sharedCourses.length]]">Courses shared with me</h1>
 
     <template id="courseList" is="dom-repeat" items="[[sharedCourses]]">
         <prendus-course-preview course="[[item]]"></prendus-course-preview>
     </template>
 
+    <template is="dom-if" if="[[!userCourses.length]]">
+      <h2>Create Your Own Course</h2>
+      <paper-button icon = "add" class = "indigo" title = "Add Course" on-tap="addCourse">Create Course</paper-button>
+      <h2>Recommended Courses</h2>
+      <template id="courseList" is="dom-repeat" items="[[publicCourses]]">
+        <prendus-course-preview course="[[item]]"></prendus-course-preview>
+      </template>
+    </template>
+    
     <prendus-notification errorMessage = "[[errorMessage]]"></prendus-notification>
   </template>
 

@@ -1,10 +1,10 @@
 import {Actions} from '../../redux/actions.ts';
 
-class PrendusFooter {
+class PrendusLanding {
   public is: string;
 
   beforeRegister() {
-    this.is = 'prendus-footer';
+    this.is = 'prendus-landing';
   }
   changeURL(e: any){
     const location = e.target.id
@@ -12,5 +12,4 @@ class PrendusFooter {
     this.fire('location-changed', {}, {node: window});
   }
 }
-
-Polymer(PrendusFooter);
+Polymer(PrendusLanding);

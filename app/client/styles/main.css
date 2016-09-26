@@ -11,18 +11,14 @@ body {
   background: #fafafa;
   font-family: 'Roboto', 'Helvetica Neue', Helvetica, Arial, sans-serif;
   color: #333;
+  margin: 0;
+}
+
+h1 {
+  font-weight: 300;
+  font-size: 3.5em;
 }
 
 .page-title {
   outline: none;
-}
-
-footer {
-  position: fixed;
-  background: white;
-  width: 100%;
-  bottom: 0;
-}
-google-map {
-   height: 600px;
 }
