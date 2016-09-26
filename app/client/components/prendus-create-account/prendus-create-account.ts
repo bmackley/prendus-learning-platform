@@ -38,7 +38,7 @@ class PrendusCreateAccount {
       institution: this.institution,
     }
     try {
-        await Actions.createUser.execute(this, userMetaData, this.$.formPassword.value);
+        await Actions.createUser(this, userMetaData, this.$.formPassword.value);
         this.$.formEmail.value = '';
         this.$.formPassword.value = '';
         this.$.retypePassword.value = ''

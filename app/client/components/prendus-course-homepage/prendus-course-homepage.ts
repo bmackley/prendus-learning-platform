@@ -21,7 +21,7 @@ class PrendusCourseHomepage {
   public starredCoursesLength: number;
   public collaborators: {
     [uid: string]: string[];
-  }
+  };
   public errorMessage: string;
   public tags: string[];
 
@@ -34,7 +34,7 @@ class PrendusCourseHomepage {
   async ready() {
       try{
           const user = await FirebaseService.getLoggedInUser();
-          Actions.getCoursesByUser.execute(this);
+          Actions.getCoursesByUser(this);
           Actions.getStarredCoursesByUser(this, user.uid);
           Actions.getSharedCoursesByUser(this, user.uid);
       }catch(error){
@@ -63,11 +63,18 @@ class PrendusCourseHomepage {
         tags: this.tags,
         uid: this.uid
       }
+<<<<<<< HEAD
 
       try { 
         Actions.addCourse.execute(this, newCourse);
       } catch(error) {
         this.errorMessage = ''; //TODO isn't this redundant? should it be deleted?
+=======
+      try{
+        Actions.addCourse(this, newCourse);
+      }catch(error){
+        this.errorMessage = '';
+>>>>>>> develop
         this.errorMessage = error.message;
       }
       this.querySelector('#courseFormName').value = '';
