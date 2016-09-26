@@ -63,18 +63,11 @@ class PrendusCourseHomepage {
         tags: this.tags,
         uid: this.uid
       }
-<<<<<<< HEAD
-
-      try { 
-        Actions.addCourse.execute(this, newCourse);
-      } catch(error) {
-        this.errorMessage = ''; //TODO isn't this redundant? should it be deleted?
-=======
+      
       try{
         Actions.addCourse(this, newCourse);
       }catch(error){
         this.errorMessage = '';
->>>>>>> develop
         this.errorMessage = error.message;
       }
       this.querySelector('#courseFormName').value = '';
