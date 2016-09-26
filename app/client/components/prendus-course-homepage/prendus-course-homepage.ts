@@ -32,12 +32,12 @@ class PrendusCourseHomepage {
   }
 
   async ready() {
-      try{
+      try {
           const user = await FirebaseService.getLoggedInUser();
           Actions.getCoursesByUser(this);
           Actions.getStarredCoursesByUser(this, user.uid);
           Actions.getSharedCoursesByUser(this, user.uid);
-      }catch(error){
+      } catch(error) {
           this.errorMessage = ''; //TODO isn't this redundant? should it be deleted?
           this.errorMessage = error.message;
       }
@@ -53,20 +53,20 @@ class PrendusCourseHomepage {
     e.preventDefault();
     if(this.querySelector('#courseFormName').value){
       this.querySelector('#addCourseDialog').close();
-      this.formTitle = this.querySelector('#courseFormName').value;
-      this.courseDescription = this.querySelector('#courseDescription').value;
-      this.tags = this.querySelector('#tags').tags;
+      const formTitle = this.querySelector('#courseFormName').value;
+      const courseDescription = this.querySelector('#courseDescription').value;
+      const tags = this.querySelector('#tags').tags;
       const newCourse = {
         visibility: 'public',
-        title: this.formTitle,
-        description: this.courseDescription,
-        tags: this.tags,
+        title: formTitle,
+        description: courseDescription,
+        tags: tags,
         uid: this.uid
       }
-      
-      try{
+
+      try {
         Actions.addCourse(this, newCourse);
-      }catch(error){
+      } catch(error) {
         this.errorMessage = '';
         this.errorMessage = error.message;
       }
