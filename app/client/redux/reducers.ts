@@ -133,20 +133,7 @@ export function rootReducer(state: State = InitialState, action: Action): State 
             newState.publicQuestionIds = action.publicQuestionIds;
             return newState;
         }
-      case Actions.createUser.type: {
-          const newState = Object.assign({}, state);
-          newState.currentUser = action.currentUser;
-          return newState;
-      }
-      case Actions.loginUser.type: {
-          const newState = Object.assign({}, state);
-          newState.currentUser = action.user;
-          newState.courses = action.courses;
-          newState.starredCourses = action.starredCourses;
-          newState.sharedCourses = action.sharedCourses;
-          return newState;
-      }
-      case Actions.checkUserAuth.type: {
+      case 'CHECK_USER_AUTH': {
         const newState = Object.assign({}, state);
         newState.currentUser = action.user;
         newState.jwt = action.jwt;
@@ -157,19 +144,13 @@ export function rootReducer(state: State = InitialState, action: Action): State 
         newState.currentConcept = action.concept;
         return newState;
       }
-      case Actions.deleteConcept.type: {
+      case 'DELETE_CONCEPT': {
         const newState = Object.assign({}, state);
         //make this happen in the model
         delete newState.concepts[action.conceptKey];
         return newState;
       }
-      case Actions.logOutUser.type: {
-        let newState = Object.assign({}, state);
-        newState = InitialState;
-        // newState.currentUser.metaData = {email: '', firstName: '', lastName: '', uid: ''};
-        return newState;
-      }
-      case Actions.updateUserMetaData.type: {
+      case 'UPDATE_USER_META_DATA': {
         const newState = Object.assign({}, state);
         const newUser = Object.assign(newState.currentUser, action.user);
         newState.currentUser = newUser;
@@ -234,7 +215,7 @@ export function rootReducer(state: State = InitialState, action: Action): State 
         newState.courses = action.courses;
         return newState;
       }
-      case Actions.addConcept.type: {
+      case 'ADD_CONCEPT': {
         const newState = Object.assign({}, state);
         newState.currentCourse = action.currentCourse;
         return newState;
