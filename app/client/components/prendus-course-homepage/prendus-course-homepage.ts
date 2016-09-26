@@ -23,15 +23,11 @@ class PrendusCourseHomepage {
     [uid: string]: string[];
   }
   public errorMessage: string;
-  public tags: string;
+  public tags: string[];
 
   beforeRegister() {
     this.is = 'prendus-course-homepage';
     this.properties = {
-      tags: {
-        type: String,
-        observer: 'updateTags'
-      },
     }
   }
 
@@ -42,36 +38,36 @@ class PrendusCourseHomepage {
           Actions.getStarredCoursesByUser(this, user.uid);
           Actions.getSharedCoursesByUser(this, user.uid);
       }catch(error){
-          this.errorMessage = '';
+          this.errorMessage = ''; //TODO isn't this redundant? should it be deleted?
           this.errorMessage = error.message;
       }
   }
 
-  updateTags(e){
-    console.log('updating tags', e)
-    console.log('updating tags tags value', this.tags)
-  }
-
+  //Opens new course dialog
   addCourse(e) {
     this.querySelector('#addCourseDialog').open();
   }
 
+  //Adds course to database
   addCourseFormDone(e) {
     e.preventDefault();
     if(this.querySelector('#courseFormName').value){
       this.querySelector('#addCourseDialog').close();
       this.formTitle = this.querySelector('#courseFormName').value;
       this.courseDescription = this.querySelector('#courseDescription').value;
+      this.tags = this.querySelector('#tags').tags;
       const newCourse = {
         visibility: 'public',
         title: this.formTitle,
         description: this.courseDescription,
+        tags: this.tags,
         uid: this.uid
       }
-      try{
+
+      try { 
         Actions.addCourse.execute(this, newCourse);
-      }catch(error){
-        this.errorMessage = '';
+      } catch(error) {
+        this.errorMessage = ''; //TODO isn't this redundant? should it be deleted?
         this.errorMessage = error.message;
       }
       this.querySelector('#courseFormName').value = '';
