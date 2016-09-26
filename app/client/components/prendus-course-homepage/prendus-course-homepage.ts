@@ -10,8 +10,6 @@ class PrendusCourseHomepage {
   public newCourse: Course;
   private uid: string;
   public username: string;
-  public formTitle: string;
-  public courseDescription: string;
   public userCourses: Course[];
   public sharedCourses: Course[];
   public starredCourses: Course[];
@@ -23,7 +21,6 @@ class PrendusCourseHomepage {
     [uid: string]: string[];
   };
   public errorMessage: string;
-  public tags: string[];
 
   beforeRegister() {
     this.is = 'prendus-course-homepage';
@@ -50,6 +47,7 @@ class PrendusCourseHomepage {
 
   //Adds course to database
   addCourseFormDone(e) {
+    console.log('test');
     e.preventDefault();
     if(this.querySelector('#courseFormName').value){
       this.querySelector('#addCourseDialog').close();
