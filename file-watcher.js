@@ -6,45 +6,64 @@ const Builder = require('systemjs-builder');
 const fs = require('mz/fs');
 const http2 = require('http2');
 
-const builder = new Builder();
-builder.config({
-    transpiler: 'plugin-babel',
-    typescriptOptions: {
-        target: 'es6',
-        module: 'es6'
-    },
-    meta: {
-        '*.ts': {
-            loader: 'ts'
-        }
-    },
-    packages: {
-        ts: {
-            main: 'plugin.js'
-        },
-        typescript: {
-            main: 'typescript.js',
-            meta: {
-                'typescript.js': {
-                    exports: 'ts'
-                }
-            }
-        }
-    },
-    map: {
-        ts: './node_modules/plugin-typescript/lib/',
-        typescript: './node_modules/typescript/lib/',
-        'plugin-babel': './node_modules/systemjs-plugin-babel/plugin-babel.js',
-        'systemjs-babel-build': './node_modules/systemjs-plugin-babel/systemjs-babel-browser.js'
+const builder = createBuilder();
+
+chokidar.watch([
+    "app/client/index.html",
+    "app/client/components/*/*",
+    "app/client/redux/*",
+    "app/client/styles/*",
+    "app/client/interfaces/*"
+]).on('change', (path) => {
+
+    const fileEnding = path.substr(path.lastIndexOf('.') + 1);
+
+    if (fileEnding === 'ts') {
+        bundle(builder, path);
+    }
+    else {
+        sendRequestToLiveReloadServer();
     }
 });
 
-chokidar.watch([
-  "app/client/components/*/*",
-  "app/client/redux/*",
-  "app/client/styles/*",
-  "app/client/interfaces/*"
-]).on('change', (path) => {
+function createBuilder() {
+    const builder = new Builder();
+    builder.config({
+        transpiler: 'plugin-babel',
+        typescriptOptions: {
+            target: 'es6',
+            module: 'es6'
+        },
+        meta: {
+            '*.ts': {
+                loader: 'ts'
+            }
+        },
+        packages: {
+            ts: {
+                main: 'plugin.js'
+            },
+            typescript: {
+                main: 'typescript.js',
+                meta: {
+                    'typescript.js': {
+                        exports: 'ts'
+                    }
+                }
+            }
+        },
+        map: {
+            ts: './node_modules/plugin-typescript/lib/',
+            typescript: './node_modules/typescript/lib/',
+            'plugin-babel': './node_modules/systemjs-plugin-babel/plugin-babel.js',
+            'systemjs-babel-build': './node_modules/systemjs-plugin-babel/systemjs-babel-browser.js'
+        }
+    });
+
+    return builder;
+}
+
+function bundle(builder, path) {
     builder.invalidate(path);
     let startTime = new Date();
     builder.buildStatic(`
@@ -61,14 +80,7 @@ chokidar.watch([
                     ${fileContents}
                 });
             `).then(() => {
-                //TODO do this curl -k https://localhost:32567
-                http2.request({
-                    host: 'localhost',
-                    path: '/',
-                    port: '32567',
-                    method: 'POST',
-                    rejectUnauthorized: false
-                }).end();
+                sendRequestToLiveReloadServer();
                 const endTime = new Date();
                 console.log(`bundle complete: ${(endTime.getTime() - startTime.getTime()) / 1000} seconds`);
             }).catch(function(error) {
@@ -78,4 +90,14 @@ chokidar.watch([
             console.log(error);
         });
     });
-});
+}
+
+function sendRequestToLiveReloadServer() {
+    http2.request({
+        host: 'localhost',
+        path: '/',
+        port: '32567',
+        method: 'POST',
+        rejectUnauthorized: false
+    }).end();
+}
