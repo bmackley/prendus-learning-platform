@@ -51,7 +51,7 @@ class PrendusCoursePreview {
     }
 
     async starClick(e: any) {
-      e.stopPropogation = true;
+      e.stopPropagation();
       try{
         await Actions.checkUserAuth(this);
         if (this.user && this.user.metaData.uid) {
@@ -81,10 +81,14 @@ class PrendusCoursePreview {
     }
 
     editCourse(e: any) {
-        e.cancelBubble = true;
+        e.stopPropagation();
         const location = `/courses/edit/${this.course.id}`
         window.history.pushState({}, '', location);
         this.fire('location-changed', {}, {node: window});
+    }
+
+    deleteCourse(e: any) {
+        e.stopPropagation();
     }
 
     viewCourse(e: any) {
