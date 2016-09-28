@@ -31,6 +31,10 @@ export class PrendusConceptContainerEdit {
       this.title = concept.title;
     }
   }
+  openCollaboratorsModal(e) {
+    e.stopPropagation();
+    this.querySelector('#collaborators-modal').open();
+  }
   toggle(e: any) {
     const collapseTarget = (e.target.id);
     this.querySelector('.conceptToggle').toggle();
@@ -41,6 +45,7 @@ export class PrendusConceptContainerEdit {
 
   }
   deleteItem(e: any) {
+    e.stopPropagation();
     // this.querySelector('#deleteConfirm').open();
     // Actions.deleteConcept.execute(this, this.courseId, e.target.id);
     // Actions.loadCourseConcepts(this, this.data.courseId);
