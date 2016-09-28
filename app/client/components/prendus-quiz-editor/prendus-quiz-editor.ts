@@ -182,6 +182,7 @@ class PrendusQuizEditor {
         const value = e.target.value;
         await Actions.updateQuizTitle(this.quizId, value);
         await Actions.loadEditConceptQuizzes(this, this.conceptId);
+        await Actions.loadViewConceptQuizzes(this, this.conceptId);
     }
 
     async applySettings(settingName: string, value: number | boolean) {
