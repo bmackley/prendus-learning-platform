@@ -9,42 +9,34 @@
 
 <dom-module id="prendus-concept-container">
   <template>
-  <style include="color-styles"></style>
-  <style>
-  #resource-tabs{
-    --paper-tabs-selection-bar-color: var(--prendus-primary-color);
-  }
-  #title-bar{
-    border-bottom: 0px 0px 3px black;
-  }
-  #videosContainer{
-    margin-left: 50%;
-  }
-  </style>
+    <style include="color-styles"></style>
+    <style>
+      paper-tab {
+        text-transform: uppercase;
+      }
+
+      #title-toggle {
+        margin: 0;
+        cursor: pointer;
+      }
+
+      #resource-tabs {
+        --paper-tabs-selection-bar-color: var(--prendus-primary-color);
+      }
+    </style>
+
     <redux-store on-statechange="mapStateToThis" action="[[action]]"></redux-store>
-    <div>
-      <paper-icon-item>
-        <div>
-          <h3 on-tap="toggle">[[title]]</h3>
-        </div>
-      </paper-icon-item>
-      <iron-collapse class="conceptToggle" id= "concept-[[item.pos]]">
-        <div>
-          <paper-tabs id="resource-tabs" selected="{{selected}}">
-              <paper-tab>QUIZZES</paper-tab>
-              <paper-tab>VIDEOS</paper-tab>
-          </paper-tabs>
-          <iron-pages selected="{{selected}}" style="position: relative">
-            <div class = "flex-horizontal" id = "quizzesContainer">
-              <prendus-concept-quiz-container concept-id="[[conceptId]]"></prendus-concept-quiz-container>
-            </div>
-            <div class = "flex-horizontal" id = "videosContainer">
-              <prendus-concept-video-container concept-id="[[conceptId]]"></prendus-concept-video-container>
-            </div>
-          </iron-pages>
-        </div>
-      </iron-collapse>
-    </div>
+    <h3 id="title-toggle" on-tap="toggle">[[title]]</h3>
+    <iron-collapse class="conceptToggle" id="concept-[[item.pos]]">
+        <paper-tabs id="resource-tabs" selected="{{selected}}">
+          <paper-tab>Quizzes</paper-tab>
+          <paper-tab>Videos</paper-tab>
+        </paper-tabs>
+        <iron-pages selected="{{selected}}">
+          <prendus-concept-quiz-container concept-id="[[conceptId]]"></prendus-concept-quiz-container>
+          <prendus-concept-video-container concept-id="[[conceptId]]"></prendus-concept-video-container>
+        </iron-pages>
+    </iron-collapse>
   </template>
   <!-- <script>System.import('/components/prendus-concept-container/prendus-concept-container.ts');</script> -->
 </dom-module>

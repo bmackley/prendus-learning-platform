@@ -5,24 +5,23 @@
 <dom-module id="prendus-course-view">
   <style>
     :host {
-      display: block;
+
     }
-    #concept-container-div{
-      box-shadow: 0px 0px 3px black;
-      margin-top: 1%;
-      margin-bottom: 1%;
-      position: relative;
-      height: 0%
+    .course-concept {
+      display: block;
     }
   </style>
   <template>
     <redux-store action="[[action]]" on-statechange="mapStateToThis"></redux-store>
     <app-route route="[[route]]" pattern="/view/:courseId" data="{{data}}"></app-route>
-      <h1> [[currentCourse.title]]</h1>
-      <template id="conceptsList" is="dom-repeat" items=[[courseConcepts]]>
-        <div id="concept-container-div">
-          <prendus-concept-container id = "concepts-style-container" concept-id="[[item.id]]" course-id="[[data.courseId]]"></prendus-concept-container>
-        </div>
+      <h1>[[currentCourse.title]]</h1>
+      <template id="concept-list" is="dom-repeat" items=[[courseConcepts]]>
+        <paper-card class="course-concept">
+          <div class="card-content">
+            <prendus-concept-container concept-id="[[item.id]]" course-id="[[data.courseId]]"></prendus-concept-container>
+          </div>
+        </paper-card>
+
       </template>
   </template>
 
