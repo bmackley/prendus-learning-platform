@@ -57,6 +57,10 @@ class PrendusCourseEdit {
     this.courseConceptsLength = this.courseConcepts && this.courseConcepts.length;
   }
 
+  openCollaboratorsModal(e) {
+    this.querySelector('#collaborators-modal').open();
+  }
+
   addConcept(e){
     addDialog.open();
   }

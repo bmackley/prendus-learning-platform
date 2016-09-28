@@ -43,7 +43,12 @@ export class PrendusVideoEditor {
         // });
     }
 
-    saveClick() {
+    openCollaboratorsModal(e) {
+      this.querySelector('#collaborators-modal').open();
+      console.log("it worked");
+    }
+
+    saveVideo() {
         const title = this.$.titleInput.value;
         const url = this.$.urlInput.value;
 
@@ -55,7 +60,7 @@ export class PrendusVideoEditor {
         });
     }
 
-    deleteClick() {
+    deleteVideo() {
         this.fire('delete', {
 
         }, {
