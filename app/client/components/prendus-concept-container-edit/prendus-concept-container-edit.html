@@ -55,8 +55,8 @@
       <prendus-collaborator-modal id="collaborators-modal" course-id="[[courseId]]" concept-id="[[item.id]]" concept></prendus-collaborator-modal>
       <iron-icon id="[[item.key]]" icon="delete" on-tap="deleteItem"></iron-icon></iron-icon>
     </div>
-    <iron-collapse class="conceptToggle" id="concept-[[item.pos]]">
-      <div id="classContent">
+    <iron-collapse id="collapsible-section">
+      <div id="callapsible-content">
         <paper-tabs id="resource-tabs" selected="{{selected}}">
             <paper-tab>Quizzes</paper-tab>
             <paper-tab>Videos</paper-tab>
