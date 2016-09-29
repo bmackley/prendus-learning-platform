@@ -12,4 +12,5 @@ class PrendusExample {
     this.username = state.currentUser.email;
   }
 }
+
 Polymer(PrendusExample);

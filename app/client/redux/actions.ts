@@ -15,6 +15,11 @@ import {EmailsToUidsModel} from '../node_modules/prendus-services/models/emails-
 import {Video} from '../node_modules/prendus-services/interfaces/video.interface.ts';
 import {ExecuteAsyncInOrder} from '../node_modules/prendus-services/services/execute-async-in-order.ts';
 
+const defaultAction = (context: any) => {
+    context.action = {
+        type: 'DEFAULT_ACTION'
+    };
+};
 const showMainSpinner = (context: any) => {
     context.action = {
         type: 'SHOW_MAIN_SPINNER'
@@ -613,107 +618,64 @@ const loadViewCourseConcepts = async (context: any, courseId: string) => {
     }
 };
 
-const createUser = {
-  type: 'CREATE_USER',
-  execute: async (context: any, data: UserMetaData, password: string) => {
+const createUser = async (context: any, data: UserMetaData, password: string) => {
     try {
       const success = await FirebaseService.createUserWithEmailAndPassword(data.email, password);
       const loggedInUser = await FirebaseService.logInUserWithEmailAndPassword(data.email, password);
       await UserModel.updateMetaData(loggedInUser.uid, data);
       await EmailsToUidsModel.setUidByEmail(data.email, loggedInUser.uid);
-
-      //TODO I'm doing this because we're about to launch and it will fix the errors we've been having with synchronizing the user after signup.
-      //This just refreshes the whole app with the user logged in. Might want to change this, seems to work well though.
-      window.location.href = '';
-
-    //   data.email = loggedInUser.email
-    //   context.action = {
-    //     type: Actions.createUser.type,
-    //     currentUser: data,
-    //   };
+      checkUserAuth(context);
     }catch(error){
       throw error;
     }
-  }
 };
-const loginUser = {
-    type: 'LOGIN_USER',
-    execute: async (context: any, email: string, password: string) => {
-        try {
-          const loggedInUser = await FirebaseService.logInUserWithEmailAndPassword(email, password);
-          //let user = await UserModel.getById(loggedInUser.uid); //sets ancillary user data such as name, institution, etc.
-          //user.metaData.uid = loggedInUser.uid;
-          //const courses = await CourseModel.getCoursesByUser(loggedInUser.uid);
-          //need to go here so that user info loads when a user logs in. If not, starred courses and shared courses don't appear once they
-          //const starredCourseIds = await UserModel.getStarredCoursesIds(loggedInUser.uid);
-          //const starredCourses = await CourseModel.resolveCourseIds(starredCourseIds);
-          //const sharedCourseIds = await UserModel.getSharedWithMeCoursesIds(loggedInUser.uid);
-          //const sharedCourses = await CourseModel.resolveCourseIds(sharedCourseIds);
-
-          //TODO I'm doing this because we're about to launch and it will fix the errors we've been having with synchronizing the user after signup.
-          //This just refreshes the whole app with the user logged in. Might want to change this, seems to work well though.
-          window.location.href = '';
-
-        //   context.action = {
-        //     type: Actions.loginUser.type,
-        //     courses: courses,
-        //     starredCourses: starredCourses,
-        //     sharedCourses: sharedCourses,
-        //     user
-        //   };
-        }catch(error){
-          throw error;
-        }
-    }
-};
-const updateUserEmail = {
-  type: 'UPDATE_USER_PROFILE',
-  execute: async (context: any, pastEmail: string, password: string, newEmail: string) => {
-    try{
-      const loggedInUser = await FirebaseService.logInUserWithEmailAndPassword(pastEmail, password);
-      await UserModel.updateFirebaseUser(loggedInUser, newEmail);
-    }catch(error){
-      throw error;
-    }
-  }
-};
-const updateUserMetaData = {
-  type: 'UPDATE_USER_META_DATA',
-  execute: async (context: any, uid: string, metaData: UserMetaData) => {
-    try{
-      await UserModel.updateMetaData(uid, metaData);
-      context.action = {
-        type: Actions.updateUserMetaData.type,
-        user: metaData,
-      };
-    }catch(error){
-      throw error;
-    }
-  }
-};
-const checkUserAuth = {
-  type: 'CHECK_USER_AUTH',
-  execute: async (context: any) => {
-    try {
-      const loggedInUser = await FirebaseService.getLoggedInUser();
-      if(loggedInUser){
-        let user = await UserModel.getById(loggedInUser.uid);
-        user.metaData.uid = loggedInUser.uid; //OK because its being created here.
-        const jwt = await loggedInUser.getToken();
-        context.action = {
-          type: Actions.checkUserAuth.type,
-          user,
-          jwt
-        };
+const loginUser = async (context: any, email: string, password: string) => {
+      try {
+        const loggedInUser = await FirebaseService.logInUserWithEmailAndPassword(email, password);
+        checkUserAuth(context);
+      }catch(error){
+        throw error;
       }
-    }catch(error){
-      throw error;
-    }
+};
+
+const updateUserEmail = async (context: any, pastEmail: string, password: string, newEmail: string) => {
+  try{
+    const loggedInUser = await FirebaseService.logInUserWithEmailAndPassword(pastEmail, password);
+    await UserModel.updateFirebaseUser(loggedInUser, newEmail);
+  }catch(error){
+    throw error;
   }
 };
-const addConcept = {
-  type: 'ADD_CONCEPT',
-  execute: async (context: any, courseId: string, newConcept: Concept, conceptPos: number) => {
+
+const updateUserMetaData = async (context: any, uid: string, metaData: UserMetaData) => {
+  try{
+    await UserModel.updateMetaData(uid, metaData);
+    context.action = {
+      type: 'UPDATE_USER_META_DATA',
+      user: metaData,
+    };
+  }catch(error){
+    throw error;
+  }
+};
+const checkUserAuth = async (context: any) => {
+  try {
+    const loggedInUser = await FirebaseService.getLoggedInUser();
+    if(loggedInUser){
+      let user = await UserModel.getById(loggedInUser.uid);
+      user.metaData.uid = loggedInUser.uid; //OK because its being created here.
+      const jwt = await loggedInUser.getToken();
+      context.action = {
+        type: 'CHECK_USER_AUTH',
+        user,
+        jwt
+      };
+    }
+  }catch(error){
+    throw error;
+  }
+};
+const addConcept = async (context: any, courseId: string, newConcept: Concept, conceptPos: number) => {
     try {
       const conceptId = await ConceptModel.save(null, newConcept);
       await CourseModel.associateConcept(courseId, conceptId, conceptPos);
@@ -731,45 +693,37 @@ const addConcept = {
     }catch(error){
       throw error;
     }
-  }
 };
 
-const getConceptById = {
-  type: 'GET_CONCEPT_BY_ID',
-  execute: async (context: any, id: string) => {
+const getConceptById = async (context: any, id: string) => {
     try {
       const concept = await ConceptModel.getById(id);
       context.action = {
-        type: Actions.getConceptById.type,
+        type: 'GET_CONCEPT_BY_ID',
         concept: concept,
       }
     }catch(error){
       throw error;
     }
-  }
 };
 
-const addCourse = {
-  type: 'ADD_COURSE',
-  execute: async (context: any, newCourse: Course) => {
-      try {
-        const user = await FirebaseService.getLoggedInUser();
+const addCourse = async (context: any, newCourse: Course) => {
+    try {
+      const user = await FirebaseService.getLoggedInUser();
 
-        const courseId = await CourseModel.createOrUpdate(null, newCourse);
-        await addCourseCollaborator(context, courseId, user.email);
+      const courseId = await CourseModel.createOrUpdate(null, newCourse);
+      await addCourseCollaborator(context, courseId, user.email);
 
-        const courses = await CourseModel.getCoursesByUser(newCourse.uid);
-        context.action = {
-            type: Actions.addCourse.type,
-            courses: courses,
-        }
-      }catch(error){
-        throw error;
+      const courses = await CourseModel.getCoursesByUser(newCourse.uid);
+      context.action = {
+          type: 'ADD_COURSE',
+          courses: courses,
       }
-  }
+    }catch(error){
+      throw error;
+    }
 };
-const getCoursesByUser = {
-  execute: async (context: any) => {
+const getCoursesByUser = async (context: any) => {
     try {
       const loggedInUser = await FirebaseService.getLoggedInUser(); //not sure if this is the best way to do this. The user isn't set in the ready, and this is the only way to ensure that its set?
       if(loggedInUser){
@@ -782,7 +736,6 @@ const getCoursesByUser = {
     }catch(error){
       throw error;
     }
-  }
 };
 
 const getStarredCoursesByUser = async (context: any, uid: string) => {
@@ -829,9 +782,6 @@ const getCoursesByVisibility = async (context: any, visibility: CourseVisibility
 const getCourseViewCourseById = async (context: any, id: string) => {
     try {
       const course = await CourseModel.getById(id);
-    //   const conceptsArray = await CourseModel.courseConceptsToArray(course);
-    //   const orderedConcepts = CourseModel.orderCourseConcepts(conceptsArray);
-    //   course.concepts = orderedConcepts;
       context.action = {
           type: 'SET_COURSE_VIEW_CURRENT_COURSE',
           currentCourse: course
@@ -845,9 +795,6 @@ const getCourseViewCourseById = async (context: any, id: string) => {
 const getCourseEditCourseById = async (context: any, id: string) => {
     try {
       const course = await CourseModel.getById(id);
-    //   const conceptsArray = await CourseModel.courseConceptsToArray(course);
-    //   const orderedConcepts = CourseModel.orderCourseConcepts(conceptsArray);
-    //   course.concepts = orderedConcepts;
       context.action = {
           type: 'SET_COURSE_EDIT_CURRENT_COURSE',
           currentCourse: course
@@ -858,31 +805,23 @@ const getCourseEditCourseById = async (context: any, id: string) => {
     }
 };
 
-const deleteConcept = {
-  execute: async (context: any, courseId: string, conceptId: string) => {
+const deleteConcept = async (context: any, courseId: string, conceptId: string) => {
       try {
         await CourseModel.disassociateConcept(courseId, conceptId);
         const course = await CourseModel.getById(courseId);
-        // const conceptsArray = await CourseModel.courseConceptsToArray(course);
-        // const orderedConcepts = CourseModel.orderCourseConcepts(conceptsArray);
-        // course.concepts = orderedConcepts;
         context.action = {
-            type: 'GET_COURSE_BY_ID',
+            type: 'DELETE_CONCEPT',
             currentCourse: course
         };
       }catch(error){
         throw error;
       }
-  }
 };
-const orderConcepts = {
-  type: 'ORDER_CONCEPTS',
-  execute: async (context: any, id: string, courseConceptsArray: Concept[]) => {
-    try{
-      await CourseModel.updateCourseConcepts(id, courseConceptsArray);
-    }catch(error){
-      throw error;
-    }
+const orderConcepts = async (context: any, id: string, courseConceptsArray: Concept[]) => {
+  try{
+    await CourseModel.updateCourseConcepts(id, courseConceptsArray);
+  }catch(error){
+    throw error;
   }
 };
 
@@ -890,9 +829,6 @@ const updateCourseField = async (context: any, id: string, field: string, value:
     try{
       await CourseModel.updateCourseField(id, field, value);
       const course = await CourseModel.getById(id);
-    //   const conceptsArray = await CourseModel.courseConceptsToArray(course);
-    //   const orderedConcepts = CourseModel.orderCourseConcepts(conceptsArray);
-    //   course.concepts = orderedConcepts;
       context.action = {
         type: 'GET_COURSE_BY_ID',
         currentCourse: course
@@ -902,22 +838,13 @@ const updateCourseField = async (context: any, id: string, field: string, value:
     }
 };
 
-const logOutUser = {
-  type: 'LOGOUT_USER',
-  execute: async (context: any) => {
+const logOutUser = async (context: any) => {
     await FirebaseService.logOutUser();
-
-    //TODO I'm doing this because we're about to launch and it will fix the errors we've been having with synchronizing the user after signup.
-    //This just refreshes the whole app with the user logged in. Might want to change this, seems to work well though.
-    window.location.href = '';
-
-  //   context.action = {
-  //     type: Actions.logOutUser.type,
-  // };
-  }
+    window.location.href = ''; //need to reset the state instead of reloading everything.
 };
 
 export const Actions = {
+    defaultAction,
     loginUser,
     checkUserAuth,
     deleteConcept,
