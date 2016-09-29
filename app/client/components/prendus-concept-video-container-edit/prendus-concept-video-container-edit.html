@@ -1,6 +1,6 @@
 <link rel="import" href="../../bower_components/polymer/polymer.html">
 <link rel="import" href="../../bower_components/redux-store-element/redux-store.html">
-<link rel="import" href="../../bower_components/paper-dialog/paper-dialog.html">
+<link rel="import" href="../../bower_components/paper-dialog-scrollable/paper-dialog-scrollable.html">
 <link rel="import" href="../prendus-video-editor/prendus-video-editor.html">
 <link href="../../bower_components/paper-button/paper-button.html" rel="import">
 <link rel="import" href="../../styles/color-styles.html">
@@ -24,7 +24,9 @@
         <redux-store on-statechange="mapStateToThis" action="[[action]]"></redux-store>
 
         <paper-dialog id="editVideoDialog" with-backdrop style="padding: 20px">
+          <paper-dialog-scrollable>
             <prendus-video-editor id="videoEditor" concept-id="[[conceptId]]" video-id="[[currentVideoId]]" title="{{currentVideoTitle}}" url="{{currentVideoUrl}}" on-save="saveVideo" on-delete="deleteVideo"></prendus-video-editor>
+          </paper-dialog-scrollable>
         </paper-dialog>
         <template is="dom-repeat" items="[[videos]]">
             <div class="video-row" on-tap="videoRowClick">[[item.title]]</div>
