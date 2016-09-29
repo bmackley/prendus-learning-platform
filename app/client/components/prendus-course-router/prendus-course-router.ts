@@ -12,4 +12,5 @@ class PrendusCourseRouter {
   async ready() {
   }
 }
+
 Polymer(PrendusCourseRouter);

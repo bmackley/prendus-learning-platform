@@ -42,4 +42,5 @@ class PrendusNotification {
   ready(){
   }
 }
+
 Polymer(PrendusNotification);

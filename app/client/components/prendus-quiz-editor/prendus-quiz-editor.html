@@ -4,187 +4,173 @@
 <link rel="import" href="../../bower_components/paper-toggle-button/paper-toggle-button.html">
 <link rel="import" href="../../bower_components/paper-input/paper-input.html">
 <link rel="import" href="../../bower_components/paper-tabs/paper-tabs.html">
+<link rel="import" href="../../bower_components/paper-card/paper-card.html">
+<link rel="import" href="../../bower_components/paper-tooltip/paper-tooltip.html">
 <link rel="import" href="../../bower_components/iron-pages/iron-pages.html">
 <link rel="import" href="../../bower_components/paper-fab/paper-fab.html">
 <link rel="import" href="../../bower_components/paper-menu-button/paper-menu-button.html">
+<link rel="import" href="../../bower_components/paper-icon-button/paper-icon-button.html">
 <link rel="import" href="../../bower_components/paper-menu/paper-menu.html">
 <link rel="import" href="../../bower_components/paper-menu/paper-submenu.html">
 <link rel="import" href="../../bower_components/paper-item/paper-item.html">
 <link rel="import" href="../../bower_components/solutia-maxima-components/components/view-problem/view-problem.component.html">
 <link rel="import" href="../../bower_components/solutia-maxima-components/components/edit-problem/edit-problem.component.html">
 <link rel="import" href="../../bower_components/iron-icons/iron-icons.html">
+<link rel="import" href="../../bower_components/iron-icons/av-icons.html">
+<link rel="import" href="../../bower_components/iron-icons/social-icons.html">
 <link rel="import" href="../../styles/color-styles.html">
-<link rel="import" href="../prendus-collaborator-menu-content/prendus-collaborator-menu-content.html">
+<link rel="import" href="../prendus-collaborator-modal/prendus-collaborator-modal.html">
 
 <dom-module id="prendus-quiz-editor">
-    <template>
-        <style include="color-styles"></style>
-        <style>
-            :host {
-                --paper-tab-ink: var(--prendus-primary-color);
-            }
+  <template>
+    <style include="color-styles"></style>
+    <style>
+        :host {
+            --paper-tab-ink: var(--prendus-primary-color);
+        }
 
-            #question-tabs {
-                --paper-tabs-selection-bar-color: var(--prendus-primary-color);
-            }
+        #quiz-container {
+          display: flex;
+          padding: 10px;
+        }
 
-            #quiz-title-input {
-                --paper-input-container-input: {
-                    font-size: 25px;
-                    margin-left: 2%;
-                };
+        #quiz-container > * {
+          flex-basis: 50%;
+          margin: 10px;
+        }
 
-                --paper-input-container-label: {
-                    font-size: 25px;
-                    margin-left: 2%;
-                };
-            }
-            #quiz-container{
-              margin-left: -25%;
-              margin-right: -25%;
-            }
-        </style>
+        #question-tabs {
+            --paper-tabs-selection-bar-color: var(--prendus-primary-color);
+        }
 
-        <redux-store on-statechange="mapStateToThis" action="[[action]]"></redux-store>
-        <iron-ajax id="getUserQuestionIdsAjax" method="get" url="[[endpointDomain]]/api/questionids/uid/[[jwt]]" handle-as="json"></iron-ajax>
-        <iron-ajax id="getPublicQuestionIdsAjax" method="get" url="[[endpointDomain]]/api/questionids/public" handle-as="json"></iron-ajax>
-        <iron-ajax id="getEmailsByIdsAjax" method="get" handle-as="json"></iron-ajax>
-        <iron-ajax id="getUidByEmailAjax" method="get" handle-as="json"></iron-ajax>
+        #quiz-title-input {
+            --paper-input-container-input: {
+                font-size: 25px;
+                margin-left: 2%;
+            };
 
-        <paper-dialog id="shareQuizDialog" with-backdrop style="padding: 25px">
-            Use this link to access the quiz: <br><br>
-            https://prendus.com/courses/view-quiz/concept/[[conceptId]]/quiz/[[quizId]]
-        </paper-dialog>
+            --paper-input-container-label: {
+                font-size: 25px;
+                margin-left: 2%;
+            };
+        }
 
-        <div style="display: flex; flex-direction: row;" id = "quiz-container">
-            <div style="display: flex; flex-direction: column; flex: 1; box-shadow: 0px 0px 3px black; margin: 50px; position: relative; height: 0%">
-                <paper-input id="quiz-title-input" label="Quiz Title" value="[[title]]" on-change="titleChanged"></paper-input>
+        #new-question {
+          width: 100%;
+          margin: 15px auto;
+          background-color: var(--prendus-primary-color);
+          color: white;
+        }
 
-                <div style="position: absolute; top: -5px; right: -1%">
-                    <paper-menu-button ignore-select no-animations allow-outside-scroll>
-                        <paper-icon-button icon="more-vert" title="quiz settings" class="dropdown-trigger"></paper-icon-button>
-                        <paper-menu class="dropdown-content" style="padding: 15px">
-                            <!--TODO this span is here to stop the default selection of items. It is a hack, get rid of it if possible-->
-                            <span></span>
-                            <!--TODO this span is here to stop the default selection of items. It is a hack, get rid of it if possible-->
-                            <paper-item on-click="shareQuizClick">Share quiz</paper-item>
+        .tab-content {
+          word-break: break-all;
+        }
 
-                            <paper-submenu>
-                                <paper-item class="menu-trigger">Quiz Settings</paper-item>
-                                <paper-menu class="menu-content">
-                                    <!--TODO this span is here to stop the default selection of items. It is a hack, get rid of it if possible-->
-                                    <span></span>
-                                    <!--TODO this span is here to stop the default selection of items. It is a hack, get rid of it if possible-->
-                                    <paper-toggle-button on-change="answerFeedbackToggled" checked="[[quizSettings.answerFeedback]]">Answer feedback</paper-toggle-button>
-                                    <paper-toggle-button on-change="showAnswerToggled" checked="[[quizSettings.showAnswer]]">Show answer</paper-toggle-button>
-                                    <paper-toggle-button on-change="showHintToggled" checked="[[quizSettings.showHint]]">Show hint</paper-toggle-button>
-                                    <paper-toggle-button on-change="showCodeToggled" checked="[[quizSettings.showCode]]">Show code</paper-toggle-button>
-                                    <paper-toggle-button on-change="gradedToggled" checked="[[quizSettings.graded]]">Graded</paper-toggle-button>
-                                    <paper-toggle-button on-change="showConfidenceLevelToggled" checked="[[quizSettings.showConfidenceLevel]]">Show confidence level</paper-toggle-button>
-                                    <paper-toggle-button on-change="allowGenerationToggled" checked="[[quizSettings.allowGeneration]]">Allow question generation</paper-toggle-button>
-                                    <paper-input label="Maximum number of attempts" value=[[quizSettings.maxNumAttempts]] on-change="maxNumAttemptsChanged"></paper-input>
-                                </paper-menu>
-                            </paper-submenu>
+        paper-tab {
+          text-transform: uppercase;
+        }
 
-                            <paper-submenu>
-                                <paper-item class="menu-trigger">Collaborators</paper-item>
-                                <paper-menu class="menu-content">
-                                    <!--TODO this span is here to stop the default selection of items. It is a hack, get rid of it if possible-->
-                                    <span></span>
-                                    <!--TODO this span is here to stop the default selection of items. It is a hack, get rid of it if possible-->
-                                    <prendus-collaborator-menu-content concept-id="[[conceptId]]" quiz-id="[[quizId]]" quiz></prendus-collaborator-menu-content>
-                                </paper-menu>
-                            </paper-submenu>
-                        </paper-menu>
-                    </paper-menu-button>
-                </div>
+        @media (max-width: 768px) {
+          #quiz-container {
+            flex-wrap: wrap;
+          }
 
-                <template is="dom-if" if="[[showEmptyQuizQuestionsText(quizQuestionIds)]]">
-                    <div style="display: flex; flex-direction: row; align-items: center; justify-content: center; text-align: center">
-                        <div style="color: grey; font-size: 35px; margin-top: 50px; margin-bottom: 50px; padding: 25px">YOU HAVE NO QUESTIONS, ADD SOME</div>
-                    </div>
-                </template>
+          #quiz-container > * {
+            flex-basis: 100%;
+          }
+        }
+    </style>
 
-                <div id="quizDomRepeatContainer">
-                    <template is="dom-repeat" items="[[quizQuestionIds]]">
-                        <div style="position: relative">
-                            <solutia-maxima-view-problem id="quiz-question-id-[[item]]" question-id="[[item]]" quiz-session-id="DEFAULT_QUIZ" jwt="[[jwt]]" concise></solutia-maxima-view-problem>
+    <redux-store on-statechange="mapStateToThis" action="[[action]]"></redux-store>
+    <iron-ajax id="getUserQuestionIdsAjax" method="get" url="[[endpointDomain]]/api/questionids/uid/[[jwt]]" handle-as="json"></iron-ajax>
+    <iron-ajax id="getPublicQuestionIdsAjax" method="get" url="[[endpointDomain]]/api/questionids/public" handle-as="json"></iron-ajax>
+    <iron-ajax id="getEmailsByIdsAjax" method="get" handle-as="json"></iron-ajax>
+    <iron-ajax id="getUidByEmailAjax" method="get" handle-as="json"></iron-ajax>
 
-                            <div style="position: absolute; top: -25px; right: 15%">
-                                <paper-menu-button no-animations allow-outside-scroll>
-                                    <paper-icon-button icon="more-vert" title="question actions" class="dropdown-trigger"></paper-icon-button>
-                                    <paper-menu class="dropdown-content">
-                                        <!--TODO this span is here to stop the default selection of items. It is a hack, get rid of it if possible-->
-                                        <span></span>
-                                        <!--TODO this span is here to stop the default selection of items. It is a hack, get rid of it if possible-->
-                                        <paper-item on-click="removeQuestionFromQuiz">remove from quiz</paper-item>
-                                    </paper-menu>
-                                </paper-menu-button>
-                            </div>
+    <paper-dialog id="shareQuizDialog" with-backdrop style="padding: 25px">
+      <p>Use this link to access the quiz:</p>
+      <p>https://prendus.com/courses/view-quiz/concept/[[conceptId]]/quiz/[[quizId]]</p>
+    </paper-dialog>
 
-                            <hr style="width: 75%; border: 0px; height: 1px; background: rgba(0, 0, 0, .25); margin-top: -8vh">
-                        </div>
-                    </template>
-                </div>
-            </div>
+    <div id="quiz-container">
+      <!-- TODO: for mobile display, move the quiz preview to another tab in the questions card -->
+      <paper-card>
+        <div class="card-content">
+          <paper-input id="quiz-title-input" label="Quiz Title" value="[[title]]" on-change="titleChanged"></paper-input>
+          <paper-icon-button icon="social:share" on-tap="shareQuiz"></paper-icon-button>
+          <paper-icon-button icon="social:group-add" on-tap="openCollaboratorsModal"></paper-icon-button>
+          <prendus-collaborator-modal id="collaborators-modal" concept-id="[[conceptId]]" quiz-id="[[quizId]]" quiz></prendus-collaborator-modal>
 
-            <div style="display: flex; flex-direction: column; flex: 1; box-shadow: 0px 0px 3px black; margin: 50px; height: 0%">
-                <paper-tabs id="question-tabs" selected="{{selected}}">
-                    <paper-tab>MY QUESTIONS</paper-tab>
-                    <paper-tab>PUBLIC QUESTIONS</paper-tab>
-                </paper-tabs>
+          <paper-menu-button ignore-select no-animations allow-outside-scroll>
+            <paper-icon-button icon="more-vert" title="quiz settings" class="dropdown-trigger"></paper-icon-button>
+            <paper-menu class="dropdown-content" style="padding: 15px">
+              <paper-submenu>
+                  <paper-item class="menu-trigger">Quiz Settings</paper-item>
+                  <paper-menu class="menu-content">
+                      <paper-toggle-button on-change="answerFeedbackToggled" checked="[[quizSettings.answerFeedback]]">Answer feedback</paper-toggle-button>
+                      <paper-toggle-button on-change="showAnswerToggled" checked="[[quizSettings.showAnswer]]">Show answer</paper-toggle-button>
+                      <paper-toggle-button on-change="showHintToggled" checked="[[quizSettings.showHint]]">Show hint</paper-toggle-button>
+                      <paper-toggle-button on-change="showCodeToggled" checked="[[quizSettings.showCode]]">Show code</paper-toggle-button>
+                      <paper-toggle-button on-change="gradedToggled" checked="[[quizSettings.graded]]">Graded</paper-toggle-button>
+                      <paper-toggle-button on-change="showConfidenceLevelToggled" checked="[[quizSettings.showConfidenceLevel]]">Show confidence level</paper-toggle-button>
+                      <paper-toggle-button on-change="allowGenerationToggled" checked="[[quizSettings.allowGeneration]]">Allow question generation</paper-toggle-button>
+                      <paper-input label="Maximum number of attempts" value=[[quizSettings.maxNumAttempts]] on-change="maxNumAttemptsChanged"></paper-input>
+                  </paper-menu>
+              </paper-submenu>
+            </paper-menu>
+          </paper-menu-button>
 
-                <iron-pages selected="{{selected}}" style="position: relative">
-                    <div id="myQuestionsDomRepeatContainer">
-                        <paper-fab icon="add" title="create question" on-click="createQuestion" style="position: absolute; top: -30px; right: 15px"></paper-fab>
-                        <template is="dom-repeat" items="[[userQuestionIds]]">
-                            <div style="position: relative">
-                                <solutia-maxima-view-problem id="user-question-id-[[item]]" question-id="[[item]]" quiz-session-id="DEFAULT_QUIZ" jwt="[[jwt]]" concise></solutia-maxima-view-problem>
+          <template is="dom-if" if="[[showEmptyQuizQuestionsText(quizQuestionIds)]]">
+            <h3>Create questions and click <iron-icon icon="av:playlist-add"></iron-icon> to add them to the quiz.</h3>
+          </template>
 
-                                <div style="position: absolute; top: -25px; right: 15%">
-                                    <paper-menu-button no-animations allow-outside-scroll>
-                                        <paper-icon-button icon="more-vert" title="question actions" class="dropdown-trigger"></paper-icon-button>
-                                        <paper-menu class="dropdown-content">
-                                            <!--TODO this span is here to stop the default selection of items. It is a hack, get rid of it if possible-->
-                                            <span></span>
-                                            <!--TODO this span is here to stop the default selection of items. It is a hack, get rid of it if possible-->
-                                            <paper-item on-click="addQuestionToQuiz">add to quiz</paper-item>
-                                            <paper-item on-click="editQuestion">edit</paper-item>
-                                        </paper-menu>
-                                    </paper-menu-button>
-                                </div>
-
-                                <hr style="width: 75%; border: 0px; height: 1px; background: rgba(0, 0, 0, .25); margin-top: -8vh">
-                            </div>
-                        </template>
-                    </div>
-
-                    <div id="publicQuestionsDomRepeatContainer">
-                        <template is="dom-repeat" items="[[publicQuestionIds]]">
-                            <div style="position: relative">
-                                <solutia-maxima-view-problem id="public-question-id-[[item]]" question-id="[[item]]" quiz-session-id="DEFAULT_QUIZ" jwt="[[jwt]]" concise></solutia-maxima-view-problem>
-
-                                <div style="position: absolute; top: -25px; right: 15%">
-                                    <paper-menu-button no-animations allow-outside-scroll>
-                                        <paper-icon-button icon="more-vert" title="question actions" class="dropdown-trigger"></paper-icon-button>
-                                        <paper-menu class="dropdown-content">
-                                            <!--TODO this span is here to stop the default selection of items. It is a hack, get rid of it if possible-->
-                                            <span></span>
-                                            <!--TODO this span is here to stop the default selection of items. It is a hack, get rid of it if possible-->
-                                            <paper-item on-click="addQuestionToQuiz">add to quiz</paper-item>
-                                            <paper-item on-click="editQuestion">edit</paper-item>
-                                        </paper-menu>
-                                    </paper-menu-button>
-                                </div>
-
-                                <hr style="width: 75%; border: 0px; height: 1px; background: rgba(0, 0, 0, .25); margin-top: -8vh">
-                            </div>
-                        </template>
-                    </div>
-                </iron-pages>
-            </div>
+          <div id="quizDomRepeatContainer">
+              <template is="dom-repeat" items="[[quizQuestionIds]]">
+                  <div style="position: relative">
+                      <solutia-maxima-view-problem id="quiz-question-id-[[item]]" question-id="[[item]]" quiz-session-id="DEFAULT_QUIZ" jwt="[[jwt]]" concise></solutia-maxima-view-problem>
+                      <paper-icon-button id="remove[[item]]" icon="icons:clear" on-click="removeQuestionFromQuiz"></paper-icon-button>
+                      <paper-tooltip for="remove[[item]]">Remove from quiz</paper-tooltip>
+                      <hr>
+                  </div>
+              </template>
+          </div>
         </div>
-    </template>
+      </paper-card>
+      <paper-card>
+        <div class="card-content">
+          <paper-tabs id="question-tabs" selected="{{selected}}">
+            <paper-tab>My Questions</paper-tab>
+            <paper-tab>Public Questions</paper-tab>
+          </paper-tabs>
 
-    <!--<script src="prendus-quiz-editor.js"></script>-->
+          <iron-pages selected="{{selected}}">
+            <div id="my-questions" class="tab-content">
+              <paper-button id="new-question" raised title="New Question" on-click="createQuestion">New Question</paper-button>
+              <template is="dom-repeat" items="[[userQuestionIds]]">
+                <solutia-maxima-view-problem id="user-question-id-[[item]]" question-id="[[item]]" quiz-session-id="DEFAULT_QUIZ" jwt="[[jwt]]" concise></solutia-maxima-view-problem>
+                <paper-icon-button id="add[[item]]" icon="av:playlist-add" on-click="addQuestionToQuiz"></paper-icon-button>
+                <paper-tooltip for="add[[item]]">Add to quiz</paper-tooltip>
+                <paper-icon-button id="edit[[item]]" icon="create" on-click="editQuestion"></paper-icon-button>
+                <paper-tooltip for="edit[[item]]">Edit question</paper-tooltip>
+                <hr>
+              </template>
+            </div>
+
+            <div id="public-questions" class="tab-content">
+              <template is="dom-repeat" items="[[publicQuestionIds]]">
+                <solutia-maxima-view-problem id="public-question-id-[[item]]" question-id="[[item]]" quiz-session-id="DEFAULT_QUIZ" jwt="[[jwt]]" concise></solutia-maxima-view-problem>
+                <paper-icon-button id="add[[item]]" icon="av:playlist-add" on-click="addQuestionToQuiz"></paper-icon-button>
+                <paper-tooltip for="add[[item]]">Add to quiz</paper-tooltip>
+                <paper-icon-button id="edit[[item]]" icon="create" on-click="editQuestion"></paper-icon-button>
+                <paper-tooltip for="edit[[item]]">Edit question</paper-tooltip>
+                <hr>
+              </template>
+            </div>
+          </iron-pages>
+        </div>
+      </paper-card>
+    </div>
+  </template>
+
+  <!--<script src="prendus-quiz-editor.js"></script>-->
 </dom-module>

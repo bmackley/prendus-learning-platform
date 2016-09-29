@@ -5,55 +5,65 @@ import {StatechangeEvent} from '../../interfaces/statechange-event.interface.ts'
 
 class PrendusCourseHomepage {
   public is: string;
+  public properties: any;
   public courses: string[];
   public newCourse: Course;
   private uid: string;
   public username: string;
-  public formTitle: string;
-  public courseDescription: string;
   public userCourses: Course[];
   public sharedCourses: Course[];
   public starredCourses: Course[];
+  public publicCourses: Course[];
+  public userCoursesLength: number;
+  public sharedCoursesLength: number;
+  public starredCoursesLength: number;
   public collaborators: {
     [uid: string]: string[];
-  }
+  };
   public errorMessage: string;
 
   beforeRegister() {
     this.is = 'prendus-course-homepage';
+    this.properties = {
+    };
   }
 
   async ready() {
-      try{
+      try {
           const user = await FirebaseService.getLoggedInUser();
-          Actions.getCoursesByUser.execute(this);
+          Actions.getCoursesByUser(this);
           Actions.getStarredCoursesByUser(this, user.uid);
           Actions.getSharedCoursesByUser(this, user.uid);
-      }catch(error){
-          this.errorMessage = '';
+      } catch(error) {
+          this.errorMessage = ''; //TODO isn't this redundant? should it be deleted?
           this.errorMessage = error.message;
       }
   }
 
+  //Opens new course dialog
   addCourse(e) {
     this.querySelector('#addCourseDialog').open();
   }
 
+  //Adds course to database
   addCourseFormDone(e) {
     e.preventDefault();
     if(this.querySelector('#courseFormName').value){
       this.querySelector('#addCourseDialog').close();
-      this.formTitle = this.querySelector('#courseFormName').value;
-      this.courseDescription = this.querySelector('#courseDescription').value;
+      const formTitle = this.querySelector('#courseFormName').value;
+      const courseDescription = this.querySelector('#courseDescription').value;
+      const tags = this.querySelector('#tags').tags;
       const newCourse = {
         visibility: 'public',
-        title: this.formTitle,
-        description: this.courseDescription,
+        title: formTitle,
+        description: courseDescription,
+        tags,
         uid: this.uid
-      }
-      try{
-        Actions.addCourse.execute(this, newCourse);
-      }catch(error){
+      };
+
+      try {
+        Actions.addCourse(this, newCourse);
+      } catch(error) {
         this.errorMessage = '';
         this.errorMessage = error.message;
       }
@@ -66,6 +76,7 @@ class PrendusCourseHomepage {
     this.userCourses = state.courses;
     this.starredCourses = state.starredCourses;
     this.sharedCourses = state.sharedCourses;
+    this.publicCourses = state.publicCourses;
     this.username = state.currentUser.metaData.email;
     this.uid = state.currentUser.metaData.uid;
   }
