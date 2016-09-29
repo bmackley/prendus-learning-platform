@@ -45,12 +45,11 @@ export class PrendusVideoEditor {
 
     openCollaboratorsModal(e) {
       this.querySelector('#collaborators-modal').open();
-      console.log("it worked");
     }
 
     saveVideo() {
-        const title = this.$.titleInput.value;
-        const url = this.$.urlInput.value;
+        const title = this.querySelector('#titleInput').value;
+        const url = this.querySelector('#urlInput').value;
 
         this.fire('save', {
             title,
