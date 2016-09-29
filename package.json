@@ -1,6 +1,6 @@
 {
   "name": "prendus-learning-platform",
-  "version": "0.0.4",
+  "version": "0.1.0",
   "description": "The tool to create and upload videos and quizzes",
   "scripts": {
     "start": "concurrently --kill-others \"npm run single-page-http2-server\" \"node live-reload-server.js\" \"npm run watch-files\"",
