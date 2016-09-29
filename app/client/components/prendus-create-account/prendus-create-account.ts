@@ -4,50 +4,64 @@ import {User} from '../../node_modules/prendus-services/interfaces/user.interfac
 
 class PrendusCreateAccount {
   public is: string;
-  public signUpToastText: string;
-  public email: string;
-  public firstName: string;
-  public lastName: string;
-  public institution: string;
   public errorMessage: string;
   public listeners: any;
+  public readonly querySelector: any;
 
   beforeRegister() {
     this.is = 'prendus-create-account';
     this.listeners =  {
       'signup-submit.tap': 'createUser'
-    }
+    };
   }
 
-  async createUser(e){
-    this.email = this.$.formEmail.value;
-    this.firstName = this.$.firstName.value;
-    this.lastName = this.$.lastName.value;
-    this.institution = this.$.institution.value;
-    const userMetaData = {
-      email: this.email,
-      firstName: this.firstName,
-      lastName: this.lastName,
-      institution: this.institution,
-    }
+  openTermsOfService(){
+    this.querySelector('#terms-of-service-modal').open()
+    // const location = '/terms-of-service';
+    // window.history.pushState({}, '', location);
+    // this.fire('location-changed', {}, {node: window});
+  }
+
+  async createUser(e: Event){
     try {
-        await Actions.createUser.execute(this, userMetaData, this.$.formPassword.value);
-        this.$.formEmail.value = '';
-        this.$.formPassword.value = '';
-        this.$.retypePassword.value = ''
-        this.$.firstName.value = '';
-        this.$.lastName.value = '';
-        this.$.institution.value= '';
-        const location = '';
-        window.history.pushState({}, '', location);
-        this.fire('location-changed', {}, {node: window});
+        const email = this.querySelector('#formEmail').value;
+        const firstName = this.querySelector('#firstName').value;
+        const lastName = this.querySelector('#lastName').value;
+        const institution = this.querySelector('#institution').value;
+        const password = this.querySelector('#formPassword').value;
+
+        const userMetaData = {
+          uid: '',
+          email,
+          firstName,
+          lastName,
+          institution
+        };
+
+        await Actions.createUser(this, userMetaData, password);
+        clearForm(this);
+        redirectHome(this);
     }
     catch(error) {
       this.errorMessage = '';
       this.errorMessage = error.message
     }
-  }
-  ready (e){
+
+    function clearForm(context: any) {
+        context.querySelector('#formEmail').value = '';
+        context.querySelector('#formPassword').value = '';
+        context.querySelector('#retypePassword').value = ''
+        context.querySelector('#firstName').value = '';
+        context.querySelector('#lastName').value = '';
+        context.querySelector('#institution').value= '';
+    }
+
+    function redirectHome(context: any) {
+        const location = '';
+        window.history.pushState({}, '', location);
+        context.fire('location-changed', {}, {node: window});
+    }
   }
 }
+
 Polymer(PrendusCreateAccount);
