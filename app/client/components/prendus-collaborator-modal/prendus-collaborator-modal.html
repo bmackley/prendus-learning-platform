@@ -1,0 +1,34 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/redux-store-element/redux-store.html">
+<link rel="import" href="../../bower_components/paper-input/paper-input.html">
+<link rel="import" href="../../bower_components/paper-button/paper-button.html">
+<link rel="import" href="../../bower_components/paper-dialog-scrollable/paper-dialog-scrollable.html">
+<link rel="import" href="../../bower_components/iron-icons/iron-icon.html">
+
+<dom-module id="prendus-collaborator-modal">
+    <style>
+      .remove-collaborator {
+        cursor: pointer;
+      }
+    </style>
+    <template>
+        <redux-store on-statechange="mapStateToThis" action=[[action]]></redux-store>
+
+        <paper-dialog>
+          <h2>Collaborators</h2>
+          <paper-dialog-scrollable>
+            <template is="dom-repeat" items="[[collaboratorEmails]]">
+                <p>[[item]] <iron-icon class="remove-collaborator" icon="icons:clear" on-tap="removeCollaborator">remove</iron-icon></p>
+            </template>
+            <paper-input id="collaboratorInput" label="Enter email address" stop-keyboard-event-propagation></paper-input>
+            <paper-button raised on-tap="addCollaborator">add</paper-button>
+          </paper-dialog-scrollable>
+          <div class="buttons">
+            <paper-button dialog-dismiss autofocus>Done</paper-button>
+          </div>
+        </paper-dialog>
+
+    </template>
+
+    <!--<script src="prendus-collaborator-modal.js"></script>-->
+</dom-module>

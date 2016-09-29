@@ -9,6 +9,7 @@
 <link rel="import" href="../../bower_components/iron-pages/iron-pages.html">
 <link rel="import" href="../../bower_components/paper-fab/paper-fab.html">
 <link rel="import" href="../../bower_components/paper-menu-button/paper-menu-button.html">
+<link rel="import" href="../../bower_components/paper-icon-button/paper-icon-button.html">
 <link rel="import" href="../../bower_components/paper-menu/paper-menu.html">
 <link rel="import" href="../../bower_components/paper-menu/paper-submenu.html">
 <link rel="import" href="../../bower_components/paper-item/paper-item.html">
@@ -16,8 +17,9 @@
 <link rel="import" href="../../bower_components/solutia-maxima-components/components/edit-problem/edit-problem.component.html">
 <link rel="import" href="../../bower_components/iron-icons/iron-icons.html">
 <link rel="import" href="../../bower_components/iron-icons/av-icons.html">
+<link rel="import" href="../../bower_components/iron-icons/social-icons.html">
 <link rel="import" href="../../styles/color-styles.html">
-<link rel="import" href="../prendus-collaborator-menu-content/prendus-collaborator-menu-content.html">
+<link rel="import" href="../prendus-collaborator-modal/prendus-collaborator-modal.html">
 
 <dom-module id="prendus-quiz-editor">
   <template>
@@ -95,18 +97,16 @@
       <paper-card>
         <div class="card-content">
           <paper-input id="quiz-title-input" label="Quiz Title" value="[[title]]" on-change="titleChanged"></paper-input>
+          <paper-icon-button icon="social:share" on-tap="shareQuiz"></paper-icon-button>
+          <paper-icon-button icon="social:group-add" on-tap="openCollaboratorsModal"></paper-icon-button>
+          <prendus-collaborator-modal id="collaborators-modal" concept-id="[[conceptId]]" quiz-id="[[quizId]]" quiz></prendus-collaborator-modal>
+
           <paper-menu-button ignore-select no-animations allow-outside-scroll>
             <paper-icon-button icon="more-vert" title="quiz settings" class="dropdown-trigger"></paper-icon-button>
             <paper-menu class="dropdown-content" style="padding: 15px">
-              <!--TODO this span is here to stop the default selection of items. It is a hack, get rid of it if possible-->
-              <span></span>
-              <paper-item on-click="shareQuizClick">Share quiz</paper-item>
-
               <paper-submenu>
                   <paper-item class="menu-trigger">Quiz Settings</paper-item>
                   <paper-menu class="menu-content">
-                      <!--TODO this span is here to stop the default selection of items. It is a hack, get rid of it if possible-->
-                      <span></span>
                       <paper-toggle-button on-change="answerFeedbackToggled" checked="[[quizSettings.answerFeedback]]">Answer feedback</paper-toggle-button>
                       <paper-toggle-button on-change="showAnswerToggled" checked="[[quizSettings.showAnswer]]">Show answer</paper-toggle-button>
                       <paper-toggle-button on-change="showHintToggled" checked="[[quizSettings.showHint]]">Show hint</paper-toggle-button>
@@ -115,15 +115,6 @@
                       <paper-toggle-button on-change="showConfidenceLevelToggled" checked="[[quizSettings.showConfidenceLevel]]">Show confidence level</paper-toggle-button>
                       <paper-toggle-button on-change="allowGenerationToggled" checked="[[quizSettings.allowGeneration]]">Allow question generation</paper-toggle-button>
                       <paper-input label="Maximum number of attempts" value=[[quizSettings.maxNumAttempts]] on-change="maxNumAttemptsChanged"></paper-input>
-                  </paper-menu>
-              </paper-submenu>
-
-              <paper-submenu>
-                  <paper-item class="menu-trigger">Collaborators</paper-item>
-                  <paper-menu class="menu-content">
-                      <!--TODO this span is here to stop the default selection of items. It is a hack, get rid of it if possible-->
-                      <span></span>
-                      <prendus-collaborator-menu-content concept-id="[[conceptId]]" quiz-id="[[quizId]]" quiz></prendus-collaborator-menu-content>
                   </paper-menu>
               </paper-submenu>
             </paper-menu>
