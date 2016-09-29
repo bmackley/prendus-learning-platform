@@ -2,6 +2,7 @@
 <link href="../../bower_components/iron-collapse/iron-collapse.html" rel="import">
 <link href="../../bower_components/iron-icons/editor-icons.html" rel="import">
 <link href="../../bower_components/iron-icons/iron-icons.html" rel="import">
+<link href="../../bower_components/iron-icons/social-icons.html" rel="import">
 <link href="../../bower_components/paper-item/paper-icon-item.html" rel="import">
 <link href="../../bower_components/paper-header-panel/paper-header-panel.html" rel="import">
 <link href="../../bower_components/paper-spinner/paper-spinner.html" rel="import">
@@ -17,6 +18,7 @@
 
     #resource-tabs {
       --paper-tabs-selection-bar-color: var(--prendus-primary-color);
+      text-transform: uppercase;
     }
 
     #title-buttons {
@@ -43,42 +45,25 @@
       flex-grow: 1;
     }
 
-    #videosContainer {
-      margin-left: 50%;
-    }
-
   </style>
 
     <redux-store on-statechange="mapStateToThis" action="[[action]]"></redux-store>
     <div id="title-buttons" on-tap="toggle">
       <iron-icon class="drag-icon" icon="editor:drag-handle"></iron-icon>
       <h3 id="concept-title">[[title]]</h3>
-      <!-- TODO: Change this menu to use icons instead -->
-      <!-- Currently opening this menu will expand the concept, but menu will be removed shortly -->
-      <paper-menu-button ignore-select no-animations allow-outside-scroll>
-        <iron-icon class="dropdown-trigger" icon="icons:more-vert" title="concept settings"></iron-icon>
-        <paper-menu class="dropdown-content">
-          <paper-submenu>
-            <paper-item class="menu-trigger">Collaborators</paper-item>
-            <prendus-collaborator-menu-content class="menu-content" course-id="[[courseId]]" concept-id="[[item.id]]" concept></prendus-collaborator-menu-content>
-          </paper-submenu>
-          <paper-item role="menuitem" id="[[item.key]]" on-tap="deleteItem"><iron-icon class = "end-justified" icon="icons:delete" item-icon ></iron-icon>Delete</paper-item>
-        </paper-menu>
-      </paper-menu-button>
+      <iron-icon icon="social:group-add" on-tap="openCollaboratorsModal"></iron-icon>
+      <prendus-collaborator-modal id="collaborators-modal" course-id="[[courseId]]" concept-id="[[item.id]]" concept></prendus-collaborator-modal>
+      <iron-icon id="[[item.key]]" icon="delete" on-tap="deleteItem"></iron-icon></iron-icon>
     </div>
-    <iron-collapse class="conceptToggle" id="concept-[[item.pos]]">
-      <div id="classContent">
-        <paper-tabs id="resource-tabs" selected="[[selected]]">
-            <paper-tab>QUIZZES</paper-tab>
-            <paper-tab>VIDEOS</paper-tab>
+    <iron-collapse id="collapsible-section">
+      <div id="callapsible-content">
+        <paper-tabs id="resource-tabs" selected="{{selected}}">
+            <paper-tab>Quizzes</paper-tab>
+            <paper-tab>Videos</paper-tab>
         </paper-tabs>
-        <iron-pages selected="[[selected]]" style="position: relative">
-          <div class = "flex-horizontal" id = "quizzesContainer">
-            <prendus-concept-quiz-container-edit concept-id="[[conceptId]]"></prendus-concept-quiz-container-edit>
-          </div>
-          <div class = "flex-horizontal" id = "videosContainer">
-            <prendus-concept-video-container-edit concept-id="[[conceptId]]"></prendus-concept-video-container-edit>
-          </div>
+        <iron-pages selected="[[selected]]">
+          <prendus-concept-quiz-container-edit concept-id="[[conceptId]]"></prendus-concept-quiz-container-edit>
+          <prendus-concept-video-container-edit concept-id="[[conceptId]]"></prendus-concept-video-container-edit>
         </iron-pages>
       </div>
     </iron-collapse>
