@@ -25,7 +25,7 @@ class PrendusCourseHomepage {
   beforeRegister() {
     this.is = 'prendus-course-homepage';
     this.properties = {
-    }
+    };
   }
 
   async ready() {
