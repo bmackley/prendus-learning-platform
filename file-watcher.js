@@ -8,6 +8,10 @@ const http2 = require('http2');
 
 const builder = createBuilder();
 
+//bundle once when the script first runs
+bundle(builder, '*');
+
+//these are the paths to the files being watched
 chokidar.watch([
     "app/client/index.html",
     "app/client/components/*/*",
@@ -19,13 +23,16 @@ chokidar.watch([
     const fileEnding = path.substr(path.lastIndexOf('.') + 1);
 
     if (fileEnding === 'ts') {
+        //rebundle if the file that changed is a TypeScript file
         bundle(builder, path);
     }
     else {
+        //just refresh the browser tab if the file that changed is not a TypeScript file
         sendRequestToLiveReloadServer();
     }
 });
 
+//this is where we configure the builder with the transpilation options that we want
 function createBuilder() {
     const builder = new Builder();
     builder.config({
@@ -64,8 +71,9 @@ function createBuilder() {
 }
 
 function bundle(builder, path) {
-    builder.invalidate(path);
+    builder.invalidate(path); //This makes everything super fast by telling the builder the exact file that was changed
     let startTime = new Date();
+    //bundle all of the following files
     builder.buildStatic(`
         (app/client/components/*/*.ts) +
         (app/client/bower_components/solutia-maxima-components/components/*/*.ts) +
@@ -74,6 +82,7 @@ function bundle(builder, path) {
         `, 'app/client/dist/prendus.js', {
         minify: false
     }).then(function() {
+        //this wraps the bundle that we just made with an event listener to fix a bug with Mozilla
         fs.readFile(__dirname + '/app/client/dist/prendus.js', 'utf8').then(function(fileContents) {
             fs.writeFile(__dirname + '/app/client/dist/prendus.js', `
                 window.addEventListener('WebComponentsReady', function() {
@@ -92,6 +101,7 @@ function bundle(builder, path) {
     });
 }
 
+//This hits the live reload server to tell the client to refresh the browser
 function sendRequestToLiveReloadServer() {
     http2.request({
         host: 'localhost',
