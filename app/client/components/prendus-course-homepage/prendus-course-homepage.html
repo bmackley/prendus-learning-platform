@@ -10,15 +10,28 @@
     /* CSS rules for your element */
     :host {
       display: block;
-    }
+    } 
     #addFabButton{
       margin-top: 2%;
-      position: fixed;
+      position: fixed; 
       right: 5%;
       bottom: 6%;
       /*This is sort of hacky too, but we want the floating action button to be on the top level on the page*/
       z-index: 10;
     }
+    #tempFabButton{ /*TODO delete this */
+      margin-top: 3%;
+      position: fixed;
+      right: 10%;
+      bottom: 10%;
+      z-index: 15;
+    }
+
+    #searchTagsDialog{ /*TODO delete this*/
+      width: 33%;
+      min-width:300px;
+    }
+
     #addCourseDialog{
       width: 33%;
       min-width: 300px;
@@ -42,8 +55,21 @@
       <template id="courseList" is="dom-repeat" items="[[userCourses]]">
           <prendus-course-preview course="[[item]]"></prendus-course-preview>
       </template>
+      <paper-fab id="tempFabButton" class="label" label="😻" title="Search tags" on-tap="openSearchTagsDialog"></paper-fab>
       <paper-fab id="addFabButton" icon="add" title="Add Course" on-tap="addCourse"></paper-fab>
     </template>
+    
+    <paper-dialog id="searchTagsDialog" modal>
+      <paper-dialog-scrollable>
+        <h2>Search tags</h2>
+        <div>
+          <paper-tags-input placeholder="Type tags you wish to lookup. Press enter to add multiple" label="Course Tags" id="searchTags" duplicate-error-message="Tag cannot be a duplicate" searchTags="[[tags]]"></paper-tags-input>
+          <paper-button on-tap="clearTags">Clear</paper-button>
+          <paper-button dialog-dismiss>Cancel</paper-button>
+          <paper-button on-tap="searchTagsInDB">Next</paper-button>
+        </div>
+      </paper-dialog-scrollable>
+    </paper-dialog>
 
     <paper-dialog id="addCourseDialog" modal>
       <paper-dialog-scrollable>

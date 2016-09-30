@@ -4,8 +4,10 @@ import {ConceptModel} from '../node_modules/prendus-services/models/concept.mode
 import {CourseConceptData} from '../node_modules/prendus-services/interfaces/course-concept-data.interface.ts';
 import {UserModel} from '../node_modules/prendus-services/models/user.model.ts';
 import {VideoModel} from '../node_modules/prendus-services/models/video.model.ts';
+import {TagModel} from '../node_modules/prendus-services/models/tag.model.ts';
 import {QuizModel} from '../node_modules/prendus-services/models/quiz.model.ts';
 import {Course} from '../node_modules/prendus-services/interfaces/course.interface.ts';
+import {Tag} from '../node_modules/prendus-services/interfaces/tag.interface.ts';
 import {Concept} from '../node_modules/prendus-services/interfaces/concept.interface.ts';
 import {QuestionSettings} from '../node_modules/prendus-services/interfaces/question-settings.interface.ts';
 import {CourseVisibility} from '../node_modules/prendus-services/interfaces/course-visibility.type.ts';
@@ -693,7 +695,7 @@ const addConcept = async (context: any, courseId: string, newConcept: Concept, c
     }catch(error){
       throw error;
     }
-};
+}; 
 
 const getConceptById = async (context: any, id: string) => {
     try {
@@ -719,10 +721,22 @@ const addCourse = async (context: any, newCourse: Course) => {
           type: 'ADD_COURSE',
           courses: courses,
       }
+      return courseId;
     }catch(error){
       throw error;
     }
 };
+
+const addTags = async (context: any, newTags: Tag, courseId: string) => { //TODO array of tags though?
+    try {
+        for(let tag in newTags) {
+            await TagModel.createOrUpdate(null, tag, courseId);
+        }
+    } catch(error) {
+        throw error;
+    }
+};
+
 const getCoursesByUser = async (context: any) => {
     try {
       const loggedInUser = await FirebaseService.getLoggedInUser(); //not sure if this is the best way to do this. The user isn't set in the ready, and this is the only way to ensure that its set?
@@ -861,6 +875,7 @@ export const Actions = {
     clearCurrentVideoInfo,
     deleteVideo,
     addCourse,
+    addTags,
     getCoursesByUser,
     getCoursesByVisibility,
     loadUserQuestionIds,
