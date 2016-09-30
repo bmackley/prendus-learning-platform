@@ -6,7 +6,7 @@ import {StatechangeEvent} from '../../interfaces/statechange-event.interface.ts'
 class PrendusCourseHomepage {
   public is: string;
   public properties: any;
-  public courses: string[];
+  public courses: string[]; 
   public newCourse: Course;
   private uid: string;
   public username: string;
@@ -22,7 +22,7 @@ class PrendusCourseHomepage {
   };
   public errorMessage: string;
 
-  beforeRegister() {
+  beforeRegister() {  
     this.is = 'prendus-course-homepage';
     this.properties = {
     }
@@ -35,7 +35,7 @@ class PrendusCourseHomepage {
           Actions.getStarredCoursesByUser(this, user.uid);
           Actions.getSharedCoursesByUser(this, user.uid);
       } catch(error) {
-          this.errorMessage = ''; //TODO isn't this redundant? should it be deleted?
+          this.errorMessage = '';
           this.errorMessage = error.message;
       }
   }
@@ -53,16 +53,20 @@ class PrendusCourseHomepage {
       const formTitle = this.querySelector('#courseFormName').value;
       const courseDescription = this.querySelector('#courseDescription').value;
       const tags = this.querySelector('#tags').tags;
-      const newCourse = {
+      
+      const newCourse = { 
         visibility: 'public',
         title: formTitle,
         description: courseDescription,
         tags,
         uid: this.uid
-      };
-
+      }; 
       try {
-        Actions.addCourse(this, newCourse);
+        const courseId = Actions.addCourse(this, newCourse);
+        if(tags.length > 0) {
+            //TODO import tags
+            Actions.addTags(this, tags, courseId);
+        } 
       } catch(error) {
         this.errorMessage = '';
         this.errorMessage = error.message;
@@ -71,6 +75,26 @@ class PrendusCourseHomepage {
     }
   }
 
+
+  openSearchTagsDialog(e) {
+    this.querySelector('#searchTagsDialog').open();
+  }
+
+  //looks through course tags in database for matching tags
+  searchTagsInDB(e) {
+    e.preventDefault();
+    const tagList = this.querySelector('#searchTags').tags;
+    try {
+      //TODO: getCourses? make in ../../redux/actions.ts
+    } catch(error) {
+      this.errorMessage = '';
+      this.errorMessage = error.message;
+    }
+  }
+  
+  clearTags(e) {
+    this.querySelector('#searchTags').tags = [];
+  }
   mapStateToThis(e: StatechangeEvent) {
     const state = e.detail.state;
     this.userCourses = state.courses;
