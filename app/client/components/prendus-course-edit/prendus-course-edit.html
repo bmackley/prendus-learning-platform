@@ -38,7 +38,7 @@
         margin-top: 20px;
       }
 
-      #collaborators-menu {
+      #collaborators-button {
         align-self: flex-end;
       }
 
@@ -88,14 +88,8 @@
     <paper-card id="course-container">
       <div id="course-content" class="card-content">
         <template is="dom-if" if="[[username]]">
-          <paper-menu-button id="collaborators-menu" ignore-select no-animations allow-outside-scroll>
-              <paper-button class="dropdown-trigger">Collaborators</paper-button>
-              <paper-menu class="dropdown-content menu-content">
-                  <!--TODO this span is here to stop the default selection of items. It is a hack, get rid of it if possible-->
-                  <span></span>
-                  <prendus-collaborator-menu-content uid="[[uid]]" course-id="[[courseId]]" course></prendus-collaborator-menu-content>
-              </paper-menu>
-          </paper-menu-button>
+          <paper-button id="collaborators-button" noink on-tap="openCollaboratorsModal">Collaborators</paper-button>
+          <prendus-collaborator-modal id="collaborators-modal" uid="[[uid]]" course-id="[[courseId]]" course></prendus-collaborator-modal>
           <paper-input name="title" label="Course Title" id="course-title" value="[[currentCourse.title]]" on-change="attributeChanged"></paper-input>
           <paper-input name="description" id="course-description" label="Course Description" label="Input label" value="[[currentCourse.description]]" on-change="attributeChanged"></paper-input>
           <h1>[[currentCourse.title]] Concepts</h1>

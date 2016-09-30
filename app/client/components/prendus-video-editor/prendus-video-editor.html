@@ -6,46 +6,31 @@
 <link rel="import" href="../../bower_components/paper-menu-button/paper-menu-button.html">
 <link rel="import" href="../../bower_components/paper-icon-button/paper-icon-button.html">
 <link rel="import" href="../../bower_components/paper-menu/paper-menu.html">
+<link rel="import" href="../../bower_components/iron-icons/iron-icons.html">
 <link rel="import" href="../../bower_components/video-viewer-component/video-viewer.component.html">
 
 <dom-module id="prendus-video-editor">
     <template>
-        <div style="position: relative">
-            <div style="position: absolute; right: -25px; top: -40px">
-                <paper-menu-button ignore-select no-animations allow-outside-scroll>
-                  <paper-icon-button icon="more-vert" title="concept settings" class="dropdown-trigger"></paper-icon-button>
-                  <paper-menu class="dropdown-content" selected="null" style="padding: 15px">
-                      <paper-submenu>
-                          <paper-item class="menu-trigger">Collaborators</paper-item>
-                          <paper-menu class="menu-content">
-                              <!--TODO this span is here to stop the default selection of items. It is a hack, get rid of it if possible-->
-                              <span></span>
-                              <!--TODO this span is here to stop the default selection of items. It is a hack, get rid of it if possible-->
-                              <prendus-collaborator-menu-content concept-id="[[conceptId]]" video-id="[[videoId]]" video></prendus-collaborator-menu-content>
-                          </paper-menu>
-                      </paper-submenu>
-                      <template is="dom-if" if="[[videoId]]">
-                          <paper-item on-tap="deleteClick">Delete</paper-item>
-                      </template>
-                  </paper-menu>
-                </paper-menu-button>
-            </div>
+      <style>
+        :host > * + * {
+          margin-top: 10px;
+        }
 
-            <div style="display: flex; flex-direction: column">
-                <paper-input id="titleInput" label="video title" on-input="updateTitle" value="[[title]]"></paper-input>
-                <paper-input id="urlInput" label="video url" on-input="updateUrl" value="[[url]]"></paper-input>
-                <div style="display: flex; flex-direction: row; margin-bottom: 25px">
-                    <paper-button on-tap="saveClick" raised>Save</paper-button>
-                </div>
-                <div style="display: flex; flex-direction: column; justify-content: center; align-items: center">
-                    <div style="width: 25vw">
-                        <prendus-video-viewer url="[[url]]" no-xapi></prendus-video-viewer>
-                    </div>
-                </div>
-            </div>
-        </div>
+        prendus-video-viewer {
+          display: block;
+        }
+      </style>
 
-        <paper-toast id="savedToast" text="Video saved"></paper-toast>
+      <div>
+        <paper-icon-button icon="social:group-add" on-tap="openCollaboratorsModal"></paper-icon-button>
+        <prendus-collaborator-modal id="collaborators-modal" concept-id="[[conceptId]]" video-id="[[videoId]]" video></prendus-collaborator-modal>
+        <paper-icon-button icon="delete" on-tap="deleteVideo"></paper-icon-button>
+      </div>
+      <paper-input id="titleInput" label="Video Title" on-input="updateTitle" value="[[title]]"></paper-input>
+      <paper-input id="urlInput" label="Video URL" on-input="updateUrl" value="[[url]]"></paper-input>
+      <paper-button on-tap="saveVideo" raised>Save</paper-button>
+      <prendus-video-viewer url="[[url]]" no-xapi></prendus-video-viewer>
+      <paper-toast id="savedToast" text="Video saved"></paper-toast>
     </template>
 
     <!--<script src="prendus-video-editor.js"></script>-->
