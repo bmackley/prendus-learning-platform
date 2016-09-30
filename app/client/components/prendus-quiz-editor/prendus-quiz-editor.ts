@@ -87,8 +87,12 @@ class PrendusQuizEditor {
         await this.loadQuizQuestionIds();
     }
 
-    shareQuizClick() {
+    shareQuiz() {
         this.querySelector('#shareQuizDialog').open();
+    }
+
+    openCollaboratorsModal(e) {
+      this.querySelector('#collaborators-modal').open();
     }
 
     createQuestion(e) {
