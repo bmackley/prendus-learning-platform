@@ -17,7 +17,7 @@ class PrendusCollaboratorMenuContent {
 
     beforeRegister() {
 
-        this.is = 'prendus-collaborator-menu-content';
+        this.is = 'prendus-collaborator-modal';
         this.properties = {
             uid: {
                 type: String
@@ -53,6 +53,10 @@ class PrendusCollaboratorMenuContent {
             'initVideo(conceptId, videoId, video)',
             'initQuiz(conceptId, quizId, quiz)'
         ];
+    }
+
+    open() {
+      this.querySelector('paper-dialog').open();
     }
 
     async initCourse(uid: string, courseId: string, course: boolean) {
@@ -91,7 +95,7 @@ class PrendusCollaboratorMenuContent {
         }
     }
 
-    async addCollaboratorClick(e: Event) {
+    async addCollaborator(e: Event) {
         try {
             const email = this.querySelector('#collaboratorInput').value;
 
@@ -120,7 +124,7 @@ class PrendusCollaboratorMenuContent {
         }
     }
 
-    async removeCollaboratorClick(e: DOMRepeatEvent) {
+    async removeCollaborator(e: DOMRepeatEvent) {
         try {
             const email = e.model.item;
 
