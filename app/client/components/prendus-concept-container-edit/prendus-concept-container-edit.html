@@ -3,9 +3,7 @@
 <link href="../../bower_components/iron-icons/editor-icons.html" rel="import">
 <link href="../../bower_components/iron-icons/iron-icons.html" rel="import">
 <link href="../../bower_components/iron-icons/social-icons.html" rel="import">
-<link href="../../bower_components/paper-item/paper-icon-item.html" rel="import">
-<link href="../../bower_components/paper-header-panel/paper-header-panel.html" rel="import">
-<link href="../../bower_components/paper-spinner/paper-spinner.html" rel="import">
+<link href="../../bower_components/paper-tooltip/paper-tooltip.html" rel="import">
 <link href="../prendus-concept-video-container-edit/prendus-concept-video-container-edit.html" rel="import">
 <link href="../prendus-concept-quiz-container-edit/prendus-concept-quiz-container-edit.html" rel="import">
 <link rel="import" href="../../styles/color-styles.html">
@@ -51,9 +49,11 @@
     <div id="title-buttons" on-tap="toggle">
       <iron-icon class="drag-icon" icon="editor:drag-handle"></iron-icon>
       <h3 id="concept-title">[[title]]</h3>
-      <iron-icon icon="social:group-add" on-tap="openCollaboratorsModal"></iron-icon>
+      <iron-icon id="collaborator-button" icon="social:group-add" on-tap="openCollaboratorsModal"></iron-icon>
+      <paper-tooltip for="collaborator-button" offset="0" animation-delay="300">Edit Collaborators</paper-tooltip>
       <prendus-collaborator-modal id="collaborators-modal" course-id="[[courseId]]" concept-id="[[item.id]]" concept></prendus-collaborator-modal>
-      <iron-icon id="[[item.key]]" icon="delete" on-tap="deleteItem"></iron-icon></iron-icon>
+      <iron-icon id="delete-button" icon="delete" on-tap="deleteItem"></iron-icon></iron-icon>
+      <paper-tooltip for="delete-button" offset="0" animation-delay="300">Delete Concept</paper-tooltip>
     </div>
     <iron-collapse id="collapsible-section">
       <div id="callapsible-content">

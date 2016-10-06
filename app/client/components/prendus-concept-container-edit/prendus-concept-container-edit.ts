@@ -36,7 +36,6 @@ export class PrendusConceptContainerEdit {
     this.querySelector('#collaborators-modal').open();
   }
   toggle(e: any) {
-    const collapseTarget = (e.target.id);
     this.querySelector('#collapsible-section').toggle();
   }
   mapStateToThis(e: StatechangeEvent) {
