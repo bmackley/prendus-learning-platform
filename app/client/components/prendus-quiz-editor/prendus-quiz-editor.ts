@@ -99,6 +99,10 @@ class PrendusQuizEditor {
       this.querySelector('#collaborators-modal').open();
     }
 
+    openSettingsModal(e) {
+      this.querySelector('#settings-modal').open();
+    }
+
     createQuestion(e) {
         Actions.showMainSpinner(this);
 
