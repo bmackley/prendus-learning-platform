@@ -88,7 +88,11 @@ class PrendusQuizEditor {
     }
 
     shareQuiz() {
-        this.querySelector('#shareQuizDialog').open();
+        this.querySelector('#share-quiz-dialog').open();
+    }
+
+    selectText(e) {
+      e.target.select();
     }
 
     openCollaboratorsModal(e) {
