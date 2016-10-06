@@ -132,18 +132,6 @@
             </paper-dialog-scrollable>
           </paper-dialog>
 
-          <!-- <paper-menu-button ignore-select no-animations allow-outside-scroll>
-            <paper-icon-button icon="more-vert" title="quiz settings" class="dropdown-trigger"></paper-icon-button>
-            <paper-menu class="dropdown-content" style="padding: 15px">
-              <paper-submenu>
-                  <paper-item class="menu-trigger">Quiz Settings</paper-item>
-                  <paper-menu class="menu-content">
-
-                  </paper-menu>
-              </paper-submenu>
-            </paper-menu>
-          </paper-menu-button> -->
-
           <template is="dom-if" if="[[showEmptyQuizQuestionsText(quizQuestionIds)]]">
             <h3>Create questions and click <iron-icon icon="av:playlist-add"></iron-icon> to add them to the quiz.</h3>
           </template>
