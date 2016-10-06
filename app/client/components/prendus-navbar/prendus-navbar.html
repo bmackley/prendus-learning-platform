@@ -3,8 +3,9 @@
 <link rel="import" href="../../bower_components/paper-toolbar/paper-toolbar.html">
 <link rel="import" href="../../bower_components/paper-listbox/paper-listbox.html">
 <link rel="import" href="../../bower_components/paper-item/paper-item.html">
-<link rel="import" href="../../bower_components/iron-dropdown/iron-dropdown.html">
 <link rel="import" href="../../bower_components/paper-button/paper-button.html">
+<link rel="import" href="../../bower_components/paper-card/paper-card.html">
+<link rel="import" href="../../bower_components/iron-dropdown/iron-dropdown.html">
 
 <dom-module id="prendus-navbar">
   <style>
@@ -46,11 +47,13 @@
             </div>
             <div id="menu-holder">
               <iron-dropdown id="menu-items" horizontal-align="right" no-auto-focus>
-                <paper-listbox class="dropdown-content" id="user-menu-listbox">
-                  <paper-item><a href="/profile" tabindex="-1"><paper-button on-tap="toggleMenu">Account</paper-button></a></paper-item>
-                  <paper-item><a href="/courses/home" tabindex="-1"><paper-button on-tap="toggleMenu">My Courses</paper-button></a></paper-item>
-                  <paper-item><paper-button on-tap="logOutUser">Logout</paper-button on-tap="toggleMenu"></paper-item>
-                </paper-listbox>
+                <paper-card class="dropdown-content">
+                  <paper-listbox id="user-menu-listbox">
+                    <paper-item><a href="/profile" tabindex="-1"><paper-button on-tap="toggleMenu">Account</paper-button></a></paper-item>
+                    <paper-item><a href="/courses/home" tabindex="-1"><paper-button on-tap="toggleMenu">My Courses</paper-button></a></paper-item>
+                    <paper-item><paper-button on-tap="logOutUser">Logout</paper-button on-tap="toggleMenu"></paper-item>
+                  </paper-listbox>
+                </paper-card>
               </iron-dropdown>
             </div>
           </template>
