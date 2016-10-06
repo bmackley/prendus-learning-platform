@@ -7,22 +7,32 @@
 
 <dom-module id="prendus-course-homepage">
   <style>
-    /* CSS rules for your element */
-    :host {
-      display: block;
+
+    .courses-container {
+      display: flex;
+      flex-wrap: wrap;
+      max-width: 800px;
     }
-    #addFabButton{
-      margin-top: 2%;
+
+    .course-preview {
+      margin: 10px;
+      flex-basis: 30%;
+      flex-grow: 0;
+      min-width: 0;
+    }
+
+    #add-fab-button {
       position: fixed;
       right: 5%;
       bottom: 6%;
-      /*This is sort of hacky too, but we want the floating action button to be on the top level on the page*/
       z-index: 10;
     }
-    #addCourseDialog{
+
+    #add-course-dialog{
       width: 33%;
       min-width: 300px;
     }
+
     paper-button.indigo {
       background-color: var(--paper-indigo-500);
       color: white;
@@ -31,6 +41,7 @@
         color: white !important;
       };
     }
+
   </style>
   <template>
     <redux-store on-statechange="mapStateToThis" action="[[action]]"></redux-store>
@@ -39,13 +50,15 @@
 
     <template is="dom-if" if="[[userCourses.length]]">
       <h1>My Courses</h1>
-      <template id="courseList" is="dom-repeat" items="[[userCourses]]">
-          <prendus-course-preview course="[[item]]"></prendus-course-preview>
-      </template>
-      <paper-fab id="addFabButton" icon="add" title="Add Course" on-tap="addCourse"></paper-fab>
+      <div class="courses-container">
+        <template id="my-courses" is="dom-repeat" items="[[userCourses]]">
+          <prendus-course-preview class="course-preview" course="[[item]]"></prendus-course-preview>
+        </template>
+      </div>
+      <paper-fab id="add-fab-button" icon="add" title="Add Course" on-tap="addCourse"></paper-fab>
     </template>
 
-    <paper-dialog id="addCourseDialog" modal>
+    <paper-dialog id="add-course-dialog" modal>
       <paper-dialog-scrollable>
         <h2>Create a Course</h2>
         <div>
@@ -58,25 +71,28 @@
         </div>
         <div class="buttons">
         </div>
-      </paper-dialog-scrollable>  
+      </paper-dialog-scrollable>
     </paper-dialog>
 
     <h1 hidden$="[[!starredCourses.length]]">Starred Courses</h1>
-    <template id="courseList" is="dom-repeat" items="[[starredCourses]]">
-        <prendus-course-preview course="[[item]]"></prendus-course-preview>
-    </template>
+    <div class="courses-container">
+      <template id="starred-courses" is="dom-repeat" items="[[starredCourses]]">
+        <prendus-course-preview class="course-preview" course="[[item]]"></prendus-course-preview>
+      </template>
+    </div>
 
     <h1 hidden$="[[!sharedCourses.length]]">Courses shared with me</h1>
-
-    <template id="courseList" is="dom-repeat" items="[[sharedCourses]]">
-        <prendus-course-preview course="[[item]]"></prendus-course-preview>
-    </template>
+    <div class="courses-container">
+      <template id="shared-with-me-courses" is="dom-repeat" items="[[sharedCourses]]">
+        <prendus-course-preview class="course-preview" course="[[item]]"></prendus-course-preview>
+      </template>
+    </div>
 
     <template is="dom-if" if="[[!userCourses.length]]">
       <h2>Create Your Own Course</h2>
       <paper-button icon="add" class="indigo" title="Add Course" on-tap="addCourse">Create Course</paper-button>
       <h2>Recommended Courses</h2>
-      <template id="courseList" is="dom-repeat" items="[[publicCourses]]">
+      <template id="recommended-courses" is="dom-repeat" items="[[publicCourses]]">
         <prendus-course-preview course="[[item]]"></prendus-course-preview>
       </template>
     </template>

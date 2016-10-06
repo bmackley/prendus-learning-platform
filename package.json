@@ -17,7 +17,7 @@
   },
   "devDependencies": {
     "concurrently": "^2.2.0",
-    "es-no-build": "^0.2.3",
+    "es-no-build": "^0.2.5",
     "http2": "^3.3.6",
     "mz": "^2.4.0",
     "single-page-http2-server": "^1.0.1",
