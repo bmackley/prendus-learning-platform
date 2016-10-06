@@ -35,10 +35,10 @@
       </div>
       <div class="card-actions">
         <paper-icon-button id="star-course" class="course-icon" icon="[[starIcon]]" on-tap="starClick"></paper-icon-button>[[numStars]]
-        <paper-tooltip for="star-course" offset="0">Star Course</paper-tooltip>
+        <paper-tooltip for="star-course" offset="0" animation-delay="300">Star Course</paper-tooltip>
         <template is="dom-if" if="[[hasEditAccess]]">
           <paper-icon-button id="edit-course" class="course-icon" icon="create" on-tap="editCourse"></paper-icon-button>  <!-- Go to page from here -->
-          <paper-tooltip for="edit-course" offset="0">Edit Course</paper-tooltip>
+          <paper-tooltip for="edit-course" offset="0" animation-delay="300">Edit Course</paper-tooltip>
         </template>
       </div>
     </paper-card>

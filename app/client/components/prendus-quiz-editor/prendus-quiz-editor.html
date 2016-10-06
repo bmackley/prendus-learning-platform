@@ -1,18 +1,13 @@
 <link rel="import" href="../../bower_components/polymer/polymer.html">
 <link rel="import" href="../../bower_components/redux-store-element/redux-store.html">
 <link rel="import" href="../../bower_components/iron-ajax/iron-ajax.html">
-<link rel="import" href="../../bower_components/paper-toggle-button/paper-toggle-button.html">
 <link rel="import" href="../../bower_components/paper-input/paper-input.html">
 <link rel="import" href="../../bower_components/paper-tabs/paper-tabs.html">
 <link rel="import" href="../../bower_components/paper-card/paper-card.html">
 <link rel="import" href="../../bower_components/paper-tooltip/paper-tooltip.html">
+<link rel="import" href="../../bower_components/paper-checkbox/paper-checkbox.html">
 <link rel="import" href="../../bower_components/iron-pages/iron-pages.html">
-<link rel="import" href="../../bower_components/paper-fab/paper-fab.html">
-<link rel="import" href="../../bower_components/paper-menu-button/paper-menu-button.html">
 <link rel="import" href="../../bower_components/paper-icon-button/paper-icon-button.html">
-<link rel="import" href="../../bower_components/paper-menu/paper-menu.html">
-<link rel="import" href="../../bower_components/paper-menu/paper-submenu.html">
-<link rel="import" href="../../bower_components/paper-item/paper-item.html">
 <link rel="import" href="../../bower_components/solutia-maxima-components/components/view-problem/view-problem.component.html">
 <link rel="import" href="../../bower_components/solutia-maxima-components/components/edit-problem/edit-problem.component.html">
 <link rel="import" href="../../bower_components/iron-icons/iron-icons.html">
@@ -66,6 +61,25 @@
           word-break: break-all;
         }
 
+        #share-quiz-dialog {
+          width: 80vw;
+        }
+
+        #share-quiz-dialog > * {
+          padding: 0;
+          width: 100%;
+        }
+
+        #settings-modal {
+          width: 80%;
+          max-width: 400px;
+        }
+
+        .setting + .setting {
+          display: block;
+          margin-top: 15px;
+        }
+
         paper-tab {
           text-transform: uppercase;
         }
@@ -87,9 +101,9 @@
     <iron-ajax id="getEmailsByIdsAjax" method="get" handle-as="json"></iron-ajax>
     <iron-ajax id="getUidByEmailAjax" method="get" handle-as="json"></iron-ajax>
 
-    <paper-dialog id="shareQuizDialog" with-backdrop style="padding: 25px">
+    <paper-dialog id="share-quiz-dialog" with-backdrop style="padding: 25px">
       <p>Use this link to access the quiz:</p>
-      <p>https://prendus.com/courses/view-quiz/concept/[[conceptId]]/quiz/[[quizId]]</p>
+      <input id="share-quiz-link" value="https://prendus.com/courses/view-quiz/concept/[[conceptId]]/quiz/[[quizId]]" readonly on-tap="selectText"></input>
     </paper-dialog>
 
     <div id="quiz-container">
@@ -97,28 +111,26 @@
       <paper-card>
         <div class="card-content">
           <paper-input id="quiz-title-input" label="Quiz Title" value="[[title]]" on-change="titleChanged"></paper-input>
-          <paper-icon-button icon="social:share" on-tap="shareQuiz"></paper-icon-button>
-          <paper-icon-button icon="social:group-add" on-tap="openCollaboratorsModal"></paper-icon-button>
+          <paper-icon-button id="share-button" icon="social:share" on-tap="shareQuiz"></paper-icon-button>
+          <paper-tooltip for="share-button" offset="0" animation-delay="300">Get Share Link</paper-tooltip>
+          <paper-icon-button id="collaborators-button" icon="social:group-add" on-tap="openCollaboratorsModal"></paper-icon-button>
+          <paper-tooltip for="collaborators-button" offset="0" animation-delay="300">Edit Collaborators</paper-tooltip>
           <prendus-collaborator-modal id="collaborators-modal" concept-id="[[conceptId]]" quiz-id="[[quizId]]" quiz></prendus-collaborator-modal>
-
-          <paper-menu-button ignore-select no-animations allow-outside-scroll>
-            <paper-icon-button icon="more-vert" title="quiz settings" class="dropdown-trigger"></paper-icon-button>
-            <paper-menu class="dropdown-content" style="padding: 15px">
-              <paper-submenu>
-                  <paper-item class="menu-trigger">Quiz Settings</paper-item>
-                  <paper-menu class="menu-content">
-                      <paper-toggle-button on-change="answerFeedbackToggled" checked="[[quizSettings.answerFeedback]]">Answer feedback</paper-toggle-button>
-                      <paper-toggle-button on-change="showAnswerToggled" checked="[[quizSettings.showAnswer]]">Show answer</paper-toggle-button>
-                      <paper-toggle-button on-change="showHintToggled" checked="[[quizSettings.showHint]]">Show hint</paper-toggle-button>
-                      <paper-toggle-button on-change="showCodeToggled" checked="[[quizSettings.showCode]]">Show code</paper-toggle-button>
-                      <paper-toggle-button on-change="gradedToggled" checked="[[quizSettings.graded]]">Graded</paper-toggle-button>
-                      <paper-toggle-button on-change="showConfidenceLevelToggled" checked="[[quizSettings.showConfidenceLevel]]">Show confidence level</paper-toggle-button>
-                      <paper-toggle-button on-change="allowGenerationToggled" checked="[[quizSettings.allowGeneration]]">Allow question generation</paper-toggle-button>
-                      <paper-input label="Maximum number of attempts" value=[[quizSettings.maxNumAttempts]] on-change="maxNumAttemptsChanged"></paper-input>
-                  </paper-menu>
-              </paper-submenu>
-            </paper-menu>
-          </paper-menu-button>
+          <paper-icon-button id="settings-button" icon="settings" on-tap="openSettingsModal"></paper-icon-button>
+          <paper-tooltip for="settings-button" offset="0" animation-delay="300">Quiz Settings</paper-tooltip>
+          <paper-dialog id="settings-modal">
+            <h2>Quiz Settings</h2>
+            <paper-dialog-scrollable>
+              <paper-checkbox class="setting" on-change="answerFeedbackToggled" checked="[[quizSettings.answerFeedback]]" noink>Answer feedback</paper-checkbox>
+              <paper-checkbox class="setting" on-change="showAnswerToggled" checked="[[quizSettings.showAnswer]]" noink>Show answer</paper-checkbox>
+              <paper-checkbox class="setting" on-change="showHintToggled" checked="[[quizSettings.showHint]]" noink>Show hint</paper-checkbox>
+              <paper-checkbox class="setting" on-change="showCodeToggled" checked="[[quizSettings.showCode]]" noink>Show code</paper-checkbox>
+              <paper-checkbox class="setting" on-change="gradedToggled" checked="[[quizSettings.graded]]" noink>Graded</paper-checkbox>
+              <paper-checkbox class="setting" on-change="showConfidenceLevelToggled" checked="[[quizSettings.showConfidenceLevel]]" noink>Show confidence level</paper-checkbox>
+              <paper-checkbox class="setting" on-change="allowGenerationToggled" checked="[[quizSettings.allowGeneration]]" noink>Allow question generation</paper-checkbox>
+              <paper-input class="setting" label="Maximum number of attempts" value=[[quizSettings.maxNumAttempts]] on-change="maxNumAttemptsChanged"></paper-input>
+            </paper-dialog-scrollable>
+          </paper-dialog>
 
           <template is="dom-if" if="[[showEmptyQuizQuestionsText(quizQuestionIds)]]">
             <h3>Create questions and click <iron-icon icon="av:playlist-add"></iron-icon> to add them to the quiz.</h3>
@@ -129,7 +141,7 @@
                   <div style="position: relative">
                       <solutia-maxima-view-problem id="quiz-question-id-[[item]]" question-id="[[item]]" quiz-session-id="DEFAULT_QUIZ" jwt="[[jwt]]" concise></solutia-maxima-view-problem>
                       <paper-icon-button id="remove[[item]]" icon="icons:clear" on-click="removeQuestionFromQuiz"></paper-icon-button>
-                      <paper-tooltip for="remove[[item]]">Remove from quiz</paper-tooltip>
+                      <paper-tooltip for="remove[[item]]" offset="0" animation-delay="300">Remove from quiz</paper-tooltip>
                       <hr>
                   </div>
               </template>
