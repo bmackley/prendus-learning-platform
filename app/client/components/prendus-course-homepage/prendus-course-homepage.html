@@ -4,7 +4,7 @@
 <link href="../../bower_components/paper-tags-input/paper-tags-input.html" rel="import">
 <link rel="import" href="../prendus-course-preview/prendus-course-preview.html">
 <link rel="import" href="../prendus-notification/prendus-notification.html">
-
+<link rel="import" href="../prendus-search-course-tags/prendus-search-course-tags.html">
 <dom-module id="prendus-course-homepage">
   <style>
     /* CSS rules for your element */
@@ -58,19 +58,7 @@
       <paper-fab id="tempFabButton" class="label" label="😻" title="Search tags" on-tap="openSearchTagsDialog"></paper-fab>
       <paper-fab id="addFabButton" icon="add" title="Add Course" on-tap="addCourse"></paper-fab>
     </template>
-    
-    <paper-dialog id="searchTagsDialog" modal>
-      <paper-dialog-scrollable>
-        <h2>Search tags</h2>
-        <div>
-          <paper-tags-input placeholder="Type tags you wish to lookup. Press enter to add multiple" label="Course Tags" id="searchTags" duplicate-error-message="Tag cannot be a duplicate" searchTags="[[tags]]"></paper-tags-input>
-          <paper-button on-tap="clearTags">Clear</paper-button>
-          <paper-button dialog-dismiss>Cancel</paper-button>
-          <paper-button on-tap="searchTagsInDB">Next</paper-button>
-        </div>
-      </paper-dialog-scrollable>
-    </paper-dialog>
-
+    <prendus-search-course-tags></prendus-search-course-tags>
     <paper-dialog id="addCourseDialog" modal>
       <paper-dialog-scrollable>
         <h2>Create a Course</h2>

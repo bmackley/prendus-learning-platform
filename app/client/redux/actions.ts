@@ -16,6 +16,7 @@ import {User} from '../node_modules/prendus-services/interfaces/user.interface.t
 import {EmailsToUidsModel} from '../node_modules/prendus-services/models/emails-to-uids.model.ts';
 import {Video} from '../node_modules/prendus-services/interfaces/video.interface.ts';
 import {ExecuteAsyncInOrder} from '../node_modules/prendus-services/services/execute-async-in-order.ts';
+import {UtilitiesService} from '../node_modules/prendus-services/services/utilities.service.ts';
 
 const defaultAction = (context: any) => {
     context.action = {
@@ -709,11 +710,17 @@ const getConceptById = async (context: any, id: string) => {
     }
 };
 
-const addCourse = async (context: any, newCourse: Course) => {
+const addCourse = async (context: any, newCourse: Course, tags: string[]) => {
     try {
       const user = await FirebaseService.getLoggedInUser();
 
       const courseId = await CourseModel.createOrUpdate(null, newCourse);
+      if(tags) {
+        await UtilitiesService.asyncForEach(tags, async (tag: string) => {
+            const tagId = await addTagToCourse(tag, courseId);
+            await CourseModel.addTag(tagId, courseId);
+        });
+      }
       await addCourseCollaborator(context, courseId, user.email);
 
       const courses = await CourseModel.getCoursesByUser(newCourse.uid);
@@ -721,22 +728,45 @@ const addCourse = async (context: any, newCourse: Course) => {
           type: 'ADD_COURSE',
           courses: courses,
       }
-      return courseId;
     }catch(error){
       throw error;
     }
 };
 
-const addTags = async (context: any, newTags: Tag, courseId: string) => { //TODO array of tags though?
+const addTagToCourse = async (tag: Tag, courseId: string) => {
+    return await TagModel.createOrUpdate(null, tag, courseId, null, null);
+};
+
+const addTagToConcept = async (tag: Tag, conceptId: string) => {
+    return await TagModel.createOrUpdate(null, tag, null, conceptId, null);
+};
+
+const addTagToQuiz = async (tag: Tag, quizId: string) => {
+    return await TagModel.createOrUpdate(null, tag, null, null, quizId);
+};
+
+
+
+const lookupTags = async (tags: string[]) => {
     try {
-        for(let tag in newTags) {
-            await TagModel.createOrUpdate(null, tag, courseId);
-        }
+        let resultTags : [] = []; //TODO how to do this immutably?
+        await UtilitiesService.asyncForEach(tags, async (tag: string) => {
+            const tagObject = await TagModel.getByName(tag);
+            resultTags.push(tagObject);        
+        });
+        let coursesArray : [] = []; //TODO how to do this immutably?
+        await UtilitiesService.asyncForEach(resultTags, async (tag: Tag) => {
+            const courseIds = await TagModel.tagCourseIdsToArray(tag);
+            const courses = await CourseModel.resolveCourseIds(courseIds);
+            coursesArray.push(courses);
+        });
+        // TODO add redux action
+        return coursesArray;
     } catch(error) {
         throw error;
     }
+    
 };
-
 const getCoursesByUser = async (context: any) => {
     try {
       const loggedInUser = await FirebaseService.getLoggedInUser(); //not sure if this is the best way to do this. The user isn't set in the ready, and this is the only way to ensure that its set?
@@ -875,7 +905,6 @@ export const Actions = {
     clearCurrentVideoInfo,
     deleteVideo,
     addCourse,
-    addTags,
     getCoursesByUser,
     getCoursesByVisibility,
     loadUserQuestionIds,
@@ -906,6 +935,7 @@ export const Actions = {
     loadConceptCollaboratorEmails,
     loadVideoCollaboratorEmails,
     addCourseCollaborator,
+    lookupTags,
     addConceptCollaborator,
     addVideoCollaborator,
     removeCourseCollaborator,
