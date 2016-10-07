@@ -3,7 +3,7 @@ import {FirebaseService} from '../../node_modules/prendus-services/services/fire
 import {Course} from '../../node_modules/prendus-services/interfaces/course.interface.ts';
 import {StatechangeEvent} from '../../interfaces/statechange-event.interface.ts';
 
-class PrendusCourseHomepage {
+class PrendusSearchCourseTags {
   public is: string;
   public properties: any;
   public courses: string[]; 
@@ -23,7 +23,7 @@ class PrendusCourseHomepage {
   public errorMessage: string;
  
   beforeRegister() {  
-    this.is = 'prendus-course-homepage';
+    this.is = 'prendus-search-course-tags';
     this.properties = {
     };
   }
@@ -31,47 +31,23 @@ class PrendusCourseHomepage {
   async ready() {
       try {
           const user = await FirebaseService.getLoggedInUser();
-          Actions.getCoursesByUser(this);
-          Actions.getStarredCoursesByUser(this, user.uid);
-          Actions.getSharedCoursesByUser(this, user.uid);
       } catch(error) {
           this.errorMessage = '';
           this.errorMessage = error.message;
       }
   }
-
-  //Opens new course dialog
-  addCourse(e) {
-    this.querySelector('#addCourseDialog').open();
-  }
-
-  //Adds course to database
-  addCourseFormDone(e) {
+  //looks through course tags in database for matching tags  
+  async searchTagsInDB(e) {
     e.preventDefault();
-    if(this.querySelector('#courseFormName').value){
-      this.querySelector('#addCourseDialog').close();
-      const formTitle = this.querySelector('#courseFormName').value;
-      const courseDescription = this.querySelector('#courseDescription').value;
-      const tags = this.querySelector('#tags').tags;
-      const newCourse = { 
-        visibility: 'public',
-        title: formTitle,
-        description: courseDescription,
-        uid: this.uid
-      }; 
-      try { 
-        Actions.addCourse(this, newCourse, tags);
-      } catch(error) { 
-        this.errorMessage = '';
-        this.errorMessage = error.message;
-      }
-      this.querySelector('#courseFormName').value = '';
-    }  
-  }
-
-
-  openSearchTagsDialog(e) {
-    this.querySelector('#searchTagsDialog').open();
+    const tagList = this.querySelector('#searchTags').tags;
+    try {
+      const courses = await Actions.lookupTags(tagList);
+      console.log(courses);
+      //TODO show resulting courses
+    } catch(error) {
+      this.errorMessage = '';
+      this.errorMessage = error.message;
+    }
   }
   
   clearTags(e) {
@@ -88,4 +64,4 @@ class PrendusCourseHomepage {
   }
 }
 
-Polymer(PrendusCourseHomepage);
+Polymer(PrendusSearchCourseTags);
