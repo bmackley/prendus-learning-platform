@@ -3,15 +3,16 @@
 <link rel="import" href="../../bower_components/paper-input/paper-input.html">
 <link rel="import" href="../../bower_components/paper-button/paper-button.html">
 <link rel="import" href="../../bower_components/paper-dialog-scrollable/paper-dialog-scrollable.html">
-<link rel="import" href="../../bower_components/iron-icons/iron-icon.html">
+<link rel="import" href="../../bower_components/iron-icon/iron-icon.html">
 
 <dom-module id="prendus-collaborator-modal">
-    <style>
-      .remove-collaborator {
-        cursor: pointer;
-      }
-    </style>
     <template>
+        <style>
+          .remove-collaborator {
+            cursor: pointer;
+          }
+        </style>
+
         <redux-store on-statechange="mapStateToThis" action=[[action]]></redux-store>
 
         <paper-dialog>
