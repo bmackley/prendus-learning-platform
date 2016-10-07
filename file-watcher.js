@@ -13,7 +13,9 @@ chokidar.watch([
     "app/client/components/*/*",
     "app/client/redux/*",
     "app/client/styles/*",
-    "app/client/interfaces/*"
+    "app/client/interfaces/*",
+    "app/client/node_modules/prendus-services/models/*",
+    "app/client/node_modules/prendus-services/interfaces/*"
 ]).on('change', (path) => {
 
     const fileEnding = path.substr(path.lastIndexOf('.') + 1);
