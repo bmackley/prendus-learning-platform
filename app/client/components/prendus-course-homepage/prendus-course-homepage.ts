@@ -42,14 +42,14 @@ class PrendusCourseHomepage {
 
   //Opens new course dialog
   addCourse(e) {
-    this.querySelector('#addCourseDialog').open();
+    this.querySelector('#add-course-dialog').open();
   }
 
   //Adds course to database
   addCourseFormDone(e) {
     e.preventDefault();
     if(this.querySelector('#courseFormName').value){
-      this.querySelector('#addCourseDialog').close();
+      this.querySelector('#add-course-dialog').close();
       const formTitle = this.querySelector('#courseFormName').value;
       const courseDescription = this.querySelector('#courseDescription').value;
       const tags = this.querySelector('#tags').tags;
