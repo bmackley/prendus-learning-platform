@@ -42,7 +42,7 @@ class PrendusSearchCourseTags {
     const tagList = this.querySelector('#searchTags').tags;
     try {
       const courses = await Actions.lookupTags(tagList);
-      console.log(courses);
+      console.log(courses.length > 0 ? courses : 'none');
       //TODO show resulting courses
     } catch(error) {
       this.errorMessage = '';
