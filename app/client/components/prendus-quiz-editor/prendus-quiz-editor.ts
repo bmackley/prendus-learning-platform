@@ -88,11 +88,19 @@ class PrendusQuizEditor {
     }
 
     shareQuiz() {
-        this.querySelector('#shareQuizDialog').open();
+        this.querySelector('#share-quiz-dialog').open();
+    }
+
+    selectText(e) {
+      e.target.select();
     }
 
     openCollaboratorsModal(e) {
       this.querySelector('#collaborators-modal').open();
+    }
+
+    openSettingsModal(e) {
+      this.querySelector('#settings-modal').open();
     }
 
     createQuestion(e) {
