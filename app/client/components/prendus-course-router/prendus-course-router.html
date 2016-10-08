@@ -12,20 +12,33 @@
 <dom-module id="prendus-course-router">
   <style>
 
+    :host {
+      width: 100%;
+    }
+
+    #course-container {
+      padding: 20px;
+    }
+
+    .course-window {
+      margin: auto;
+      max-width: 800px;
+    }
+
   </style>
 
   <template>
     <app-route route="[[route]]" pattern="/:page" data="{{data}}" tail="{{tail}}"></app-route>
 
-    <iron-pages selected="[[data.page]]" attr-for-selected="key">
-      <prendus-course-homepage key="home"></prendus-course-homepage>
-      <prendus-course-edit key="edit" route="[[route]]"></prendus-course-edit>
-      <prendus-course-view key="view" route="[[route]]"></prendus-course-view>
+    <iron-pages id="course-container" selected="[[data.page]]" attr-for-selected="key">
+      <prendus-course-homepage class="course-window" key="home"></prendus-course-homepage>
+      <prendus-course-edit class="course-window" key="edit" route="[[route]]"></prendus-course-edit>
+      <prendus-course-view class="course-window" key="view" route="[[route]]"></prendus-course-view>
       <prendus-edit-quiz-router key="edit-quiz" route="[[route]]"></prendus-edit-quiz-router>
-      <prendus-edit-question-router key="edit-question" route="[[route]]"></prendus-edit-question-router>
-      <prendus-view-video-router key="view-video" route="[[route]]"></prendus-view-video-router>
-      <prendus-view-quiz-router key="view-quiz" route="[[route]]"></prendus-view-quiz-router>
-      <prendus-view-question-router key="view-question" route="[[route]]"></prendus-view-question-router>
+      <prendus-edit-question-router class="course-window" key="edit-question" route="[[route]]"></prendus-edit-question-router>
+      <prendus-view-video-router class="course-window" key="view-video" route="[[route]]"></prendus-view-video-router>
+      <prendus-view-quiz-router class="course-window" key="view-quiz" route="[[route]]"></prendus-view-quiz-router>
+      <prendus-view-question-router class="course-window" key="view-question" route="[[route]]"></prendus-view-question-router>
     </iron-pages>
   </template>
 
