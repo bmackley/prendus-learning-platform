@@ -1,5 +1,4 @@
-
-<link href="../../bower_components/polymer/polymer.html" rel="import">
+<link rel="import" href="../../bower_components/polymer/polymer.html">
 <link rel="import" href="../../bower_components/redux-store-element/redux-store.html">
 <link rel="import" href="../../styles/app-theme.html">
 <link rel="import" href="../../styles/shared-styles.html">
@@ -9,11 +8,18 @@
 
 <dom-module id="prendus-app">
   <template>
+    <style>
+      #router {
+        display: block;
+        min-height: calc(100vh - 128px);
+      }
+    </style>
+
     <redux-store root-reducer="[[rootReducer]]"></redux-store>
 
     <template is="dom-if" if="[[rootReducer]]">
         <prendus-navbar></prendus-navbar>
-        <prendus-router></prendus-router>
+        <prendus-router id="router"></prendus-router>
         <prendus-footer></prendus-footer>
     </template>
 
