@@ -42,6 +42,12 @@
       };
     }
 
+    @media (max-width: 768px) {
+      .course-preview {
+        flex-basis: 45%;
+      }
+    }
+
   </style>
   <template>
     <redux-store on-statechange="mapStateToThis" action="[[action]]"></redux-store>
