@@ -26,10 +26,8 @@ class PrendusEditQuestionRouter {
         Actions.hideMainSpinner(this);
     }
 
-    backToQuiz(){
-      //Would like to go to this with the URL, but getting the info
-      //window.history.back();
-      window.location.href = `courses/edit-quiz/concept/${this.conceptId}/quiz/${this.quizId}`
+    backToQuiz() {
+      window.history.back();
     }
 
     mapStateToThis(e) {
