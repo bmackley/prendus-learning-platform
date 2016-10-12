@@ -15,6 +15,12 @@
     <redux-store action="[[action]]" on-statechange="mapStateToThis"></redux-store>
     <app-route route="[[route]]" pattern="/view/:courseId" data="{{data}}"></app-route>
       <h1>[[currentCourse.title]]</h1>
+      <div>
+        Description: [[currentCourse.description]]
+      </div>
+      <div>
+        Tags: [[currentCourse.tags]]
+      </div>
       <template id="concept-list" is="dom-repeat" items=[[courseConcepts]]>
         <paper-card class="course-concept">
           <div class="card-content">
