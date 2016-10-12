@@ -90,6 +90,7 @@
           <prendus-collaborator-modal id="collaborators-modal" uid="[[uid]]" course-id="[[courseId]]" course></prendus-collaborator-modal>
           <paper-input name="title" label="Course Title" id="course-title" value="[[currentCourse.title]]" on-change="attributeChanged"></paper-input>
           <paper-input name="description" id="course-description" label="Course Description" label="Input label" value="[[currentCourse.description]]" on-change="attributeChanged"></paper-input>
+          <paper-input name="tags" id="course-tags" label="Course tags" label="Input label" value="[[currentCourse.tagNames]]"></paper-input>
           <h1>[[currentCourse.title]] Concepts</h1>
           <template is="dom-if" if="[[!courseConceptsLength]]">
             <p>Click the plus button to begin adding concepts to the Course.</p>
