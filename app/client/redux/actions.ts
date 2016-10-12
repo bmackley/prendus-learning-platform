@@ -724,9 +724,10 @@ const addCourse = async (context: any, newCourse: Course, tags: string[]) => {
       await addCourseCollaborator(context, courseId, user.email);
 
       const courses = await CourseModel.getCoursesByUser(newCourse.uid);
+
       context.action = {
           type: 'ADD_COURSE',
-          courses: courses,
+          courses,
       }
     }catch(error){
       throw error;
@@ -761,11 +762,11 @@ const lookupTags = async (tags: string[]) => {
             const courses = await CourseModel.resolveCourseIds(courseIds);
             coursesArray.push(courses);
         });
-
         context.action = {
             type: 'LOOKUP_TAGS',
             coursesArray
         };
+
         return coursesArray;
     } catch(error) {
         throw error;
@@ -777,12 +778,6 @@ const getCoursesByUser = async (context: any) => {
       const loggedInUser = await FirebaseService.getLoggedInUser(); //not sure if this is the best way to do this. The user isn't set in the ready, and this is the only way to ensure that its set?
       if(loggedInUser){
         const courses = await CourseModel.getCoursesByUser(loggedInUser.uid);
-
-        await UtilitiesService.asyncForEach(courses, async (course: Course) => {
-            const tagIds = await CourseModel.courseTagIdsToArray(course);
-            const tagNames = await TagModel.resolveTagIdsToNames(tagIds);
-            course.tags = tagNames;
-        });
         context.action = {
             type: 'GET_COURSES_BY_USER',
             courses
@@ -797,7 +792,6 @@ const getStarredCoursesByUser = async (context: any, uid: string) => {
     try {
         const courseIds = await UserModel.getStarredCoursesIds(uid);
         const courses = await CourseModel.resolveCourseIds(courseIds);
-
         context.action = {
             type: 'SET_STARRED_COURSES',
             courses
@@ -812,7 +806,6 @@ const getSharedCoursesByUser = async (context: any, uid: string) => {
     try {
         const courseIds = await UserModel.getSharedWithMeCoursesIds(uid);
         const courses = await CourseModel.resolveCourseIds(courseIds);
-
         context.action = {
             type: 'SET_SHARED_COURSES',
             courses
@@ -837,9 +830,6 @@ const getCoursesByVisibility = async (context: any, visibility: CourseVisibility
 const getCourseViewCourseById = async (context: any, id: string) => {
     try {
       const course = await CourseModel.getById(id);
-      const tagIds = await CourseModel.courseTagIdsToArray(course);
-      const tagNames = await TagModel.resolveTagIdsToNames(tagIds);
-      course.tags = tagNames;
       context.action = {
           type: 'SET_COURSE_VIEW_CURRENT_COURSE',
           currentCourse: course
