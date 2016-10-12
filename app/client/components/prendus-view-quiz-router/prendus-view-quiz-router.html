@@ -7,6 +7,13 @@
 
 <dom-module id="prendus-view-quiz-router">
   <style>
+    :host {
+      display: block;
+    }
+
+    #quiz-container {
+      width: 100%;
+    }
 
   </style>
     <template>
@@ -24,7 +31,12 @@
             </div>
           </paper-card>
         </template>
-        <prendus-view-quiz jwt="[[jwt]]" course-id="[[data.courseId]]" quiz-id="[[data.quizId]]" user-full-name="[[userFullName]]" user-email="[[userEmail]]" quiz-session-id="[[data.quizSessionId]]"></prendus-view-quiz>
+        <paper-card id="quiz-container">
+          <div class="card-content">
+            <prendus-view-quiz jwt="[[jwt]]" course-id="[[data.courseId]]" quiz-id="[[data.quizId]]" user-full-name="[[userFullName]]" user-email="[[userEmail]]" quiz-session-id="[[data.quizSessionId]]"></prendus-view-quiz>
+          </div>
+        </paper-card>
+
     </template>
 
     <!--<script src="prendus-view-quiz-router.html"></script>hello-->
