@@ -745,14 +745,15 @@ const addTagToQuiz = async (tag: Tag, quizId: string) => {
     return await TagModel.createOrUpdate(null, tag, null, null, quizId);
 };
 
-
-
 const lookupTags = async (tags: string[]) => {
     try {
         let resultTags : [] = []; //TODO how to do this immutably?
         await UtilitiesService.asyncForEach(tags, async (tag: string) => {
             const tagObject = await TagModel.getByName(tag);
-            resultTags.push(tagObject);        
+            if(tagObject) {
+                resultTags.push(tagObject);    
+            }
+            
         });
         let coursesArray : [] = []; //TODO how to do this immutably?
         await UtilitiesService.asyncForEach(resultTags, async (tag: Tag) => {
@@ -772,9 +773,15 @@ const getCoursesByUser = async (context: any) => {
       const loggedInUser = await FirebaseService.getLoggedInUser(); //not sure if this is the best way to do this. The user isn't set in the ready, and this is the only way to ensure that its set?
       if(loggedInUser){
         const courses = await CourseModel.getCoursesByUser(loggedInUser.uid);
+
+        await UtilitiesService.asyncForEach(courses, async (course: Course) => {
+            const tagIds = await CourseModel.courseTagIdsToArray(course);
+            const tags = await TagModel.resolveTagIds(tagIds);
+            course.tags = tags;
+        });
         context.action = {
             type: 'GET_COURSES_BY_USER',
-            courses: courses
+            courses
         };
       }
     }catch(error){
