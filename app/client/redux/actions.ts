@@ -761,7 +761,11 @@ const lookupTags = async (tags: string[]) => {
             const courses = await CourseModel.resolveCourseIds(courseIds);
             coursesArray.push(courses);
         });
-        // TODO add redux action
+
+        context.action = {
+            type: 'LOOKUP_TAGS',
+            coursesArray
+        };
         return coursesArray;
     } catch(error) {
         throw error;
@@ -776,8 +780,8 @@ const getCoursesByUser = async (context: any) => {
 
         await UtilitiesService.asyncForEach(courses, async (course: Course) => {
             const tagIds = await CourseModel.courseTagIdsToArray(course);
-            const tags = await TagModel.resolveTagIds(tagIds);
-            course.tags = tags;
+            const tagNames = await TagModel.resolveTagIdsToNames(tagIds);
+            course.tags = tagNames;
         });
         context.action = {
             type: 'GET_COURSES_BY_USER',
