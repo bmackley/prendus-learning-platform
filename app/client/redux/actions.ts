@@ -837,6 +837,9 @@ const getCoursesByVisibility = async (context: any, visibility: CourseVisibility
 const getCourseViewCourseById = async (context: any, id: string) => {
     try {
       const course = await CourseModel.getById(id);
+      const tagIds = await CourseModel.courseTagIdsToArray(course);
+      const tagNames = await TagModel.resolveTagIdsToNames(tagIds);
+      course.tags = tagNames;
       context.action = {
           type: 'SET_COURSE_VIEW_CURRENT_COURSE',
           currentCourse: course
