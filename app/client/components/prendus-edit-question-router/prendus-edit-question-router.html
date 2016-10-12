@@ -12,6 +12,7 @@
         <paper-button on-click="backToQuiz"><iron-icon icon="hardware:keyboard-backspace"></iron-icon>&nbsp; Back to Quiz</paper-button>
         <prendus-notification successMessage = "[[successMessage]]" errorMessage = "[[errorMessage]]"></prendus-notification>
         <app-route route="[[route]]" pattern="/edit-question/question/:questionId" data="{{data}}" tail="{{tail}}"></app-route>
+        <solutia-maxima-edit-problem id="editProblemComponent" jwt="[[jwt]]" question-id="[[data.questionId]]" on-savequestion="questionSaved" on-loaded="editProblemComponentLoaded"></solutia-maxima-edit-problem>
     </template>
 
     <!--<script src="prendus-edit-question-router.js"></script>-->
