@@ -25,13 +25,25 @@
         min-height: 150px;
         word-wrap: break-word;
       }
+      #description {
+        
+      }
+      
+      #tags {
+
+      }
     </style>
 
     <redux-store on-statechange="mapStateToThis" action="[[action]]"></redux-store>
 
     <paper-card class="course-card" heading="[[course.title]]" on-tap="viewCourse">
       <div class="card-content">
-        [[course.description]] [[course.tags]]
+        <div>
+          Description: [[course.description]]
+        </div>
+        <div>
+          Tags: [[course.tags]]
+        </div>
       </div>
       <div class="card-actions">
         <paper-icon-button id="star-course" class="course-icon" icon="[[starIcon]]" on-tap="starClick"></paper-icon-button>[[numStars]]
