@@ -34,9 +34,16 @@ class PrendusCourseEdit {
         data: {
           type: Object,
         },
+        courseTagNames: {
+          type: [],
+          observer: 'tagChange'
+        }
     }
   }
-
+  tagChange(e) {
+     console.log("the tags have changed");
+     console.log(this.courseTagNames);
+  }
   async getCourse(){
     if (this.data.courseId) {
         Actions.showMainSpinner(this);
@@ -124,9 +131,12 @@ class PrendusCourseEdit {
       }
     }
   }
+
   async attributeChanged(e) {
     try{
+      console.log("change!");
       if(typeof e.target !== 'undefined' ){
+
         const value = e.target.value;
         const attribute = e.target.name;
         await Actions.updateCourseField(this, this.courseId, attribute, value);
