@@ -19,7 +19,7 @@ class PrendusSearchCourseTags {
     e.preventDefault();
     const tagList = this.querySelector('#searchTags').tags;
     try {
-      await Actions.lookupTags(this, tagList);
+      Actions.lookupTags(this, tagList);
     } catch(error) {
       this.errorMessage = '';
       this.errorMessage = error.message;

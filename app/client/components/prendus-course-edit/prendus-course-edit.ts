@@ -2,7 +2,7 @@ import {Actions} from '../../redux/actions.ts';
 import {Course} from '../../node_modules/prendus-services/interfaces/course.interface.ts';
 import {CourseConceptData} from '../../node_modules/prendus-services/interfaces/course-concept-data.interface.ts';
 import {StatechangeEvent} from '../../interfaces/statechange-event.interface.ts';
-
+import {Tag} from '../../interfaces/tag.interface.ts';
 class PrendusCourseEdit {
   public is: string;
   public properties: any;
@@ -10,6 +10,8 @@ class PrendusCourseEdit {
   public title: string;
   public courseConcepts: CourseConceptData[];
   public currentCourse: Course;
+  public courseTagNames: string[];
+  public courseTags: Tag[];
   public courseId: string;
   public username: string;
   public uid: string;
@@ -53,6 +55,8 @@ class PrendusCourseEdit {
     this.username = state.currentUser.metaData.email;
     this.uid = state.currentUser.metaData.uid;
     this.currentCourse = state.courseEditCurrentCourse;
+    this.courseTagNames = this.currentCourse.tagNames;
+    this.courseTags = this.currentCourse.tags;
     this.courseConcepts = state.editCourseConcepts[this.courseId];
     this.courseConceptsLength = this.courseConcepts && this.courseConcepts.length;
   }
@@ -89,7 +93,6 @@ class PrendusCourseEdit {
       try{
         await Actions.addConcept(this, this.courseId, newConcept, this.courseConcepts.length);
         await Actions.getCourseEditCourseById(this, this.data.courseId);
-
         this.successMessage = '';
         this.successMessage = 'Concept added successfully';
 
