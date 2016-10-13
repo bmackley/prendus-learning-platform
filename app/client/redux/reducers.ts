@@ -202,7 +202,7 @@ export function rootReducer(state: State = InitialState, action: Action): State 
       }
       case 'LOOKUP_TAGS': {
         const newState = Object.assign({}, state);
-        newState.hashTagCourses = action.coursesArray; //TODO what should i name this?
+        newState.resultingCourses = action.coursesArray;
         return newState;
       }
       case 'SET_COURSE_VIEW_CURRENT_COURSE': {

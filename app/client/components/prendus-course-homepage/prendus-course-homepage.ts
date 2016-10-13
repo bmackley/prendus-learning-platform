@@ -68,15 +68,7 @@ class PrendusCourseHomepage {
       this.querySelector('#courseFormName').value = '';
     }  
   }
-
-
-  openSearchTagsDialog(e) {
-    this.querySelector('#searchTagsDialog').open();
-  }
   
-  clearTags(e) {
-    this.querySelector('#searchTags').tags = [];
-  }
   mapStateToThis(e: StatechangeEvent) {
     const state = e.detail.state;
     this.userCourses = state.courses;
