@@ -746,7 +746,7 @@ const addTagToQuiz = async (tag: Tag, quizId: string) => {
     return await TagModel.createOrUpdate(null, tag, null, null, quizId);
 };
 
-const lookupTags = async (tags: string[]) => {
+const lookupTags = async (context: any, tags: string[]) => {
     try {
         let resultTags : [] = []; //TODO how to do this immutably?
         await UtilitiesService.asyncForEach(tags, async (tag: string) => {
@@ -766,8 +766,6 @@ const lookupTags = async (tags: string[]) => {
             type: 'LOOKUP_TAGS',
             coursesArray
         };
-
-        return coursesArray;
     } catch(error) {
         throw error;
     }
