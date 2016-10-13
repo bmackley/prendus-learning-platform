@@ -90,7 +90,7 @@
           <prendus-collaborator-modal id="collaborators-modal" uid="[[uid]]" course-id="[[courseId]]" course></prendus-collaborator-modal>
           <paper-input name="title" label="Course Title" id="course-title" value="[[currentCourse.title]]" on-change="attributeChanged"></paper-input>
           <paper-input name="description" id="course-description" label="Course Description" label="Input label" value="[[currentCourse.description]]" on-change="attributeChanged"></paper-input>
-          <paper-input name="tags" id="course-tags" label="Course tags" label="Input label" value="[[currentCourse.tagNames]]"></paper-input>
+          <paper-tags-input placeholder="Delete tags or add new ones" duplicate-error-message="Tag cannot be a duplicate" tags="[[courseTagNames]]"></paper-tags-input>
           <h1>[[currentCourse.title]] Concepts</h1>
           <template is="dom-if" if="[[!courseConceptsLength]]">
             <p>Click the plus button to begin adding concepts to the Course.</p>
@@ -107,7 +107,7 @@
         <template is="dom-if" if="[[!username]]">
           <p> You are not signed in.  Please sign in to access this page </p>
         </template>
-        <paper-dialog id = "addDialog" modal>
+        <paper-dialog id="addDialog" modal>
           <div>
             <!-- Look up Iron keys to change this -->
             <form is="iron-form">
@@ -120,13 +120,13 @@
           <div class="buttons">
           </div>
         </paper-dialog>
-        <paper-dialog id = "deleteConfirm" modal>
+        <paper-dialog id="deleteConfirm" modal>
             <!-- Look up Iron keys to change this -->
             <form is="iron-form">
               <h1 style="color: red">Confirm Delete </h1>
               <p>Are you sure that you want to delete this concept?
               <paper-button dialog-dismiss>No</paper-button>
-              <paper-button id = "confirmeDelete" on-tap="completeDelete">Yes</paper-button>
+              <paper-button id="confirmeDelete" on-tap="completeDelete">Yes</paper-button>
             </form>
         </paper-dialog>
         <paper-fab icon = "add" title = "Add Concept" tooltip="Add Concept" on-tap="addConcept"></paper-fab>
