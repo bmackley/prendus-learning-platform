@@ -13,7 +13,7 @@ class PrendusSearchCourseTags {
     this.properties = {
     };
   }
-  
+
   //looks through course tags in database for matching tags  
   async searchTagsInDB(e) {
     e.preventDefault();
