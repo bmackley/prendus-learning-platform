@@ -27,22 +27,28 @@ class PrendusCourseEdit {
   beforeRegister() {
     this.is = 'prendus-course-edit';
     this.properties = {
-        route: {
-          type: Object,
-          observer: 'getCourse'
-        },
-        data: {
-          type: Object,
-        },
-        courseTagNames: {
-          type: [],
-          observer: 'tagChange'
-        }
+      route: {
+        type: Object,
+        observer: 'getCourse'
+      },
+      data: {
+        type: Object,
+      }
     }
   }
-  tagChange(e) {
-     console.log("the tags have changed");
-     console.log(this.courseTagNames);
+
+  tagAdded(e) {
+
+  }
+  
+  tagRemoved(e) {
+    const tag: Tag = this.getTagRemoved();
+    console.log(tag);
+  }
+
+  //TODO implement this
+  getTagRemoved() {
+    return this.courseTags[0];
   }
   async getCourse(){
     if (this.data.courseId) {

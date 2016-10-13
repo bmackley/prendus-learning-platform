@@ -747,8 +747,13 @@ const addTagToQuiz = async (tag: Tag, quizId: string) => {
 };
 
 const lookupTags = async (context: any, tags: string[]) => {
+    //getTagObjectByNames
+    //getCoursesInTags
+    //resolveToCourseObectsArray
+    //context.action
     try {
         let resultTags : [] = []; //TODO how to do this immutably?
+        //TODO change to getByNames
         await UtilitiesService.asyncForEach(tags, async (tag: string) => {
             const tagObject = await TagModel.getByName(tag);
             if(tagObject) {
