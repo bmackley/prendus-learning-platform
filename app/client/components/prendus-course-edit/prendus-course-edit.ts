@@ -157,11 +157,9 @@ class PrendusCourseEdit {
       }
     }
   }
-
   async attributeChanged(e) {
     try{
       if(typeof e.target !== 'undefined' ){
-
         const value = e.target.value;
         const attribute = e.target.name;
         await Actions.updateCourseField(this, this.courseId, attribute, value);
