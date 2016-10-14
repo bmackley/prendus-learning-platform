@@ -38,17 +38,30 @@ class PrendusCourseEdit {
   }
 
   tagAdded(e) {
-
+    const tag: string = this.courseTagNames[this.courseTagNames.length-1];
+    try {
+      Actions.addTagToCourse(this, tag, this.courseId);
+    } catch(error) {
+      this.errorMessage = '';
+      this.errorMessage = error.message;
+    }
   }
-  
+
   tagRemoved(e) {
     const tag: Tag = this.getTagRemoved();
     console.log(tag);
   }
 
-  //TODO implement this
   getTagRemoved() {
-    return this.courseTags[0];
+
+    for(let i = 0; i < this.courseTags.length; i++) {
+      const tag = this.courseTags[i];
+      if(this.courseTagNames.indexOf(tag.name) === -1) {
+        this.courseTags.splice(i);
+        return tag;
+      }
+    }
+    return null;
   }
   async getCourse(){
     if (this.data.courseId) {
@@ -61,7 +74,6 @@ class PrendusCourseEdit {
 
   mapStateToThis(e: StatechangeEvent) {
     const state = e.detail.state;
-
     this.courseId = state.courseEditCurrentCourse.id;
     this.startDate = state.courseEditCurrentCourse.startDate;
     this.endDate = state.courseEditCurrentCourse.endDate;
@@ -140,7 +152,6 @@ class PrendusCourseEdit {
 
   async attributeChanged(e) {
     try{
-      console.log("change!");
       if(typeof e.target !== 'undefined' ){
 
         const value = e.target.value;
