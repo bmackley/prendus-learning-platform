@@ -127,6 +127,7 @@ class PrendusCourseEdit {
         const value = e.target.value;
         const attribute = e.target.name;
         await Actions.updateCourseField(this, this.courseId, attribute, value);
+        await Actions.getCourseEditCourseById(this, this.data.courseId);
         this.successMessage = '';
         this.successMessage = `${attribute} has been updated`;
       }
