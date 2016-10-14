@@ -45,6 +45,7 @@
 
   </style>
   <template>
+    <prendus-search-course-tags></prendus-search-course-tags>
     <redux-store on-statechange="mapStateToThis" action="[[action]]"></redux-store>
 
     <iron-ajax id="sharedWithMeCourseAjax" method="post" content-type="application/json" handle-as="json"></iron-ajax>
@@ -58,7 +59,7 @@
       </div>
       <paper-fab id="add-fab-button" icon="add" title="Add Course" on-tap="addCourse"></paper-fab>
     </template>
-    <prendus-search-course-tags></prendus-search-course-tags>
+
     <paper-dialog id="add-course-dialog" modal>
       <paper-dialog-scrollable>
         <h2>Create a Course</h2>
