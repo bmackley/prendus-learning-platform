@@ -2,7 +2,7 @@ import {Actions} from '../../redux/actions.ts';
 import {Course} from '../../node_modules/prendus-services/interfaces/course.interface.ts';
 import {CourseConceptData} from '../../node_modules/prendus-services/interfaces/course-concept-data.interface.ts';
 import {StatechangeEvent} from '../../interfaces/statechange-event.interface.ts';
-import {Tag} from '../../interfaces/tag.interface.ts';
+import {Tag} from '../../node_modules/prendus-services/interfaces/tag.interface.ts';
 class PrendusCourseEdit {
   public is: string;
   public properties: any;
@@ -58,7 +58,7 @@ class PrendusCourseEdit {
       this.errorMessage = '';
       this.errorMessage = error.message;
     }
-    
+
   }
 
   getTagRemoved() {
@@ -89,34 +89,34 @@ class PrendusCourseEdit {
     this.username = state.currentUser.metaData.email;
     this.uid = state.currentUser.metaData.uid;
     this.currentCourse = state.courseEditCurrentCourse;
-    this.courseTagNames = this.currentCourse.tagNames;
-    this.courseTags = this.currentCourse.tags;
+    this.courseTagNames = state.courseEditCurrentCourse.tagNames;
+    this.courseTags = state.courseEditCurrentCourse.tags;
     this.courseConcepts = state.editCourseConcepts[this.courseId];
     this.courseConceptsLength = this.courseConcepts && this.courseConcepts.length;
   }
 
-  openCollaboratorsModal(e) {
+  openCollaboratorsModal(e: any) {
     this.querySelector('#collaborators-modal').open();
   }
 
-  addConcept(e){
-    addDialog.open();
+  addConcept(e: any) {
+    this.querySelector('#addDialog').open();
   }
 
-  openStartDatePicker(e){
+  openStartDatePicker(e: any){
     this.querySelector('#selectStartDate').open();
   }
 
-  openEndDatePicker(e){
+  openEndDatePicker(e: any){
     this.querySelector('#selectEndDate').open();
   }
 
-  toggle(e) {
+  toggle(e: any) {
     const collapseTarget = e.target.id;
     this.querySelector('#concept' + collapseTarget).toggle();
   }
 
-  async addConceptFormDone(e){
+  async addConceptFormDone(e: any){
     e.preventDefault();
     if(this.$.conceptFormName.value){
       this.querySelector('#addDialog').close();
@@ -139,9 +139,9 @@ class PrendusCourseEdit {
     }
   }
 
-  sortableEnded(e){ //This isn't the most elegant solution. I'm open to better ways of doing things.
+  sortableEnded(e: any){ //This isn't the most elegant solution. I'm open to better ways of doing things.
     if(typeof e.newIndex !== 'undefined'){
-      const updateConceptPositionArray = [];
+      const updateConceptPositionArray : any[] = [];
       for(let i = 0, len = this.courseConcepts.length; i < len; i++ ){
         if(this.courseConcepts[i].position != i){
           this.courseConcepts[i].position = i
@@ -158,7 +158,7 @@ class PrendusCourseEdit {
       }
     }
   }
-  async attributeChanged(e) {
+  async attributeChanged(e: any) {
     try{
       if(typeof e.target !== 'undefined' ){
         const value = e.target.value;

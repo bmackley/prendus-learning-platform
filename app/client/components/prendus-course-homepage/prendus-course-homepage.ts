@@ -57,17 +57,17 @@ class PrendusCourseHomepage {
         title: formTitle,
         description: courseDescription,
         uid: this.uid
-      }; 
-      try { 
+      };
+      try {
         Actions.addCourse(this, newCourse, tags);
-      } catch(error) { 
+      } catch(error) {
         this.errorMessage = '';
         this.errorMessage = error.message;
       }
       this.querySelector('#courseFormName').value = '';
     }
   }
-  
+
   mapStateToThis(e: StatechangeEvent) {
     const state = e.detail.state;
     this.userCourses = state.courses;
