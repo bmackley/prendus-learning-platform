@@ -37,12 +37,12 @@ class PrendusCourseEdit {
     }
   }
 
-  tagAdded(e) {
+  tagAdded(e: any) {
     try {
       if(!this.courseTagNames) {
         this.courseTagNames = this.querySelector('#tags').tags;
       }
-      const tag: string = this.courseTagNames[this.courseTagNames.length-1];
+      const tag: string = this.courseTagNames[this.courseTagNames.length - 1];
       Actions.addTagToCourse(this, tag, this.courseId);
     } catch(error) {
       this.errorMessage = '';
@@ -50,7 +50,7 @@ class PrendusCourseEdit {
     }
   }
 
-  tagRemoved(e) {
+  tagRemoved(e: any) {
     try {
       const tag: Tag = this.getTagRemoved();
       Actions.deleteTagFromCourse(this, tag, this.courseId);
@@ -62,6 +62,7 @@ class PrendusCourseEdit {
   }
 
   getTagRemoved() {
+    //TODO not sure how else to do this, unless it's really really preferred to use a foreach
     for(let i = 0; i < this.courseTags.length; i++) {
       const tag = this.courseTags[i];
       if(this.courseTagNames.indexOf(tag.name) === -1) {

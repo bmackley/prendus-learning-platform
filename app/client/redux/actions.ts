@@ -748,7 +748,7 @@ const deleteTagFromCourse = async (context: any, tag: Tag, courseId: string) => 
 };    
 const addTagToCourse = async (context: any, tag: string, courseId: string) => {
     try {
-        const tagId = await TagModel.createOrUpdate(null, tag, courseId, null, null);
+        const tagId = await TagModel.createOrUpdate(tag, courseId, null, null);
         const course = await CourseModel.addTag(tagId, courseId);
         if(context) {
             context.action = {
