@@ -105,7 +105,6 @@ class PrendusQuizEditor {
 
     createQuestion(e) {
         Actions.showMainSpinner(this);
-
         window.history.pushState({}, '', `courses/edit-question/question/create`);
         this.fire('location-changed', {}, {node: window});
     }
@@ -115,7 +114,7 @@ class PrendusQuizEditor {
 
         const questionId = e.model.item;
 
-        window.history.pushState({}, '', `courses/edit-question/question/${questionId}/${this.conceptId}/${this.quizId}`); //TODO Why are we passing the conceptId and the quizId?
+        window.history.pushState({}, '', `courses/edit-question/question/${questionId}`);
         this.fire('location-changed', {}, {node: window});
     }
 
