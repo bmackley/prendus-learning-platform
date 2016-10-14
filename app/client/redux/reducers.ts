@@ -215,6 +215,11 @@ export function rootReducer(state: State = InitialState, action: Action): State 
         newState.courseEditCurrentCourse = action.course;
         return newState;
       }
+      case 'DELETE_TAG_EDIT_COURSE': {
+        const newState = Object.assign({}, state);
+        newState.courseEditCurrentCourse = action.course;
+        return newState;
+      }
       case 'SET_COURSE_EDIT_CURRENT_COURSE': {
         const newState = Object.assign({}, state);
         newState.courseEditCurrentCourse = action.currentCourse;

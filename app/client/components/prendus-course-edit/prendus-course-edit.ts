@@ -38,8 +38,8 @@ class PrendusCourseEdit {
   }
 
   tagAdded(e) {
-    const tag: string = this.courseTagNames[this.courseTagNames.length-1];
     try {
+      const tag: string = this.courseTagNames[this.courseTagNames.length-1];
       Actions.addTagToCourse(this, tag, this.courseId);
     } catch(error) {
       this.errorMessage = '';
@@ -48,12 +48,17 @@ class PrendusCourseEdit {
   }
 
   tagRemoved(e) {
-    const tag: Tag = this.getTagRemoved();
-    console.log(tag);
+    try {
+      const tag: Tag = this.getTagRemoved();
+      Actions.deleteTagFromCourse(this, tag, this.courseId);
+    } catch(error) {
+      this.errorMessage = '';
+      this.errorMessage = error.message;
+    }
+    
   }
 
   getTagRemoved() {
-
     for(let i = 0; i < this.courseTags.length; i++) {
       const tag = this.courseTags[i];
       if(this.courseTagNames.indexOf(tag.name) === -1) {
