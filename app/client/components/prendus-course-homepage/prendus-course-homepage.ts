@@ -21,8 +21,7 @@ class PrendusCourseHomepage {
     [uid: string]: string[];
   };
   public errorMessage: string;
- 
-  beforeRegister() {  
+  beforeRegister() {
     this.is = 'prendus-course-homepage';
     this.properties = {
     };
