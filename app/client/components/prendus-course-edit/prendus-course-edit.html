@@ -89,7 +89,7 @@
           <paper-button id="collaborators-button" noink on-tap="openCollaboratorsModal">Collaborators</paper-button>
           <prendus-collaborator-modal id="collaborators-modal" uid="[[uid]]" course-id="[[courseId]]" course></prendus-collaborator-modal>
           <paper-input name="title" label="Course Title" id="course-title" value="[[currentCourse.title]]" maxlength="50" on-change="attributeChanged"></paper-input>
-          <paper-input name="description" id="course-description" label="Course Description" value="[[currentCourse.description]]" maxlength="100" on-change="attributeChanged"></paper-input>
+          <paper-input name="description" id="course-description" label="Course Description" value="[[currentCourse.description]]" maxlength="150" on-change="attributeChanged"></paper-input>
           <paper-tags-input placeholder="Delete tags or add new ones" duplicate-error-message="Tag cannot be a duplicate" id="tags" tags="[[courseTagNames]]" on-remove="tagRemoved" on-add="tagAdded"></paper-tags-input>
           <h1>[[currentCourse.title]] Concepts</h1>
           <template is="dom-if" if="[[!courseConceptsLength]]">
