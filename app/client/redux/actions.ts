@@ -717,8 +717,7 @@ const addCourse = async (context: any, newCourse: Course, tags: string[]) => {
       const courseId = await CourseModel.createOrUpdate(null, newCourse);
       if(tags) {
         await UtilitiesService.asyncForEach(tags, async (tag: string) => {
-            const tagId = await addTagToCourse(tag, courseId);
-            await CourseModel.addTag(tagId, courseId);
+            addTagToCourse(null, tag, courseId);
         });
       }
       await addCourseCollaborator(context, courseId, user.email);
@@ -728,14 +727,21 @@ const addCourse = async (context: any, newCourse: Course, tags: string[]) => {
       context.action = {
           type: 'ADD_COURSE',
           courses,
-      }
+      };
     }catch(error){
       throw error;
     }
 };
-
-const addTagToCourse = async (tag: Tag, courseId: string) => {
-    return await TagModel.createOrUpdate(null, tag, courseId, null, null);
+const addTagToCourse = async (context: any, tag: string, courseId: string) => {
+    const tagId = await TagModel.createOrUpdate(null, tag, courseId, null, null);
+    const course = await CourseModel.addTag(tagId, courseId);
+    if(context) {
+        context.action = {
+            type: 'ADD_TAG_EDIT_COURSE',
+            course
+        };
+    }
+    
 };
 
 const addTagToConcept = async (tag: Tag, conceptId: string) => {
@@ -895,6 +901,7 @@ export const Actions = {
     clearCurrentVideoInfo,
     deleteVideo,
     addCourse,
+    addTagToCourse,
     getCoursesByUser,
     getCoursesByVisibility,
     loadUserQuestionIds,
