@@ -747,37 +747,9 @@ const addTagToQuiz = async (tag: Tag, quizId: string) => {
 };
 
 const lookupTags = async (context: any, tags: string[]) => {
-    //getTagObjectByNames
-    //getCoursesInTags
-    //resolveToCourseObectsArray
-    //context.action
     try {
-        let resultTags : [] = []; //TODO how to do this immutably?
-        //TODO change to getByNames
-        await UtilitiesService.asyncForEach(tags, async (tag: string) => {
-            const tagObject = await TagModel.getByName(tag);
-            if(tagObject) {
-                resultTags.push(tagObject);    
-            }
-            
-        });
-        let coursesArray : Course[] = []; //TODO how to do this immutably?
-        //Parallel array that contains ids, this could be removed 
-        //if you can call indexOf on an array of objects? However, indexOf
-        //is probably O(n) complexity, so I could probably just write a method
-        //in UtilitiesService that looks through ids..
-        let idArray : string[] = []; 
-        await UtilitiesService.asyncForEach(resultTags, async (tag: Tag) => {
-            const courseIds = await TagModel.tagCourseIdsToArray(tag);
-            const courses = await CourseModel.resolveCourseIds(courseIds);
-            await UtilitiesService.asyncForEach(courses, async (course: Course) => {
-                if(idArray.indexOf(course.id) === -1) {
-                    idArray.push(course.id);
-                    coursesArray.push(course);
-                }
-            });
-            
-        });
+        const tagObjects : Tag[] = await TagModel.getByNames(tags);
+        const coursesArray : Course[] = await TagModel.getCoursesInTags(tagObjects);
         context.action = {
             type: 'LOOKUP_TAGS',
             coursesArray
