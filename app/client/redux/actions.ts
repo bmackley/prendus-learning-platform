@@ -728,20 +728,37 @@ const addCourse = async (context: any, newCourse: Course, tags: string[]) => {
           type: 'ADD_COURSE',
           courses,
       };
-    }catch(error){
+    } catch(error){
       throw error;
     }
 };
-const addTagToCourse = async (context: any, tag: string, courseId: string) => {
-    const tagId = await TagModel.createOrUpdate(null, tag, courseId, null, null);
-    const course = await CourseModel.addTag(tagId, courseId);
-    if(context) {
+const deleteTagFromCourse = async (context: any, tag: Tag, courseId: string) => {
+    try {
+        const tagId = tag.id;
+        await CourseModel.removeTag(tagId, courseId);
+        await TagModel.removeCourse(tagId, courseId);
+        const course = await CourseModel.getById(courseId);
         context.action = {
-            type: 'ADD_TAG_EDIT_COURSE',
+            type: 'DELETE_TAG_EDIT_COURSE',
             course
-        };
+        }
+    } catch(error) {
+        throw error;
     }
-    
+};    
+const addTagToCourse = async (context: any, tag: string, courseId: string) => {
+    try {
+        const tagId = await TagModel.createOrUpdate(null, tag, courseId, null, null);
+        const course = await CourseModel.addTag(tagId, courseId);
+        if(context) {
+            context.action = {
+                type: 'ADD_TAG_EDIT_COURSE',
+                course
+            };
+        }
+    } catch(error) {
+        throw error;
+    }
 };
 
 const addTagToConcept = async (tag: Tag, conceptId: string) => {
@@ -901,6 +918,7 @@ export const Actions = {
     clearCurrentVideoInfo,
     deleteVideo,
     addCourse,
+    deleteTagFromCourse,
     addTagToCourse,
     getCoursesByUser,
     getCoursesByVisibility,
