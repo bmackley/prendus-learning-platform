@@ -696,7 +696,7 @@ const addConcept = async (context: any, courseId: string, newConcept: Concept, c
     }catch(error){
       throw error;
     }
-}; 
+};
 
 const getConceptById = async (context: any, id: string) => {
     try {
@@ -722,8 +722,8 @@ const addCourse = async (context: any, newCourse: Course, tags: string[]) => {
       }
       await addCourseCollaborator(context, courseId, user.email);
 
-      const courses = await CourseModel.getCoursesByUser(newCourse.uid);
-
+      const tempCourses = await CourseModel.getCoursesByUser(newCourse.uid);
+      const courses = await CourseModel.resolveCourseArrayTagIds(tempCourses);
       context.action = {
           type: 'ADD_COURSE',
           courses,
@@ -745,7 +745,7 @@ const deleteTagFromCourse = async (context: any, tag: Tag, courseId: string) => 
     } catch(error) {
         throw error;
     }
-};    
+};
 const addTagToCourse = async (context: any, tag: string, courseId: string) => {
     try {
         const tagId = await TagModel.createOrUpdate(tag, courseId, null, null);
@@ -772,13 +772,14 @@ const lookupTags = async (context: any, tags: string[]) => {
     } catch(error) {
         throw error;
     }
-    
+
 };
 const getCoursesByUser = async (context: any) => {
     try {
       const loggedInUser = await FirebaseService.getLoggedInUser(); //not sure if this is the best way to do this. The user isn't set in the ready, and this is the only way to ensure that its set?
       if(loggedInUser){
-        const courses = await CourseModel.getCoursesByUser(loggedInUser.uid);
+        const tempCourses = await CourseModel.getCoursesByUser(loggedInUser.uid);
+        const courses = await CourseModel.resolveCourseArrayTagIds(tempCourses);
         context.action = {
             type: 'GET_COURSES_BY_USER',
             courses
@@ -819,8 +820,8 @@ const getSharedCoursesByUser = async (context: any, uid: string) => {
 
 const getCoursesByVisibility = async (context: any, visibility: CourseVisibility) => {
 
-    const courses = await CourseModel.getAllByVisibility(visibility);
-
+    const tempCourses = await CourseModel.getAllByVisibility(visibility);
+    const courses = await CourseModel.resolveCourseArrayTagIds(tempCourses);
     context.action = {
         type: 'SET_COURSES_BY_VISIBILITY',
         visibility,
