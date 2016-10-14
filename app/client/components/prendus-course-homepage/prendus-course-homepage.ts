@@ -52,7 +52,7 @@ class PrendusCourseHomepage {
       const formTitle = this.querySelector('#courseFormName').value;
       const courseDescription = this.querySelector('#courseDescription').value;
       const tags = this.querySelector('#tags').tags;
-      const newCourse = { 
+      const newCourse = {
         visibility: 'public',
         title: formTitle,
         description: courseDescription,
@@ -65,7 +65,7 @@ class PrendusCourseHomepage {
         this.errorMessage = error.message;
       }
       this.querySelector('#courseFormName').value = '';
-    }  
+    }
   }
   
   mapStateToThis(e: StatechangeEvent) {
