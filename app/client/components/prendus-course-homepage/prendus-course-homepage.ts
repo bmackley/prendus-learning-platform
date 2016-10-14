@@ -6,7 +6,7 @@ import {StatechangeEvent} from '../../interfaces/statechange-event.interface.ts'
 class PrendusCourseHomepage {
   public is: string;
   public properties: any;
-  public courses: string[]; 
+  public courses: string[];
   public newCourse: Course;
   private uid: string;
   public username: string;
