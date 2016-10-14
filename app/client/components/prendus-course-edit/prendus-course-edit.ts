@@ -39,6 +39,9 @@ class PrendusCourseEdit {
 
   tagAdded(e) {
     try {
+      if(!this.courseTagNames) {
+        this.courseTagNames = this.querySelector('#tags').tags;
+      }
       const tag: string = this.courseTagNames[this.courseTagNames.length-1];
       Actions.addTagToCourse(this, tag, this.courseId);
     } catch(error) {
