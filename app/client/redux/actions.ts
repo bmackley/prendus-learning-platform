@@ -761,14 +761,6 @@ const addTagToCourse = async (context: any, tag: string, courseId: string) => {
     }
 };
 
-const addTagToConcept = async (tag: Tag, conceptId: string) => {
-    return await TagModel.createOrUpdate(null, tag, null, conceptId, null);
-};
-
-const addTagToQuiz = async (tag: Tag, quizId: string) => {
-    return await TagModel.createOrUpdate(null, tag, null, null, quizId);
-};
-
 const lookupTags = async (context: any, tags: string[]) => {
     try {
         const tagObjects : Tag[] = await TagModel.getByNames(tags);
