@@ -19,11 +19,15 @@
       .course-card {
         cursor: pointer;
         width: 100%;
+        --paper-card-header-text: {
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+        }
       }
 
       .card-content {
         min-height: 150px;
-        word-wrap: break-word;
       }
     </style>
 
