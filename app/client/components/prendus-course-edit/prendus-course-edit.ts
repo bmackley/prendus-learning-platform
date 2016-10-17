@@ -16,8 +16,6 @@ class PrendusCourseEdit {
   public username: string;
   public uid: string;
   public date: Date;
-  public startDate: Date;
-  public endDate: Date;
   public route: any;
   public data: any;
   public courseConceptsLength: number;
@@ -36,7 +34,16 @@ class PrendusCourseEdit {
       }
     }
   }
-
+  initTagNames() {
+    if(this.courseTags) {
+      let tempCourseTagNames : string[] = [];   
+      for(let i = 0; i < this.courseTags.length; i++) {
+        const tag : Tag = this.courseTags[i];
+        tempCourseTagNames.push(tag.name); 
+      }
+      this.courseTagNames = tempCourseTagNames;
+    }
+  }
   tagAdded(e: any) {
     try {
       if(!this.courseTagNames) {
@@ -53,19 +60,21 @@ class PrendusCourseEdit {
   tagRemoved(e: any) {
     try {
       const tag: Tag = this.getTagRemoved();
-      Actions.deleteTagFromCourse(this, tag, this.courseId);
+      if(tag) {
+        Actions.deleteTagFromCourse(this, tag, this.courseId);
+      }
+      
     } catch(error) {
       this.errorMessage = '';
       this.errorMessage = error.message;
     }
-
   }
 
   getTagRemoved() {
-    //TODO not sure how else to do this, unless it's really really preferred to use a foreach
     for(let i = 0; i < this.courseTags.length; i++) {
       const tag = this.courseTags[i];
       if(this.courseTagNames.indexOf(tag.name) === -1) {
+        this.courseTagNames.splice(i);
         this.courseTags.splice(i);
         return tag;
       }
@@ -84,13 +93,11 @@ class PrendusCourseEdit {
   mapStateToThis(e: StatechangeEvent) {
     const state = e.detail.state;
     this.courseId = state.courseEditCurrentCourse.id;
-    this.startDate = state.courseEditCurrentCourse.startDate;
-    this.endDate = state.courseEditCurrentCourse.endDate;
     this.username = state.currentUser.metaData.email;
     this.uid = state.currentUser.metaData.uid;
-    this.currentCourse = state.courseEditCurrentCourse;
-    this.courseTagNames = state.courseEditCurrentCourse.tagNames;
+    this.currentCourse = state.courseEditCurrentCourse;    
     this.courseTags = state.courseEditCurrentCourse.tags;
+    this.initTagNames();
     this.courseConcepts = state.editCourseConcepts[this.courseId];
     this.courseConceptsLength = this.courseConcepts && this.courseConcepts.length;
   }
@@ -103,13 +110,6 @@ class PrendusCourseEdit {
     this.querySelector('#addDialog').open();
   }
 
-  openStartDatePicker(e: any){
-    this.querySelector('#selectStartDate').open();
-  }
-
-  openEndDatePicker(e: any){
-    this.querySelector('#selectEndDate').open();
-  }
 
   toggle(e: any) {
     const collapseTarget = e.target.id;
