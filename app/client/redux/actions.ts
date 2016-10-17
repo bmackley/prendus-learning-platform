@@ -736,7 +736,7 @@ const deleteTagFromCourse = async (context: any, tag: Tag, courseId: string) => 
     try {
         const tagId = tag.id;
         await CourseModel.removeTag(tagId, courseId);
-        await TagModel.removeCourse(tagId, courseId);
+        TagModel.removeCourse(tagId, courseId);
         const course = await CourseModel.getById(courseId);
         context.action = {
             type: 'DELETE_TAG_EDIT_COURSE',
