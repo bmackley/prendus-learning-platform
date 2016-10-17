@@ -16,7 +16,6 @@ class PrendusSearchCourseTags {
 
   //looks through course tags in database for matching tags  
   async searchTagsInDB(e: any) {
-    e.preventDefault(); //TODO do I need to do this everywhere?
     const tagList = this.querySelector('#searchTags').tags;
     try {
       Actions.lookupTags(this, tagList);
