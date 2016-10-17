@@ -40,7 +40,7 @@ class PrendusCourseHomepage {
   }
 
   //Opens new course dialog
-  addCourse(e) {
+  addCourse(e: any) {
     this.querySelector('#add-course-dialog').open();
   }
 
