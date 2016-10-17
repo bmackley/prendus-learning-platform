@@ -11,7 +11,8 @@
 <link rel="import" href="../../bower_components/app-route/app-route.html">
 <link rel="import" href="../../bower_components/paper-card/paper-card.html">
 <link rel="import" href="../prendus-concept-container-edit/prendus-concept-container-edit.html">
-<link href="../../bower_components/paper-tags-input/paper-tags-input.html" rel="import">
+<link rel="import" href="../prendus-paper-tags-input/prendus-paper-tags-input.html">
+
 <script src="../../bower_components/moment/min/moment-with-locales.min.js"></script>
 
 <dom-module id="prendus-course-edit">
@@ -90,7 +91,7 @@
           <prendus-collaborator-modal id="collaborators-modal" uid="[[uid]]" course-id="[[courseId]]" course></prendus-collaborator-modal>
           <paper-input name="title" label="Course Title" id="course-title" value="[[currentCourse.title]]" maxlength="50" on-change="attributeChanged"></paper-input>
           <paper-input name="description" id="course-description" label="Course Description" value="[[currentCourse.description]]" maxlength="150" on-change="attributeChanged"></paper-input>
-          <paper-tags-input placeholder="Delete tags or add new ones" duplicate-error-message="Tag cannot be a duplicate" id="tags" tags="[[courseTagNames]]" on-remove="tagRemoved" on-add="tagAdded"></paper-tags-input>
+          <prendus-paper-tags-input placeholder="Delete tags or add new ones" duplicate-error-message="Tag cannot be a duplicate" id="tags" tags="[[courseTagNames]]" on-remove="tagRemoved" on-add="tagAdded"></prendus-paper-tags-input>
           <h1>[[currentCourse.title]] Concepts</h1>
           <template is="dom-if" if="[[!courseConceptsLength]]">
             <p>Click the plus button to begin adding concepts to the Course.</p>
