@@ -14,7 +14,7 @@ class PrendusCoursePreview {
     public uid: string;
     public hasEditAccess: boolean;
     public errorMessage: string;
-
+    public courseTagNames: string[];
     beforeRegister() {
         this.is = 'prendus-course-preview';
         this.properties = {
@@ -24,7 +24,16 @@ class PrendusCoursePreview {
             }
         };
     }
-
+    initTagNames(course: Course) {
+        if(course.tags) {
+            let tempCourseTagNames : string[] = [];   
+            for(let i = 0; i < course.tags.length; i++) {
+                const tag : Tag = course.tags[i];
+                tempCourseTagNames.push(tag.name); 
+            }
+            this.courseTagNames = tempCourseTagNames;
+        }
+    }
     async init(course: Course) {
       try{
         await Actions.checkUserAuth(this);
@@ -95,12 +104,16 @@ class PrendusCoursePreview {
         const location = `/courses/view/${this.course.id}`
         window.history.pushState({}, '', location);
         this.fire('location-changed', {}, {node: window});
+        
     }
     mapStateToThis(e: StatechangeEvent) {
         const state = e.detail.state;
         this.user = state.currentUser;
         this.uid = state.currentUser.metaData.uid;
         this.numStars = Object.keys(this.course.userStars || {}).length;
+        if(this.course.tags) {
+           this.initTagNames(this.course);
+        }
         if (this.user && this.user.starredCourses && this.course) {
             if (this.user.starredCourses[this.course.id]) {
                 this.starIcon = 'icons:star';
