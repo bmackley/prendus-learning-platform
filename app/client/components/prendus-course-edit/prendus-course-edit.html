@@ -104,6 +104,7 @@
               </div>
             </template>
           </sortable-js>
+          <paper-fab icon = "add" title = "Add Concept" tooltip="Add Concept" on-tap="addConcept"></paper-fab>
         </template>
 
         <template is="dom-if" if="[[!username]]">
@@ -131,7 +132,6 @@
               <paper-button id="confirmDelete" on-tap="completeDelete">Yes</paper-button>
             </form>
         </paper-dialog>
-        <paper-fab icon = "add" title = "Add Concept" tooltip="Add Concept" on-tap="addConcept"></paper-fab>
       </div>
     </paper-card>
 
