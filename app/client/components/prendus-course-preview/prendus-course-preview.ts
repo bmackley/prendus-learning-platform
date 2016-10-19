@@ -82,7 +82,7 @@ class PrendusCoursePreview {
 
     editCourse(e: any) {
         e.stopPropagation();
-        const location = `/courses/edit/${this.course.id}`
+        const location = `/courses/view/${this.course.id}`
         window.history.pushState({}, '', location);
         this.fire('location-changed', {}, {node: window});
     }
