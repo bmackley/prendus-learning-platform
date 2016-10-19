@@ -21,7 +21,6 @@ class PrendusCourseHomepage {
     [uid: string]: string[];
   };
   public errorMessage: string;
-
   beforeRegister() {
     this.is = 'prendus-course-homepage';
     this.properties = {
@@ -35,13 +34,13 @@ class PrendusCourseHomepage {
           Actions.getStarredCoursesByUser(this, user.uid);
           Actions.getSharedCoursesByUser(this, user.uid);
       } catch(error) {
-          this.errorMessage = ''; //TODO isn't this redundant? should it be deleted?
+          this.errorMessage = '';
           this.errorMessage = error.message;
       }
   }
 
   //Opens new course dialog
-  addCourse(e) {
+  addCourse(e: any) {
     this.querySelector('#add-course-dialog').open();
   }
 
@@ -57,12 +56,10 @@ class PrendusCourseHomepage {
         visibility: 'public',
         title: formTitle,
         description: courseDescription,
-        tags,
         uid: this.uid
       };
-
       try {
-        Actions.addCourse(this, newCourse);
+        Actions.addCourse(this, newCourse, tags);
       } catch(error) {
         this.errorMessage = '';
         this.errorMessage = error.message;

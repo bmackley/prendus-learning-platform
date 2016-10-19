@@ -35,7 +35,19 @@
 
     <paper-card class="course-card" heading="[[course.title]]" on-tap="viewCourse">
       <div class="card-content">
-        [[course.description]]
+        <template is="dom-if" if="[[course.description]]">
+          <div>
+            Description: [[course.description]]
+          </div>
+        </template>
+        <template is="dom-if" if="[[course.tags.length]]">
+          Tags:
+          <template is="dom-repeat" items="[[course.tags]]">
+            <div>
+                [[item.name]]
+            </div>
+          </template>
+        </template>
       </div>
       <div class="card-actions">
         <paper-icon-button id="star-course" class="course-icon" icon="[[starIcon]]" on-tap="starClick"></paper-icon-button>[[numStars]]

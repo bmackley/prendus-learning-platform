@@ -14,7 +14,6 @@ class PrendusCoursePreview {
     public uid: string;
     public hasEditAccess: boolean;
     public errorMessage: string;
-
     beforeRegister() {
         this.is = 'prendus-course-preview';
         this.properties = {
@@ -24,7 +23,7 @@ class PrendusCoursePreview {
             }
         };
     }
-
+    
     async init(course: Course) {
       try{
         await Actions.checkUserAuth(this);
@@ -95,6 +94,7 @@ class PrendusCoursePreview {
         const location = `/courses/view/${this.course.id}`
         window.history.pushState({}, '', location);
         this.fire('location-changed', {}, {node: window});
+        
     }
     mapStateToThis(e: StatechangeEvent) {
         const state = e.detail.state;
