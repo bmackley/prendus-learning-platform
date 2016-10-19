@@ -6,7 +6,8 @@ import {Tag} from '../../node_modules/prendus-services/interfaces/tag.interface.
 class PrendusConceptNewConcept {
   public is: string;
   public properties: any;
-
+  public conceptFormName: string;
+  public tags: string[];
   beforeRegister() {
     this.is = 'prendus-concept-new-concept';
     this.properties = {
@@ -15,21 +16,25 @@ class PrendusConceptNewConcept {
   open() {
     this.querySelector('#dialog').open();
   }
-  mapStateToThis(e: StatechangeEvent) {
-    const state = e.detail.state;
-  }
-  tagAdded(e: any) {
-    try {
-
-    } catch(error) {
-      this.errorMessage = error.message;
-    }
-  }
-  tagRemoved(e: any) {
-    try {
-
-    } catch(error) {
-      this.errorMessage = error.message;
+  async addConceptFormDone(e: any) {
+    e.preventDefault();
+    if(this.conceptFormName) {
+      this.querySelector('#dialog').close();
+      const newConcept = {
+        uid: this.uid,
+        title: this.conceptFormName, 
+        tags: this.tags
+      };
+      
+      try {
+        await Actions.addConcept(this, this.courseId, newConcept, this.courseConcepts.length);
+        await Actions.getCourseEditCourseById(this, this.courseId);
+        this.domHost.successMessage = 'Concept added successfully';
+        Actions.loadEditCourseConcepts(this, this.courseId);
+      } catch(error){
+        this.domHost.errorMessage = error.message;
+      }
+      this.conceptFormName = '';
     }
   }
 }
