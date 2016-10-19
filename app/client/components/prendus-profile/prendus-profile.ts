@@ -27,7 +27,7 @@ export class PrendusProfile {
     this.email = state.currentUser.metaData.email;
     this.uid = state.currentUser.metaData.uid;
   }
-  async changeProfile(e) {
+  async changeProfile(e: any) {
     if(this.$.updateEmail.value != this.pastEmail){
       this.$.confirmEmailChange.open();
     }else{
@@ -48,7 +48,7 @@ export class PrendusProfile {
     }
 
   }
-  async closeOverlay(e) {
+  async closeOverlay(e: any) {
     if(e.detail.confirmed === true){
       try {
         const submitValue = {
@@ -68,10 +68,10 @@ export class PrendusProfile {
     }
     this.$.changeEmailPassword.value = ''; //need to clear the form
   }
-  submitKeydown(e){
+  submitKeydown(e: any){
     if(e.keyCode === 13) this.changeProfile(e);
   }
-  ready(e){
+  ready(){
     this.$.updateProfileErrorToast.fitInto = this.$.toastTarget;
     this.$.updateProfileSuccessToast.fitInto = this.$.toastTarget;
   }
