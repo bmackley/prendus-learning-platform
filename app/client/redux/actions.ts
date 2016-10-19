@@ -679,9 +679,14 @@ const checkUserAuth = async (context: any) => {
     throw error;
   }
 };
-const addConcept = async (context: any, courseId: string, newConcept: Concept, conceptPos: number) => {
+const addConcept = async (context: any, courseId: string, newConcept: Concept, conceptPos: number, tags: string[]) => {
     try {
-      const conceptId = await ConceptModel.save(null, newConcept);
+      const conceptId = await ConceptModel.createOrUpdate(null, newConcept);
+      if(tags) {
+        await UtilitiesService.asyncForEach(tags, async (tag: string) => {
+            addTagToConcept(null, tag, conceptId);
+        });
+      }    
       await CourseModel.associateConcept(courseId, conceptId, conceptPos);
       const course = await CourseModel.getById(courseId);
       const conceptsArray = await CourseModel.courseConceptsToArray(course);
@@ -694,11 +699,24 @@ const addConcept = async (context: any, courseId: string, newConcept: Concept, c
 
       const courseCollaboratorUids = await CourseModel.getCollaboratorUids(courseId);
       await ConceptModel.associateCollaborators(conceptId, courseCollaboratorUids);
-    }catch(error){
+    } catch(error) {
       throw error;
     }
 };
-
+const addTagToConcept = async (context: any, tag: string, conceptId: string) => {
+    try {
+        const tagId = await TagModel.createOrUpdate(tag, null, conceptId, null);
+        const concept = await ConceptModel.addTag(tagId, conceptId);
+        if(context) {
+            context.action = {
+                type: 'ADD_TAG_EDIT_CONCEPT',
+                concept
+            };
+        }
+    } catch(error) {
+        throw error;
+    }
+};
 const getConceptById = async (context: any, id: string) => {
     try {
       const concept = await ConceptModel.getById(id);
