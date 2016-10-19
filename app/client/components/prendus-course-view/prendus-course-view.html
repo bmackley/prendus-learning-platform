@@ -4,38 +4,158 @@
 
 <dom-module id="prendus-course-view">
   <style>
+
+    * {
+      margin: 0;
+    }
+
     :host {
       display: block;
     }
+
+    #course-container {
+      width: 100%;
+    }
+
+    #course-content {
+      display: flex;
+      flex-direction: column;
+      padding: 20px;
+    }
+
+    #course-content > * + * {
+      margin-top: 20px;
+    }
+
+    .edit-button {
+      align-self: flex-start;
+    }
+
+    #collaborators-button {
+      align-self: flex-end;
+    }
+
+    #concept-list {
+      border: solid lightgrey 1px;
+    }
+
+    #tags-container {
+
+    }
+
+    .tag {
+      background-color: var(--light-primary-color);
+      border-radius: 20px;
+      padding: 10px;
+      margin: 5px;
+    }
+
+    .menu-content {
+      padding: 20px;
+    }
+
     .course-concept {
-      display: block;
+      width: 100%;
+    }
+
+    .concept-container {
+      display: flex;
+    }
+
+    .concept-container + .concept-container {
+      border-top: solid lightgrey 1px;
+    }
+
+    .concept-edit-container {
+      flex-grow: 1;
+    }
+
+    #course-title {
+      --paper-input-container-input: {
+        font-size: 48px;
+      };
+    }
+    #course-description {
+      --paper-input-container-input: {
+        font-size: 24px;
+      };
     }
   </style>
   <template>
     <redux-store action="[[action]]" on-statechange="mapStateToThis"></redux-store>
     <app-route route="[[route]]" pattern="/view/:courseId" data="{{data}}"></app-route>
-      <h1>[[currentCourse.title]]</h1>
-      <template is="dom-if" if="[[currentCourse.description]]">
-        <div>
-          Description: [[currentCourse.description]]
-        </div>
-      </template>
-      <template is="dom-if" if="[[currentCourse.tags.length]]">
-          Tags:
-          <template is="dom-repeat" items="[[currentCourse.tags]]">
-            <div>
-                [[item.name]]
+
+    <paper-card id="course-container">
+      <div id="course-content" class="card-content">
+        <template is="dom-if" if="[[username]]">
+          <!-- COLLABORATORS -->
+          <paper-button id="collaborators-button" noink on-tap="openCollaboratorsModal">Collaborators</paper-button>
+          <prendus-collaborator-modal id="collaborators-modal" uid="[[uid]]" course-id="[[courseId]]" course></prendus-collaborator-modal>
+          <!-- TITLE -->
+          <h1 hidden$="[[editingTitle]]">[[currentCourse.title]]</h1>
+          <paper-input hidden$="[[!editingTitle]]" name="title" label="Course Title" id="course-title" value="[[currentCourse.title]]" maxlength="50" on-change="attributeChanged"></paper-input>
+          <template is="dom-if" if="[[hasEditAccess]]">
+            <paper-button class="edit-button" raised noink on-tap="toggleEditTitle">[[getTitleButtonText(editingTitle)]]</paper-button>
+          </template>
+          <!-- DESCRIPTION -->
+          <h3 hidden="[[editingDescription]]">[[currentCourse.description]]</h3>
+          <paper-input hidden="[[!editingDescription]]" name="description" id="course-description" label="Course Description" value="[[currentCourse.description]]" maxlength="100" on-change="attributeChanged"></paper-input>
+          <template is="dom-if" if="[[hasEditAccess]]">
+            <paper-button class="edit-button" raised noink on-tap="toggleEditDescription">[[getDescriptionButtonText(editingDescription)]]</paper-button>
+          </template>
+          <!-- TAGS -->
+          <h3 hidden$="[[!showTagsTitle(currentCourse.tags.length, hasEditAccess)]]">Tags</h3>
+          <template is="dom-if" if="[[showTagsView(currentCourse.tags.length, hasEditAccess)]]">
+            <div id="tags-container">
+              <template is="dom-repeat" items="[[currentCourse.tags]]">
+                <span class="tag">[[item.name]]</span>
+              </template>
             </div>
           </template>
-      </template>
-      <template id="concept-list" is="dom-repeat" items=[[courseConcepts]]>
-        <paper-card class="course-concept">
-          <div class="card-content">
-            <prendus-concept-container concept-id="[[item.id]]" course-id="[[data.courseId]]"></prendus-concept-container>
-          </div>
-        </paper-card>
+          <template is="dom-if" if="[[hasEditAccess]]">
+            <prendus-paper-tags-input placeholder="Delete tags or add new ones" duplicate-error-message="Tag cannot be a duplicate" id="tags" tags="[[courseTagNames]]" on-remove="tagRemoved" on-add="tagAdded"></prendus-paper-tags-input>
+          </template>
+          <!-- CONCEPTS -->
+          <h2>[[currentCourse.title]] Concepts</h2>
+          <template is="dom-if" if="[[!courseConceptsLength]]">
+            <p>Click the plus button to begin adding concepts to the Course.</p>
+          </template>
+          <sortable-js id="concept-list" on-sort="sortableEnded">
+            <template is="dom-repeat" items="[[courseConcepts]]">
+              <div class="concept-container">
+                <prendus-concept-container hidden$="[[hasEditAccess]]" concept-id="[[item.id]]" course-id="[[data.courseId]]"></prendus-concept-container>
+                <prendus-concept-container-edit hidden$="[[!hasEditAccess]]" class="concept-edit-container" concept-id="[[item.id]]"></prendus-concept-container-edit>
+              </div>
+            </template>
+          </sortable-js>
+        </template>
 
-      </template>
+        <template is="dom-if" if="[[!username]]">
+          <p> You are not signed in.  Please sign in to access this page </p>
+        </template>
+        <paper-dialog id="addDialog" with-backdrop>
+          <!-- TODO: add concept on hitting the Enter key -->
+          <form is="iron-form">
+            <h2>Add a Concept to the Course</h2>
+            <paper-input name="name" label="Concept Name" id="conceptFormName" required auto-validate value="{{newConceptName}}"></paper-input>
+          </form>
+          <div class="buttons">
+            <paper-button dialog-dismiss>Cancel</paper-button>
+            <paper-button on-tap="addConceptFormDone" disabled="[[!newConceptName.length]]">Done</paper-button>
+          </div>
+        </paper-dialog>
+        <paper-dialog id="confirm-delete" with-backdrop>
+          <form is="iron-form">
+            <h1 style="color: red">Confirm Delete </h1>
+            <p>Are you sure that you want to delete this concept?
+            <paper-button dialog-dismiss>No</paper-button>
+            <paper-button on-tap="completeDelete">Yes</paper-button>
+          </form>
+        </paper-dialog>
+        <paper-fab icon="add" title="Add Concept" tooltip="Add Concept" on-tap="addConcept"></paper-fab>
+      </div>
+    </paper-card>
+
   </template>
 
   <!--<script src="prendus-course-view.js"></script>-->
