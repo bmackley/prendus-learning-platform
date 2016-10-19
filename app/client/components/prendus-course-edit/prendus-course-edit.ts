@@ -97,7 +97,7 @@ class PrendusCourseEdit {
   }
 
   addConcept(e: any) {
-    this.querySelector('#addDialog').open();
+    this.querySelector('#addConceptDialog').open();
   }
 
 
