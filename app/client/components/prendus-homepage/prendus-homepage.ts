@@ -2,7 +2,6 @@ import {Course} from '../../node_modules/prendus-services/interfaces/course.inte
 import {Actions} from '../../redux/actions.ts';
 import {StatechangeEvent} from '../../interfaces/statechange-event.interface.ts';
 
-
 class PrendusHomepage {
     public is: string;
     public publicCourses: Course[];
