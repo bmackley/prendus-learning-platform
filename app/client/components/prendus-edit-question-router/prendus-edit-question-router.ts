@@ -1,4 +1,5 @@
 import {Actions} from '../../redux/actions.ts';
+import {StatechangeEvent} from '../../interfaces/statechange-event.interface.ts';
 
 class PrendusEditQuestionRouter {
     public is: string;
@@ -30,7 +31,7 @@ class PrendusEditQuestionRouter {
       window.history.back();
     }
 
-    mapStateToThis(e) {
+    mapStateToThis(e: StatechangeEvent) {
       const state = e.detail.state;
       this.jwt = state.jwt;
     }
