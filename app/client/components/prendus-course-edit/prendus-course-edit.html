@@ -13,7 +13,8 @@
 <link rel="import" href="../prendus-notification/prendus-notification.html">
 <link rel="import" href="../prendus-concept-container-edit/prendus-concept-container-edit.html">
 <link rel="import" href="../prendus-paper-tags-input/prendus-paper-tags-input.html">
-
+<link rel="import" href="../prendus-concept-new-concept/prendus-concept-new-concept.html">
+<link rel="import" href="../prendus-search-course-tags/prendus-search-course-tags.html">
 <script src="../../bower_components/moment/min/moment-with-locales.min.js"></script>
 
 <dom-module id="prendus-course-edit">
@@ -110,19 +111,7 @@
         <template is="dom-if" if="[[!username]]">
           <p> You are not signed in.  Please sign in to access this page </p>
         </template>
-        <paper-dialog id="addDialog" modal>
-          <div>
-            <!-- Look up Iron keys to change this -->
-            <form is="iron-form">
-              <h2>Add a Concept to the Course</h2>
-              <paper-input name="name" label="Concept Name" id ="conceptFormName" required auto-validate></paper-input>
-              <paper-button dialog-dismiss>Cancel</paper-button>
-              <paper-button on-tap="addConceptFormDone">Done</paper-button>
-            </form>
-          </div>
-          <div class="buttons">
-          </div>
-        </paper-dialog>
+        <prendus-concept-new-concept id="addConceptDialog"></prendus-concept-new-concept>
         <paper-dialog id="deleteConfirm" modal>
             <!-- Look up Iron keys to change this -->
             <form is="iron-form">
@@ -134,7 +123,7 @@
         </paper-dialog>
       </div>
     </paper-card>
-
+    
   </template>
 
 </dom-module>
