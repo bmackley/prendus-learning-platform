@@ -82,9 +82,9 @@
 
     <redux-store action="[[action]]" on-statechange="mapStateToThis"></redux-store>
     <app-route route="[[route]]" pattern="/edit/:courseId" data="{{data}}"></app-route>
-
     <prendus-notification success-message="[[successMessage]]"></prendus-notification>
     <prendus-notification error-message="[[errorMessage]]"></prendus-notification>
+    
 
     <paper-card id="course-container">
       <div id="course-content" class="card-content">
@@ -111,7 +111,7 @@
         <template is="dom-if" if="[[!username]]">
           <p> You are not signed in.  Please sign in to access this page </p>
         </template>
-        <prendus-concept-new-concept id="addConceptDialog"></prendus-concept-new-concept>
+        <prendus-concept-new-concept id="addConceptDialog" uid="[[uid]]" course-id="[[courseId]]" course-concepts="[[courseConcepts]]"></prendus-concept-new-concept>
         <paper-dialog id="deleteConfirm" modal>
             <!-- Look up Iron keys to change this -->
             <form is="iron-form">
