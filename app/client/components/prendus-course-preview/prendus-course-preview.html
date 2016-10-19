@@ -41,9 +41,12 @@
           </div>
         </template>
         <template is="dom-if" if="[[course.tags.length]]">
-          <div>
-            Tags: [[courseTagNames]]
-          </div>
+          Tags:
+          <template is="dom-repeat" items="[[course.tags]]">
+            <div>
+                [[item.name]]
+            </div>
+          </template>
         </template>
       </div>
       <div class="card-actions">
