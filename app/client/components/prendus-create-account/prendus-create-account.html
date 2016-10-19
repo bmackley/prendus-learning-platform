@@ -28,23 +28,34 @@
           color: white !important;
         };
       }
+      #email-confirmation-dialog {
+      width: 33%;
+      min-width: 300px;
+      }
     </style>
-    <template>
-      <redux-store action="[[action]]"></redux-store>
-      <paper-card id="signupForm" heading ="Create Account">
-        <form is="iron-form" class="card-content" method="get" action="/createclass" id="signupFormlocater">
-          <paper-input name="email" id="formEmail" label="Email" required auto-validate></paper-input>
-          <paper-input name="password" id="formPassword"label="Password" type="password" required auto-validate></paper-input>
-          <paper-input name="verify_password" id="retypePassword" label="Retype password" type="password" required auto-validate></paper-input>
-          <paper-input name="firstName" id="firstName" label="First Name"></paper-input>
-          <paper-input name="lastName" id="lastName" label="Last Name"></paper-input>
-          <paper-input name="Intitution" id="institution" label="Institution (school)"></paper-input>
-        </form>
-        <div class="card-actions">
-          <paper-button id="signup-submit" class="indigo" raised>Submit</paper-button>
-        </div>
-      </paper-card>
-
+  <template>
+    <redux-store action="[[action]]"></redux-store>
+    
+    <paper-card id="signupForm" heading ="Create Account">
+      <form is="iron-form" class="card-content" method="get" action="/createclass" id="signupFormlocater">
+        <paper-input name="email" id="formEmail" label="Email" required auto-validate></paper-input>
+        <paper-input name="password" id="formPassword" label="Password" type="password" required auto-validate></paper-input>
+        <paper-input name="verify_password" id="retypePassword" label="Retype password" type="password" required auto-validate></paper-input>
+        <paper-input name="firstName" id="firstName" label="First Name"></paper-input>
+        <paper-input name="lastName" id="lastName" label="Last Name"></paper-input>
+        <paper-input name="Intitution" id="institution" label="Institution (school)"></paper-input>
+      </form>
+      <div class="card-actions">
+        <paper-button id="signup-submit" class="indigo" raised>Submit</paper-button>
+      </div>
+    </paper-card>
+    <paper-dialog id="email-confirmation-dialog" modal>
+      <div>
+        [[createCourseEmailMessage]]
+        <br>
+        <paper-button class="indigo" on-tap="redirectToLogin" raised>Continue</paper-button>
+      </div>
+    </paper-dialog>
     <prendus-notification error-message="[[errorMessage]]"></prendus-notification>
   </template>
 

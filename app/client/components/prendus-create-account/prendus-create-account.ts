@@ -7,19 +7,12 @@ class PrendusCreateAccount {
   public errorMessage: string;
   public listeners: any;
   public readonly querySelector: any;
-
+  public createCourseEmailMessage: string;
   beforeRegister() {
-    this.is = 'prendus-create-account';
-    this.listeners =  {
-      'signup-submit.tap': 'createUser'
-    };
-  }
-
-  openTermsOfService(){
-    this.querySelector('#terms-of-service-modal').open()
-    // const location = '/terms-of-service';
-    // window.history.pushState({}, '', location);
-    // this.fire('location-changed', {}, {node: window});
+      this.is = 'prendus-create-account';
+      this.listeners =  {
+        'signup-submit.tap': 'createUser'
+      };
   }
 
   async createUser(e: Event){
@@ -29,39 +22,37 @@ class PrendusCreateAccount {
         const lastName = this.querySelector('#lastName').value;
         const institution = this.querySelector('#institution').value;
         const password = this.querySelector('#formPassword').value;
-
+        //TODO verify passwords match
         const userMetaData = {
-          uid: '',
-          email,
-          firstName,
-          lastName,
-          institution
+            uid: '',
+            email,
+            firstName,
+            lastName,
+            institution
         };
-
+        
         await Actions.createUser(this, userMetaData, password);
-        clearForm(this);
-        redirectHome(this);
+
+        //TODO decide on way to show a confirmation
+        this.querySelector('#email-confirmation-dialog').open();
+        //TODO decide on confirmation message
+        this.createCourseEmailMessage = 
+        `Your account has been created. Please confirm your email 
+         address. A confirmation email has been sent to ${email}.
+         You will now be redirected to the login page.`;
     }
     catch(error) {
-      this.errorMessage = '';
-      this.errorMessage = error.message
-    }
-
-    function clearForm(context: any) {
-        context.querySelector('#formEmail').value = '';
-        context.querySelector('#formPassword').value = '';
-        context.querySelector('#retypePassword').value = ''
-        context.querySelector('#firstName').value = '';
-        context.querySelector('#lastName').value = '';
-        context.querySelector('#institution').value= '';
-    }
-
-    function redirectHome(context: any) {
-        const location = '';
-        window.history.pushState({}, '', location);
-        context.fire('location-changed', {}, {node: window});
+        this.errorMessage = '';
+        this.errorMessage = error.message
     }
   }
+  redirectToLogin() {
+      const location = 'login';
+      window.history.pushState({}, '', location);
+      this.fire('location-changed', {}, {node: window});  
+      this.querySelector('#email-confirmation-dialog').close();
+  }
 }
+
 
 Polymer(PrendusCreateAccount);

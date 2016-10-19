@@ -623,20 +623,21 @@ const loadViewCourseConcepts = async (context: any, courseId: string) => {
 
 const createUser = async (context: any, data: UserMetaData, password: string) => {
     try {
-      const success = await FirebaseService.createUserWithEmailAndPassword(data.email, password);
-      const loggedInUser = await FirebaseService.logInUserWithEmailAndPassword(data.email, password);
-      await UserModel.updateMetaData(loggedInUser.uid, data);
-      await EmailsToUidsModel.setUidByEmail(data.email, loggedInUser.uid);
-      checkUserAuth(context);
-    }catch(error){
-      throw error;
+        await FirebaseService.createUserWithEmailAndPassword(data.email, password);
+        const loggedInUser = await FirebaseService.logInUserWithEmailAndPassword(data.email, password);
+        UserModel.sendConfirmationEmail(loggedInUser);
+        UserModel.updateMetaData(loggedInUser.uid, data);
+        EmailsToUidsModel.setUidByEmail(data.email, loggedInUser.uid);
+        FirebaseService.logOutUser(); //logout so user can't do things
+    } catch(error){
+        throw error;
     }
 };
 const loginUser = async (context: any, email: string, password: string) => {
       try {
-        const loggedInUser = await FirebaseService.logInUserWithEmailAndPassword(email, password);
+        await UserModel.loginUser(email, password);
         checkUserAuth(context);
-      }catch(error){
+      } catch(error) {
         throw error;
       }
 };
