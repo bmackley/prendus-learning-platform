@@ -4,8 +4,10 @@ import {ConceptModel} from '../node_modules/prendus-services/models/concept.mode
 import {CourseConceptData} from '../node_modules/prendus-services/interfaces/course-concept-data.interface.ts';
 import {UserModel} from '../node_modules/prendus-services/models/user.model.ts';
 import {VideoModel} from '../node_modules/prendus-services/models/video.model.ts';
+import {TagModel} from '../node_modules/prendus-services/models/tag.model.ts';
 import {QuizModel} from '../node_modules/prendus-services/models/quiz.model.ts';
 import {Course} from '../node_modules/prendus-services/interfaces/course.interface.ts';
+import {Tag} from '../node_modules/prendus-services/interfaces/tag.interface.ts';
 import {Concept} from '../node_modules/prendus-services/interfaces/concept.interface.ts';
 import {QuestionSettings} from '../node_modules/prendus-services/interfaces/question-settings.interface.ts';
 import {CourseVisibility} from '../node_modules/prendus-services/interfaces/course-visibility.type.ts';
@@ -14,6 +16,7 @@ import {User} from '../node_modules/prendus-services/interfaces/user.interface.t
 import {EmailsToUidsModel} from '../node_modules/prendus-services/models/emails-to-uids.model.ts';
 import {Video} from '../node_modules/prendus-services/interfaces/video.interface.ts';
 import {ExecuteAsyncInOrder} from '../node_modules/prendus-services/services/execute-async-in-order.ts';
+import {UtilitiesService} from '../node_modules/prendus-services/services/utilities.service.ts';
 
 const defaultAction = (context: any) => {
     context.action = {
@@ -707,30 +710,79 @@ const getConceptById = async (context: any, id: string) => {
     }
 };
 
-const addCourse = async (context: any, newCourse: Course) => {
+const addCourse = async (context: any, newCourse: Course, tags: string[]) => {
     try {
       const user = await FirebaseService.getLoggedInUser();
 
       const courseId = await CourseModel.createOrUpdate(null, newCourse);
+      if(tags) {
+        await UtilitiesService.asyncForEach(tags, async (tag: string) => {
+            addTagToCourse(null, tag, courseId);
+        });
+      }
       await addCourseCollaborator(context, courseId, user.email);
 
-      const courses = await CourseModel.getCoursesByUser(newCourse.uid);
+      const tempCourses = await CourseModel.getCoursesByUser(newCourse.uid);
+      const courses = await CourseModel.resolveCourseArrayTagIds(tempCourses);
       context.action = {
           type: 'ADD_COURSE',
-          courses: courses,
-      }
-    }catch(error){
+          courses,
+      };
+    } catch(error){
       throw error;
     }
+};
+const deleteTagFromCourse = async (context: any, tag: Tag, courseId: string) => {
+    try {
+        const tagId = tag.id;
+        await CourseModel.removeTag(tagId, courseId);
+        TagModel.removeCourse(tagId, courseId);
+        const course = await CourseModel.getById(courseId);
+        context.action = {
+            type: 'DELETE_TAG_EDIT_COURSE',
+            course
+        }
+    } catch(error) {
+        throw error;
+    }
+};
+const addTagToCourse = async (context: any, tag: string, courseId: string) => {
+    try {
+        const tagId = await TagModel.createOrUpdate(tag, courseId, null, null);
+        const course = await CourseModel.addTag(tagId, courseId);
+        if(context) {
+            context.action = {
+                type: 'ADD_TAG_EDIT_COURSE',
+                course
+            };
+        }
+    } catch(error) {
+        throw error;
+    }
+};
+
+const lookupTags = async (context: any, tags: string[]) => {
+    try {
+        const tagObjects : Tag[] = await TagModel.getByNames(tags);
+        const coursesArray : Course[] = await TagModel.getCoursesInTags(tagObjects);
+        context.action = {
+            type: 'LOOKUP_TAGS',
+            coursesArray
+        };
+    } catch(error) {
+        throw error;
+    }
+
 };
 const getCoursesByUser = async (context: any) => {
     try {
       const loggedInUser = await FirebaseService.getLoggedInUser(); //not sure if this is the best way to do this. The user isn't set in the ready, and this is the only way to ensure that its set?
       if(loggedInUser){
-        const courses = await CourseModel.getCoursesByUser(loggedInUser.uid);
+        const tempCourses = await CourseModel.getCoursesByUser(loggedInUser.uid);
+        const courses = await CourseModel.resolveCourseArrayTagIds(tempCourses);
         context.action = {
             type: 'GET_COURSES_BY_USER',
-            courses: courses
+            courses
         };
       }
     }catch(error){
@@ -742,7 +794,6 @@ const getStarredCoursesByUser = async (context: any, uid: string) => {
     try {
         const courseIds = await UserModel.getStarredCoursesIds(uid);
         const courses = await CourseModel.resolveCourseIds(courseIds);
-
         context.action = {
             type: 'SET_STARRED_COURSES',
             courses
@@ -757,7 +808,6 @@ const getSharedCoursesByUser = async (context: any, uid: string) => {
     try {
         const courseIds = await UserModel.getSharedWithMeCoursesIds(uid);
         const courses = await CourseModel.resolveCourseIds(courseIds);
-
         context.action = {
             type: 'SET_SHARED_COURSES',
             courses
@@ -770,8 +820,8 @@ const getSharedCoursesByUser = async (context: any, uid: string) => {
 
 const getCoursesByVisibility = async (context: any, visibility: CourseVisibility) => {
 
-    const courses = await CourseModel.getAllByVisibility(visibility);
-
+    const tempCourses = await CourseModel.getAllByVisibility(visibility);
+    const courses = await CourseModel.resolveCourseArrayTagIds(tempCourses);
     context.action = {
         type: 'SET_COURSES_BY_VISIBILITY',
         visibility,
@@ -795,9 +845,11 @@ const getCourseViewCourseById = async (context: any, id: string) => {
 const getCourseEditCourseById = async (context: any, id: string) => {
     try {
       const course = await CourseModel.getById(id);
+      const courseTagNames = await TagModel.getTagNameArray(course.tags);
       context.action = {
           type: 'SET_COURSE_EDIT_CURRENT_COURSE',
-          currentCourse: course
+          currentCourse: course,
+          courseTagNames
       };
     }
     catch(error){
@@ -861,6 +913,8 @@ export const Actions = {
     clearCurrentVideoInfo,
     deleteVideo,
     addCourse,
+    deleteTagFromCourse,
+    addTagToCourse,
     getCoursesByUser,
     getCoursesByVisibility,
     loadUserQuestionIds,
@@ -891,6 +945,7 @@ export const Actions = {
     loadConceptCollaboratorEmails,
     loadVideoCollaboratorEmails,
     addCourseCollaborator,
+    lookupTags,
     addConceptCollaborator,
     addVideoCollaborator,
     removeCourseCollaborator,
