@@ -34,16 +34,6 @@ class PrendusCourseEdit {
       }
     }
   }
-  initTagNames() {
-    if(this.courseTags) {
-      let tempCourseTagNames : string[] = [];   
-      for(let i = 0; i < this.courseTags.length; i++) {
-        const tag : Tag = this.courseTags[i];
-        tempCourseTagNames.push(tag.name); 
-      }
-      this.courseTagNames = tempCourseTagNames;
-    }
-  }
   tagAdded(e: any) {
     try {
       if(!this.courseTagNames) {
@@ -97,7 +87,7 @@ class PrendusCourseEdit {
     this.uid = state.currentUser.metaData.uid;
     this.currentCourse = state.courseEditCurrentCourse;    
     this.courseTags = state.courseEditCurrentCourse.tags;
-    this.initTagNames();
+    this.courseTagNames = state.courseTagNames;
     this.courseConcepts = state.editCourseConcepts[this.courseId];
     this.courseConceptsLength = this.courseConcepts && this.courseConcepts.length;
   }
