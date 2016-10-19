@@ -1,0 +1,36 @@
+<link href="../../bower_components/polymer/polymer.html" rel="import">
+<link rel="import" href="../prendus-paper-tags-input/prendus-paper-tags-input.html">
+<link rel="import" href="../prendus-course-preview/prendus-course-preview.html">
+<dom-module id="prendus-search-course-tags">
+  <style>
+    .courses-container {
+      display: flex;
+      flex-wrap: wrap;
+      max-width: 800px;
+    }
+    .course-preview {
+      margin: 10px;
+      flex-basis: 30%;
+      flex-grow: 0;
+      min-width: 0;
+    }
+  </style>
+  <template>
+    <redux-store on-statechange="mapStateToThis" action="[[action]]"></redux-store>
+      <div>
+        <prendus-paper-tags-input placeholder="Type tags you wish to lookup. Press enter to add multiple" label="Search for courses by tags" id="searchTags" duplicate-error-message="Tag cannot be a duplicate" searchTags="[[tags]]"></prendus-paper-tags-input>
+        <paper-button on-tap="clearTags">Clear</paper-button>
+        <paper-button on-tap="searchTagsInDB">Search</paper-button>
+      </div>
+    <template is="dom-if" if="[[resultingCourses.length]]">
+      <h1>Courses that match your tag search</h1>
+      <div class="courses-container">
+        <template id="resulting-courses" is="dom-repeat" items="[[resultingCourses]]">
+          <prendus-course-preview class="course-preview" course="[[item]]"></prendus-course-preview>
+        </template>
+      </div>
+    </template>
+  </template>
+  
+  <!--<script src="prendus-course-homepage.js"></script>-->
+</dom-module>
