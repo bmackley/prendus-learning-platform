@@ -832,9 +832,11 @@ const getCoursesByVisibility = async (context: any, visibility: CourseVisibility
 const getCourseViewCourseById = async (context: any, id: string) => {
     try {
       const course = await CourseModel.getById(id);
+      const concepts = await CourseModel.courseConceptsToArray(course);
       context.action = {
           type: 'SET_COURSE_VIEW_CURRENT_COURSE',
-          currentCourse: course
+          currentCourse: course,
+          viewCourseConcepts: concepts
       };
     }
     catch(error){

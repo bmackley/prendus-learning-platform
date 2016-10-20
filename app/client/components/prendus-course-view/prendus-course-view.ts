@@ -3,6 +3,7 @@ import {Course} from '../../node_modules/prendus-services/interfaces/course.inte
 import {Concept} from '../../node_modules/prendus-services/interfaces/concept.interface.ts';
 import {CourseConceptData} from '../../node_modules/prendus-services/interfaces/course-concept-data.interface.ts';
 import {StatechangeEvent} from '../../interfaces/statechange-event.interface.ts';
+import {Tag} from '../../node_modules/prendus-services/interfaces/tag.interface.ts';
 
 export class PrendusCourseView {
   public is: string;
@@ -16,6 +17,8 @@ export class PrendusCourseView {
   public username: string;
   public uid: string;
   public currentCourse: Course;
+  public successMessage: string;
+  public errorMessage: string;
 
   beforeRegister() {
     this.is = 'prendus-course-view';
@@ -145,31 +148,6 @@ export class PrendusCourseView {
     this.querySelector('#Concept' + collapseTarget).toggle();
   }
 
-  addConceptFormDone(e: any) {
-    e.preventDefault();
-    if(this.$.conceptFormName.value) {
-      this.querySelector('#addDialog').close();
-      const newConcept = {
-        creator: this.uid,
-        title: this.$.conceptFormName.value,
-      };
-      Actions.addConcept(this, this.courseId, newConcept, this.courseConcepts.length);
-    }
-  }
-
-  sortableEnded(e: any) {
-    if(typeof e.newIndex !== 'undefined') {
-      let updateConceptPositionArray = [];
-      for(let i = 0, len = this.courseConcepts.length; i < len; i++ ) {
-        if(this.courseConcepts[i].pos != i) {
-          this.courseConcepts[i].pos = i
-          updateConceptPositionArray.push(this.concepts[i])
-        }
-      }
-      Actions.orderConcepts(this, this.courseId, updateConceptPositionArray);
-    }
-  }
-
   async viewCourse() {
     if (this.data.courseId) {
         Actions.showMainSpinner(this);
@@ -188,6 +166,10 @@ export class PrendusCourseView {
     }
   }
 
+  addConcept(e: any) {
+    this.querySelector('#addDialog').open();
+  }
+
   async addConceptFormDone(e: any) {
     e.preventDefault();
     if(this.$.conceptFormName.value) {
@@ -198,7 +180,7 @@ export class PrendusCourseView {
       };
       try {
         await Actions.addConcept(this, this.courseId, newConcept, this.courseConcepts.length);
-        await Actions.getCourseEditCourseById(this, this.data.courseId);
+        await Actions.getCourseViewCourseById(this, this.data.courseId);
 
         this.successMessage = '';
         this.successMessage = 'Concept added successfully';
@@ -212,9 +194,9 @@ export class PrendusCourseView {
     }
   }
 
-  sortableEnded(e: any) { //This isn't the most elegant solution. I'm open to better ways of doing things.
+  async sortableEnded(e: any) { //This isn't the most elegant solution. I'm open to better ways of doing things.
     if(typeof e.newIndex !== 'undefined') {
-      const updateConceptPositionArray = [];
+      const updateConceptPositionArray : any[] = [];
       for(let i = 0, len = this.courseConcepts.length; i < len; i++ ) {
         if(this.courseConcepts[i].position != i) {
           this.courseConcepts[i].position = i
@@ -222,10 +204,11 @@ export class PrendusCourseView {
         }
       }
       try {
-        Actions.orderConcepts(this, this.courseId, updateConceptPositionArray);
+        await Actions.orderConcepts(this, this.courseId, updateConceptPositionArray);
+        await Actions.getCourseViewCourseById(this, this.courseId);
         this.successMessage = '';
         this.successMessage = 'Concept ordered successfully';
-      }catch(error) {
+      } catch(error) {
         this.errorMessage = '';
         this.errorMessage = error.message;
       }
@@ -239,7 +222,6 @@ export class PrendusCourseView {
         const attribute = e.target.name;
         await Actions.updateCourseField(this, this.courseId, attribute, value);
         await Actions.getCourseViewCourseById(this, this.courseId);
-        console.log(this.currentCourse);
         this.successMessage = '';
         this.successMessage = `${attribute} has been updated`;
       }

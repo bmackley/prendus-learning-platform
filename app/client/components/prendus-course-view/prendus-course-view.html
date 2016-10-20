@@ -1,6 +1,20 @@
-<link href="../../bower_components/polymer/polymer.html" rel="import">
-<link href="../../bower_components/redux-store-element/redux-store.html" rel="import">
-<link href="../prendus-concept-container/prendus-concept-container.html" rel="import">
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/paper-dialog/paper-dialog.html">
+<link rel="import" href="../../bower_components/paper-fab/paper-fab.html">
+<link rel="import" href="../../bower_components/paper-dialog-behavior/paper-dialog-behavior.html">
+<link rel="import" href="../../bower_components/paper-dialog-behavior/paper-dialog-shared-styles.html">
+<link rel="import" href="../../bower_components/paper-date-picker/paper-date-picker.html">
+<link rel="import" href="../../bower_components/redux-store-element/redux-store.html">
+<link rel="import" href="../../bower_components/paper-input/paper-input.html">
+<link rel="import" href="../../bower_components/paper-input/paper-input-char-counter.html">
+<link rel="import" href="../../bower_components/Sortable/Sortable.html">
+<link rel="import" href="../../bower_components/app-route/app-route.html">
+<link rel="import" href="../../bower_components/paper-card/paper-card.html">
+<link rel="import" href="../prendus-notification/prendus-notification.html">
+<link rel="import" href="../prendus-concept-container/prendus-concept-container.html">
+<link rel="import" href="../prendus-concept-container-edit/prendus-concept-container-edit.html">
+<link rel="import" href="../prendus-paper-tags-input/prendus-paper-tags-input.html">
+
 
 <dom-module id="prendus-course-view">
   <style>
@@ -85,6 +99,9 @@
     <redux-store action="[[action]]" on-statechange="mapStateToThis"></redux-store>
     <app-route route="[[route]]" pattern="/view/:courseId" data="{{data}}"></app-route>
 
+    <prendus-notification success-message="[[successMessage]]"></prendus-notification>
+    <prendus-notification error-message="[[errorMessage]]"></prendus-notification>
+
     <paper-card id="course-container">
       <div id="course-content" class="card-content">
         <template is="dom-if" if="[[username]]">
@@ -117,17 +134,26 @@
           </template>
           <!-- CONCEPTS -->
           <h2>[[currentCourse.title]] Concepts</h2>
-          <template is="dom-if" if="[[!courseConceptsLength]]">
-            <p>Click the plus button to begin adding concepts to the Course.</p>
-          </template>
-          <sortable-js id="concept-list" on-sort="sortableEnded">
+          <template is="dom-if" if="[[!hasEditAccess]]">
             <template is="dom-repeat" items="[[courseConcepts]]">
               <div class="concept-container">
-                <prendus-concept-container hidden$="[[hasEditAccess]]" concept-id="[[item.id]]" course-id="[[data.courseId]]"></prendus-concept-container>
-                <prendus-concept-container-edit hidden$="[[!hasEditAccess]]" class="concept-edit-container" concept-id="[[item.id]]"></prendus-concept-container-edit>
+                <prendus-concept-container class="concept-edit-container" concept-id="[[item.id]]" course-id="[[data.courseId]]"></prendus-concept-container>
               </div>
             </template>
-          </sortable-js>
+          </template>
+          <template is="dom-if" if="[[hasEditAccess]]">
+            <template is="dom-if" if="[[!courseConceptsLength]]">
+              <p>Click the plus button to begin adding concepts to the Course.</p>
+            </template>
+            <sortable-js id="concept-list" on-sort="sortableEnded">
+              <template is="dom-repeat" items="[[courseConcepts]]">
+                <div class="concept-container">
+                  <prendus-concept-container-edit class="concept-edit-container" concept-id="[[item.id]]"></prendus-concept-container-edit>
+                </div>
+              </template>
+            </sortable-js>
+            <paper-fab icon="add" title="Add Concept" tooltip="Add Concept" on-tap="addConcept"></paper-fab>
+          </template>
         </template>
 
         <template is="dom-if" if="[[!username]]">
@@ -152,7 +178,6 @@
             <paper-button on-tap="completeDelete">Yes</paper-button>
           </form>
         </paper-dialog>
-        <paper-fab icon="add" title="Add Concept" tooltip="Add Concept" on-tap="addConcept"></paper-fab>
       </div>
     </paper-card>
 
