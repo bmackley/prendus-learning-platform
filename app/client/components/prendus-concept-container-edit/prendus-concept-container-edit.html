@@ -56,7 +56,14 @@
 
     <div id="title-buttons" on-tap="toggle">
       <iron-icon class="drag-icon" icon="editor:drag-handle"></iron-icon>
-      <h3 id="concept-title">[[title]]</h3>
+      <h3 id="concept-title">[[title]]
+        <template is="dom-if" if="[[tags]]">
+          Tags:
+          <template is="dom-repeat" items="[[tags]]">
+            [[item.name]]
+          </template>
+        </template>
+      </h3>
       <iron-icon id="collaborator-button" icon="social:group-add" on-tap="openCollaboratorsModal"></iron-icon>
       <paper-tooltip for="collaborator-button" offset="0" animation-delay="300">Edit Collaborators</paper-tooltip>
       <prendus-collaborator-modal id="collaborators-modal" course-id="[[courseId]]" concept-id="[[item.id]]" concept></prendus-collaborator-modal>
