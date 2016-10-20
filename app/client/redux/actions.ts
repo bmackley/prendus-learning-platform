@@ -896,7 +896,10 @@ const getCourseViewCourseById = async (context: any, id: string) => {
 const getCourseEditCourseById = async (context: any, id: string) => {
     try {
       const course = await CourseModel.getById(id);
-      const courseTagNames = await TagModel.getTagNameArray(course.tags);
+      let courseTagNames = null;
+      if(course.tags) {
+          courseTagNames = await TagModel.getTagNameArray(course.tags);
+      }
       context.action = {
           type: 'SET_COURSE_EDIT_CURRENT_COURSE',
           currentCourse: course,
