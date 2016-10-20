@@ -26,9 +26,10 @@ export class PrendusConceptContainerEdit {
   async init() {
     if (this.conceptId) {
       const path = `concepts/${this.conceptId}`
-      const concept = await FirebaseService.get(path); //Am I doing this right? I feel like this was pretty smart on my part. Keeps the title scoped to just the concept component - AKA Dont want redux on this
-      await Actions.getConceptById(this, this.conceptId);
+      // pass null to not fire a redux action
+      const concept = await Actions.getConceptById(null, this.conceptId); 
       this.title = concept.title;
+      this.tags = concept.tags;
     }
   }
   openCollaboratorsModal(e) {
@@ -37,11 +38,6 @@ export class PrendusConceptContainerEdit {
   }
   toggle(e: any) {
     this.querySelector('#collapsible-section').toggle();
-  }
-  mapStateToThis(e: StatechangeEvent) {
-    const state = e.detail.state;
-    this.conceptData = state.currentConcept;
-
   }
   deleteItem(e: any) {
     e.stopPropagation();

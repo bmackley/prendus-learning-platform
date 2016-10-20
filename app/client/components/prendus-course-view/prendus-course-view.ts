@@ -196,7 +196,7 @@ export class PrendusCourseView {
 
   async sortableEnded(e: any) { //This isn't the most elegant solution. I'm open to better ways of doing things.
     if(typeof e.newIndex !== 'undefined') {
-      const updateConceptPositionArray : any[] = [];
+      let updateConceptPositionArray = [];
       for(let i = 0, len = this.courseConcepts.length; i < len; i++ ) {
         if(this.courseConcepts[i].position != i) {
           this.courseConcepts[i].position = i
