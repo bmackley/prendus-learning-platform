@@ -3,6 +3,9 @@
 <link rel="import" href="../prendus-course-preview/prendus-course-preview.html">
 <dom-module id="prendus-search-concept-tags">
   <style>
+    .course-concept {
+        display: block;
+    }
   </style>
   <template>
     <redux-store on-statechange="mapStateToThis" action="[[action]]"></redux-store>
@@ -12,14 +15,17 @@
         <paper-button on-tap="clearTags">Clear</paper-button>
         <paper-button on-tap="searchTagsInDB">Search</paper-button>
       </div>
-    <template is="dom-if" if="[[resultingCourses.length]]">
-      <h1>Courses that match your tag search</h1>
-      <div class="courses-container">
-        <template id="resulting-courses" is="dom-repeat" items="[[resultingCourses]]">
-          <prendus-course-preview class="course-preview" course="[[item]]"></prendus-course-preview>
+
+      <template is="dom-if" if="[[resultingConcepts]]">
+        <h3>Concepts that match your tag search</h3>
+        <template id="concept-list" is="dom-repeat" items="[[resultingConcepts]]">
+          <paper-card class="course-concept">
+            <div class="card-content">
+              <prendus-concept-container concept-id="[[item.id]]"></prendus-concept-container>
+            </div>
+          </paper-card>
+
         </template>
-      </div>
-    </template>
+      </template>
   </template>
-  
 </dom-module>
