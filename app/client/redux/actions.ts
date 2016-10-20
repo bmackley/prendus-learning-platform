@@ -687,6 +687,7 @@ const addConcept = async (context: any, courseId: string, newConcept: Concept, c
             addTagToConcept(null, tag, conceptId);
         });
       }    
+
       await CourseModel.associateConcept(courseId, conceptId, conceptPos);
       const course = await CourseModel.getById(courseId);
       const conceptsArray = await CourseModel.courseConceptsToArray(course);
@@ -720,10 +721,17 @@ const addTagToConcept = async (context: any, tag: string, conceptId: string) => 
 const getConceptById = async (context: any, id: string) => {
     try {
       const concept = await ConceptModel.getById(id);
-      context.action = {
-        type: 'GET_CONCEPT_BY_ID',
-        concept: concept,
+      const tagArray = ConceptModel.conceptTagIdsToArray(concept);
+      const tags = await TagModel.resolveTagIds(tagArray);
+      concept.tags = tags;
+      if(context) {
+          context.action = {
+            type: 'GET_CONCEPT_BY_ID',
+            concept
+          }
       }
+      
+      return concept;
     }catch(error){
       throw error;
     }
