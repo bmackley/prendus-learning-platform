@@ -13,7 +13,7 @@ export class PrendusCourseView {
   public username: string;
   public uid: string;
   public currentCourse: Course;
-
+  public errorMessage: string;
   beforeRegister() {
     this.is = 'prendus-course-view';
     this.properties = {
@@ -49,17 +49,6 @@ export class PrendusCourseView {
   toggle(e) {
     const collapseTarget = (e.target.id);
     this.querySelector('#Concept' + collapseTarget).toggle();
-  }
-  addConceptFormDone(e){
-    e.preventDefault();
-    if(this.$.conceptFormName.value){
-      this.querySelector('#addDialog').close();
-      const newConcept = {
-        creator: this.uid,
-        title: this.$.conceptFormName.value,
-      };
-      Actions.addConcept(this, this.courseId, newConcept, this.courseConcepts.length);
-    }
   }
   sortableEnded(e){
     if(typeof e.newIndex !== 'undefined'){
