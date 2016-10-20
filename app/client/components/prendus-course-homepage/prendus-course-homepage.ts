@@ -51,7 +51,6 @@ class PrendusCourseHomepage {
       this.querySelector('#add-course-dialog').close();
       const formTitle = this.querySelector('#courseFormName').value;
       const courseDescription = this.querySelector('#courseDescription').value;
-      const tags = this.querySelector('#tags').tags;
       const newCourse = {
         visibility: 'public',
         title: formTitle,
@@ -59,7 +58,7 @@ class PrendusCourseHomepage {
         uid: this.uid
       };
       try {
-        Actions.addCourse(this, newCourse, tags);
+        Actions.addCourse(this, newCourse, this.tags);
       } catch(error) {
         this.errorMessage = '';
         this.errorMessage = error.message;
