@@ -14,7 +14,7 @@
 <link rel="import" href="../prendus-concept-container-edit/prendus-concept-container-edit.html">
 <link rel="import" href="../prendus-paper-tags-input/prendus-paper-tags-input.html">
 <link rel="import" href="../prendus-concept-new-concept/prendus-concept-new-concept.html">
-<link rel="import" href="../prendus-search-course-tags/prendus-search-course-tags.html">
+<link rel="import" href="../prendus-search-concept-tags/prendus-search-concept-tags.html">
 <script src="../../bower_components/moment/min/moment-with-locales.min.js"></script>
 
 <dom-module id="prendus-course-edit">
@@ -85,7 +85,7 @@
     <prendus-notification success-message="[[successMessage]]"></prendus-notification>
     <prendus-notification error-message="[[errorMessage]]"></prendus-notification>
     
-
+    
     <paper-card id="course-container">
       <div id="course-content" class="card-content">
         <template is="dom-if" if="[[username]]">
@@ -122,8 +122,9 @@
             </form>
         </paper-dialog>
       </div>
+      
     </paper-card>
-    
+    <prendus-search-concept-tags></prendus-search-concept-tags>
   </template>
 
 </dom-module>
