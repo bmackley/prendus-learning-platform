@@ -44,13 +44,16 @@
       margin: 0;
       flex-grow: 1;
     }
+    #confirm-delete-title{
+      color: red;
+    }
 
   </style>
 
     <redux-store on-statechange="mapStateToThis" action="[[action]]"></redux-store>
     <prendus-notification success-message="[[successMessage]]"></prendus-notification>
     <prendus-notification error-message="[[errorMessage]]"></prendus-notification>
-    
+
     <div id="title-buttons" on-tap="toggle">
       <iron-icon class="drag-icon" icon="editor:drag-handle"></iron-icon>
       <h3 id="concept-title">[[title]]</h3>
@@ -72,10 +75,10 @@
         </iron-pages>
       </div>
     </iron-collapse>
-    <paper-dialog id = "deleteConfirm" modal>
+    <paper-dialog id="delete-confirm-modal" modal>
         <!-- Look up Iron keys to change this -->
         <form is="iron-form">
-          <h1 style="color: red">Confirm Delete </h1>
+          <h1 id="confirm-delete-title">Confirm Delete </h1>
           <p>Are you sure that you want to delete this concept?
           <paper-button dialog-dismiss>No</paper-button>
           <paper-button id = "confirmeDelete" on-tap="completeDelete">Yes</paper-button>
