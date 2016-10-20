@@ -13,7 +13,8 @@
 <link rel="import" href="../prendus-notification/prendus-notification.html">
 <link rel="import" href="../prendus-concept-container-edit/prendus-concept-container-edit.html">
 <link rel="import" href="../prendus-paper-tags-input/prendus-paper-tags-input.html">
-
+<link rel="import" href="../prendus-concept-new-concept/prendus-concept-new-concept.html">
+<link rel="import" href="../prendus-search-concept-tags/prendus-search-concept-tags.html">
 <script src="../../bower_components/moment/min/moment-with-locales.min.js"></script>
 
 <dom-module id="prendus-course-edit">
@@ -81,9 +82,9 @@
 
     <redux-store action="[[action]]" on-statechange="mapStateToThis"></redux-store>
     <app-route route="[[route]]" pattern="/edit/:courseId" data="{{data}}"></app-route>
-
     <prendus-notification success-message="[[successMessage]]"></prendus-notification>
     <prendus-notification error-message="[[errorMessage]]"></prendus-notification>
+
 
     <paper-card id="course-container">
       <div id="course-content" class="card-content">
@@ -109,6 +110,7 @@
         <template is="dom-if" if="[[!username]]">
           <p> You are not signed in.  Please sign in to access this page </p>
         </template>
+        <prendus-concept-new-concept id="addConceptDialog" uid="[[uid]]" course-id="[[courseId]]" course-concepts="[[courseConcepts]]"></prendus-concept-new-concept>
         <paper-dialog id="addDialog" modal>
           <div>
             <!-- Look up Iron keys to change this -->
@@ -123,8 +125,9 @@
           </div>
         </paper-dialog>
       </div>
-    </paper-card>
 
+    </paper-card>
+    <prendus-search-concept-tags></prendus-search-concept-tags>
   </template>
 
 </dom-module>
