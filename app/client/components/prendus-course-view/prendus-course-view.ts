@@ -13,7 +13,7 @@ export class PrendusCourseView {
   public username: string;
   public uid: string;
   public currentCourse: Course;
-
+  public errorMessage: string;
   beforeRegister() {
     this.is = 'prendus-course-view';
     this.properties = {
@@ -58,7 +58,7 @@ export class PrendusCourseView {
         creator: this.uid,
         title: this.$.conceptFormName.value,
       };
-      Actions.addConcept(this, this.courseId, newConcept, this.courseConcepts.length);
+      Actions.addConcept(this, this.courseId, newConcept, this.courseConcepts.length, null);
     }
   }
   sortableEnded(e: any){

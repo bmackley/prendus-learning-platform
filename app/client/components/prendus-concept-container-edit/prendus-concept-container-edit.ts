@@ -27,9 +27,9 @@ export class PrendusConceptContainerEdit {
   async init() {
     if (this.conceptId) {
       const path = `concepts/${this.conceptId}`
-      const concept = await FirebaseService.get(path);
-      await Actions.getConceptById(this, this.conceptId);
+      const concept = await Actions.getConceptById(null, this.conceptId);
       this.title = concept.title;
+      this.tags = concept.tags;
     }
   }
   openCollaboratorsModal(e) {
