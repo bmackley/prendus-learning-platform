@@ -104,9 +104,8 @@
               </div>
             </template>
           </sortable-js>
-          <paper-fab icon = "add" title = "Add Concept" tooltip="Add Concept" on-tap="addConcept"></paper-fab>
+          <paper-fab icon="add" title="Add Concept" tooltip="Add Concept" on-tap="addConcept"></paper-fab>
         </template>
-
         <template is="dom-if" if="[[!username]]">
           <p> You are not signed in.  Please sign in to access this page </p>
         </template>
@@ -122,15 +121,6 @@
           </div>
           <div class="buttons">
           </div>
-        </paper-dialog>
-        <paper-dialog id="deleteConfirm" modal>
-            <!-- Look up Iron keys to change this -->
-            <form is="iron-form">
-              <h1 style="color: red">Confirm Delete </h1>
-              <p>Are you sure that you want to delete this concept?
-              <paper-button dialog-dismiss>No</paper-button>
-              <paper-button id="confirmDelete" on-tap="completeDelete">Yes</paper-button>
-            </form>
         </paper-dialog>
       </div>
     </paper-card>

@@ -1,4 +1,3 @@
-import {Concept} from '../../node_modules/prendus-services/interfaces/concept.interface.ts';
 import {Actions} from '../../redux/actions.ts';
 import {StatechangeEvent} from '../../interfaces/statechange-event.interface.ts';
 import {FirebaseService} from '../../node_modules/prendus-services/services/firebase.service.ts';
@@ -8,9 +7,11 @@ export class PrendusConceptContainerEdit {
   public title: string;
   public properties: any;
   public conceptId: string;
+  public courseId: string;
   public observers: string[];
-  public conceptData: Concept;
   public selected: number;
+  public successMessage: string;
+  public errorMessage: string;
 
   beforeRegister() {
     this.is = 'prendus-concept-container-edit';
@@ -26,7 +27,7 @@ export class PrendusConceptContainerEdit {
   async init() {
     if (this.conceptId) {
       const path = `concepts/${this.conceptId}`
-      const concept = await FirebaseService.get(path); //Am I doing this right? I feel like this was pretty smart on my part. Keeps the title scoped to just the concept component - AKA Dont want redux on this
+      const concept = await FirebaseService.get(path);
       await Actions.getConceptById(this, this.conceptId);
       this.title = concept.title;
     }
@@ -40,15 +41,22 @@ export class PrendusConceptContainerEdit {
   }
   mapStateToThis(e: StatechangeEvent) {
     const state = e.detail.state;
-    this.conceptData = state.currentConcept;
-
+    this.courseId = state.courseEditCurrentCourse.id;
   }
   deleteItem(e: any) {
     e.stopPropagation();
-    // this.querySelector('#deleteConfirm').open();
-    // Actions.deleteConcept.execute(this, this.courseId, e.target.id);
-    // Actions.loadCourseConcepts(this, this.data.courseId);
-    alert('Unable to delete concept (not implemented)');
+    this.querySelector('#delete-confirm-modal').open();
+  }
+  async completeDelete(){
+    this.querySelector('#delete-confirm-modal').close();
+    try{
+      await Actions.deleteConcept(this, this.courseId, this.conceptId);
+      await Actions.loadEditCourseConcepts(this, this.courseId);
+      this.successMessage = '';
+      this.successMessage = 'Concept Deleted Successfully'
+    }catch(error){
+      this.errorMessage = error.message;
+    }
   }
   ready() {
     this.selected = 0;

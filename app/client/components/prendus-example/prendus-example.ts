@@ -1,4 +1,5 @@
 import {Actions} from '../../redux/actions.ts';
+import {StatechangeEvent} from '../../interfaces/statechange-event.interface.ts';
 
 class PrendusExample {
   public is: string;
@@ -7,7 +8,7 @@ class PrendusExample {
   beforeRegister() {
     this.is = 'prendus-example';
   }
-  mapStateToThis(e) {
+  mapStateToThis(e: StatechangeEvent) {
     const state = e.detail.state
     this.username = state.currentUser.email;
   }
