@@ -787,8 +787,14 @@ const addTagToCourse = async (context: any, tag: string, courseId: string) => {
         throw error;
     }
 };
-
-const lookupTags = async (context: any, tags: string[]) => {
+const lookupConceptTags = async (context: any, tags: string[]) => {
+    try {
+        throw new Error("in lookup conceptTags!");
+    } catch(error) {
+        throw error;
+    }
+};
+const lookupCourseTags = async (context: any, tags: string[]) => {
     try {
         const tagObjects : Tag[] = await TagModel.getByNames(tags);
         const coursesArray : Course[] = await TagModel.getCoursesInTags(tagObjects);
@@ -796,6 +802,9 @@ const lookupTags = async (context: any, tags: string[]) => {
             type: 'LOOKUP_TAGS',
             coursesArray
         };
+        if(coursesArray.length === 0) {
+            throw new Error("No courses match these tags");
+        }
     } catch(error) {
         throw error;
     }
@@ -972,7 +981,8 @@ export const Actions = {
     loadConceptCollaboratorEmails,
     loadVideoCollaboratorEmails,
     addCourseCollaborator,
-    lookupTags,
+    lookupConceptTags,
+    lookupCourseTags,
     addConceptCollaborator,
     addVideoCollaborator,
     removeCourseCollaborator,
