@@ -24,12 +24,12 @@ class PrendusConceptNewConcept {
         uid: this.uid,
         title: this.conceptFormName
       };
-      
+      //this.domHost calls parent
       try {
-        await Actions.addConcept(this, this.courseId, newConcept, this.courseConcepts.length, this.tags);
-        await Actions.getCourseEditCourseById(this, this.courseId);
+        await Actions.addConcept(this.domHost, this.courseId, newConcept, this.courseConcepts.length, this.tags);
+        await Actions.getCourseEditCourseById(this.domHost, this.courseId);
         this.domHost.successMessage = 'Concept added successfully';
-        Actions.loadEditCourseConcepts(this, this.courseId);
+        Actions.loadEditCourseConcepts(this.domHost, this.courseId);
       } catch(error) {
         this.domHost.errorMessage = error.message;
       }
