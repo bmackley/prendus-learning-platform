@@ -789,7 +789,17 @@ const addTagToCourse = async (context: any, tag: string, courseId: string) => {
 };
 const lookupConceptTags = async (context: any, tags: string[]) => {
     try {
-        throw new Error("in lookup conceptTags!");
+        const tagObjects : Tag[] = await TagModel.getByNames(tags);
+        const conceptsArray : Concept[] = await TagModel.getConceptsInTags(tagObjects);
+        context.action = {
+            type: 'LOOKUP_CONCEPT_TAGS',
+            conceptsArray
+        }
+        // It's better to allow the redux action to take place so that the concepts listed
+        // in the search concepts page will be empty.
+        if(conceptsArray === null) {
+            throw new Error("No concepts match these tags");
+        }
     } catch(error) {
         throw error;
     }
@@ -799,10 +809,12 @@ const lookupCourseTags = async (context: any, tags: string[]) => {
         const tagObjects : Tag[] = await TagModel.getByNames(tags);
         const coursesArray : Course[] = await TagModel.getCoursesInTags(tagObjects);
         context.action = {
-            type: 'LOOKUP_TAGS',
+            type: 'LOOKUP_COURSE_TAGS',
             coursesArray
         };
-        if(coursesArray.length === 0) {
+        // It's better to allow the redux action to take place so that the courses listed
+        // in the search courses page will be empty.
+        if(coursesArray === null) {
             throw new Error("No courses match these tags");
         }
     } catch(error) {

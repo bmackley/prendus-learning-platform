@@ -18,6 +18,7 @@ class PrendusSearchConceptTags {
     try {
       await Actions.lookupConceptTags(this, this.tags);
     } catch(error) {
+      console.log(error.message);
       this.domHost.errorMessage = '';
       this.domHost.errorMessage = error.message;
     }
@@ -28,7 +29,7 @@ class PrendusSearchConceptTags {
   }
   mapStateToThis(e: StatechangeEvent) {
     const state = e.detail.state;
-    this.resultingCourses = state.resultingCourses;
+    this.resultingConcepts = state.resultingConcepts;
   }
 }
 
