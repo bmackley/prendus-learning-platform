@@ -45,10 +45,10 @@ export class PrendusConceptContainerEdit {
   }
   deleteItem(e: any) {
     e.stopPropagation();
-    this.querySelector('#deleteConfirm').open();
+    this.querySelector('#delete-confirm-modal').open();
   }
   async completeDelete(){
-    this.querySelector('#deleteConfirm').close();
+    this.querySelector('#delete-confirm-modal').close();
     try{
       await Actions.deleteConcept(this, this.courseId, this.conceptId);
       await Actions.loadEditCourseConcepts(this, this.courseId);
