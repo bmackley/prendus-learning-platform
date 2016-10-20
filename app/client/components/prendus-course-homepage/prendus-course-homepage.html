@@ -45,7 +45,7 @@
 
   </style>
   <template>
-    <prendus-notification error-message = "[[errorMessage]]"></prendus-notification>
+    <prendus-notification error-message="[[errorMessage]]"></prendus-notification>
     <prendus-search-course-tags></prendus-search-course-tags>
     <redux-store on-statechange="mapStateToThis" action="[[action]]"></redux-store>
 
@@ -66,7 +66,7 @@
         <h2>Create a Course</h2>
         <div>
           <!-- Look up Iron keys to change this -->
-          <paper-input name="courseName" label="Course Name" id ="courseFormName" required auto-validate empty-error-message="Course Name Required" maxlength="50"></paper-input>
+          <paper-input name="courseName" label="Course Name" id="courseFormName" required auto-validate empty-error-message="Course Name Required" maxlength="50"></paper-input>
           <paper-input name="courseDescription" label="Short Description" id="courseDescription" required auto-validate maxlength="150"></paper-input>
           <prendus-paper-tags-input placeholder="Add a tag to the course (optional). Press enter to add another tag." label="Course Tags" tags="{{tags}}" duplicate-error-message="Tag cannot be a duplicate"></prendus-paper-tags-input>
           <paper-button dialog-dismiss>Cancel</paper-button>
@@ -99,8 +99,6 @@
         <prendus-course-preview course="[[item]]"></prendus-course-preview>
       </template>
     </template>
-
-    <prendus-notification id="error" errorMessage="[[errorMessage]]"></prendus-notification>
   </template>
 
   <!--<script src="prendus-course-homepage.js"></script>-->
