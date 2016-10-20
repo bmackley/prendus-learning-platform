@@ -28,9 +28,11 @@ class PrendusConceptNewConcept {
       try {
         await Actions.addConcept(this.domHost, this.courseId, newConcept, this.courseConcepts.length, this.tags);
         await Actions.getCourseEditCourseById(this.domHost, this.courseId);
+        this.domHost.successMessage = '';
         this.domHost.successMessage = 'Concept added successfully';
         Actions.loadEditCourseConcepts(this.domHost, this.courseId);
       } catch(error) {
+        this.domHost.errorMessage = '';
         this.domHost.errorMessage = error.message;
       }
       this.tags = [];

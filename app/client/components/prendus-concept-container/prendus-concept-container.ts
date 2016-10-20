@@ -29,7 +29,6 @@ class PrendusConceptContainer {
     if (this.conceptId) {
       try {
         const path = `concepts/${this.conceptId}`
-        // const concept = await FirebaseService.get(path); //Am I doing this right? I feel like this was pretty smart on my part. Keeps the title scoped to just the concept component - AKA Dont want redux on this
         const concept = await Actions.getConceptById(null, this.conceptId);
         this.title = concept.title;
         this.tags = concept.tags;
