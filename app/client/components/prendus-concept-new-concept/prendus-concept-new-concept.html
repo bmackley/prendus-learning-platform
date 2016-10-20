@@ -1,0 +1,34 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/paper-dialog/paper-dialog.html">
+<link rel="import" href="../../bower_components/paper-fab/paper-fab.html">
+<link rel="import" href="../../bower_components/paper-dialog-behavior/paper-dialog-behavior.html">
+<link rel="import" href="../../bower_components/paper-dialog-behavior/paper-dialog-shared-styles.html">
+<link rel="import" href="../../bower_components/redux-store-element/redux-store.html">
+<link rel="import" href="../../bower_components/paper-input/paper-input.html">
+<link rel="import" href="../../bower_components/paper-input/paper-input-char-counter.html">
+<link rel="import" href="../../bower_components/Sortable/Sortable.html">
+<link rel="import" href="../../bower_components/app-route/app-route.html">
+<link rel="import" href="../../bower_components/paper-card/paper-card.html">
+
+<link rel="import" href="../prendus-paper-tags-input/prendus-paper-tags-input.html">
+
+
+<dom-module id="prendus-concept-new-concept">
+  <template>
+    <style>
+    </style>
+    <paper-dialog id="dialog" modal>
+      <paper-dialog-scrollable>
+        <form is="iron-form">
+          <h2>Add a Concept to the Course</h2>
+          <paper-input name="name" label="Concept Name" value="{{conceptFormName}}" required auto-validate></paper-input>
+          <prendus-paper-tags-input placeholder="Delete tags or add new ones" duplicate-error-message="Tag cannot be a duplicate" tags="{{tags}}" required></prendus-paper-tags-input>
+          <paper-button dialog-dismiss>Cancel</paper-button>
+          <paper-button on-tap="addConceptFormDone">Done</paper-button>
+        </form>
+      </paper-dialog-scrollable>
+    </paper-dialog>
+
+  </template>
+
+</dom-module>

@@ -11,7 +11,6 @@ class PrendusConceptContainer {
   public observers: string[];
   public conceptData: Concept;
   public selected: number;
-
   beforeRegister() {
     this.is = 'prendus-concept-container';
     this.properties = {
@@ -28,11 +27,13 @@ class PrendusConceptContainer {
   }
   async init() {
     if (this.conceptId) {
-      try{
+      try {
         const path = `concepts/${this.conceptId}`
-        const concept = await FirebaseService.get(path); //Am I doing this right? I feel like this was pretty smart on my part. Keeps the title scoped to just the concept component - AKA Dont want redux on this
+        const concept = await Actions.getConceptById(null, this.conceptId);
         this.title = concept.title;
-      }catch(error){
+        this.tags = concept.tags;
+      } catch(error) {
+        this.domHost.errorMessage = error.message;
       }
     }
   }

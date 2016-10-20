@@ -97,36 +97,13 @@ class PrendusCourseEdit {
   }
 
   addConcept(e: any) {
-    this.querySelector('#addDialog').open();
+    this.querySelector('#addConceptDialog').open();
   }
 
 
   toggle(e: any) {
     const collapseTarget = e.target.id;
     this.querySelector('#concept' + collapseTarget).toggle();
-  }
-
-  async addConceptFormDone(e: any){
-    e.preventDefault();
-    if(this.$.conceptFormName.value){
-      this.querySelector('#addDialog').close();
-      const newConcept = {
-        uid: this.uid,
-        title: this.$.conceptFormName.value,
-      };
-      try{
-        await Actions.addConcept(this, this.courseId, newConcept, this.courseConcepts.length);
-        await Actions.getCourseEditCourseById(this, this.data.courseId);
-        this.successMessage = '';
-        this.successMessage = 'Concept added successfully';
-
-        Actions.loadEditCourseConcepts(this, this.data.courseId);
-      }catch(error){
-        this.errorMessage = '';
-        this.errorMessage = error.message;
-      }
-      this.$.conceptFormName.value = '';
-    }
   }
 
   sortableEnded(e: any){ //This isn't the most elegant solution. I'm open to better ways of doing things.

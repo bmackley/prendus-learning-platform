@@ -623,20 +623,21 @@ const loadViewCourseConcepts = async (context: any, courseId: string) => {
 
 const createUser = async (context: any, data: UserMetaData, password: string) => {
     try {
-      const success = await FirebaseService.createUserWithEmailAndPassword(data.email, password);
-      const loggedInUser = await FirebaseService.logInUserWithEmailAndPassword(data.email, password);
-      await UserModel.updateMetaData(loggedInUser.uid, data);
-      await EmailsToUidsModel.setUidByEmail(data.email, loggedInUser.uid);
-      checkUserAuth(context);
-    }catch(error){
-      throw error;
+        await FirebaseService.createUserWithEmailAndPassword(data.email, password);
+        const loggedInUser = await FirebaseService.logInUserWithEmailAndPassword(data.email, password);
+        UserModel.sendConfirmationEmail(loggedInUser);
+        UserModel.updateMetaData(loggedInUser.uid, data);
+        EmailsToUidsModel.setUidByEmail(data.email, loggedInUser.uid);
+        FirebaseService.logOutUser(); //logout so user can't do things
+    } catch(error){
+        throw error;
     }
 };
 const loginUser = async (context: any, email: string, password: string) => {
       try {
-        const loggedInUser = await FirebaseService.logInUserWithEmailAndPassword(email, password);
+        await UserModel.loginUser(email, password);
         checkUserAuth(context);
-      }catch(error){
+      } catch(error) {
         throw error;
       }
 };
@@ -678,9 +679,15 @@ const checkUserAuth = async (context: any) => {
     throw error;
   }
 };
-const addConcept = async (context: any, courseId: string, newConcept: Concept, conceptPos: number) => {
+const addConcept = async (context: any, courseId: string, newConcept: Concept, conceptPos: number, tags: string[]) => {
     try {
-      const conceptId = await ConceptModel.save(null, newConcept);
+      const conceptId = await ConceptModel.createOrUpdate(null, newConcept);
+      if(tags) {
+        await UtilitiesService.asyncForEach(tags, async (tag: string) => {
+            addTagToConcept(null, tag, conceptId);
+        });
+      }
+
       await CourseModel.associateConcept(courseId, conceptId, conceptPos);
       const course = await CourseModel.getById(courseId);
       const conceptsArray = await CourseModel.courseConceptsToArray(course);
@@ -693,18 +700,39 @@ const addConcept = async (context: any, courseId: string, newConcept: Concept, c
 
       const courseCollaboratorUids = await CourseModel.getCollaboratorUids(courseId);
       await ConceptModel.associateCollaborators(conceptId, courseCollaboratorUids);
-    }catch(error){
+    } catch(error) {
       throw error;
     }
 };
-
+const addTagToConcept = async (context: any, tag: string, conceptId: string) => {
+    try {
+        const tagId = await TagModel.createOrUpdate(tag, null, conceptId, null);
+        const concept = await ConceptModel.addTag(tagId, conceptId);
+        if(context) {
+            context.action = {
+                type: 'ADD_TAG_EDIT_CONCEPT',
+                concept
+            };
+        }
+    } catch(error) {
+        throw error;
+    }
+};
 const getConceptById = async (context: any, id: string) => {
     try {
       const concept = await ConceptModel.getById(id);
-      context.action = {
-        type: 'GET_CONCEPT_BY_ID',
-        concept: concept,
+      // TODO: fix these errors and add back in
+      // const tagArray = ConceptModel.conceptTagIdsToArray(concept);
+      // const tags = await TagModel.resolveTagIds(tagArray);
+      // concept.tags = tags;
+      if(context) {
+          context.action = {
+            type: 'GET_CONCEPT_BY_ID',
+            concept
+          }
       }
+
+      return concept;
     }catch(error){
       throw error;
     }
@@ -760,15 +788,36 @@ const addTagToCourse = async (context: any, tag: string, courseId: string) => {
         throw error;
     }
 };
-
-const lookupTags = async (context: any, tags: string[]) => {
+const lookupConceptTags = async (context: any, tags: string[]) => {
+    try {
+        const tagObjects : Tag[] = await TagModel.getByNames(tags);
+        const conceptsArray : Concept[] = await TagModel.getConceptsInTags(tagObjects);
+        context.action = {
+            type: 'LOOKUP_CONCEPT_TAGS',
+            conceptsArray
+        }
+        // It's better to allow the redux action to take place so that the concepts listed
+        // in the search concepts page will be empty.
+        if(conceptsArray === null) {
+            throw new Error("No concepts match these tags");
+        }
+    } catch(error) {
+        throw error;
+    }
+};
+const lookupCourseTags = async (context: any, tags: string[]) => {
     try {
         const tagObjects : Tag[] = await TagModel.getByNames(tags);
         const coursesArray : Course[] = await TagModel.getCoursesInTags(tagObjects);
         context.action = {
-            type: 'LOOKUP_TAGS',
+            type: 'LOOKUP_COURSE_TAGS',
             coursesArray
         };
+        // It's better to allow the redux action to take place so that the courses listed
+        // in the search courses page will be empty.
+        if(coursesArray === null) {
+            throw new Error("No courses match these tags");
+        }
     } catch(error) {
         throw error;
     }
@@ -947,7 +996,8 @@ export const Actions = {
     loadConceptCollaboratorEmails,
     loadVideoCollaboratorEmails,
     addCourseCollaborator,
-    lookupTags,
+    lookupConceptTags,
+    lookupCourseTags,
     addConceptCollaborator,
     addVideoCollaborator,
     removeCourseCollaborator,
