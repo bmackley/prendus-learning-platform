@@ -12,6 +12,7 @@
     }
   </style>
   <template>
+    <prendus-notification error-message="[[errorMessage]]"></prendus-notification>
     <redux-store action="[[action]]" on-statechange="mapStateToThis"></redux-store>
     <app-route route="[[route]]" pattern="/view/:courseId" data="{{data}}"></app-route>
       <h1>[[currentCourse.title]]</h1>
