@@ -723,10 +723,11 @@ const addTagToConcept = async (context: any, tag: string, conceptId: string) => 
 const getConceptById = async (context: any, id: string) => {
     try {
       const concept = await ConceptModel.getById(id);
-      // TODO: fix these errors and add back in
-      // const tagArray = ConceptModel.conceptTagIdsToArray(concept);
-      // const tags = await TagModel.resolveTagIds(tagArray);
-      // concept.tags = tags;
+      const tagArray = ConceptModel.conceptTagIdsToArray(concept);
+      if(tagArray) {
+        const tags = await TagModel.resolveTagIds(tagArray);
+        concept.tags = tags;
+      }
       if(context) {
           context.action = {
             type: 'GET_CONCEPT_BY_ID',
@@ -896,7 +897,7 @@ const getCourseViewCourseById = async (context: any, id: string) => {
 const getCourseEditCourseById = async (context: any, id: string) => {
     try {
       const course = await CourseModel.getById(id);
-      const courseTagNames = await TagModel.getTagNameArray(course.tags);
+      const courseTagNames : string[] = course.tags ? await TagModel.getTagNameArray(course.tags) : [];
       context.action = {
           type: 'SET_COURSE_EDIT_CURRENT_COURSE',
           currentCourse: course,
