@@ -606,13 +606,15 @@ const loadEditCourseConcepts = async (context: any, courseId: string) => {
 const loadViewCourseConcepts = async (context: any, courseId: string) => {
     try {
         const course = await CourseModel.getById(courseId);
-        const conceptDatasObject = course.concepts;
+        // const conceptDatasObject = course.concepts;
 
-        const concepts = Object.keys(conceptDatasObject || {}).map((conceptDataId) => conceptDatasObject[conceptDataId]);
+        const conceptsArray = await CourseModel.courseConceptsToArray(course);
+        const orderedConcepts = CourseModel.orderCourseConcepts(conceptsArray);
 
+        // const concepts = Object.keys(conceptDatasObject || {}).map((conceptDataId) => conceptDatasObject[conceptDataId]);
         context.action = {
             type: 'LOAD_VIEW_COURSE_CONCEPTS',
-            concepts,
+            orderedConcepts,
             courseId
         };
     }
@@ -881,11 +883,9 @@ const getCoursesByVisibility = async (context: any, visibility: CourseVisibility
 const getCourseViewCourseById = async (context: any, id: string) => {
     try {
       const course = await CourseModel.getById(id);
-      const concepts = await CourseModel.courseConceptsToArray(course);
       context.action = {
           type: 'SET_COURSE_VIEW_CURRENT_COURSE',
-          currentCourse: course,
-          viewCourseConcepts: concepts
+          currentCourse: course
       };
     }
     catch(error){

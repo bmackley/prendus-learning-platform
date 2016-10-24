@@ -154,6 +154,7 @@ export class PrendusCourseView {
         await Actions.getCourseViewCourseById(this, this.data.courseId);
         await Actions.loadViewCourseConcepts(this, this.data.courseId);
         Actions.hideMainSpinner(this);
+        console.log(this.data);
     }
   }
 
@@ -180,12 +181,9 @@ export class PrendusCourseView {
       };
       try {
         await Actions.addConcept(this, this.courseId, newConcept, this.courseConcepts.length);
-        await Actions.getCourseViewCourseById(this, this.data.courseId);
-
+        await Actions.loadViewCourseConcepts(this, this.courseId);
         this.successMessage = '';
         this.successMessage = 'Concept added successfully';
-
-        Actions.loadEditCourseConcepts(this, this.data.courseId);
       }catch(error) {
         this.errorMessage = '';
         this.errorMessage = error.message;
@@ -205,7 +203,7 @@ export class PrendusCourseView {
       }
       try {
         await Actions.orderConcepts(this, this.courseId, updateConceptPositionArray);
-        await Actions.getCourseViewCourseById(this, this.courseId);
+        await Actions.loadViewCourseConcepts(this, this.courseId);
         this.successMessage = '';
         this.successMessage = 'Concept ordered successfully';
       } catch(error) {
