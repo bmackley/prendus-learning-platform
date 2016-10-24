@@ -154,7 +154,6 @@ export class PrendusCourseView {
         await Actions.getCourseViewCourseById(this, this.data.courseId);
         await Actions.loadViewCourseConcepts(this, this.data.courseId);
         Actions.hideMainSpinner(this);
-        console.log(this.data);
     }
   }
 
