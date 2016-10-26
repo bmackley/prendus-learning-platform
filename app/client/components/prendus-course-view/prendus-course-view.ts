@@ -33,10 +33,6 @@ export class PrendusCourseView {
       data: {
         type: Object,
       },
-      courseTagNames: {
-        type: Array,
-        value: []
-      },
       hasEditAccess: {
         type: Boolean,
         computed: 'computeHasEditAccess(uid, currentCourse.collaborators)'
@@ -52,8 +48,7 @@ export class PrendusCourseView {
     };
     this.observers = [
       'viewCourse(route)',
-      'viewData(data)',
-      'updateTags(currentCourse.tags)'
+      'viewData(data)'
     ];
   }
 
@@ -63,6 +58,8 @@ export class PrendusCourseView {
     this.username = state.currentUser.metaData.email;
     this.uid = state.currentUser.metaData.uid;
     this.currentCourse = state.courseViewCurrentCourse;
+    this.courseTags = state.courseViewCurrentCourse.tags;
+    this.courseTagNames = state.courseTagNames;
     this.courseConcepts = state.viewCourseConcepts[this.courseId];
   }
 
@@ -89,14 +86,6 @@ export class PrendusCourseView {
   getDescriptionButtonText(editingDescription) {
     return editingDescription ? "Done" : "Edit Description";
   }
-
-  updateTags(tags) {
-    if(!tags) tags = [];
-    for (var i = 0; i < tags.length; i++) {
-      this.courseTagNames[i] = tags[i].name;
-    }
-  }
-
   showTagsTitle(tagsLength, hasEditAccess) {
     return tagsLength > 0 || hasEditAccess;
   }
