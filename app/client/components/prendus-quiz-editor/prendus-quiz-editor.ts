@@ -91,31 +91,30 @@ class PrendusQuizEditor {
         this.querySelector('#share-quiz-dialog').open();
     }
 
-    selectText(e) {
+    selectText(e: any) {
       e.target.select();
     }
 
-    openCollaboratorsModal(e) {
+    openCollaboratorsModal(e: any) {
       this.querySelector('#collaborators-modal').open();
     }
 
-    openSettingsModal(e) {
+    openSettingsModal(e: any) {
       this.querySelector('#settings-modal').open();
     }
 
-    createQuestion(e) {
+    createQuestion(e: any) {
         Actions.showMainSpinner(this);
-
         window.history.pushState({}, '', `courses/edit-question/question/create`);
         this.fire('location-changed', {}, {node: window});
     }
 
-    editQuestion(e) {
+    editQuestion(e: any) {
         Actions.showMainSpinner(this);
 
         const questionId = e.model.item;
 
-        window.history.pushState({}, '', `courses/edit-question/question/${questionId}/${this.conceptId}/${this.quizId}`); //TODO Why are we passing the conceptId and the quizId?
+        window.history.pushState({}, '', `courses/edit-question/question/${questionId}`);
         this.fire('location-changed', {}, {node: window});
     }
 
@@ -150,47 +149,47 @@ class PrendusQuizEditor {
         this.showSettings = !this.showSettings;
     }
 
-    async answerFeedbackToggled(e) {
+    async answerFeedbackToggled(e: any) {
         const checked = e.target.checked;
         await this.applySettings('answerFeedback', checked);
     }
 
-    async showAnswerToggled(e) {
+    async showAnswerToggled(e: any) {
         const checked = e.target.checked;
         await this.applySettings('showAnswer', checked);
     }
 
-    async showHintToggled(e) {
+    async showHintToggled(e: any) {
         const checked = e.target.checked;
         await this.applySettings('showHint', checked);
     }
 
-    async showCodeToggled(e) {
+    async showCodeToggled(e: any) {
         const checked = e.target.checked;
         await this.applySettings('showCode', checked);
     }
 
-    async gradedToggled(e) {
+    async gradedToggled(e: any) {
         const checked = e.target.checked;
         await this.applySettings('graded', checked);
     }
 
-    async showConfidenceLevelToggled(e) {
+    async showConfidenceLevelToggled(e: any) {
         const checked = e.target.checked;
         await this.applySettings('showConfidenceLevel', checked);
     }
 
-    async allowGenerationToggled(e) {
+    async allowGenerationToggled(e: any) {
         const checked = e.target.checked;
         await this.applySettings('allowGeneration', checked);
     }
 
-    async maxNumAttemptsChanged(e) {
+    async maxNumAttemptsChanged(e: any) {
         const value = e.target.value;
         await this.applySettings('maxNumAttempts', value);
     }
 
-    async titleChanged(e) {
+    async titleChanged(e: any) {
         const value = e.target.value;
         await Actions.updateQuizTitle(this.quizId, value);
         await Actions.loadEditConceptQuizzes(this, this.conceptId);
@@ -204,7 +203,7 @@ class PrendusQuizEditor {
         });
     }
 
-    mapStateToThis(e) {
+    mapStateToThis(e: any) {
         const state = e.detail.state;
 
         this.quizSettings = state.quizSettings;
