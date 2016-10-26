@@ -156,7 +156,7 @@ export class PrendusCourseView {
   }
 
   addConcept(e: any) {
-    this.querySelector('#addDialog').open();
+    this.querySelector('#addConceptDialog').open();
   }
 
   async addConceptFormDone(e: any) {
