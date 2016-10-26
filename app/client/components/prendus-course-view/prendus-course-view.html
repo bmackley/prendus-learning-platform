@@ -14,7 +14,7 @@
 <link rel="import" href="../prendus-concept-container/prendus-concept-container.html">
 <link rel="import" href="../prendus-concept-container-edit/prendus-concept-container-edit.html">
 <link rel="import" href="../prendus-paper-tags-input/prendus-paper-tags-input.html">
-
+<link rel="import" href="../prendus-concept-new-concept/prendus-concept-new-concept.html">
 
 <dom-module id="prendus-course-view">
   <style>
@@ -160,17 +160,7 @@
         <template is="dom-if" if="[[!username]]">
           <p> You are not signed in.  Please sign in to access this page </p>
         </template>
-        <paper-dialog id="addDialog" with-backdrop>
-          <!-- TODO: add concept on hitting the Enter key -->
-          <form is="iron-form">
-            <h2>Add a Concept to the Course</h2>
-            <paper-input name="name" label="Concept Name" id="conceptFormName" required auto-validate value="{{newConceptName}}"></paper-input>
-          </form>
-          <div class="buttons">
-            <paper-button dialog-dismiss>Cancel</paper-button>
-            <paper-button on-tap="addConceptFormDone" disabled="[[!newConceptName.length]]">Done</paper-button>
-          </div>
-        </paper-dialog>
+        <prendus-concept-new-concept id="addConceptDialog" uid="[[uid]]" course-id="[[courseId]]" course-concepts="[[courseConcepts]]"></prendus-concept-new-concept>
         <paper-dialog id="confirm-delete" with-backdrop>
           <form is="iron-form">
             <h1 style="color: red">Confirm Delete </h1>
