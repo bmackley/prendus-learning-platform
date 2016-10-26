@@ -4,3 +4,4 @@ example
 /app/client/node_modules
 /app/client/bower_components
 /app/client/dist
+.vscode/*
