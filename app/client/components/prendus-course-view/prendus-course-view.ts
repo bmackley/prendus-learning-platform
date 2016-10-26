@@ -50,7 +50,18 @@ export class PrendusCourseView {
     const collapseTarget = (e.target.id);
     this.querySelector('#Concept' + collapseTarget).toggle();
   }
-  sortableEnded(e){
+  addConceptFormDone(e: any){
+    e.preventDefault();
+    if(this.$.conceptFormName.value){
+      this.querySelector('#addDialog').close();
+      const newConcept = {
+        creator: this.uid,
+        title: this.$.conceptFormName.value,
+      };
+      Actions.addConcept(this, this.courseId, newConcept, this.courseConcepts.length, null);
+    }
+  }
+  sortableEnded(e: any){
     if(typeof e.newIndex !== 'undefined'){
       let updateConceptPositionArray = [];
       for(let i = 0, len = this.courseConcepts.length; i < len; i++ ){
