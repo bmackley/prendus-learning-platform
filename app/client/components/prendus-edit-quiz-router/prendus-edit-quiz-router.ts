@@ -18,7 +18,7 @@ class PrendusEditQuizRouter {
         this.selected = 0;
     }
 
-    mapStateToThis(e) {
+    mapStateToThis(e: any) {
       const state = e.detail.state;
       this.jwt = state.jwt;
     }
