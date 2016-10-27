@@ -110,7 +110,16 @@
         <template is="dom-if" if="[[!username]]">
           <p> You are not signed in.  Please sign in to access this page </p>
         </template>
+
         <prendus-concept-new-concept id="addConceptDialog" uid="[[uid]]" course-id="[[courseId]]" course-concepts="[[courseConcepts]]"></prendus-concept-new-concept>
+        <paper-dialog id="deleteConfirm" modal>
+          <!-- Look up Iron keys to change this -->
+          <form is="iron-form">
+            <h1 style="color: red">Confirm Delete </h1>
+            <p>Are you sure that you want to delete this concept?
+            <paper-button dialog-dismiss>No</paper-button>
+            <paper-button id="confirmDelete" on-tap="completeDelete">Yes</paper-button>
+          </form>
         <paper-dialog id="addDialog" modal>
           <div>
             <!-- Look up Iron keys to change this -->
