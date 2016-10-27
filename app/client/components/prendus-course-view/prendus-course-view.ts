@@ -86,13 +86,6 @@ export class PrendusCourseView {
     return editingDescription ? "Done" : "Edit Description";
   }
 
-  updateTags(tags: any) {
-    if(!tags) tags = [];
-    for (var i = 0; i < tags.length; i++) {
-      this.courseTagNames[i] = tags[i].name;
-    }
-  }
-
   showTagsTitle(tagsLength: number, hasEditAccess: boolean) {
     return tagsLength > 0 || hasEditAccess;
   }
