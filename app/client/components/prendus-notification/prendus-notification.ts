@@ -35,7 +35,7 @@ class PrendusNotification {
       this.querySelector('#successToastContainer').open();
     }
   }
-  mapStateToThis(e) {
+  mapStateToThis(e: any) {
     const state = e.detail.state
     this.username = state.currentUser.email;
   }
