@@ -606,12 +606,9 @@ const loadEditCourseConcepts = async (context: any, courseId: string) => {
 const loadViewCourseConcepts = async (context: any, courseId: string) => {
     try {
         const course = await CourseModel.getById(courseId);
-        // const conceptDatasObject = course.concepts;
-
         const conceptsArray = await CourseModel.courseConceptsToArray(course);
         const orderedConcepts = CourseModel.orderCourseConcepts(conceptsArray);
 
-        // const concepts = Object.keys(conceptDatasObject || {}).map((conceptDataId) => conceptDatasObject[conceptDataId]);
         context.action = {
             type: 'LOAD_VIEW_COURSE_CONCEPTS',
             orderedConcepts,

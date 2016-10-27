@@ -9,14 +9,13 @@ export class PrendusCourseView {
   public is: string;
   public courseConcepts: CourseConceptData[];
   public currentCourse: Course;
-  public courseTagNames: String[];
+  public courseTagNames: string[];
   public courseTags: Tag[];
   public courseId: Course[];
   public properties: any;
-  public observers: String[];
+  public observers: string[];
   public username: string;
   public uid: string;
-  public currentCourse: Course;
   public successMessage: string;
   public errorMessage: string;
 
@@ -66,7 +65,7 @@ export class PrendusCourseView {
     this.courseConcepts = state.viewCourseConcepts[this.courseId];
   }
 
-  openCollaboratorsModal(e) {
+  openCollaboratorsModal(e: any) {
     this.querySelector('#collaborators-modal').open();
   }
 
@@ -78,7 +77,7 @@ export class PrendusCourseView {
     this.editingTitle = !this.editingTitle;
   }
 
-  getTitleButtonText(editingTitle) {
+  getTitleButtonText(editingTitle: string) {
     return editingTitle ? "Done" : "Edit Title";
   }
 
@@ -86,22 +85,22 @@ export class PrendusCourseView {
     this.editingDescription = !this.editingDescription;
   }
 
-  getDescriptionButtonText(editingDescription) {
+  getDescriptionButtonText(editingDescription: string) {
     return editingDescription ? "Done" : "Edit Description";
   }
 
-  updateTags(tags) {
+  updateTags(tags: any) {
     if(!tags) tags = [];
     for (var i = 0; i < tags.length; i++) {
       this.courseTagNames[i] = tags[i].name;
     }
   }
 
-  showTagsTitle(tagsLength, hasEditAccess) {
+  showTagsTitle(tagsLength: number, hasEditAccess: boolean) {
     return tagsLength > 0 || hasEditAccess;
   }
 
-  showTagsView(tagsLength, hasEditAccess) {
+  showTagsView(tagsLength: number, hasEditAccess: boolean) {
     return tagsLength > 0 && !hasEditAccess;
   }
 
