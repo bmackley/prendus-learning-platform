@@ -591,7 +591,6 @@ const loadEditCourseConcepts = async (context: any, courseId: string) => {
         const conceptDatasObject = course.concepts;
 
         const concepts = await ConceptModel.filterConceptDatasByCollaborator(conceptDatasObject, course.uid, user.uid);
-
         context.action = {
             type: 'LOAD_EDIT_COURSE_CONCEPTS',
             concepts,
@@ -608,7 +607,6 @@ const loadViewCourseConcepts = async (context: any, courseId: string) => {
         const course = await CourseModel.getById(courseId);
         const conceptsArray = await CourseModel.courseConceptsToArray(course);
         const orderedConcepts = CourseModel.orderCourseConcepts(conceptsArray);
-
         context.action = {
             type: 'LOAD_VIEW_COURSE_CONCEPTS',
             orderedConcepts,
@@ -713,6 +711,33 @@ const addTagToConcept = async (context: any, tag: string, conceptId: string) => 
                 concept
             };
         }
+    } catch(error) {
+        throw error;
+    }
+};
+const updateConceptTitleAndTags = async (conceptId: string, title: string, tags: string[]) => {
+    try {
+        if(title) {
+            await ConceptModel.updateTitle(conceptId, title);
+        }
+        if(tags) {
+            await ConceptModel.updateTags(conceptId, tags);
+        }
+       
+    } catch(error) {
+        throw error;
+    }
+};
+const getConceptAndTagNamesById = async (id: string) => {
+    try {
+        const concept: Concept = await ConceptModel.getById(id);
+        const tagArray: string[] = ConceptModel.conceptTagIdsToArray(concept);
+        const tags: Tag[] = await TagModel.resolveTagIds(tagArray);
+        const tagNames: string[] = tags ? await TagModel.getTagNameArray(tags) : null;
+        return {
+            concept,
+            tagNames
+        };
     } catch(error) {
         throw error;
     }
@@ -987,6 +1012,8 @@ export const Actions = {
     getQuiz,
     getCourseViewCourseById,
     getCourseEditCourseById,
+    updateConceptTitleAndTags,
+    getConceptAndTagNamesById,
     getConceptById,
     loadPublicQuestionIds,
     starCourse,

@@ -24,16 +24,9 @@
         --paper-tabs-selection-bar-color: var(--prendus-primary-color);
       }
     </style>
-
+ 
     <redux-store on-statechange="mapStateToThis" action="[[action]]"></redux-store>
-    <h3 id="title-toggle" on-tap="toggle">[[title]]
-      <template is="dom-if" if="[[tags]]">
-        Tags:
-        <template is="dom-repeat" items="[[tags]]">
-          [[item.name]]
-        </template>
-      </template>
-    </h3>
+    <h3 id="title-toggle" on-tap="toggle">[[title]]</h3>
     <iron-collapse class="conceptToggle" id="concept-[[item.pos]]">
         <paper-tabs id="resource-tabs" selected="{{selected}}">
           <paper-tab>Quizzes</paper-tab>
