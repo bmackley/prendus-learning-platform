@@ -22,6 +22,9 @@ class PrendusConceptNewConcept {
     this.conceptFormName = '';
     this.tags = [];
   }
+  clearValues() {
+    this.conceptId = null;
+  }
   async edit(conceptId: string) {
     this.conceptHeader = 'Edit concept';
     this.conceptId = conceptId;
@@ -40,9 +43,7 @@ class PrendusConceptNewConcept {
   async editConcept() {
     try {
       await Actions.updateConceptTitle(this.conceptId, this.conceptFormName);
-      // Good enough for beta, I would like to improve this later, however. 
-      await Actions.deleteAllTagsFromConcept(this.conceptId); 
-      await Actions.addTagsToConcept(this.conceptId, this.tags);
+      await Actions.updateConceptTags(this.conceptId, this.tags);
       this.querySelector('#dialog').close();
       
       this.domHost.successMessage = '';
