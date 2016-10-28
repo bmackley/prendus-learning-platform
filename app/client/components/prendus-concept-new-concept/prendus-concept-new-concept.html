@@ -20,7 +20,7 @@
     <paper-dialog id="dialog" modal>
       <paper-dialog-scrollable>
         <form is="iron-form">
-          <h2>Add a Concept to the Course</h2>
+          <h2>[[conceptHeader]]</h2>
           <paper-input name="name" label="Concept Name" value="{{conceptFormName}}" required auto-validate></paper-input>
           <prendus-paper-tags-input placeholder="Delete tags or add new ones" duplicate-error-message="Tag cannot be a duplicate" tags="{{tags}}" required></prendus-paper-tags-input>
           <paper-button dialog-dismiss>Cancel</paper-button>

@@ -3,11 +3,14 @@ import {Course} from '../../node_modules/prendus-services/interfaces/course.inte
 import {CourseConceptData} from '../../node_modules/prendus-services/interfaces/course-concept-data.interface.ts';
 import {StatechangeEvent} from '../../interfaces/statechange-event.interface.ts';
 import {Tag} from '../../node_modules/prendus-services/interfaces/tag.interface.ts';
+import {Concept} from '../../node_modules/prendus-services/interfaces/concept.interface.ts';
 class PrendusConceptNewConcept {
   public is: string;
   public properties: any;
   public conceptFormName: string;
   public tags: string[];
+  private conceptId: string;
+  private conceptHeader: string;
   beforeRegister() {
     this.is = 'prendus-concept-new-concept';
     this.properties = {
@@ -15,12 +18,53 @@ class PrendusConceptNewConcept {
   }
   open() {
     this.querySelector('#dialog').open();
+    this.conceptHeader = 'Add a Concept to the Course'; 
+    this.conceptFormName = '';
+    this.tags = [];
+  }
+  async edit(conceptId: string) {
+    this.conceptHeader = 'Edit concept';
+    
+    this.conceptId = conceptId;
+    try {
+      const obj: any = await Actions.getConceptAndTagNamesById(this.conceptId);
+      const concept: Concept = obj.concept;
+      const tagNames: string[] = obj.tagNames;
+      this.conceptFormName = concept.title;
+      this.tags = tagNames; 
+    } catch(error) {
+      this.domHost.errorMessage = '';
+      this.domHost.errorMessage = error.message;
+    }
+    this.querySelector('#dialog').open();
+  }
+  async editConcept() {
+    try {
+      await Actions.updateConceptTitleAndTags(this.conceptId, this.conceptFormName, this.tags);
+      await Actions.getCourseViewCourseById(this.domHost, this.domHost.courseId);
+      await Actions.loadEditCourseConcepts(this.domHost, this.domHost.courseId);
+      console.log(this.domHost.courseId);
+      this.querySelector('#dialog').close();
+      
+      this.domHost.successMessage = '';
+      this.domHost.successMessage = 'Editing!!!';
+      
+    } catch(error) {
+      this.domHost.errorMessage = '';
+      this.domHost.errorMessage = error.message;
+    }
+    this.tags = [];
+    this.conceptFormName = '';
   }
   async addConceptFormDone(e: any) {
     e.preventDefault();
+    if(this.conceptId) {
+      this.editConcept();
+      return;
+    }
     if(this.conceptFormName) {
       this.querySelector('#dialog').close();
-      const newConcept = {
+      const newConcept: any = {
         uid: this.uid,
         title: this.conceptFormName
       };
@@ -35,8 +79,6 @@ class PrendusConceptNewConcept {
         this.domHost.errorMessage = '';
         this.domHost.errorMessage = error.message;
       }
-      this.tags = [];
-      this.conceptFormName = '';
     }
   }
 }

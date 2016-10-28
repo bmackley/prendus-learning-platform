@@ -12,7 +12,6 @@ export class PrendusConceptContainerEdit {
   public selected: number;
   public successMessage: string;
   public errorMessage: string;
-
   beforeRegister() {
     this.is = 'prendus-concept-container-edit';
     this.properties = {
@@ -29,10 +28,12 @@ export class PrendusConceptContainerEdit {
       const path = `concepts/${this.conceptId}`
       const concept = await Actions.getConceptById(null, this.conceptId);
       this.title = concept.title;
-      this.tags = concept.tags;
     }
   }
-  openCollaboratorsModal(e) {
+  editItem() {
+    this.domHost.querySelector('#addConceptDialog').edit(this.conceptId);
+  }
+  openCollaboratorsModal(e: any) {
     e.stopPropagation();
     this.querySelector('#collaborators-modal').open();
   }
