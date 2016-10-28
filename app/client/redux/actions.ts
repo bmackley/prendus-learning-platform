@@ -718,7 +718,7 @@ const addTagToConcept = async (context: any, tag: string, conceptId: string) => 
 
 const updateConceptTags = async (conceptId: string, newTags: string[]) => {
     try {
-        const concept = await ConceptModel.getById(conceptId);
+        const concept: Concept = await ConceptModel.getById(conceptId);
         const oldTagIds: string[] = concept.tags ? ConceptModel.conceptTagIdsToArray(concept) : null;
         const oldTags: Tag[] = oldTagIds ? await TagModel.resolveTagIds(oldTagIds) : null;
         const oldTagNames: string[] = oldTags ? await TagModel.getTagNameArray(oldTags) : null;
