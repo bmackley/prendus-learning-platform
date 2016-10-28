@@ -606,13 +606,12 @@ const loadEditCourseConcepts = async (context: any, courseId: string) => {
 const loadViewCourseConcepts = async (context: any, courseId: string) => {
     try {
         const course = await CourseModel.getById(courseId);
-        const conceptDatasObject = course.concepts;
-
-        const concepts = Object.keys(conceptDatasObject || {}).map((conceptDataId) => conceptDatasObject[conceptDataId]);
+        const conceptsArray = await CourseModel.courseConceptsToArray(course);
+        const orderedConcepts = CourseModel.orderCourseConcepts(conceptsArray);
 
         context.action = {
             type: 'LOAD_VIEW_COURSE_CONCEPTS',
-            concepts,
+            orderedConcepts,
             courseId
         };
     }
@@ -686,7 +685,7 @@ const addConcept = async (context: any, courseId: string, newConcept: Concept, c
         await UtilitiesService.asyncForEach(tags, async (tag: string) => {
             addTagToConcept(null, tag, conceptId);
         });
-      }    
+      }
 
       await CourseModel.associateConcept(courseId, conceptId, conceptPos);
       const course = await CourseModel.getById(courseId);
@@ -726,14 +725,13 @@ const getConceptById = async (context: any, id: string) => {
         const tags = await TagModel.resolveTagIds(tagArray);
         concept.tags = tags;
       }
-      
       if(context) {
           context.action = {
             type: 'GET_CONCEPT_BY_ID',
             concept
           }
       }
-      
+
       return concept;
     }catch(error){
       throw error;
@@ -766,11 +764,13 @@ const deleteTagFromCourse = async (context: any, tag: Tag, courseId: string) => 
     try {
         const tagId = tag.id;
         await CourseModel.removeTag(tagId, courseId);
-        TagModel.removeCourse(tagId, courseId);
-        const course = await CourseModel.getById(courseId);
+        await TagModel.removeCourse(tagId, courseId);
+        const currentCourse = await CourseModel.getById(courseId);
+        const courseTagNames : string[] = currentCourse.tags ? await TagModel.getTagNameArray(currentCourse.tags) : [];
         context.action = {
             type: 'DELETE_TAG_EDIT_COURSE',
-            course
+            currentCourse,
+            courseTagNames
         }
     } catch(error) {
         throw error;
@@ -779,11 +779,13 @@ const deleteTagFromCourse = async (context: any, tag: Tag, courseId: string) => 
 const addTagToCourse = async (context: any, tag: string, courseId: string) => {
     try {
         const tagId = await TagModel.createOrUpdate(tag, courseId, null, null);
-        const course = await CourseModel.addTag(tagId, courseId);
+        const currentCourse = await CourseModel.addTag(tagId, courseId);
+        const courseTagNames : string[] = currentCourse.tags ? await TagModel.getTagNameArray(currentCourse.tags) : [];
         if(context) {
             context.action = {
                 type: 'ADD_TAG_EDIT_COURSE',
-                course
+                currentCourse,
+                courseTagNames
             };
         }
     } catch(error) {
@@ -883,9 +885,11 @@ const getCoursesByVisibility = async (context: any, visibility: CourseVisibility
 const getCourseViewCourseById = async (context: any, id: string) => {
     try {
       const course = await CourseModel.getById(id);
+      const courseTagNames : string[] = course.tags ? await TagModel.getTagNameArray(course.tags) : [];
       context.action = {
           type: 'SET_COURSE_VIEW_CURRENT_COURSE',
-          currentCourse: course
+          currentCourse: course,
+          courseTagNames
       };
     }
     catch(error){
