@@ -715,18 +715,19 @@ const addTagToConcept = async (context: any, tag: string, conceptId: string) => 
         throw error;
     }
 };
-const updateConceptTitleAndTags = async (conceptId: string, title: string, tags: string[]) => {
-    try {
-        await ConceptModel.updateTitle(conceptId, title);
-        await ConceptModel.deleteAllTags(conceptId);
 
-        await ConceptModel.addTags(conceptId, tags);
-        
+const updateConceptTags = async (conceptId: string, newTags: string[]) => {
+    try {
+        const concept = await ConceptModel.getById(conceptId);
+        const oldTagIds: string[] = concept.tags ? ConceptModel.conceptTagIdsToArray(concept) : null;
+        const oldTags: Tag[] = oldTagIds ? await TagModel.resolveTagIds(oldTagIds) : null;
+        const oldTagNames: string[] = oldTags ? await TagModel.getTagNameArray(oldTags) : null;
+        await ConceptModel.updateTags(conceptId, oldTags, oldTagNames, newTags);
+
     } catch(error) {
         throw error;
     }
 };
-
 // Updates the title of a concept given a string conceptId and a new string title
 const updateConceptTitle = async (conceptId: string, title: string) => {
     try {
@@ -735,30 +736,6 @@ const updateConceptTitle = async (conceptId: string, title: string) => {
         throw error;
     }
 };
-// Deletes all tags from a concept given a string conceptId
-const deleteAllTagsFromConcept = async (conceptId: string) => {
-    try {
-        const concept: Concept = await ConceptModel.getById(conceptId);
-        if(concept.tags) {
-            const tagIds: string[] = ConceptModel.conceptTagIdsToArray(concept);
-            const tagObjects: Tag[] = await TagModel.resolveTagIds(tagIds);
-            await ConceptModel.deleteAllTags(conceptId, tagObjects);
-            await ConceptModel.dissociateTags(conceptId, tagObjects);
-        }
-    } catch(error) {
-        throw error;
-    }
-};
-// Adds a list of tags to a concept given a string conceptId and a string array of tag names
-const addTagsToConcept = async (conceptId: string, tags: string[]) => {
-    try {
-        ConceptModel.addTags(conceptId, tags);
-    } catch(error) {
-        throw error;
-    }
-};
-
-
 
 const getConceptAndTagNamesById = async (id: string) => {
     try {
@@ -1045,10 +1022,8 @@ export const Actions = {
     getQuiz,
     getCourseViewCourseById,
     getCourseEditCourseById,
-    updateConceptTitleAndTags,
+    updateConceptTags,
     updateConceptTitle,
-    deleteAllTagsFromConcept,
-    addTagsToConcept,
     getConceptAndTagNamesById,
     getConceptById,
     loadPublicQuestionIds,
