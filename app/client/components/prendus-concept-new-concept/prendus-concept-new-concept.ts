@@ -22,9 +22,11 @@ class PrendusConceptNewConcept {
     this.conceptFormName = '';
     this.tags = [];
   }
+
   clearValues() {
     this.conceptId = null;
   }
+  
   async edit(conceptId: string) {
     this.conceptHeader = 'Edit concept';
     this.conceptId = conceptId;
@@ -47,7 +49,7 @@ class PrendusConceptNewConcept {
       this.querySelector('#dialog').close();
       
       this.domHost.successMessage = '';
-      this.domHost.successMessage = 'Editing!!!';
+      this.domHost.successMessage = `${this.conceptFormName} successfully edited.`;
       this.tags = [];
       this.conceptFormName = '';
       
