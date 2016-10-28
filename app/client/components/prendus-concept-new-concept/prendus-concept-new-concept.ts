@@ -24,14 +24,13 @@ class PrendusConceptNewConcept {
   }
   async edit(conceptId: string) {
     this.conceptHeader = 'Edit concept';
-    
     this.conceptId = conceptId;
     try {
       const obj: any = await Actions.getConceptAndTagNamesById(this.conceptId);
       const concept: Concept = obj.concept;
       const tagNames: string[] = obj.tagNames;
       this.conceptFormName = concept.title;
-      this.tags = tagNames; 
+      this.tags = tagNames ? tagNames : []; 
     } catch(error) {
       this.domHost.errorMessage = '';
       this.domHost.errorMessage = error.message;
@@ -40,21 +39,22 @@ class PrendusConceptNewConcept {
   }
   async editConcept() {
     try {
-      await Actions.updateConceptTitleAndTags(this.conceptId, this.conceptFormName, this.tags);
-      await Actions.getCourseViewCourseById(this.domHost, this.domHost.courseId);
-      await Actions.loadEditCourseConcepts(this.domHost, this.domHost.courseId);
-      console.log(this.domHost.courseId);
+      await Actions.updateConceptTitle(this.conceptId, this.conceptFormName);
+      // Good enough for beta, I would like to improve this later, however. 
+      await Actions.deleteAllTagsFromConcept(this.conceptId); 
+      await Actions.addTagsToConcept(this.conceptId, this.tags);
       this.querySelector('#dialog').close();
       
       this.domHost.successMessage = '';
       this.domHost.successMessage = 'Editing!!!';
+      this.tags = [];
+      this.conceptFormName = '';
       
     } catch(error) {
       this.domHost.errorMessage = '';
       this.domHost.errorMessage = error.message;
     }
-    this.tags = [];
-    this.conceptFormName = '';
+    
   }
   async addConceptFormDone(e: any) {
     e.preventDefault();
