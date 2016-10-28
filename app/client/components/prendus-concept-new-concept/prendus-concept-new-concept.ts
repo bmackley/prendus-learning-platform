@@ -61,7 +61,7 @@ class PrendusConceptNewConcept {
   }
   async addConceptFormDone(e: any) {
     e.preventDefault();
-    if(this.conceptId) {
+    if(this.conceptFormName && this.conceptId) {
       this.editConcept();
       return;
     }
