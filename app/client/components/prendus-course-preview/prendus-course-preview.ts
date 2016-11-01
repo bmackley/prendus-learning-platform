@@ -13,6 +13,7 @@ class PrendusCoursePreview {
     public numStars: number;
     public uid: string;
     public hasEditAccess: boolean;
+    public successMessage: string;
     public errorMessage: string;
     beforeRegister() {
         this.is = 'prendus-course-preview';
@@ -88,17 +89,19 @@ class PrendusCoursePreview {
 
     openDeleteModal(e: any) {
       e.stopPropagation();
-
+      this.querySelector('#confirm-delete-modal').open();
     }
 
     async deleteCourse(e: any) {
-        try {
-          await Actions.deleteCourse(this, this.course);
-          this.successMessage = '';
-          this.successMessage = 'Course successfully deleted';
-        } catch (error: any) {
-          this.errorMessage = error.message;
-        }
+      this.querySelector('#confirm-delete-modal').close();
+      try {
+        await Actions.deleteCourse(this, this.course);
+        this.successMessage = '';
+        this.successMessage = 'Course successfully deleted';
+      } catch (error: any) {
+        this.errorMessage = '';
+        this.errorMessage = error.message;
+      }
     }
 
     viewCourse(e: any) {
