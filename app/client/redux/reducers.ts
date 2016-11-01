@@ -236,11 +236,13 @@ export function rootReducer(state: State = InitialState, action: Action): State 
       case 'ADD_COURSE': {
         const newState = Object.assign({}, state);
         newState.courses = action.courses;
+        newState.sharedCourses = action.courses;
         return newState;
       }
       case 'DELETE_COURSE': {
         const newState = Object.assign({}, state);
         newState.courses = action.courses;
+        newState.sharedCourses = action.courses;
         return newState;
       }
       case 'ADD_CONCEPT': {
