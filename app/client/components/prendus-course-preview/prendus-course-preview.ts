@@ -23,7 +23,7 @@ class PrendusCoursePreview {
             }
         };
     }
-    
+
     async init(course: Course) {
       try{
         await Actions.checkUserAuth(this);
@@ -86,15 +86,26 @@ class PrendusCoursePreview {
         this.fire('location-changed', {}, {node: window});
     }
 
-    deleteCourse(e: any) {
-        e.stopPropagation();
+    openDeleteModal(e: any) {
+      e.stopPropagation();
+
+    }
+
+    async deleteCourse(e: any) {
+        try {
+          await Actions.deleteCourse(this, this.course);
+          this.successMessage = '';
+          this.successMessage = 'Course successfully deleted';
+        } catch (error: any) {
+          this.errorMessage = error.message;
+        }
     }
 
     viewCourse(e: any) {
         const location = `/courses/view/${this.course.id}`
         window.history.pushState({}, '', location);
         this.fire('location-changed', {}, {node: window});
-        
+
     }
     mapStateToThis(e: StatechangeEvent) {
         const state = e.detail.state;
