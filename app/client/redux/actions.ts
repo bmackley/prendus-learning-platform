@@ -737,7 +737,6 @@ const getConceptById = async (context: any, id: string) => {
       throw error;
     }
 };
-
 const addCourse = async (context: any, newCourse: Course, tags: string[]) => {
     try {
       const user = await FirebaseService.getLoggedInUser();
@@ -754,12 +753,31 @@ const addCourse = async (context: any, newCourse: Course, tags: string[]) => {
       const courses = await CourseModel.resolveCourseArrayTagIds(tempCourses);
       context.action = {
           type: 'ADD_COURSE',
-          courses,
+          courses
       };
     } catch(error){
       throw error;
     }
 };
+const deleteCourse = async (context: any, course: Course) => {
+  try {
+    // remove associations of all collaborators
+    for(const key in course.collaborators) {
+      await UserModel.unshareCourseWithMe(course.collaborators[key], course.id);
+    }
+    // delete actual course
+    await CourseModel.deleteCourse(course.id);
+    // refresh the view in the GUI
+    const tempCourses = await CourseModel.getCoursesByUser(course.uid);
+    const courses = await CourseModel.resolveCourseArrayTagIds(tempCourses);
+    context.action = {
+      type: 'DELETE_COURSE',
+      courses
+    }
+  } catch (error: any) {
+    throw error;
+  }
+}
 const deleteTagFromCourse = async (context: any, tag: Tag, courseId: string) => {
     try {
         const tagId = tag.id;
@@ -968,6 +986,7 @@ export const Actions = {
     clearCurrentVideoInfo,
     deleteVideo,
     addCourse,
+    deleteCourse,
     deleteTagFromCourse,
     addTagToCourse,
     getCoursesByUser,
