@@ -591,7 +591,6 @@ const loadEditCourseConcepts = async (context: any, courseId: string) => {
         const conceptDatasObject = course.concepts;
 
         const concepts = await ConceptModel.filterConceptDatasByCollaborator(conceptDatasObject, course.uid, user.uid);
-
         context.action = {
             type: 'LOAD_EDIT_COURSE_CONCEPTS',
             concepts,
@@ -608,7 +607,6 @@ const loadViewCourseConcepts = async (context: any, courseId: string) => {
         const course = await CourseModel.getById(courseId);
         const conceptsArray = await CourseModel.courseConceptsToArray(course);
         const orderedConcepts = CourseModel.orderCourseConcepts(conceptsArray);
-
         context.action = {
             type: 'LOAD_VIEW_COURSE_CONCEPTS',
             orderedConcepts,
@@ -713,6 +711,42 @@ const addTagToConcept = async (context: any, tag: string, conceptId: string) => 
                 concept
             };
         }
+    } catch(error) {
+        throw error;
+    }
+};
+
+const updateConceptTags = async (conceptId: string, newTags: string[]) => {
+    try {
+        const concept: Concept = await ConceptModel.getById(conceptId);
+        const oldTagIds: string[] = concept.tags ? ConceptModel.conceptTagIdsToArray(concept) : null;
+        const oldTags: Tag[] = oldTagIds ? await TagModel.resolveTagIds(oldTagIds) : null;
+        const oldTagNames: string[] = oldTags ? await TagModel.getTagNameArray(oldTags) : null;
+        await ConceptModel.updateTags(conceptId, oldTags, oldTagNames, newTags);
+
+    } catch(error) {
+        throw error;
+    }
+};
+// Updates the title of a concept given a string conceptId and a new string title
+const updateConceptTitle = async (conceptId: string, title: string) => {
+    try {
+        ConceptModel.updateTitle(conceptId, title);
+    } catch(error) {
+        throw error;
+    }
+};
+
+const getConceptAndTagNamesById = async (id: string) => {
+    try {
+        const concept: Concept = await ConceptModel.getById(id);
+        const tagArray: string[] = concept.tags ? ConceptModel.conceptTagIdsToArray(concept) : null;
+        const tags: Tag[] = tagArray ? await TagModel.resolveTagIds(tagArray) : null;
+        const tagNames: string[] = tags ? await TagModel.getTagNameArray(tags) : null;
+        return {
+            concept,
+            tagNames
+        };
     } catch(error) {
         throw error;
     }
@@ -1006,6 +1040,9 @@ export const Actions = {
     getQuiz,
     getCourseViewCourseById,
     getCourseEditCourseById,
+    updateConceptTags,
+    updateConceptTitle,
+    getConceptAndTagNamesById,
     getConceptById,
     loadPublicQuestionIds,
     starCourse,
