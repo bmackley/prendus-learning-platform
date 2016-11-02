@@ -13,6 +13,7 @@ class PrendusCoursePreview {
     public numStars: number;
     public uid: string;
     public hasEditAccess: boolean;
+    public successMessage: string;
     public errorMessage: string;
     beforeRegister() {
         this.is = 'prendus-course-preview';
@@ -23,7 +24,7 @@ class PrendusCoursePreview {
             }
         };
     }
-    
+
     async init(course: Course) {
       try{
         await Actions.checkUserAuth(this);
@@ -86,15 +87,28 @@ class PrendusCoursePreview {
         this.fire('location-changed', {}, {node: window});
     }
 
-    deleteCourse(e: any) {
-        e.stopPropagation();
+    openDeleteModal(e: any) {
+      e.stopPropagation();
+      this.querySelector('#confirm-delete-modal').open();
+    }
+
+    async deleteCourse(e: any) {
+      this.querySelector('#confirm-delete-modal').close();
+      try {
+        await Actions.deleteCourse(this, this.course);
+        this.successMessage = '';
+        this.successMessage = 'Course successfully deleted';
+      } catch (error: any) {
+        this.errorMessage = '';
+        this.errorMessage = error.message;
+      }
     }
 
     viewCourse(e: any) {
         const location = `/courses/view/${this.course.id}`
         window.history.pushState({}, '', location);
         this.fire('location-changed', {}, {node: window});
-        
+
     }
     mapStateToThis(e: StatechangeEvent) {
         const state = e.detail.state;

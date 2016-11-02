@@ -146,7 +146,6 @@ export function rootReducer(state: State = InitialState, action: Action): State 
       }
       case 'DELETE_CONCEPT': {
         const newState = Object.assign({}, state);
-        //make this happen in the model
         delete newState.concepts[action.conceptKey];
         return newState;
       }
@@ -237,6 +236,13 @@ export function rootReducer(state: State = InitialState, action: Action): State 
       case 'ADD_COURSE': {
         const newState = Object.assign({}, state);
         newState.courses = action.courses;
+        newState.sharedCourses = action.courses;
+        return newState;
+      }
+      case 'DELETE_COURSE': {
+        const newState = Object.assign({}, state);
+        newState.courses = action.courses;
+        newState.sharedCourses = action.courses;
         return newState;
       }
       case 'ADD_CONCEPT': {
