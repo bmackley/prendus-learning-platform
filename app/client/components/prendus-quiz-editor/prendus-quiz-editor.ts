@@ -20,6 +20,7 @@ class PrendusQuizEditor {
     public title: string;
     public selected: number;
     public collaboratorEmails: string[];
+    public uid: string;
 
     beforeRegister() {
         this.is = 'prendus-quiz-editor';
@@ -103,9 +104,16 @@ class PrendusQuizEditor {
       this.querySelector('#settings-modal').open();
     }
 
-    createQuestion(e: any) {
+    async createQuestion(e: any) {
+        const questionData = {
+          uid: this.uid,
+          text: '',
+          code: '',
+          visibility: 'public'
+        }
+        const newQuestion = await Actions.createQuestion(null, questionData);
         Actions.showMainSpinner(this);
-        window.history.pushState({}, '', `courses/edit-question/question/create`);
+        window.history.pushState({}, '', `courses/edit-question/question/${newQuestion}`);
         this.fire('location-changed', {}, {node: window});
     }
 
@@ -211,6 +219,7 @@ class PrendusQuizEditor {
         this.publicQuestionIds = state.publicQuestionIds;
         this.quizQuestionIds = state.quizQuestionIds;
         this.collaboratorEmails = state.collaboratorEmails;
+        this.uid = state.uid;
     }
 }
 
