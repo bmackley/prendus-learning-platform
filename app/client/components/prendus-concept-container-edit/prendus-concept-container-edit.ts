@@ -51,7 +51,6 @@ export class PrendusConceptContainerEdit {
   async completeDelete(){
     this.querySelector('#delete-confirm-modal').close();
     try{
-      console.log('complete delete course', this.courseId)
       await Actions.deleteConcept(this, this.courseId, this.conceptId);
       await Actions.loadEditCourseConcepts(this, this.courseId);
       this.successMessage = '';
