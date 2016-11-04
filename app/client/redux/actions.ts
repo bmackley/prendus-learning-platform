@@ -6,6 +6,8 @@ import {UserModel} from '../node_modules/prendus-services/models/user.model.ts';
 import {VideoModel} from '../node_modules/prendus-services/models/video.model.ts';
 import {TagModel} from '../node_modules/prendus-services/models/tag.model.ts';
 import {QuizModel} from '../node_modules/prendus-services/models/quiz.model.ts';
+import {QuestionModel} from '../node_modules/prendus-services/models/question.model.ts'; //May need to take this out. Needs Jordans review. Only Jordan is authorized to remove this comment.
+import {Question} from '../node_modules/prendus-services/interfaces/question.interface.ts'; //Same as above. Needs Jordans review and comment can only be removed by him.
 import {Course} from '../node_modules/prendus-services/interfaces/course.interface.ts';
 import {Tag} from '../node_modules/prendus-services/interfaces/tag.interface.ts';
 import {Concept} from '../node_modules/prendus-services/interfaces/concept.interface.ts';
@@ -413,6 +415,15 @@ const createNewQuiz = async (context: any, conceptId: string) => {
 
     return quizId;
 };
+//The createQuestion function needs to be reviewed by Jordan.
+const createQuestion = async (context: any, questionData: Question) => {
+    try{
+      const savedQuestion: string = await QuestionModel.save(null, questionData)
+      return savedQuestion;
+    }catch(error){
+      throw error;
+    }
+}
 
 const loadEditConceptQuizzes = async (context: any, conceptId: string) => {
     const user = await FirebaseService.getLoggedInUser();
@@ -1041,6 +1052,7 @@ export const Actions = {
     createNewQuiz,
     updateQuizTitle,
     getQuiz,
+    createQuestion,
     getCourseViewCourseById,
     getCourseEditCourseById,
     updateConceptTags,

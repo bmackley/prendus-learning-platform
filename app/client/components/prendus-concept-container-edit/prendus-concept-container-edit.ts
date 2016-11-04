@@ -42,7 +42,7 @@ export class PrendusConceptContainerEdit {
   }
   mapStateToThis(e: StatechangeEvent) {
     const state = e.detail.state;
-    this.courseId = state.courseEditCurrentCourse.id;
+    this.courseId = state.courseViewCurrentCourse.id;
   }
   deleteItem(e: any) {
     e.stopPropagation();
