@@ -2,7 +2,7 @@ import {Actions} from '../../redux/actions.ts';
 import {FirebaseService} from '../../node_modules/prendus-services/services/firebase.service.ts';
 import {Course} from '../../node_modules/prendus-services/interfaces/course.interface.ts';
 import {StatechangeEvent} from '../../interfaces/statechange-event.interface.ts';
-
+import {CourseVisibility} from '../../node_modules/prendus-services/interfaces/course-visibility.type.ts';
 class PrendusCourseHomepage {
   public is: string;
   public properties: any;
@@ -20,6 +20,8 @@ class PrendusCourseHomepage {
   public collaborators: {
     [uid: string]: string[];
   };
+  public tags: string[];
+  public querySelector: any;
   public errorMessage: string;
   beforeRegister() {
     this.is = 'prendus-course-homepage';
@@ -45,20 +47,22 @@ class PrendusCourseHomepage {
   }
 
   //Adds course to database
-  addCourseFormDone(e) {
+  async addCourseFormDone(e: any) {
     e.preventDefault();
     if(this.querySelector('#courseFormName').value){
       this.querySelector('#add-course-dialog').close();
-      const formTitle = this.querySelector('#courseFormName').value;
-      const courseDescription = this.querySelector('#courseDescription').value;
-      const newCourse = {
-        visibility: 'public',
+      const formTitle: string = this.querySelector('#courseFormName').value;
+      const courseDescription: string = this.querySelector('#courseDescription').value;
+      const visibility: CourseVisibility = 'public';
+      const newCourse: any = {
+        visibility,
         title: formTitle,
         description: courseDescription,
         uid: this.uid
       };
       try {
-        Actions.addCourse(this, newCourse, this.tags);
+        await Actions.addCourse(this, newCourse, this.tags);
+        await Actions.getCoursesByUser(this);
       } catch(error) {
         this.errorMessage = '';
         this.errorMessage = error.message;

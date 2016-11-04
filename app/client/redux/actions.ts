@@ -985,6 +985,22 @@ const logOutUser = async (context: any) => {
     window.location.href = ''; //need to reset the state instead of reloading everything.
 };
 
+const conceptContainsQuizOrVideo = async (conceptId: string) => {
+  try {
+    const concept: Concept = await ConceptModel.getById(conceptId);
+    return concept.videos || concept.quizzes ? true : false;
+  } catch(error) {
+    throw error;
+  }
+};
+const courseConceptsObjectToStringArray = (course: Course) => {
+  try {
+    const conceptIds: string[] = CourseModel.courseConceptIdsToArray(course);
+    return conceptIds;
+  } catch(error) {
+    throw error;
+  }
+};
 export const Actions = {
     defaultAction,
     loginUser,
@@ -1049,5 +1065,7 @@ export const Actions = {
     loadEditCourseConcepts,
     loadViewCourseConcepts,
     showMainSpinner,
-    hideMainSpinner
+    hideMainSpinner,
+    conceptContainsQuizOrVideo,
+    courseConceptsObjectToStringArray
 };
