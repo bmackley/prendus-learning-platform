@@ -33,9 +33,7 @@
     <prendus-notification error-message="[[errorMessage]]"></prendus-notification>
     <div class="homepage-courses">
       <template id="courseList" is="dom-repeat" items="[[publicCourses]]">
-        <template is="dom-if" if="[[displayCourse(item)]]">
           <prendus-course-preview class="course-preview" course="[[item]]"></prendus-course-preview>
-        </template>
       </template>
     </div>
 

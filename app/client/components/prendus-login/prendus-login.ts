@@ -2,14 +2,17 @@ import {Actions} from '../../redux/actions.ts';
 import {rootReducer} from '../../redux/reducers.ts';
 import {StatechangeEvent} from '../../interfaces/statechange-event.interface.ts';
 import {FirebaseService} from '../../node_modules/prendus-services/services/firebase.service.ts';
-
+import {User} from '../../node_modules/prendus-services/interfaces/user.interface.ts';
 class PrendusLogin {
   public is: string;
   public listeners: Object;
   public loginFormToastText: string;
+  public loginEmail: string;
+  public loginPassword: string;
   public errorMessage: string;
   public successMessage: string;
-
+  public querySelector: any;
+  public fire: any;
   beforeRegister() {
     this.is = 'prendus-login',
     this.listeners =  {
@@ -20,16 +23,22 @@ class PrendusLogin {
     this.querySelector('#forgotPasswordModal').open()
   }
   async login(e: any){
-    try{
-      await Actions.loginUser(this, this.$.loginEmail.value, this.$.loginPassword.value);
-      // await Actions.checkUserAuth(this);
-      this.$.loginEmail.value = '';
-      this.$.loginPassword.value = '';
-      let location = 'courses/home'
+    try {
+      this.loginEmail = this.querySelector('#loginEmail').value;
+      this.loginPassword = this.querySelector('#loginPassword').value;
+      await Actions.loginUser(this, this.loginEmail, this.loginPassword);
+      //use any since this is a firebase generated object
+      const firebaseObject: any  = await FirebaseService.getLoggedInUser();
+      const uid: string = firebaseObject.uid;
+      Actions.getCoursesByUser(this);
+      Actions.getStarredCoursesByUser(this, uid);
+      Actions.getSharedCoursesByUser(this, uid);
+      this.loginEmail = '';
+      this.loginPassword = '';
+      const location: string = 'courses/home'
       window.history.pushState({}, '', location);
       this.fire('location-changed', {}, {node: window});
-      window.location.reload(); //TODO see https://github.com/lastmjs/prendus-issues/issues/302 
-    }catch(error){
+    } catch(error) {
       this.errorMessage = '';
       this.errorMessage = error.message;
     }
