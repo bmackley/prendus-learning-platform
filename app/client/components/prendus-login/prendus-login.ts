@@ -28,7 +28,7 @@ class PrendusLogin {
       let location = 'courses/home'
       window.history.pushState({}, '', location);
       this.fire('location-changed', {}, {node: window});
-      window.location.reload();
+      window.location.reload(); //TODO see https://github.com/lastmjs/prendus-issues/issues/302 
     }catch(error){
       this.errorMessage = '';
       this.errorMessage = error.message;

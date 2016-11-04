@@ -17,7 +17,7 @@ import {EmailsToUidsModel} from '../node_modules/prendus-services/models/emails-
 import {Video} from '../node_modules/prendus-services/interfaces/video.interface.ts';
 import {ExecuteAsyncInOrder} from '../node_modules/prendus-services/services/execute-async-in-order.ts';
 import {UtilitiesService} from '../node_modules/prendus-services/services/utilities.service.ts';
-
+import {ResolvedCourse} from '../node_modules/prendus-services/interfaces/resolved-course.interface';
 const defaultAction = (context: any) => {
     context.action = {
         type: 'DEFAULT_ACTION'
@@ -811,7 +811,7 @@ const deleteCourse = async (context: any, course: Course) => {
       type: 'DELETE_COURSE',
       courses
     }
-  } catch (error: any) {
+  } catch (error) {
     throw error;
   }
 }
@@ -927,14 +927,18 @@ const getSharedCoursesByUser = async (context: any, uid: string) => {
 };
 
 const getCoursesByVisibility = async (context: any, visibility: CourseVisibility) => {
-
-    const tempCourses = await CourseModel.getAllByVisibility(visibility);
-    const courses = await CourseModel.resolveCourseArrayTagIds(tempCourses);
-    context.action = {
-        type: 'SET_COURSES_BY_VISIBILITY',
-        visibility,
-        courses
-    };
+    try {
+      const tempCourses = await CourseModel.getAllByVisibility(visibility);
+      const courses = await CourseModel.resolveCourseArrayTagIds(tempCourses);
+      context.action = {
+          type: 'SET_COURSES_BY_VISIBILITY',
+          visibility,
+          courses
+      };
+      return courses;
+    } catch(error) {
+      throw error;
+    }
 };
 
 const getCourseViewCourseById = async (context: any, id: string) => {
@@ -1021,6 +1025,18 @@ const courseConceptsObjectToStringArray = (course: Course) => {
     throw error;
   }
 };
+
+const courseArrayToResolvedCourseArray = async (context: any, courses: Course[]) => {
+  try {
+    let resolvedCourses: ResolvedCourse[] = new Array(courses.length);
+
+    for(let i: number = 0; i < courses.length; i++) {
+      const course: Course = courses[i];
+    }
+  } catch(error) {
+    throw error;
+  }
+};
 export const Actions = {
     defaultAction,
     loginUser,
@@ -1088,5 +1104,6 @@ export const Actions = {
     showMainSpinner,
     hideMainSpinner,
     conceptContainsQuizOrVideo,
-    courseConceptsObjectToStringArray
+    courseConceptsObjectToStringArray,
+    courseArrayToResolvedCourseArray
 };
