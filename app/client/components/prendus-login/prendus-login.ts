@@ -5,10 +5,7 @@ import {FirebaseService} from '../../node_modules/prendus-services/services/fire
 import {User} from '../../node_modules/prendus-services/interfaces/user.interface.ts';
 class PrendusLogin {
   public is: string;
-  public listeners: Object;
-  public loginFormToastText: string;
-  public loginEmail: string;
-  public loginPassword: string;
+  public listeners: any;
   public errorMessage: string;
   public successMessage: string;
   public querySelector: any;
@@ -19,22 +16,21 @@ class PrendusLogin {
       'signin-submit.tap': 'loginTap'
     }
   }
-  sendResetEmailTrigger(){
+  sendResetEmailTrigger() {
     this.querySelector('#forgotPasswordModal').open()
   }
-  async login(e: any){
+  async login(e: any) {
     try {
-      this.loginEmail = this.querySelector('#loginEmail').value;
-      this.loginPassword = this.querySelector('#loginPassword').value;
-      await Actions.loginUser(this, this.loginEmail, this.loginPassword);
-      //use any since this is a firebase generated object
-      const firebaseObject: any  = await FirebaseService.getLoggedInUser();
+      const loginEmail: string = this.querySelector('#loginEmail').value;
+      const loginPassword: string = this.querySelector('#loginPassword').value;
+      await Actions.loginUser(this, loginEmail, loginPassword);
+
+      // use any since this is a firebase generated object
+      const firebaseObject: any = await FirebaseService.getLoggedInUser();
       const uid: string = firebaseObject.uid;
       Actions.getCoursesByUser(this);
       Actions.getStarredCoursesByUser(this, uid);
       Actions.getSharedCoursesByUser(this, uid);
-      this.loginEmail = '';
-      this.loginPassword = '';
       const location: string = 'courses/home'
       window.history.pushState({}, '', location);
       this.fire('location-changed', {}, {node: window});
@@ -44,8 +40,8 @@ class PrendusLogin {
     }
   }
 
-  createAccount(){
-      let location = 'signup'
+  createAccount() {
+      const location: string = 'signup';
       window.history.pushState({}, '', location);
       this.fire('location-changed', {}, {node: window});
   }
@@ -55,19 +51,22 @@ class PrendusLogin {
   }
 
   loginKeydown(e: any) {
-    if(e.keyCode === 13) this.login(e);
+    //allows user to login by pressing enter
+    const enterKeyCode: number = 13;
+    if(e.keyCode === enterKeyCode) this.login(e);
   }
 
-  async sendResetEmail(e: any){
+  async sendResetEmail(e: any) {
     e.preventDefault();
-    const emailReset = this.querySelector('#resetPasswordEmail').value
-    try{
-      await FirebaseService.sendPasswordResetEmail(this.querySelector('#resetPasswordEmail').value)
-      this.querySelector('#forgotPasswordModal').close()
+
+    const emailReset: string = this.querySelector('#resetPasswordEmail').value;
+    try {
+      await FirebaseService.sendPasswordResetEmail(emailReset);
+      this.querySelector('#forgotPasswordModal').close();
       this.successMessage = '';
-      this.successMessage = 'Password sent'
-    }catch(error){
-      this.querySelector('#forgotPasswordModal').close()
+      this.successMessage = 'Password sent';
+    } catch(error){
+      this.querySelector('#forgotPasswordModal').close();
       this.errorMessage = '';
       this.errorMessage = error.message;
     }
