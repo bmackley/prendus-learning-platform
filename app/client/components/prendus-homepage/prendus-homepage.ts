@@ -6,6 +6,7 @@ class PrendusHomepage {
     public is: string;
     public publicCourses: Course[];
     public errorMessage: string;
+    public fire: any;
     beforeRegister() {
         this.is = 'prendus-homepage';
     }
@@ -19,28 +20,6 @@ class PrendusHomepage {
 
         window.history.pushState({}, '', `/courses/view/${courseId}`);
         this.fire('location-changed', {}, {node: window});
-    }
-     displayCourse(course: Course) {
-      try {
-        if(!course.concepts) {
-          return false;
-        }
-        const concepts: any = course.concepts;
-        const conceptIds: string[] = Actions.courseConceptsObjectToStringArray(course);
-        // If any concept inside of the course contains a video or a quiz,
-        // then we want to display the course to the user
-        for(let i = 0; i < conceptIds.length; i++) {
-          const hasQuizOrVideo: boolean = Actions.conceptContainsQuizOrVideo(conceptIds[i]);
-          if(hasQuizOrVideo) {
-            return true;
-          }
-        }
-        return false;
-      } catch(error) {
-        this.errorMessage = '';
-        this.errorMessage = error;
-      }
-
     }
     async starCourse(e: any) {
         const courseId = e.model.item.courseId;
