@@ -939,8 +939,11 @@ const getSharedCoursesByUser = async (context: any, uid: string) => {
 
 const getCoursesByVisibility = async (context: any, visibility: CourseVisibility) => {
     try {
-      const tempCourses = await CourseModel.getAllByVisibility(visibility);
-      const courses = await CourseModel.resolveCourseArrayTagIds(tempCourses);
+      const tempCourses: Course[] = await CourseModel.getAllByVisibility(visibility);
+      //TODO think of a better name besides tempCourses2
+      const tempCourses2: Course[] = await CourseModel.resolveCourseArrayTagIds(tempCourses);
+      const courses: Course[] = await CourseModel.filterCourses(tempCourses2);
+
       context.action = {
           type: 'SET_COURSES_BY_VISIBILITY',
           visibility,
