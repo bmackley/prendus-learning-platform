@@ -418,7 +418,7 @@ const createNewQuiz = async (context: any, conceptId: string) => {
 //The createQuestion function needs to be reviewed by Jordan.
 const createQuestion = async (context: any, questionData: Question) => {
     try{
-      const savedQuestion = await QuestionModel.save(null, questionData)
+      const savedQuestion: string = await QuestionModel.save(null, questionData)
       return savedQuestion;
     }catch(error){
       throw error;

@@ -1,4 +1,5 @@
 import {Question} from '../../node_modules/prendus-services/interfaces/question.interface.ts';
+import {QuestionVisibility} from '../../node_modules/prendus-services/interfaces/question-visibility.type.ts';
 import {Actions} from '../../redux/actions.ts';
 import {UtilitiesService} from '../../node_modules/prendus-services/services/utilities.service.ts';
 import {FirebaseService} from '../../node_modules/prendus-services/services/firebase.service.ts';
@@ -103,15 +104,14 @@ class PrendusQuizEditor {
     openSettingsModal(e: any) {
       this.querySelector('#settings-modal').open();
     }
-
+    //Temporary based on Jordans preferences
     async createQuestion(e: any) {
-        const questionData = {
+        const visibility: QuestionVisibility = 'public'
+        const questionData: Question = {
           uid: this.uid,
-          text: '',
-          code: '',
-          visibility: 'public'
+          visibility
         }
-        const newQuestion = await Actions.createQuestion(null, questionData);
+        const newQuestion: string = await Actions.createQuestion(null, questionData);
         Actions.showMainSpinner(this);
         window.history.pushState({}, '', `courses/edit-question/question/${newQuestion}`);
         this.fire('location-changed', {}, {node: window});
