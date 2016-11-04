@@ -17,7 +17,18 @@ body {
 
 h1 {
   font-weight: 300;
-  font-size: 3.5em;
+  font-size: calc(2.2em + 2vw);
+}
+
+h2 {
+  font-weight: 300;
+  font-size: calc(1.4em + 1vw);
+}
+
+h3 {
+  font-weight: 200;
+  font-size: calc(1em + 1vw);
+  color: #777;
 }
 
 .page-title {
