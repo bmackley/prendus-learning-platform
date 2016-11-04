@@ -664,7 +664,7 @@ const updateUserMetaData = async (context: any, uid: string, metaData: UserMetaD
     await UserModel.updateMetaData(uid, metaData);
     context.action = {
       type: 'UPDATE_USER_META_DATA',
-      user: metaData,
+      userMetaData: metaData,
     };
   }catch(error){
     throw error;

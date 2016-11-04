@@ -1,6 +1,7 @@
 import {Video} from '../node_modules/prendus-services/interfaces/video.interface.ts';
 import {Quiz} from '../node_modules/prendus-services/interfaces/quiz.interface.ts';
 import {User} from '../node_modules/prendus-services/interfaces/user.interface.ts';
+import {UserMetaData} from '../node_modules/prendus-services/interfaces/user-meta-data.interface.ts';
 import {Course} from '../node_modules/prendus-services/interfaces/course.interface.ts';
 import {CourseConceptData} from '../node_modules/prendus-services/interfaces/course-concept-data.interface.ts';
 
@@ -27,4 +28,5 @@ export interface Action {
   conceptId: string;
   quizId: string;
   videoId: string;
+  userMetaData: UserMetaData;
 }
