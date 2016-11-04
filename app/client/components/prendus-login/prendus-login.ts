@@ -2,7 +2,6 @@ import {Actions} from '../../redux/actions.ts';
 import {rootReducer} from '../../redux/reducers.ts';
 import {StatechangeEvent} from '../../interfaces/statechange-event.interface.ts';
 import {FirebaseService} from '../../node_modules/prendus-services/services/firebase.service.ts';
-import {User} from '../../node_modules/prendus-services/interfaces/user.interface.ts';
 class PrendusLogin {
   public is: string;
   public listeners: any;
