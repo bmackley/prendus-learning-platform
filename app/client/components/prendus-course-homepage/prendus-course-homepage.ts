@@ -54,7 +54,12 @@ class PrendusCourseHomepage {
       const formTitle: string = this.querySelector('#courseFormName').value;
       const courseDescription: string = this.querySelector('#courseDescription').value;
       const visibility: CourseVisibility = 'public';
-      const newCourse: any = {
+      const newCourse: Course = {
+        id: '',
+        concepts: null,
+        tags: null,
+        collaborators: null,
+        userStars: null,
         visibility,
         title: formTitle,
         description: courseDescription,
