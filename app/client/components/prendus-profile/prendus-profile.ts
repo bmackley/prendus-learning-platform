@@ -1,7 +1,7 @@
 import {Actions} from '../../redux/actions.ts';
 import {FirebaseService} from '../../node_modules/prendus-services/services/firebase.service.ts';
 import {StatechangeEvent} from '../../interfaces/statechange-event.interface.ts';
-
+import {UserMetaData} from '../../node_modules/prendus-services/interfaces/user-meta-data.interface.ts'
 export class PrendusProfile {
   public is: string;
   public firstName: string;
@@ -14,6 +14,7 @@ export class PrendusProfile {
   public updateProfileErrorToastText: string;
   public errorMessage: string;
   public successMessage: string;
+  public querySelector: any;
 
   beforeRegister() {
     this.is = 'prendus-profile';
@@ -28,13 +29,15 @@ export class PrendusProfile {
     this.uid = state.currentUser.metaData.uid;
   }
   async changeProfile(e: any) {
-    if(this.$.updateEmail.value != this.pastEmail){
-      this.$.confirmEmailChange.open();
+    if(this.querySelector('#updateEmail').value != this.pastEmail){
+      this.querySelector('#confirmEmailChange').open();
     }else{
-      const submitValue = {
-        firstName: this.$.firstName.value,
-        lastName: this.$.lastName.value,
-        institution: this.$.institution.value,
+      const submitValue: UserMetaData = {
+        uid: this.uid,
+        firstName: this.querySelector('#firstName').value,
+        lastName: this.querySelector('#lastName').value,
+        institution: this.querySelector('#institution').value,
+        email: this.email
       }
       try{
         await Actions.updateUserMetaData(this, this.uid, submitValue);
@@ -51,14 +54,19 @@ export class PrendusProfile {
   async closeOverlay(e: any) {
     if(e.detail.confirmed === true){
       try {
-        const submitValue = {
-          firstName: this.$.firstName.value,
-          lastName: this.$.lastName.value,
-          institution: this.$.institution.value,
-          email:  this.$.updateEmail.value,
+        const submitValue: UserMetaData = {
+          uid: this.uid,
+          firstName: this.querySelector('#firstName').value,
+          lastName: this.querySelector('#lastName').value,
+          institution: this.querySelector('#institution').value,
+          email:  this.querySelector('#updateEmail').value,
         }
-        await Actions.updateUserEmail(this, this.pastEmail, this.$.changeEmailPassword.value, submitValue.email);
+        Actions.showMainSpinner(this);
+        Actions.updateCollaborations(this.pastEmail)
+        //remove collaborations
+        await Actions.updateUserEmail(this, this.pastEmail, this.querySelector('#changeEmailPassword').value, submitValue.email);
         await Actions.updateUserMetaData(this, this.uid, submitValue);
+        Actions.hideMainSpinner(this);
         this.successMessage = '';
         this.successMessage = 'Profile & Email Updated Successfully';
       }catch(error){
@@ -66,14 +74,14 @@ export class PrendusProfile {
         this.errorMessage = error.message;
       }
     }
-    this.$.changeEmailPassword.value = ''; //need to clear the form
+    this.querySelector('#changeEmailPassword').value = ''; //need to clear the form
   }
   submitKeydown(e: any){
     if(e.keyCode === 13) this.changeProfile(e);
   }
   ready(){
-    this.$.updateProfileErrorToast.fitInto = this.$.toastTarget;
-    this.$.updateProfileSuccessToast.fitInto = this.$.toastTarget;
+    this.querySelector('#updateProfileErrorToast').fitInto = this.querySelector('#toastTarget');
+    this.querySelector('#updateProfileSuccessToast').fitInto = this.querySelector('#toastTarget');
   }
 }
 
