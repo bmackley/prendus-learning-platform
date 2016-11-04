@@ -38,14 +38,14 @@
     <redux-store action="[[action]]"></redux-store>
       <paper-card id = "loginFormCard" heading ="Login">
         <form class="card-content" is="iron-form" id="loginForm" on-keydown="loginKeydown">
-          <paper-input name="email" id = "loginEmail" label="Email" required auto-validate></paper-input>
-          <paper-input name="password" id = "loginPassword" label="Password" type="password" required auto-validate></paper-input>
+          <paper-input name="email" id="loginEmail" label="Email" required auto-validate></paper-input>
+          <paper-input name="password" id="loginPassword" label="Password" type="password" required auto-validate></paper-input>
         </form>
         <div class="card-actions">
           <paper-button id="signin-submit" class="indigo">Log In</paper-button>
           <paper-button on-click="sendResetEmailTrigger">Forgot Password</paper-button>
         </div>
-        <div id="create-account">Don't have an Account? <span on-tap="create-account">Create Account</span></div>
+        <div id="create-account">Don't have an Account? <a href="/signup"><span on-tap="create-account">Create Account</span></a></div>
       </paper-card>
       <paper-dialog id = "forgotPasswordModal" modal>
         <div>
