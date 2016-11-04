@@ -20,9 +20,8 @@ class PrendusHomepage {
         window.history.pushState({}, '', `/courses/view/${courseId}`);
         this.fire('location-changed', {}, {node: window});
     }
-    async displayCourse(course: Course) {
-      try {//TODO figure out how to embed async in html
-        return false;
+     displayCourse(course: Course) {
+      try {
         if(!course.concepts) {
           return false;
         }
@@ -31,7 +30,7 @@ class PrendusHomepage {
         // If any concept inside of the course contains a video or a quiz,
         // then we want to display the course to the user
         for(let i = 0; i < conceptIds.length; i++) {
-          const hasQuizOrVideo: boolean = await Actions.conceptContainsQuizOrVideo(conceptIds[i]);
+          const hasQuizOrVideo: boolean = Actions.conceptContainsQuizOrVideo(conceptIds[i]);
           if(hasQuizOrVideo) {
             return true;
           }
