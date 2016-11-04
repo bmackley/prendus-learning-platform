@@ -19,7 +19,6 @@ import {EmailsToUidsModel} from '../node_modules/prendus-services/models/emails-
 import {Video} from '../node_modules/prendus-services/interfaces/video.interface.ts';
 import {ExecuteAsyncInOrder} from '../node_modules/prendus-services/services/execute-async-in-order.ts';
 import {UtilitiesService} from '../node_modules/prendus-services/services/utilities.service.ts';
-import {ResolvedCourse} from '../node_modules/prendus-services/interfaces/resolved-course.interface';
 const defaultAction = (context: any) => {
     context.action = {
         type: 'DEFAULT_ACTION'
@@ -1020,34 +1019,6 @@ const logOutUser = async (context: any) => {
     window.location.href = ''; //need to reset the state instead of reloading everything.
 };
 
-const conceptContainsQuizOrVideo = async (conceptId: string) => {
-  try {
-    const concept: Concept = await ConceptModel.getById(conceptId);
-    return concept.videos || concept.quizzes ? true : false;
-  } catch(error) {
-    throw error;
-  }
-};
-const courseConceptsObjectToStringArray = (course: Course) => {
-  try {
-    const conceptIds: string[] = CourseModel.courseConceptIdsToArray(course);
-    return conceptIds;
-  } catch(error) {
-    throw error;
-  }
-};
-
-const courseArrayToResolvedCourseArray = async (context: any, courses: Course[]) => {
-  try {
-    let resolvedCourses: ResolvedCourse[] = new Array(courses.length);
-
-    for(let i: number = 0; i < courses.length; i++) {
-      const course: Course = courses[i];
-    }
-  } catch(error) {
-    throw error;
-  }
-};
 export const Actions = {
     defaultAction,
     loginUser,
@@ -1114,8 +1085,5 @@ export const Actions = {
     loadEditCourseConcepts,
     loadViewCourseConcepts,
     showMainSpinner,
-    hideMainSpinner,
-    conceptContainsQuizOrVideo,
-    courseConceptsObjectToStringArray,
-    courseArrayToResolvedCourseArray
+    hideMainSpinner
 };
