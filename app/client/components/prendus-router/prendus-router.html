@@ -48,9 +48,7 @@
 
       <iron-pages id="app-container" selected="[[pageData.page]]" category="[[pageData.page]]" attr-for-selected ="data-page" show="routes">
         <iron-pages data-page="" selected="[[loggedIn]]" attr-for-selected="logged-in">
-          <template is="dom-if" if="[[!loggedIn]]">
-            <prendus-landing logged-in="false"></prendus-landing>
-          </template>
+          <prendus-landing logged-in="false"></prendus-landing>
           <prendus-homepage logged-in="true" class="app-window"></prendus-homepage>
         </iron-pages>
         <prendus-login class="app-window" data-page="login"></prendus-login>
