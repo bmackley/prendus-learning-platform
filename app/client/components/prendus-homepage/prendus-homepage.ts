@@ -5,7 +5,8 @@ import {StatechangeEvent} from '../../interfaces/statechange-event.interface.ts'
 class PrendusHomepage {
     public is: string;
     public publicCourses: Course[];
-
+    public errorMessage: string;
+    public fire: any;
     beforeRegister() {
         this.is = 'prendus-homepage';
     }
@@ -20,7 +21,6 @@ class PrendusHomepage {
         window.history.pushState({}, '', `/courses/view/${courseId}`);
         this.fire('location-changed', {}, {node: window});
     }
-
     async starCourse(e: any) {
         const courseId = e.model.item.courseId;
 

@@ -119,13 +119,14 @@
           </template>
           <!-- TAGS -->
           <h3 hidden$="[[!showTagsTitle(currentCourse.tags.length, hasEditAccess)]]">Tags</h3>
-          <template is="dom-if" if="[[showTagsView(currentCourse.tags.length, hasEditAccess)]]">
+          <!-- Placeholder for tags, don't display until 100% ready to do so. -->
+          <!-- <template is="dom-if" if="[[showTagsView(currentCourse.tags.length, hasEditAccess)]]">
             <div id="tags-container">
               <template is="dom-repeat" items="[[currentCourse.tags]]">
                 <span class="tag">[[item.name]]</span>
               </template>
             </div>
-          </template>
+          </template> -->
           <template is="dom-if" if="[[hasEditAccess]]">
             <prendus-paper-tags-input placeholder="Delete tags or add new ones" duplicate-error-message="Tag cannot be a duplicate" id="tags" tags="[[courseTagNames]]" on-remove="tagRemoved" on-add="tagAdded"></prendus-paper-tags-input>
           </template>
