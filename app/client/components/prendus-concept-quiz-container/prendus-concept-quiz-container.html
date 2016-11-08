@@ -1,19 +1,28 @@
 <link rel="import" href="../../bower_components/polymer/polymer.html">
 <link rel="import" href="../../bower_components/redux-store-element/redux-store.html">
+<link rel="import" href="../../bower_components/iron-icons/iron-icons.html">
 
 <dom-module id="prendus-concept-quiz-container">
-    <template>
-        <style>
-            .quiz-row {
-                padding: 20px;
-                cursor: pointer;
-            }
-        </style>
-        <redux-store on-statechange="mapStateToThis" action="[[action]]"></redux-store>
-        <template is="dom-repeat" items="[[quizzes]]">
-            <div class="quiz-row" on-tap="quizRowClick">[[item.title]]</div>
-        </template>
-    </template>
+  <template>
 
-    <!--<script src="prendus-concept-quiz-container.js"></script>-->
+    <style>
+
+      .quiz-row {
+        padding: 20px;
+        cursor: pointer;
+      }
+
+    </style>
+
+    <redux-store on-statechange="mapStateToThis" action="[[action]]"></redux-store>
+    <!-- if no quizzes, say "no quizzes yet" -->
+    <template is="dom-repeat" items="[[quizzes]]" as="quiz">
+      <div class="quiz-row" on-tap="viewQuiz" href$="courses/view-quiz/course/asdf/quiz/[[quiz.id]]/quiz-session-id/asdf">
+        <span>[[quiz.title]]</span>
+        <iron-icon icon="create" on-tap="editQuiz"></iron-icon>
+      </div>
+    </template>
+  </template>
+
+  <!--<script src="prendus-concept-quiz-container.js"></script>-->
 </dom-module>
