@@ -34,18 +34,22 @@ class PrendusConceptQuizContainer {
         }
     }
 
-    quizRowClick(e: {
-        model: any
-    }) {
-        const quizId = e.model.item.id;
-        //this needs to be changed to take the quiz
-        window.history.pushState({}, '', `courses/view-quiz/course/${this.courseId}/quiz/${quizId}/quiz-session-id/NOT_LTI_QUIZ_SESSION_ID`);
+    viewQuiz(e: { model: any }) {
+        const quizId = e.model.quiz.id;
+        window.history.pushState({}, '', `courses/view-quiz/course/asdf/quiz/${quizId}/quiz-session-id/asdf`);
+        this.fire('location-changed', {}, {node: window});
+    }
+
+    editQuiz(e: { model: any }) {
+        e.stopPropagation();
+        const quizId = e.model.quiz.id;
+        window.history.pushState({}, '', `courses/edit-quiz/course/asdf/quiz/${quizId}/quiz-session-id/asdf`);
         this.fire('location-changed', {}, {node: window});
     }
 
     mapStateToThis(e: StatechangeEvent) {
         const state = e.detail.state;
-
+console.log(state);
         this.quizzes = state.viewConceptQuizzes[this.conceptId];
     }
 }
