@@ -45,14 +45,14 @@ class PrendusConceptQuizContainer {
     }
 
     viewQuiz(e: { model: any }) {
-        const quizId = e.model.quiz.id;
+        const quizId: string = e.model.quiz.id;
         window.history.pushState({}, '', `courses/view-quiz/course/asdf/quiz/${quizId}/quiz-session-id/asdf`);
         this.fire('location-changed', {}, {node: window});
     }
 
     editQuiz(e: { model: any }) {
         e.stopPropagation();
-        const quizId = e.model.quiz.id;
+        const quizId: string = e.model.quiz.id;
         window.history.pushState({}, '', `courses/edit-quiz/course/asdf/quiz/${quizId}/quiz-session-id/asdf`);
         this.fire('location-changed', {}, {node: window});
     }
@@ -70,14 +70,14 @@ class PrendusConceptQuizContainer {
         await Actions.loadViewConceptQuizzes(this, this.conceptId);
         this.successMessage = '';
         this.successMessage = 'Quiz deleted.';
-      } catch (error: any) {
+      } catch (error) {
         this.errorMessage = '';
         this.errorMessage = error.message;
       }
     }
 
     async addQuiz(e: Event) {
-        const quizId = await Actions.createNewQuiz(this, this.conceptId);
+        const quizId: string = await Actions.createNewQuiz(this, this.conceptId);
         window.history.pushState({}, '', `courses/edit-quiz/concept/${this.conceptId}/quiz/${quizId}`);
         this.fire('location-changed', {}, {node: window});
         await Actions.loadViewConceptQuizzes(this, this.conceptId);
@@ -89,7 +89,7 @@ class PrendusConceptQuizContainer {
       this.quizzes = state.viewConceptQuizzes[this.conceptId];
       // determine if the user has edit access
       if(this.quizzes) {
-        for(let quiz of this.quizzes) {
+        for(let quiz: Quiz of this.quizzes) {
           if(   quiz.uid === this.uid
             ||  quiz.collaborators
             &&  quiz.collaborators[this.user.metaData.uid])
