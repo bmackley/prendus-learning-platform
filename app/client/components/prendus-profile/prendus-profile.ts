@@ -62,8 +62,6 @@ export class PrendusProfile {
           email:  this.querySelector('#updateEmail').value,
         }
         Actions.showMainSpinner(this);
-        Actions.updateCollaborations(this.pastEmail)
-        //remove collaborations
         await Actions.updateUserEmail(this, this.pastEmail, this.querySelector('#changeEmailPassword').value, submitValue.email);
         await Actions.updateUserMetaData(this, this.uid, submitValue);
         Actions.hideMainSpinner(this);

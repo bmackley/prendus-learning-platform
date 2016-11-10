@@ -103,7 +103,7 @@
       <div id="course-content" class="card-content">
         <template is="dom-if" if="[[username]]">
           <!-- COLLABORATORS -->
-          <paper-button id="collaborators-button" noink on-tap="openCollaboratorsModal">Collaborators</paper-button>
+          <paper-button hidden$="[[!hasEditAccess]]" id="collaborators-button" noink on-tap="openCollaboratorsModal">Collaborators</paper-button>
           <prendus-collaborator-modal id="collaborators-modal" uid="[[uid]]" course-id="[[courseId]]" course></prendus-collaborator-modal>
           <!-- TITLE -->
           <h1 hidden$="[[editingTitle]]">[[currentCourse.title]]</h1>
