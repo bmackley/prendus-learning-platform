@@ -5,7 +5,7 @@
 <link href="../../bower_components/iron-icons/social-icons.html" rel="import">
 <link href="../../bower_components/paper-tooltip/paper-tooltip.html" rel="import">
 <link href="../prendus-concept-video-container-edit/prendus-concept-video-container-edit.html" rel="import">
-<link href="../prendus-concept-quiz-container-edit/prendus-concept-quiz-container-edit.html" rel="import">
+<link href="../prendus-concept-quiz-container/prendus-concept-quiz-container.html" rel="import">
 <link href="../prendus-notification/prendus-notification.html" rel="import">
 
 <link rel="import" href="../../styles/color-styles.html">
@@ -72,7 +72,7 @@
             <paper-tab>Videos</paper-tab>
         </paper-tabs>
         <iron-pages selected="[[selected]]">
-          <prendus-concept-quiz-container-edit concept-id="[[conceptId]]"></prendus-concept-quiz-container-edit>
+          <prendus-concept-quiz-container concept-id="[[conceptId]]"></prendus-concept-quiz-container>
           <prendus-concept-video-container-edit concept-id="[[conceptId]]"></prendus-concept-video-container-edit>
         </iron-pages>
       </div>
