@@ -653,6 +653,9 @@ const updateUserEmail = async (context: any, pastEmail: string, password: string
   try{
     const loggedInUser = await FirebaseService.logInUserWithEmailAndPassword(pastEmail, password);
     await UserModel.updateFirebaseUser(loggedInUser, newEmail);
+    await EmailsToUidsModel.deleteUidToEmail(pastEmail);
+    EmailsToUidsModel.setUidByEmail(newEmail, loggedInUser.uid);
+
   }catch(error){
     throw error;
   }
