@@ -96,7 +96,7 @@ const loadConceptCollaboratorEmails = async (context: any, courseId: string, con
                 loadVideoCollaboratorEmails(context, conceptId, videoId);
             });
 
-            const quizIds = await ConceptModel.getQuizIds(conceptId);
+            const quizIds: string[] = await ConceptModel.getQuizIds(conceptId);
             quizIds.forEach((quizId) => {
                 loadQuizCollaboratorEmails(context, conceptId, quizId);
             });
@@ -416,14 +416,14 @@ const createNewQuiz = async (context: any, conceptId: string) => {
 };
 
 const deleteQuiz = async (context: any, conceptId: string, quiz: Quiz) => {
-    const user = await FirebaseService.getLoggedInUser();
-    const concept = await ConceptModel.getById(conceptId);
-    const quizIds = await ConceptModel.getQuizIds(conceptId);
-    const quizzes = await QuizModel.filterQuizzesByCollaborator(quizIds, concept.uid, user.uid);
+    const user: User = await FirebaseService.getLoggedInUser();
+    const concept: Concept = await ConceptModel.getById(conceptId);
+    const quizIds: string[] = await ConceptModel.getQuizIds(conceptId);
+    const quizzes: Quiz[] = await QuizModel.filterQuizzesByCollaborator(quizIds, concept.uid, user.uid);
 
     // disassociate concept and questions
     await ConceptModel.disassociateQuiz(conceptId, quiz.id);
-    for(let key in quiz.questions) {
+    for(let key: string in quiz.questions) {
       await QuizModel.disassociateQuestion(quiz.id, key);
     }
     // delete from database
@@ -444,8 +444,8 @@ const loadEditConceptQuizzes = async (context: any, conceptId: string) => {
     const user = await FirebaseService.getLoggedInUser();
     const concept = await ConceptModel.getById(conceptId);
 
-    const quizIds = await ConceptModel.getQuizIds(conceptId);
-    const quizzes = await QuizModel.filterQuizzesByCollaborator(quizIds, concept.uid, user.uid);
+    const quizIds: string[] = await ConceptModel.getQuizIds(conceptId);
+    const quizzes: Quiz[] = await QuizModel.filterQuizzesByCollaborator(quizIds, concept.uid, user.uid);
 
     context.action = {
         type: 'LOAD_EDIT_CONCEPT_QUIZZES',
@@ -455,8 +455,8 @@ const loadEditConceptQuizzes = async (context: any, conceptId: string) => {
 };
 
 const loadViewConceptQuizzes = async (context: any, conceptId: string) => {
-    const quizIds = await ConceptModel.getQuizIds(conceptId);
-    const quizzes = await QuizModel.resolveQuizIds(quizIds);
+    const quizIds: string[] = await ConceptModel.getQuizIds(conceptId);
+    const quizzes: Quiz[] = await QuizModel.resolveQuizIds(quizIds);
 
     context.action = {
         type: 'LOAD_VIEW_CONCEPT_QUIZZES',
