@@ -414,6 +414,22 @@ const createNewQuiz = async (context: any, conceptId: string) => {
 
     return quizId;
 };
+
+const deleteQuiz = async (context: any, conceptId: string, quiz: Quiz) => {
+    const user = await FirebaseService.getLoggedInUser();
+    const concept = await ConceptModel.getById(conceptId);
+    const quizIds = await ConceptModel.getQuizIds(conceptId);
+    const quizzes = await QuizModel.filterQuizzesByCollaborator(quizIds, concept.uid, user.uid);
+
+    // disassociate concept and questions
+    await ConceptModel.disassociateQuiz(conceptId, quiz.id);
+    for(let key in quiz.questions) {
+      await QuizModel.disassociateQuestion(quiz.id, key);
+    }
+    // delete from database
+    await QuizModel.deleteQuiz(quiz.id);
+}
+
 //The createQuestion function needs to be reviewed by Jordan.
 const createQuestion = async (context: any, questionData: Question) => {
     try{
@@ -428,8 +444,8 @@ const loadEditConceptQuizzes = async (context: any, conceptId: string) => {
     const user = await FirebaseService.getLoggedInUser();
     const concept = await ConceptModel.getById(conceptId);
 
-    const quizzIds = await ConceptModel.getQuizIds(conceptId);
-    const quizzes = await QuizModel.filterQuizzesByCollaborator(quizzIds, concept.uid, user.uid);
+    const quizIds = await ConceptModel.getQuizIds(conceptId);
+    const quizzes = await QuizModel.filterQuizzesByCollaborator(quizIds, concept.uid, user.uid);
 
     context.action = {
         type: 'LOAD_EDIT_CONCEPT_QUIZZES',
@@ -439,8 +455,8 @@ const loadEditConceptQuizzes = async (context: any, conceptId: string) => {
 };
 
 const loadViewConceptQuizzes = async (context: any, conceptId: string) => {
-    const quizzIds = await ConceptModel.getQuizIds(conceptId);
-    const quizzes = await QuizModel.resolveQuizIds(quizzIds);
+    const quizIds = await ConceptModel.getQuizIds(conceptId);
+    const quizzes = await QuizModel.resolveQuizIds(quizIds);
 
     context.action = {
         type: 'LOAD_VIEW_CONCEPT_QUIZZES',
@@ -811,7 +827,6 @@ const deleteCourse = async (context: any, course: Course) => {
     }
     // remove tag associations
     await CourseModel.disassociateTags(course.id, course.tags);
-    // for(const key in course.tags)
     // delete actual course
     await CourseModel.deleteCourse(course.id);
     // refresh the view in the GUI
@@ -1053,6 +1068,7 @@ export const Actions = {
     loadEditConceptQuizzes,
     loadViewConceptQuizzes,
     createNewQuiz,
+    deleteQuiz,
     updateQuizTitle,
     getQuiz,
     createQuestion,

@@ -2,7 +2,6 @@ import {Course} from '../../node_modules/prendus-services/interfaces/course.inte
 import {StatechangeEvent} from '../../interfaces/statechange-event.interface.ts';
 import {User} from '../../node_modules/prendus-services/interfaces/user.interface.ts';
 import {Actions} from '../../redux/actions.ts';
-import {FirebaseService} from '../../node_modules/prendus-services/services/firebase.service.ts';
 
 class PrendusCoursePreview {
     public is: string;
