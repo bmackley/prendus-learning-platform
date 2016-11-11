@@ -107,13 +107,8 @@ class PrendusQuizEditor {
     //Temporary based on Jordans preferences
     async createQuestion(e: any) {
         const visibility: QuestionVisibility = 'public'
-        const questionData: Question = {
-          uid: this.uid,
-          visibility
-        }
-        const newQuestion: string = await Actions.createQuestion(null, questionData);
         Actions.showMainSpinner(this);
-        window.history.pushState({}, '', `courses/edit-question/question/${newQuestion}`);
+        window.history.pushState({}, '', `courses/edit-question/question/create`);
         this.fire('location-changed', {}, {node: window});
     }
 

@@ -669,6 +669,9 @@ const updateUserEmail = async (context: any, pastEmail: string, password: string
   try{
     const loggedInUser = await FirebaseService.logInUserWithEmailAndPassword(pastEmail, password);
     await UserModel.updateFirebaseUser(loggedInUser, newEmail);
+    await EmailsToUidsModel.deleteUidToEmail(pastEmail);
+    EmailsToUidsModel.setUidByEmail(newEmail, loggedInUser.uid);
+
   }catch(error){
     throw error;
   }
@@ -679,7 +682,7 @@ const updateUserMetaData = async (context: any, uid: string, metaData: UserMetaD
     await UserModel.updateMetaData(uid, metaData);
     context.action = {
       type: 'UPDATE_USER_META_DATA',
-      user: metaData,
+      userMetaData: metaData,
     };
   }catch(error){
     throw error;

@@ -151,8 +151,7 @@ export function rootReducer(state: State = InitialState, action: Action): State 
       }
       case 'UPDATE_USER_META_DATA': {
         const newState = Object.assign({}, state);
-        const newUser = Object.assign(newState.currentUser, action.user);
-        newState.currentUser = newUser;
+        newState.currentUser.metaData = action.userMetaData;
         return newState;
       }
       case 'LOAD_EDIT_CONCEPT_VIDEOS': {
