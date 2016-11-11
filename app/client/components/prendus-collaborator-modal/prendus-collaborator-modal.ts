@@ -98,7 +98,6 @@ class PrendusCollaboratorModal {
     async addCollaborator(e: Event) {
         try {
             const email = this.querySelector('#collaboratorInput').value;
-
             if (this.uid && this.courseId) {
                 await Actions.addCourseCollaborator(this, this.courseId, email);
                 await Actions.loadCourseCollaboratorEmails(this, this.uid, this.courseId);
