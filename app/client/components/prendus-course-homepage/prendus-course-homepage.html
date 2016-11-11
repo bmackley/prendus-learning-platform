@@ -95,9 +95,11 @@
       <h2>Create Your Own Course</h2>
       <paper-button icon="add" class="indigo" title="Add Course" on-tap="addCourse">Create Course</paper-button>
       <h2>Recommended Courses</h2>
-      <template id="recommended-courses" is="dom-repeat" items="[[publicCourses]]">
-        <prendus-course-preview course="[[item]]"></prendus-course-preview>
-      </template>
+      <div class="courses-container">
+        <template id="recommended-courses" is="dom-repeat" items="[[publicCourses]]">
+          <prendus-course-preview class="course-preview" course="[[item]]"></prendus-course-preview>
+        </template>
+      </div>
     </template>
   </template>
 
