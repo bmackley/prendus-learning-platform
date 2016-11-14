@@ -4,6 +4,7 @@ import {CourseConceptData} from '../../node_modules/prendus-services/interfaces/
 import {StatechangeEvent} from '../../interfaces/statechange-event.interface.ts';
 import {Tag} from '../../node_modules/prendus-services/interfaces/tag.interface.ts';
 import {Concept} from '../../node_modules/prendus-services/interfaces/concept.interface.ts';
+
 class PrendusConceptNewConcept {
   public is: string;
   public properties: any;
@@ -14,11 +15,11 @@ class PrendusConceptNewConcept {
   beforeRegister() {
     this.is = 'prendus-concept-new-concept';
     this.properties = {
-    }
+    };
   }
   open() {
     this.querySelector('#dialog').open();
-    this.conceptHeader = 'Add a Concept to the Course'; 
+    this.conceptHeader = 'Add a Concept to the Course';
     this.conceptFormName = '';
     this.tags = [];
   }
@@ -26,16 +27,16 @@ class PrendusConceptNewConcept {
   clearValues() {
     this.conceptId = null;
   }
-  
+
   async edit(conceptId: string) {
     this.conceptHeader = 'Edit concept';
     this.conceptId = conceptId;
     try {
-      const obj: any = await Actions.getConceptAndTagNamesById(this.conceptId);
-      const concept: Concept = obj.concept;
-      const tagNames: string[] = obj.tagNames;
+      const conceptAndTagNames: any = await Actions.getConceptAndTagNamesById(this.conceptId);
+      const concept: Concept = conceptAndTagNames.concept;
+      const tagNames: string[] = conceptAndTagNames.tagNames;
       this.conceptFormName = concept.title;
-      this.tags = tagNames ? tagNames : []; 
+      this.tags = tagNames ? tagNames : [];
     } catch(error) {
       this.domHost.errorMessage = '';
       this.domHost.errorMessage = error.message;
@@ -47,17 +48,17 @@ class PrendusConceptNewConcept {
       await Actions.updateConceptTitle(this.conceptId, this.conceptFormName);
       await Actions.updateConceptTags(this.conceptId, this.tags);
       this.querySelector('#dialog').close();
-      
+
       this.domHost.successMessage = '';
       this.domHost.successMessage = `${this.conceptFormName} successfully edited.`;
       this.tags = [];
       this.conceptFormName = '';
-      
+
     } catch(error) {
       this.domHost.errorMessage = '';
       this.domHost.errorMessage = error.message;
     }
-    
+
   }
   async addConceptFormDone(e: any) {
     e.preventDefault();
