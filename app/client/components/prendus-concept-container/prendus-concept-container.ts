@@ -11,6 +11,8 @@ class PrendusConceptContainer {
   public observers: string[];
   public conceptData: Concept;
   public selected: number;
+  public errorMessage: string;
+  public tags: string[];
   beforeRegister() {
     this.is = 'prendus-concept-container';
     this.properties = {
@@ -32,7 +34,7 @@ class PrendusConceptContainer {
         this.title = concept.title;
         this.tags = concept.tags;
       } catch(error) {
-        this.domHost.errorMessage = error.message;
+        this.errorMessage = error.message;
       }
     }
   }
