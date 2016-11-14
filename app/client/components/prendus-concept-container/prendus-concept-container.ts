@@ -28,7 +28,6 @@ class PrendusConceptContainer {
   async init() {
     if (this.conceptId) {
       try {
-        const path = `concepts/${this.conceptId}`
         const concept = await Actions.getConceptById(null, this.conceptId);
         this.title = concept.title;
         this.tags = concept.tags;
