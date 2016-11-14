@@ -1,7 +1,7 @@
 import {Actions} from '../../redux/actions.ts';
 import {StatechangeEvent} from '../../interfaces/statechange-event.interface.ts';
 import {FirebaseService} from '../../node_modules/prendus-services/services/firebase.service.ts';
-
+import {Concept} from '../../node_modules/prendus-services/interfaces/concept.interface.ts';
 export class PrendusConceptContainerEdit {
   public is: string;
   public title: string;
@@ -12,6 +12,8 @@ export class PrendusConceptContainerEdit {
   public selected: number;
   public successMessage: string;
   public errorMessage: string;
+  public querySelector: any;
+  public tags: string[];
   beforeRegister() {
     this.is = 'prendus-concept-container-edit';
     this.properties = {
@@ -25,9 +27,14 @@ export class PrendusConceptContainerEdit {
   }
   async init() {
     if (this.conceptId) {
-      const path = `concepts/${this.conceptId}`
-      const concept = await Actions.getConceptById(null, this.conceptId);
-      this.title = concept.title;
+      try {
+        const concept: Concept = await Actions.getConceptById(null, this.conceptId);
+        this.title = concept.title;
+        this.tags = concept.tags;
+      } catch(error) {
+        this.errorMessage = error.message;
+      }
+
     }
   }
   editItem() {
