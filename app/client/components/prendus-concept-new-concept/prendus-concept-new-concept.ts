@@ -9,7 +9,6 @@ class PrendusConceptNewConcept {
   public is: string;
   public properties: any;
   public conceptFormName: string;
-  public tags: string[];
   private conceptId: string;
   private conceptHeader: string;
   public querySelector: any;
@@ -27,7 +26,7 @@ class PrendusConceptNewConcept {
     this.querySelector('#dialog').open();
     this.conceptHeader = 'Add a Concept to the Course';
     this.conceptFormName = '';
-    this.tags = [];
+    this.querySelector('#tags').tags = [];
   }
 
   clearValues() {
@@ -42,7 +41,7 @@ class PrendusConceptNewConcept {
       const concept: Concept = conceptAndTagNames.concept;
       const tagNames: string[] = conceptAndTagNames.tagNames;
       this.conceptFormName = concept.title;
-      this.tags = tagNames ? tagNames : [];
+      this.querySelector('#tags').tags = tagNames ? tagNames : [];
     } catch(error) {
       this.errorMessage = '';
       this.errorMessage = error.message;
@@ -51,12 +50,13 @@ class PrendusConceptNewConcept {
   }
   async editConcept() {
     try {
+      const tags: string[] = this.querySelector('#tags').tags;
       await Actions.updateConceptTitle(this.conceptId, this.conceptFormName);
-      await Actions.updateConceptTags(this.conceptId, this.tags);
+      await Actions.updateConceptTags(this.conceptId, tags);
       this.querySelector('#dialog').close();
       this.successMessage = '';
       this.successMessage = `${this.conceptFormName} successfully edited.`;
-      this.tags = [];
+      this.querySelector('#tags').tags = [];
       this.conceptFormName = '';
       this.conceptId = '';
     } catch(error) {
@@ -67,6 +67,7 @@ class PrendusConceptNewConcept {
   }
   async addConceptFormDone(e: any) {
     e.preventDefault();
+    this.conceptFormName = this.querySelector('#conceptFormName').value;
     if(this.conceptFormName && this.conceptId) {
       this.editConcept();
       return;
@@ -78,7 +79,8 @@ class PrendusConceptNewConcept {
         title: this.conceptFormName
       };
       try {
-        await Actions.addConcept(this, this.courseId, newConcept, this.courseConcepts.length, this.tags);
+        const tags: string[] = this.querySelector('#tags').tags;
+        await Actions.addConcept(this, this.courseId, newConcept, this.courseConcepts.length, tags);
         await Actions.getCourseEditCourseById(this, this.courseId);
         this.successMessage = '';
         this.successMessage = 'Concept added successfully';
