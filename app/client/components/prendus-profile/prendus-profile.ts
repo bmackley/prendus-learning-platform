@@ -60,7 +60,7 @@ export class PrendusProfile {
           lastName: this.querySelector('#lastName').value,
           institution: this.querySelector('#institution').value,
           email:  this.querySelector('#updateEmail').value,
-        }
+        };
         Actions.showMainSpinner(this);
         await Actions.updateUserEmail(this, this.pastEmail, this.querySelector('#changeEmailPassword').value, submitValue.email);
         await Actions.updateUserMetaData(this, this.uid, submitValue);
