@@ -11,7 +11,7 @@
 <link rel="import" href="../../bower_components/paper-card/paper-card.html">
 
 <link rel="import" href="../prendus-paper-tags-input/prendus-paper-tags-input.html">
-
+<link rel="import" href="../prendus-notification/prendus-notification.html">
 
 <dom-module id="prendus-concept-new-concept">
   <template>
@@ -28,7 +28,7 @@
         </form>
       </paper-dialog-scrollable>
     </paper-dialog>
-
+    <prendus-notification success-message="[[successMessage]]" error-message="[[errorMessage]]"></prendus-notification>
   </template>
 
 </dom-module>
