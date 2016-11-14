@@ -12,6 +12,12 @@ class PrendusConceptNewConcept {
   public tags: string[];
   private conceptId: string;
   private conceptHeader: string;
+  public querySelector: any;
+  public errorMessage: string;
+  public successMessage: string;
+  public uid: string;
+  public courseId: string;
+  public courseConcepts: Concept[];
   beforeRegister() {
     this.is = 'prendus-concept-new-concept';
     this.properties = {
@@ -38,8 +44,8 @@ class PrendusConceptNewConcept {
       this.conceptFormName = concept.title;
       this.tags = tagNames ? tagNames : [];
     } catch(error) {
-      this.domHost.errorMessage = '';
-      this.domHost.errorMessage = error.message;
+      this.errorMessage = '';
+      this.errorMessage = error.message;
     }
     this.querySelector('#dialog').open();
   }
@@ -48,15 +54,14 @@ class PrendusConceptNewConcept {
       await Actions.updateConceptTitle(this.conceptId, this.conceptFormName);
       await Actions.updateConceptTags(this.conceptId, this.tags);
       this.querySelector('#dialog').close();
-
-      this.domHost.successMessage = '';
-      this.domHost.successMessage = `${this.conceptFormName} successfully edited.`;
+      this.successMessage = '';
+      this.successMessage = `${this.conceptFormName} successfully edited.`;
       this.tags = [];
       this.conceptFormName = '';
-
+      this.conceptId = '';
     } catch(error) {
-      this.domHost.errorMessage = '';
-      this.domHost.errorMessage = error.message;
+      this.errorMessage = '';
+      this.errorMessage = error.message;
     }
 
   }
@@ -72,16 +77,15 @@ class PrendusConceptNewConcept {
         uid: this.uid,
         title: this.conceptFormName
       };
-      //this.domHost calls parent
       try {
-        await Actions.addConcept(this.domHost, this.courseId, newConcept, this.courseConcepts.length, this.tags);
-        await Actions.getCourseEditCourseById(this.domHost, this.courseId);
-        this.domHost.successMessage = '';
-        this.domHost.successMessage = 'Concept added successfully';
-        Actions.loadEditCourseConcepts(this.domHost, this.courseId);
+        await Actions.addConcept(this, this.courseId, newConcept, this.courseConcepts.length, this.tags);
+        await Actions.getCourseEditCourseById(this, this.courseId);
+        this.successMessage = '';
+        this.successMessage = 'Concept added successfully';
+        Actions.loadEditCourseConcepts(this, this.courseId);
       } catch(error) {
-        this.domHost.errorMessage = '';
-        this.domHost.errorMessage = error.message;
+        this.errorMessage = '';
+        this.errorMessage = error.message;
       }
     }
   }
