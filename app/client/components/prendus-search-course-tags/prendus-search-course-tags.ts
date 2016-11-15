@@ -8,6 +8,7 @@ class PrendusSearchCourseTags {
   public resultingCourses: Course[];
   public errorMessage: string;
   public querySelector: any;
+  public courseTagNames: string[];
   beforeRegister() {
     this.is = 'prendus-search-course-tags';
     this.properties = {
@@ -24,9 +25,17 @@ class PrendusSearchCourseTags {
       this.errorMessage = error.message;
     }
   }
-
+  onRemove(e: any) {
+    this.courseTagNames = this.courseTagNames.filter((tagName: string, index) => e.detail.index !== index);
+  }
+  onAdd(e: any) {
+    if(!this.courseTagNames) {
+      this.courseTagNames = [];
+    }
+    this.courseTagNames = [...this.courseTagNames, e.detail.tag];
+  }
   clearTags(e: any) {
-    this.querySelector('#tags').tags = [];
+    this.courseTagNames = [];
   }
   mapStateToThis(e: StatechangeEvent) {
     const state = e.detail.state;
