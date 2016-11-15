@@ -755,7 +755,7 @@ const updateConceptTitle = async (conceptId: string, title: string) => {
     }
 };
 
-const getConceptAndTagNamesById = async (id: string) => {
+const getConceptAndTagNamesById = async (id: string): Promise<{ concept: Concept, tagNames: string[] }> => {
     try {
         const concept: Concept = await ConceptModel.getById(id);
         const tagArray: string[] = concept.tags ? ConceptModel.conceptTagIdsToArray(concept) : null;
@@ -845,6 +845,9 @@ const deleteTagFromCourse = async (context: any, tag: Tag, courseId: string) => 
             courseTagNames
         };
     } catch(error) {
+        context.action = {
+          type: 'DEFAULT_ACTION'
+        };
         throw error;
     }
 };

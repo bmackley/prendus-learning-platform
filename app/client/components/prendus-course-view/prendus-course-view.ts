@@ -94,12 +94,9 @@ export class PrendusCourseView {
     return tagsLength > 0 && !hasEditAccess;
   }
 
-  async tagAdded(e: any) {
+  async onAdd(e: any) {
     try {
-      if(!this.courseTagNames) {
-        this.courseTagNames = this.querySelector('#tags').tags;
-      }
-      const tag: string = this.courseTagNames[this.courseTagNames.length - 1];
+      const tag: string = e.detail.tag;
       await Actions.addTagToCourse(this, tag, this.courseId);
       this.successMessage = '';
       this.successMessage = `${tag} added successfully.`;
@@ -110,9 +107,9 @@ export class PrendusCourseView {
     }
   }
 
-  async tagRemoved(e: any) {
+  async onRemove(e: any) {
     try {
-      const tag: Tag = this.getTagRemoved();
+      const tag: Tag = this.courseTags[e.detail.index];
       if(tag) {
         await Actions.deleteTagFromCourse(this, tag, this.courseId);
         this.successMessage = '';
@@ -124,18 +121,6 @@ export class PrendusCourseView {
       this.errorMessage = '';
       this.errorMessage = error.message;
     }
-  }
-
-  getTagRemoved() {
-    for(let i = 0; i < this.courseTags.length; i++) {
-      const tag = this.courseTags[i];
-      if(this.courseTagNames.indexOf(tag.name) === -1) {
-        this.courseTagNames.splice(i);
-        this.courseTags.splice(i);
-        return tag;
-      }
-    }
-    return null;
   }
 
   toggle(e: any) {
