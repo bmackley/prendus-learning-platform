@@ -1,10 +1,9 @@
-<link href="../../bower_components/polymer/polymer.html" rel="import">
-<link href="../../bower_components/paper-card/paper-card.html" rel="import">
-<link href="../../bower_components/paper-dialog/paper-dialog.html" rel="import">
-<link rel="import" href="../prendus-paper-tags-input/prendus-paper-tags-input.html">
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/paper-card/paper-card.html">
+<link rel="import" href="../../bower_components/paper-dialog/paper-dialog.html">
+<link rel="import" href="../../bower_components/prendus-paper-tags-input/prendus-paper-tags-input.html">
 <link rel="import" href="../prendus-course-preview/prendus-course-preview.html">
 <link rel="import" href="../prendus-notification/prendus-notification.html">
-<link rel="import" href="../prendus-search-course-tags/prendus-search-course-tags.html">
 <dom-module id="prendus-course-homepage">
   <style>
     .courses-container {
@@ -68,7 +67,7 @@
           <!-- Look up Iron keys to change this -->
           <paper-input name="courseName" label="Course Name" id="courseFormName" required auto-validate empty-error-message="Course Name Required" maxlength="50"></paper-input>
           <paper-input name="courseDescription" label="Short Description" id="courseDescription" required auto-validate maxlength="150"></paper-input>
-          <prendus-paper-tags-input placeholder="Add a tag to the course (optional). Press enter to add another tag." label="Course Tags" tags="{{tags}}" duplicate-error-message="Tag cannot be a duplicate"></prendus-paper-tags-input>
+          <prendus-paper-tags-input placeholder="Add a tag to the course (optional). Press enter to add another tag." label="Course Tags" id="tags" tags="[[courseTagNames]]" on-remove="onRemove" on-add="onAdd" duplicate-error-message="Tag cannot be a duplicate"></prendus-paper-tags-input>
           <paper-button dialog-dismiss>Cancel</paper-button>
           <paper-button on-tap="addCourseFormDone">Next</paper-button>
         </div>
