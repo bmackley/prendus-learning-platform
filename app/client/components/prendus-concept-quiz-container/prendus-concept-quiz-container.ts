@@ -86,16 +86,16 @@ class PrendusConceptQuizContainer {
     mapStateToThis(e: StatechangeEvent) {
       const state = e.detail.state;
       this.user = state.currentUser;
-      this.quizzes = state.viewConceptQuizzes[this.conceptId];
-      // determine if the user has edit access
-      if(this.quizzes) {
-        for(let quiz: Quiz of this.quizzes) {
-          if(   quiz.uid === this.uid
-            ||  quiz.collaborators
-            &&  quiz.collaborators[this.user.metaData.uid])
-            quiz.hasEditAccess = true;
-          }
-      }
+      // determine user's edit access for each quiz
+			this.quizzes = (state.viewConceptQuizzes[this.conceptId] || []).map((quiz: Quiz) => {
+				if(   quiz.uid === this.uid
+					||  quiz.collaborators
+					&&  quiz.collaborators[this.user.metaData.uid]) {
+						return Object.assign({}, quiz, {
+							hasEditAccess: true
+						});
+					}
+			});
     }
 }
 
