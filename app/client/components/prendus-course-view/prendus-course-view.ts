@@ -165,27 +165,6 @@ export class PrendusCourseView {
     this.querySelector('#addConceptDialog').open();
   }
 
-  async addConceptFormDone(e: any) {
-    e.preventDefault();
-    if(this.$.conceptFormName.value) {
-      this.querySelector('#addDialog').close();
-      const newConcept = {
-        uid: this.uid,
-        title: this.$.conceptFormName.value,
-      };
-      try {
-        await Actions.addConcept(this, this.courseId, newConcept, this.courseConcepts.length);
-        await Actions.loadViewCourseConcepts(this, this.courseId);
-        this.successMessage = '';
-        this.successMessage = 'Concept added successfully';
-      }catch(error) {
-        this.errorMessage = '';
-        this.errorMessage = error.message;
-      }
-      this.$.conceptFormName.value = '';
-    }
-  }
-
   async sortableEnded(e: any) { //This isn't the most elegant solution. I'm open to better ways of doing things.
     if(typeof e.newIndex !== 'undefined') {
       let updateConceptPositionArray = [];
