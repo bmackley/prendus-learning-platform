@@ -18,7 +18,8 @@ export class PrendusCourseView {
   public uid: string;
   public successMessage: string;
   public errorMessage: string;
-
+  public listeners: any;
+  public querySelector: any;
   beforeRegister() {
     this.is = 'prendus-course-view';
     this.properties = {
@@ -49,6 +50,9 @@ export class PrendusCourseView {
       'viewCourse(route)',
       'viewData(data)'
     ];
+    this.listeners = {
+      'edit-concept': 'openEditConceptDialog'
+    };
   }
 
   mapStateToThis(e: StatechangeEvent) {
@@ -61,7 +65,10 @@ export class PrendusCourseView {
     this.courseTagNames = state.courseTagNames;
     this.courseConcepts = state.viewCourseConcepts[this.courseId];
   }
-
+  openEditConceptDialog(e: any) {
+    const conceptId: string = e.detail.conceptId;
+    this.querySelector('#addConceptDialog').edit(conceptId);
+  }
   openCollaboratorsModal(e: any) {
     this.querySelector('#collaborators-modal').open();
   }
