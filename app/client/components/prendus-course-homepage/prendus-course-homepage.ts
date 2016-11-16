@@ -17,10 +17,10 @@ class PrendusCourseHomepage {
   public userCoursesLength: number;
   public sharedCoursesLength: number;
   public starredCoursesLength: number;
+  public courseTagNames: string[];
   public collaborators: {
     [uid: string]: string[];
   };
-  public tags: string[];
   public querySelector: any;
   public errorMessage: string;
   beforeRegister() {
@@ -45,7 +45,15 @@ class PrendusCourseHomepage {
   addCourse(e: any) {
     this.querySelector('#add-course-dialog').open();
   }
-
+  onRemove(e: any) {
+    this.courseTagNames = this.courseTagNames.filter((tagName: string, index) => e.detail.index !== index);
+  }
+  onAdd(e: any) {
+    if(!this.courseTagNames) {
+      this.courseTagNames = [];
+    }
+    this.courseTagNames = [...this.courseTagNames, e.detail.tag];
+  }
   //Adds course to database
   async addCourseFormDone(e: any) {
     e.preventDefault();
@@ -66,7 +74,7 @@ class PrendusCourseHomepage {
         uid: this.uid
       };
       try {
-        await Actions.addCourse(this, newCourse, this.tags);
+        await Actions.addCourse(this, newCourse, this.courseTagNames);
         await Actions.getCoursesByUser(this);
       } catch(error) {
         this.errorMessage = '';

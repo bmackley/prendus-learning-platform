@@ -1,11 +1,12 @@
 <link rel="import" href="../../bower_components/polymer/polymer.html">
-<link href="../../bower_components/iron-collapse/iron-collapse.html" rel="import">
-<link href="../../bower_components/redux-store-element/redux-store.html" rel="import">
-<link href="../prendus-concept-video-container/prendus-concept-video-container.html" rel="import">
-<link href="../prendus-concept-quiz-container/prendus-concept-quiz-container.html" rel="import">
-<link href="../../bower_components/paper-tabs/paper-tabs.html" rel="import">
-<link href="../../bower_components/iron-pages/iron-pages.html" rel="import">
+<link rel="import" href="../../bower_components/iron-collapse/iron-collapse.html">
+<link rel="import" href="../../bower_components/redux-store-element/redux-store.html">
+<link rel="import" href="../prendus-concept-video-container/prendus-concept-video-container.html">
+<link rel="import" href="../prendus-concept-quiz-container/prendus-concept-quiz-container.html">
+<link rel="import" href="../../bower_components/paper-tabs/paper-tabs.html">
+<link rel="import" href="../../bower_components/iron-pages/iron-pages.html">
 <link rel="import" href="../../styles/color-styles.html">
+<link rel="import" href="../prendus-notification/prendus-notification.html">
 
 <dom-module id="prendus-concept-container">
   <template>
@@ -24,7 +25,7 @@
         --paper-tabs-selection-bar-color: var(--prendus-primary-color);
       }
     </style>
- 
+
     <redux-store on-statechange="mapStateToThis" action="[[action]]"></redux-store>
     <h3 id="title-toggle" on-tap="toggle">[[title]]</h3>
     <iron-collapse class="conceptToggle" id="concept-[[item.pos]]">
@@ -38,5 +39,6 @@
         </iron-pages>
     </iron-collapse>
   </template>
+  <prendus-notification error-message="[[errorMessage]]"></prendus-notification>
   <!-- <script>System.import('/components/prendus-concept-container/prendus-concept-container.ts');</script> -->
 </dom-module>

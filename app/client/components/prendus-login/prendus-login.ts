@@ -25,8 +25,8 @@ class PrendusLogin {
       await Actions.loginUser(this, loginEmail, loginPassword);
 
       // use any since this is a firebase generated object
-      const firebaseObject: any = await FirebaseService.getLoggedInUser();
-      const uid: string = firebaseObject.uid;
+      const firebaseUser: any = await FirebaseService.getLoggedInUser();
+      const uid: string = firebaseUser.uid;
       Actions.getCoursesByUser(this);
       Actions.getStarredCoursesByUser(this, uid);
       Actions.getSharedCoursesByUser(this, uid);
