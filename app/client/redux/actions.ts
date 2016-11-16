@@ -1001,9 +1001,9 @@ const deleteConcept = async (context: any, courseId: string, conceptId: string) 
       }
 };
 const orderConcepts = async (context: any, id: string, courseConceptsArray: CourseConceptData[]) => {
-  try{
+  try {
     await CourseModel.updateCourseConcepts(id, courseConceptsArray);
-  }catch(error){
+  } catch(error){
     throw error;
   }
 };
