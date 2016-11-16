@@ -6,7 +6,7 @@ import {UserModel} from '../node_modules/prendus-services/models/user.model.ts';
 import {VideoModel} from '../node_modules/prendus-services/models/video.model.ts';
 import {TagModel} from '../node_modules/prendus-services/models/tag.model.ts';
 import {QuizModel} from '../node_modules/prendus-services/models/quiz.model.ts';
-import {QuestionModel} from '../node_modules/prendus-services/models/question.model.ts'; 
+import {QuestionModel} from '../node_modules/prendus-services/models/question.model.ts';
 import {Course} from '../node_modules/prendus-services/interfaces/course.interface.ts';
 import {Tag} from '../node_modules/prendus-services/interfaces/tag.interface.ts';
 import {Concept} from '../node_modules/prendus-services/interfaces/concept.interface.ts';
@@ -1003,10 +1003,10 @@ const deleteConcept = async (context: any, courseId: string, conceptId: string) 
         throw error;
       }
 };
-const orderConcepts = async (context: any, id: string, courseConceptsArray: Concept[]) => {
-  try{
+const orderConcepts = async (context: any, id: string, courseConceptsArray: CourseConceptData[]) => {
+  try {
     await CourseModel.updateCourseConcepts(id, courseConceptsArray);
-  }catch(error){
+  } catch(error){
     throw error;
   }
 };

@@ -43,7 +43,11 @@
     <redux-store on-statechange="mapStateToThis" action="[[action]]"></redux-store>
     <!-- if no quizzes, say "no quizzes yet" -->
     <template is="dom-repeat" items="[[quizzes]]" as="quiz">
+<<<<<<< HEAD
+      <div class="quiz-row"><a href$="courses/view-quiz/course/asdf/quiz/[[quiz.id]]/quiz-session-id/asdf">
+=======
       <div class="quiz-row" on-tap="viewQuiz">
+>>>>>>> develop
         <template is="dom-if" if="[[quiz.hasEditAccess]]">
           <paper-icon-button id="edit-quiz[[quiz.id]]" class="quiz-icon" icon="create" on-tap="editQuiz"></paper-icon-button>
           <paper-tooltip for="edit-quiz[[quiz.id]]" offset="0" animation-delay="300">Edit Quiz</paper-tooltip>
@@ -51,7 +55,7 @@
           <paper-tooltip for="delete-quiz[[quiz.id]]" offset="0" animation-delay="300">Delete Quiz</paper-tooltip>
         </template>
         <span>[[quiz.title]]</span>
-      </div>
+      </a></div>
     </template>
     <h4 hidden$="[[hasQuizzes(quizzes)]]">This concept doesn't have any quizzes yet.</h4>
     <paper-button class="add-quiz-button" raised="true" title="Add Quiz" on-tap="addQuiz">Add Quiz</paper-button>

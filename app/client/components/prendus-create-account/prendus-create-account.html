@@ -35,7 +35,7 @@
     </style>
   <template>
     <redux-store action="[[action]]"></redux-store>
-    
+
     <paper-card id="signupForm" heading="Create Account">
       <form is="iron-form" class="card-content" method="get" action="/createclass" id="signupFormlocater">
         <paper-input name="email" id="formEmail" label="Email" required auto-validate></paper-input>
@@ -53,7 +53,7 @@
       <div>
         [[createCourseEmailMessage]]
         <br>
-        <paper-button class="indigo" on-tap="redirectToLogin" raised>Continue</paper-button>
+        <a href="/login"><paper-button id="continueToLogin" class="indigo" raised>Continue</paper-button></a>
       </div>
     </paper-dialog>
     <prendus-notification error-message="[[errorMessage]]"></prendus-notification>

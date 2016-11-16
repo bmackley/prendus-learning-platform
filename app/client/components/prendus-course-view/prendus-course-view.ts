@@ -11,7 +11,7 @@ export class PrendusCourseView {
   public currentCourse: Course;
   public courseTagNames: string[];
   public courseTags: Tag[];
-  public courseId: Course[];
+  public courseId: string;
   public properties: any;
   public observers: string[];
   public username: string;
@@ -159,16 +159,15 @@ export class PrendusCourseView {
 
   async sortableEnded(e: any) { //This isn't the most elegant solution. I'm open to better ways of doing things.
     if(typeof e.newIndex !== 'undefined') {
-      let updateConceptPositionArray = [];
-      for(let i = 0, len = this.courseConcepts.length; i < len; i++ ) {
+      let updateConceptPositionArray: CourseConceptData[] = [];
+      for(let i:number = 0, len: number = this.courseConcepts.length; i< len; i++) {
+        updateConceptPositionArray.push(this.courseConcepts[i]);
         if(this.courseConcepts[i].position != i) {
-          this.courseConcepts[i].position = i
-          updateConceptPositionArray.push(this.courseConcepts[i])
+          updateConceptPositionArray[i].position = i;
         }
       }
       try {
         await Actions.orderConcepts(this, this.courseId, updateConceptPositionArray);
-        await Actions.loadViewCourseConcepts(this, this.courseId);
         this.successMessage = '';
         this.successMessage = 'Concept ordered successfully';
       } catch(error) {
@@ -188,7 +187,7 @@ export class PrendusCourseView {
         this.successMessage = '';
         this.successMessage = `${attribute} has been updated`;
       }
-    }catch(error) {
+    } catch(error) {
       this.errorMessage = '';
       this.errorMessage = error.message;
     }
