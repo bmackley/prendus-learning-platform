@@ -13,6 +13,7 @@
 <link rel="import" href="../../bower_components/iron-icons/iron-icons.html">
 <link rel="import" href="../../bower_components/iron-icons/av-icons.html">
 <link rel="import" href="../../bower_components/iron-icons/social-icons.html">
+<link rel="import" href="../../bower_components/paper-date-picker/paper-calendar.html">
 <link rel="import" href="../../styles/color-styles.html">
 <link rel="import" href="../prendus-collaborator-modal/prendus-collaborator-modal.html">
 
@@ -72,7 +73,7 @@
 
         #settings-modal {
           width: 80%;
-          max-width: 400px;
+          max-width: 600px;
         }
 
         .setting + .setting {
@@ -126,6 +127,12 @@
               <paper-checkbox class="setting" on-change="showHintToggled" checked="[[quizSettings.showHint]]" noink>Show hint</paper-checkbox>
               <paper-checkbox class="setting" on-change="showCodeToggled" checked="[[quizSettings.showCode]]" noink>Show code</paper-checkbox>
               <paper-checkbox class="setting" on-change="gradedToggled" checked="[[quizSettings.graded]]" noink>Graded</paper-checkbox>
+              <!-- TODO: this looks bad... can someone help me out here with css? :) -->
+              <template is="dom-if" if="[[quizSettings.graded]]">
+                <br>
+                <!-- TODO: SET DUE DATE AUTOMATICALLY AS LAST DAY OF COURSE'S SEMESTER-->
+                <paper-date-picker id="dueDate" date="November 29, 2016" on-click="dueDateChanged"></paper-date-picker>
+              </template>
               <paper-checkbox class="setting" on-change="showConfidenceLevelToggled" checked="[[quizSettings.showConfidenceLevel]]" noink>Show confidence level</paper-checkbox>
               <paper-checkbox class="setting" on-change="allowGenerationToggled" checked="[[quizSettings.allowGeneration]]" noink>Allow question generation</paper-checkbox>
               <paper-input class="setting" label="Maximum number of attempts" value=[[quizSettings.maxNumAttempts]] on-change="maxNumAttemptsChanged"></paper-input>
