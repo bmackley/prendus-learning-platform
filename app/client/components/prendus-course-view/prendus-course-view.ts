@@ -94,12 +94,9 @@ export class PrendusCourseView {
     return tagsLength > 0 && !hasEditAccess;
   }
 
-  async tagAdded(e: any) {
+  async onAdd(e: any) {
     try {
-      if(!this.courseTagNames) {
-        this.courseTagNames = this.querySelector('#tags').tags;
-      }
-      const tag: string = this.courseTagNames[this.courseTagNames.length - 1];
+      const tag: string = e.detail.tag;
       await Actions.addTagToCourse(this, tag, this.courseId);
       this.successMessage = '';
       this.successMessage = `${tag} added successfully.`;
@@ -110,9 +107,9 @@ export class PrendusCourseView {
     }
   }
 
-  async tagRemoved(e: any) {
+  async onRemove(e: any) {
     try {
-      const tag: Tag = this.getTagRemoved();
+      const tag: Tag = this.courseTags[e.detail.index];
       if(tag) {
         await Actions.deleteTagFromCourse(this, tag, this.courseId);
         this.successMessage = '';
@@ -124,18 +121,6 @@ export class PrendusCourseView {
       this.errorMessage = '';
       this.errorMessage = error.message;
     }
-  }
-
-  getTagRemoved() {
-    for(let i = 0; i < this.courseTags.length; i++) {
-      const tag = this.courseTags[i];
-      if(this.courseTagNames.indexOf(tag.name) === -1) {
-        this.courseTagNames.splice(i);
-        this.courseTags.splice(i);
-        return tag;
-      }
-    }
-    return null;
   }
 
   toggle(e: any) {
@@ -163,27 +148,6 @@ export class PrendusCourseView {
 
   addConcept(e: any) {
     this.querySelector('#addConceptDialog').open();
-  }
-
-  async addConceptFormDone(e: any) {
-    e.preventDefault();
-    if(this.$.conceptFormName.value) {
-      this.querySelector('#addDialog').close();
-      const newConcept = {
-        uid: this.uid,
-        title: this.$.conceptFormName.value,
-      };
-      try {
-        await Actions.addConcept(this, this.courseId, newConcept, this.courseConcepts.length);
-        await Actions.loadViewCourseConcepts(this, this.courseId);
-        this.successMessage = '';
-        this.successMessage = 'Concept added successfully';
-      }catch(error) {
-        this.errorMessage = '';
-        this.errorMessage = error.message;
-      }
-      this.$.conceptFormName.value = '';
-    }
   }
 
   async sortableEnded(e: any) { //This isn't the most elegant solution. I'm open to better ways of doing things.

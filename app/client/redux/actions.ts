@@ -699,7 +699,7 @@ const addConcept = async (context: any, courseId: string, newConcept: Concept, c
       const conceptId = await ConceptModel.createOrUpdate(null, newConcept);
       if(tags) {
         await UtilitiesService.asyncForEach(tags, async (tag: string) => {
-            addTagToConcept(null, tag, conceptId);
+            await addTagToConcept(null, tag, conceptId);
         });
       }
 
@@ -755,7 +755,7 @@ const updateConceptTitle = async (conceptId: string, title: string) => {
     }
 };
 
-const getConceptAndTagNamesById = async (id: string) => {
+const getConceptAndTagNamesById = async (id: string): Promise<{ concept: Concept, tagNames: string[] }> => {
     try {
         const concept: Concept = await ConceptModel.getById(id);
         const tagArray: string[] = concept.tags ? ConceptModel.conceptTagIdsToArray(concept) : null;
@@ -796,7 +796,7 @@ const addCourse = async (context: any, newCourse: Course, tags: string[]) => {
       const courseId = await CourseModel.createOrUpdate(null, newCourse);
       if(tags) {
         await UtilitiesService.asyncForEach(tags, async (tag: string) => {
-            addTagToCourse(null, tag, courseId);
+            await addTagToCourse(null, tag, courseId);
         });
       }
       await addCourseCollaborator(context, courseId, user.email);
@@ -843,8 +843,11 @@ const deleteTagFromCourse = async (context: any, tag: Tag, courseId: string) => 
             type: 'DELETE_TAG_EDIT_COURSE',
             currentCourse,
             courseTagNames
-        }
+        };
     } catch(error) {
+        context.action = {
+          type: 'DEFAULT_ACTION'
+        };
         throw error;
     }
 };

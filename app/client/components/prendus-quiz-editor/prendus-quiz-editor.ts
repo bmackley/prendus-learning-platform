@@ -4,7 +4,7 @@ import {Actions} from '../../redux/actions.ts';
 import {UtilitiesService} from '../../node_modules/prendus-services/services/utilities.service.ts';
 import {FirebaseService} from '../../node_modules/prendus-services/services/firebase.service.ts';
 import {QuestionSettings} from '../../node_modules/prendus-services/interfaces/question-settings.interface.ts';
-
+import {StatechangeEvent} from '../../interfaces/statechange-event.interface.ts';
 class PrendusQuizEditor {
     public is: string;
     public userQuestionIds: string[];
@@ -206,7 +206,7 @@ class PrendusQuizEditor {
         });
     }
 
-    mapStateToThis(e: any) {
+    mapStateToThis(e: StatechangeEvent) {
         const state = e.detail.state;
 
         this.quizSettings = state.quizSettings;

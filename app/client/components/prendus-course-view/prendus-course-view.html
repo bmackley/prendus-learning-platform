@@ -10,10 +10,10 @@
 <link rel="import" href="../../bower_components/Sortable/Sortable.html">
 <link rel="import" href="../../bower_components/app-route/app-route.html">
 <link rel="import" href="../../bower_components/paper-card/paper-card.html">
+<link rel="import" href="../../bower_components/prendus-paper-tags-input/prendus-paper-tags-input.html">
 <link rel="import" href="../prendus-notification/prendus-notification.html">
 <link rel="import" href="../prendus-concept-container/prendus-concept-container.html">
 <link rel="import" href="../prendus-concept-container-edit/prendus-concept-container-edit.html">
-<link rel="import" href="../prendus-paper-tags-input/prendus-paper-tags-input.html">
 <link rel="import" href="../prendus-concept-new-concept/prendus-concept-new-concept.html">
 
 <dom-module id="prendus-course-view">
@@ -130,7 +130,7 @@
             </div>
           </template> -->
           <template is="dom-if" if="[[hasEditAccess]]">
-            <prendus-paper-tags-input placeholder="Delete tags or add new ones" duplicate-error-message="Tag cannot be a duplicate" id="tags" tags="[[courseTagNames]]" on-remove="tagRemoved" on-add="tagAdded"></prendus-paper-tags-input>
+            <prendus-paper-tags-input placeholder="Delete tags or add new ones" duplicate-error-message="Tag cannot be a duplicate" id="tags" tags="[[courseTagNames]]" on-remove="onRemove" on-add="onAdd"></prendus-paper-tags-input>
           </template>
           <!-- CONCEPTS -->
           <h2>[[currentCourse.title]] Concepts</h2>
