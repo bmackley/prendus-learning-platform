@@ -44,12 +44,6 @@ class PrendusConceptQuizContainer {
       return !!quizzes.length;
     }
 
-    viewQuiz(e: { model: any }) {
-        const quizId: string = e.model.quiz.id;
-        window.history.pushState({}, '', `courses/view-quiz/course/asdf/quiz/${quizId}/quiz-session-id/asdf`);
-        this.fire('location-changed', {}, {node: window});
-    }
-
     editQuiz(e: { model: any }) {
         e.stopPropagation();
         const quizId: string = e.model.quiz.id;
