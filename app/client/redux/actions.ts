@@ -6,7 +6,7 @@ import {UserModel} from '../node_modules/prendus-services/models/user.model.ts';
 import {VideoModel} from '../node_modules/prendus-services/models/video.model.ts';
 import {TagModel} from '../node_modules/prendus-services/models/tag.model.ts';
 import {QuizModel} from '../node_modules/prendus-services/models/quiz.model.ts';
-import {QuestionModel} from '../node_modules/prendus-services/models/question.model.ts'; 
+import {QuestionModel} from '../node_modules/prendus-services/models/question.model.ts';
 import {Course} from '../node_modules/prendus-services/interfaces/course.interface.ts';
 import {Tag} from '../node_modules/prendus-services/interfaces/tag.interface.ts';
 import {Concept} from '../node_modules/prendus-services/interfaces/concept.interface.ts';
@@ -470,8 +470,13 @@ const loadQuizSettings = async (context: any, quizId: string) => {
     };
 };
 
-const setQuizSetting = async (context: any, quizId: string, settingName: string, value: number | boolean) => {
+const setQuizSetting = async (context: any, quizId: string, settingName: string, value: number | boolean | string) => {
     await QuizModel.setQuizSetting(quizId, settingName, value);
+    const quizSettings: QuestionSettings = await QuizModel.getQuizSettings(quizId);
+    context.action = {
+      type: 'LOAD_QUIZ_SETTINGS',
+      quizSettings
+    };
 };
 
 const setQuestionSetting = async (context: any, quizId: string, questionId: string, settingName: string, value: number | boolean) => {

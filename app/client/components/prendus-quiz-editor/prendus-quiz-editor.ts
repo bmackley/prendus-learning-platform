@@ -22,7 +22,7 @@ class PrendusQuizEditor {
     public selected: number;
     public collaboratorEmails: string[];
     public uid: string;
-
+    public querySelector: any;
     beforeRegister() {
         this.is = 'prendus-quiz-editor';
         this.properties = {
@@ -36,7 +36,6 @@ class PrendusQuizEditor {
             }
         };
     }
-
     async init() {
         this.endpointDomain = UtilitiesService.getPrendusServerEndpointDomain();
         const user = await FirebaseService.getLoggedInUser();
@@ -88,6 +87,7 @@ class PrendusQuizEditor {
         await Actions.removeQuestionFromQuiz(this, this.quizId, questionId);
         await this.loadQuizQuestionIds();
     }
+
 
     shareQuiz() {
         this.querySelector('#share-quiz-dialog').open();
@@ -177,6 +177,10 @@ class PrendusQuizEditor {
         await this.applySettings('graded', checked);
     }
 
+    async dueDateChanged(e: any) {
+        const dueDate: string = this.querySelector('#dueDate').date.toString();
+        await this.applySettings('dueDate', dueDate)
+    }
     async showConfidenceLevelToggled(e: any) {
         const checked = e.target.checked;
         await this.applySettings('showConfidenceLevel', checked);
@@ -199,7 +203,7 @@ class PrendusQuizEditor {
         await Actions.loadViewConceptQuizzes(this, this.conceptId);
     }
 
-    async applySettings(settingName: string, value: number | boolean) {
+    async applySettings(settingName: string, value: number | boolean | string) {
         await Actions.setQuizSetting(this, this.quizId, settingName, value);
         this.quizQuestionIds.forEach((questionId) => {
             Actions.setQuestionSetting(this, this.quizId, questionId, settingName, value);
