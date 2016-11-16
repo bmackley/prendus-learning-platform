@@ -76,13 +76,13 @@ class PrendusQuizEditor {
         await Actions.loadQuizQuestionIds(this, this.quizId);
     }
 
-    async addQuestionToQuiz(e) {
+    async addQuestionToQuiz(e: any) {
         const questionId = e.model.item;
         await Actions.addQuestionToQuiz(this, this.quizId, questionId);
         await this.loadQuizQuestionIds();
     }
 
-    async removeQuestionFromQuiz(e) {
+    async removeQuestionFromQuiz(e: any) {
         const questionId = e.model.item;
         await Actions.removeQuestionFromQuiz(this, this.quizId, questionId);
         await this.loadQuizQuestionIds();
@@ -176,10 +176,10 @@ class PrendusQuizEditor {
         const checked = e.target.checked;
         await this.applySettings('graded', checked);
     }
-
     async dueDateChanged(e: any) {
-        const dueDate: string = this.querySelector('#dueDate').date.toString();
-        await this.applySettings('dueDate', dueDate)
+        const dueDate: Date = this.querySelector('#dueDate').date;
+        console.log(dueDate);
+        await this.applySettings('dueDate', dueDate.toString())
     }
     async showConfidenceLevelToggled(e: any) {
         const checked = e.target.checked;
@@ -212,7 +212,6 @@ class PrendusQuizEditor {
 
     mapStateToThis(e: StatechangeEvent) {
         const state = e.detail.state;
-
         this.quizSettings = state.quizSettings;
         this.userQuestionIds = state.userQuestionIds;
         this.publicQuestionIds = state.publicQuestionIds;
