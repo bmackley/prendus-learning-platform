@@ -178,7 +178,6 @@ class PrendusQuizEditor {
     }
     async dueDateChanged(e: any) {
         const dueDate: Date = this.querySelector('#dueDate').date;
-        console.log(dueDate);
         await this.applySettings('dueDate', dueDate.toString())
     }
     async showConfidenceLevelToggled(e: any) {
