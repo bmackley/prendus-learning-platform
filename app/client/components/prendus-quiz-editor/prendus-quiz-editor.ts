@@ -4,6 +4,7 @@ import {Actions} from '../../redux/actions.ts';
 import {UtilitiesService} from '../../node_modules/prendus-services/services/utilities.service.ts';
 import {FirebaseService} from '../../node_modules/prendus-services/services/firebase.service.ts';
 import {QuestionSettings} from '../../node_modules/prendus-services/interfaces/question-settings.interface.ts';
+import {Course} from '../../node_modules/prendus-services/interfaces/course.interface.ts';
 import {StatechangeEvent} from '../../interfaces/statechange-event.interface.ts';
 class PrendusQuizEditor {
     public is: string;
@@ -88,7 +89,11 @@ class PrendusQuizEditor {
         await this.loadQuizQuestionIds();
     }
 
-
+    displayDate(date: string): Date {
+      //Return the current date if there is no course due date set yet.
+      const returnDate: Date = date ? new Date(date) : new Date();
+      return returnDate;
+    }
     shareQuiz() {
         this.querySelector('#share-quiz-dialog').open();
     }
@@ -175,6 +180,11 @@ class PrendusQuizEditor {
     async gradedToggled(e: any) {
         const checked = e.target.checked;
         await this.applySettings('graded', checked);
+
+        //Reset due date to the last day of the course.
+        const course: Course = await Actions.getCourseByConceptId(this.conceptId);
+        const newQuizDueDate: string = course.dueDate ? course.dueDate : new Date().toString();
+        await this.applySettings('dueDate', newQuizDueDate);
     }
     async dueDateChanged(e: any) {
         const dueDate: Date = this.querySelector('#dueDate').date;
