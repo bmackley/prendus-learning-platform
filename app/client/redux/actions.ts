@@ -742,7 +742,7 @@ const addTagToConcept = async (context: any, tag: string, conceptId: string) => 
 const updateConceptTags = async (conceptId: string, newTags: string[]) => {
     try {
         const concept: Concept = await ConceptModel.getById(conceptId);
-        const oldTagIds: string[] = concept.tags ? ConceptModel.conceptTagIdsToArray(concept) : null;
+        const oldTagIds: string[] = concept.tags ? Object.keys(concept.tags || {}) : null;
         const oldTags: Tag[] = oldTagIds ? await TagModel.resolveTagIds(oldTagIds) : null;
         const oldTagNames: string[] = oldTags ? await TagModel.getTagNameArray(oldTags) : null;
         await ConceptModel.updateTags(conceptId, oldTags, oldTagNames, newTags);
@@ -763,7 +763,7 @@ const updateConceptTitle = async (conceptId: string, title: string) => {
 const getConceptAndTagNamesById = async (id: string): Promise<{ concept: Concept, tagNames: string[] }> => {
     try {
         const concept: Concept = await ConceptModel.getById(id);
-        const tagArray: string[] = concept.tags ? ConceptModel.conceptTagIdsToArray(concept) : null;
+        const tagArray: string[] = concept.tags ? Object.keys(concept.tags || {}) : null;
         const tags: Tag[] = tagArray ? await TagModel.resolveTagIds(tagArray) : null;
         const tagNames: string[] = tags ? await TagModel.getTagNameArray(tags) : null;
         return {
@@ -777,7 +777,7 @@ const getConceptAndTagNamesById = async (id: string): Promise<{ concept: Concept
 const getConceptById = async (context: any, id: string) => {
     try {
       const concept = await ConceptModel.getById(id);
-      const tagArray = ConceptModel.conceptTagIdsToArray(concept);
+      const tagArray = Object.keys(concept.tags || {});
       if(tagArray) {
         const tags = await TagModel.resolveTagIds(tagArray);
         concept.tags = tags;
@@ -1008,10 +1008,10 @@ const deleteConcept = async (context: any, courseId: string, conceptId: string) 
         throw error;
       }
 };
-const orderConcepts = async (context: any, id: string, courseConceptsArray: Concept[]) => {
-  try{
+const orderConcepts = async (context: any, id: string, courseConceptsArray: CourseConceptData[]) => {
+  try {
     await CourseModel.updateCourseConcepts(id, courseConceptsArray);
-  }catch(error){
+  } catch(error){
     throw error;
   }
 };
