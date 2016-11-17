@@ -18,7 +18,9 @@ export class PrendusCourseView {
   public uid: string;
   public successMessage: string;
   public errorMessage: string;
-
+  public querySelector: any;
+  public editingTitle: boolean;
+  public editingDescription: boolean;
   beforeRegister() {
     this.is = 'prendus-course-view';
     this.properties = {
@@ -84,6 +86,22 @@ export class PrendusCourseView {
 
   getDescriptionButtonText(editingDescription: string) {
     return editingDescription ? "Done" : "Edit Description";
+  }
+  displayDate(date: string): Date {
+    const returnDate: Date =  date ? new Date(date) : new Date();
+    return returnDate;
+  }
+  async dueDateChanged() {
+    try {
+      const date: Date = this.querySelector('#dueDate').date;
+      await Actions.updateCourseField(this, this.courseId, 'dueDate', date.toString());
+      this.successMessage = '';
+      this.successMessage = 'Last day of course has been updated';
+    } catch(error) {
+      this.errorMessage = '';
+      this.errorMessage = error.message;
+    }
+
   }
 
   showTagsTitle(tagsLength: number, hasEditAccess: boolean) {
