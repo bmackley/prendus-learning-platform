@@ -14,6 +14,7 @@ export class PrendusConceptContainerEdit {
   public errorMessage: string;
   public querySelector: any;
   public tags: string[];
+  public fire: any;
   beforeRegister() {
     this.is = 'prendus-concept-container-edit';
     this.properties = {
@@ -37,8 +38,8 @@ export class PrendusConceptContainerEdit {
 
     }
   }
-  editItem() {
-    this.domHost.querySelector('#addConceptDialog').edit(this.conceptId);
+  editItem(e: any) {
+    this.fire("edit-concept", { conceptId: this.conceptId});
   }
   openCollaboratorsModal(e: any) {
     e.stopPropagation();

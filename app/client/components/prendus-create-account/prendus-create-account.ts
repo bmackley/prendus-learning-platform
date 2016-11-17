@@ -11,7 +11,8 @@ class PrendusCreateAccount {
   beforeRegister() {
       this.is = 'prendus-create-account';
       this.listeners =  {
-        'signup-submit.tap': 'createUser'
+        'signup-submit.tap': 'createUser',
+        'continueToLogin.tap': 'closeDialog'
       };
   }
 
@@ -30,14 +31,14 @@ class PrendusCreateAccount {
             lastName,
             institution
         };
-        
+
         await Actions.createUser(this, userMetaData, password);
 
         //TODO decide on way to show a confirmation
         this.querySelector('#email-confirmation-dialog').open();
         //TODO decide on confirmation message
-        this.createCourseEmailMessage = 
-        `Your account has been created. Please confirm your email 
+        this.createCourseEmailMessage =
+        `Your account has been created. Please confirm your email
          address. A confirmation email has been sent to ${email}.
          You will now be redirected to the login page.`;
     }
@@ -46,10 +47,7 @@ class PrendusCreateAccount {
         this.errorMessage = error.message
     }
   }
-  redirectToLogin() {
-      const location = 'login';
-      window.history.pushState({}, '', location);
-      this.fire('location-changed', {}, {node: window});  
+  closeDialog() {
       this.querySelector('#email-confirmation-dialog').close();
   }
 }
