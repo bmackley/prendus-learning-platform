@@ -130,7 +130,6 @@
               <!-- TODO: this looks bad... can someone help me out here with css? :) -->
               <template is="dom-if" if="[[quizSettings.graded]]">
                 <br>
-                <!-- TODO: SET DUE DATE AUTOMATICALLY AS LAST DAY OF COURSE'S SEMESTER-->
                 <paper-date-picker id="dueDate" date="[[quizSettings.dueDate]]" on-click="dueDateChanged"></paper-date-picker>
               </template>
               <paper-checkbox class="setting" on-change="showConfidenceLevelToggled" checked="[[quizSettings.showConfidenceLevel]]" noink>Show confidence level</paper-checkbox>
