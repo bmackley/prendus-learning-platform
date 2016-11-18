@@ -4,6 +4,7 @@
 <link rel="import" href="../../bower_components/prendus-paper-tags-input/prendus-paper-tags-input.html">
 <link rel="import" href="../prendus-course-preview/prendus-course-preview.html">
 <link rel="import" href="../prendus-notification/prendus-notification.html">
+<link rel="import" href="../prendus-search-course-tags/prendus-search-course-tags.html">
 <dom-module id="prendus-course-homepage">
   <style>
     .courses-container {
@@ -47,7 +48,6 @@
     <prendus-notification error-message="[[errorMessage]]"></prendus-notification>
     <prendus-search-course-tags></prendus-search-course-tags>
     <redux-store on-statechange="mapStateToThis" action="[[action]]"></redux-store>
-
     <iron-ajax id="sharedWithMeCourseAjax" method="post" content-type="application/json" handle-as="json"></iron-ajax>
 
     <template is="dom-if" if="[[userCourses.length]]">
