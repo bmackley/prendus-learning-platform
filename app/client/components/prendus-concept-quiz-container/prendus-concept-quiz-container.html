@@ -43,7 +43,7 @@
     <redux-store on-statechange="mapStateToThis" action="[[action]]"></redux-store>
     <!-- if no quizzes, say "no quizzes yet" -->
     <template is="dom-repeat" items="[[quizzes]]" as="quiz">
-      <div class="quiz-row" on-tap="viewQuiz">
+      <div class="quiz-row"><a href$="courses/edit-quiz/concept/[[conceptId]]/quiz/[[quiz.id]]">
         <template is="dom-if" if="[[quiz.hasEditAccess]]">
           <paper-icon-button id="edit-quiz[[quiz.id]]" class="quiz-icon" icon="create" on-tap="editQuiz"></paper-icon-button>
           <paper-tooltip for="edit-quiz[[quiz.id]]" offset="0" animation-delay="300">Edit Quiz</paper-tooltip>
