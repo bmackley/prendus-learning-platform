@@ -894,7 +894,7 @@ const lookupCourseTags = async (context: any, tags: string[]) => {
         };
         // It's better to allow the redux action to take place so that the courses listed
         // in the search courses page will be empty.
-        if(coursesArray.length === 0) {
+        if(coursesArray === null) {
             throw new Error("No courses match these tags");
         }
     } catch(error) {
