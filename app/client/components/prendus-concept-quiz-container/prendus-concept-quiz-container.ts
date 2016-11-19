@@ -44,11 +44,17 @@ class PrendusConceptQuizContainer {
       return !!quizzes.length;
     }
 
+		viewQuiz(e: { model: any }) {
+			const quizId: string = e.model.quiz.id;
+			window.history.pushState({}, '', `courses/view-quiz/course/${this.courseId}/concept/${this.conceptId}/quiz/${quizId}`);
+			this.fire('location-changed', {}, {node: window});
+		}
+
     editQuiz(e: { model: any }) {
-        e.stopPropagation();
-        const quizId: string = e.model.quiz.id;
-        window.history.pushState({}, '', `courses/edit-quiz/course/asdf/quiz/${quizId}/quiz-session-id/asdf`);
-        this.fire('location-changed', {}, {node: window});
+      e.stopPropagation();
+      const quizId: string = e.model.quiz.id;
+      window.history.pushState({}, '', `courses/edit-quiz/course/${this.courseId}/concept/${this.conceptId}/quiz/${quizId}`);
+      this.fire('location-changed', {}, {node: window});
     }
 
     openDeleteModal(e: any) {
