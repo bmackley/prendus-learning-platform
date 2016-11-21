@@ -43,7 +43,9 @@ class PrendusConceptQuizContainer {
     hasQuizzes(quizzes: Quiz[]) {
       return !!quizzes.length;
     }
-
+    viewQuiz(e: any) {
+      console.log('this function was deleted');
+    }
     editQuiz(e: { model: any }) {
         e.stopPropagation();
         const quizId: string = e.model.quiz.id;
