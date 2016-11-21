@@ -132,6 +132,7 @@
                 <br>
                 <paper-date-picker id="dueDate" date="[[displayDate(quizSettings.dueDate)]]" on-click="dueDateChanged"></paper-date-picker>
               </template>
+              <paper-checkbox class="setting" on-change="privateToggled" checked="[[private]]" noink>Private </paper-checkbox>
               <paper-checkbox class="setting" on-change="showConfidenceLevelToggled" checked="[[quizSettings.showConfidenceLevel]]" noink>Show confidence level</paper-checkbox>
               <paper-checkbox class="setting" on-change="allowGenerationToggled" checked="[[quizSettings.allowGeneration]]" noink>Allow question generation</paper-checkbox>
               <paper-input class="setting" label="Maximum number of attempts" value=[[quizSettings.maxNumAttempts]] on-change="maxNumAttemptsChanged"></paper-input>
