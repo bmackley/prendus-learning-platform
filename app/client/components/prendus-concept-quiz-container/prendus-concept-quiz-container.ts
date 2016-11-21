@@ -44,10 +44,16 @@ class PrendusConceptQuizContainer {
       return !!quizzes.length;
     }
 
+		viewQuiz(e: { model: any }) {
+			const quizId: string = e.model.quiz.id;
+			window.history.pushState({}, '', `courses/view-quiz/course/${this.courseId}/quiz/${quizId}/quiz-session-id/NOT_LTI_QUIZ_SESSION_ID`);
+			this.fire('location-changed', {}, {node: window});
+		}
+
     editQuiz(e: { model: any }) {
         e.stopPropagation();
         const quizId: string = e.model.quiz.id;
-        window.history.pushState({}, '', `courses/edit-quiz/course/asdf/quiz/${quizId}/quiz-session-id/asdf`);
+				window.history.pushState({}, '', `courses/edit-quiz/concept/${this.conceptId}/quiz/${quizId}`);
         this.fire('location-changed', {}, {node: window});
     }
 
