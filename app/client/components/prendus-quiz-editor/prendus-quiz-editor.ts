@@ -24,6 +24,7 @@ class PrendusQuizEditor {
     public collaboratorEmails: string[];
     public uid: string;
     public querySelector: any;
+    public private: boolean;
     beforeRegister() {
         this.is = 'prendus-quiz-editor';
         this.properties = {
@@ -42,6 +43,7 @@ class PrendusQuizEditor {
         const user = await FirebaseService.getLoggedInUser();
         this.jwt = await user.getToken();
         this.title = '';
+        this.private = false;
         this.selected = 0;
     }
 
@@ -58,6 +60,7 @@ class PrendusQuizEditor {
             await this.init();
             const quiz = await Actions.getQuiz(this.quizId);
             this.title = quiz.title;
+            this.private = quiz.private;
             this.loadQuizQuestionIds();
             Actions.loadQuizSettings(this, this.quizId);
         }
@@ -210,6 +213,13 @@ class PrendusQuizEditor {
         await Actions.updateQuizTitle(this.quizId, value);
         await Actions.loadEditConceptQuizzes(this, this.conceptId);
         await Actions.loadViewConceptQuizzes(this, this.conceptId);
+    }
+
+    async privateToggled(e: any) {
+      const value: boolean = e.target.checked; 
+      await Actions.updateQuizPrivateSetting(this.quizId, value);
+      await Actions.loadEditConceptQuizzes(this, this.conceptId);
+      await Actions.loadViewConceptQuizzes(this, this.conceptId);
     }
 
     async applySettings(settingName: string, value: number | boolean | string) {

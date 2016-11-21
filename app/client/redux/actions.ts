@@ -1056,6 +1056,10 @@ const getCourseByConceptId = async (conceptId: string): Promise<Course> =>{
 
   }
 };
+
+const updateQuizPrivateSetting = async (quizId: string, visibility: boolean): Promise<void> => {
+  await QuizModel.updateQuizPrivateSetting(quizId, visibility);
+};
 export const Actions = {
     defaultAction,
     loginUser,
@@ -1123,5 +1127,6 @@ export const Actions = {
     loadViewCourseConcepts,
     showMainSpinner,
     hideMainSpinner,
-    getCourseByConceptId
+    getCourseByConceptId,
+    updateQuizPrivateSetting
 };
