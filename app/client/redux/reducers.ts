@@ -166,7 +166,7 @@ export function rootReducer(state: State = InitialState, action: Action): State 
       }
       case 'LOAD_EDIT_COURSE_CONCEPTS': {
           const newState = Object.assign({}, state);
-          newState.viewCourseConcepts[action.courseId] = action.concepts;
+          newState.editCourseConcepts[action.courseId] = action.concepts;
           return newState;
       }
       case 'LOAD_VIEW_COURSE_CONCEPTS': {
