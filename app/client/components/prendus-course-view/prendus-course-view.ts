@@ -57,7 +57,6 @@ export class PrendusCourseView {
 
   mapStateToThis(e: StatechangeEvent) {
     const state = e.detail.state;
-    console.log('state', state)
     this.courseId = state.courseViewCurrentCourse.id;
     this.username = state.currentUser.metaData.email;
     this.uid = state.currentUser.metaData.uid;
