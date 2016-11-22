@@ -44,6 +44,13 @@ class PrendusConceptQuizContainer {
       return !!quizzes.length;
     }
 
+    editQuiz(e: { model: any }) {
+       e.stopPropagation();
+       const quizId: string = e.model.quiz.id;
+       window.history.pushState({}, '', `courses/edit-quiz/course/asdf/quiz/${quizId}/quiz-session-id/asdf`);
+       this.fire('location-changed', {}, {node: window});		
+    }
+
     openDeleteModal(e: any) {
       e.stopPropagation();
       this.querySelector('#confirm-delete-modal').open();
