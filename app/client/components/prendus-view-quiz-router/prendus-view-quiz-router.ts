@@ -23,6 +23,8 @@ class PrendusViewQuizRouter {
       this.userFullName = `${state.currentUser.metaData.firstName} ${state.currentUser.metaData.lastName}`;
       this.userEmail = state.currentUser.metaData.email;
       this.jwt = state.jwt;
+			// TODO change this to the actual quiz session ID
+			this.quizSessionId = "changeThisToActualSessionID";
     }
 }
 
