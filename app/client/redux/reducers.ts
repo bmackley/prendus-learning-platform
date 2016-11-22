@@ -170,7 +170,6 @@ export function rootReducer(state: State = InitialState, action: Action): State 
           return newState;
       }
       case 'LOAD_VIEW_COURSE_CONCEPTS': {
-          console.log('load view concept reducer')
           const newState = Object.assign({}, state);
           newState.viewCourseConcepts[action.courseId] = action.orderedConcepts;
           return newState;
