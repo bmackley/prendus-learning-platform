@@ -36,6 +36,9 @@ class PrendusConceptNewConcept {
     this.conceptTagNames = this.conceptTagNames.filter((tagName: string, index) => e.detail.index !== index);
   }
   onAdd(e: any) {
+    if(!this.conceptTagNames) {
+      this.conceptTagNames = [];
+    }
     this.conceptTagNames = [...this.conceptTagNames, e.detail.tag];
   }
   clearValues() {
