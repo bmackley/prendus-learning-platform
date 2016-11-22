@@ -51,10 +51,9 @@
           <paper-tooltip for="delete-quiz[[quiz.id]]" offset="0" animation-delay="300">Delete Quiz</paper-tooltip>
         </template>
         <span>[[quiz.title]]</span>
-      </a></div>
+      </div>
     </template>
     <h4 hidden$="[[hasQuizzes(quizzes)]]">This concept doesn't have any quizzes yet.</h4>
-    <paper-button class="add-quiz-button" raised="true" title="Add Quiz" on-tap="addQuiz">Add Quiz</paper-button>
 
     <paper-dialog id="confirm-delete-modal" modal>
       <h2>Confirm Delete</h2>

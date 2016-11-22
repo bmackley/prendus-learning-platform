@@ -51,10 +51,10 @@ class PrendusConceptQuizContainer {
 		}
 
     editQuiz(e: { model: any }) {
-        e.stopPropagation();
-        const quizId: string = e.model.quiz.id;
-				window.history.pushState({}, '', `courses/edit-quiz/concept/${this.conceptId}/quiz/${quizId}`);
-        this.fire('location-changed', {}, {node: window});
+      e.stopPropagation();
+      const quizId: string = e.model.quiz.id;
+  		window.history.pushState({}, '', `courses/edit-quiz/concept/${this.conceptId}/quiz/${quizId}`);
+      this.fire('location-changed', {}, {node: window});
     }
 
     openDeleteModal(e: any) {
