@@ -621,7 +621,8 @@ const loadViewCourseConcepts = async (context: any, courseId: string) => {
     try {
         const course = await CourseModel.getById(courseId);
         const conceptsArray = await CourseModel.courseConceptsToArray(course);
-        const orderedConcepts = CourseModel.orderCourseConcepts(conceptsArray);
+        const orderedConcepts = await CourseModel.orderCourseConcepts(conceptsArray);
+        console.log('orderedConcepts', orderedConcepts)
         context.action = {
             type: 'LOAD_VIEW_COURSE_CONCEPTS',
             orderedConcepts,
@@ -696,6 +697,7 @@ const checkUserAuth = async (context: any) => {
 };
 const addConcept = async (context: any, courseId: string, newConcept: Concept, conceptPos: number, tags: string[]) => {
     try {
+      console.log('add concept')
       const conceptId = await ConceptModel.createOrUpdate(null, newConcept);
       if(tags) {
         await UtilitiesService.asyncForEach(tags, async (tag: string) => {
@@ -706,7 +708,7 @@ const addConcept = async (context: any, courseId: string, newConcept: Concept, c
       await CourseModel.associateConcept(courseId, conceptId, conceptPos);
       const course = await CourseModel.getById(courseId);
       const conceptsArray = await CourseModel.courseConceptsToArray(course);
-      const orderedConcepts = CourseModel.orderCourseConcepts(conceptsArray);
+      const orderedConcepts = await CourseModel.orderCourseConcepts(conceptsArray);
       course.concepts = orderedConcepts;
       context.action = {
           type: 'ADD_CONCEPT',  //same as get course by id

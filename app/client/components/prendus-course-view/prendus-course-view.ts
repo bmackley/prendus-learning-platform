@@ -48,7 +48,7 @@ export class PrendusCourseView {
     };
     this.observers = [
       'viewCourse(route)',
-      'viewData(data)'
+      'viewCourse(data)'
     ];
     this.listeners = {
       'edit-concept': 'openEditConceptDialog'
@@ -57,6 +57,7 @@ export class PrendusCourseView {
 
   mapStateToThis(e: StatechangeEvent) {
     const state = e.detail.state;
+    console.log('state', state)
     this.courseId = state.courseViewCurrentCourse.id;
     this.username = state.currentUser.metaData.email;
     this.uid = state.currentUser.metaData.uid;
@@ -144,14 +145,14 @@ export class PrendusCourseView {
     }
   }
 
-  async viewData() {
-    if (this.data.courseId) {
-        Actions.showMainSpinner(this);
-        await Actions.getCourseViewCourseById(this, this.data.courseId);
-        await Actions.loadViewCourseConcepts(this, this.data.courseId);
-        Actions.hideMainSpinner(this);
-    }
-  }
+  // async viewData() {
+  //   if (this.data.courseId) {
+  //       Actions.showMainSpinner(this);
+  //       await Actions.getCourseViewCourseById(this, this.data.courseId);
+  //       await Actions.loadViewCourseConcepts(this, this.data.courseId);
+  //       Actions.hideMainSpinner(this);
+  //   }
+  // }
 
   addConcept(e: any) {
     this.querySelector('#addConceptDialog').open();

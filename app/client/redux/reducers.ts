@@ -166,10 +166,11 @@ export function rootReducer(state: State = InitialState, action: Action): State 
       }
       case 'LOAD_EDIT_COURSE_CONCEPTS': {
           const newState = Object.assign({}, state);
-          newState.editCourseConcepts[action.courseId] = action.concepts;
+          newState.viewCourseConcepts[action.courseId] = action.concepts;
           return newState;
       }
       case 'LOAD_VIEW_COURSE_CONCEPTS': {
+          console.log('load view concept reducer')
           const newState = Object.assign({}, state);
           newState.viewCourseConcepts[action.courseId] = action.orderedConcepts;
           return newState;
