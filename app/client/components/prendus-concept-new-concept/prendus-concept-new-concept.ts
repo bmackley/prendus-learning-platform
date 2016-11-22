@@ -84,10 +84,10 @@ class PrendusConceptNewConcept {
       };
       try {
         await Actions.addConcept(this, this.courseId, newConcept, this.courseConcepts.length, this.conceptTagNames);
-        await Actions.getCourseEditCourseById(this, this.courseId);
+        await Actions.getCourseViewCourseById(this, this.courseId);
+        await Actions.loadViewCourseConcepts(this, this.courseId);
         this.successMessage = '';
         this.successMessage = 'Concept added successfully';
-        Actions.loadEditCourseConcepts(this, this.courseId);
       } catch(error) {
         this.errorMessage = '';
         this.errorMessage = error.message;
