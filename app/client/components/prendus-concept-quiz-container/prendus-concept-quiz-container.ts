@@ -1,5 +1,6 @@
 import {Quiz} from '../../node_modules/prendus-services/interfaces/quiz.interface.ts';
-import {User} from '../../node_modules/prendus-services/interfaces/user.interface.ts';
+import {UserMetaData} from '../../node_modules/prendus-services/interfaces/user-meta-data.interface.ts';
+import {Course} from '../../node_modules/prendus-services/interfaces/course.interface.ts';
 import {Actions} from '../../redux/actions.ts';
 import {StatechangeEvent} from '../../interfaces/statechange-event.interface.ts';
 import {FirebaseService} from '../../node_modules/prendus-services/services/firebase.service.ts';
@@ -14,7 +15,9 @@ class PrendusConceptQuizContainer {
     public currentVideoId: string;
     public currentVideoTitle: string;
     public currentVideoUrl: string;
-    public user: User;
+    public user: UserMetaData;
+    public uid: string;
+    public currentCourse: Course;
     public successMessage: string;
     public errorMessage: string;
 
@@ -26,7 +29,11 @@ class PrendusConceptQuizContainer {
             },
             courseId: {
                 type: String
-            }
+            },
+            courseEditAccess: {
+              type: Boolean,
+              computed: 'computeHasEditAccess(uid, currentCourse.collaborators)'
+            },
         };
         this.observers = [
             'init(conceptId)'
@@ -42,6 +49,10 @@ class PrendusConceptQuizContainer {
 
     hasQuizzes(quizzes: Quiz[]) {
       return !!quizzes.length;
+    }
+
+    computeHasEditAccess(uid: string, collaborators: any) {
+      return uid in collaborators;
     }
 
 		viewQuiz(e: { model: any }) {
@@ -86,6 +97,8 @@ class PrendusConceptQuizContainer {
     mapStateToThis(e: StatechangeEvent) {
       const state = e.detail.state;
       this.user = state.currentUser;
+      this.uid = state.currentUser.metaData.uid;
+      this.currentCourse = state.courseViewCurrentCourse;
       // determine user's edit access for each quiz
 			this.quizzes = (state.viewConceptQuizzes[this.conceptId] || []).map((quiz: Quiz) => {
 				if(   quiz.uid === this.uid
