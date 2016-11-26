@@ -38,8 +38,8 @@ function createBuilder() {
     builder.config({
         transpiler: 'plugin-babel',
         typescriptOptions: {
-            target: 'es6',
-            module: 'es6'
+            target: 'es5',
+            module: 'system'
         },
         meta: {
             '*.ts': {
