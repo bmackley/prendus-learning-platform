@@ -216,10 +216,8 @@ class PrendusQuizEditor {
     }
 
     async privateToggled(e: any) {
-      const value: boolean = e.target.checked; 
-      await Actions.updateQuizPrivateSetting(this.quizId, value);
-      await Actions.loadEditConceptQuizzes(this, this.conceptId);
-      await Actions.loadViewConceptQuizzes(this, this.conceptId);
+      const value: boolean = e.target.checked;
+      await this.applySettings('private', value);
     }
 
     async applySettings(settingName: string, value: number | boolean | string) {
