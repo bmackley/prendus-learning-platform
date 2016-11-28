@@ -1034,7 +1034,7 @@ const logOutUser = async (context: any) => {
     window.location.href = ''; //need to reset the state instead of reloading everything.
 };
 
-//Uses the conceptId to return the course that contains the concept.
+// Uses the conceptId to return the course that contains the concept.
 const getCourseByConceptId = async (conceptId: string): Promise<Course> =>{
   try {
     const concept: Concept = await ConceptModel.getById(conceptId);
@@ -1053,7 +1053,7 @@ const getCourseByConceptId = async (conceptId: string): Promise<Course> =>{
     });
     return course[0];
   } catch(error) {
-
+    throw error;
   }
 };
 
