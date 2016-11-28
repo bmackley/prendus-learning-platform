@@ -92,7 +92,24 @@ export class PrendusCourseView {
   getDescriptionButtonText(editingDescription: string) {
     return editingDescription ? "Done" : "Edit Description";
   }
+  
+  displayDate(date: string): Date {
+    // Set due date at the current date if the course has no due date yet.
+    const returnDate: Date =  date ? new Date(date) : new Date();
+    return returnDate;
+  }
 
+  async dueDateChanged() {
+    try {
+      const date: Date = this.querySelector('#dueDate').date;
+      await Actions.updateCourseField(this, this.courseId, 'dueDate', date.toString());
+      this.successMessage = '';
+      this.successMessage = 'Last day of course has been updated';
+    } catch(error) {
+      this.errorMessage = '';
+      this.errorMessage = error.message;
+    }
+  }
   showTagsTitle(tagsLength: number, hasEditAccess: boolean) {
     return tagsLength > 0 || hasEditAccess;
   }
