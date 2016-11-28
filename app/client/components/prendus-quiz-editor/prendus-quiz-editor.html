@@ -127,7 +127,7 @@
               <paper-checkbox class="setting" on-change="showHintToggled" checked="[[quizSettings.showHint]]" noink>Show hint</paper-checkbox>
               <paper-checkbox class="setting" on-change="showCodeToggled" checked="[[quizSettings.showCode]]" noink>Show code</paper-checkbox>
               <paper-checkbox class="setting" on-change="gradedToggled" checked="[[quizSettings.graded]]" noink>Graded</paper-checkbox>
-              <!-- TODO: this looks bad... can someone help me out here with css? :) -->
+              <!-- TODO: Make this prettier. -->
               <template is="dom-if" if="[[quizSettings.graded]]">
                 <br>
                 <paper-date-picker id="dueDate" date="[[displayDate(quizSettings.dueDate)]]" on-click="dueDateChanged"></paper-date-picker>
