@@ -50,7 +50,7 @@ export class PrendusCourseView {
     };
     this.observers = [
       'viewCourse(route)',
-      'viewData(data)'
+      'viewCourse(data)'
     ];
     this.listeners = {
       'edit-concept': 'openEditConceptDialog'
@@ -162,14 +162,14 @@ export class PrendusCourseView {
     }
   }
 
-  async viewData() {
-    if (this.data.courseId) {
-        Actions.showMainSpinner(this);
-        await Actions.getCourseViewCourseById(this, this.data.courseId);
-        await Actions.loadViewCourseConcepts(this, this.data.courseId);
-        Actions.hideMainSpinner(this);
-    }
-  }
+  // async viewData() {
+  //   if (this.data.courseId) {
+  //       Actions.showMainSpinner(this);
+  //       await Actions.getCourseViewCourseById(this, this.data.courseId);
+  //       await Actions.loadViewCourseConcepts(this, this.data.courseId);
+  //       Actions.hideMainSpinner(this);
+  //   }
+  // }
 
   addConcept(e: any) {
     this.querySelector('#addConceptDialog').open();
