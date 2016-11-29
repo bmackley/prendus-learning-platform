@@ -121,6 +121,12 @@
           <template is="dom-if" if="[[hasEditAccess]]">
             <paper-button class="edit-button" raised noink on-tap="toggleEditDescription">[[getDescriptionButtonText(editingDescription)]]</paper-button>
           </template>
+          <!-- DUE DATE -->
+          <template is="dom-if" if="[[hasEditAccess]]">
+            <br>
+            <h3>Last day of course</h3>
+            <paper-date-picker id="dueDate" date="[[displayDate(currentCourse.dueDate)]]" on-click="dueDateChanged"></paper-date-picker>
+          </template>
           <!-- TAGS -->
           <h3 hidden$="[[!showTagsTitle(currentCourse.tags.length, hasEditAccess)]]">Tags</h3>
           <!-- Placeholder for tags, don't display until 100% ready to do so. -->
