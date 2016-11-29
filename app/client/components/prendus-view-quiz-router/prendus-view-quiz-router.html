@@ -18,7 +18,7 @@
   </style>
     <template>
         <redux-store on-statechange="mapStateToThis"></redux-store>
-        <app-route route="[[route]]" pattern="/view-quiz/course/:courseId/concept/:conceptId/quiz/:quizId/quiz-session-id/:quizSessionId" data="{{data}}"></app-route>
+        <app-route route="[[route]]" pattern="/view-quiz/course/:courseId/concept/:conceptId/quiz/:quizId" data="{{data}}"></app-route>
         <template is="dom-if" if="[[!userEmail]]">
           <paper-card id="signInMessageCard" heading ="Log in to view quizzes">
             <div class= "card-content">
@@ -33,7 +33,7 @@
         </template>
         <paper-card id="quiz-container">
           <div class="card-content">
-            <prendus-view-quiz jwt="[[jwt]]" course-id="[[data.courseId]]" quiz-id="[[data.quizId]]" user-full-name="[[userFullName]]" user-email="[[userEmail]]" quiz-session-id="[[data.quizSessionId]]"></prendus-view-quiz>
+            <prendus-view-quiz jwt="[[jwt]]" course-id="[[data.courseId]]" quiz-id="[[data.quizId]]" user-full-name="[[userFullName]]" user-email="[[userEmail]]"></prendus-view-quiz>
           </div>
         </paper-card>
 
