@@ -94,7 +94,7 @@ export class PrendusCourseView {
   }
 
   displayDate(date: string): Date {
-    // Set due date at the current date if the course has no due date yet.
+    // Set due date as current date if course has no due date set yet
     const returnDate: Date =  date ? new Date(date) : new Date();
     return returnDate;
   }
