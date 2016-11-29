@@ -193,6 +193,11 @@ export function rootReducer(state: State = InitialState, action: Action): State 
           newState.currentConceptVideoId = action.id;
           return newState;
       }
+      case 'GET_COURSE_BY_ID' : {
+        const newState = Object.assign({}, state);
+        newState.courseViewCurrentCourse = action.currentCourse;
+        return newState;
+      }
       case 'GET_COURSES_BY_USER': {
         const newState = Object.assign({}, state);
         newState.courses = action.courses;

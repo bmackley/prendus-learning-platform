@@ -92,7 +92,7 @@ export class PrendusCourseView {
   getDescriptionButtonText(editingDescription: string) {
     return editingDescription ? "Done" : "Edit Description";
   }
-  
+
   displayDate(date: string): Date {
     // Set due date at the current date if the course has no due date yet.
     const returnDate: Date =  date ? new Date(date) : new Date();
@@ -102,9 +102,14 @@ export class PrendusCourseView {
   async dueDateChanged() {
     try {
       const date: Date = this.querySelector('#dueDate').date;
-      await Actions.updateCourseField(this, this.courseId, 'dueDate', date.toString());
-      this.successMessage = '';
-      this.successMessage = 'Last day of course has been updated';
+      const dateAsString: string = date.toString();
+      if(this.currentCourse.dueDate.toString() !== dateAsString) {
+        // Date has changed
+        await Actions.updateCourseField(this, this.courseId, 'dueDate', dateAsString);
+        this.successMessage = '';
+        this.successMessage = 'Last day of course has been updated';
+      }
+
     } catch(error) {
       this.errorMessage = '';
       this.errorMessage = error.message;
