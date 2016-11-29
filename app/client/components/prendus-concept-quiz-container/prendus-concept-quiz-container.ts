@@ -57,7 +57,7 @@ class PrendusConceptQuizContainer {
 
 		viewQuiz(e: { model: any }) {
 			const quizId: string = e.model.quiz.id;
-			window.history.pushState({}, '', `courses/view-quiz/course/${this.courseId}/concept/${this.conceptId}/quiz/${quizId}/quiz-session-id/NOT_LTI_QUIZ_SESSION_ID`);
+			window.history.pushState({}, '', `courses/view-quiz/course/${this.courseId}/concept/${this.conceptId}/quiz/${quizId}`);
 			this.fire('location-changed', {}, {node: window});
 		}
 
