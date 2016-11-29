@@ -36,7 +36,7 @@ chokidar.watch([
 function createBuilder() {
     const builder = new Builder();
     builder.config({
-        transpiler: 'plugin-babel',
+        transpiler: 'ts',
         typescriptOptions: {
             target: 'es5',
             module: 'system'
@@ -47,6 +47,9 @@ function createBuilder() {
             }
         },
         packages: {
+            '/': {
+                defaultExtension: 'ts'
+            },
             ts: {
                 main: 'plugin.js'
             },
@@ -61,9 +64,7 @@ function createBuilder() {
         },
         map: {
             ts: './node_modules/plugin-typescript/lib/',
-            typescript: './node_modules/typescript/lib/',
-            'plugin-babel': './node_modules/systemjs-plugin-babel/plugin-babel.js',
-            'systemjs-babel-build': './node_modules/systemjs-plugin-babel/systemjs-babel-browser.js'
+            typescript: './node_modules/typescript/lib/'
         }
     });
 
