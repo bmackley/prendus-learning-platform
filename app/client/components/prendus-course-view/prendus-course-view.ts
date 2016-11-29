@@ -101,11 +101,13 @@ export class PrendusCourseView {
 
   async dueDateChanged() {
     try {
-      const date: Date = this.querySelector('#dueDate').date;
-      const dateAsString: string = date.toString();
-      if(this.currentCourse.dueDate === undefined || this.currentCourse.dueDate.toString() !== dateAsString) {
+      const newDate: Date = this.querySelector('#dueDate').date;
+      const newDateAsString: string = newDate.toString();
+      const currentDate: string = this.currentCourse.dueDate === undefined ?
+                         undefined : this.currentCourse.dueDate.toString();
+      if(currentDate !== newDateAsString) {
         // Date has changed
-        await Actions.updateCourseField(this, this.courseId, 'dueDate', dateAsString);
+        await Actions.updateCourseField(this, this.courseId, 'dueDate', newDateAsString);
         this.successMessage = '';
         this.successMessage = 'Last day of course has been updated';
       }
