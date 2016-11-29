@@ -104,8 +104,8 @@
         <template is="dom-if" if="[[username]]">
           <!-- COLLABORATORS -->
           <template is="dom-if" if="[[hasEditAccess]]">
-            <!-- <iron-icon id="lti-button" icon="social:share" on-tap="getLTILinks"></iron-icon>
-            <paper-tooltip for="lti-button" offset="0" animation-delay="300">Get LTI Links</paper-tooltip> -->
+            <iron-icon id="lti-button" icon="social:share" on-tap="getLTILinks"></iron-icon>
+            <paper-tooltip for="lti-button" offset="0" animation-delay="300">Get LTI Links</paper-tooltip>
             <paper-button id="collaborators-button" noink on-tap="openCollaboratorsModal">Collaborators</paper-button>
           </template>
           <prendus-collaborator-modal id="collaborators-modal" uid="[[uid]]" course-id="[[courseId]]" course></prendus-collaborator-modal>

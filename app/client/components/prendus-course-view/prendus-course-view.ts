@@ -144,14 +144,10 @@ export class PrendusCourseView {
     }
   }
 
-  // async viewData() {
-  //   if (this.data.courseId) {
-  //       Actions.showMainSpinner(this);
-  //       await Actions.getCourseViewCourseById(this, this.data.courseId);
-  //       await Actions.loadViewCourseConcepts(this, this.data.courseId);
-  //       Actions.hideMainSpinner(this);
-  //   }
-  // }
+  getLTILinks() {
+    console.log('LTI Links3')
+
+  }
 
   addConcept(e: any) {
     this.querySelector('#addConceptDialog').open();
