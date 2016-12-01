@@ -103,10 +103,17 @@ export class PrendusCourseView {
 
   async dueDateChanged() {
     try {
-      const date: Date = this.querySelector('#dueDate').date;
-      await Actions.updateCourseField(this, this.courseId, 'dueDate', date.toString());
-      this.successMessage = '';
-      this.successMessage = 'Last day of course has been updated';
+      const newDate: Date = this.querySelector('#dueDate').date;
+      const newDateAsString: string = newDate.toString();
+      const currentDate: string = this.currentCourse.dueDate === undefined ?
+                         undefined : this.currentCourse.dueDate.toString();
+      if(currentDate !== newDateAsString) {
+        // Date has changed
+        await Actions.updateCourseField(this, this.courseId, 'dueDate', newDateAsString);
+        this.successMessage = '';
+        this.successMessage = 'Last day of course has been updated';
+      }
+
     } catch(error) {
       this.errorMessage = '';
       this.errorMessage = error.message;
@@ -114,6 +121,7 @@ export class PrendusCourseView {
 
   }
 
+  
   showTagsTitle(tagsLength: number, hasEditAccess: boolean) {
     return tagsLength > 0 || hasEditAccess;
   }
