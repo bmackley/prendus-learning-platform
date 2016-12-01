@@ -132,12 +132,11 @@
               <paper-checkbox class="setting" on-change="showHintToggled" checked="[[quizSettings.showHint]]" noink>Show hint</paper-checkbox>
               <paper-checkbox class="setting" on-change="showCodeToggled" checked="[[quizSettings.showCode]]" noink>Show code</paper-checkbox>
               <paper-checkbox class="setting" on-change="gradedToggled" checked="[[quizSettings.graded]]" noink>Graded</paper-checkbox>
-              <!-- TODO: Make this prettier. -->
               <template class="setting" is="dom-if" if="[[quizSettings.graded]]">
                 <paper-date-picker id="dueDate" date="[[displayDate(quizSettings.dueDate)]]" on-click="dueDateChanged"></paper-date-picker>
               </template>
               <!-- TODO: Only show this option if user has paid for premium-->
-              <paper-checkbox class="setting" on-change="privateToggled" checked="[[quizSettings.private]]" noink>Private </paper-checkbox>
+              <paper-checkbox class="setting" on-change="privateToggled" checked="[[determineVisibility(quizSettings.visibility)]]" noink>Private</paper-checkbox>
               <paper-checkbox class="setting" on-change="showConfidenceLevelToggled" checked="[[quizSettings.showConfidenceLevel]]" noink>Show confidence level</paper-checkbox>
               <paper-checkbox class="setting" on-change="allowGenerationToggled" checked="[[quizSettings.allowGeneration]]" noink>Allow question generation</paper-checkbox>
               <paper-input class="setting" label="Maximum number of attempts" value=[[quizSettings.maxNumAttempts]] on-change="maxNumAttemptsChanged"></paper-input>
