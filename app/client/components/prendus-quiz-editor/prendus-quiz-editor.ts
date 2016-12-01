@@ -230,11 +230,13 @@ class PrendusQuizEditor {
     }
 
     async privateToggled(e: any) {
-      const value: QuizVisibility = e.target.checked ? 'public' : 'private';
-      console.log(value);
-      await this.applySettings('private', value);
+      const value: QuizVisibility = e.target.checked ? 'private' : 'public';
+      await this.applySettings('visibility', value);
     }
 
+    determineVisibility(visibility: QuizVisibility): boolean {
+      return visibility === 'private';
+    }
     async applySettings(settingName: string, value: number | boolean | QuizVisibility) {
         await Actions.setQuizSetting(this, this.quizId, settingName, value);
         this.quizQuestionIds.forEach((questionId) => {
