@@ -20,7 +20,7 @@ class PrendusQuizEditor {
     public quizId: string;
     public quizQuestionIds: string[];
     public showSettings: boolean;
-    public quizSettings: QuestionSettings;
+    public quizQuestionSettings: QuestionSettings;
     public title: string;
     public selected: number;
     public collaboratorEmails: string[];
@@ -67,7 +67,7 @@ class PrendusQuizEditor {
             const quiz = await Actions.getQuiz(this.quizId);
             this.title = quiz.title;
             this.loadQuizQuestionIds();
-            Actions.loadQuizSettings(this, this.quizId);
+            Actions.loadQuizQuestionSettings(this, this.quizId);
         }
     }
 
@@ -238,7 +238,7 @@ class PrendusQuizEditor {
       return visibility === 'private';
     }
     async applySettings(settingName: string, value: number | boolean | QuizVisibility) {
-        await Actions.setQuizSetting(this, this.quizId, settingName, value);
+        await Actions.setQuizQuestionSetting(this, this.quizId, settingName, value);
         this.quizQuestionIds.forEach((questionId) => {
             Actions.setQuestionSetting(this, this.quizId, questionId, settingName, value);
         });
@@ -246,7 +246,7 @@ class PrendusQuizEditor {
 
     mapStateToThis(e: StatechangeEvent) {
         const state = e.detail.state;
-        this.quizSettings = state.quizSettings;
+        this.quizQuestionSettings = state.quizQuestionSettings;
         this.userQuestionIds = state.userQuestionIds;
         this.publicQuestionIds = state.publicQuestionIds;
         this.quizQuestionIds = state.quizQuestionIds;
