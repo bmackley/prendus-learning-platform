@@ -1,12 +1,13 @@
-import {Question} from '../../node_modules/prendus-services/interfaces/question.interface.ts';
-import {QuestionVisibility} from '../../node_modules/prendus-services/interfaces/question-visibility.type.ts';
+import {Question} from '../../node_modules/prendus-services/interfaces/question.interface';
+import {QuestionVisibility} from '../../node_modules/prendus-services/interfaces/question-visibility.type';
 import {Actions} from '../../redux/actions.ts';
 import {UtilitiesService} from '../../node_modules/prendus-services/services/utilities.service.ts';
 import {FirebaseService} from '../../node_modules/prendus-services/services/firebase.service.ts';
 import {QuestionSettings} from '../../node_modules/prendus-services/interfaces/question-settings.interface.ts';
-import {Course} from '../../node_modules/prendus-services/interfaces/course.interface.ts';
+import {Course} from '../../node_modules/prendus-services/interfaces/course.interface';
 import {CourseModel} from '../../node_modules/prendus-services/models/course.model.ts';
-import {StatechangeEvent} from '../../interfaces/statechange-event.interface.ts';
+import {QuizVisibility} from '../../node_modules/prendus-services/interfaces/quiz-visibility.type';
+import {StatechangeEvent} from '../../interfaces/statechange-event.interface';
 class PrendusQuizEditor {
     public is: string;
     public userQuestionIds: string[];
@@ -26,6 +27,7 @@ class PrendusQuizEditor {
     public uid: string;
     public querySelector: any;
     public courseId: string;
+    public fire: any;
 
     beforeRegister() {
         this.is = 'prendus-quiz-editor';
@@ -188,15 +190,23 @@ class PrendusQuizEditor {
         await this.applySettings('graded', checked);
 
         // Reset due date to the last day of the course.
-
-        const course: Course = await CourseModel.getById(this.courseId);//await Actions.getCourseByConceptId(this.conceptId);
-        const newQuizDueDate: string = course.dueDate ? course.dueDate : new Date().toString();
+        const course: Course = await CourseModel.getById(this.courseId);
+        const UTCDate: number = new Date(new Date().toUTCString()).getTime();
+        const newQuizDueDate: number = course.dueDate ? course.dueDate : UTCDate;
         await this.applySettings('dueDate', newQuizDueDate);
     }
+
     async dueDateChanged(e: any) {
         const dueDate: Date = this.querySelector('#dueDate').date;
-        await this.applySettings('dueDate', dueDate.toString())
+        //TODO: this isn't very functional... :(
+        dueDate.setHours(23);
+        dueDate.setMinutes(59);
+        dueDate.setSeconds(59);
+
+        const UTCDueDate: number = new Date(dueDate.toUTCString()).getTime();
+        await this.applySettings('dueDate', UTCDueDate)
     }
+
     async showConfidenceLevelToggled(e: any) {
         const checked = e.target.checked;
         await this.applySettings('showConfidenceLevel', checked);
@@ -220,11 +230,12 @@ class PrendusQuizEditor {
     }
 
     async privateToggled(e: any) {
-      const value: boolean = e.target.checked;
+      const value: QuizVisibility = e.target.checked ? 'public' : 'private';
+      console.log(value);
       await this.applySettings('private', value);
     }
 
-    async applySettings(settingName: string, value: number | boolean | string) {
+    async applySettings(settingName: string, value: number | boolean | QuizVisibility) {
         await Actions.setQuizSetting(this, this.quizId, settingName, value);
         this.quizQuestionIds.forEach((questionId) => {
             Actions.setQuestionSetting(this, this.quizId, questionId, settingName, value);
