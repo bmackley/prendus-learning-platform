@@ -11,3 +11,6 @@
 
 Check out a new branch to work on (normally your name)
 
+Things to check before a pull request:
+1. Responsive pages
+2. Functionality works (or doesn't work) when user is logged in and logged out. 
