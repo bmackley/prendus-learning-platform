@@ -5,6 +5,7 @@ import {UtilitiesService} from '../../node_modules/prendus-services/services/uti
 import {FirebaseService} from '../../node_modules/prendus-services/services/firebase.service.ts';
 import {QuestionSettings} from '../../node_modules/prendus-services/interfaces/question-settings.interface.ts';
 import {Course} from '../../node_modules/prendus-services/interfaces/course.interface.ts';
+import {CourseModel} from '../../node_modules/prendus-services/models/course.model.ts';
 import {StatechangeEvent} from '../../interfaces/statechange-event.interface.ts';
 class PrendusQuizEditor {
     public is: string;
@@ -24,6 +25,8 @@ class PrendusQuizEditor {
     public collaboratorEmails: string[];
     public uid: string;
     public querySelector: any;
+    public courseId: string;
+
     beforeRegister() {
         this.is = 'prendus-quiz-editor';
         this.properties = {
@@ -34,6 +37,9 @@ class PrendusQuizEditor {
             quizId: {
                 type: String,
                 observer: 'quizIdSet'
+            },
+            courseId: {
+              type: String
             }
         };
     }
@@ -182,7 +188,8 @@ class PrendusQuizEditor {
         await this.applySettings('graded', checked);
 
         // Reset due date to the last day of the course.
-        const course: Course = await Actions.getCourseByConceptId(this.conceptId);
+
+        const course: Course = await CourseModel.getById(this.courseId);//await Actions.getCourseByConceptId(this.conceptId);
         const newQuizDueDate: string = course.dueDate ? course.dueDate : new Date().toString();
         await this.applySettings('dueDate', newQuizDueDate);
     }

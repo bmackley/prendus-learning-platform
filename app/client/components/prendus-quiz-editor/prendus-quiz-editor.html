@@ -85,6 +85,10 @@
           text-transform: uppercase;
         }
 
+        #dueDate {
+          margin-top: 15px;Hamm
+        }
+
         @media (max-width: 768px) {
           #quiz-container {
             flex-wrap: wrap;
@@ -94,6 +98,7 @@
             flex-basis: 100%;
           }
         }
+
     </style>
 
     <redux-store on-statechange="mapStateToThis" action="[[action]]"></redux-store>
@@ -128,8 +133,7 @@
               <paper-checkbox class="setting" on-change="showCodeToggled" checked="[[quizSettings.showCode]]" noink>Show code</paper-checkbox>
               <paper-checkbox class="setting" on-change="gradedToggled" checked="[[quizSettings.graded]]" noink>Graded</paper-checkbox>
               <!-- TODO: Make this prettier. -->
-              <template is="dom-if" if="[[quizSettings.graded]]">
-                <br>
+              <template class="setting" is="dom-if" if="[[quizSettings.graded]]">
                 <paper-date-picker id="dueDate" date="[[displayDate(quizSettings.dueDate)]]" on-click="dueDateChanged"></paper-date-picker>
               </template>
               <!-- TODO: Only show this option if user has paid for premium-->
