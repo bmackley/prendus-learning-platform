@@ -1,9 +1,9 @@
 import {Actions} from '../../redux/actions.ts';
-import {Course} from '../../node_modules/prendus-services/interfaces/course.interface.ts';
-import {Concept} from '../../node_modules/prendus-services/interfaces/concept.interface.ts';
-import {CourseConceptData} from '../../node_modules/prendus-services/interfaces/course-concept-data.interface.ts';
-import {StatechangeEvent} from '../../interfaces/statechange-event.interface.ts';
-import {Tag} from '../../node_modules/prendus-services/interfaces/tag.interface.ts';
+import {Course} from '../../node_modules/prendus-services/interfaces/course.interface';
+import {Concept} from '../../node_modules/prendus-services/interfaces/concept.interface';
+import {CourseConceptData} from '../../node_modules/prendus-services/interfaces/course-concept-data.interface';
+import {StatechangeEvent} from '../../interfaces/statechange-event.interface';
+import {Tag} from '../../node_modules/prendus-services/interfaces/tag.interface';
 
 export class PrendusCourseView {
   public is: string;
@@ -104,12 +104,16 @@ export class PrendusCourseView {
   async dueDateChanged() {
     try {
       const newDate: Date = this.querySelector('#dueDate').date;
-      const newDateAsString: string = newDate.toString();
-      const currentDate: string = this.currentCourse.dueDate === undefined ?
-                         undefined : this.currentCourse.dueDate.toString();
-      if(currentDate !== newDateAsString) {
+      //TODO this isn't very functional :(
+      newDate.setHours(23);
+      newDate.setMinutes(59);
+      newDate.setSeconds(59);
+      const UTCDate: number = new Date(newDate.toUTCString()).getTime();
+      const currentDate: number = this.currentCourse.dueDate === undefined ?
+                         0 : this.currentCourse.dueDate;
+      if(currentDate !== UTCDate) {
         // Date has changed
-        await Actions.updateCourseField(this, this.courseId, 'dueDate', newDateAsString);
+        await Actions.updateCourseField(this, this.courseId, 'dueDate', UTCDate);
         this.successMessage = '';
         this.successMessage = 'Last day of course has been updated';
       }
@@ -121,7 +125,7 @@ export class PrendusCourseView {
 
   }
 
-  
+
   showTagsTitle(tagsLength: number, hasEditAccess: boolean) {
     return tagsLength > 0 || hasEditAccess;
   }
