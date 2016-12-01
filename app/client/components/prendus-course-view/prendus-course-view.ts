@@ -4,6 +4,8 @@ import {Concept} from '../../node_modules/prendus-services/interfaces/concept.in
 import {CourseConceptData} from '../../node_modules/prendus-services/interfaces/course-concept-data.interface';
 import {StatechangeEvent} from '../../interfaces/statechange-event.interface';
 import {Tag} from '../../node_modules/prendus-services/interfaces/tag.interface';
+import {Quiz} from '../../node_modules/prendus-services/interfaces/quiz.interface';
+import {CourseModel} from '../../node_modules/prendus-services/models/course.model.ts';
 
 export class PrendusCourseView {
   public is: string;
@@ -114,6 +116,7 @@ export class PrendusCourseView {
       if(currentDate !== UTCDate) {
         // Date has changed
         await Actions.updateCourseField(this, this.courseId, 'dueDate', UTCDate);
+        await Actions.setQuizDueDateToCourseDueDate(this.courseId);
         this.successMessage = '';
         this.successMessage = 'Last day of course has been updated';
       }

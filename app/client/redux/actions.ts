@@ -1,21 +1,22 @@
 import {FirebaseService} from '../node_modules/prendus-services/services/firebase.service.ts';
 import {CourseModel} from '../node_modules/prendus-services/models/course.model.ts';
 import {ConceptModel} from '../node_modules/prendus-services/models/concept.model.ts';
-import {CourseConceptData} from '../node_modules/prendus-services/interfaces/course-concept-data.interface.ts';
+import {CourseConceptData} from '../node_modules/prendus-services/interfaces/course-concept-data.interface';
 import {UserModel} from '../node_modules/prendus-services/models/user.model.ts';
 import {VideoModel} from '../node_modules/prendus-services/models/video.model.ts';
 import {TagModel} from '../node_modules/prendus-services/models/tag.model.ts';
 import {QuizModel} from '../node_modules/prendus-services/models/quiz.model.ts';
+import {Quiz} from '../node_modules/prendus-services/interfaces/quiz.interface';
 import {QuestionModel} from '../node_modules/prendus-services/models/question.model.ts';
-import {Course} from '../node_modules/prendus-services/interfaces/course.interface.ts';
-import {Tag} from '../node_modules/prendus-services/interfaces/tag.interface.ts';
-import {Concept} from '../node_modules/prendus-services/interfaces/concept.interface.ts';
-import {QuestionSettings} from '../node_modules/prendus-services/interfaces/question-settings.interface.ts';
-import {CourseVisibility} from '../node_modules/prendus-services/interfaces/course-visibility.type.ts';
-import {UserMetaData} from '../node_modules/prendus-services/interfaces/user-meta-data.interface.ts';
-import {User} from '../node_modules/prendus-services/interfaces/user.interface.ts';
+import {Course} from '../node_modules/prendus-services/interfaces/course.interface';
+import {Tag} from '../node_modules/prendus-services/interfaces/tag.interface';
+import {Concept} from '../node_modules/prendus-services/interfaces/concept.interface';
+import {QuestionSettings} from '../node_modules/prendus-services/interfaces/question-settings.interface';
+import {CourseVisibility} from '../node_modules/prendus-services/interfaces/course-visibility.type';
+import {UserMetaData} from '../node_modules/prendus-services/interfaces/user-meta-data.interface';
+import {User} from '../node_modules/prendus-services/interfaces/user.interface';
 import {EmailsToUidsModel} from '../node_modules/prendus-services/models/emails-to-uids.model.ts';
-import {Video} from '../node_modules/prendus-services/interfaces/video.interface.ts';
+import {Video} from '../node_modules/prendus-services/interfaces/video.interface';
 import {ExecuteAsyncInOrder} from '../node_modules/prendus-services/services/execute-async-in-order.ts';
 import {UtilitiesService} from '../node_modules/prendus-services/services/utilities.service.ts';
 const defaultAction = (context: any) => {
@@ -393,13 +394,13 @@ const createNewQuiz = async (context: any, conceptId: string) => {
         id: null,
         uid,
         title: `Untitled Quiz`,
-        private: false,
-        quizSettings: {
+        quizQuestionSettings: {
             answerFeedback: true,
             showAnswer: true,
             showHint: true,
             showCode: true,
             graded: false,
+            visibility: 'public',
             showConfidenceLevel: false,
             allowGeneration: true
         },
@@ -461,21 +462,21 @@ const setCurrentEditQuizId = (context: any, quizId: string) => {
     };
 };
 
-const loadQuizSettings = async (context: any, quizId: string) => {
-    const quizSettings: QuestionSettings = await QuizModel.getQuizSettings(quizId);
+const loadQuizQuestionSettings = async (context: any, quizId: string) => {
+    const quizQuestionSettings: QuestionSettings = await QuizModel.getQuizQuestionSettings(quizId);
 
     context.action = {
         type: 'LOAD_QUIZ_SETTINGS',
-        quizSettings
+        quizQuestionSettings
     };
 };
 
-const setQuizSetting = async (context: any, quizId: string, settingName: string, value: number | boolean | string) => {
-    await QuizModel.setQuizSetting(quizId, settingName, value);
-    const quizSettings: QuestionSettings = await QuizModel.getQuizSettings(quizId);
+const setQuizQuestionSetting = async (context: any, quizId: string, settingName: string, value: number | boolean | string) => {
+    await QuizModel.setQuizQuestionSetting(quizId, settingName, value);
+    const quizQuestionSettings: QuestionSettings = await QuizModel.getQuizQuestionSettings(quizId);
     context.action = {
       type: 'LOAD_QUIZ_SETTINGS',
-      quizSettings
+      quizQuestionSettings
     };
 };
 
@@ -1034,6 +1035,28 @@ const logOutUser = async (context: any) => {
     window.location.href = ''; //need to reset the state instead of reloading everything.
 };
 
+const setQuizDueDateToCourseDueDate = async (courseId: string): Promise<void> => {
+  try {
+    const course: Course = await CourseModel.getById(courseId);
+    const conceptIds: string[] = Object.keys(course.concepts || {});
+    const resolvedConcepts: Concept[] = await ConceptModel.resolveConceptIds(conceptIds);
+    await UtilitiesService.asyncForEach(resolvedConcepts, async (concept: Concept) => {
+      const quizIds: string[] = Object.keys(concept.quizzes || {});
+      const resolvedQuizzes: Quiz[] = await QuizModel.resolveQuizIds(quizIds);
+      await UtilitiesService.asyncForEach(resolvedQuizzes, async (quiz: Quiz) => {
+        if(quiz.quizQuestionSettings === undefined ||
+           quiz.quizQuestionSettings.dueDate === undefined ||
+           quiz.quizQuestionSettings.dueDate > course.dueDate) {
+          await QuizModel.setQuizQuestionSetting(quiz.id, 'dueDate', course.dueDate);
+        }
+      });
+    });
+
+  } catch(error) {
+    throw error;
+  }
+}
+
 export const Actions = {
     defaultAction,
     loginUser,
@@ -1061,9 +1084,9 @@ export const Actions = {
     addQuestionToQuiz,
     loadQuizQuestionIds,
     removeQuestionFromQuiz,
-    setQuizSetting,
+    setQuizQuestionSetting,
     setQuestionSetting,
-    loadQuizSettings,
+    loadQuizQuestionSettings,
     setCurrentEditQuizId,
     loadEditConceptQuizzes,
     loadViewConceptQuizzes,
@@ -1100,5 +1123,6 @@ export const Actions = {
     loadEditCourseConcepts,
     loadViewCourseConcepts,
     showMainSpinner,
-    hideMainSpinner
+    hideMainSpinner,
+    setQuizDueDateToCourseDueDate
   };
