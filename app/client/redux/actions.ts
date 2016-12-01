@@ -1034,29 +1034,6 @@ const logOutUser = async (context: any) => {
     window.location.href = ''; //need to reset the state instead of reloading everything.
 };
 
-// Uses the conceptId to return the course that contains the concept.
-const getCourseByConceptId = async (conceptId: string): Promise<Course> =>{
-  try {
-    const concept: Concept = await ConceptModel.getById(conceptId);
-    const uid: string = concept.uid;
-    const courses: Course[] = await CourseModel.getCoursesByUser(uid);
-    const course: string[] = courses.filter(tempCourse => {
-      const tempCourseConcepts: string[] = Object.keys(tempCourse.concepts || {});
-      const correctConceptId: string[] = tempCourseConcepts.filter(temp => {
-        if(temp === conceptId) {
-          return temp;
-        }
-      });
-      if(correctConceptId.length > 0 && correctConceptId[0] === conceptId) {
-        return tempCourse;
-      }
-    });
-    return course[0];
-  } catch(error) {
-    throw error;
-  }
-};
-
 export const Actions = {
     defaultAction,
     loginUser,
@@ -1123,6 +1100,5 @@ export const Actions = {
     loadEditCourseConcepts,
     loadViewCourseConcepts,
     showMainSpinner,
-    hideMainSpinner,
-    getCourseByConceptId
-};
+    hideMainSpinner
+  };
