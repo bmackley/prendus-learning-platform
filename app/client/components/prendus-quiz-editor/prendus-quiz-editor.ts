@@ -8,6 +8,7 @@ import {Course} from '../../node_modules/prendus-services/interfaces/course.inte
 import {CourseModel} from '../../node_modules/prendus-services/models/course.model.ts';
 import {QuizVisibility} from '../../node_modules/prendus-services/interfaces/quiz-visibility.type';
 import {QuizModel} from '../../node_modules/prendus-services/models/quiz.model.ts';
+import {Quiz} from '../../node_modules/prendus-services/interfaces/quiz.interface';
 import {StatechangeEvent} from '../../interfaces/statechange-event.interface';
 class PrendusQuizEditor {
     public is: string;
@@ -66,7 +67,7 @@ class PrendusQuizEditor {
     async quizIdSet() {
         if (this.quizId) {
             await this.init();
-            const quiz = await Actions.getQuiz(this.quizId);
+            const quiz: Quiz = await Actions.getQuiz(this.quizId);
             this.title = quiz.title;
             this.loadQuizQuestionIds();
             Actions.loadQuizQuestionSettings(this, this.quizId);
