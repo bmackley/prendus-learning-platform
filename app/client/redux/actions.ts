@@ -1040,7 +1040,9 @@ const logOutUser = async (context: any) => {
     window.location.href = ''; //need to reset the state instead of reloading everything.
 };
 
-const setQuizDueDateToCourseDueDate = async (courseId: string): Promise<void> => {
+// Looks through all quizzes in a course and changes their due dates if they are after
+// the course due date.
+const updateQuizDueDates = async (courseId: string): Promise<void> => {
   try {
     const course: Course = await CourseModel.getById(courseId);
     const conceptIds: string[] = Object.keys(course.concepts || {});
@@ -1128,5 +1130,5 @@ export const Actions = {
     loadViewCourseConcepts,
     showMainSpinner,
     hideMainSpinner,
-    setQuizDueDateToCourseDueDate
+    updateQuizDueDates
   };

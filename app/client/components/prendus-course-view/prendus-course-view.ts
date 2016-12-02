@@ -114,7 +114,7 @@ export class PrendusCourseView {
       if(currentDate !== UTCDate) {
         // Date has changed
         await Actions.updateCourseField(this, this.courseId, 'dueDate', UTCDate);
-        await Actions.setQuizDueDateToCourseDueDate(this.courseId);
+        await Actions.updateQuizDueDates(this.courseId);
         this.successMessage = '';
         this.successMessage = 'Last day of course has been updated';
       }
