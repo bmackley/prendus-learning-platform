@@ -1,15 +1,15 @@
-import {Question} from '../../node_modules/prendus-services/interfaces/question.interface';
-import {QuestionVisibility} from '../../node_modules/prendus-services/interfaces/question-visibility.type';
+import {Question} from '../../node_modules/prendus-services/interfaces/question.interface.ts';
+import {QuestionVisibility} from '../../node_modules/prendus-services/interfaces/question-visibility.type.ts';
 import {Actions} from '../../redux/actions.ts';
 import {UtilitiesService} from '../../node_modules/prendus-services/services/utilities.service.ts';
 import {FirebaseService} from '../../node_modules/prendus-services/services/firebase.service.ts';
 import {QuestionSettings} from '../../node_modules/prendus-services/interfaces/question-settings.interface.ts';
-import {Course} from '../../node_modules/prendus-services/interfaces/course.interface';
+import {Course} from '../../node_modules/prendus-services/interfaces/course.interface.ts';
 import {CourseModel} from '../../node_modules/prendus-services/models/course.model.ts';
-import {QuizVisibility} from '../../node_modules/prendus-services/interfaces/quiz-visibility.type';
+import {QuizVisibility} from '../../node_modules/prendus-services/interfaces/quiz-visibility.type.ts';
 import {QuizModel} from '../../node_modules/prendus-services/models/quiz.model.ts';
-import {Quiz} from '../../node_modules/prendus-services/interfaces/quiz.interface';
-import {StatechangeEvent} from '../../interfaces/statechange-event.interface';
+import {Quiz} from '../../node_modules/prendus-services/interfaces/quiz.interface.ts';
+import {StatechangeEvent} from '../../interfaces/statechange-event.interface.ts';
 class PrendusQuizEditor {
     public is: string;
     public userQuestionIds: string[];
@@ -105,6 +105,7 @@ class PrendusQuizEditor {
       const returnDate: Date = date ? new Date(date) : new Date();
       return returnDate;
     }
+
     shareQuiz() {
         this.querySelector('#share-quiz-dialog').open();
     }
@@ -120,6 +121,7 @@ class PrendusQuizEditor {
     openSettingsModal(e: any) {
       this.querySelector('#settings-modal').open();
     }
+
     //Temporary based on Jordans preferences
     async createQuestion(e: any) {
         const visibility: QuestionVisibility = 'public'
@@ -192,22 +194,26 @@ class PrendusQuizEditor {
         const checked = e.target.checked;
         await this.applySettings('graded', checked, 'Graded', true);
 
-        // Reset due date to the last day of the course.
+        // Reset quiz due date to the last day of the course.  If the course
+        // has no due date yet for some reason, the quiz due date is set
+        // to the current day.
         const course: Course = await CourseModel.getById(this.courseId);
-        const UTCDate: number = new Date(new Date().toUTCString()).getTime();
+        const todaysDate: Date = new Date();
+        const UTCDate: number = UtilitiesService.dateToUTCNumber(todaysDate);
         const newQuizDueDate: number = course.dueDate ? course.dueDate : UTCDate;
         await this.applySettings('dueDate', newQuizDueDate, null, true);
     }
 
     async dueDateChanged(e: any) {
         const dueDate: Date = this.querySelector('#dueDate').date;
-        //TODO: this isn't very functional... :(
-        dueDate.setHours(23);
-        dueDate.setMinutes(59);
-        dueDate.setSeconds(59);
+        const UTCDueDate: number = UtilitiesService.dateToUTCNumber(dueDate);
+        // paper-date-picker does not have an event listener for date change. So every
+        // time a user clicks anywhere on the calendar, this function is called. To avoid
+        // a firebase action, we compare the currentDate in firebase to the new UTCDueDate.
+        if(this.quizQuestionSettings.dueDate !== UTCDueDate) {
+          await this.applySettings('dueDate', UTCDueDate, 'Due date', true);
+        }
 
-        const UTCDueDate: number = new Date(dueDate.toUTCString()).getTime();
-        await this.applySettings('dueDate', UTCDueDate, 'Due date', true);
     }
 
     async showConfidenceLevelToggled(e: any) {

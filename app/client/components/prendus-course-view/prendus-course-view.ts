@@ -6,7 +6,7 @@ import {StatechangeEvent} from '../../interfaces/statechange-event.interface';
 import {Tag} from '../../node_modules/prendus-services/interfaces/tag.interface';
 import {Quiz} from '../../node_modules/prendus-services/interfaces/quiz.interface';
 import {CourseModel} from '../../node_modules/prendus-services/models/course.model.ts';
-
+import {UtilitiesService} from '../../node_modules/prendus-services/services/utilities.service.ts';
 export class PrendusCourseView {
   public is: string;
   public courseConcepts: CourseConceptData[];
@@ -106,13 +106,11 @@ export class PrendusCourseView {
   async dueDateChanged() {
     try {
       const newDate: Date = this.querySelector('#dueDate').date;
-      //TODO this isn't very functional :(
-      newDate.setHours(23);
-      newDate.setMinutes(59);
-      newDate.setSeconds(59);
-      const UTCDate: number = new Date(newDate.toUTCString()).getTime();
-      const currentDate: number = this.currentCourse.dueDate === undefined ?
-                         0 : this.currentCourse.dueDate;
+      const UTCDate: number = UtilitiesService.dateToUTCNumber(newDate);
+      const currentDate: number = this.currentCourse.dueDate;
+      // paper-date-picker does not have an event listener for date change. So every
+      // time a user clicks anywhere on the calendar, this function is called. To avoid
+      // a firebase action, we compare the currentDate in firebase to the new UTCDate.
       if(currentDate !== UTCDate) {
         // Date has changed
         await Actions.updateCourseField(this, this.courseId, 'dueDate', UTCDate);
