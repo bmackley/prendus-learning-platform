@@ -7,6 +7,7 @@ import {QuestionSettings} from '../../node_modules/prendus-services/interfaces/q
 import {Course} from '../../node_modules/prendus-services/interfaces/course.interface';
 import {CourseModel} from '../../node_modules/prendus-services/models/course.model.ts';
 import {QuizVisibility} from '../../node_modules/prendus-services/interfaces/quiz-visibility.type';
+import {QuizModel} from '../../node_modules/prendus-services/models/quiz.model.ts';
 import {StatechangeEvent} from '../../interfaces/statechange-event.interface';
 class PrendusQuizEditor {
     public is: string;
@@ -28,7 +29,8 @@ class PrendusQuizEditor {
     public querySelector: any;
     public courseId: string;
     public fire: any;
-
+    public successMessage: string;
+    public errorMessage: string;
     beforeRegister() {
         this.is = 'prendus-quiz-editor';
         this.properties = {
@@ -167,33 +169,33 @@ class PrendusQuizEditor {
 
     async answerFeedbackToggled(e: any) {
         const checked = e.target.checked;
-        await this.applySettings('answerFeedback', checked);
+        await this.applySettings('answerFeedback', checked, 'Answer feedback', true);
     }
 
     async showAnswerToggled(e: any) {
         const checked = e.target.checked;
-        await this.applySettings('showAnswer', checked);
+        await this.applySettings('showAnswer', checked, 'Show answer', true);
     }
 
     async showHintToggled(e: any) {
         const checked = e.target.checked;
-        await this.applySettings('showHint', checked);
+        await this.applySettings('showHint', checked, 'Show hint', true);
     }
 
     async showCodeToggled(e: any) {
         const checked = e.target.checked;
-        await this.applySettings('showCode', checked);
+        await this.applySettings('showCode', checked, 'Show code', true);
     }
 
     async gradedToggled(e: any) {
         const checked = e.target.checked;
-        await this.applySettings('graded', checked);
+        await this.applySettings('graded', checked, 'Graded', true);
 
         // Reset due date to the last day of the course.
         const course: Course = await CourseModel.getById(this.courseId);
         const UTCDate: number = new Date(new Date().toUTCString()).getTime();
         const newQuizDueDate: number = course.dueDate ? course.dueDate : UTCDate;
-        await this.applySettings('dueDate', newQuizDueDate);
+        await this.applySettings('dueDate', newQuizDueDate, null, true);
     }
 
     async dueDateChanged(e: any) {
@@ -204,44 +206,66 @@ class PrendusQuizEditor {
         dueDate.setSeconds(59);
 
         const UTCDueDate: number = new Date(dueDate.toUTCString()).getTime();
-        await this.applySettings('dueDate', UTCDueDate)
+        await this.applySettings('dueDate', UTCDueDate, 'Due date', true);
     }
 
     async showConfidenceLevelToggled(e: any) {
         const checked = e.target.checked;
-        await this.applySettings('showConfidenceLevel', checked);
+        await this.applySettings('showConfidenceLevel', checked, 'Show confidence level', true);
     }
 
     async allowGenerationToggled(e: any) {
         const checked = e.target.checked;
-        await this.applySettings('allowGeneration', checked);
+        await this.applySettings('allowGeneration', checked, 'Allow generation', true);
     }
 
     async maxNumAttemptsChanged(e: any) {
         const value = e.target.value;
-        await this.applySettings('maxNumAttempts', value);
+        await this.applySettings('maxNumAttempts', value, 'Maximum number of attempts', true);
     }
 
     async titleChanged(e: any) {
-        const value = e.target.value;
-        await Actions.updateQuizTitle(this.quizId, value);
-        await Actions.loadEditConceptQuizzes(this, this.conceptId);
-        await Actions.loadViewConceptQuizzes(this, this.conceptId);
+      try {
+        const value: string = e.target.value;
+        await QuizModel.updateTitle(this.quizId, value);
+        this.successMessage = '';
+        this.successMessage = `${value} updated.`;
+      } catch(error) {
+        this.errorMessage = '';
+        this.errorMessage = error.message;
+      }
+      await Actions.loadEditConceptQuizzes(this, this.conceptId);
+      await Actions.loadViewConceptQuizzes(this, this.conceptId);
     }
 
     async privateToggled(e: any) {
       const value: QuizVisibility = e.target.checked ? 'private' : 'public';
-      await this.applySettings('visibility', value);
+      // TODO: We don't want to update the question privacy. This should change eventually.
+      await this.applySettings('visibility', value, 'Privacy', false);
     }
 
     determineVisibility(visibility: QuizVisibility): boolean {
       return visibility === 'private';
     }
-    async applySettings(settingName: string, value: number | boolean | QuizVisibility) {
+    async applySettings(settingName: string, value: number | boolean | QuizVisibility, successMessageName: string, updateQuestionSetting: boolean) {
+      try {
         await Actions.setQuizQuestionSetting(this, this.quizId, settingName, value);
-        this.quizQuestionIds.forEach((questionId) => {
-            Actions.setQuestionSetting(this, this.quizId, questionId, settingName, value);
-        });
+        if(updateQuestionSetting) {
+          this.quizQuestionIds.forEach((questionId) => {
+              Actions.setQuestionSetting(this, this.quizId, questionId, settingName, value);
+          });
+        }
+
+        if(successMessageName) {
+          this.successMessage = '';
+          this.successMessage = `${successMessageName} updated.`;
+        }
+
+      } catch(error) {
+        this.errorMessage = '';
+        this.errorMessage = error.message;
+      }
+
     }
 
     mapStateToThis(e: StatechangeEvent) {

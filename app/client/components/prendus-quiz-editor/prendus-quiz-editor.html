@@ -16,6 +16,7 @@
 <link rel="import" href="../../bower_components/paper-date-picker/paper-date-picker.html">
 <link rel="import" href="../../styles/color-styles.html">
 <link rel="import" href="../prendus-collaborator-modal/prendus-collaborator-modal.html">
+<link rel="import" href="../prendus-notification/prendus-notification.html">
 
 <dom-module id="prendus-quiz-editor">
   <template>
@@ -106,7 +107,7 @@
     <iron-ajax id="getPublicQuestionIdsAjax" method="get" url="[[endpointDomain]]/api/questionids/public" handle-as="json"></iron-ajax>
     <iron-ajax id="getEmailsByIdsAjax" method="get" handle-as="json"></iron-ajax>
     <iron-ajax id="getUidByEmailAjax" method="get" handle-as="json"></iron-ajax>
-
+    <prendus-notification success-message="[[successMessage]]" error-message="[[errorMessage]]"></prendus-notification>
     <paper-dialog id="share-quiz-dialog" with-backdrop style="padding: 25px">
       <p>Use this link to access the quiz:</p>
       <input id="share-quiz-link" value="https://prendus.com/courses/view-quiz/course/[[courseId]]/concept/[[conceptId]]/quiz/[[quizId]]" readonly on-tap="selectText"></input>
