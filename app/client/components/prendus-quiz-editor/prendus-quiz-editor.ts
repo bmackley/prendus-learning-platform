@@ -207,6 +207,14 @@ class PrendusQuizEditor {
     async dueDateChanged(e: any) {
         const dueDate: Date = this.querySelector('#dueDate').date;
         const UTCDueDate: number = UtilitiesService.dateToUTCNumber(dueDate);
+        const course: Course = await CourseModel.getById(this.courseId);
+        if(UTCDueDate > course.dueDate) {
+          const courseDueDateAsString: string = UtilitiesService.UTCDateToLocalMMddyyyy(course.dueDate);
+          this.errorMessage = '';
+          this.errorMessage = `Quiz due date can not be after the last day of the course. Which is currently ${courseDueDateAsString}. Quiz due date set to last day of course.`;
+          await this.applySettings('dueDate', course.dueDate, null, true);
+          return;
+        }
         // paper-date-picker does not have an event listener for date change. So every
         // time a user clicks anywhere on the calendar, this function is called. To avoid
         // a firebase action, we compare the currentDate in firebase to the new UTCDueDate.
