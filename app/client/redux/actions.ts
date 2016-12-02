@@ -382,10 +382,6 @@ const getQuiz = async (quizId: string) => {
     return quiz;
 };
 
-const updateQuizTitle = async (quizId: string, title: string) => {
-    await QuizModel.updateTitle(quizId, title);
-};
-
 const createNewQuiz = async (context: any, conceptId: string) => {
     const user = await FirebaseService.getLoggedInUser();
     const uid: string = user.uid;
@@ -472,16 +468,25 @@ const loadQuizQuestionSettings = async (context: any, quizId: string) => {
 };
 
 const setQuizQuestionSetting = async (context: any, quizId: string, settingName: string, value: number | boolean | string) => {
+  try {
     await QuizModel.setQuizQuestionSetting(quizId, settingName, value);
     const quizQuestionSettings: QuestionSettings = await QuizModel.getQuizQuestionSettings(quizId);
     context.action = {
       type: 'LOAD_QUIZ_SETTINGS',
       quizQuestionSettings
     };
+  } catch(error) {
+    throw error;
+  }
+
 };
 
 const setQuestionSetting = async (context: any, quizId: string, questionId: string, settingName: string, value: number | boolean) => {
+  try {
     await QuizModel.setQuestionSetting(quizId, questionId, settingName, value);
+  } catch(error) {
+    throw error;
+  }
 };
 
 const loadQuizQuestionIds = async (context: any, quizId: string) => {
@@ -1092,7 +1097,6 @@ export const Actions = {
     loadViewConceptQuizzes,
     createNewQuiz,
     deleteQuiz,
-    updateQuizTitle,
     getQuiz,
     getCourseViewCourseById,
     getCourseEditCourseById,
