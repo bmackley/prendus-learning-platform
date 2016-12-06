@@ -9,10 +9,16 @@
 <dom-module id="prendus-app">
   <template>
     <style>
+
+			:host {
+				display: block;
+			}
+
       #router {
         display: block;
         min-height: calc(100vh - 128px);
       }
+
     </style>
 
     <redux-store root-reducer="[[rootReducer]]"></redux-store>
