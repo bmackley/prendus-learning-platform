@@ -101,7 +101,7 @@ export class PrendusCourseView {
 
   async dueDateChanged() {
     try {
-      const newDate: Date = this.querySelector('#dueDate').date;
+      const newDate: Date = this.querySelector('#due-date').date;
       const newDateAsString: string = newDate.toString();
       const currentDate: string = this.currentCourse.dueDate === undefined ?
                          undefined : this.currentCourse.dueDate.toString();

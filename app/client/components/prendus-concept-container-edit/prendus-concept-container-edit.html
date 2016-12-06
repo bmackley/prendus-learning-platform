@@ -21,32 +21,54 @@
       text-transform: uppercase;
     }
 
-    #title-buttons {
+    .title-buttons {
       display: flex;
       align-items: center;
       padding: 10px;
       cursor: pointer;
     }
 
-    .drag-icon {
-      visibility: hidden;
-    }
-
-    #title-buttons:hover .drag-icon {
+    .title-buttons:hover .drag-icon {
       visibility: visible;
     }
 
-    #title-buttons > * + * {
+    .title-buttons > * + * {
       margin-left: 10px;
     }
 
-    #concept-title {
+		.title-action-buttons {
+			display: flex;
+			align-items: center;
+			flex-grow: 1;
+		}
+
+		iron-icon {
+			color: rgba(0, 0, 0, .5);
+		}
+
+		iron-icon:hover {
+			color: rgba(0, 0, 0, .8);
+		}
+
+		.drag-icon {
+			visibility: hidden;
+		}
+
+    .concept-title {
+			flex-grow: 1;
       margin: 0;
-      flex-grow: 1;
     }
+
     #confirm-delete-title{
       color: red;
     }
+
+		@media (max-width: 500px) {
+			.title-action-buttons {
+				flex-direction: column;
+				align-items: flex-start;
+			}
+		}
 
   </style>
 
@@ -54,16 +76,19 @@
     <prendus-notification success-message="[[successMessage]]"></prendus-notification>
     <prendus-notification error-message="[[errorMessage]]"></prendus-notification>
 
-    <div id="title-buttons" on-tap="toggle">
-
+    <div class="title-buttons" on-tap="toggle">
       <iron-icon class="drag-icon" icon="editor:drag-handle"></iron-icon>
-      <h3 id="concept-title">[[title]]</h3>
-      <iron-icon id="edit-button" icon="create" on-tap="editItem"></iron-icon>
-      <iron-icon id="collaborator-button" icon="social:group-add" on-tap="openCollaboratorsModal"></iron-icon>
-      <paper-tooltip for="collaborator-button" offset="0" animation-delay="300">Edit Collaborators</paper-tooltip>
-      <prendus-collaborator-modal id="collaborators-modal" course-id="[[courseId]]" concept-id="[[item.id]]" concept></prendus-collaborator-modal>
-      <iron-icon id="delete-button" icon="delete" on-tap="deleteItem"></iron-icon>
-      <paper-tooltip for="delete-button" offset="0" animation-delay="300">Delete Concept</paper-tooltip>
+			<div class="title-action-buttons">
+				<h3 class="concept-title">[[title]]</h3>
+				<div class="action-buttons">
+					<iron-icon id="edit-button" icon="create" on-tap="editItem"></iron-icon>
+					<iron-icon id="collaborator-button" icon="social:group-add" on-tap="openCollaboratorsModal"></iron-icon>
+					<paper-tooltip for="collaborator-button" offset="0" animation-delay="300">Edit Collaborators</paper-tooltip>
+					<prendus-collaborator-modal id="collaborators-modal" course-id="[[courseId]]" concept-id="[[item.id]]" concept></prendus-collaborator-modal>
+					<iron-icon id="delete-button" icon="delete" on-tap="deleteItem"></iron-icon>
+					<paper-tooltip for="delete-button" offset="0" animation-delay="300">Delete Concept</paper-tooltip>
+				</div>
+			</div>
     </div>
     <iron-collapse id="collapsible-section">
       <div id="callapsible-content">
