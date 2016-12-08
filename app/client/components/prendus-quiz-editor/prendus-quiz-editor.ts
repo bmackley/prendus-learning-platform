@@ -213,7 +213,8 @@ class PrendusQuizEditor {
           this.errorMessage = '';
           // TODO can i get some feedback on this error?
           this.errorMessage = `Quiz due date can not be after the last day of the course. Which is currently ${courseDueDateAsString}. Quiz due date set back to original`;
-          await this.applySettings('dueDate', this.quizQuestionSettings.dueDate, null, true);
+          // await this.applySettings('dueDate', this.quizQuestionSettings.dueDate, null, true);
+          await this.applySettings('dueDate', course.dueDate, null, true);
           return;
         }
         // paper-date-picker does not have an event listener for date change. So every
