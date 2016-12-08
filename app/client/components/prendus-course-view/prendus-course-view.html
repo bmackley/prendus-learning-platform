@@ -1,6 +1,6 @@
 <link rel="import" href="../../bower_components/polymer/polymer.html">
 <link rel="import" href="../../bower_components/paper-dialog/paper-dialog.html">
-<link rel="import" href="../../bower_components/paper-fab/paper-fab.html">
+<link rel="import" href="../../bower_components/paper-button/paper-button.html">
 <link rel="import" href="../../bower_components/paper-dialog-behavior/paper-dialog-behavior.html">
 <link rel="import" href="../../bower_components/paper-dialog-behavior/paper-dialog-shared-styles.html">
 <link rel="import" href="../../bower_components/paper-date-picker/paper-date-picker.html">
@@ -17,6 +17,8 @@
 <link rel="import" href="../prendus-concept-new-concept/prendus-concept-new-concept.html">
 
 <dom-module id="prendus-course-view">
+
+	<style include="color-styles"></style>
   <style>
 
     * {
@@ -85,6 +87,10 @@
       flex-grow: 1;
     }
 
+		.sortable-ghost {
+			background-color: #ccc;
+		}
+
     #course-title {
       --paper-input-container-input: {
         font-size: 48px;
@@ -96,6 +102,11 @@
         font-size: 24px;
       };
     }
+
+		.add-concept-button {
+			background-color: var(--prendus-primary-color);
+			color: white;
+		}
 
   </style>
   <template>
@@ -160,14 +171,14 @@
             <template is="dom-if" if="[[!courseConceptsLength]]">
               <p>Click the plus button to begin adding concepts to the Course.</p>
             </template>
-            <sortable-js id="concept-list" on-sort="sortableEnded">
+            <sortable-js id="concept-list" animation="200" on-sort="sortableEnded">
               <template is="dom-repeat" items="[[courseConcepts]]">
                 <div class="concept-container">
                   <prendus-concept-container-edit class="concept-edit-container" concept-id="[[item.id]]"></prendus-concept-container-edit>
                 </div>
               </template>
             </sortable-js>
-            <paper-fab icon="add" title="Add Concept" tooltip="Add Concept" on-tap="addConcept"></paper-fab>
+            <paper-button class="add-concept-button" on-tap="addConcept">Add Concept</paper-button>
           </template>
         </template>
 

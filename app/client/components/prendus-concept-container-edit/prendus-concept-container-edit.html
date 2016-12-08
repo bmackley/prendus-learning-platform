@@ -3,6 +3,7 @@
 <link rel="import" href="../../bower_components/iron-icons/editor-icons.html">
 <link rel="import" href="../../bower_components/iron-icons/iron-icons.html">
 <link rel="import" href="../../bower_components/iron-icons/social-icons.html">
+<link rel="import" href="../../bower_components/paper-icon-button/paper-icon-button.html">
 <link rel="import" href="../../bower_components/paper-tooltip/paper-tooltip.html">
 <link rel="import" href="../prendus-concept-video-container-edit/prendus-concept-video-container-edit.html">
 <link rel="import" href="../prendus-concept-quiz-container/prendus-concept-quiz-container.html">
@@ -28,10 +29,6 @@
       cursor: pointer;
     }
 
-    .title-buttons:hover .drag-icon {
-      visibility: visible;
-    }
-
     .title-buttons > * + * {
       margin-left: 10px;
     }
@@ -42,19 +39,18 @@
 			flex-grow: 1;
 		}
 
-		iron-icon {
+		iron-icon,
+		paper-icon-button {
 			color: rgba(0, 0, 0, .5);
 		}
 
-		iron-icon:hover {
+		iron-icon:hover,
+		paper-icon-button:hover {
 			color: rgba(0, 0, 0, .8);
 		}
 
-		.drag-icon {
-			visibility: hidden;
-		}
-
     .concept-title {
+			padding: 0 8px;
 			flex-grow: 1;
       margin: 0;
     }
@@ -64,10 +60,12 @@
     }
 
 		@media (max-width: 500px) {
+
 			.title-action-buttons {
 				flex-direction: column;
 				align-items: flex-start;
 			}
+
 		}
 
   </style>
@@ -75,17 +73,18 @@
     <redux-store on-statechange="mapStateToThis" action="[[action]]"></redux-store>
     <prendus-notification success-message="[[successMessage]]"></prendus-notification>
     <prendus-notification error-message="[[errorMessage]]"></prendus-notification>
+		<prendus-collaborator-modal id="collaborators-modal" course-id="[[courseId]]" concept-id="[[item.id]]" concept></prendus-collaborator-modal>
 
     <div class="title-buttons" on-tap="toggle">
       <iron-icon class="drag-icon" icon="editor:drag-handle"></iron-icon>
 			<div class="title-action-buttons">
 				<h3 class="concept-title">[[title]]</h3>
 				<div class="action-buttons">
-					<iron-icon id="edit-button" icon="create" on-tap="editItem"></iron-icon>
-					<iron-icon id="collaborator-button" icon="social:group-add" on-tap="openCollaboratorsModal"></iron-icon>
+					<paper-icon-button id="edit-button" icon="create" on-tap="editItem"></paper-icon-button>
+					<paper-tooltip for="edit-button" offset="0" animation-delay="300">Edit Concept</paper-tooltip>
+					<paper-icon-button id="collaborator-button" icon="social:group-add" on-tap="openCollaboratorsModal"></paper-icon-button>
 					<paper-tooltip for="collaborator-button" offset="0" animation-delay="300">Edit Collaborators</paper-tooltip>
-					<prendus-collaborator-modal id="collaborators-modal" course-id="[[courseId]]" concept-id="[[item.id]]" concept></prendus-collaborator-modal>
-					<iron-icon id="delete-button" icon="delete" on-tap="deleteItem"></iron-icon>
+					<paper-icon-button id="delete-button" icon="delete" on-tap="deleteItem"></paper-icon-button>
 					<paper-tooltip for="delete-button" offset="0" animation-delay="300">Delete Concept</paper-tooltip>
 				</div>
 			</div>
