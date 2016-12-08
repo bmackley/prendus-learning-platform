@@ -115,7 +115,7 @@ export function rootReducer(state: State = InitialState, action: Action): State 
         }
         case 'LOAD_QUIZ_SETTINGS': {
             const newState = Object.assign({}, state);
-            newState.quizSettings = action.quizSettings;
+            newState.quizQuestionSettings = action.quizQuestionSettings;
             return newState;
         }
         case 'LOAD_QUIZ_QUESTION_IDS': {
