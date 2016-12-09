@@ -15,7 +15,7 @@
       </style>
 
       <redux-store action="[[action]]" on-statechange="mapStateToThis"></redux-store>
-      <app-route route="[[route]]" pattern="/edit-quiz/course/:courseId/concept/:conceptId/quiz/:quizId" data="{{data}}" tail="{{tail}}"></app-route>
+      <app-route route="[[route]]" pattern="/edit-quiz/course-id/:courseId/concept-id/:conceptId/quiz-id/:quizId" data="{{data}}" tail="{{tail}}"></app-route>
       <prendus-quiz-editor id="quizEditorComponent" course-id="[[data.courseId]]" concept-id="[[data.conceptId]]" quiz-id="[[data.quizId]]" on-editquestion="routeToEditQuestion" on-createquestion="routeToCreateQuestion"></prendus-quiz-editor>
     </template>
 

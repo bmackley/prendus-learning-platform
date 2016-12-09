@@ -1,7 +1,7 @@
-import {InitialState} from './initial-state.ts';
-import {Actions} from './actions.ts';
-import {State} from '../interfaces/state.interface.ts';
-import {Action} from '../interfaces/action.interface.ts';
+import {InitialState} from './initial-state';
+import {Actions} from './actions';
+import {State} from '../interfaces/state.interface';
+import {Action} from '../interfaces/action.interface';
 
 export function rootReducer(state: State = InitialState, action: Action): State {
     switch(action.type) {
