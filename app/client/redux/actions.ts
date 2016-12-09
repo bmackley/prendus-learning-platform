@@ -6,6 +6,7 @@ import {UserModel} from '../node_modules/prendus-services/models/user.model.ts';
 import {VideoModel} from '../node_modules/prendus-services/models/video.model.ts';
 import {TagModel} from '../node_modules/prendus-services/models/tag.model.ts';
 import {QuizModel} from '../node_modules/prendus-services/models/quiz.model.ts';
+import {Quiz} from '../node_modules/prendus-services/interfaces/quiz.interface.ts';
 import {QuestionModel} from '../node_modules/prendus-services/models/question.model.ts';
 import {Course} from '../node_modules/prendus-services/interfaces/course.interface.ts';
 import {Tag} from '../node_modules/prendus-services/interfaces/tag.interface.ts';
@@ -381,10 +382,6 @@ const getQuiz = async (quizId: string) => {
     return quiz;
 };
 
-const updateQuizTitle = async (quizId: string, title: string) => {
-    await QuizModel.updateTitle(quizId, title);
-};
-
 const createNewQuiz = async (context: any, conceptId: string) => {
     const user = await FirebaseService.getLoggedInUser();
     const uid: string = user.uid;
@@ -393,13 +390,13 @@ const createNewQuiz = async (context: any, conceptId: string) => {
         id: null,
         uid,
         title: `Untitled Quiz`,
-        private: false,
-        quizSettings: {
+        quizQuestionSettings: {
             answerFeedback: true,
             showAnswer: true,
             showHint: true,
             showCode: true,
             graded: false,
+            visibility: 'public',
             showConfidenceLevel: false,
             allowGeneration: true
         },
@@ -461,21 +458,35 @@ const setCurrentEditQuizId = (context: any, quizId: string) => {
     };
 };
 
-const loadQuizSettings = async (context: any, quizId: string) => {
-    const quizSettings: QuestionSettings = await QuizModel.getQuizSettings(quizId);
+const loadQuizQuestionSettings = async (context: any, quizId: string) => {
+    const quizQuestionSettings: QuestionSettings = await QuizModel.getQuizQuestionSettings(quizId);
 
     context.action = {
         type: 'LOAD_QUIZ_SETTINGS',
-        quizSettings
+        quizQuestionSettings
     };
 };
 
-const setQuizSetting = async (context: any, quizId: string, settingName: string, value: number | boolean) => {
-    await QuizModel.setQuizSetting(quizId, settingName, value);
+const setQuizQuestionSetting = async (context: any, quizId: string, settingName: string, value: number | boolean | string) => {
+  try {
+    await QuizModel.setQuizQuestionSetting(quizId, settingName, value);
+    const quizQuestionSettings: QuestionSettings = await QuizModel.getQuizQuestionSettings(quizId);
+    context.action = {
+      type: 'LOAD_QUIZ_SETTINGS',
+      quizQuestionSettings
+    };
+  } catch(error) {
+    throw error;
+  }
+
 };
 
 const setQuestionSetting = async (context: any, quizId: string, questionId: string, settingName: string, value: number | boolean) => {
+  try {
     await QuizModel.setQuestionSetting(quizId, questionId, settingName, value);
+  } catch(error) {
+    throw error;
+  }
 };
 
 const loadQuizQuestionIds = async (context: any, quizId: string) => {
@@ -1029,6 +1040,30 @@ const logOutUser = async (context: any) => {
     window.location.href = ''; //need to reset the state instead of reloading everything.
 };
 
+// Looks through all quizzes in a course and changes their due dates if they are after
+// the course due date.
+const updateQuizDueDates = async (courseId: string): Promise<void> => {
+  try {
+    const course: Course = await CourseModel.getById(courseId);
+    const conceptIds: string[] = Object.keys(course.concepts || {});
+    const resolvedConcepts: Concept[] = await ConceptModel.resolveConceptIds(conceptIds);
+    await UtilitiesService.asyncForEach(resolvedConcepts, async (concept: Concept) => {
+      const quizIds: string[] = Object.keys(concept.quizzes || {});
+      const resolvedQuizzes: Quiz[] = await QuizModel.resolveQuizIds(quizIds);
+      await UtilitiesService.asyncForEach(resolvedQuizzes, async (quiz: Quiz) => {
+        if(quiz.quizQuestionSettings === undefined ||
+           quiz.quizQuestionSettings.dueDate === undefined ||
+           quiz.quizQuestionSettings.dueDate > course.dueDate) {
+          await QuizModel.setQuizQuestionSetting(quiz.id, 'dueDate', course.dueDate);
+        }
+      });
+    });
+
+  } catch(error) {
+    throw error;
+  }
+}
+
 export const Actions = {
     defaultAction,
     loginUser,
@@ -1056,15 +1091,14 @@ export const Actions = {
     addQuestionToQuiz,
     loadQuizQuestionIds,
     removeQuestionFromQuiz,
-    setQuizSetting,
+    setQuizQuestionSetting,
     setQuestionSetting,
-    loadQuizSettings,
+    loadQuizQuestionSettings,
     setCurrentEditQuizId,
     loadEditConceptQuizzes,
     loadViewConceptQuizzes,
     createNewQuiz,
     deleteQuiz,
-    updateQuizTitle,
     getQuiz,
     getCourseViewCourseById,
     getCourseEditCourseById,
@@ -1095,5 +1129,6 @@ export const Actions = {
     loadEditCourseConcepts,
     loadViewCourseConcepts,
     showMainSpinner,
-    hideMainSpinner
-};
+    hideMainSpinner,
+    updateQuizDueDates
+  };

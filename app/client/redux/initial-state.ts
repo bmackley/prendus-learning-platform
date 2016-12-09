@@ -36,7 +36,7 @@ export const InitialState: State = {
     userQuestionIds: [],
     publicQuestionIds: [],
     quizQuestionIds: [],
-    quizSettings: {},
+    quizQuestionSettings: {},
     currentEditQuizId: '',
     editConceptQuizzes: {},
     viewConceptQuizzes: {},
