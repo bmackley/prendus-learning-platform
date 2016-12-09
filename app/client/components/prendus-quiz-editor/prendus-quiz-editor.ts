@@ -211,10 +211,11 @@ class PrendusQuizEditor {
         if(UTCDueDate > course.dueDate) {
           const courseDueDateAsString: string = UtilitiesService.UTCDateToLocalMMddyyyy(course.dueDate);
           this.errorMessage = '';
-          // TODO can i get some feedback on this error?
           this.errorMessage = `Quiz due date can not be after the last day of the course. Which is currently ${courseDueDateAsString}. Quiz due date set back to original`;
-          // await this.applySettings('dueDate', this.quizQuestionSettings.dueDate, null, true);
-          await this.applySettings('dueDate', course.dueDate, null, true);
+          // if the quiz didn't have a due date then set the quiz due date to the current date.
+          // this assumes the last day of the course is after the current date.
+          const date: Date = this.quizQuestionSettings.dueDate === undefined ? UtilitiesService.dateToUTCNumber(new Date()) : this.quizQuestionSettings.dueDate;
+          await this.applySettings('dueDate', this.quizQuestionSettings.dueDate, null, true);
           return;
         }
         // paper-date-picker does not have an event listener for date change. So every
