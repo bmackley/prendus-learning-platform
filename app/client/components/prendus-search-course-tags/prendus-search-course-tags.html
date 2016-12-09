@@ -20,12 +20,13 @@
     <prendus-notification error-message="[[errorMessage]]"></prendus-notification>
     <redux-store on-statechange="mapStateToThis" action="[[action]]"></redux-store>
       <div>
-        <prendus-paper-tags-input placeholder="Type tags you wish to lookup. Press enter to add multiple" id="tags" tags="[[courseTagNames]]" on-remove="onRemove" on-add="onAdd" label="Search for courses by tags" duplicate-error-message="Tag cannot be a duplicate"></prendus-paper-tags-input>
-        <paper-button on-tap="clearTags">Clear</paper-button>
+        <h3>Search</h3>
+        <paper-input placeholder="Search for courses by tag name." id="tag" on-keydown="checkForEnter"> </paper-input>
+        <paper-button on-tap="clearTag">Clear</paper-button>
         <paper-button on-tap="searchTagsInDB">Search</paper-button>
       </div>
     <template is="dom-if" if="[[resultingCourses.length]]">
-      <h1>Courses that match your tag search</h1>
+      <h1>Results</h1>
       <div class="courses-container">
         <template id="resulting-courses" is="dom-repeat" items="[[resultingCourses]]">
           <prendus-course-preview class="course-preview" course="[[item]]"></prendus-course-preview>
