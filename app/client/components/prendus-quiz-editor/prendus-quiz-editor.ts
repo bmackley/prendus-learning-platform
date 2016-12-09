@@ -1,10 +1,12 @@
-import {Question} from '../../node_modules/prendus-services/interfaces/question.interface.ts';
-import {QuestionVisibility} from '../../node_modules/prendus-services/interfaces/question-visibility.type.ts';
-import {Actions} from '../../redux/actions.ts';
-import {UtilitiesService} from '../../node_modules/prendus-services/services/utilities.service.ts';
-import {FirebaseService} from '../../node_modules/prendus-services/services/firebase.service.ts';
-import {QuestionSettings} from '../../node_modules/prendus-services/interfaces/question-settings.interface.ts';
-import {StatechangeEvent} from '../../interfaces/statechange-event.interface.ts';
+import {Question} from '../../node_modules/prendus-services/interfaces/question.interface';
+import {QuestionVisibility} from '../../node_modules/prendus-services/interfaces/question-visibility.type';
+import {Actions} from '../../redux/actions';
+import {UtilitiesService} from '../../node_modules/prendus-services/services/utilities.service';
+import {FirebaseService} from '../../node_modules/prendus-services/services/firebase.service';
+import {QuestionSettings} from '../../node_modules/prendus-services/interfaces/question-settings.interface';
+import {StatechangeEvent} from '../../interfaces/statechange-event.interface';
+import {QuizSession} from '../../node_modules/prendus-services/interfaces/quiz-session';
+
 class PrendusQuizEditor {
     public is: string;
     public userQuestionIds: string[];
@@ -22,6 +24,7 @@ class PrendusQuizEditor {
     public selected: number;
     public collaboratorEmails: string[];
     public uid: string;
+    public quizSession: QuizSession;
 
     beforeRegister() {
         this.is = 'prendus-quiz-editor';
@@ -43,6 +46,20 @@ class PrendusQuizEditor {
         this.jwt = await user.getToken();
         this.title = '';
         this.selected = 0;
+
+        //TODO this is horrible and should be removed once the view problem component can be initialized without a quiz session being handed to it
+        const startQuizSessionAjax = this.querySelector(`#startQuizSessionAjax`);
+        startQuizSessionAjax.body = {
+            quizId: 'NO_QUIZ',
+            jwt: this.jwt
+        };
+
+        const request = startQuizSessionAjax.generateRequest();
+        await request.completes;
+
+        const quizSession: QuizSession = request.response.quizSession;
+        this.quizSession = quizSession;
+        //TODO this is horrible and should be removed once the view problem component can be initialized without a quiz session being handed to it
     }
 
     async conceptIdSet() {
