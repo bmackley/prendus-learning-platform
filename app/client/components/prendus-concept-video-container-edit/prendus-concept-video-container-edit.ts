@@ -31,7 +31,11 @@ class PrendusConceptVideoContainerEdit {
         }
     }
 
-    addVideoClick(e: Event) {
+		hasVideos(videos: Video[]) {
+			return !!videos.length;
+		}
+
+    addVideo(e: Event) {
         Actions.clearCurrentVideoInfo(this);
         this.$.editVideoDialog.open();
     }

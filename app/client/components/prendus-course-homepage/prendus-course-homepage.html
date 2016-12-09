@@ -7,27 +7,32 @@
 <link rel="import" href="../prendus-search-course-tags/prendus-search-course-tags.html">
 <dom-module id="prendus-course-homepage">
   <style>
+
     .courses-container {
       display: flex;
       flex-wrap: wrap;
       max-width: 800px;
     }
+
     .course-preview {
       margin: 10px;
       flex-basis: 30%;
       flex-grow: 0;
       min-width: 0;
     }
+
     #add-fab-button {
       position: fixed;
       right: 5%;
       bottom: 6%;
       z-index: 10;
     }
+
     #add-course-dialog{
       width: 33%;
       min-width: 300px;
     }
+
     paper-button.indigo {
       background-color: var(--paper-indigo-500);
       color: white;
@@ -43,8 +48,20 @@
       }
     }
 
+		@media (max-width: 500px) {
+			.courses-container {
+				display: block;
+			}
+
+			.course-preview {
+				margin: 10px auto;
+			}
+		}
+
   </style>
+
   <template>
+
     <prendus-notification error-message="[[errorMessage]]"></prendus-notification>
     <prendus-search-course-tags></prendus-search-course-tags>
     <redux-store on-statechange="mapStateToThis" action="[[action]]"></redux-store>
