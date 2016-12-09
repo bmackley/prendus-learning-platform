@@ -89,7 +89,7 @@ class PrendusConceptQuizContainer {
 
     async addQuiz(e: Event) {
         const quizId: string = await Actions.createNewQuiz(this, this.conceptId);
-        window.history.pushState({}, '', `courses/edit-quiz/concept/${this.conceptId}/quiz/${quizId}`);
+        window.history.pushState({}, '', `courses/edit-quiz/course/${this.courseId}/concept/${this.conceptId}/quiz/${quizId}`);
         this.fire('location-changed', {}, {node: window});
         await Actions.loadViewConceptQuizzes(this, this.conceptId);
     }
