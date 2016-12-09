@@ -23,8 +23,15 @@
       position: relative;
     }
 
+		#home-container {
+			display: block;
+			width: 100%;
+		}
+
     .app-window {
-      margin: 20px 50px;
+			box-sizing: border-box;
+			margin: auto;
+      padding: 20px 50px;
       max-width: 800px;
       width: 100%;
     }
@@ -37,6 +44,12 @@
       height: 60px;
     }
 
+		@media (max-width: 768px) {
+			.app-window {
+				padding: 10px 20px;
+			}
+		}
+
   </style>
   <template>
     <redux-store on-statechange="mapStateToThis" action="[[action]]"></redux-store>
@@ -47,7 +60,7 @@
       <div class="loading-spinner" show="spinner"></div>
 
       <iron-pages id="app-container" selected="[[pageData.page]]" category="[[pageData.page]]" attr-for-selected ="data-page" show="routes">
-        <iron-pages data-page="" selected="[[loggedIn]]" attr-for-selected="logged-in">
+        <iron-pages id="home-container" data-page="" selected="[[loggedIn]]" attr-for-selected="logged-in">
           <prendus-landing logged-in="false"></prendus-landing>
           <prendus-homepage logged-in="true" class="app-window"></prendus-homepage>
         </iron-pages>
