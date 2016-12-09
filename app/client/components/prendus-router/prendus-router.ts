@@ -1,4 +1,4 @@
-import {StatechangeEvent} from '../../interfaces/statechange-event.interface.ts';
+import {StatechangeEvent} from '../../interfaces/statechange-event.interface';
 
 class PrendusRouter {
   public is: string;

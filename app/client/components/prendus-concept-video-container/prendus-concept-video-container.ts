@@ -1,7 +1,6 @@
-import {Video} from '../../node_modules/prendus-services/interfaces/video.interface.ts';
-import {Actions} from '../../redux/actions.ts';
-import {StatechangeEvent} from '../../interfaces/statechange-event.interface.ts';
-import {VideoEditorComponent} from '../prendus-video-editor/prendus-video-editor.ts';
+import {Video} from '../../node_modules/prendus-services/interfaces/video.interface';
+import {Actions} from '../../redux/actions';
+import {StatechangeEvent} from '../../interfaces/statechange-event.interface';
 
 class PrendusConceptVideoContainer {
     public is: string;
@@ -12,10 +11,6 @@ class PrendusConceptVideoContainer {
     public currentVideoId: string;
     public currentVideoTitle: string;
     public currentVideoUrl: string;
-    public $: {
-        editVideoDialog: any,
-        videoEditor: VideoEditorComponent
-    };
 
     beforeRegister() {
         this.is = 'prendus-concept-video-container';
@@ -53,7 +48,7 @@ class PrendusConceptVideoContainer {
         Actions.setCurrentVideoInfo(this, id, title, url);
         //go to the url
         // courses/view-video/course/:courseId/video/:videoId
-        window.history.pushState({}, '', `courses/view-video/course/${this.courseId}/video/${id}`);
+        window.history.pushState({}, '', `courses/view-video/course-id/${this.courseId}/video-id/${id}`);
         this.fire('location-changed', {}, {node: window});
     }
 
