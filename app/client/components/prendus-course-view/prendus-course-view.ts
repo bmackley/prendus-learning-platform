@@ -4,7 +4,9 @@ import {Concept} from '../../node_modules/prendus-services/interfaces/concept.in
 import {CourseConceptData} from '../../node_modules/prendus-services/interfaces/course-concept-data.interface.ts';
 import {StatechangeEvent} from '../../interfaces/statechange-event.interface.ts';
 import {Tag} from '../../node_modules/prendus-services/interfaces/tag.interface.ts';
-
+import {Quiz} from '../../node_modules/prendus-services/interfaces/quiz.interface.ts';
+import {CourseModel} from '../../node_modules/prendus-services/models/course.model.ts';
+import {UtilitiesService} from '../../node_modules/prendus-services/services/utilities.service.ts';
 export class PrendusCourseView {
   public is: string;
   public courseConcepts: CourseConceptData[];
@@ -18,8 +20,10 @@ export class PrendusCourseView {
   public uid: string;
   public successMessage: string;
   public errorMessage: string;
-  public listeners: any;
   public querySelector: any;
+  public editingTitle: boolean;
+  public editingDescription: boolean;
+  public listeners: any;
   beforeRegister() {
     this.is = 'prendus-course-view';
     this.properties = {
@@ -94,20 +98,23 @@ export class PrendusCourseView {
   }
 
   displayDate(date: string): Date {
-    // Set due date as current date if course has no due date set yet
+    // Set due date at the current date if the course has no due date yet.
     const returnDate: Date =  date ? new Date(date) : new Date();
     return returnDate;
   }
 
   async dueDateChanged() {
     try {
-      const newDate: Date = this.querySelector('#due-date').date;
-      const newDateAsString: string = newDate.toString();
-      const currentDate: string = this.currentCourse.dueDate === undefined ?
-                         undefined : this.currentCourse.dueDate.toString();
-      if(currentDate !== newDateAsString) {
+      const newDate: Date = this.querySelector('#dueDate').date;
+      const UTCDate: number = UtilitiesService.dateToUTCNumber(newDate);
+      const currentDate: number = this.currentCourse.dueDate;
+      // paper-date-picker does not have an event listener for date change. So every
+      // time a user clicks anywhere on the calendar, this function is called. To avoid
+      // a firebase action, we compare the currentDate in firebase to the new UTCDate.
+      if(currentDate !== UTCDate) {
         // Date has changed
-        await Actions.updateCourseField(this, this.courseId, 'dueDate', newDateAsString);
+        await Actions.updateCourseField(this, this.courseId, 'dueDate', UTCDate);
+        await Actions.updateQuizDueDates(this.courseId);
         this.successMessage = '';
         this.successMessage = 'Last day of course has been updated';
       }
@@ -116,7 +123,10 @@ export class PrendusCourseView {
       this.errorMessage = '';
       this.errorMessage = error.message;
     }
+
   }
+
+
   showTagsTitle(tagsLength: number, hasEditAccess: boolean) {
     return tagsLength > 0 || hasEditAccess;
   }
