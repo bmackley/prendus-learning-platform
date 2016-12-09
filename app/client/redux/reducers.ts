@@ -115,7 +115,7 @@ export function rootReducer(state: State = InitialState, action: Action): State 
         }
         case 'LOAD_QUIZ_SETTINGS': {
             const newState = Object.assign({}, state);
-            newState.quizSettings = action.quizSettings;
+            newState.quizQuestionSettings = action.quizQuestionSettings;
             return newState;
         }
         case 'LOAD_QUIZ_QUESTION_IDS': {
@@ -192,6 +192,11 @@ export function rootReducer(state: State = InitialState, action: Action): State 
           const newState = Object.assign({}, state);
           newState.currentConceptVideoId = action.id;
           return newState;
+      }
+      case 'GET_COURSE_BY_ID' : {
+        const newState = Object.assign({}, state);
+        newState.courseViewCurrentCourse = action.currentCourse;
+        return newState;
       }
       case 'GET_COURSES_BY_USER': {
         const newState = Object.assign({}, state);
