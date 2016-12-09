@@ -37,7 +37,6 @@ class PrendusSearchCourseTags {
   }
 
   checkForEnter(e: KeyboardEvent) {
-    //TODO this should probably be defined in a constants file. I believe others have used this keycode elsewhere
     const enterKeyCode: number = 13;
     if (e.keyCode === enterKeyCode) {
       // enter pressed
