@@ -38,7 +38,7 @@
     <redux-store on-statechange="mapStateToThis" action="[[action]]"></redux-store>
       <div class="search">
         <!-- TODO: add functionality to match more than just one word -->
-        <paper-input placeholder="Search for courses by tag name" id="tag" on-keydown="checkForEnter"> </paper-input>
+        <paper-input placeholder="Search for courses" id="tag" on-keydown="checkForEnter"> </paper-input>
         <paper-button raised on-tap="searchTagsInDB" id="search-button">Search</paper-button>
       </div>
     <template is="dom-if" if="[[resultingCourses.length]]">
