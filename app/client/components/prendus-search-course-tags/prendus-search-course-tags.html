@@ -3,30 +3,46 @@
 <link rel="import" href="../prendus-course-preview/prendus-course-preview.html">
 <link rel="import" href="../prendus-notification/prendus-notification.html">
 <dom-module id="prendus-search-course-tags">
+  <<style include="color-styles">
+  </style>
   <style>
     .courses-container {
       display: flex;
       flex-wrap: wrap;
       max-width: 800px;
     }
+
     .course-preview {
       margin: 10px;
       flex-basis: 30%;
       flex-grow: 0;
       min-width: 0;
     }
+
+    .search {
+      display: flex;
+      align-items: center;
+    }
+
+    #tag {
+      flex-grow: 1;
+    }
+
+    #search-button {
+      background-color: var(--prendus-primary-color);
+      color: white;
+    }
   </style>
   <template>
     <prendus-notification error-message="[[errorMessage]]"></prendus-notification>
     <redux-store on-statechange="mapStateToThis" action="[[action]]"></redux-store>
-      <div>
-        <h3>Search</h3>
-        <paper-input placeholder="Search for courses by tag name." id="tag" on-keydown="checkForEnter"> </paper-input>
-        <paper-button on-tap="clearTag">Clear</paper-button>
-        <paper-button on-tap="searchTagsInDB">Search</paper-button>
+      <div class="search">
+        <!-- TODO: add functionality to match more than just one word -->
+        <paper-input placeholder="Search for courses by tag name" id="tag" on-keydown="checkForEnter"> </paper-input>
+        <paper-button raised on-tap="searchTagsInDB" id="search-button">Search</paper-button>
       </div>
     <template is="dom-if" if="[[resultingCourses.length]]">
-      <h1>Results</h1>
+      <h1>Search Results</h1>
       <div class="courses-container">
         <template id="resulting-courses" is="dom-repeat" items="[[resultingCourses]]">
           <prendus-course-preview class="course-preview" course="[[item]]"></prendus-course-preview>
