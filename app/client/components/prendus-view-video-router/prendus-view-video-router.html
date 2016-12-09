@@ -8,7 +8,7 @@
 <dom-module id="prendus-view-video-router">
     <template>
         <redux-store on-statechange="mapStateToThis"></redux-store>
-        <app-route route="[[route]]" pattern="/view-video/course/:courseId/video/:videoId" data="{{data}}"></app-route>
+        <app-route route="[[route]]" pattern="/view-video/course-id/:courseId/video-id/:videoId" data="{{data}}"></app-route>
         <template is="dom-if" if="[[!userEmail]]">
         </template>
         <prendus-video-viewer course="[[data.courseId]]" content="[[data.videoId]]" user-full-name="[[userFullName]]" user-email="[[userEmail]]"></prendus-video-viewer>

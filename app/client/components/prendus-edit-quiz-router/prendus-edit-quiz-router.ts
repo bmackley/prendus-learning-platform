@@ -1,5 +1,5 @@
-import {FirebaseService} from '../../node_modules/prendus-services/services/firebase.service.ts';
-import {Actions} from '../../redux/actions.ts';
+import {FirebaseService} from '../../node_modules/prendus-services/services/firebase.service';
+import {Actions} from '../../redux/actions';
 
 class PrendusEditQuizRouter {
     public is: string;
@@ -30,7 +30,7 @@ class PrendusEditQuizRouter {
         editProblemComponent.init();
         //TODO this is evil, make sure to remove it once edit problem component can reload itself in response to property changes
 
-        window.history.pushState({}, '', `courses/edit-question/course/${this.courseId}/video/${id}`);
+        window.history.pushState({}, '', `courses/edit-question/course-id/${this.courseId}/video-id/${id}`);
         this.fire('location-changed', {}, {node: window});
     }
 

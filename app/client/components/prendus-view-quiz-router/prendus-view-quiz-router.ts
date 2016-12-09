@@ -1,5 +1,5 @@
-import {FirebaseService} from '../../node_modules/prendus-services/services/firebase.service.ts';
-import {UserModel} from '../../node_modules/prendus-services/models/user.model.ts';
+import {FirebaseService} from '../../node_modules/prendus-services/services/firebase.service';
+import {UserModel} from '../../node_modules/prendus-services/models/user.model';
 
 class PrendusViewQuizRouter {
     public is: string;

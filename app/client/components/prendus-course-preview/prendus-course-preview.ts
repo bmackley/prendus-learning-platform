@@ -1,7 +1,7 @@
-import {Course} from '../../node_modules/prendus-services/interfaces/course.interface.ts';
-import {StatechangeEvent} from '../../interfaces/statechange-event.interface.ts';
-import {User} from '../../node_modules/prendus-services/interfaces/user.interface.ts';
-import {Actions} from '../../redux/actions.ts';
+import {Course} from '../../node_modules/prendus-services/interfaces/course.interface';
+import {StatechangeEvent} from '../../interfaces/statechange-event.interface';
+import {User} from '../../node_modules/prendus-services/interfaces/user.interface';
+import {Actions} from '../../redux/actions';
 
 class PrendusCoursePreview {
     public is: string;
