@@ -898,16 +898,16 @@ const lookupConceptTags = async (context: any, tags: string[]) => {
 const lookupCourseTags = async (context: any, tag: string) => {
     try {
         const tagObject: Tag = await TagModel.getByName(tag);
+        // TODO: this will change with infinite scrolling.
         const maxAmountOfCoursesToDisplay: number = 9;
-        const coursesArray : Course[] = tagObject !== null ? await TagModel.getCoursesInTags([tagObject], maxAmountOfCoursesToDisplay)
-                                          : null;
+        const coursesArray : Course[] = tagObject ? await TagModel.getCoursesInTags([tagObject], maxAmountOfCoursesToDisplay) : null;
         context.action = {
-            type: 'LOOKUP_COURSE_TAGS',
+            type: 'SET_COURSE_TAGS',
             coursesArray
         };
         // It's better to allow the redux action to take place so that the courses listed
         // in the search courses page will be empty.
-        if(coursesArray === null) {
+        if(!coursesArray) {
             throw new Error("No courses match this tag");
         }
     } catch(error) {
