@@ -17,7 +17,7 @@ chokidar.watch([
     "app/client/components/*/*",
     "app/client/redux/*",
     "app/client/styles/*",
-    "app/client/interfaces/*"
+    "app/client/typings/*"
 ]).on('change', (path) => {
 
     const fileEnding = path.substr(path.lastIndexOf('.') + 1);
@@ -36,7 +36,7 @@ chokidar.watch([
 function createBuilder() {
     const builder = new Builder();
     builder.config({
-        transpiler: 'plugin-babel',
+        transpiler: 'ts',
         typescriptOptions: {
             target: 'es5',
             module: 'system'
@@ -47,6 +47,9 @@ function createBuilder() {
             }
         },
         packages: {
+            '/': {
+                defaultExtension: 'ts'
+            },
             ts: {
                 main: 'plugin.js'
             },
@@ -61,9 +64,7 @@ function createBuilder() {
         },
         map: {
             ts: './node_modules/plugin-typescript/lib/',
-            typescript: './node_modules/typescript/lib/',
-            'plugin-babel': './node_modules/systemjs-plugin-babel/plugin-babel.js',
-            'systemjs-babel-build': './node_modules/systemjs-plugin-babel/systemjs-babel-browser.js'
+            typescript: './node_modules/typescript/lib/'
         }
     });
 
@@ -76,9 +77,9 @@ function bundle(builder, path) {
     //bundle all of the following files
     builder.buildStatic(`
         (app/client/components/*/*.ts) +
-        (app/client/bower_components/solutia-maxima-components/components/*/*.ts) +
-        (app/client/bower_components/view-quiz-component/*.ts) +
-        (app/client/bower_components/video-viewer-component/*.ts)
+        (app/client/bower_components/prendus-question-components/components/*/*.ts) +
+        (app/client/bower_components/prendus-quiz-viewer-component/*.ts) +
+        (app/client/bower_components/prendus-video-viewer-component/*.ts)
         `, 'app/client/dist/prendus.js', {
         minify: false
     }).then(function() {

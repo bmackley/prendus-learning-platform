@@ -1,23 +1,24 @@
-import {FirebaseService} from '../node_modules/prendus-services/services/firebase.service.ts';
-import {CourseModel} from '../node_modules/prendus-services/models/course.model.ts';
-import {ConceptModel} from '../node_modules/prendus-services/models/concept.model.ts';
-import {CourseConceptData} from '../node_modules/prendus-services/interfaces/course-concept-data.interface.ts';
-import {UserModel} from '../node_modules/prendus-services/models/user.model.ts';
-import {VideoModel} from '../node_modules/prendus-services/models/video.model.ts';
-import {TagModel} from '../node_modules/prendus-services/models/tag.model.ts';
-import {QuizModel} from '../node_modules/prendus-services/models/quiz.model.ts';
-import {QuestionModel} from '../node_modules/prendus-services/models/question.model.ts';
-import {Course} from '../node_modules/prendus-services/interfaces/course.interface.ts';
-import {Tag} from '../node_modules/prendus-services/interfaces/tag.interface.ts';
-import {Concept} from '../node_modules/prendus-services/interfaces/concept.interface.ts';
-import {QuestionSettings} from '../node_modules/prendus-services/interfaces/question-settings.interface.ts';
-import {CourseVisibility} from '../node_modules/prendus-services/interfaces/course-visibility.type.ts';
-import {UserMetaData} from '../node_modules/prendus-services/interfaces/user-meta-data.interface.ts';
-import {User} from '../node_modules/prendus-services/interfaces/user.interface.ts';
-import {EmailsToUidsModel} from '../node_modules/prendus-services/models/emails-to-uids.model.ts';
-import {Video} from '../node_modules/prendus-services/interfaces/video.interface.ts';
-import {ExecuteAsyncInOrder} from '../node_modules/prendus-services/services/execute-async-in-order.ts';
-import {UtilitiesService} from '../node_modules/prendus-services/services/utilities.service.ts';
+import {FirebaseService} from '../node_modules/prendus-services/services/firebase-service';
+import {CourseModel} from '../node_modules/prendus-services/models/course-model';
+import {ConceptModel} from '../node_modules/prendus-services/models/concept-model';
+import {CourseConceptData} from '../node_modules/prendus-services/typings/course-concept-data';
+import {UserModel} from '../node_modules/prendus-services/models/user-model';
+import {VideoModel} from '../node_modules/prendus-services/models/video-model';
+import {TagModel} from '../node_modules/prendus-services/models/tag-model';
+import {QuizModel} from '../node_modules/prendus-services/models/quiz-model';
+import {Quiz} from '../node_modules/prendus-services/typings/quiz';
+import {QuestionModel} from '../node_modules/prendus-services/models/question-model';
+import {Course} from '../node_modules/prendus-services/typings/course';
+import {Tag} from '../node_modules/prendus-services/typings/tag';
+import {Concept} from '../node_modules/prendus-services/typings/concept';
+import {QuestionSettings} from '../node_modules/prendus-services/typings/question-settings';
+import {CourseVisibility} from '../node_modules/prendus-services/typings/course-visibility';
+import {UserMetaData} from '../node_modules/prendus-services/typings/user-meta-data';
+import {User} from '../node_modules/prendus-services/typings/user';
+import {EmailsToUidsModel} from '../node_modules/prendus-services/models/emails-to-uids-model';
+import {Video} from '../node_modules/prendus-services/typings/video';
+import {ExecuteAsyncInOrderService} from '../node_modules/prendus-services/services/execute-async-in-order-service';
+import {UtilitiesService} from '../node_modules/prendus-services/services/utilities-service';
 const defaultAction = (context: any) => {
     context.action = {
         type: 'DEFAULT_ACTION'
@@ -37,7 +38,7 @@ const hideMainSpinner = (context: any) => {
 
 const loadCourseCollaboratorEmails = async (context: any, uid: string, courseId: string) => {
 
-    ExecuteAsyncInOrder.execute(operation);
+    ExecuteAsyncInOrderService.execute(operation);
 
     async function operation() {
         try {
@@ -69,7 +70,7 @@ const loadCourseCollaboratorEmails = async (context: any, uid: string, courseId:
 
 const loadConceptCollaboratorEmails = async (context: any, courseId: string, conceptId: string) => {
 
-    ExecuteAsyncInOrder.execute(operation);
+    ExecuteAsyncInOrderService.execute(operation);
 
     async function operation() {
         try {
@@ -108,7 +109,7 @@ const loadConceptCollaboratorEmails = async (context: any, courseId: string, con
 
 const loadVideoCollaboratorEmails = async (context: any, conceptId: string, videoId: string) => {
 
-    ExecuteAsyncInOrder.execute(operation);
+    ExecuteAsyncInOrderService.execute(operation);
 
     async function operation() {
         try {
@@ -137,7 +138,7 @@ const loadVideoCollaboratorEmails = async (context: any, conceptId: string, vide
 
 const loadQuizCollaboratorEmails = async (context: any, conceptId: string, quizId: string) => {
 
-    ExecuteAsyncInOrder.execute(operation);
+    ExecuteAsyncInOrderService.execute(operation);
 
     async function operation() {
         try {
@@ -166,7 +167,7 @@ const loadQuizCollaboratorEmails = async (context: any, conceptId: string, quizI
 
 const addCourseCollaborator = async (context: any, courseId: string, email: string) => {
 
-    ExecuteAsyncInOrder.execute(operation);
+    ExecuteAsyncInOrderService.execute(operation);
 
     async function operation() {
         try {
@@ -190,7 +191,7 @@ const addCourseCollaborator = async (context: any, courseId: string, email: stri
 
 const addConceptCollaborator = async (context: any, conceptId: string, email: string) => {
 
-    ExecuteAsyncInOrder.execute(operation);
+    ExecuteAsyncInOrderService.execute(operation);
 
     async function operation() {
         try {
@@ -214,7 +215,7 @@ const addConceptCollaborator = async (context: any, conceptId: string, email: st
 
 const addVideoCollaborator = async (context: any, videoId: string, email: string) => {
 
-    ExecuteAsyncInOrder.execute(operation);
+    ExecuteAsyncInOrderService.execute(operation);
 
     async function operation() {
         try {
@@ -238,7 +239,7 @@ const addVideoCollaborator = async (context: any, videoId: string, email: string
 
 const addQuizCollaborator = async (context: any, quizId: string, email: string) => {
 
-    ExecuteAsyncInOrder.execute(operation);
+    ExecuteAsyncInOrderService.execute(operation);
 
     async function operation() {
         try {
@@ -262,7 +263,7 @@ const addQuizCollaborator = async (context: any, quizId: string, email: string) 
 
 const removeCourseCollaborator = async (context: any, courseId: string, email: string) => {
 
-    ExecuteAsyncInOrder.execute(operation);
+    ExecuteAsyncInOrderService.execute(operation);
 
     async function operation() {
         try {
@@ -286,7 +287,7 @@ const removeCourseCollaborator = async (context: any, courseId: string, email: s
 
 const removeConceptCollaborator = async (context: any, conceptId: string, email: string) => {
 
-    ExecuteAsyncInOrder.execute(operation);
+    ExecuteAsyncInOrderService.execute(operation);
 
     async function operation() {
         try {
@@ -309,7 +310,7 @@ const removeConceptCollaborator = async (context: any, conceptId: string, email:
 
 const removeVideoCollaborator = async (context: any, videoId: string, email: string) => {
 
-    ExecuteAsyncInOrder.execute(operation);
+    ExecuteAsyncInOrderService.execute(operation);
 
     async function operation() {
         try {
@@ -332,7 +333,7 @@ const removeVideoCollaborator = async (context: any, videoId: string, email: str
 
 const removeQuizCollaborator = async (context: any, quizId: string, email: string) => {
 
-    ExecuteAsyncInOrder.execute(operation);
+    ExecuteAsyncInOrderService.execute(operation);
 
     async function operation() {
         try {
@@ -381,10 +382,6 @@ const getQuiz = async (quizId: string) => {
     return quiz;
 };
 
-const updateQuizTitle = async (quizId: string, title: string) => {
-    await QuizModel.updateTitle(quizId, title);
-};
-
 const createNewQuiz = async (context: any, conceptId: string) => {
     const user = await FirebaseService.getLoggedInUser();
     const uid: string = user.uid;
@@ -393,13 +390,13 @@ const createNewQuiz = async (context: any, conceptId: string) => {
         id: null,
         uid,
         title: `Untitled Quiz`,
-        private: false,
-        quizSettings: {
+        quizQuestionSettings: {
             answerFeedback: true,
             showAnswer: true,
             showHint: true,
             showCode: true,
             graded: false,
+            visibility: 'public',
             showConfidenceLevel: false,
             allowGeneration: true
         },
@@ -461,21 +458,35 @@ const setCurrentEditQuizId = (context: any, quizId: string) => {
     };
 };
 
-const loadQuizSettings = async (context: any, quizId: string) => {
-    const quizSettings: QuestionSettings = await QuizModel.getQuizSettings(quizId);
+const loadQuizQuestionSettings = async (context: any, quizId: string) => {
+    const quizQuestionSettings: QuestionSettings = await QuizModel.getQuizQuestionSettings(quizId);
 
     context.action = {
         type: 'LOAD_QUIZ_SETTINGS',
-        quizSettings
+        quizQuestionSettings
     };
 };
 
-const setQuizSetting = async (context: any, quizId: string, settingName: string, value: number | boolean) => {
-    await QuizModel.setQuizSetting(quizId, settingName, value);
+const setQuizQuestionSetting = async (context: any, quizId: string, settingName: string, value: number | boolean | string) => {
+  try {
+    await QuizModel.setQuizQuestionSetting(quizId, settingName, value);
+    const quizQuestionSettings: QuestionSettings = await QuizModel.getQuizQuestionSettings(quizId);
+    context.action = {
+      type: 'LOAD_QUIZ_SETTINGS',
+      quizQuestionSettings
+    };
+  } catch(error) {
+    throw error;
+  }
+
 };
 
 const setQuestionSetting = async (context: any, quizId: string, questionId: string, settingName: string, value: number | boolean) => {
+  try {
     await QuizModel.setQuestionSetting(quizId, questionId, settingName, value);
+  } catch(error) {
+    throw error;
+  }
 };
 
 const loadQuizQuestionIds = async (context: any, quizId: string) => {
@@ -884,18 +895,20 @@ const lookupConceptTags = async (context: any, tags: string[]) => {
         throw error;
     }
 };
-const lookupCourseTags = async (context: any, tags: string[]) => {
+const lookupCourseTags = async (context: any, tag: string) => {
     try {
-        const tagObjects : Tag[] = await TagModel.getByNames(tags);
-        const coursesArray : Course[] = await TagModel.getCoursesInTags(tagObjects);
+        const tagObject: Tag = await TagModel.getByName(tag);
+        // TODO: this will change with infinite scrolling.
+        const maxAmountOfCoursesToDisplay: number = 9;
+        const coursesArray : Course[] = tagObject ? await TagModel.getCoursesInTags([tagObject], maxAmountOfCoursesToDisplay) : null;
         context.action = {
-            type: 'LOOKUP_COURSE_TAGS',
+            type: 'SET_COURSE_TAGS',
             coursesArray
         };
         // It's better to allow the redux action to take place so that the courses listed
         // in the search courses page will be empty.
-        if(coursesArray === null) {
-            throw new Error("No courses match these tags");
+        if(!coursesArray) {
+            throw new Error("No courses match this tag");
         }
     } catch(error) {
         throw error;
@@ -1029,6 +1042,30 @@ const logOutUser = async (context: any) => {
     window.location.href = ''; //need to reset the state instead of reloading everything.
 };
 
+// Looks through all quizzes in a course and changes their due dates if they are after
+// the course due date.
+const updateQuizDueDates = async (courseId: string): Promise<void> => {
+  try {
+    const course: Course = await CourseModel.getById(courseId);
+    const conceptIds: string[] = Object.keys(course.concepts || {});
+    const resolvedConcepts: Concept[] = await ConceptModel.resolveConceptIds(conceptIds);
+    await UtilitiesService.asyncForEach(resolvedConcepts, async (concept: Concept) => {
+      const quizIds: string[] = Object.keys(concept.quizzes || {});
+      const resolvedQuizzes: Quiz[] = await QuizModel.resolveQuizIds(quizIds);
+      await UtilitiesService.asyncForEach(resolvedQuizzes, async (quiz: Quiz) => {
+        if(quiz.quizQuestionSettings === undefined ||
+           quiz.quizQuestionSettings.dueDate === undefined ||
+           quiz.quizQuestionSettings.dueDate > course.dueDate) {
+          await QuizModel.setQuizQuestionSetting(quiz.id, 'dueDate', course.dueDate);
+        }
+      });
+    });
+
+  } catch(error) {
+    throw error;
+  }
+}
+
 export const Actions = {
     defaultAction,
     loginUser,
@@ -1056,15 +1093,14 @@ export const Actions = {
     addQuestionToQuiz,
     loadQuizQuestionIds,
     removeQuestionFromQuiz,
-    setQuizSetting,
+    setQuizQuestionSetting,
     setQuestionSetting,
-    loadQuizSettings,
+    loadQuizQuestionSettings,
     setCurrentEditQuizId,
     loadEditConceptQuizzes,
     loadViewConceptQuizzes,
     createNewQuiz,
     deleteQuiz,
-    updateQuizTitle,
     getQuiz,
     getCourseViewCourseById,
     getCourseEditCourseById,
@@ -1095,5 +1131,6 @@ export const Actions = {
     loadEditCourseConcepts,
     loadViewCourseConcepts,
     showMainSpinner,
-    hideMainSpinner
-};
+    hideMainSpinner,
+    updateQuizDueDates
+  };

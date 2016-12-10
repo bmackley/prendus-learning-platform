@@ -1,7 +1,8 @@
-import {Actions} from '../../redux/actions.ts';
-import {FirebaseService} from '../../node_modules/prendus-services/services/firebase.service.ts';
-import {StatechangeEvent} from '../../interfaces/statechange-event.interface.ts';
-import {UserMetaData} from '../../node_modules/prendus-services/interfaces/user-meta-data.interface.ts'
+import {Actions} from '../../redux/actions';
+import {FirebaseService} from '../../node_modules/prendus-services/services/firebase-service';
+import {StatechangeEvent} from '../../typings/statechange-event';
+import {UserMetaData} from '../../node_modules/prendus-services/typings/user-meta-data';
+
 export class PrendusProfile {
   public is: string;
   public firstName: string;

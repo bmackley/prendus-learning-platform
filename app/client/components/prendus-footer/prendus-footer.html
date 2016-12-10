@@ -1,24 +1,33 @@
-<link href="../../bower_components/polymer/polymer.html" rel="import">
+<link rel="import" href="../../bower_components/polymer/polymer.html">
 <link rel="import" href="../../bower_components/paper-toolbar/paper-toolbar.html">
 
 <dom-module id="prendus-footer">
   <style>
+
     footer {
       width: 100%;
     }
+
     .footer-items {
       width: 100%;
       display: flex;
       justify-content: space-between;
       align-items: center;
     }
+
+		@media (max-width: 500px) {
+			.long-text {
+				display: none;
+			}
+		}
+
   </style>
   <template>
     <paper-toolbar>
       <footer class="footer-items">
-        <div>&copy; 2016 Prendus LLC</div>
-        <paper-button id="terms-of-service" on-tap="changeURL" noink>Terms of Service</paper-button>
-        <paper-button id="privacy-policy" on-tap="changeURL" noink>Privacy Policy</paper-button>
+        <div>&copy; 2016&nbsp;<span class="long-text">Prendus LLC</span></div>
+        <paper-button id="terms-of-service" on-tap="changeURL" noink>Terms&nbsp;<span class="long-text">of Service</span></paper-button>
+        <paper-button id="privacy-policy" on-tap="changeURL" noink>Privacy&nbsp;<span class="long-text">Policy</span></paper-button>
       </footer>
     </paper-toolbar>
   </template>

@@ -1,7 +1,8 @@
-import {Actions} from '../../redux/actions.ts';
-import {StatechangeEvent} from '../../interfaces/statechange-event.interface.ts';
-import {FirebaseService} from '../../node_modules/prendus-services/services/firebase.service.ts';
-import {Concept} from '../../node_modules/prendus-services/interfaces/concept.interface.ts';
+import {Actions} from '../../redux/actions';
+import {StatechangeEvent} from '../../typings/statechange-event';
+import {FirebaseService} from '../../node_modules/prendus-services/services/firebase-service';
+import {Concept} from '../../node_modules/prendus-services/typings/concept';
+
 export class PrendusConceptContainerEdit {
   public is: string;
   public title: string;

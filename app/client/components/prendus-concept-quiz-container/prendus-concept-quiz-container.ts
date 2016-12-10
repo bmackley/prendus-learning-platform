@@ -1,9 +1,9 @@
-import {Quiz} from '../../node_modules/prendus-services/interfaces/quiz.interface.ts';
-import {UserMetaData} from '../../node_modules/prendus-services/interfaces/user-meta-data.interface.ts';
-import {Course} from '../../node_modules/prendus-services/interfaces/course.interface.ts';
-import {Actions} from '../../redux/actions.ts';
-import {StatechangeEvent} from '../../interfaces/statechange-event.interface.ts';
-import {FirebaseService} from '../../node_modules/prendus-services/services/firebase.service.ts';
+import {Quiz} from '../../node_modules/prendus-services/typings/quiz';
+import {UserMetaData} from '../../node_modules/prendus-services/typings/user-meta-data';
+import {Course} from '../../node_modules/prendus-services/typings/course';
+import {Actions} from '../../redux/actions';
+import {StatechangeEvent} from '../../typings/statechange-event';
+import {FirebaseService} from '../../node_modules/prendus-services/services/firebase-service';
 
 class PrendusConceptQuizContainer {
     public is: string;
@@ -57,14 +57,14 @@ class PrendusConceptQuizContainer {
 
 		viewQuiz(e: { model: any }) {
 			const quizId: string = e.model.quiz.id;
-			window.history.pushState({}, '', `courses/view-quiz/course/${this.courseId}/quiz/${quizId}/quiz-session-id/NOT_LTI_QUIZ_SESSION_ID`);
+			window.history.pushState({}, '', `courses/view-quiz/course/${this.courseId}/concept/${this.conceptId}/quiz/${quizId}`);
 			this.fire('location-changed', {}, {node: window});
 		}
 
     editQuiz(e: { model: any }) {
       e.stopPropagation();
       const quizId: string = e.model.quiz.id;
-  		window.history.pushState({}, '', `courses/edit-quiz/concept/${this.conceptId}/quiz/${quizId}`);
+  		window.history.pushState({}, '', `courses/edit-quiz/course/${this.courseId}/concept/${this.conceptId}/quiz/${quizId}`);
       this.fire('location-changed', {}, {node: window});
     }
 
@@ -89,7 +89,7 @@ class PrendusConceptQuizContainer {
 
     async addQuiz(e: Event) {
         const quizId: string = await Actions.createNewQuiz(this, this.conceptId);
-        window.history.pushState({}, '', `courses/edit-quiz/concept/${this.conceptId}/quiz/${quizId}`);
+        window.history.pushState({}, '', `courses/edit-quiz/course/${this.courseId}/concept/${this.conceptId}/quiz/${quizId}`);
         this.fire('location-changed', {}, {node: window});
         await Actions.loadViewConceptQuizzes(this, this.conceptId);
     }
@@ -100,15 +100,16 @@ class PrendusConceptQuizContainer {
       this.uid = state.currentUser.metaData.uid;
       this.currentCourse = state.courseViewCurrentCourse;
       // determine user's edit access for each quiz
-			this.quizzes = (state.viewConceptQuizzes[this.conceptId] || []).map((quiz: Quiz) => {
-				if(   quiz.uid === this.uid
-					||  quiz.collaborators
-					&&  quiz.collaborators[this.user.metaData.uid]) {
-						return Object.assign({}, quiz, {
-							hasEditAccess: true
-						});
-					}
-			});
+    	this.quizzes = (state.viewConceptQuizzes[this.conceptId] || []).map((quiz: Quiz) => {
+    		if(quiz.uid === this.uid
+    			||  quiz.collaborators
+    			&&  quiz.collaborators[this.uid]) {
+    				return Object.assign({}, quiz, {
+    					hasEditAccess: true
+    				});
+    			}
+                return quiz;
+    	});
     }
 }
 

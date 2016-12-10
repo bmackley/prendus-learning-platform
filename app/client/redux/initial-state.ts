@@ -1,5 +1,5 @@
-import {QuestionSettings} from '../node_modules/prendus-services/interfaces/question-settings.interface.ts';
-import {State} from '../interfaces/state.interface.ts';
+import {QuestionSettings} from '../node_modules/prendus-services/typings/question-settings';
+import {State} from '../typings/state';
 
 export const InitialState: State = {
     mainViewToShow: 'routes',
@@ -36,7 +36,7 @@ export const InitialState: State = {
     userQuestionIds: [],
     publicQuestionIds: [],
     quizQuestionIds: [],
-    quizSettings: {},
+    quizQuestionSettings: {},
     currentEditQuizId: '',
     editConceptQuizzes: {},
     viewConceptQuizzes: {},
