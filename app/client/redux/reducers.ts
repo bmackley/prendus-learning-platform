@@ -208,7 +208,7 @@ export function rootReducer(state: State = InitialState, action: Action): State 
         newState.resultingConcepts = action.conceptsArray;
         return newState;
       }
-      case 'LOOKUP_COURSE_TAGS': {
+      case 'SET_COURSE_TAGS': {
         const newState = Object.assign({}, state);
         newState.resultingCourses = action.coursesArray;
         return newState;
