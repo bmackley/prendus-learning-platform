@@ -9,6 +9,7 @@ class PrendusSearchCourseTags {
   public errorMessage: string;
   public querySelector: any;
   public courseTagNames: string[];
+
   beforeRegister() {
     this.is = 'prendus-search-course-tags';
     this.properties = {
@@ -18,28 +19,29 @@ class PrendusSearchCourseTags {
   //looks through course tags in database for matching tags
   async searchTagsInDB(e: any) {
     try {
-      const tags: string[] = this.querySelector('#tags').tags;
-      await Actions.lookupCourseTags(this, tags);
+      const tag: string = this.querySelector('#tag').value;
+      await Actions.lookupCourseTags(this, tag);
     } catch(error) {
       this.errorMessage = '';
       this.errorMessage = error.message;
     }
   }
-  onRemove(e: any) {
-    this.courseTagNames = this.courseTagNames.filter((tagName: string, index) => e.detail.index !== index);
-  }
-  onAdd(e: any) {
-    if(!this.courseTagNames) {
-      this.courseTagNames = [];
-    }
-    this.courseTagNames = [...this.courseTagNames, e.detail.tag];
-  }
-  clearTags(e: any) {
-    this.courseTagNames = [];
-  }
+
   mapStateToThis(e: StatechangeEvent) {
     const state = e.detail.state;
     this.resultingCourses = state.resultingCourses;
+  }
+
+  clearTag(e: any) {
+    this.querySelector('#tag').value = '';
+  }
+
+  checkForEnter(e: KeyboardEvent) {
+    const enterKeyCode: number = 13;
+    if (e.keyCode === enterKeyCode) {
+      // enter pressed
+      this.searchTagsInDB(e);
+    }
   }
 }
 
