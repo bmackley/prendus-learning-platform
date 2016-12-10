@@ -1,12 +1,13 @@
 import {Actions} from '../../redux/actions';
-import {Course} from '../../node_modules/prendus-services/interfaces/course.interface';
-import {Concept} from '../../node_modules/prendus-services/interfaces/concept.interface';
-import {CourseConceptData} from '../../node_modules/prendus-services/interfaces/course-concept-data.interface';
-import {StatechangeEvent} from '../../interfaces/statechange-event.interface';
-import {Tag} from '../../node_modules/prendus-services/interfaces/tag.interface';
-import {Quiz} from '../../node_modules/prendus-services/interfaces/quiz.interface';
-import {CourseModel} from '../../node_modules/prendus-services/models/course.model';
-import {UtilitiesService} from '../../node_modules/prendus-services/services/utilities.service';
+import {Course} from '../../node_modules/prendus-services/typings/course';
+import {Concept} from '../../node_modules/prendus-services/typings/concept';
+import {CourseConceptData} from '../../node_modules/prendus-services/typings/course-concept-data';
+import {StatechangeEvent} from '../../typings/statechange-event';
+import {Tag} from '../../node_modules/prendus-services/typings/tag';
+import {Quiz} from '../../node_modules/prendus-services/typings/quiz';
+import {CourseModel} from '../../node_modules/prendus-services/models/course-model';
+import {UtilitiesService} from '../../node_modules/prendus-services/services/utilities-service';
+
 export class PrendusCourseView {
   public is: string;
   public courseConcepts: CourseConceptData[];

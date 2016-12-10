@@ -1,4 +1,4 @@
-import {FirebaseService} from '../../node_modules/prendus-services/services/firebase.service';
+import {FirebaseService} from '../../node_modules/prendus-services/services/firebase-service';
 import {Actions} from '../../redux/actions';
 
 class PrendusEditQuizRouter {

@@ -1,7 +1,7 @@
-import {Concept} from '../../node_modules/prendus-services/interfaces/concept.interface';
+import {Concept} from '../../node_modules/prendus-services/typings/concept';
 import {Actions} from '../../redux/actions';
-import {StatechangeEvent} from '../../interfaces/statechange-event.interface';
-import {FirebaseService} from '../../node_modules/prendus-services/services/firebase.service';
+import {StatechangeEvent} from '../../typings/statechange-event';
+import {FirebaseService} from '../../node_modules/prendus-services/services/firebase-service';
 
 class PrendusConceptContainer {
   public is: string;

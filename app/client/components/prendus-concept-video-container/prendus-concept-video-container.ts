@@ -1,6 +1,6 @@
-import {Video} from '../../node_modules/prendus-services/interfaces/video.interface';
+import {Video} from '../../node_modules/prendus-services/typings/video';
 import {Actions} from '../../redux/actions';
-import {StatechangeEvent} from '../../interfaces/statechange-event.interface';
+import {StatechangeEvent} from '../../typings/statechange-event';
 
 class PrendusConceptVideoContainer {
     public is: string;
