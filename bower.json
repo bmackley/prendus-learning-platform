@@ -19,7 +19,7 @@
     "app-route": "PolymerElements/app-route#^0.9.1",
     "solutia-maxima-components": "git@github.com:lastmjs/solutia-maxima-components.git#develop",
     "prendus-paper-tags-input": "git@github.com:mcrowder65/prendus-paper-tags-input.git#0.03",
-    "view-quiz-component": "git@github.com:lastmjs/view-quiz-component.git#develop",
+    "view-quiz-component": "git@github.com:lastmjs/view-quiz-component.git#quiz-submission-events",
     "video-viewer-component": "git@github.com:lastmjs/video-viewer-component.git#develop",
     "paper-tabs": "^1.6.2",
     "paper-menu-button": "^1.5.1",
