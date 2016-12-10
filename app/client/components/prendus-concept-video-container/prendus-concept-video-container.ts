@@ -48,7 +48,7 @@ class PrendusConceptVideoContainer {
         Actions.setCurrentVideoInfo(this, id, title, url);
         //go to the url
         // courses/view-video/course/:courseId/video/:videoId
-        window.history.pushState({}, '', `courses/view-video/course-id/${this.courseId}/video-id/${id}`);
+        window.history.pushState({}, '', `courses/view-video/course/${this.courseId}/video/${id}`);
         this.fire('location-changed', {}, {node: window});
     }
 
