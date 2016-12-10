@@ -1,8 +1,8 @@
-import {Actions} from '../../redux/actions.ts';
-import {FirebaseService} from '../../node_modules/prendus-services/services/firebase.service.ts';
-import {Course} from '../../node_modules/prendus-services/interfaces/course.interface.ts';
-import {StatechangeEvent} from '../../interfaces/statechange-event.interface.ts';
-import {CourseVisibility} from '../../node_modules/prendus-services/interfaces/course-visibility.type.ts';
+import {Actions} from '../../redux/actions';
+import {FirebaseService} from '../../node_modules/prendus-services/services/firebase.service';
+import {Course} from '../../node_modules/prendus-services/interfaces/course.interface';
+import {StatechangeEvent} from '../../interfaces/statechange-event.interface';
+import {CourseVisibility} from '../../node_modules/prendus-services/interfaces/course-visibility.type';
 class PrendusCourseHomepage {
   public is: string;
   public properties: any;

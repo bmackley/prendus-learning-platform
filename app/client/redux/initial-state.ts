@@ -1,5 +1,5 @@
-import {QuestionSettings} from '../node_modules/prendus-services/interfaces/question-settings.interface.ts';
-import {State} from '../interfaces/state.interface.ts';
+import {QuestionSettings} from '../node_modules/prendus-services/interfaces/question-settings.interface';
+import {State} from '../interfaces/state.interface';
 
 export const InitialState: State = {
     mainViewToShow: 'routes',
