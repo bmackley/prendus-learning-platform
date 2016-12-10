@@ -20,7 +20,7 @@
     "solutia-maxima-components": "git@github.com:lastmjs/solutia-maxima-components.git#develop",
     "prendus-paper-tags-input": "git@github.com:mcrowder65/prendus-paper-tags-input.git#0.03",
     "view-quiz-component": "git@github.com:lastmjs/view-quiz-component.git#develop",
-    "video-viewer-component": "git@github.com:lastmjs/video-viewer-component.git#0.2.1",
+    "video-viewer-component": "git@github.com:lastmjs/video-viewer-component.git#develop",
     "paper-tabs": "^1.6.2",
     "paper-menu-button": "^1.5.1",
     "paper-menu": "^1.2.2",

@@ -1,8 +1,8 @@
 // THIS WILL BE USED LATER
 
-// import {Actions} from '../../redux/actions.ts';
-// import {Concept} from '../../node_modules/prendus-services/interfaces/course.interface.ts';
-// import {StatechangeEvent} from '../../interfaces/statechange-event.interface.ts';
+// import {Actions} from '../../redux/actions';
+// import {Concept} from '../../node_modules/prendus-services/interfaces/course.interface';
+// import {StatechangeEvent} from '../../interfaces/statechange-event.interface';
 //
 // class PrendusSearchConceptTags {
 //   public is: string;

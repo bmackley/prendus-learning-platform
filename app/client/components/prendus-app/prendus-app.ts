@@ -1,10 +1,10 @@
 /// <reference path="../../node_modules/prendus-services/typings/polymer/polymer.d.ts" />
 /// <reference path="../../node_modules/prendus-services/typings/custom.d.ts" />
 
-import {FirebaseService} from '../../node_modules/prendus-services/services/firebase.service.ts';
-import {rootReducer} from '../../redux/reducers.ts';
-import {State} from '../../interfaces/state.interface.ts';
-import {Action} from '../../interfaces/action.interface.ts';
+import {FirebaseService} from '../../node_modules/prendus-services/services/firebase.service';
+import {rootReducer} from '../../redux/reducers';
+import {State} from '../../interfaces/state.interface';
+import {Action} from '../../interfaces/action.interface';
 
 class PrendusApp {
   public is: string;

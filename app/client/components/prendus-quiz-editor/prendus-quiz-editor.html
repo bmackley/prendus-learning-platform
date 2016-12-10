@@ -103,11 +103,15 @@
     </style>
 
     <redux-store on-statechange="mapStateToThis" action="[[action]]"></redux-store>
-    <iron-ajax id="getUserQuestionIdsAjax" method="get" url="[[endpointDomain]]/api/questionids/uid/[[jwt]]" handle-as="json"></iron-ajax>
-    <iron-ajax id="getPublicQuestionIdsAjax" method="get" url="[[endpointDomain]]/api/questionids/public" handle-as="json"></iron-ajax>
+
+    <iron-ajax id="getUserQuestionIdsAjax" method="get" url="[[endpointDomain]]/api/jwt/[[jwt]]/question-ids" handle-as="json"></iron-ajax>
+    <iron-ajax id="getPublicQuestionIdsAjax" method="get" url="[[endpointDomain]]/api/public/question-ids" handle-as="json"></iron-ajax>
     <iron-ajax id="getEmailsByIdsAjax" method="get" handle-as="json"></iron-ajax>
     <iron-ajax id="getUidByEmailAjax" method="get" handle-as="json"></iron-ajax>
+    <iron-ajax id="startQuizSessionAjax" url="[[endpointDomain]]/api/quiz/start-session" method="post" content-type="application/json" handle-as="json"></iron-ajax>
+
     <prendus-notification success-message="[[successMessage]]" error-message="[[errorMessage]]"></prendus-notification>
+
     <paper-dialog id="share-quiz-dialog" with-backdrop style="padding: 25px">
       <p>Use this link to access the quiz:</p>
       <input id="share-quiz-link" value="https://prendus.com/courses/view-quiz/course/[[courseId]]/concept/[[conceptId]]/quiz/[[quizId]]" readonly on-tap="selectText"></input>
@@ -151,7 +155,7 @@
           <div id="quizDomRepeatContainer">
               <template is="dom-repeat" items="[[quizQuestionIds]]">
                   <div style="position: relative">
-                      <solutia-maxima-view-problem id="quiz-question-id-[[item]]" question-id="[[item]]" quiz-session-id="DEFAULT_QUIZ" jwt="[[jwt]]" concise></solutia-maxima-view-problem>
+                      <solutia-maxima-view-problem id="quiz-question-id-[[item]]" question-id="[[item]]" quiz-id="NO_QUIZ" jwt="[[jwt]]" quiz-session="[[quizSession]]" concise></solutia-maxima-view-problem>
                       <paper-icon-button id="remove[[item]]" icon="icons:clear" on-click="removeQuestionFromQuiz"></paper-icon-button>
                       <paper-tooltip for="remove[[item]]" offset="0" animation-delay="300">Remove from quiz</paper-tooltip>
                       <hr>
@@ -171,7 +175,7 @@
             <div id="my-questions" class="tab-content">
               <paper-button id="new-question" on-tap="createQuestion">New Question</paper-button>
               <template is="dom-repeat" items="[[userQuestionIds]]">
-                <solutia-maxima-view-problem id="user-question-id-[[item]]" question-id="[[item]]" quiz-session-id="DEFAULT_QUIZ" jwt="[[jwt]]" concise></solutia-maxima-view-problem>
+                <solutia-maxima-view-problem id="user-question-id-[[item]]" question-id="[[item]]" quiz-id="NO_QUIZ" jwt="[[jwt]]" quiz-session="[[quizSession]]" concise></solutia-maxima-view-problem>
                 <paper-icon-button id="add[[item]]" icon="av:playlist-add" on-click="addQuestionToQuiz"></paper-icon-button>
                 <paper-tooltip for="add[[item]]">Add to quiz</paper-tooltip>
                 <paper-icon-button id="edit[[item]]" icon="create" on-click="editQuestion"></paper-icon-button>
@@ -182,7 +186,7 @@
 
             <div id="public-questions" class="tab-content">
               <template is="dom-repeat" items="[[publicQuestionIds]]">
-                <solutia-maxima-view-problem id="public-question-id-[[item]]" question-id="[[item]]" quiz-session-id="DEFAULT_QUIZ" jwt="[[jwt]]" concise></solutia-maxima-view-problem>
+                <solutia-maxima-view-problem id="public-question-id-[[item]]" question-id="[[item]]" quiz-id="NO_QUIZ" jwt="[[jwt]]" quiz-session="[[quizSession]]" concise></solutia-maxima-view-problem>
                 <paper-icon-button id="add[[item]]" icon="av:playlist-add" on-click="addQuestionToQuiz"></paper-icon-button>
                 <paper-tooltip for="add[[item]]">Add to quiz</paper-tooltip>
                 <paper-icon-button id="edit[[item]]" icon="create" on-click="editQuestion"></paper-icon-button>
