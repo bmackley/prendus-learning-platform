@@ -1,6 +1,6 @@
 <link rel="import" href="../../bower_components/polymer/polymer.html">
 <link rel="import" href="../../bower_components/paper-dialog/paper-dialog.html">
-<link rel="import" href="../../bower_components/paper-fab/paper-fab.html">
+<link rel="import" href="../../bower_components/paper-button/paper-button.html">
 <link rel="import" href="../../bower_components/paper-dialog-behavior/paper-dialog-behavior.html">
 <link rel="import" href="../../bower_components/paper-dialog-behavior/paper-dialog-shared-styles.html">
 <link rel="import" href="../../bower_components/paper-date-picker/paper-date-picker.html">
@@ -17,6 +17,8 @@
 <link rel="import" href="../prendus-concept-new-concept/prendus-concept-new-concept.html">
 
 <dom-module id="prendus-course-view">
+
+	<style include="color-styles"></style>
   <style>
 
     * {
@@ -49,6 +51,11 @@
       align-self: flex-end;
     }
 
+		#due-date {
+			position: inherit;
+			display: flex;
+		}
+
     #concept-list {
       border: solid lightgrey 1px;
     }
@@ -80,16 +87,27 @@
       flex-grow: 1;
     }
 
+		.sortable-ghost {
+			background-color: #ccc;
+		}
+
     #course-title {
       --paper-input-container-input: {
         font-size: 48px;
       };
     }
+
     #course-description {
       --paper-input-container-input: {
         font-size: 24px;
       };
     }
+
+		.add-concept-button {
+			background-color: var(--prendus-primary-color);
+			color: white;
+		}
+
   </style>
   <template>
     <prendus-notification error-message="[[errorMessage]]"></prendus-notification>
@@ -104,8 +122,8 @@
         <template is="dom-if" if="[[username]]">
           <!-- COLLABORATORS -->
           <template is="dom-if" if="[[hasEditAccess]]">
-            <!-- <iron-icon id="lti-button" icon="social:share" on-tap="getLTILinks"></iron-icon>
-            <paper-tooltip for="lti-button" offset="0" animation-delay="300">Get LTI Links</paper-tooltip> -->
+            <iron-icon id="lti-button" icon="social:share" on-tap="getLTILinks"></iron-icon>
+            <paper-tooltip for="lti-button" offset="0" animation-delay="300">Get LTI Links</paper-tooltip>
             <paper-button id="collaborators-button" noink on-tap="openCollaboratorsModal">Collaborators</paper-button>
           </template>
           <prendus-collaborator-modal id="collaborators-modal" uid="[[uid]]" course-id="[[courseId]]" course></prendus-collaborator-modal>
@@ -125,7 +143,7 @@
           <template is="dom-if" if="[[hasEditAccess]]">
             <br>
             <h3>Last day of course</h3>
-            <paper-date-picker id="dueDate" date="[[displayDate(currentCourse.dueDate)]]" on-click="dueDateChanged"></paper-date-picker>
+            <paper-date-picker id="due-date" date="[[displayDate(currentCourse.dueDate)]]" on-click="dueDateChanged"></paper-date-picker>
           </template>
           <!-- TAGS -->
           <h3 hidden$="[[!showTagsTitle(currentCourse.tags.length, hasEditAccess)]]">Tags</h3>
@@ -153,14 +171,14 @@
             <template is="dom-if" if="[[!courseConceptsLength]]">
               <p>Click the plus button to begin adding concepts to the Course.</p>
             </template>
-            <sortable-js id="concept-list" on-sort="sortableEnded">
+            <sortable-js id="concept-list" animation="200" on-sort="sortableEnded">
               <template is="dom-repeat" items="[[courseConcepts]]">
                 <div class="concept-container">
                   <prendus-concept-container-edit class="concept-edit-container" concept-id="[[item.id]]"></prendus-concept-container-edit>
                 </div>
               </template>
             </sortable-js>
-            <paper-fab icon="add" title="Add Concept" tooltip="Add Concept" on-tap="addConcept"></paper-fab>
+            <paper-button class="add-concept-button" on-tap="addConcept">Add Concept</paper-button>
           </template>
         </template>
 
