@@ -1,9 +1,9 @@
-import {Video} from '../node_modules/prendus-services/interfaces/video.interface.ts';
-import {Quiz} from '../node_modules/prendus-services/interfaces/quiz.interface.ts';
-import {User} from '../node_modules/prendus-services/interfaces/user.interface.ts';
-import {UserMetaData} from '../node_modules/prendus-services/interfaces/user-meta-data.interface.ts';
-import {Course} from '../node_modules/prendus-services/interfaces/course.interface.ts';
-import {CourseConceptData} from '../node_modules/prendus-services/interfaces/course-concept-data.interface.ts';
+import {Video} from '../node_modules/prendus-services/typings/video';
+import {Quiz} from '../node_modules/prendus-services/typings/quiz';
+import {User} from '../node_modules/prendus-services/typings/user';
+import {UserMetaData} from '../node_modules/prendus-services/typings/user-meta-data';
+import {Course} from '../node_modules/prendus-services/typings/course';
+import {CourseConceptData} from '../node_modules/prendus-services/typings/course-concept-data';
 
 export interface State {
     editCourseConcepts: {

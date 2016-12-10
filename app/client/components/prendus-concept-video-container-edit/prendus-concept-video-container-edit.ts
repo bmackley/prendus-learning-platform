@@ -1,7 +1,7 @@
-import {Video} from '../../node_modules/prendus-services/interfaces/video.interface';
+import {Video} from '../../node_modules/prendus-services/typings/video';
 import {Actions} from '../../redux/actions';
-import {StatechangeEvent} from '../../interfaces/statechange-event.interface';
-import {FirebaseService} from '../../node_modules/prendus-services/services/firebase.service';
+import {StatechangeEvent} from '../../typings/statechange-event';
+import {FirebaseService} from '../../node_modules/prendus-services/services/firebase-service';
 
 class PrendusConceptVideoContainerEdit {
     public is: string;

@@ -1,8 +1,8 @@
 import {Actions} from '../../redux/actions';
-import {StatechangeEvent} from '../../interfaces/statechange-event.interface';
-import {UtilitiesService} from '../../node_modules/prendus-services/services/utilities.service';
-import {FirebaseService} from '../../node_modules/prendus-services/services/firebase.service';
-import {QuizSession} from '../../node_modules/prendus-services/interfaces/quiz-session';
+import {StatechangeEvent} from '../../typings/statechange-event';
+import {UtilitiesService} from '../../node_modules/prendus-services/services/utilities-service';
+import {FirebaseService} from '../../node_modules/prendus-services/services/firebase-service';
+import {QuizSession} from '../../node_modules/prendus-services/typings/quiz-session';
 
 class PrendusEditQuestionRouter {
     public is: string;

@@ -1,5 +1,5 @@
-import {FirebaseService} from '../../node_modules/prendus-services/services/firebase.service';
-import {UserModel} from '../../node_modules/prendus-services/models/user.model';
+import {FirebaseService} from '../../node_modules/prendus-services/services/firebase-service';
+import {UserModel} from '../../node_modules/prendus-services/models/user-model';
 import {Actions} from '../../redux/actions';
 
 class PrendusViewQuizRouter {
