@@ -1,5 +1,5 @@
 <link rel="import" href="../../bower_components/polymer/polymer.html">
-<link rel="import" href="../../bower_components/solutia-maxima-components/components/edit-problem/edit-problem.component.html">
+<link rel="import" href="../../bower_components/prendus-question-components/components/prendus-edit-question/prendus-edit-question.html">
 <link rel="import" href="../../bower_components/redux-store-element/redux-store.html">
 <link rel="import" href="../../bower_components/app-route/app-route.html">
 <link rel="import" href="../../bower_components/iron-icons/hardware-icons.html">
@@ -17,7 +17,7 @@
         <prendus-notification successMessage = "[[successMessage]]" errorMessage = "[[errorMessage]]"></prendus-notification>
 
         <app-route route="[[route]]" pattern="/edit-question/question/:questionId" data="{{data}}" tail="{{tail}}"></app-route>
-        <solutia-maxima-edit-problem id="editProblemComponent" jwt="[[jwt]]" question-id="[[data.questionId]]" quiz-session="[[quizSession]]" on-savequestion="questionSaved" on-loaded="editProblemComponentLoaded"></solutia-maxima-edit-problem>
+        <prendus-edit-question id="editProblemComponent" jwt="[[jwt]]" question-id="[[data.questionId]]" quiz-session="[[quizSession]]" on-savequestion="questionSaved" on-loaded="editProblemComponentLoaded"></prendus-edit-question>
     </template>
 
     <!--<script src="prendus-edit-question-router.js"></script>-->

@@ -2,7 +2,7 @@
 <link rel="import" href="../../bower_components/app-route/app-route.html">
 <link rel="import" href="../../bower_components/paper-card/paper-card.html">
 <link rel="import" href="../../bower_components/paper-button/paper-button.html">
-<link rel="import" href="../../bower_components/view-quiz-component/view-quiz.component.html">
+<link rel="import" href="../../bower_components/prendus-quiz-viewer-component/prendus-quiz-viewer.html">
 <link href="../../bower_components/redux-store-element/redux-store.html" rel="import">
 
 <dom-module id="prendus-view-quiz-router">
@@ -33,7 +33,7 @@
         </template>
         <paper-card id="quiz-container">
           <div class="card-content">
-            <prendus-view-quiz jwt="[[jwt]]" course-id="[[data.courseId]]" quiz-id="[[data.quizId]]" user-full-name="[[userFullName]]" user-email="[[userEmail]]" on-quizsubmissionstarted="quizSubmissionStarted" on-quizsubmissionfinished="quizSubmissionFinished"></prendus-view-quiz>
+            <prendus-quiz-viewer jwt="[[jwt]]" course-id="[[data.courseId]]" quiz-id="[[data.quizId]]" user-full-name="[[userFullName]]" user-email="[[userEmail]]" on-quizsubmissionstarted="quizSubmissionStarted" on-quizsubmissionfinished="quizSubmissionFinished"></prendus-quiz-viewer>
           </div>
         </paper-card>
 
