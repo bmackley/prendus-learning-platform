@@ -1,4 +1,4 @@
-import {State} from './state.interface.ts';
+import {State} from './state';
 
 export interface StatechangeEvent extends Event {
     detail: {

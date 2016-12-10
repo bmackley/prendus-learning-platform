@@ -1,9 +1,12 @@
-import {Actions} from '../../redux/actions.ts';
-import {Course} from '../../node_modules/prendus-services/interfaces/course.interface.ts';
-import {Concept} from '../../node_modules/prendus-services/interfaces/concept.interface.ts';
-import {CourseConceptData} from '../../node_modules/prendus-services/interfaces/course-concept-data.interface.ts';
-import {StatechangeEvent} from '../../interfaces/statechange-event.interface.ts';
-import {Tag} from '../../node_modules/prendus-services/interfaces/tag.interface.ts';
+import {Actions} from '../../redux/actions';
+import {Course} from '../../node_modules/prendus-services/typings/course';
+import {Concept} from '../../node_modules/prendus-services/typings/concept';
+import {CourseConceptData} from '../../node_modules/prendus-services/typings/course-concept-data';
+import {StatechangeEvent} from '../../typings/statechange-event';
+import {Tag} from '../../node_modules/prendus-services/typings/tag';
+import {Quiz} from '../../node_modules/prendus-services/typings/quiz';
+import {CourseModel} from '../../node_modules/prendus-services/models/course-model';
+import {UtilitiesService} from '../../node_modules/prendus-services/services/utilities-service';
 
 export class PrendusCourseView {
   public is: string;
@@ -18,8 +21,10 @@ export class PrendusCourseView {
   public uid: string;
   public successMessage: string;
   public errorMessage: string;
-  public listeners: any;
   public querySelector: any;
+  public editingTitle: boolean;
+  public editingDescription: boolean;
+  public listeners: any;
   beforeRegister() {
     this.is = 'prendus-course-view';
     this.properties = {
@@ -93,6 +98,36 @@ export class PrendusCourseView {
     return editingDescription ? "Done" : "Edit Description";
   }
 
+  displayDate(date: string): Date {
+    // Set due date at the current date if the course has no due date yet.
+    const returnDate: Date =  date ? new Date(date) : new Date();
+    return returnDate;
+  }
+
+  async dueDateChanged() {
+    try {
+      const newDate: Date = this.querySelector('#dueDate').date;
+      const UTCDate: number = UtilitiesService.dateToUTCNumber(newDate);
+      const currentDate: number = this.currentCourse.dueDate;
+      // paper-date-picker does not have an event listener for date change. So every
+      // time a user clicks anywhere on the calendar, this function is called. To avoid
+      // a firebase action, we compare the currentDate in firebase to the new UTCDate.
+      if(currentDate !== UTCDate) {
+        // Date has changed
+        await Actions.updateCourseField(this, this.courseId, 'dueDate', UTCDate);
+        await Actions.updateQuizDueDates(this.courseId);
+        this.successMessage = '';
+        this.successMessage = 'Last day of course has been updated';
+      }
+
+    } catch(error) {
+      this.errorMessage = '';
+      this.errorMessage = error.message;
+    }
+
+  }
+
+
   showTagsTitle(tagsLength: number, hasEditAccess: boolean) {
     return tagsLength > 0 || hasEditAccess;
   }
@@ -144,14 +179,10 @@ export class PrendusCourseView {
     }
   }
 
-  // async viewData() {
-  //   if (this.data.courseId) {
-  //       Actions.showMainSpinner(this);
-  //       await Actions.getCourseViewCourseById(this, this.data.courseId);
-  //       await Actions.loadViewCourseConcepts(this, this.data.courseId);
-  //       Actions.hideMainSpinner(this);
-  //   }
-  // }
+  getLTILinks() {
+    console.log('LTI Links3')
+
+  }
 
   addConcept(e: any) {
     this.querySelector('#addConceptDialog').open();
