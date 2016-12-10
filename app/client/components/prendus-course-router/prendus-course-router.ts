@@ -1,4 +1,4 @@
-import {Actions} from '../../redux/actions.ts';
+import {Actions} from '../../redux/actions';
 
 class PrendusCourseRouter {
   public is: string;

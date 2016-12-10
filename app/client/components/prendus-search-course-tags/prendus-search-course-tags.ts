@@ -1,6 +1,6 @@
-import {Actions} from '../../redux/actions.ts';
-import {Course} from '../../node_modules/prendus-services/interfaces/course.interface.ts';
-import {StatechangeEvent} from '../../interfaces/statechange-event.interface.ts';
+import {Actions} from '../../redux/actions';
+import {Course} from '../../node_modules/prendus-services/interfaces/course.interface';
+import {StatechangeEvent} from '../../interfaces/statechange-event.interface';
 
 class PrendusSearchCourseTags {
   public is: string;
