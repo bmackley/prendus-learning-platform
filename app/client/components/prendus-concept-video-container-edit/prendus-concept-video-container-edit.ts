@@ -1,7 +1,7 @@
-import {Video} from '../../node_modules/prendus-services/interfaces/video.interface.ts';
-import {Actions} from '../../redux/actions.ts';
-import {StatechangeEvent} from '../../interfaces/statechange-event.interface.ts';
-import {FirebaseService} from '../../node_modules/prendus-services/services/firebase.service.ts';
+import {Video} from '../../node_modules/prendus-services/typings/video';
+import {Actions} from '../../redux/actions';
+import {StatechangeEvent} from '../../typings/statechange-event';
+import {FirebaseService} from '../../node_modules/prendus-services/services/firebase-service';
 
 class PrendusConceptVideoContainerEdit {
     public is: string;
@@ -31,7 +31,11 @@ class PrendusConceptVideoContainerEdit {
         }
     }
 
-    addVideoClick(e: Event) {
+		hasVideos(videos: Video[]) {
+			return !!videos.length;
+		}
+
+    addVideo(e: Event) {
         Actions.clearCurrentVideoInfo(this);
         this.$.editVideoDialog.open();
     }

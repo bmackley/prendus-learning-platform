@@ -1,7 +1,7 @@
-import {InitialState} from './initial-state.ts';
-import {Actions} from './actions.ts';
-import {State} from '../interfaces/state.interface.ts';
-import {Action} from '../interfaces/action.interface.ts';
+import {InitialState} from './initial-state';
+import {Actions} from './actions';
+import {State} from '../typings/state';
+import {Action} from '../typings/action';
 
 export function rootReducer(state: State = InitialState, action: Action): State {
     switch(action.type) {
@@ -115,7 +115,7 @@ export function rootReducer(state: State = InitialState, action: Action): State 
         }
         case 'LOAD_QUIZ_SETTINGS': {
             const newState = Object.assign({}, state);
-            newState.quizSettings = action.quizSettings;
+            newState.quizQuestionSettings = action.quizQuestionSettings;
             return newState;
         }
         case 'LOAD_QUIZ_QUESTION_IDS': {
@@ -193,6 +193,11 @@ export function rootReducer(state: State = InitialState, action: Action): State 
           newState.currentConceptVideoId = action.id;
           return newState;
       }
+      case 'GET_COURSE_BY_ID' : {
+        const newState = Object.assign({}, state);
+        newState.courseViewCurrentCourse = action.currentCourse;
+        return newState;
+      }
       case 'GET_COURSES_BY_USER': {
         const newState = Object.assign({}, state);
         newState.courses = action.courses;
@@ -203,7 +208,7 @@ export function rootReducer(state: State = InitialState, action: Action): State 
         newState.resultingConcepts = action.conceptsArray;
         return newState;
       }
-      case 'LOOKUP_COURSE_TAGS': {
+      case 'SET_COURSE_TAGS': {
         const newState = Object.assign({}, state);
         newState.resultingCourses = action.coursesArray;
         return newState;
