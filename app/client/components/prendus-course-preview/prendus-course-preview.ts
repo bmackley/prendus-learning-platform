@@ -1,6 +1,6 @@
-import {Course} from '../../node_modules/prendus-services/interfaces/course.interface';
-import {StatechangeEvent} from '../../interfaces/statechange-event.interface';
-import {User} from '../../node_modules/prendus-services/interfaces/user.interface';
+import {Course} from '../../node_modules/prendus-services/typings/course';
+import {StatechangeEvent} from '../../typings/statechange-event';
+import {User} from '../../node_modules/prendus-services/typings/user';
 import {Actions} from '../../redux/actions';
 
 class PrendusCoursePreview {

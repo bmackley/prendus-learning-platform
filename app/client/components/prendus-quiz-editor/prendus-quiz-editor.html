@@ -8,8 +8,7 @@
 <link rel="import" href="../../bower_components/paper-checkbox/paper-checkbox.html">
 <link rel="import" href="../../bower_components/iron-pages/iron-pages.html">
 <link rel="import" href="../../bower_components/paper-icon-button/paper-icon-button.html">
-<link rel="import" href="../../bower_components/solutia-maxima-components/components/view-problem/view-problem.component.html">
-<link rel="import" href="../../bower_components/solutia-maxima-components/components/edit-problem/edit-problem.component.html">
+<link rel="import" href="../../bower_components/prendus-question-components/components/prendus-view-question/prendus-view-question.html">
 <link rel="import" href="../../bower_components/iron-icons/iron-icons.html">
 <link rel="import" href="../../bower_components/iron-icons/av-icons.html">
 <link rel="import" href="../../bower_components/iron-icons/social-icons.html">
@@ -155,7 +154,7 @@
           <div id="quizDomRepeatContainer">
               <template is="dom-repeat" items="[[quizQuestionIds]]">
                   <div style="position: relative">
-                      <solutia-maxima-view-problem id="quiz-question-id-[[item]]" question-id="[[item]]" quiz-id="NO_QUIZ" jwt="[[jwt]]" quiz-session="[[quizSession]]" concise></solutia-maxima-view-problem>
+                      <prendus-view-question id="quiz-question-id-[[item]]" question-id="[[item]]" quiz-id="NO_QUIZ" jwt="[[jwt]]" quiz-session="[[quizSession]]" concise></prendus-view-question>
                       <paper-icon-button id="remove[[item]]" icon="icons:clear" on-click="removeQuestionFromQuiz"></paper-icon-button>
                       <paper-tooltip for="remove[[item]]" offset="0" animation-delay="300">Remove from quiz</paper-tooltip>
                       <hr>
@@ -175,7 +174,7 @@
             <div id="my-questions" class="tab-content">
               <paper-button id="new-question" on-tap="createQuestion">New Question</paper-button>
               <template is="dom-repeat" items="[[userQuestionIds]]">
-                <solutia-maxima-view-problem id="user-question-id-[[item]]" question-id="[[item]]" quiz-id="NO_QUIZ" jwt="[[jwt]]" quiz-session="[[quizSession]]" concise></solutia-maxima-view-problem>
+                <prendus-view-question id="user-question-id-[[item]]" question-id="[[item]]" quiz-id="NO_QUIZ" jwt="[[jwt]]" quiz-session="[[quizSession]]" concise></prendus-view-question>
                 <paper-icon-button id="add[[item]]" icon="av:playlist-add" on-click="addQuestionToQuiz"></paper-icon-button>
                 <paper-tooltip for="add[[item]]">Add to quiz</paper-tooltip>
                 <paper-icon-button id="edit[[item]]" icon="create" on-click="editQuestion"></paper-icon-button>
@@ -186,7 +185,7 @@
 
             <div id="public-questions" class="tab-content">
               <template is="dom-repeat" items="[[publicQuestionIds]]">
-                <solutia-maxima-view-problem id="public-question-id-[[item]]" question-id="[[item]]" quiz-id="NO_QUIZ" jwt="[[jwt]]" quiz-session="[[quizSession]]" concise></solutia-maxima-view-problem>
+                <prendus-view-question id="public-question-id-[[item]]" question-id="[[item]]" quiz-id="NO_QUIZ" jwt="[[jwt]]" quiz-session="[[quizSession]]" concise></prendus-view-question>
                 <paper-icon-button id="add[[item]]" icon="av:playlist-add" on-click="addQuestionToQuiz"></paper-icon-button>
                 <paper-tooltip for="add[[item]]">Add to quiz</paper-tooltip>
                 <paper-icon-button id="edit[[item]]" icon="create" on-click="editQuestion"></paper-icon-button>

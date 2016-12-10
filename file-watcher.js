@@ -17,7 +17,7 @@ chokidar.watch([
     "app/client/components/*/*",
     "app/client/redux/*",
     "app/client/styles/*",
-    "app/client/interfaces/*"
+    "app/client/typings/*"
 ]).on('change', (path) => {
 
     const fileEnding = path.substr(path.lastIndexOf('.') + 1);
@@ -77,9 +77,9 @@ function bundle(builder, path) {
     //bundle all of the following files
     builder.buildStatic(`
         (app/client/components/*/*.ts) +
-        (app/client/bower_components/solutia-maxima-components/components/*/*.ts) +
-        (app/client/bower_components/view-quiz-component/*.ts) +
-        (app/client/bower_components/video-viewer-component/*.ts)
+        (app/client/bower_components/prendus-question-components/components/*/*.ts) +
+        (app/client/bower_components/prendus-quiz-viewer-component/*.ts) +
+        (app/client/bower_components/prendus-video-viewer-component/*.ts)
         `, 'app/client/dist/prendus.js', {
         minify: false
     }).then(function() {

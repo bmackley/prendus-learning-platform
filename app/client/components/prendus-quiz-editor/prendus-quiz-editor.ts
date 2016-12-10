@@ -1,16 +1,16 @@
-import {Question} from '../../node_modules/prendus-services/interfaces/question.interface';
-import {QuestionVisibility} from '../../node_modules/prendus-services/interfaces/question-visibility.type';
+import {Question} from '../../node_modules/prendus-services/typings/question';
+import {QuestionVisibility} from '../../node_modules/prendus-services/typings/question-visibility';
 import {Actions} from '../../redux/actions';
-import {UtilitiesService} from '../../node_modules/prendus-services/services/utilities.service';
-import {FirebaseService} from '../../node_modules/prendus-services/services/firebase.service';
-import {QuestionSettings} from '../../node_modules/prendus-services/interfaces/question-settings.interface';
-import {StatechangeEvent} from '../../interfaces/statechange-event.interface';
-import {QuizSession} from '../../node_modules/prendus-services/interfaces/quiz-session';
-import {Course} from '../../node_modules/prendus-services/interfaces/course.interface';
-import {CourseModel} from '../../node_modules/prendus-services/models/course.model';
-import {QuizVisibility} from '../../node_modules/prendus-services/interfaces/quiz-visibility.type';
-import {QuizModel} from '../../node_modules/prendus-services/models/quiz.model';
-import {Quiz} from '../../node_modules/prendus-services/interfaces/quiz.interface';
+import {UtilitiesService} from '../../node_modules/prendus-services/services/utilities-service';
+import {FirebaseService} from '../../node_modules/prendus-services/services/firebase-service';
+import {QuestionSettings} from '../../node_modules/prendus-services/typings/question-settings';
+import {StatechangeEvent} from '../../typings/statechange-event';
+import {QuizSession} from '../../node_modules/prendus-services/typings/quiz-session';
+import {Course} from '../../node_modules/prendus-services/typings/course';
+import {CourseModel} from '../../node_modules/prendus-services/models/course-model';
+import {QuizVisibility} from '../../node_modules/prendus-services/typings/quiz-visibility';
+import {QuizModel} from '../../node_modules/prendus-services/models/quiz-model';
+import {Quiz} from '../../node_modules/prendus-services/typings/quiz';
 
 class PrendusQuizEditor {
     public is: string;
