@@ -100,15 +100,16 @@ class PrendusConceptQuizContainer {
       this.uid = state.currentUser.metaData.uid;
       this.currentCourse = state.courseViewCurrentCourse;
       // determine user's edit access for each quiz
-			this.quizzes = (state.viewConceptQuizzes[this.conceptId] || []).map((quiz: Quiz) => {
-				if(   quiz.uid === this.uid
-					||  quiz.collaborators
-					&&  quiz.collaborators[this.user.metaData.uid]) {
-						return Object.assign({}, quiz, {
-							hasEditAccess: true
-						});
-					}
-			});
+    	this.quizzes = (state.viewConceptQuizzes[this.conceptId] || []).map((quiz: Quiz) => {
+    		if(quiz.uid === this.uid
+    			||  quiz.collaborators
+    			&&  quiz.collaborators[this.uid]) {
+    				return Object.assign({}, quiz, {
+    					hasEditAccess: true
+    				});
+    			}
+                return quiz;
+    	});
     }
 }
 
