@@ -1,6 +1,6 @@
-import {Quiz} from '../../node_modules/prendus-services/interfaces/quiz.interface';
+import {Quiz} from '../../node_modules/prendus-services/typings/quiz';
 import {Actions} from '../../redux/actions';
-import {StatechangeEvent} from '../../interfaces/statechange-event.interface';
+import {StatechangeEvent} from '../../typings/statechange-event';
 
 class PrendusConceptQuizContainerEdit {
     public is: string;

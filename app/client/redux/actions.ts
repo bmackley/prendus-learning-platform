@@ -1,24 +1,24 @@
-import {FirebaseService} from '../node_modules/prendus-services/services/firebase.service';
-import {CourseModel} from '../node_modules/prendus-services/models/course.model';
-import {ConceptModel} from '../node_modules/prendus-services/models/concept.model';
-import {CourseConceptData} from '../node_modules/prendus-services/interfaces/course-concept-data.interface';
-import {UserModel} from '../node_modules/prendus-services/models/user.model';
-import {VideoModel} from '../node_modules/prendus-services/models/video.model';
-import {TagModel} from '../node_modules/prendus-services/models/tag.model';
-import {QuizModel} from '../node_modules/prendus-services/models/quiz.model';
-import {Quiz} from '../node_modules/prendus-services/interfaces/quiz.interface';
-import {QuestionModel} from '../node_modules/prendus-services/models/question.model';
-import {Course} from '../node_modules/prendus-services/interfaces/course.interface';
-import {Tag} from '../node_modules/prendus-services/interfaces/tag.interface';
-import {Concept} from '../node_modules/prendus-services/interfaces/concept.interface';
-import {QuestionSettings} from '../node_modules/prendus-services/interfaces/question-settings.interface';
-import {CourseVisibility} from '../node_modules/prendus-services/interfaces/course-visibility.type';
-import {UserMetaData} from '../node_modules/prendus-services/interfaces/user-meta-data.interface';
-import {User} from '../node_modules/prendus-services/interfaces/user.interface';
-import {EmailsToUidsModel} from '../node_modules/prendus-services/models/emails-to-uids.model';
-import {Video} from '../node_modules/prendus-services/interfaces/video.interface';
-import {ExecuteAsyncInOrder} from '../node_modules/prendus-services/services/execute-async-in-order';
-import {UtilitiesService} from '../node_modules/prendus-services/services/utilities.service';
+import {FirebaseService} from '../node_modules/prendus-services/services/firebase-service';
+import {CourseModel} from '../node_modules/prendus-services/models/course-model';
+import {ConceptModel} from '../node_modules/prendus-services/models/concept-model';
+import {CourseConceptData} from '../node_modules/prendus-services/typings/course-concept-data';
+import {UserModel} from '../node_modules/prendus-services/models/user-model';
+import {VideoModel} from '../node_modules/prendus-services/models/video-model';
+import {TagModel} from '../node_modules/prendus-services/models/tag-model';
+import {QuizModel} from '../node_modules/prendus-services/models/quiz-model';
+import {Quiz} from '../node_modules/prendus-services/typings/quiz';
+import {QuestionModel} from '../node_modules/prendus-services/models/question-model';
+import {Course} from '../node_modules/prendus-services/typings/course';
+import {Tag} from '../node_modules/prendus-services/typings/tag';
+import {Concept} from '../node_modules/prendus-services/typings/concept';
+import {QuestionSettings} from '../node_modules/prendus-services/typings/question-settings';
+import {CourseVisibility} from '../node_modules/prendus-services/typings/course-visibility';
+import {UserMetaData} from '../node_modules/prendus-services/typings/user-meta-data';
+import {User} from '../node_modules/prendus-services/typings/user';
+import {EmailsToUidsModel} from '../node_modules/prendus-services/models/emails-to-uids-model';
+import {Video} from '../node_modules/prendus-services/typings/video';
+import {ExecuteAsyncInOrderService} from '../node_modules/prendus-services/services/execute-async-in-order-service';
+import {UtilitiesService} from '../node_modules/prendus-services/services/utilities-service';
 const defaultAction = (context: any) => {
     context.action = {
         type: 'DEFAULT_ACTION'
@@ -38,7 +38,7 @@ const hideMainSpinner = (context: any) => {
 
 const loadCourseCollaboratorEmails = async (context: any, uid: string, courseId: string) => {
 
-    ExecuteAsyncInOrder.execute(operation);
+    ExecuteAsyncInOrderService.execute(operation);
 
     async function operation() {
         try {
@@ -70,7 +70,7 @@ const loadCourseCollaboratorEmails = async (context: any, uid: string, courseId:
 
 const loadConceptCollaboratorEmails = async (context: any, courseId: string, conceptId: string) => {
 
-    ExecuteAsyncInOrder.execute(operation);
+    ExecuteAsyncInOrderService.execute(operation);
 
     async function operation() {
         try {
@@ -109,7 +109,7 @@ const loadConceptCollaboratorEmails = async (context: any, courseId: string, con
 
 const loadVideoCollaboratorEmails = async (context: any, conceptId: string, videoId: string) => {
 
-    ExecuteAsyncInOrder.execute(operation);
+    ExecuteAsyncInOrderService.execute(operation);
 
     async function operation() {
         try {
@@ -138,7 +138,7 @@ const loadVideoCollaboratorEmails = async (context: any, conceptId: string, vide
 
 const loadQuizCollaboratorEmails = async (context: any, conceptId: string, quizId: string) => {
 
-    ExecuteAsyncInOrder.execute(operation);
+    ExecuteAsyncInOrderService.execute(operation);
 
     async function operation() {
         try {
@@ -167,7 +167,7 @@ const loadQuizCollaboratorEmails = async (context: any, conceptId: string, quizI
 
 const addCourseCollaborator = async (context: any, courseId: string, email: string) => {
 
-    ExecuteAsyncInOrder.execute(operation);
+    ExecuteAsyncInOrderService.execute(operation);
 
     async function operation() {
         try {
@@ -191,7 +191,7 @@ const addCourseCollaborator = async (context: any, courseId: string, email: stri
 
 const addConceptCollaborator = async (context: any, conceptId: string, email: string) => {
 
-    ExecuteAsyncInOrder.execute(operation);
+    ExecuteAsyncInOrderService.execute(operation);
 
     async function operation() {
         try {
@@ -215,7 +215,7 @@ const addConceptCollaborator = async (context: any, conceptId: string, email: st
 
 const addVideoCollaborator = async (context: any, videoId: string, email: string) => {
 
-    ExecuteAsyncInOrder.execute(operation);
+    ExecuteAsyncInOrderService.execute(operation);
 
     async function operation() {
         try {
@@ -239,7 +239,7 @@ const addVideoCollaborator = async (context: any, videoId: string, email: string
 
 const addQuizCollaborator = async (context: any, quizId: string, email: string) => {
 
-    ExecuteAsyncInOrder.execute(operation);
+    ExecuteAsyncInOrderService.execute(operation);
 
     async function operation() {
         try {
@@ -263,7 +263,7 @@ const addQuizCollaborator = async (context: any, quizId: string, email: string) 
 
 const removeCourseCollaborator = async (context: any, courseId: string, email: string) => {
 
-    ExecuteAsyncInOrder.execute(operation);
+    ExecuteAsyncInOrderService.execute(operation);
 
     async function operation() {
         try {
@@ -287,7 +287,7 @@ const removeCourseCollaborator = async (context: any, courseId: string, email: s
 
 const removeConceptCollaborator = async (context: any, conceptId: string, email: string) => {
 
-    ExecuteAsyncInOrder.execute(operation);
+    ExecuteAsyncInOrderService.execute(operation);
 
     async function operation() {
         try {
@@ -310,7 +310,7 @@ const removeConceptCollaborator = async (context: any, conceptId: string, email:
 
 const removeVideoCollaborator = async (context: any, videoId: string, email: string) => {
 
-    ExecuteAsyncInOrder.execute(operation);
+    ExecuteAsyncInOrderService.execute(operation);
 
     async function operation() {
         try {
@@ -333,7 +333,7 @@ const removeVideoCollaborator = async (context: any, videoId: string, email: str
 
 const removeQuizCollaborator = async (context: any, quizId: string, email: string) => {
 
-    ExecuteAsyncInOrder.execute(operation);
+    ExecuteAsyncInOrderService.execute(operation);
 
     async function operation() {
         try {

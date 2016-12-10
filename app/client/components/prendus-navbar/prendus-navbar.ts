@@ -1,7 +1,7 @@
 import {Actions} from '../../redux/actions';
 import {rootReducer} from '../../redux/reducers';
-import {FirebaseService} from '../../node_modules/prendus-services/services/firebase.service';
-import {StatechangeEvent} from '../../interfaces/statechange-event.interface';
+import {FirebaseService} from '../../node_modules/prendus-services/services/firebase-service';
+import {StatechangeEvent} from '../../typings/statechange-event';
 
 export class PrendusNavbar {
   public is: string;
