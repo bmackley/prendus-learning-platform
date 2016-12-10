@@ -30,7 +30,7 @@ class PrendusEditQuizRouter {
         editProblemComponent.init();
         //TODO this is evil, make sure to remove it once edit problem component can reload itself in response to property changes
 
-        window.history.pushState({}, '', `courses/edit-question/course-id/${this.courseId}/video-id/${id}`);
+        window.history.pushState({}, '', `courses/edit-question/course/${this.courseId}/video/${id}`);
         this.fire('location-changed', {}, {node: window});
     }
 
