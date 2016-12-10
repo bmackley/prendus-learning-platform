@@ -1,4 +1,4 @@
-import {StatechangeEvent} from '../../interfaces/statechange-event.interface';
+import {StatechangeEvent} from '../../typings/statechange-event';
 
 class PrendusRouter {
   public is: string;

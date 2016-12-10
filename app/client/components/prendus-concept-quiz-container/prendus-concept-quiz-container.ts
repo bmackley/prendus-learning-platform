@@ -1,9 +1,9 @@
-import {Quiz} from '../../node_modules/prendus-services/interfaces/quiz.interface';
-import {UserMetaData} from '../../node_modules/prendus-services/interfaces/user-meta-data.interface';
-import {Course} from '../../node_modules/prendus-services/interfaces/course.interface';
+import {Quiz} from '../../node_modules/prendus-services/typings/quiz';
+import {UserMetaData} from '../../node_modules/prendus-services/typings/user-meta-data';
+import {Course} from '../../node_modules/prendus-services/typings/course';
 import {Actions} from '../../redux/actions';
-import {StatechangeEvent} from '../../interfaces/statechange-event.interface';
-import {FirebaseService} from '../../node_modules/prendus-services/services/firebase.service';
+import {StatechangeEvent} from '../../typings/statechange-event';
+import {FirebaseService} from '../../node_modules/prendus-services/services/firebase-service';
 
 class PrendusConceptQuizContainer {
     public is: string;

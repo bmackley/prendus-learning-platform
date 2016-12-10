@@ -1,6 +1,6 @@
 import {Actions} from '../../redux/actions';
-import {StatechangeEvent} from '../../interfaces/statechange-event.interface';
-import {DOMRepeatEvent} from '../../node_modules/prendus-services/interfaces/dom-repeat-event.interface';
+import {StatechangeEvent} from '../../typings/statechange-event';
+import {DOMRepeatEvent} from '../../node_modules/prendus-services/typings/dom-repeat-event';
 
 class PrendusCollaboratorModal {
     public is: string;

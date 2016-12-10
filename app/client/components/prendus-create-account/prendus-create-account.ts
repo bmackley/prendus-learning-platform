@@ -1,6 +1,6 @@
 import {Actions} from '../../redux/actions';
-import {UserMetaData} from '../../node_modules/prendus-services/interfaces/user-meta-data.interface'
-import {User} from '../../node_modules/prendus-services/interfaces/user.interface'
+import {UserMetaData} from '../../node_modules/prendus-services/typings/user-meta-data';
+import {User} from '../../node_modules/prendus-services/typings/user';
 
 class PrendusCreateAccount {
   public is: string;

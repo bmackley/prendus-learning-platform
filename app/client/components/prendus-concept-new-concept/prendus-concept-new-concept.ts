@@ -1,9 +1,9 @@
 import {Actions} from '../../redux/actions';
-import {Course} from '../../node_modules/prendus-services/interfaces/course.interface';
-import {CourseConceptData} from '../../node_modules/prendus-services/interfaces/course-concept-data.interface';
-import {StatechangeEvent} from '../../interfaces/statechange-event.interface';
-import {Tag} from '../../node_modules/prendus-services/interfaces/tag.interface';
-import {Concept} from '../../node_modules/prendus-services/interfaces/concept.interface';
+import {Course} from '../../node_modules/prendus-services/typings/course';
+import {CourseConceptData} from '../../node_modules/prendus-services/typings/course-concept-data';
+import {StatechangeEvent} from '../../typings/statechange-event';
+import {Tag} from '../../node_modules/prendus-services/typings/tag';
+import {Concept} from '../../node_modules/prendus-services/typings/concept';
 
 class PrendusConceptNewConcept {
   public is: string;

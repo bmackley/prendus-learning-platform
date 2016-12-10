@@ -1,5 +1,5 @@
 import {Actions} from '../../redux/actions';
-import {StatechangeEvent} from '../../interfaces/statechange-event.interface';
+import {StatechangeEvent} from '../../typings/statechange-event';
 class PrendusNotification {
   public is: string;
   public username: string;
