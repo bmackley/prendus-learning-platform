@@ -144,7 +144,10 @@ export function rootReducer(state: State = InitialState, action: Action): State 
         return newState;
       }
       case 'DELETE_CONCEPT': {
-        const newState = Object.assign({}, state);
+        const newState = {
+          ...state,
+          currentCourseViewCourse: action.currentCourse
+        }
         delete newState.concepts[action.conceptKey];
         return newState;
       }
@@ -169,9 +172,10 @@ export function rootReducer(state: State = InitialState, action: Action): State 
           return newState;
       }
       case 'LOAD_VIEW_COURSE_CONCEPTS': {
-          const newState = Object.assign({}, state);
-          newState.viewCourseConcepts[action.courseId] = action.orderedConcepts;
-          return newState;
+        const newState = Object.assign({}, state);
+        newState.viewCourseConcepts[action.courseId] = action.orderedConcepts;
+        return newState;
+
       }
       case 'SET_CURRENT_VIDEO_INFO': {
           const newState = Object.assign({}, state);
@@ -227,12 +231,6 @@ export function rootReducer(state: State = InitialState, action: Action): State 
       case 'DELETE_TAG_EDIT_COURSE': {
         const newState = Object.assign({}, state);
         newState.courseViewCurrentCourse = action.currentCourse;
-        newState.courseTagNames = action.courseTagNames;
-        return newState;
-      }
-      case 'SET_COURSE_EDIT_CURRENT_COURSE': {
-        const newState = Object.assign({}, state);
-        newState.courseEditCurrentCourse = action.currentCourse;
         newState.courseTagNames = action.courseTagNames;
         return newState;
       }
