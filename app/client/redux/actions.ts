@@ -629,7 +629,7 @@ const loadEditCourseConcepts = async (context: any, courseId: string) => {
     }
 };
 
-const loadViewCourseConcepts = async (context: any, courseId: string) => {
+const loadViewCourseConcepts = async (context: any, courseId: string): Promise<void> => {
     try {
         const course = await CourseModel.getById(courseId);
         const conceptsArray = await CourseModel.courseConceptsToArray(course);
@@ -639,8 +639,7 @@ const loadViewCourseConcepts = async (context: any, courseId: string) => {
             orderedConcepts,
             courseId
         };
-    }
-    catch(error) {
+    } catch(error) {
         throw error;
     }
 };
@@ -981,13 +980,13 @@ const getCoursesByVisibility = async (context: any, visibility: CourseVisibility
     }
 };
 
-const getCourseViewCourseById = async (context: any, id: string) => {
+const getCourseViewCourseById = async (context: any, id: string): Promise<void> => {
     try {
-      const course = await CourseModel.getById(id);
-      const courseTagNames : string[] = course.tags ? await TagModel.getTagNameArray(course.tags) : [];
+      const currentCourse = await CourseModel.getById(id);
+      const courseTagNames: string[] = currentCourse.tags ? await TagModel.getTagNameArray(currentCourse.tags) : [];
       context.action = {
           type: 'SET_COURSE_VIEW_CURRENT_COURSE',
-          currentCourse: course,
+          currentCourse,
           courseTagNames
       };
     }
@@ -996,33 +995,19 @@ const getCourseViewCourseById = async (context: any, id: string) => {
     }
 };
 
-const getCourseEditCourseById = async (context: any, id: string) => {
-    try {
-      const course = await CourseModel.getById(id);
-      const courseTagNames : string[] = course.tags ? await TagModel.getTagNameArray(course.tags) : [];
-      context.action = {
-          type: 'SET_COURSE_EDIT_CURRENT_COURSE',
-          currentCourse: course,
-          courseTagNames
-      };
-    }
-    catch(error){
-      throw error;
-    }
-};
-
-const deleteConcept = async (context: any, courseId: string, conceptId: string) => {
+const deleteConcept = async (context: any, courseId: string, conceptId: string): Promise<void> => {
       try {
         await CourseModel.disassociateConcept(courseId, conceptId);
-        const course = await CourseModel.getById(courseId);
+        const currentCourse: Course = await CourseModel.getById(courseId);
         context.action = {
             type: 'DELETE_CONCEPT',
-            currentCourse: course
+            currentCourse
         };
-      }catch(error){
+      } catch(error){
         throw error;
       }
 };
+
 const orderConcepts = async (context: any, id: string, courseConceptsArray: CourseConceptData[]) => {
   try {
     await CourseModel.updateCourseConcepts(id, courseConceptsArray);
@@ -1110,7 +1095,6 @@ export const Actions = {
     deleteQuiz,
     getQuiz,
     getCourseViewCourseById,
-    getCourseEditCourseById,
     updateConceptTags,
     updateConceptTitle,
     getConceptAndTagNamesById,

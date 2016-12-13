@@ -73,13 +73,15 @@ export class PrendusConceptContainerEdit {
     this.querySelector('#delete-confirm-modal').close();
     try {
       await Actions.deleteConcept(this, this.courseId, this.conceptId);
-      await Actions.loadEditCourseConcepts(this, this.courseId);
+      await Actions.loadViewCourseConcepts(this, this.courseId);
+
       this.successMessage = '';
-      this.successMessage = 'Concept Deleted Successfully'
+      this.successMessage = 'Concept deleted successfully';
     } catch(error) {
       this.errorMessage = '';
       this.errorMessage = error.message;
     }
+
   }
   ready(): void {
     this.selected = 0;
