@@ -32,7 +32,6 @@ export interface State {
     currentConcept: {};
     concepts: {};
     courseViewCurrentCourse: Course;
-    courseEditCurrentCourse: Course;
     currentConceptVideoId: string;
     currentConceptVideoTitle: string;
     currentConceptVideoUrl: string
