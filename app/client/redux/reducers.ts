@@ -6,11 +6,10 @@ import {Action} from '../typings/action';
 export function rootReducer(state: State = InitialState, action: Action): State {
     switch(action.type) {
         case 'SHOW_MAIN_SPINNER': {
-            const newState = Object.assign({}, state);
-
-            newState.mainViewToShow = 'spinner';
-
-            return newState;
+            return {
+              ...state,
+              mainViewToShow: 'spinner'
+            };
         }
         case 'HIDE_MAIN_SPINNER': {
             const newState = Object.assign({}, state);
