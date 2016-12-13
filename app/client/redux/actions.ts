@@ -783,11 +783,6 @@ const getConceptAndTagNamesById = async (id: string): Promise<{ concept: Concept
 const getConceptById = async (context: any, id: string) => {
     try {
       const concept = await ConceptModel.getById(id);
-      const tagArray = Object.keys(concept.tags || {});
-      if(tagArray) {
-        const tags = await TagModel.resolveTagIds(tagArray);
-        concept.tags = tags;
-      }
       if(context) {
           context.action = {
             type: 'GET_CONCEPT_BY_ID',
@@ -796,10 +791,21 @@ const getConceptById = async (context: any, id: string) => {
       }
 
       return concept;
-    }catch(error){
+    } catch(error){
       throw error;
     }
 };
+
+const resolveTagIdObject = async (tags: {[tagId: string]: string}): Promise<Tag[]> => {
+  try {
+    const tagsAsStringArray: string[] = Object.keys(tags || {});
+    const tagObjects: Tag[] = await TagModel.resolveTagIds(tagsAsStringArray);
+    return tagObjects;
+  } catch(error) {
+    throw error;
+  }
+}
+
 const addCourse = async (context: any, newCourse: Course, tags: string[]) => {
     try {
       const user = await FirebaseService.getLoggedInUser();
@@ -1024,7 +1030,7 @@ const orderConcepts = async (context: any, id: string, courseConceptsArray: Cour
   }
 };
 
-const updateCourseField = async (context: any, id: string, field: string, value: string) => {
+const updateCourseField = async (context: any, id: string, field: string, value: string | number) => {
     try{
       await CourseModel.updateCourseField(id, field, value);
       const course = await CourseModel.getById(id);
@@ -1108,6 +1114,7 @@ export const Actions = {
     updateConceptTitle,
     getConceptAndTagNamesById,
     getConceptById,
+    resolveTagIdObject,
     loadPublicQuestionIds,
     starCourse,
     unstarCourse,
