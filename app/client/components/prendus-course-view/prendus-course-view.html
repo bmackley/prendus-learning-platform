@@ -143,7 +143,6 @@
           </template>
           <!-- TAGS -->
           <h3 hidden$="[[!showTagsTitle(currentCourse, hasEditAccess)]]">Tags</h3>
-          <!-- Placeholder for tags, don't display until 100% ready to do so. -->
           <template is="dom-if" if="[[showTagsView(currentCourse, hasEditAccess)]]">
             <div id="tags-container">
               <template is="dom-repeat" items="[[currentCourse.tags]]">
