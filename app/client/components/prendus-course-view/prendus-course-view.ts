@@ -130,7 +130,7 @@ export class PrendusCourseView {
 
   }
 
-  // For showTagstitle and showTagsView you have to pass in the course
+  // For showTagsTitle and showTagsView you have to pass in the course
   // object instead of course.tags.length, if course.tags is null or
   // undefined, then you are trying to call length on a null object.
   // Also, in the HTML it will not execute these functions if one of
