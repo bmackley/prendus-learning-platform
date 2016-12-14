@@ -387,17 +387,17 @@ const createNewQuiz = async (context: any, conceptId: string) => {
     const user = await FirebaseService.getLoggedInUser();
     const uid: string = user.uid;
 
-    const quizId = await QuizModel.createOrUpdate(null, {
+    const quizId: string = await QuizModel.createOrUpdate(null, {
         id: null,
         uid,
         title: `Untitled Quiz`,
+        visibility: 'public',
         quizQuestionSettings: {
             answerFeedback: true,
             showAnswer: true,
             showHint: true,
             showCode: true,
             graded: false,
-            visibility: 'public',
             showConfidenceLevel: false,
             allowGeneration: true
         },
