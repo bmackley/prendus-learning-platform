@@ -631,9 +631,9 @@ const loadEditCourseConcepts = async (context: any, courseId: string) => {
 
 const loadViewCourseConcepts = async (context: any, courseId: string): Promise<void> => {
     try {
-        const course = await CourseModel.getById(courseId);
-        const conceptsArray = await CourseModel.courseConceptsToArray(course);
-        const orderedConcepts = await CourseModel.orderCourseConcepts(conceptsArray);
+        const course: Course = await CourseModel.getById(courseId);
+        const conceptsArray: CourseConceptData[] = await CourseModel.courseConceptsToArray(course);
+        const orderedConcepts: CourseConceptData[] = await CourseModel.orderCourseConcepts(conceptsArray);
         context.action = {
             type: 'LOAD_VIEW_COURSE_CONCEPTS',
             orderedConcepts,
