@@ -51,6 +51,7 @@ class PrendusCoursePreview {
 
     async starClick(e: any) {
       e.stopPropagation();
+			e.preventDefault();
       try{
         await Actions.checkUserAuth(this);
         if (this.user && this.user.metaData.uid) {
@@ -81,6 +82,7 @@ class PrendusCoursePreview {
 
     openDeleteModal(e: any) {
       e.stopPropagation();
+			e.preventDefault();
       this.querySelector('#confirm-delete-modal').open();
     }
 
