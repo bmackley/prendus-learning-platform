@@ -3,6 +3,12 @@
 <link rel="import" href="../../bower_components/paper-card/paper-card.html">
 <link rel="import" href="../../bower_components/paper-button/paper-button.html">
 <link rel="import" href="../prendus-course-preview/prendus-course-preview.html">
+<link rel="import" href="../prendus-notification/prendus-notification.html">
+<script src="../../bower_components/firebase/firebase.js"></script>
+<script src="../../bower_components/firebase-util/dist/firebase-util-normalize.min.js"></script>
+<script src="../../bower_components/firebase-util/dist/firebase-util-paginate.min.js"></script>
+<script src="../../bower_components/firebase-util/dist/firebase-util.min.js"></script>
+
 
 <dom-module id="prendus-homepage">
   <style>
@@ -43,15 +49,18 @@
   </style>
 
   <template>
-
+    <prendus-notification success-message="[[successMessage]]" error-message="[[errorMessage]]"></prendus-notification>
     <redux-store on-statechange="mapStateToThis" action="[[action]]"></redux-store>
-
+    <paper-button on-tap="next">Next!</paper-button>
     <div class="homepage-courses">
       <template id="courseList" is="dom-repeat" items="[[publicCourses]]">
         <prendus-course-preview class="course-preview" course="[[item]]"></prendus-course-preview>
       </template>
     </div>
+    <script>
 
+
+    </script>
 
   </template>
 
