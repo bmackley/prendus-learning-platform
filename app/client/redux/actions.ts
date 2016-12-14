@@ -1057,7 +1057,17 @@ const updateQuizDueDates = async (courseId: string): Promise<void> => {
     throw error;
   }
 }
+const reloadPublicCourses = async (context: any, courses: Course[]): Promise<void> => {
+  try {
+    console.log('reloadPublicCourses');
+    context.action = {
+      type: 'RELOAD_PUBLIC_COURSES',
+      courses
+    }
+  } catch(error) {
 
+  }
+};
 export const Actions = {
     defaultAction,
     loginUser,
@@ -1124,5 +1134,6 @@ export const Actions = {
     loadViewCourseConcepts,
     showMainSpinner,
     hideMainSpinner,
-    updateQuizDueDates
+    updateQuizDueDates,
+    reloadPublicCourses
   };
