@@ -130,13 +130,19 @@ export class PrendusCourseView {
 
   }
 
-
-  showTagsTitle(tagsLength: number, hasEditAccess: boolean): boolean {
-    return tagsLength > 0 || hasEditAccess;
+  // For showTagstitle and showTagsView you have to pass in the course
+  // object instead of course.tags.length, if course.tags is null or
+  // undefined, then you are trying to call length on a null object.
+  // Also, in the HTML it will not execute these functions if one of
+  // the parameters is null.
+  showTagsTitle(course: Course, hasEditAccess: boolean): boolean {
+    // Since this is an or, it will try to return the course.tags
+    // object instead of a boolean that is checking if it's undefined.
+    return course.tags !== undefined || hasEditAccess;
   }
 
-  showTagsView(tagsLength: number, hasEditAccess: boolean): boolean {
-    return tagsLength > 0 && !hasEditAccess;
+  showTagsView(course: Course, hasEditAccess: boolean): boolean {
+    return course.tags && !hasEditAccess;
   }
 
   async onAdd(e: any): Promise<void> {
