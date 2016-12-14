@@ -25,6 +25,7 @@ export class PrendusCourseView {
   public editingTitle: boolean;
   public editingDescription: boolean;
   public listeners: any;
+  public data: any;
   beforeRegister() {
     this.is = 'prendus-course-view';
     this.properties = {
