@@ -420,7 +420,7 @@ const deleteQuiz = async (context: any, conceptId: string, quiz: Quiz) => {
 
     // disassociate concept and questions
     await ConceptModel.disassociateQuiz(conceptId, quiz.id);
-    for(let key: string in quiz.questions) {
+    for(let key in quiz.questions) {
       await QuizModel.disassociateQuestion(quiz.id, key);
     }
     // delete from database
