@@ -27,13 +27,15 @@ class PrendusHomepage {
     }
 
     async next(e: any): Promise<void> {
+      let threshold: any = this.querySelector('#scrollThreshold');
+      console.log(threshold.lowerTriggered);
       const word: string = 'hello';
       for(let i: number = 0; i < 100; i++) {
         this.words = this.words ? [...this.words, `${word} ${this.words.length + 1}`] : [`${word} 1`];
       }
-      console.log(this.words);
-      console.log(this.words.length);
-      // const amt: number = 3;
+      // console.log(this.words);
+      // console.log(this.words.length);
+      // const amt: number = 9;
       // const ids: string[] = await CourseModel.getNext(amt);
       // const courseIds: string[] = this.publicCourses.map((course) => course.id);
       // const renderIds: string[] = ids.length === amt ? ids : ids.filter((id) => {
@@ -57,6 +59,17 @@ class PrendusHomepage {
         console.log(word);
       }
       return value;
+    }
+
+    loadMoreData(e: any): void {
+      console.log('loadMoreData');
+      let threshold: any = this.querySelector('#scrollThreshold');
+      this.next(new Event("hello!"));
+      threshold.clearTriggers();
+
+        // if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight) {
+        //   console.log('bottom');
+        // }
     }
 
     mapStateToThis(e: StatechangeEvent): void {
