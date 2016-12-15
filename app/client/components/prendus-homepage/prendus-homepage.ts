@@ -18,7 +18,6 @@ class PrendusHomepage {
 
     async beforeRegister(): Promise<void> {
         this.is = 'prendus-homepage';
-        await CourseModel.getNext(3);
     }
 
     viewCourse(e: any): void {
@@ -28,15 +27,17 @@ class PrendusHomepage {
     }
 
     async next(e: any): Promise<void> {
-      // console.log(this.courseIds);
-      // const keyword: string = 'hello';
-      // for(let i: number = 0; i < 100; i++) {
-      //     this.words = this.words ? [...this.words, `${keyword} ${this.words.length + 1}`] : [`${keyword} ${1}`];
-      // }
-      const ids: string[] = await CourseModel.getNext(3);
-      const courses: Course[] = await CourseModel.resolveCourseIds(ids);
+      const amt: number = 3;
+      const ids: string[] = await CourseModel.getNext(amt);
+      const courseIds: string[] = this.publicCourses.map((course) => course.id);
+      const renderIds: string[] = ids.length === amt ? ids : ids.filter((id) => {
+        if(courseIds.indexOf(id) === -1) {
+          return id;
+        }
+      });
+      const courses: Course[] = await CourseModel.resolveCourseIds(renderIds);
       const newCourses: Course[] = this.publicCourses.concat(courses);
-      await Actions.reloadPublicCourses(this, courses);
+      await Actions.reloadPublicCourses(this, newCourses);
 
     }
     async starCourse(e: any): Promise<void> {
