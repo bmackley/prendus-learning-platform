@@ -57,18 +57,16 @@
     <prendus-notification success-message="[[successMessage]]" error-message="[[errorMessage]]"></prendus-notification>
     <redux-store on-statechange="mapStateToThis" action="[[action]]"></redux-store>
       <!-- <div class="homepage-courses"> -->
-        <!-- <iron-scroll-threshold on-lower-threshold="loadMoreData" id="threshold">
           <iron-list scroll-target="threshold" items="[[words]]" max-physical-count="10000000">
             <template>
               <paper-item>[[item]]</paper-item>
             </template>
           </iron-list>
-        </iron-scroll-threshold> -->
 
 
-          <template  is="dom-repeat" items="[[words]]">
+          <!-- <template  is="dom-repeat" items="[[words]]">
             <paper-item>[[item]]</paper-item>
-          </template>
+          </template> -->
 
           <iron-scroll-threshold id="scrollThreshold" lower-threshold="500" scroll-target="document" on-lower-threshold="loadMoreData">
           </iron-scroll-threshold>
