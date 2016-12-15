@@ -4,6 +4,7 @@
 <link rel="import" href="../../bower_components/paper-item/paper-item.html">
 <link rel="import" href="../../bower_components/paper-button/paper-button.html">
 <link rel="import" href="../../bower_components/iron-list/iron-list.html">
+<link rel="import" href="../../bower_components/iron-scroll-threshold/iron-scroll-threshold.html">
 <link rel="import" href="../prendus-course-preview/prendus-course-preview.html">
 <link rel="import" href="../prendus-notification/prendus-notification.html">
 <script src="../../bower_components/firebase/firebase.js"></script>
@@ -46,33 +47,39 @@
 				margin: 10px auto;
 			}
 
+
 		}
 
   </style>
+
 
   <template>
     <prendus-notification success-message="[[successMessage]]" error-message="[[errorMessage]]"></prendus-notification>
     <redux-store on-statechange="mapStateToThis" action="[[action]]"></redux-store>
       <!-- <div class="homepage-courses"> -->
-        <iron-list items="[[words]]" max-physical-count="10000000">
-          <div>
+        <!-- <iron-scroll-threshold on-lower-threshold="loadMoreData" id="threshold">
+          <iron-list scroll-target="threshold" items="[[words]]" max-physical-count="10000000">
             <template>
               <paper-item>[[item]]</paper-item>
             </template>
-          </div>
-        </iron-list>
-        <div>
-          <paper-button on-tap="next">Load more</paper-button>
-        </div>
-        <!-- <template id="courseList" is="dom-repeat" items="[[words]]">
-          [[item]]
-        </template> -->
+          </iron-list>
+        </iron-scroll-threshold> -->
 
-        <!-- <template id="courseList" is="dom-repeat" items="[[publicCourses]]">
-          <prendus-course-preview class="course-preview" course="[[item]]"></prendus-course-preview>
-        </template> -->
+
+          <template  is="dom-repeat" items="[[words]]">
+            <paper-item>[[item]]</paper-item>
+          </template>
+
+          <iron-scroll-threshold id="scrollThreshold" lower-threshold="500" scroll-target="document" on-lower-threshold="loadMoreData">
+          </iron-scroll-threshold>
+
+          <!-- <template id="courseList" is="dom-repeat" items="[[publicCourses]]">
+            <prendus-course-preview class="course-preview" course="[[item]]"></prendus-course-preview>
+          </template> -->
+          <div>
+            <paper-button on-tap="next">Load more</paper-button>
+          </div>
       <!-- </div> -->
   </template>
-
   <!--<script src="prendus-homepage.js"></script>-->
 </dom-module>
