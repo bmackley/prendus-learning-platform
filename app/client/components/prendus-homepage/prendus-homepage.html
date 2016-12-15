@@ -1,7 +1,9 @@
-<link href="../../bower_components/polymer/polymer.html" rel="import">
+<link  rel="import" href="../../bower_components/polymer/polymer.html">
 <link rel="import" href="../../bower_components/redux-store-element/redux-store.html">
 <link rel="import" href="../../bower_components/paper-card/paper-card.html">
+<link rel="import" href="../../bower_components/paper-item/paper-item.html">
 <link rel="import" href="../../bower_components/paper-button/paper-button.html">
+<link rel="import" href="../../bower_components/iron-list/iron-list.html">
 <link rel="import" href="../prendus-course-preview/prendus-course-preview.html">
 <link rel="import" href="../prendus-notification/prendus-notification.html">
 <script src="../../bower_components/firebase/firebase.js"></script>
@@ -51,18 +53,30 @@
   <template>
     <prendus-notification success-message="[[successMessage]]" error-message="[[errorMessage]]"></prendus-notification>
     <redux-store on-statechange="mapStateToThis" action="[[action]]"></redux-store>
-    <paper-button on-tap="next">Next!</paper-button>
-    <div class="homepage-courses">
-      <template id="courseList" is="dom-repeat" items="[[publicCourses]]">
-        <prendus-course-preview class="course-preview" course="[[item]]"></prendus-course-preview>
-      </template>
-    </div>
-    <script>
+
+      <div class="homepage-courses">
+        <!-- <iron-list items="[[words]]" max-physical-count="10000000">
+          <div>
+            <template>
+              <paper-item>[[item]]</paper-item>
+            </template>
+          </div>
+
+         </iron-list> -->
 
 
-    </script>
-
+        <template id="courseList" is="dom-repeat" items="[[publicCourses]]">
+          <prendus-course-preview class="course-preview" course="[[item]]"></prendus-course-preview>
+        </template>
+      </div>
+      <paper-button on-tap="next">Load more</paper-button>
   </template>
-
+  <script>
+      window.onscroll = function(ev) {
+        if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight) {
+            console.log('bottom');
+        }
+      };
+  </script>
   <!--<script src="prendus-homepage.js"></script>-->
 </dom-module>

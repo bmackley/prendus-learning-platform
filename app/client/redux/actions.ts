@@ -1059,7 +1059,6 @@ const updateQuizDueDates = async (courseId: string): Promise<void> => {
 }
 const reloadPublicCourses = async (context: any, courses: Course[]): Promise<void> => {
   try {
-    console.log('reloadPublicCourses');
     context.action = {
       type: 'RELOAD_PUBLIC_COURSES',
       courses
