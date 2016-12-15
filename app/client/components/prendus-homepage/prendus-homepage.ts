@@ -13,27 +13,12 @@ class PrendusHomepage {
     public properties: any;
     public observers: string[];
     public courseIds: string[];
-    public currentCourseId: string;
+    public words: string[];
+    public querySelector: any;
+
     async beforeRegister(): Promise<void> {
         this.is = 'prendus-homepage';
-        this.baseRef = new Firebase('https://prendus-development.firebaseio.com/courses');
-        this.scrollRef = new Firebase.util.Scroll(this.baseRef, 'public');
-        this.currentCourseId = 'hello!';
-        this.scrollRef.on('child_added', async function(snap: any) {
-          try {
-            console.log(this);
-            console.log(snap.key());
-            const course: Course = await CourseModel.getById(snap.key());
-            console.log(course);
-            this.publicCourses = this.publicCourses ? [...this.publicCourses, course] : [course];
-            console.log(this.publicCourses);
-            await Actions.reloadPublicCourses(this, this.publicCourses);
-          } catch(error) {
-            console.log(error.message);
-          }
-
-
-        }.bind(this));
+        await CourseModel.getNext(3);
     }
 
     viewCourse(e: any): void {
@@ -43,19 +28,33 @@ class PrendusHomepage {
     }
 
     async next(e: any): Promise<void> {
-      console.log(this);
-      console.log(this.publicCourses);
-      this.scrollRef.scroll.next(2);
+      // console.log(this.courseIds);
+      // const keyword: string = 'hello';
+      // for(let i: number = 0; i < 100; i++) {
+      //     this.words = this.words ? [...this.words, `${keyword} ${this.words.length + 1}`] : [`${keyword} ${1}`];
+      // }
+      const ids: string[] = await CourseModel.getNext(3);
+      const courses: Course[] = await CourseModel.resolveCourseIds(ids);
+      const newCourses: Course[] = this.publicCourses.concat(courses);
+      await Actions.reloadPublicCourses(this, courses);
+
     }
     async starCourse(e: any): Promise<void> {
         const courseId: string = e.model.item.courseId;
         await Actions.starCourse(this, courseId);
     }
 
+    isLast(word: string, words: string[]): boolean {
+      const value: boolean = word === words[words.length - 1];
+      if(value) {
+        console.log(word);
+      }
+      return value;
+    }
+
     mapStateToThis(e: StatechangeEvent): void {
         const state = e.detail.state;
         this.publicCourses = state.publicCourses;
-        // console.log(this.publicCourses);
     }
 }
 
