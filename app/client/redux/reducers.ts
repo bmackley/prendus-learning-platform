@@ -252,7 +252,6 @@ export function rootReducer(state: State = InitialState, action: Action): State 
         return newState;
       }
       case 'RELOAD_PUBLIC_COURSES': {
-        console.log('RELOAD_PUBLIC_COURSES');
         return {
           ...state,
           publicCourses: action.courses
