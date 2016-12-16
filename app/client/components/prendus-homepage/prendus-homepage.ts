@@ -23,6 +23,11 @@ class PrendusHomepage {
 
     async ready(): Promise<void> {
         await Actions.getCoursesByVisibility(this, 'public', this.amt);
+        // For some reason I can't figure out how to loadMoreData
+        // and have the public courses display. So I display the
+        // courses by visibility, and when the user scrolls down
+        // to the bottom, the next courses will load right away.
+        await this.loadMoreData(null);
     }
 
     viewCourse(e: any): void {
