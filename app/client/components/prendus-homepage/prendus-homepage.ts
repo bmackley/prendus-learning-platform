@@ -46,7 +46,7 @@ class PrendusHomepage {
         //TODO this always gets loaded no matter the page you're on.
         const courses: Course[] = await CourseModel.getNext(this.numCoursesLoadOnScroll);
         await Actions.reloadPublicCourses(this, courses);
-        let threshold: any = this.querySelector('#scrollThreshold');
+        let threshold: any = this.querySelector('#scroll-threshold');
         threshold.clearTriggers();
       } catch(error) {
         this.errorMessage = '';
