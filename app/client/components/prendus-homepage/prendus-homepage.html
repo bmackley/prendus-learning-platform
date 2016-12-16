@@ -20,11 +20,9 @@
 			display: block;
 		}
 
-    #homepage-courses {
-      /*height: 100vh;*/
+    .homepage-courses {
       display: flex;
       flex-wrap: wrap;
-      /*overflow: auto;*/
     }
 
     .course-preview {
@@ -34,6 +32,10 @@
       min-width: 0;
     }
 
+    #load-more-data {
+      /*TODO: Matt's hacky version to get this centered. */
+      left: 41%;
+    }
     @media (max-width: 768px) {
       .course-preview {
         flex-basis: 45%;
@@ -56,7 +58,7 @@
   <template>
     <prendus-notification success-message="[[successMessage]]" error-message="[[errorMessage]]"></prendus-notification>
     <redux-store on-statechange="mapStateToThis" action="[[action]]"></redux-store>
-      <div id="homepage-courses">
+      <div class="homepage-courses">
 
           <!-- <iron-list items="[[publicCourses]]">
             <template>
@@ -72,9 +74,11 @@
           </iron-scroll-threshold>
 
           <!-- TODO: we should probably center this. -->
-          <div>
-            <paper-button on-tap="loadMoreData">Load more</paper-button>
-          </div>
+          <!-- TODO: only display if there is more content available -->
+
+      </div>
+      <div>
+        <paper-button id="load-more-data" on-tap="loadMoreData">Load more</paper-button>
       </div>
   </template>
   <!--<script src="prendus-homepage.js"></script>-->
