@@ -16,6 +16,8 @@ class PrendusHomepage {
     public words: string[];
     public querySelector: any;
     public numCoursesLoadOnScroll: number;
+    public currentPage: string;
+
     beforeRegister(): void {
         this.is = 'prendus-homepage';
         this.numCoursesLoadOnScroll = 12;
@@ -43,14 +45,17 @@ class PrendusHomepage {
 
     async loadMoreData(e: any): Promise<void> {
       try {
-
-        const courses: Course[] = await CourseModel.getNext(this.numCoursesLoadOnScroll);
-        // Do this check here so that the firebase util won't query firebase again.
-        if(this.publicCourses.length < courses.length || courses.length === this.numCoursesLoadOnScroll) {
-            await Actions.reloadPublicCourses(this, courses);
-            let threshold: any = this.querySelector('#scroll-threshold');
-            threshold.clearTriggers();
+        // If we're on the homepage.
+        if(this.currentPage === "") {
+          const courses: Course[] = await CourseModel.getNext(this.numCoursesLoadOnScroll);
+          // Do this check here so that the firebase util won't query firebase again.
+          if(this.publicCourses.length < courses.length || courses.length === this.numCoursesLoadOnScroll) {
+              await Actions.reloadPublicCourses(this, courses);
+              let threshold: any = this.querySelector('#scroll-threshold');
+              threshold.clearTriggers();
+          }
         }
+
       } catch(error) {
         this.errorMessage = '';
         this.errorMessage = error.message;
