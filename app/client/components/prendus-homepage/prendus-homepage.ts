@@ -30,8 +30,6 @@ class PrendusHomepage {
       const amt: number = 6;
       const courses: Course[] = await CourseModel.getNext(amt);
       await Actions.reloadPublicCourses(this, courses);
-
-
     }
     async starCourse(e: any): Promise<void> {
         const courseId: string = e.model.item.courseId;
@@ -42,7 +40,6 @@ class PrendusHomepage {
       let threshold: any = this.querySelector('#scrollThreshold');
       this.next(new Event("hello!"));
       threshold.clearTriggers();
-
     }
 
     mapStateToThis(e: StatechangeEvent): void {
