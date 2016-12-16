@@ -65,10 +65,10 @@
           </iron-list> -->
 
           <!-- TODO: figure out how to get this to work with iron-list.-->
-          <template id="courseList" is="dom-repeat" items="[[publicCourses]]">
+          <template id="course-list" is="dom-repeat" items="[[publicCourses]]">
             <prendus-course-preview class="course-preview" course="[[item]]"></prendus-course-preview>
           </template>
-          <iron-scroll-threshold id="scrollThreshold" lower-threshold="500" scroll-target="document" on-lower-threshold="loadMoreData">
+          <iron-scroll-threshold id="scroll-threshold" lower-threshold="500" scroll-target="document" on-lower-threshold="loadMoreData">
           </iron-scroll-threshold>
 
           <!-- TODO: we should probably center this. -->
