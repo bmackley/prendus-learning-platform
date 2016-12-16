@@ -15,9 +15,14 @@ class PrendusHomepage {
     public courseIds: string[];
     public words: string[];
     public querySelector: any;
-
-    async beforeRegister(): Promise<void> {
+    public amt: number;
+    beforeRegister(): void {
         this.is = 'prendus-homepage';
+        this.amt = 9;
+    }
+    
+    async ready(): Promise<void> {
+        await Actions.getCoursesByVisibility(this, 'public', this.amt);
     }
 
     viewCourse(e: any): void {
@@ -32,11 +37,17 @@ class PrendusHomepage {
     }
 
     async loadMoreData(e: any): Promise<void> {
-      let threshold: any = this.querySelector('#scrollThreshold');
-      const amt: number = 9;
-      const courses: Course[] = await CourseModel.getNext(amt);
-      await Actions.reloadPublicCourses(this, courses);
-      threshold.clearTriggers();
+      try {
+        const amt: number = 9;
+        const courses: Course[] = await CourseModel.getNext(amt);
+        await Actions.reloadPublicCourses(this, courses);
+        let threshold: any = this.querySelector('#scrollThreshold');
+        threshold.clearTriggers();
+      } catch(error) {
+        this.errorMessage = '';
+        this.errorMessage = error.message;
+      }
+
 
     }
 
