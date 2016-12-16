@@ -15,14 +15,14 @@ class PrendusHomepage {
     public courseIds: string[];
     public words: string[];
     public querySelector: any;
-    public amt: number;
+    public numCoursesLoadOnScroll: number;
     beforeRegister(): void {
         this.is = 'prendus-homepage';
-        this.amt = 9;
+        this.numCoursesLoadOnScroll = 9;
     }
 
     async ready(): Promise<void> {
-        await Actions.getCoursesByVisibility(this, 'public', this.amt);
+        await Actions.getCoursesByVisibility(this, 'public', this.numCoursesLoadOnScroll);
         // For some reason I can't figure out how to loadMoreData
         // and have the public courses display. So I display the
         // courses by visibility, and when the user scrolls down
@@ -44,7 +44,7 @@ class PrendusHomepage {
     async loadMoreData(e: any): Promise<void> {
       try {
         //TODO this always gets loaded no matter the page you're on.
-        const courses: Course[] = await CourseModel.getNext(this.amt);
+        const courses: Course[] = await CourseModel.getNext(this.numCoursesLoadOnScroll);
         await Actions.reloadPublicCourses(this, courses);
         let threshold: any = this.querySelector('#scrollThreshold');
         threshold.clearTriggers();
