@@ -39,14 +39,10 @@ class PrendusHomepage {
     }
 
     loadMoreData(e: any): void {
-      console.log('loadMoreData');
       let threshold: any = this.querySelector('#scrollThreshold');
       this.next(new Event("hello!"));
       threshold.clearTriggers();
 
-        // if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight) {
-        //   console.log('bottom');
-        // }
     }
 
     mapStateToThis(e: StatechangeEvent): void {
