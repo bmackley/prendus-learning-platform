@@ -33,30 +33,15 @@ class PrendusHomepage {
       // for(let i: number = 0; i < 100; i++) {
       //   this.words = this.words ? [...this.words, `${word} ${this.words.length + 1}`] : [`${word} 1`];
       // }
-      const amt: number = 3;
-      const ids: string[] = await CourseModel.getNext(amt);
-      const courseIds: string[] = this.publicCourses.map((course) => course.id);
-      const renderIds: string[] = ids.length === amt ? ids : ids.filter((id) => {
-        if(courseIds.indexOf(id) === -1) {
-          return id;
-        }
-      });
-      const courses: Course[] = await CourseModel.resolveCourseIds(renderIds);
-      const newCourses: Course[] = this.publicCourses.concat(courses);
-      await Actions.reloadPublicCourses(this, newCourses);
+      const amt: number = 6;
+      const courses: Course[] = await CourseModel.getNext(amt);
+      await Actions.reloadPublicCourses(this, courses);
+
 
     }
     async starCourse(e: any): Promise<void> {
         const courseId: string = e.model.item.courseId;
         await Actions.starCourse(this, courseId);
-    }
-
-    isLast(word: string, words: string[]): boolean {
-      const value: boolean = word === words[words.length - 1];
-      if(value) {
-        console.log(word);
-      }
-      return value;
     }
 
     loadMoreData(e: any): void {
