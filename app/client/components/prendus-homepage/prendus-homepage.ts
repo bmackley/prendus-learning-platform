@@ -20,7 +20,7 @@ class PrendusHomepage {
         this.is = 'prendus-homepage';
         this.amt = 9;
     }
-    
+
     async ready(): Promise<void> {
         await Actions.getCoursesByVisibility(this, 'public', this.amt);
     }
@@ -38,8 +38,8 @@ class PrendusHomepage {
 
     async loadMoreData(e: any): Promise<void> {
       try {
-        const amt: number = 9;
-        const courses: Course[] = await CourseModel.getNext(amt);
+        //TODO this always gets loaded no matter the page you're on.
+        const courses: Course[] = await CourseModel.getNext(this.amt);
         await Actions.reloadPublicCourses(this, courses);
         let threshold: any = this.querySelector('#scrollThreshold');
         threshold.clearTriggers();
