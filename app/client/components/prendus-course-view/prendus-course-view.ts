@@ -25,6 +25,7 @@ export class PrendusCourseView {
   public editingTitle: boolean;
   public editingDescription: boolean;
   public listeners: any;
+  public data: any;
   beforeRegister() {
     this.is = 'prendus-course-view';
     this.properties = {
@@ -60,7 +61,7 @@ export class PrendusCourseView {
     };
   }
 
-  mapStateToThis(e: StatechangeEvent) {
+  mapStateToThis(e: StatechangeEvent): void {
     const state = e.detail.state;
     this.courseId = state.courseViewCurrentCourse.id;
     this.username = state.currentUser.metaData.email;
@@ -70,31 +71,33 @@ export class PrendusCourseView {
     this.courseTagNames = state.courseTagNames;
     this.courseConcepts = state.viewCourseConcepts[this.courseId];
   }
-  openEditConceptDialog(e: any) {
+
+  openEditConceptDialog(e: any): void {
     const conceptId: string = e.detail.conceptId;
     this.querySelector('#addConceptDialog').edit(conceptId);
   }
-  openCollaboratorsModal(e: any) {
+
+  openCollaboratorsModal(e: any): void {
     this.querySelector('#collaborators-modal').open();
   }
 
-  computeHasEditAccess(uid: string, collaborators: any) {
+  computeHasEditAccess(uid: string, collaborators: any): boolean {
     return uid in collaborators;
   }
 
-  toggleEditTitle(e: any) {
+  toggleEditTitle(e: any): void {
     this.editingTitle = !this.editingTitle;
   }
 
-  getTitleButtonText(editingTitle: string) {
+  getTitleButtonText(editingTitle: string): string {
     return editingTitle ? "Done" : "Edit Title";
   }
 
-  toggleEditDescription(e: any) {
+  toggleEditDescription(e: any): void {
     this.editingDescription = !this.editingDescription;
   }
 
-  getDescriptionButtonText(editingDescription: string) {
+  getDescriptionButtonText(editingDescription: string): string {
     return editingDescription ? "Done" : "Edit Description";
   }
 
@@ -104,7 +107,7 @@ export class PrendusCourseView {
     return returnDate;
   }
 
-  async dueDateChanged() {
+  async dueDateChanged(): Promise<void> {
     try {
       const newDate: Date = this.querySelector('#dueDate').date;
       const UTCDate: number = UtilitiesService.dateToUTCNumber(newDate);
@@ -127,16 +130,22 @@ export class PrendusCourseView {
 
   }
 
-
-  showTagsTitle(tagsLength: number, hasEditAccess: boolean) {
-    return tagsLength > 0 || hasEditAccess;
+  // For showTagsTitle and showTagsView you have to pass in the course
+  // object instead of course.tags.length, if course.tags is null or
+  // undefined, then you are trying to call length on a null object.
+  // Also, in the HTML it will not execute these functions if one of
+  // the parameters is null.
+  showTagsTitle(course: Course, hasEditAccess: boolean): boolean {
+    // Since this is an or, it will try to return the course.tags
+    // object instead of a boolean that is checking if it's undefined.
+    return course.tags !== undefined || hasEditAccess;
   }
 
-  showTagsView(tagsLength: number, hasEditAccess: boolean) {
-    return tagsLength > 0 && !hasEditAccess;
+  showTagsView(course: Course, hasEditAccess: boolean): boolean {
+    return course.tags && !hasEditAccess;
   }
 
-  async onAdd(e: any) {
+  async onAdd(e: any): Promise<void> {
     try {
       const tag: string = e.detail.tag;
       await Actions.addTagToCourse(this, tag, this.courseId);
@@ -149,7 +158,7 @@ export class PrendusCourseView {
     }
   }
 
-  async onRemove(e: any) {
+  async onRemove(e: any): Promise<void> {
     try {
       const tag: Tag = this.courseTags[e.detail.index];
       if(tag) {
@@ -165,30 +174,36 @@ export class PrendusCourseView {
     }
   }
 
-  toggle(e: any) {
+  toggle(e: any): void {
     const collapseTarget = (e.target.id);
     this.querySelector('#Concept' + collapseTarget).toggle();
   }
 
-  async viewCourse() {
-    if (this.data.courseId) {
-        Actions.showMainSpinner(this);
-        await Actions.getCourseViewCourseById(this, this.data.courseId);
-        await Actions.loadViewCourseConcepts(this, this.data.courseId);
-        Actions.hideMainSpinner(this);
+  async viewCourse(): Promise<void> {
+    try {
+      if (this.data.courseId) {
+          Actions.showMainSpinner(this);
+          await Actions.getCourseViewCourseById(this, this.data.courseId);
+          await Actions.loadViewCourseConcepts(this, this.data.courseId);
+          Actions.hideMainSpinner(this);
+      }
+    } catch(error) {
+      this.errorMessage = '';
+      this.errorMessage = error.message;
     }
+
   }
 
-  getLTILinks() {
+  getLTILinks(): void {
     console.log('LTI Links3')
 
   }
 
-  addConcept(e: any) {
+  addConcept(e: any): void {
     this.querySelector('#addConceptDialog').open();
   }
 
-  async sortableEnded(e: any) { //This isn't the most elegant solution. I'm open to better ways of doing things.
+  async sortableEnded(e: any): Promise<void> { //This isn't the most elegant solution. I'm open to better ways of doing things.
     if(typeof e.newIndex !== 'undefined') {
       let updateConceptPositionArray: CourseConceptData[] = [];
       for(let i:number = 0, len: number = this.courseConcepts.length; i< len; i++) {
@@ -208,7 +223,7 @@ export class PrendusCourseView {
     }
   }
 
-  async attributeChanged(e: any) {
+  async attributeChanged(e: any): Promise<void> {
     try {
       if(typeof e.target !== 'undefined' ) {
         const value = e.target.value;
