@@ -386,7 +386,7 @@ const getQuiz = async (quizId: string) => {
 const createNewQuiz = async (context: any, conceptId: string) => {
     const user = await FirebaseService.getLoggedInUser();
     const uid: string = user.uid;
-
+    // TODO: Create public courses and enforce payment before creation of a private course
     const quizId: string = await QuizModel.createOrUpdate(null, {
         id: null,
         uid,
@@ -796,6 +796,7 @@ const getConceptById = async (context: any, id: string) => {
     }
 };
 
+//TODO: @jordan should this be an action of in the TagModel?
 const resolveTagIdObject = async (tags: {[tagId: string]: string}): Promise<Tag[]> => {
   try {
     const tagsAsStringArray: string[] = Object.keys(tags || {});
