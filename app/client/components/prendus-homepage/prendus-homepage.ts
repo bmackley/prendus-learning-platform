@@ -27,12 +27,6 @@ class PrendusHomepage {
     }
 
     async next(e: any): Promise<void> {
-      // let threshold: any = this.querySelector('#scrollThreshold');
-      // console.log(threshold.lowerTriggered);
-      // const word: string = 'hello';
-      // for(let i: number = 0; i < 100; i++) {
-      //   this.words = this.words ? [...this.words, `${word} ${this.words.length + 1}`] : [`${word} 1`];
-      // }
       const amt: number = 6;
       const courses: Course[] = await CourseModel.getNext(amt);
       await Actions.reloadPublicCourses(this, courses);
