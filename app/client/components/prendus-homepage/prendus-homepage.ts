@@ -26,20 +26,18 @@ class PrendusHomepage {
         this.fire('location-changed', {}, {node: window});
     }
 
-    async next(e: any): Promise<void> {
-      const amt: number = 6;
-      const courses: Course[] = await CourseModel.getNext(amt);
-      await Actions.reloadPublicCourses(this, courses);
-    }
     async starCourse(e: any): Promise<void> {
         const courseId: string = e.model.item.courseId;
         await Actions.starCourse(this, courseId);
     }
 
-    loadMoreData(e: any): void {
+    async loadMoreData(e: any): Promise<void> {
       let threshold: any = this.querySelector('#scrollThreshold');
-      this.next(new Event("hello!"));
+      const amt: number = 9;
+      const courses: Course[] = await CourseModel.getNext(amt);
+      await Actions.reloadPublicCourses(this, courses);
       threshold.clearTriggers();
+
     }
 
     mapStateToThis(e: StatechangeEvent): void {
