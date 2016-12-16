@@ -20,9 +20,11 @@
 			display: block;
 		}
 
-    .homepage-courses {
+    #homepage-courses {
+      /*height: 100vh;*/
       display: flex;
       flex-wrap: wrap;
+      /*overflow: auto;*/
     }
 
     .course-preview {
@@ -46,8 +48,6 @@
 			.course-preview {
 				margin: 10px auto;
 			}
-
-
 		}
 
   </style>
@@ -56,7 +56,7 @@
   <template>
     <prendus-notification success-message="[[successMessage]]" error-message="[[errorMessage]]"></prendus-notification>
     <redux-store on-statechange="mapStateToThis" action="[[action]]"></redux-store>
-      <div class="homepage-courses">
+      <div id="homepage-courses">
 
           <!-- <iron-list items="[[publicCourses]]">
             <template>
