@@ -18,7 +18,7 @@ class PrendusHomepage {
     public numCoursesLoadOnScroll: number;
     beforeRegister(): void {
         this.is = 'prendus-homepage';
-        this.numCoursesLoadOnScroll = 9;
+        this.numCoursesLoadOnScroll = 12;
     }
 
     async ready(): Promise<void> {
@@ -43,17 +43,18 @@ class PrendusHomepage {
 
     async loadMoreData(e: any): Promise<void> {
       try {
-        //TODO this always gets loaded no matter the page you're on.
+
         const courses: Course[] = await CourseModel.getNext(this.numCoursesLoadOnScroll);
-        await Actions.reloadPublicCourses(this, courses);
-        let threshold: any = this.querySelector('#scroll-threshold');
-        threshold.clearTriggers();
+        // Do this check here so that the firebase util won't query firebase again.
+        if(this.publicCourses.length < courses.length || courses.length === this.numCoursesLoadOnScroll) {
+            await Actions.reloadPublicCourses(this, courses);
+            let threshold: any = this.querySelector('#scroll-threshold');
+            threshold.clearTriggers();
+        }
       } catch(error) {
         this.errorMessage = '';
         this.errorMessage = error.message;
       }
-
-
     }
 
     mapStateToThis(e: StatechangeEvent): void {
