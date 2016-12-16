@@ -966,9 +966,9 @@ const getSharedCoursesByUser = async (context: any, uid: string) => {
     }
 };
 
-const getCoursesByVisibility = async (context: any, visibility: CourseVisibility) => {
+const getCoursesByVisibility = async (context: any, visibility: CourseVisibility, limit: number): Promise<Course[]> => {
     try {
-      const tempCourses: Course[] = await CourseModel.getAllByVisibility(visibility);
+      const tempCourses: Course[] = await CourseModel.getAllByVisibility(visibility, limit);
       const courses: Course[] = await CourseModel.resolveCourseArrayTagIds(tempCourses);
       context.action = {
           type: 'SET_COURSES_BY_VISIBILITY',
@@ -1058,7 +1058,16 @@ const updateQuizDueDates = async (courseId: string): Promise<void> => {
     throw error;
   }
 }
+const reloadPublicCourses = async (context: any, courses: Course[]): Promise<void> => {
+  try {
+    context.action = {
+      type: 'RELOAD_PUBLIC_COURSES',
+      courses
+    }
+  } catch(error) {
 
+  }
+};
 export const Actions = {
     defaultAction,
     loginUser,
@@ -1125,5 +1134,6 @@ export const Actions = {
     loadViewCourseConcepts,
     showMainSpinner,
     hideMainSpinner,
-    updateQuizDueDates
+    updateQuizDueDates,
+    reloadPublicCourses
   };

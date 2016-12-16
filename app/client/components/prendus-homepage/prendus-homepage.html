@@ -1,8 +1,17 @@
-<link href="../../bower_components/polymer/polymer.html" rel="import">
+<link  rel="import" href="../../bower_components/polymer/polymer.html">
 <link rel="import" href="../../bower_components/redux-store-element/redux-store.html">
 <link rel="import" href="../../bower_components/paper-card/paper-card.html">
+<link rel="import" href="../../bower_components/paper-item/paper-item.html">
 <link rel="import" href="../../bower_components/paper-button/paper-button.html">
+<link rel="import" href="../../bower_components/iron-list/iron-list.html">
+<link rel="import" href="../../bower_components/iron-scroll-threshold/iron-scroll-threshold.html">
 <link rel="import" href="../prendus-course-preview/prendus-course-preview.html">
+<link rel="import" href="../prendus-notification/prendus-notification.html">
+<script src="../../bower_components/firebase/firebase.js"></script>
+<script src="../../bower_components/firebase-util/dist/firebase-util-normalize.min.js"></script>
+<script src="../../bower_components/firebase-util/dist/firebase-util-paginate.min.js"></script>
+<script src="../../bower_components/firebase-util/dist/firebase-util.min.js"></script>
+
 
 <dom-module id="prendus-homepage">
   <style>
@@ -11,9 +20,11 @@
 			display: block;
 		}
 
-    .homepage-courses {
+    #homepage-courses {
+      /*height: 100vh;*/
       display: flex;
       flex-wrap: wrap;
+      /*overflow: auto;*/
     }
 
     .course-preview {
@@ -37,23 +48,34 @@
 			.course-preview {
 				margin: 10px auto;
 			}
-
 		}
 
   </style>
 
+
   <template>
-
+    <prendus-notification success-message="[[successMessage]]" error-message="[[errorMessage]]"></prendus-notification>
     <redux-store on-statechange="mapStateToThis" action="[[action]]"></redux-store>
+      <div id="homepage-courses">
 
-    <div class="homepage-courses">
-      <template id="courseList" is="dom-repeat" items="[[publicCourses]]">
-        <prendus-course-preview class="course-preview" course="[[item]]"></prendus-course-preview>
-      </template>
-    </div>
+          <!-- <iron-list items="[[publicCourses]]">
+            <template>
+                <prendus-course-preview class="course-preview" course="[[item]]"></prendus-course-preview>
+            </template>
+          </iron-list> -->
 
+          <!-- TODO: figure out how to get this to work with iron-list.-->
+          <template id="course-list" is="dom-repeat" items="[[publicCourses]]">
+            <prendus-course-preview class="course-preview" course="[[item]]"></prendus-course-preview>
+          </template>
+          <iron-scroll-threshold id="scroll-threshold" lower-threshold="500" scroll-target="document" on-lower-threshold="loadMoreData">
+          </iron-scroll-threshold>
 
+          <!-- TODO: we should probably center this. -->
+          <div>
+            <paper-button on-tap="loadMoreData">Load more</paper-button>
+          </div>
+      </div>
   </template>
-
   <!--<script src="prendus-homepage.js"></script>-->
 </dom-module>
