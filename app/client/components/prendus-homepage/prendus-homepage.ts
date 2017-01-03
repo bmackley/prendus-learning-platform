@@ -18,7 +18,7 @@ class PrendusHomepage {
     public querySelector: any;
     public numCoursesLoadOnScroll: number;
     public currentPage: string;
-
+    public displayLoadMoreButton: boolean;
     beforeRegister(): void {
         this.is = 'prendus-homepage';
         this.numCoursesLoadOnScroll = 12;
@@ -63,10 +63,13 @@ class PrendusHomepage {
           const scrollRefAndCourses: { scrollRef: any, courses: Course[] } = await CourseModel.getNextCourses(this.scrollRef, this.numCoursesLoadOnScroll);
           const courses: Course[] = scrollRefAndCourses.courses;
           this.scrollRef = scrollRefAndCourses.scrollRef;
-          // const courses: Course[] = await CourseModel.getNext(this.numCoursesLoadOnScroll);
+
           // Do this check here so that the firebase util won't query firebase again.
           if(this.publicCourses.length < courses.length || courses.length === this.numCoursesLoadOnScroll) {
               await Actions.reloadPublicCourses(this, courses);
+              this.displayLoadMoreButton = true;
+          } else {
+            this.displayLoadMoreButton = false;
           }
         }
       } catch(error) {

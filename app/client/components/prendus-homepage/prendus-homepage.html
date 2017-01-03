@@ -33,7 +33,7 @@
     }
 
     #load-more-data {
-      /*TODO: Matt's hacky version to get this centered. */
+      /*TODO: Matt's hacky version to get this centered. Could someone help out here? */
       left: 41%;
     }
 
@@ -76,13 +76,12 @@
         <iron-scroll-threshold id="scroll-threshold" scroll-target="document" on-lower-threshold="loadMoreData">
         </iron-scroll-threshold>
 
-          <!-- TODO: we should probably center this. -->
-          <!-- TODO: only display if there is more content available -->
+
 
       </div>
-      <div>
-        <paper-button id="load-more-data" on-tap="loadMoreData">Load more</paper-button>
-      </div>
+      <template is="dom-if" if="[[displayLoadMoreButton]]">
+          <paper-button id="load-more-data" on-tap="loadMoreData">Load more</paper-button>
+      </template>
   </template>
   <!--<script src="prendus-homepage.js"></script>-->
 </dom-module>
