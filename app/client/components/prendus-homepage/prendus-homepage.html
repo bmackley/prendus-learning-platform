@@ -36,6 +36,11 @@
       /*TODO: Matt's hacky version to get this centered. */
       left: 41%;
     }
+
+    #course-list {
+      flex: auto;
+    }
+
     @media (max-width: 768px) {
       .course-preview {
         flex-basis: 45%;
@@ -59,19 +64,17 @@
     <prendus-notification success-message="[[successMessage]]" error-message="[[errorMessage]]"></prendus-notification>
     <redux-store on-statechange="mapStateToThis" action="[[action]]"></redux-store>
       <div class="homepage-courses">
-
-          <!-- <iron-list items="[[publicCourses]]">
-            <template>
-                <prendus-course-preview class="course-preview" course="[[item]]"></prendus-course-preview>
-            </template>
-          </iron-list> -->
-
-          <!-- TODO: figure out how to get this to work with iron-list.-->
-          <template id="course-list" is="dom-repeat" items="[[publicCourses]]">
-            <prendus-course-preview class="course-preview" course="[[item]]"></prendus-course-preview>
+        <!-- TODO: @Brandon I need your help to make three course previews appear in each row -->
+        <iron-list id="course-list" scroll-target="scroll-threshold" items="[[publicCourses]]">
+          <template>
+            <div>
+              <prendus-course-preview class="course-preview" course="[[item]]"></prendus-course-preview>
+            </div>
           </template>
-          <iron-scroll-threshold id="scroll-threshold" lower-threshold="500" scroll-target="document" on-lower-threshold="loadMoreData">
-          </iron-scroll-threshold>
+        </iron-list>
+
+        <iron-scroll-threshold id="scroll-threshold" lower-threshold="500" scroll-target="document" on-lower-threshold="loadMoreData">
+        </iron-scroll-threshold>
 
           <!-- TODO: we should probably center this. -->
           <!-- TODO: only display if there is more content available -->
