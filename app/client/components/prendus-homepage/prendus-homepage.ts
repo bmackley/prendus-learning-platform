@@ -24,15 +24,21 @@ class PrendusHomepage {
     }
 
     async ready(): Promise<void> {
+      try {
         await Actions.getCoursesByVisibility(this, 'public', this.numCoursesLoadOnScroll);
         // For some reason I can't figure out how to loadMoreData
         // and have the public courses display. So I display the
         // courses by visibility, and when the user scrolls down
         // to the bottom, the next courses will load right away.
-        // TODO: make this work for master or develop.
-        this.baseRef = new Firebase('https://prendus-development.firebaseio.com/courses');
+        const type: string = window.location.hostname === 'prendus.com' ? 'production' : 'development';
+        this.baseRef = new Firebase(`https://prendus-${type}.firebaseio.com/courses`);
         this.scrollRef = new Firebase.util.Scroll(this.baseRef, 'public');
         await this.loadMoreData(null);
+      } catch(error) {
+        this.errorMessage = '';
+        this.errorMessage = error.message;
+      }
+
     }
 
     viewCourse(e: any): void {
