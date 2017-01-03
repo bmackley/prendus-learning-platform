@@ -51,7 +51,7 @@ class PrendusHomepage {
           // Do this check here so that the firebase util won't query firebase again.
           if(this.publicCourses.length < courses.length || courses.length === this.numCoursesLoadOnScroll) {
               await Actions.reloadPublicCourses(this, courses);
-              let threshold: any = this.querySelector('#scroll-threshold');
+              const threshold: any = this.querySelector('#scroll-threshold');
               threshold.clearTriggers();
           }
         }
