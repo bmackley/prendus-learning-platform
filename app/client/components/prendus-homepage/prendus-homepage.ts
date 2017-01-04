@@ -19,6 +19,8 @@ class PrendusHomepage {
     public numCoursesLoadOnScroll: number;
     public currentPage: string;
     public loading: boolean;
+    public $: any;
+
     beforeRegister(): void {
         this.is = 'prendus-homepage';
         this.numCoursesLoadOnScroll = 12;
@@ -26,6 +28,7 @@ class PrendusHomepage {
 
     async ready(): Promise<void> {
       try {
+        this.loading = true;
         await Actions.getCoursesByVisibility(this, 'public', this.numCoursesLoadOnScroll);
         // For some reason I can't figure out how to loadMoreData
         // and have the public courses display. So I display the
@@ -53,7 +56,6 @@ class PrendusHomepage {
     }
 
     async loadMoreData(e: any): Promise<void> {
-
       try {
         if(!this.scrollRef) {
           return;
@@ -76,8 +78,7 @@ class PrendusHomepage {
         this.errorMessage = '';
         this.errorMessage = error.message;
       }
-      const threshold: any = this.querySelector('#scroll-threshold');
-      threshold.clearTriggers();
+      this.$.threshold.clearTriggers();
     }
 
     mapStateToThis(e: StatechangeEvent): void {
