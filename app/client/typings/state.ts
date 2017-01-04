@@ -31,8 +31,8 @@ export interface State {
     publicCourses: Course[];
     currentConcept: {};
     concepts: {};
+    courseTagNames: string[];
     courseViewCurrentCourse: Course;
-    courseEditCurrentCourse: Course;
     currentConceptVideoId: string;
     currentConceptVideoTitle: string;
     currentConceptVideoUrl: string
