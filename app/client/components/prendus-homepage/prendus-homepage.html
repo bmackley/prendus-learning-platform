@@ -5,8 +5,10 @@
 <link rel="import" href="../../bower_components/paper-button/paper-button.html">
 <link rel="import" href="../../bower_components/iron-list/iron-list.html">
 <link rel="import" href="../../bower_components/iron-scroll-threshold/iron-scroll-threshold.html">
+<link rel="import" href="../../bower_components/iron-flex-layout/iron-flex-layout.html">
 <link rel="import" href="../prendus-course-preview/prendus-course-preview.html">
 <link rel="import" href="../prendus-notification/prendus-notification.html">
+
 <script src="../../bower_components/firebase/firebase.js"></script>
 <script src="../../bower_components/firebase-util/dist/firebase-util-normalize.min.js"></script>
 <script src="../../bower_components/firebase-util/dist/firebase-util-paginate.min.js"></script>
@@ -37,14 +39,38 @@
       left: 41%;
     }
 
-    #course-list {
+    iron-list {
       flex: auto;
     }
 
+    .course-content {
+      @apply(--layout);
+      position: relative;
+      width: 300px;
+      height: 300px;
+      margin: 10px;
+      flex-grow: 0;
+      min-width: 0;
+    }
+
+    .course-content > prendus-course-preview {
+      @apply(--layout-flex);
+    }
+
+    @media (max-width: 800px) {
+      .course-container {
+        width: calc(50% - 16px);
+      }
+
+      .course-content {
+        width: auto;
+      }
+    }
     @media (max-width: 768px) {
       .course-preview {
         flex-basis: 45%;
       }
+
     }
 
 		@media (max-width: 500px) {
@@ -63,25 +89,24 @@
   <template>
     <prendus-notification success-message="[[successMessage]]" error-message="[[errorMessage]]"></prendus-notification>
     <redux-store on-statechange="mapStateToThis" action="[[action]]"></redux-store>
-      <div class="homepage-courses">
-        <!-- TODO: @Brandon I need your help to make three course previews appear in each row -->
-        <iron-list id="course-list" scroll-target="scroll-threshold" items="[[publicCourses]]">
-          <template>
-            <div>
-              <prendus-course-preview class="course-preview" course="[[item]]"></prendus-course-preview>
-            </div>
-          </template>
-        </iron-list>
-
-        <iron-scroll-threshold id="scroll-threshold" scroll-target="document" on-lower-threshold="loadMoreData">
-        </iron-scroll-threshold>
-
-
-
-      </div>
-      <template is="dom-if" if="[[displayLoadMoreButton]]">
-          <paper-button id="load-more-data" on-tap="loadMoreData">Load more</paper-button>
+    <!-- TODO: @Brandon I need your help to make three course previews appear in each row -->
+    <iron-list id="course-list" scroll-target="document" items="[[publicCourses]]" grid>
+      <template>
+        <div class="course-container">
+          <div class="course-content">
+            <prendus-course-preview id="[[item.id]]" class="course-preview" course="[[item]]"></prendus-course-preview>
+          </div>
+        </div>
       </template>
+    </iron-list>
+    <iron-scroll-threshold id="scroll-threshold" scroll-target="document" on-lower-threshold="loadMoreData">
+    </iron-scroll-threshold>
+
+
+
+    <template is="dom-if" if="[[displayLoadMoreButton]]">
+        <paper-button id="load-more-data" on-tap="loadMoreData">Load more</paper-button>
+    </template>
   </template>
   <!--<script src="prendus-homepage.js"></script>-->
 </dom-module>
