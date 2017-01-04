@@ -19,6 +19,7 @@ import {EmailsToUidsModel} from '../node_modules/prendus-services/models/emails-
 import {Video} from '../node_modules/prendus-services/typings/video';
 import {ExecuteAsyncInOrderService} from '../node_modules/prendus-services/services/execute-async-in-order-service';
 import {UtilitiesService} from '../node_modules/prendus-services/services/utilities-service';
+
 const defaultAction = (context: any) => {
     context.action = {
         type: 'DEFAULT_ACTION'
@@ -385,18 +386,18 @@ const getQuiz = async (quizId: string) => {
 const createNewQuiz = async (context: any, conceptId: string) => {
     const user = await FirebaseService.getLoggedInUser();
     const uid: string = user.uid;
-
-    const quizId = await QuizModel.createOrUpdate(null, {
+    // TODO: Create public courses and enforce payment before creation of a private course
+    const quizId: string = await QuizModel.createOrUpdate(null, {
         id: null,
         uid,
         title: `Untitled Quiz`,
+        visibility: 'public',
         quizQuestionSettings: {
             answerFeedback: true,
             showAnswer: true,
             showHint: true,
             showCode: true,
             graded: false,
-            visibility: 'public',
             showConfidenceLevel: false,
             allowGeneration: true
         },
@@ -419,7 +420,7 @@ const deleteQuiz = async (context: any, conceptId: string, quiz: Quiz) => {
 
     // disassociate concept and questions
     await ConceptModel.disassociateQuiz(conceptId, quiz.id);
-    for(let key: string in quiz.questions) {
+    for(let key in quiz.questions) {
       await QuizModel.disassociateQuestion(quiz.id, key);
     }
     // delete from database
@@ -628,18 +629,17 @@ const loadEditCourseConcepts = async (context: any, courseId: string) => {
     }
 };
 
-const loadViewCourseConcepts = async (context: any, courseId: string) => {
+const loadViewCourseConcepts = async (context: any, courseId: string): Promise<void> => {
     try {
-        const course = await CourseModel.getById(courseId);
-        const conceptsArray = await CourseModel.courseConceptsToArray(course);
-        const orderedConcepts = await CourseModel.orderCourseConcepts(conceptsArray);
+        const course: Course = await CourseModel.getById(courseId);
+        const conceptsArray: CourseConceptData[] = await CourseModel.courseConceptsToArray(course);
+        const orderedConcepts: CourseConceptData[] = await CourseModel.orderCourseConcepts(conceptsArray);
         context.action = {
             type: 'LOAD_VIEW_COURSE_CONCEPTS',
             orderedConcepts,
             courseId
         };
-    }
-    catch(error) {
+    } catch(error) {
         throw error;
     }
 };
@@ -783,11 +783,6 @@ const getConceptAndTagNamesById = async (id: string): Promise<{ concept: Concept
 const getConceptById = async (context: any, id: string) => {
     try {
       const concept = await ConceptModel.getById(id);
-      const tagArray = Object.keys(concept.tags || {});
-      if(tagArray) {
-        const tags = await TagModel.resolveTagIds(tagArray);
-        concept.tags = tags;
-      }
       if(context) {
           context.action = {
             type: 'GET_CONCEPT_BY_ID',
@@ -796,10 +791,22 @@ const getConceptById = async (context: any, id: string) => {
       }
 
       return concept;
-    }catch(error){
+    } catch(error){
       throw error;
     }
 };
+
+//TODO: @jordan should this be an action of in the TagModel?
+const resolveTagIdObject = async (tags: {[tagId: string]: string}): Promise<Tag[]> => {
+  try {
+    const tagsAsStringArray: string[] = Object.keys(tags || {});
+    const tagObjects: Tag[] = await TagModel.resolveTagIds(tagsAsStringArray);
+    return tagObjects;
+  } catch(error) {
+    throw error;
+  }
+}
+
 const addCourse = async (context: any, newCourse: Course, tags: string[]) => {
     try {
       const user = await FirebaseService.getLoggedInUser();
@@ -959,9 +966,9 @@ const getSharedCoursesByUser = async (context: any, uid: string) => {
     }
 };
 
-const getCoursesByVisibility = async (context: any, visibility: CourseVisibility) => {
+const getCoursesByVisibility = async (context: any, visibility: CourseVisibility, limit: number): Promise<Course[]> => {
     try {
-      const tempCourses: Course[] = await CourseModel.getAllByVisibility(visibility);
+      const tempCourses: Course[] = await CourseModel.getAllByVisibility(visibility, limit);
       const courses: Course[] = await CourseModel.resolveCourseArrayTagIds(tempCourses);
       context.action = {
           type: 'SET_COURSES_BY_VISIBILITY',
@@ -974,13 +981,13 @@ const getCoursesByVisibility = async (context: any, visibility: CourseVisibility
     }
 };
 
-const getCourseViewCourseById = async (context: any, id: string) => {
+const getCourseViewCourseById = async (context: any, id: string): Promise<void> => {
     try {
-      const course = await CourseModel.getById(id);
-      const courseTagNames : string[] = course.tags ? await TagModel.getTagNameArray(course.tags) : [];
+      const currentCourse = await CourseModel.getById(id);
+      const courseTagNames: string[] = currentCourse.tags ? await TagModel.getTagNameArray(currentCourse.tags) : [];
       context.action = {
           type: 'SET_COURSE_VIEW_CURRENT_COURSE',
-          currentCourse: course,
+          currentCourse,
           courseTagNames
       };
     }
@@ -989,33 +996,19 @@ const getCourseViewCourseById = async (context: any, id: string) => {
     }
 };
 
-const getCourseEditCourseById = async (context: any, id: string) => {
-    try {
-      const course = await CourseModel.getById(id);
-      const courseTagNames : string[] = course.tags ? await TagModel.getTagNameArray(course.tags) : [];
-      context.action = {
-          type: 'SET_COURSE_EDIT_CURRENT_COURSE',
-          currentCourse: course,
-          courseTagNames
-      };
-    }
-    catch(error){
-      throw error;
-    }
-};
-
-const deleteConcept = async (context: any, courseId: string, conceptId: string) => {
+const deleteConcept = async (context: any, courseId: string, conceptId: string): Promise<void> => {
       try {
         await CourseModel.disassociateConcept(courseId, conceptId);
-        const course = await CourseModel.getById(courseId);
+        const currentCourse: Course = await CourseModel.getById(courseId);
         context.action = {
             type: 'DELETE_CONCEPT',
-            currentCourse: course
+            currentCourse
         };
-      }catch(error){
+      } catch(error){
         throw error;
       }
 };
+
 const orderConcepts = async (context: any, id: string, courseConceptsArray: CourseConceptData[]) => {
   try {
     await CourseModel.updateCourseConcepts(id, courseConceptsArray);
@@ -1024,7 +1017,7 @@ const orderConcepts = async (context: any, id: string, courseConceptsArray: Cour
   }
 };
 
-const updateCourseField = async (context: any, id: string, field: string, value: string) => {
+const updateCourseField = async (context: any, id: string, field: string, value: string | number) => {
     try{
       await CourseModel.updateCourseField(id, field, value);
       const course = await CourseModel.getById(id);
@@ -1065,7 +1058,16 @@ const updateQuizDueDates = async (courseId: string): Promise<void> => {
     throw error;
   }
 }
+const reloadPublicCourses = async (context: any, courses: Course[]): Promise<void> => {
+  try {
+    context.action = {
+      type: 'RELOAD_PUBLIC_COURSES',
+      courses
+    }
+  } catch(error) {
 
+  }
+};
 export const Actions = {
     defaultAction,
     loginUser,
@@ -1103,11 +1105,11 @@ export const Actions = {
     deleteQuiz,
     getQuiz,
     getCourseViewCourseById,
-    getCourseEditCourseById,
     updateConceptTags,
     updateConceptTitle,
     getConceptAndTagNamesById,
     getConceptById,
+    resolveTagIdObject,
     loadPublicQuestionIds,
     starCourse,
     unstarCourse,
@@ -1132,5 +1134,6 @@ export const Actions = {
     loadViewCourseConcepts,
     showMainSpinner,
     hideMainSpinner,
-    updateQuizDueDates
+    updateQuizDueDates,
+    reloadPublicCourses
   };

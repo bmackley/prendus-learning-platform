@@ -2,6 +2,7 @@ import {Concept} from '../../node_modules/prendus-services/typings/concept';
 import {Actions} from '../../redux/actions';
 import {StatechangeEvent} from '../../typings/statechange-event';
 import {FirebaseService} from '../../node_modules/prendus-services/services/firebase-service';
+import {Tag} from '../../node_modules/prendus-services/typings/tag';
 
 class PrendusConceptContainer {
   public is: string;
@@ -12,8 +13,10 @@ class PrendusConceptContainer {
   public conceptData: Concept;
   public selected: number;
   public errorMessage: string;
-  public tags: string[];
-  beforeRegister() {
+  public tags: Tag[];
+  public querySelector: any;
+
+  beforeRegister(): void {
     this.is = 'prendus-concept-container';
     this.properties = {
       conceptId: {
@@ -27,28 +30,32 @@ class PrendusConceptContainer {
         'init(conceptId)'
     ];
   }
-  async init() {
+
+  async init(): Promise<void> {
     if (this.conceptId) {
       try {
         const concept = await Actions.getConceptById(null, this.conceptId);
         this.title = concept.title;
-        this.tags = concept.tags;
+        if(concept.tags) {
+          this.tags = await Actions.resolveTagIdObject(concept.tags);
+        }
       } catch(error) {
         this.errorMessage = error.message;
       }
     }
   }
 
-  toggle(e: any) {
+  toggle(e: any): void {
     const collapseTarget = (e.target.id);
     this.querySelector('.conceptToggle').toggle();
   }
 
-  mapStateToThis(e: StatechangeEvent) {
+  mapStateToThis(e: StatechangeEvent): void {
     const state = e.detail.state;
     this.conceptData = state.currentConcept;
   }
-  ready(){
+
+  ready(): void {
     this.selected = 0;
   }
 }

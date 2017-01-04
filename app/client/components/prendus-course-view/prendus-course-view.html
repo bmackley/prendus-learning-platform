@@ -110,13 +110,9 @@
 
   </style>
   <template>
-    <prendus-notification error-message="[[errorMessage]]"></prendus-notification>
     <redux-store action="[[action]]" on-statechange="mapStateToThis"></redux-store>
     <app-route route="[[route]]" pattern="/view/:courseId" data="{{data}}"></app-route>
-
-    <prendus-notification success-message="[[successMessage]]"></prendus-notification>
-    <prendus-notification error-message="[[errorMessage]]"></prendus-notification>
-
+    <prendus-notification success-message="[[successMessage]]" error-message="[[errorMessage]]"></prendus-notification>
     <paper-card id="course-container">
       <div id="course-content" class="card-content">
         <template is="dom-if" if="[[username]]">
@@ -146,15 +142,14 @@
             <paper-date-picker id="due-date" date="[[displayDate(currentCourse.dueDate)]]" on-click="dueDateChanged"></paper-date-picker>
           </template>
           <!-- TAGS -->
-          <h3 hidden$="[[!showTagsTitle(currentCourse.tags.length, hasEditAccess)]]">Tags</h3>
-          <!-- Placeholder for tags, don't display until 100% ready to do so. -->
-          <!-- <template is="dom-if" if="[[showTagsView(currentCourse.tags.length, hasEditAccess)]]">
+          <h3 hidden$="[[!showTagsTitle(currentCourse, hasEditAccess)]]">Tags</h3>
+          <template is="dom-if" if="[[showTagsView(currentCourse, hasEditAccess)]]">
             <div id="tags-container">
               <template is="dom-repeat" items="[[currentCourse.tags]]">
                 <span class="tag">[[item.name]]</span>
               </template>
             </div>
-          </template> -->
+          </template>
           <template is="dom-if" if="[[hasEditAccess]]">
             <prendus-paper-tags-input placeholder="Delete tags or add new ones" duplicate-error-message="Tag cannot be a duplicate" id="tags" tags="[[courseTagNames]]" on-remove="onRemove" on-add="onAdd"></prendus-paper-tags-input>
           </template>

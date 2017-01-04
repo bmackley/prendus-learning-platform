@@ -1,35 +1,64 @@
 import {Course} from '../../node_modules/prendus-services/typings/course';
 import {Actions} from '../../redux/actions';
 import {StatechangeEvent} from '../../typings/statechange-event';
-
+import {CourseModel} from '../../node_modules/prendus-services/models/course-model';
 class PrendusHomepage {
     public is: string;
     public publicCourses: Course[];
     public errorMessage: string;
+    public successMessage: string;
     public fire: any;
-    beforeRegister() {
+    public scrollRef: any;
+    public baseRef: any;
+    public properties: any;
+    public observers: string[];
+    public courseIds: string[];
+    public words: string[];
+    public querySelector: any;
+    public numCoursesLoadOnScroll: number;
+    beforeRegister(): void {
         this.is = 'prendus-homepage';
+        this.numCoursesLoadOnScroll = 12;
     }
 
-    async ready() {
-        await Actions.getCoursesByVisibility(this, 'public');
+    async ready(): Promise<void> {
+        await Actions.getCoursesByVisibility(this, 'public', this.numCoursesLoadOnScroll);
+        // For some reason I can't figure out how to loadMoreData
+        // and have the public courses display. So I display the
+        // courses by visibility, and when the user scrolls down
+        // to the bottom, the next courses will load right away.
+        await this.loadMoreData(null);
     }
 
-    viewCourse(e: any) {
-        const courseId = e.model.item.courseId;
-
+    viewCourse(e: any): void {
+        const courseId: string = e.model.item.courseId;
         window.history.pushState({}, '', `/courses/view/${courseId}`);
         this.fire('location-changed', {}, {node: window});
     }
-    async starCourse(e: any) {
-        const courseId = e.model.item.courseId;
 
+    async starCourse(e: any): Promise<void> {
+        const courseId: string = e.model.item.courseId;
         await Actions.starCourse(this, courseId);
     }
 
-    mapStateToThis(e: StatechangeEvent) {
-        const state = e.detail.state;
+    async loadMoreData(e: any): Promise<void> {
+      try {
 
+        const courses: Course[] = await CourseModel.getNext(this.numCoursesLoadOnScroll);
+        // Do this check here so that the firebase util won't query firebase again.
+        if(this.publicCourses.length < courses.length || courses.length === this.numCoursesLoadOnScroll) {
+            await Actions.reloadPublicCourses(this, courses);
+            let threshold: any = this.querySelector('#scroll-threshold');
+            threshold.clearTriggers();
+        }
+      } catch(error) {
+        this.errorMessage = '';
+        this.errorMessage = error.message;
+      }
+    }
+
+    mapStateToThis(e: StatechangeEvent): void {
+        const state = e.detail.state;
         this.publicCourses = state.publicCourses;
     }
 }

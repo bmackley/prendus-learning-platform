@@ -8,7 +8,6 @@ export const InitialState: State = {
     currentConcept: {
     },
     courses: [],
-    courseEditCurrentCourse: {},
     courseViewCurrentCourse: {},
     editCourseConcepts: {},
     viewCourseConcepts: {},

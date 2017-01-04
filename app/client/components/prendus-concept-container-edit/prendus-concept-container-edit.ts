@@ -2,6 +2,7 @@ import {Actions} from '../../redux/actions';
 import {StatechangeEvent} from '../../typings/statechange-event';
 import {FirebaseService} from '../../node_modules/prendus-services/services/firebase-service';
 import {Concept} from '../../node_modules/prendus-services/typings/concept';
+import {Tag} from '../../node_modules/prendus-services/typings/tag';
 
 export class PrendusConceptContainerEdit {
   public is: string;
@@ -14,9 +15,10 @@ export class PrendusConceptContainerEdit {
   public successMessage: string;
   public errorMessage: string;
   public querySelector: any;
-  public tags: string[];
+  public tags: Tag[];
   public fire: any;
-  beforeRegister() {
+
+  beforeRegister(): void {
     this.is = 'prendus-concept-container-edit';
     this.properties = {
       conceptId: {
@@ -27,48 +29,60 @@ export class PrendusConceptContainerEdit {
         'init(conceptId)'
     ];
   }
-  async init() {
+
+  async init(): Promise<void> {
     if (this.conceptId) {
       try {
         const concept: Concept = await Actions.getConceptById(null, this.conceptId);
         this.title = concept.title;
-        this.tags = concept.tags;
+        if(concept.tags) {
+          this.tags = await Actions.resolveTagIdObject(concept.tags);
+        }
+
       } catch(error) {
         this.errorMessage = error.message;
       }
 
     }
   }
-  editItem(e: any) {
+
+  editItem(e: any): void {
     this.fire("edit-concept", { conceptId: this.conceptId});
   }
-  openCollaboratorsModal(e: any) {
+
+  openCollaboratorsModal(e: any): void {
     e.stopPropagation();
     this.querySelector('#collaborators-modal').open();
   }
-  toggle(e: any) {
+
+  toggle(e: any): void {
     this.querySelector('#collapsible-section').toggle();
   }
-  mapStateToThis(e: StatechangeEvent) {
+
+  mapStateToThis(e: StatechangeEvent): void {
     const state = e.detail.state;
     this.courseId = state.courseViewCurrentCourse.id;
   }
-  deleteItem(e: any) {
+
+  deleteItem(e: any): void {
     e.stopPropagation();
     this.querySelector('#delete-confirm-modal').open();
   }
-  async completeDelete(){
+
+  async completeDelete(): Promise<void> {
     this.querySelector('#delete-confirm-modal').close();
-    try{
+    try {
       await Actions.deleteConcept(this, this.courseId, this.conceptId);
-      await Actions.loadEditCourseConcepts(this, this.courseId);
+      await Actions.loadViewCourseConcepts(this, this.courseId);
       this.successMessage = '';
-      this.successMessage = 'Concept Deleted Successfully'
-    }catch(error){
+      this.successMessage = 'Concept deleted successfully';
+    } catch(error) {
+      this.errorMessage = '';
       this.errorMessage = error.message;
     }
+
   }
-  ready() {
+  ready(): void {
     this.selected = 0;
   }
 }
