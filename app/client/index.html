@@ -1,12 +1,14 @@
 <!DOCTYPE html>
+
 <html>
 
     <head>
         <base href="/">
         <script src="/bower_components/webcomponentsjs/webcomponents-lite.min.js"></script>
         <link rel="stylesheet" href="/styles/prendus-initial-spinner.css">
-				<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
     </head>
+
     <body>
         <div id="initial-spinner" class="loading-spinner absolute-center"></div>
         <script src="https://www.gstatic.com/firebasejs/3.3.0/firebase.js"></script>
@@ -47,13 +49,8 @@
             }, 500);
         </script>
 
-        <!-- <script src="/node_modules/systemjs/dist/system.js"></script> -->
         <link rel="import" href="/components/prendus-app/prendus-app.html">
-        <script src="/dist/prendus.js"></script>
         <prendus-app></prendus-app>
-
-        <script src="https://cdn.socket.io/socket.io-1.4.5.js"></script>
-        <script src="live-reload-client.js"></script>
     </body>
 
 </html>
