@@ -109,7 +109,7 @@ export class PrendusCourseView {
 
   async dueDateChanged(): Promise<void> {
     try {
-      const newDate: Date = this.querySelector('#dueDate').date;
+      const newDate: Date = this.querySelector('#due-date').date;
       const UTCDate: number = UtilitiesService.dateToUTCNumber(newDate);
       const currentDate: number = this.currentCourse.dueDate;
       // paper-date-picker does not have an event listener for date change. So every

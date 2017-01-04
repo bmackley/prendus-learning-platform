@@ -1,7 +1,6 @@
-example
 /node_modules
 /npm-debug.log*
 /app/client/node_modules
 /app/client/bower_components
-/app/client/dist
+/dist
 .vscode/*
