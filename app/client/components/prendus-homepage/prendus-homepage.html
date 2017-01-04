@@ -27,30 +27,35 @@
       flex-wrap: wrap;
     }
 
-    .course-preview {
-      margin: 10px;
-      flex-basis: 30%;
-      flex-grow: 0;
-      min-width: 0;
+    .loading-indicator {
+      font-size: 16px;
+      text-align: center;
+      height: 60px;
     }
 
-    #load-more-data {
-      /*TODO: Matt's hacky version to get this centered. Could someone help out here? */
-      left: 41%;
+    .loading-indicator paper-spinner {
+      margin-right: 20px;
+      vertical-align: middle;
     }
 
     iron-list {
       flex: auto;
     }
 
+    .course-preview {
+
+      position: relative;
+      width: 250px;
+      height: 300px;
+      margin: 8px;
+      /*flex-basis: 25%;*/
+      /*flex-grow: 0;*/
+      /*min-width: 0;*/
+    }
+
+
     .course-content {
       @apply(--layout);
-      position: relative;
-      width: 300px;
-      height: 300px;
-      margin: 10px;
-      flex-grow: 0;
-      min-width: 0;
     }
 
     .course-content > prendus-course-preview {
@@ -89,7 +94,10 @@
   <template>
     <prendus-notification success-message="[[successMessage]]" error-message="[[errorMessage]]"></prendus-notification>
     <redux-store on-statechange="mapStateToThis" action="[[action]]"></redux-store>
-    <!-- TODO: @Brandon I need your help to make three course previews appear in each row -->
+    <!-- TODO: @Brandon I need your help to display more courses the just 2.  I think this website:
+    https://elements.polymer-project.org/bower_components/iron-list/demo/grid.html is a good example of maybe how we should do it?
+    It fills the entire page too. Source code can be found in app/client/bower_components/iron-list/demo/grid.html-->
+
     <iron-list id="course-list" scroll-target="document" items="[[publicCourses]]" grid>
       <template>
         <div class="course-container">
@@ -101,12 +109,9 @@
     </iron-list>
     <iron-scroll-threshold id="scroll-threshold" scroll-target="document" on-lower-threshold="loadMoreData">
     </iron-scroll-threshold>
-
-
-
-    <template is="dom-if" if="[[displayLoadMoreButton]]">
-        <paper-button id="load-more-data" on-tap="loadMoreData">Load more</paper-button>
-    </template>
+    <div class="loading-indicator" hidden$="[[!loading]]">
+      <paper-spinner active$="[[loading]]"></paper-spinner> Loading Courses</b>
+    </div>
   </template>
   <!--<script src="prendus-homepage.js"></script>-->
 </dom-module>
