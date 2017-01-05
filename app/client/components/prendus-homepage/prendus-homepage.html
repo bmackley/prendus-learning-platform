@@ -47,7 +47,8 @@
       width: 250px;
       height: 300px;
       margin: 8px;
-      /*flex-basis: 25%;*/
+      flex-grow: 0;
+      min-width: 0;
     }
 
 
@@ -60,13 +61,13 @@
     }
 
     @media (max-width: 800px) {
-      .course-container {
+      /*.course-container {
         width: calc(50% - 16px);
       }
 
       .course-content {
         width: auto;
-      }
+      }*/
     }
     @media (max-width: 768px) {
       .course-preview {
@@ -94,7 +95,7 @@
     <!-- TODO: @Brandon I need your help to display more courses the just 2.  I think this website:
     https://elements.polymer-project.org/bower_components/iron-list/demo/grid.html is a good example of maybe how we should do it?
     It fills the entire page too. Source code can be found in app/client/bower_components/iron-list/demo/grid.html-->
-    <iron-list id="course-list" scroll-target="document" items="[[publicCourses]]" as="course" grid>
+    <iron-list id="course-list" items="[[publicCourses]]" as="course" scroll-target="document" grid>
       <template>
         <div class="course-container">
           <div class="course-content">
