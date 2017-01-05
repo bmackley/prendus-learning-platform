@@ -30,6 +30,8 @@ class PrendusHomepage {
       try {
         this.loading = true;
         await Actions.getCoursesByVisibility(this, 'public', this.numCoursesLoadOnScroll);
+        const courseList: any = this.querySelector('#course-list');
+        courseList.fire('resize');
         // For some reason I can't figure out how to loadMoreData
         // and have the public courses display. So I display the
         // courses by visibility, and when the user scrolls down
