@@ -65,10 +65,11 @@ class PrendusHomepage {
           const scrollRefAndCourses: { scrollRef: any, courses: Course[] } = await CourseModel.getNextCourses(this.scrollRef, this.numCoursesLoadOnScroll);
           const courses: Course[] = scrollRefAndCourses.courses;
           this.scrollRef = scrollRefAndCourses.scrollRef;
-
           // Do this check here so that the firebase util won't query firebase again.
           if(this.publicCourses.length < courses.length || courses.length === this.numCoursesLoadOnScroll) {
               await Actions.reloadPublicCourses(this, courses);
+              const courseList: any = this.querySelector('#course-list');
+              courseList.fire('resize');
               this.loading = true;
           } else {
             this.loading = false;
