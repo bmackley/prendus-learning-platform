@@ -36,7 +36,7 @@ class PrendusHomepage {
         // and have the public courses display. So I display the
         // courses by visibility, and when the user scrolls down
         // to the bottom, the next courses will load right away.
-        this.baseRef = new Firebase(`https://prendus-${window.PRENDUS_ENV}.firebaseio.com/courses`);
+        this.baseRef = new Firebase(`https://prendus-${window['PRENDUS_ENV']}.firebaseio.com/courses`);
         this.scrollRef = new Firebase.util.Scroll(this.baseRef, 'public');
         await this.loadMoreData(null);
       } catch(error) {
