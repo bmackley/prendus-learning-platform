@@ -83,7 +83,6 @@ export class PrendusProfile {
   }
 
   ready(): void {
-    console.log('profile ready!');
     this.querySelector('#updateProfileErrorToast').fitInto = this.querySelector('#toastTarget');
     this.querySelector('#updateProfileSuccessToast').fitInto = this.querySelector('#toastTarget');
   }

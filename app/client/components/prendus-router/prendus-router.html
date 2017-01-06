@@ -1,5 +1,4 @@
-<link href="../../bower_components/polymer/polymer.html" rel="import">
-
+<link rel="import" href="../../bower_components/polymer/polymer.html">
 <link rel="import" href="../../bower_components/app-route/app-route.html">
 <link rel="import" href="../../bower_components/app-route/app-location.html">
 <link rel="import" href="../../bower_components/paper-spinner/paper-spinner.html">
@@ -9,7 +8,6 @@
 <link rel="import" href="../prendus-course-router/prendus-course-router.html">
 <link rel="import" href="../prendus-landing/prendus-landing.html">
 <link rel="import" href="../prendus-homepage/prendus-homepage.html">
-<link rel="import" href="../prendus-profile/prendus-profile.html">
 <link rel="import" href="../prendus-privacy-policy/prendus-privacy-policy.html">
 <link rel="import" href="../prendus-terms-of-service/prendus-terms-of-service.html">
 
@@ -67,7 +65,7 @@
         <prendus-login class="app-window" data-page="login"></prendus-login>
         <prendus-create-account class="app-window" data-page="signup"></prendus-create-account>
         <prendus-course-router data-page="courses" route="[[tail]]"></prendus-course-router>
-        <prendus-profile class="app-window" data-page="profile"></prendus-profile>
+        <prendus-profile id="profile" class="app-window" data-page="profile"></prendus-profile>
         <prendus-privacy-policy class="app-window" data-page="privacy-policy"></prendus-privacy-policy>
         <prendus-terms-of-service class="app-window" data-page="terms-of-service"></prendus-terms-of-service>
       </iron-pages>
