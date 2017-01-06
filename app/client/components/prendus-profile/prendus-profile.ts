@@ -20,7 +20,7 @@ export class PrendusProfile {
   beforeRegister(): void {
     this.is = 'prendus-profile';
   }
-  
+
   mapStateToThis(e: StatechangeEvent): void {
     const state = e.detail.state;
     this.firstName = state.currentUser.metaData.firstName;
@@ -53,6 +53,7 @@ export class PrendusProfile {
     }
 
   }
+  
   async closeOverlay(e: any): Promise<void> {
     if(e.detail.confirmed === true){
       try {
