@@ -53,9 +53,9 @@ export class PrendusProfile {
     }
 
   }
-  
+
   async closeOverlay(e: any): Promise<void> {
-    if(e.detail.confirmed === true){
+    if(e.detail.confirmed === true) {
       try {
         const submitValue: UserMetaData = {
           uid: this.uid,
