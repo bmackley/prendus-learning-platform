@@ -519,7 +519,7 @@ const loadUserQuestionIds = async (context: any, getUserQuestionIdsAjax: any) =>
     };
 };
 
-const loadPublicQuestionIds = async (context: any, getPublicQuestionIdsAjax: any): Promise<void> => {
+const loadPublicQuestionIds = async (context: any, getPublicQuestionIdsAjax: any) => {
     const request = getPublicQuestionIdsAjax.generateRequest();
     await request.completes;
 
