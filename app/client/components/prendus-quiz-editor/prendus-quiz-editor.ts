@@ -232,7 +232,7 @@ class PrendusQuizEditor {
           this.errorMessage = `Quiz due date cannot be after the last day of the course. Which is currently ${courseDueDateAsString}. Quiz due date set back to original.`;
           // if the quiz didn't have a due date then set the quiz due date to the current date.
           // this assumes the last day of the course is after the current date.
-          const date: Date = !this.quizQuestionSettings.dueDate ? UtilitiesService.dateToUTCNumber(new Date()) : this.quizQuestionSettings.dueDate;
+          const date: number = !this.quizQuestionSettings.dueDate ? UtilitiesService.dateToUTCNumber(new Date()) : this.quizQuestionSettings.dueDate;
           await this.applySettings('dueDate', this.quizQuestionSettings.dueDate, null, true);
           return;
         }
@@ -256,7 +256,7 @@ class PrendusQuizEditor {
     }
 
     async maxNumAttemptsChanged(e: any) {
-        const value = e.target.value;
+        const value: number = Number(e.target.value);
         await this.applySettings('maxNumAttempts', value, 'Maximum number of attempts', true);
     }
 
