@@ -1,8 +1,6 @@
 <link rel="import" href="../../bower_components/polymer/polymer.html">
 <link rel="import" href="../../bower_components/redux-store-element/redux-store.html">
 <link rel="import" href="../../bower_components/iron-ajax/iron-ajax.html">
-<link rel="import" href="../../bower_components/iron-list/iron-list.html">
-<link rel="import" href="../../bower_components/iron-scroll-threshold/iron-scroll-threshold.html">
 <link rel="import" href="../../bower_components/paper-input/paper-input.html">
 <link rel="import" href="../../bower_components/paper-tabs/paper-tabs.html">
 <link rel="import" href="../../bower_components/paper-card/paper-card.html">
@@ -91,10 +89,6 @@
           margin-top: 15px;
         }
 
-        iron-list {
-          flex: auto;
-        }
-
         @media (max-width: 768px) {
           #quiz-container {
             flex-wrap: wrap;
@@ -157,20 +151,6 @@
             <h3>Create questions and click <iron-icon icon="av:playlist-add"></iron-icon> to add them to the quiz.</h3>
           </template>
           <div id="quizDomRepeatContainer">
-            <iron-list items="[[quizQuestionIds]]">
-              <template>
-                <div style="position: relative">
-                    <prendus-view-question id="quiz-question-id-[[item]]" question-id="[[item]]" quiz-id="NO_QUIZ" jwt="[[jwt]]" quiz-session="[[quizSession]]" concise></prendus-view-question>
-                    <paper-icon-button id="remove[[item]]" icon="icons:clear" on-click="removeQuestionFromQuiz"></paper-icon-button>
-                    <paper-tooltip for="remove[[item]]" offset="0" animation-delay="300">Remove from quiz</paper-tooltip>
-                    <hr>
-                </div>
-              </template>
-            </iron-list>
-          </div>
-          <iron-scroll-threshold id="threshold" on-lower-threshold="loadMoreData" scroll-target="document">
-          </iron-scroll-threshold>
-          <!-- <div id="quizDomRepeatContainer">
               <template is="dom-repeat" items="[[quizQuestionIds]]">
                   <div style="position: relative">
                       <prendus-view-question id="quiz-question-id-[[item]]" question-id="[[item]]" quiz-id="NO_QUIZ" jwt="[[jwt]]" quiz-session="[[quizSession]]" concise></prendus-view-question>
@@ -179,7 +159,7 @@
                       <hr>
                   </div>
               </template>
-          </div> -->
+          </div>
         </div>
       </paper-card>
       <paper-card>
