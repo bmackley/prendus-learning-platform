@@ -2,6 +2,7 @@
 <link rel="import" href="../../bower_components/redux-store-element/redux-store.html">
 <link rel="import" href="../../bower_components/iron-ajax/iron-ajax.html">
 <link rel="import" href="../../bower_components/iron-list/iron-list.html">
+<link rel="import" href="../../bower_components/iron-scroll-threshold/iron-scroll-threshold.html">
 <link rel="import" href="../../bower_components/paper-input/paper-input.html">
 <link rel="import" href="../../bower_components/paper-tabs/paper-tabs.html">
 <link rel="import" href="../../bower_components/paper-card/paper-card.html">
@@ -167,6 +168,8 @@
               </template>
             </iron-list>
           </div>
+          <iron-scroll-threshold id="threshold" on-lower-threshold="loadMoreData" scroll-target="document">
+          </iron-scroll-threshold>
           <!-- <div id="quizDomRepeatContainer">
               <template is="dom-repeat" items="[[quizQuestionIds]]">
                   <div style="position: relative">
