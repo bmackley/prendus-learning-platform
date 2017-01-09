@@ -35,8 +35,6 @@ class PrendusQuizEditor {
     public fire: any;
     public successMessage: string;
     public errorMessage: string;
-    public $: any;
-    public currentPage: string;
 
     beforeRegister() {
         this.is = 'prendus-quiz-editor';
@@ -98,15 +96,6 @@ class PrendusQuizEditor {
         const getPublicQuestionIdsAjax = this.querySelector('#getPublicQuestionIdsAjax');
         await Actions.loadPublicQuestionIds(this, getPublicQuestionIdsAjax);
     }
-
-    async loadMoreData(): Promise<void> {
-
-      if(this.currentPage !== 'quizEditor') {
-        console.log('loadMoreData');
-        this.$.threshold.clearTriggers();
-        }
-      }
-
 
     async loadUserQuestionIds() {
         const getUserQuestionIdsAjax = this.querySelector('#getUserQuestionIdsAjax');
