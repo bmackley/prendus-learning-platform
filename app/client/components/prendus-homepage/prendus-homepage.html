@@ -20,11 +20,9 @@
 			display: block;
 		}
 
-    #homepage-courses {
-      /*height: 100vh;*/
+    .homepage-courses {
       display: flex;
       flex-wrap: wrap;
-      /*overflow: auto;*/
     }
 
     .course-preview {
@@ -32,6 +30,15 @@
       flex-basis: 30%;
       flex-grow: 0;
       min-width: 0;
+    }
+
+    #load-more-data {
+      /*TODO: Matt's hacky version to get this centered. */
+      left: 41%;
+    }
+
+    #course-list {
+      flex: auto;
     }
 
     @media (max-width: 768px) {
@@ -56,25 +63,25 @@
   <template>
     <prendus-notification success-message="[[successMessage]]" error-message="[[errorMessage]]"></prendus-notification>
     <redux-store on-statechange="mapStateToThis" action="[[action]]"></redux-store>
-      <div id="homepage-courses">
-
-          <!-- <iron-list items="[[publicCourses]]">
-            <template>
-                <prendus-course-preview class="course-preview" course="[[item]]"></prendus-course-preview>
-            </template>
-          </iron-list> -->
-
-          <!-- TODO: figure out how to get this to work with iron-list.-->
-          <template id="course-list" is="dom-repeat" items="[[publicCourses]]">
-            <prendus-course-preview class="course-preview" course="[[item]]"></prendus-course-preview>
+      <div class="homepage-courses">
+        <!-- TODO: @Brandon I need your help to make three course previews appear in each row -->
+        <iron-list id="course-list" scroll-target="scroll-threshold" items="[[publicCourses]]">
+          <template>
+            <div>
+              <prendus-course-preview class="course-preview" course="[[item]]"></prendus-course-preview>
+            </div>
           </template>
-          <iron-scroll-threshold id="scroll-threshold" lower-threshold="500" scroll-target="document" on-lower-threshold="loadMoreData">
-          </iron-scroll-threshold>
+        </iron-list>
+
+        <iron-scroll-threshold id="scroll-threshold" scroll-target="document" on-lower-threshold="loadMoreData">
+        </iron-scroll-threshold>
 
           <!-- TODO: we should probably center this. -->
-          <div>
-            <paper-button on-tap="loadMoreData">Load more</paper-button>
-          </div>
+          <!-- TODO: only display if there is more content available -->
+
+      </div>
+      <div>
+        <paper-button id="load-more-data" on-tap="loadMoreData">Load more</paper-button>
       </div>
   </template>
 

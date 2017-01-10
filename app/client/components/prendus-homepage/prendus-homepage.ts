@@ -16,6 +16,8 @@ class PrendusHomepage {
     public words: string[];
     public querySelector: any;
     public numCoursesLoadOnScroll: number;
+    public currentPage: string;
+
     beforeRegister(): void {
         this.is = 'prendus-homepage';
         this.numCoursesLoadOnScroll = 12;
@@ -27,6 +29,9 @@ class PrendusHomepage {
         // and have the public courses display. So I display the
         // courses by visibility, and when the user scrolls down
         // to the bottom, the next courses will load right away.
+        // TODO: make this work for master or develop.
+        this.baseRef = new Firebase('https://prendus-development.firebaseio.com/courses');
+        this.scrollRef = new Firebase.util.Scroll(this.baseRef, 'public');
         await this.loadMoreData(null);
     }
 
@@ -42,19 +47,28 @@ class PrendusHomepage {
     }
 
     async loadMoreData(e: any): Promise<void> {
-      try {
 
-        const courses: Course[] = await CourseModel.getNext(this.numCoursesLoadOnScroll);
-        // Do this check here so that the firebase util won't query firebase again.
-        if(this.publicCourses.length < courses.length || courses.length === this.numCoursesLoadOnScroll) {
-            await Actions.reloadPublicCourses(this, courses);
-            let threshold: any = this.querySelector('#scroll-threshold');
-            threshold.clearTriggers();
+      try {
+        if(!this.scrollRef) {
+          return;
+        }
+        // If we're on the homepage.
+        if(this.currentPage === "") {
+          const scrollRefAndCourses: { scrollRef: any, courses: Course[] } = await CourseModel.getNextCourses(this.scrollRef, this.numCoursesLoadOnScroll);
+          const courses: Course[] = scrollRefAndCourses.courses;
+          this.scrollRef = scrollRefAndCourses.scrollRef;
+          // const courses: Course[] = await CourseModel.getNext(this.numCoursesLoadOnScroll);
+          // Do this check here so that the firebase util won't query firebase again.
+          if(this.publicCourses.length < courses.length || courses.length === this.numCoursesLoadOnScroll) {
+              await Actions.reloadPublicCourses(this, courses);
+          }
         }
       } catch(error) {
         this.errorMessage = '';
         this.errorMessage = error.message;
       }
+      const threshold: any = this.querySelector('#scroll-threshold');
+      threshold.clearTriggers();
     }
 
     mapStateToThis(e: StatechangeEvent): void {
