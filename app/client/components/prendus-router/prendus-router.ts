@@ -32,8 +32,6 @@ class PrendusRouter {
       case '/': {
         if(this.loggedIn === "false") {
           this.importHref('components/prendus-landing/prendus-landing.html', 'landing');
-        } else if(this.loggedIn === "true") {
-          this.importHref('components/prendus-homepage/prendus-homepage.html', 'homepage');
         }
         break;
       }

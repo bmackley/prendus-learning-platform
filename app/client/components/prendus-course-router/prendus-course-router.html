@@ -1,11 +1,8 @@
 <link href="../../bower_components/polymer/polymer.html" rel="import">
 <link href="../../bower_components/iron-pages/iron-pages.html" rel="import">
-<link rel="import" href="../prendus-course-homepage/prendus-course-homepage.html">
-<link rel="import" href="../prendus-course-view/prendus-course-view.html">
-<link rel="import" href="../prendus-quiz-editor/prendus-quiz-editor.html">
-<link rel="import" href="../prendus-view-video-router/prendus-view-video-router.html">
-<link rel="import" href="../prendus-view-quiz-router/prendus-view-quiz-router.html">
-<link rel="import" href="../prendus-edit-quiz-router/prendus-edit-quiz-router.html">
+<!-- <link rel="import" href="../prendus-view-quiz-router/prendus-view-quiz-router.html"> -->
+
+<!-- Load edit question so the edit-question component can get the proper data. -->
 <link rel="import" href="../prendus-edit-question-router/prendus-edit-question-router.html">
 
 <dom-module id="prendus-course-router">
@@ -31,13 +28,13 @@
     <app-route route="[[route]]" pattern="/:page" data="{{data}}" tail="{{tail}}"></app-route>
 
     <iron-pages id="course-container" selected="[[data.page]]" attr-for-selected="key">
-      <prendus-course-homepage class="course-window" key="home"></prendus-course-homepage>
-      <prendus-course-view class="course-window" key="view" route="[[route]]"></prendus-course-view>
-      <prendus-edit-quiz-router key="edit-quiz" route="[[route]]"></prendus-edit-quiz-router>
-      <prendus-edit-question-router class="course-window" key="edit-question" route="[[route]]"></prendus-edit-question-router>
-      <prendus-view-video-router class="course-window" key="view-video" route="[[route]]"></prendus-view-video-router>
-      <prendus-view-quiz-router class="course-window" key="view-quiz" route="[[route]]"></prendus-view-quiz-router>
-      <prendus-view-question-router class="course-window" key="view-question" route="[[route]]"></prendus-view-question-router>
+      <prendus-course-homepage id="course-homepage" class="course-window" key="home"></prendus-course-homepage>
+      <prendus-course-view id="course-view" class="course-window" key="view" route="[[route]]"></prendus-course-view>
+      <prendus-edit-quiz-router id="edit-quiz" key="edit-quiz" route="[[route]]"></prendus-edit-quiz-router>
+      <prendus-edit-question-router id="edit-question" class="course-window" key="edit-question" route="[[route]]"></prendus-edit-question-router>
+      <prendus-view-video-router id="view-video" class="course-window" key="view-video" route="[[route]]"></prendus-view-video-router>
+      <prendus-view-quiz-router id="view-quiz" class="course-window" key="view-quiz" route="[[route]]"></prendus-view-quiz-router>
+      <prendus-view-question-router id="view-question" class="course-window" key="view-question" route="[[route]]"></prendus-view-question-router>
     </iron-pages>
   </template>
 
