@@ -11,15 +11,12 @@ class PrendusRouter {
 
   beforeRegister() {
     this.is =  "prendus-router";
+
     this.observers = [
       '_routeChanged(route.*)'
     ];
-  }
-
-  ready(): void {
 
   }
-
   _routeChanged(routeObject: any): void {
     if(!this.username || !this.loggedIn) {
       // Call default action to determine if the user is logged in, since
@@ -30,34 +27,34 @@ class PrendusRouter {
     switch(route) {
 
       case '/': {
-        if(this.loggedIn === "false") {
-          this.importHref('components/prendus-landing/prendus-landing.html', 'landing');
-        }
+        this.importElement('components/prendus-landing/prendus-landing.html', 'landing');
+        this.importElement('components/prendus-homepage/prendus-homepage.html', 'homepage');
         break;
       }
 
       case '/login': {
-        this.importHref('components/prendus-login/prendus-login.html', 'login');
+        console.log('login');
+        this.importElement('components/prendus-login/prendus-login.html', 'login');
         break;
       }
 
       case '/signup': {
-        this.importHref('components/prendus-create-account/prendus-create-account.html', 'create-account');
+        this.importElement('components/prendus-create-account/prendus-create-account.html', 'create-account');
         break;
       }
 
       case '/profile': {
-        this.importHref('components/prendus-profile/prendus-profile.html', 'profile');
+        this.importElement('components/prendus-profile/prendus-profile.html', 'profile');
         break;
       }
 
       case '/privacy-policy': {
-        this.importHref('components/prendus-privacy-policy/prendus-privacy-policy.html', 'privacy-policy');
+        this.importElement('components/prendus-privacy-policy/prendus-privacy-policy.html', 'privacy-policy');
         break;
       }
 
       case '/terms-of-service': {
-        this.importHref('components/prendus-terms-of-service/prendus-terms-of-service.html', 'terms-of-service');
+        this.importElement('components/prendus-terms-of-service/prendus-terms-of-service.html', 'terms-of-service');
         break;
       }
 
@@ -66,7 +63,7 @@ class PrendusRouter {
 
   }
 
-  importHref(path: string, id: string): void {
+  importElement(path: string, id: string): void {
     if(!Polymer.isInstance(this.querySelector(`#${id}`))) {
       Polymer.Base.importHref(
         path,
@@ -74,7 +71,7 @@ class PrendusRouter {
           //success
         }, () => {
           //failure
-          throw new Error("Importing element failed");
+          throw new Error('Importing element failed');
         });
 
     }
