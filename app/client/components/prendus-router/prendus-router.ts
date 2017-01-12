@@ -33,7 +33,6 @@ class PrendusRouter {
       }
 
       case '/login': {
-        console.log('login');
         this.importElement('components/prendus-login/prendus-login.html', 'login');
         break;
       }
