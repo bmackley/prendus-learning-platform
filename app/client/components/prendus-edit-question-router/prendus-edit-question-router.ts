@@ -28,6 +28,7 @@ class PrendusEditQuestionRouter {
     }
 
     async ready() {
+        Actions.defaultAction(this);
         this.endpointDomain = UtilitiesService.getPrendusServerEndpointDomain();
 
         const user = await FirebaseService.getLoggedInUser();
@@ -49,12 +50,10 @@ class PrendusEditQuestionRouter {
     }
 
     setData() {
-      // if(this.data) {
-        // this.conceptId = this.data.conceptId;
-        console.log(`this.concept: ${this.conceptId}`);
-        // this.quizId = this.data.quizId;
-        console.log(`this.quizId: ${this.quizId}`);
-      // }
+      if(this.data) {
+        this.conceptId = this.data.conceptId;
+        this.quizId = this.data.quizId;
+      }
 
     }
 
