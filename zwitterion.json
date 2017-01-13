@@ -782,6 +782,81 @@
         },
         "redux/initial-state.ts": {
             "parentImport": false
+        },
+        "profile": {
+            "parentImport": true
+        },
+        "images/landing-image-2.jpg": {
+            "parentImport": true
+        },
+        "login": {
+            "parentImport": true
+        },
+        "signup": {
+            "parentImport": true
+        },
+        "courses/home": {
+            "parentImport": true
+        },
+        "system.src.js": {
+            "parentImport": true
+        },
+        "terms-of-service": {
+            "parentImport": true
+        },
+        "privacy-policy": {
+            "parentImport": true
+        },
+        "compoents/prendus-privacy-policy/prendus-privacy-policy.html": {
+            "parentImport": true
+        },
+        "courses/view/-KUVKAsfzX3ATYsIFJcH": {
+            "parentImport": true
+        },
+        "courses/view/-KUVVtvKmmc0yeoaN5b8": {
+            "parentImport": true
+        },
+        "courses/edit-quiz/course/-KUVKAsfzX3ATYsIFJcH/concept/-KaE-CU-yuAnuOM7GAyw/quiz/-KaE0NfbeEB89uR7FDSb": {
+            "parentImport": true
+        },
+        "courses/edit-quiz/course/-KUVKAsfzX3ATYsIFJcH/concept/-KaE-CU-yuAnuOM7GAyw/quiz/-KaE0XzuTuicG48pHAbm": {
+            "parentImport": true
+        },
+        "courses/edit-quiz/course/-KUVKAsfzX3ATYsIFJcH/concept/-KaE-CU-yuAnuOM7GAyw/quiz/-KaE0tAKD3WZI6GvsJax": {
+            "parentImport": true
+        },
+        "courses/edit-quiz/course/-KUVKAsfzX3ATYsIFJcH/concept/-KaE-CU-yuAnuOM7GAyw/quiz/-KaE1LVfXCTOw0QxnaLj": {
+            "parentImport": true
+        },
+        "courses/edit-quiz/course/-KUVKAsfzX3ATYsIFJcH/concept/-KaE-CU-yuAnuOM7GAyw/quiz/-KaE1htxeGtEyQZECvsH": {
+            "parentImport": true
+        },
+        "courses/edit-question/question/create": {
+            "parentImport": true
+        },
+        "courses/edit-question/question/-KXxRfZlPkmY6p5_1QXi": {
+            "parentImport": true
+        },
+        "courses/edit-quiz/course/-KUVKAsfzX3ATYsIFJcH/concept/-KaE-CU-yuAnuOM7GAyw/quiz/-KaE43ArLqt6JLvUyXHh": {
+            "parentImport": true
+        },
+        "courses/view/-KQCiakbx7M9cAEOyGac": {
+            "parentImport": true
+        },
+        "courses/view-quiz/course/-KQCiakbx7M9cAEOyGac/concept/-KQCkQRno_csqFtjQkYR/quiz/-KQCnbEyaT5ddLdTfMup": {
+            "parentImport": true
+        },
+        "courses/view-video/course/undefined/video/-KQClSrw6ZWcDbAdEyK_": {
+            "parentImport": true
+        },
+        "courses/view-quiz/course/-KQCiakbx7M9cAEOyGac/concept/-KQCkQRno_csqFtjQkYR/quiz/-KQD0RmAt5It8U6JwcFe": {
+            "parentImport": true
+        },
+        "courses/view-video/course/undefined/video/-KQCoDIXg9TXDhfeE3I_": {
+            "parentImport": true
+        },
+        "courses/view-quiz/course/-KQCiakbx7M9cAEOyGac/concept/-KQCkXSG6OEMxfL4p2gw/quiz/-KQD682aw-MEhxiiGmNC": {
+            "parentImport": true
         }
     }
 }

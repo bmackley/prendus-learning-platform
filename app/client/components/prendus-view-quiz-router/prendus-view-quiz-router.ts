@@ -8,6 +8,9 @@ class PrendusViewQuizRouter {
     public userEmail: string;
     public jwt: string;
 
+    ready() {
+      Actions.defaultAction(this);
+    }
     beforeRegister() {
         this.is = 'prendus-view-quiz-router';
     }
@@ -29,7 +32,6 @@ class PrendusViewQuizRouter {
 
     mapStateToThis(e) {
       const state = e.detail.state;
-
       this.userFullName = `${state.currentUser.metaData.firstName} ${state.currentUser.metaData.lastName}`;
       this.userEmail = state.currentUser.metaData.email;
       this.jwt = state.jwt;
