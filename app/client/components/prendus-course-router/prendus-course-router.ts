@@ -46,6 +46,10 @@ class PrendusCourseRouter {
         break;
       }
 
+      case 'edit-question': {
+        this.importElement('components/prendus-edit-question-router/prendus-edit-question-router.html', 'edit-question');
+        break;
+      }
       default: break;
     }
   }
