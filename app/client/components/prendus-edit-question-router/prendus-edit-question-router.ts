@@ -49,11 +49,13 @@ class PrendusEditQuestionRouter {
     }
 
     setData() {
-      if(this.data) {
-        console.log(this.data);
-        this.conceptId = this.data.conceptId;
-        this.quizId = this.data.quizId;
-      }
+      // if(this.data) {
+        // this.conceptId = this.data.conceptId;
+        console.log(`this.concept: ${this.conceptId}`);
+        // this.quizId = this.data.quizId;
+        console.log(`this.quizId: ${this.quizId}`);
+      // }
+
     }
 
     editProblemComponentLoaded(e) {
