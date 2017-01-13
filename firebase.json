@@ -1,6 +1,6 @@
 {
   "firebase": "prendus-production",
-  "public": "app/client",
+  "public": "dist",
   "rewrites": [ {
     "source": "**",
     "destination": "/index.html"

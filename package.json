@@ -4,7 +4,7 @@
   "description": "The tool to create and upload videos and quizzes",
   "scripts": {
     "start": "zwitterion --serve-dir app/client",
-    "production-build": "zwitterion --build --output-dir dist"
+    "production-build": "zwitterion --serve-dir app/client --build --output-dir dist"
   },
   "repository": {
     "type": "git",
