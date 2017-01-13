@@ -1,8 +1,9 @@
-<link  rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/polymer/polymer.html">
 <link rel="import" href="../../bower_components/redux-store-element/redux-store.html">
 <link rel="import" href="../../bower_components/paper-card/paper-card.html">
 <link rel="import" href="../../bower_components/paper-item/paper-item.html">
 <link rel="import" href="../../bower_components/paper-button/paper-button.html">
+<link rel="import" href="../../bower_components/paper-spinner/paper-spinner.html">
 <link rel="import" href="../../bower_components/iron-list/iron-list.html">
 <link rel="import" href="../../bower_components/iron-scroll-threshold/iron-scroll-threshold.html">
 <link rel="import" href="../prendus-course-preview/prendus-course-preview.html">
@@ -20,24 +21,59 @@
 			display: block;
 		}
 
-    #homepage-courses {
-      /*height: 100vh;*/
+    .homepage-courses {
       display: flex;
       flex-wrap: wrap;
-      /*overflow: auto;*/
+    }
+
+    .loading-indicator {
+      font-size: 16px;
+      text-align: center;
+      height: 60px;
+    }
+
+    .loading-indicator paper-spinner {
+      margin-right: 20px;
+      vertical-align: middle;
+    }
+
+    iron-list {
+      flex: auto;
     }
 
     .course-preview {
-      margin: 10px;
-      flex-basis: 30%;
+
+      position: relative;
+      width: 250px;
+      height: 300px;
+      margin: 8px;
       flex-grow: 0;
       min-width: 0;
     }
 
+
+    .course-content {
+      @apply(--layout);
+    }
+
+    .course-content > prendus-course-preview {
+      @apply(--layout-flex);
+    }
+
+    @media (max-width: 800px) {
+      /*.course-container {
+        width: calc(50% - 16px);
+      }
+
+      .course-content {
+        width: auto;
+      }*/
+    }
     @media (max-width: 768px) {
       .course-preview {
         flex-basis: 45%;
       }
+
     }
 
 		@media (max-width: 500px) {
@@ -56,26 +92,26 @@
   <template>
     <prendus-notification success-message="[[successMessage]]" error-message="[[errorMessage]]"></prendus-notification>
     <redux-store on-statechange="mapStateToThis" action="[[action]]"></redux-store>
-      <div id="homepage-courses">
-
-          <!-- <iron-list items="[[publicCourses]]">
-            <template>
-                <prendus-course-preview class="course-preview" course="[[item]]"></prendus-course-preview>
-            </template>
-          </iron-list> -->
-
-          <!-- TODO: figure out how to get this to work with iron-list.-->
-          <template id="course-list" is="dom-repeat" items="[[publicCourses]]">
-            <prendus-course-preview class="course-preview" course="[[item]]"></prendus-course-preview>
-          </template>
-          <iron-scroll-threshold id="scroll-threshold" lower-threshold="500" scroll-target="document" on-lower-threshold="loadMoreData">
-          </iron-scroll-threshold>
-
-          <!-- TODO: we should probably center this. -->
-          <div>
-            <paper-button on-tap="loadMoreData">Load more</paper-button>
+    <!-- TODO: @Brandon I need your help to display more courses the just 2.  I think this website:
+    https://elements.polymer-project.org/bower_components/iron-list/demo/grid.html is a good example of maybe how we should do it?
+    It fills the entire page too. Source code can be found in app/client/bower_components/iron-list/demo/grid.html-->
+    <iron-list id="course-list" items="[[publicCourses]]" as="course" grid>
+      <template>
+        <div class="course-container">
+          <div class="course-content">
+            <prendus-course-preview id="[[course.id]]" class="course-preview" course="[[course]]"></prendus-course-preview>
           </div>
-      </div>
+        </div>
+      </template>
+    </iron-list>
+
+
+    <div class="loading-indicator" hidden$="[[!loading]]">
+      <paper-spinner active$="[[loading]]"></paper-spinner> Loading Courses</b>
+    </div>
+
+    <iron-scroll-threshold id="threshold" on-lower-threshold="loadMoreData" scroll-target="document">
+    </iron-scroll-threshold>
   </template>
 
   <script src="prendus-homepage.ts"></script>
