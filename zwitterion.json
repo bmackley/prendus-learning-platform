@@ -782,6 +782,9 @@
         },
         "redux/initial-state.ts": {
             "parentImport": false
+        },
+        "courses/view/-KRFrP4GfoaNKSnBS07s": {
+            "parentImport": true
         }
     }
 }

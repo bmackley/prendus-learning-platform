@@ -1,5 +1,6 @@
 <link rel="import" href="../../bower_components/polymer/polymer.html">
 <link rel="import" href="../../bower_components/redux-store-element/redux-store.html">
+<link rel="import" href="../../bower_components/iron-icons/iron-icons.html">
 <link rel="import" href="../../bower_components/paper-dialog-scrollable/paper-dialog-scrollable.html">
 <link rel="import" href="../prendus-video-editor/prendus-video-editor.html">
 <link rel="import" href="../../bower_components/paper-button/paper-button.html">
@@ -46,7 +47,7 @@
             <div class="video-row" on-tap="videoRowClick">[[item.title]]</div>
         </template>
 				<h4 hidden$="[[hasVideos(videos)]]">This concept doesn't have any videos yet.</h4>
-        <paper-button class="add-video-button" on-tap="addVideo">Add Video</paper-button>
+        <paper-button class="add-video-button" on-tap="addVideo"><iron-icon icon="add"></iron-icon>Add Video</paper-button>
     </template>
 
     <script src="prendus-concept-video-container-edit.ts"></script>
