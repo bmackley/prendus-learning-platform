@@ -4,7 +4,8 @@
   "description": "The tool to create and upload videos and quizzes",
   "scripts": {
     "start": "zwitterion --serve-dir app/client",
-    "production-build": "zwitterion --serve-dir app/client --build --output-dir dist"
+    "production-build": "zwitterion --serve-dir app/client --build --output-dir dist",
+    "test": "electron node_modules/scram-engine/main.js --entry-file test/client/index.html --window"
   },
   "repository": {
     "type": "git",
@@ -14,6 +15,7 @@
   "dependencies": {},
   "devDependencies": {
     "@types/polymer": "^1.1.29",
-    "zwitterion": "^0.2.0"
+    "scram-engine": "^0.4.5",
+    "zwitterion": "^0.7.0"
   }
 }
