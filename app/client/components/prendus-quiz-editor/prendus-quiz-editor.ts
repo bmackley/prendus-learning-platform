@@ -149,8 +149,6 @@ class PrendusQuizEditor {
     }
 
     editQuestion(e: any) {
-        Actions.showMainSpinner(this);
-
         const questionId = e.model.item;
 
         window.history.pushState({}, '', `courses/edit-question/question/${questionId}`);
