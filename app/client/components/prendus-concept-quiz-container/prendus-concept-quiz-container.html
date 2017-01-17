@@ -2,6 +2,7 @@
 <link rel="import" href="../../bower_components/redux-store-element/redux-store.html">
 <link rel="import" href="../../bower_components/paper-button/paper-button.html">
 <link rel="import" href="../../bower_components/paper-icon-button/paper-icon-button.html">
+<link rel="import" href="../../bower_components/iron-icons/iron-icons.html">
 <link rel="import" href="../../bower_components/paper-dialog/paper-dialog.html">
 <link rel="import" href="../../bower_components/paper-tooltip/paper-tooltip.html">
 
@@ -72,7 +73,7 @@
     </template>
     <h4 hidden$="[[hasQuizzes(quizzes)]]">This concept doesn't have any quizzes yet.</h4>
     <template is="dom-if" if="[[courseEditAccess]]">
-      <paper-button class="add-quiz-button" on-tap="addQuiz">Add Quiz</paper-button>
+      <paper-button class="add-quiz-button" on-tap="addQuiz"><iron-icon icon="add"></iron-icon>Add Quiz</paper-button>
     </template>
     <paper-dialog id="confirm-delete-modal" modal>
       <h2>Confirm Delete</h2>

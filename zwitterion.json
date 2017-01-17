@@ -707,6 +707,18 @@
         },
         "components/prendus-homepage/prendus-homepage.ts": {
             "parentImport": true
+        },
+        "redux/reducers.ts": {
+            "parentImport": false
+        },
+        "favicon.ico": {
+            "parentImport": true
+        },
+        "redux/initial-state.ts": {
+            "parentImport": false
+        },
+        "courses/view/-KRFrP4GfoaNKSnBS07s": {
+            "parentImport": true
         }
     }
 }
