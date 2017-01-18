@@ -194,11 +194,6 @@ export class PrendusCourseView {
 
   }
 
-  getLTILinks(): void {
-    console.log('LTI Links3')
-
-  }
-
   addConcept(e: any): void {
     this.querySelector('#addConceptDialog').open();
   }

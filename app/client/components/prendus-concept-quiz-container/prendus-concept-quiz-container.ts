@@ -4,6 +4,7 @@ import {Course} from '../../node_modules/prendus-services/typings/course';
 import {Actions} from '../../redux/actions';
 import {StatechangeEvent} from '../../typings/statechange-event';
 import {FirebaseService} from '../../node_modules/prendus-services/services/firebase-service';
+import {UtilitiesService} from '../../node_modules/prendus-services/services/utilities-service';
 
 class PrendusConceptQuizContainer {
     public is: string;
@@ -20,6 +21,8 @@ class PrendusConceptQuizContainer {
     public currentCourse: Course;
     public successMessage: string;
     public errorMessage: string;
+    public jwt: string;
+    public endpointDomain: string;
 
     beforeRegister() {
         this.is = 'prendus-concept-quiz-container';
@@ -68,6 +71,26 @@ class PrendusConceptQuizContainer {
       this.fire('location-changed', {}, {node: window});
     }
 
+    async getLTILinks(e: { model: any }): void {
+      console.log('e', e)
+      e.stopPropagation();
+      console.log('LTI Links3')
+      this.endpointDomain = UtilitiesService.getPrendusServerEndpointDomain();
+      console.log('endpoint domain', this.endpointDomain)
+      const courseId = this.courseId;
+      console.log(courseId)
+      const jwt = this.jwt;
+      const LTIRequest = this.querySelector("#getLTIajax")
+      LTIRequest.body = {
+        courseId,
+        jwt
+      }
+      const request = LTIRequest.generateRequest();
+      await request.completes;
+      console.log('rr', request.response)
+
+    }
+
     openDeleteModal(e: any) {
       e.stopPropagation();
       this.querySelector('#confirm-delete-modal').open();
@@ -110,6 +133,7 @@ class PrendusConceptQuizContainer {
     			}
                 return quiz;
     	});
+      this.jwt = state.jwt;
     }
 }
 
