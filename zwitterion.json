@@ -6,7 +6,7 @@
         "zwitterion-config.js": {
             "parentImport": true
         },
-        "system.js.map": {
+        "bower_components/webcomponentsjs/webcomponents-lite.min.js": {
             "parentImport": true
         },
         "styles/prendus-initial-spinner.css": {
@@ -15,16 +15,19 @@
         "styles/main.css": {
             "parentImport": true
         },
-        "bower_components/webcomponentsjs/webcomponents-lite.min.js": {
+        "components/prendus-app/prendus-app.html": {
             "parentImport": true
         },
-        "components/prendus-app/prendus-app.html": {
+        "system.js.map": {
             "parentImport": true
         },
         "bower_components/redux-store-element/redux-store.html": {
             "parentImport": true
         },
         "styles/app-theme.html": {
+            "parentImport": true
+        },
+        "components/prendus-router/prendus-router.html": {
             "parentImport": true
         },
         "styles/shared-styles.html": {
@@ -36,16 +39,13 @@
         "components/prendus-footer/prendus-footer.html": {
             "parentImport": true
         },
-        "components/prendus-router/prendus-router.html": {
-            "parentImport": true
-        },
         "bower_components/polymer/polymer.html": {
             "parentImport": true
         },
-        "node_modules/redux/dist/redux.min.js": {
+        "bower_components/paper-styles/typography.html": {
             "parentImport": true
         },
-        "bower_components/paper-styles/typography.html": {
+        "node_modules/redux/dist/redux.min.js": {
             "parentImport": true
         },
         "bower_components/paper-styles/color.html": {
@@ -66,13 +66,13 @@
         "bower_components/iron-pages/iron-pages.html": {
             "parentImport": true
         },
-        "components/prendus-create-account/prendus-create-account.html": {
+        "components/prendus-landing/prendus-landing.html": {
             "parentImport": true
         },
         "components/prendus-course-router/prendus-course-router.html": {
             "parentImport": true
         },
-        "components/prendus-landing/prendus-landing.html": {
+        "components/prendus-create-account/prendus-create-account.html": {
             "parentImport": true
         },
         "components/prendus-homepage/prendus-homepage.html": {
@@ -111,15 +111,6 @@
         "bower_components/polymer/polymer-mini.html": {
             "parentImport": true
         },
-        "bower_components/font-roboto/roboto.html": {
-            "parentImport": true
-        },
-        "bower_components/paper-styles/default-theme.html": {
-            "parentImport": true
-        },
-        "bower_components/iron-location/iron-location.html": {
-            "parentImport": true
-        },
         "bower_components/iron-location/iron-query-params.html": {
             "parentImport": true
         },
@@ -147,10 +138,10 @@
         "components/prendus-course-homepage/prendus-course-homepage.html": {
             "parentImport": true
         },
-        "components/prendus-quiz-editor/prendus-quiz-editor.html": {
+        "components/prendus-course-view/prendus-course-view.html": {
             "parentImport": true
         },
-        "components/prendus-view-video-router/prendus-view-video-router.html": {
+        "components/prendus-quiz-editor/prendus-quiz-editor.html": {
             "parentImport": true
         },
         "components/prendus-view-quiz-router/prendus-view-quiz-router.html": {
@@ -162,25 +153,28 @@
         "components/prendus-edit-question-router/prendus-edit-question-router.html": {
             "parentImport": true
         },
-        "bower_components/iron-scroll-threshold/iron-scroll-threshold.html": {
+        "bower_components/iron-list/iron-list.html": {
             "parentImport": true
         },
         "components/prendus-course-preview/prendus-course-preview.html": {
             "parentImport": true
         },
-        "bower_components/paper-spinner/paper-spinner-behavior.html": {
-            "parentImport": true
-        },
-        "bower_components/paper-spinner/paper-spinner-styles.html": {
+        "bower_components/polymer/polymer-micro.html": {
             "parentImport": true
         },
         "bower_components/iron-menu-behavior/iron-menu-behavior.html": {
             "parentImport": true
         },
-        "bower_components/paper-item/paper-item-behavior.html": {
+        "bower_components/paper-styles/default-theme.html": {
             "parentImport": true
         },
         "bower_components/paper-item/paper-item-shared-styles.html": {
+            "parentImport": true
+        },
+        "bower_components/paper-item/paper-item-behavior.html": {
+            "parentImport": true
+        },
+        "bower_components/iron-flex-layout/iron-flex-layout.html": {
             "parentImport": true
         },
         "bower_components/iron-image/iron-image.html": {
@@ -189,16 +183,22 @@
         "bower_components/paper-material/paper-material.html": {
             "parentImport": true
         },
-        "bower_components/iron-form/iron-form.html": {
+        "bower_components/paper-spinner/paper-spinner-behavior.html": {
+            "parentImport": true
+        },
+        "bower_components/font-roboto/roboto.html": {
             "parentImport": true
         },
         "styles/color-styles.html": {
             "parentImport": true
         },
-        "bower_components/paper-behaviors/paper-button-behavior.html": {
+        "bower_components/paper-material/paper-material-shared-styles.html": {
             "parentImport": true
         },
-        "bower_components/paper-material/paper-material-shared-styles.html": {
+        "bower_components/iron-form/iron-form.html": {
+            "parentImport": true
+        },
+        "bower_components/paper-behaviors/paper-button-behavior.html": {
             "parentImport": true
         },
         "bower_components/iron-a11y-keys-behavior/iron-a11y-keys-behavior.html": {
@@ -207,31 +207,31 @@
         "bower_components/iron-behaviors/iron-control-state.html": {
             "parentImport": true
         },
-        "bower_components/iron-overlay-behavior/iron-overlay-behavior.html": {
-            "parentImport": true
-        },
         "bower_components/neon-animation/neon-animation-runner-behavior.html": {
             "parentImport": true
         },
-        "bower_components/neon-animation/animations/opaque-animation.html": {
+        "bower_components/iron-overlay-behavior/iron-overlay-behavior.html": {
             "parentImport": true
         },
         "bower_components/iron-dropdown/iron-dropdown-scroll-manager.html": {
             "parentImport": true
         },
-        "components/prendus-course-view/prendus-course-view.html": {
+        "bower_components/iron-location/iron-location.html": {
             "parentImport": true
         },
-        "bower_components/iron-list/iron-list.html": {
+        "components/prendus-view-video-router/prendus-view-video-router.html": {
             "parentImport": true
         },
-        "bower_components/polymer/polymer-micro.html": {
+        "bower_components/iron-scroll-threshold/iron-scroll-threshold.html": {
+            "parentImport": true
+        },
+        "bower_components/paper-spinner/paper-spinner-styles.html": {
+            "parentImport": true
+        },
+        "bower_components/neon-animation/animations/opaque-animation.html": {
             "parentImport": true
         },
         "components/prendus-app/prendus-app.ts": {
-            "parentImport": true
-        },
-        "bower_components/iron-flex-layout/iron-flex-layout.html": {
             "parentImport": true
         },
         "bower_components/firebase/firebase.js": {
@@ -243,6 +243,9 @@
         "components/prendus-footer/prendus-footer.ts": {
             "parentImport": true
         },
+        "components/prendus-navbar/prendus-navbar.ts": {
+            "parentImport": true
+        },
         "bower_components/iron-form-element-behavior/iron-form-element-behavior.html": {
             "parentImport": true
         },
@@ -252,43 +255,19 @@
         "bower_components/paper-input/paper-input-char-counter.html": {
             "parentImport": true
         },
-        "bower_components/paper-input/paper-input-container.html": {
-            "parentImport": true
-        },
         "bower_components/paper-input/paper-input-error.html": {
             "parentImport": true
         },
-        "bower_components/paper-dialog-behavior/paper-dialog-behavior.html": {
-            "parentImport": true
-        },
-        "bower_components/paper-dialog-behavior/paper-dialog-shared-styles.html": {
-            "parentImport": true
-        },
-        "bower_components/prendus-paper-tags-input/prendus-paper-tags-input.html": {
+        "bower_components/paper-input/paper-input-container.html": {
             "parentImport": true
         },
         "components/prendus-search-course-tags/prendus-search-course-tags.html": {
             "parentImport": true
         },
-        "bower_components/prendus-video-viewer-component/prendus-video-viewer.html": {
+        "bower_components/prendus-paper-tags-input/prendus-paper-tags-input.html": {
             "parentImport": true
         },
-        "bower_components/prendus-quiz-viewer-component/prendus-quiz-viewer.html": {
-            "parentImport": true
-        },
-        "bower_components/prendus-question-components/components/prendus-edit-question/prendus-edit-question.html": {
-            "parentImport": true
-        },
-        "bower_components/iron-icons/hardware-icons.html": {
-            "parentImport": true
-        },
-        "bower_components/iron-scroll-target-behavior/iron-scroll-target-behavior.html": {
-            "parentImport": true
-        },
-        "bower_components/iron-selector/iron-selection.html": {
-            "parentImport": true
-        },
-        "bower_components/iron-a11y-announcer/iron-a11y-announcer.html": {
+        "bower_components/paper-dialog-behavior/paper-dialog-shared-styles.html": {
             "parentImport": true
         },
         "bower_components/paper-date-picker/paper-date-picker.html": {
@@ -297,28 +276,55 @@
         "bower_components/Sortable/Sortable.html": {
             "parentImport": true
         },
+        "bower_components/paper-dialog-behavior/paper-dialog-behavior.html": {
+            "parentImport": true
+        },
         "components/prendus-concept-container/prendus-concept-container.html": {
             "parentImport": true
         },
-        "components/prendus-concept-container-edit/prendus-concept-container-edit.html": {
+        "bower_components/prendus-quiz-viewer-component/prendus-quiz-viewer.html": {
             "parentImport": true
         },
         "components/prendus-concept-new-concept/prendus-concept-new-concept.html": {
             "parentImport": true
         },
-        "bower_components/paper-tabs/paper-tabs.html": {
+        "components/prendus-concept-container-edit/prendus-concept-container-edit.html": {
             "parentImport": true
         },
-        "bower_components/paper-checkbox/paper-checkbox.html": {
+        "bower_components/prendus-question-components/components/prendus-edit-question/prendus-edit-question.html": {
+            "parentImport": true
+        },
+        "bower_components/iron-icons/hardware-icons.html": {
+            "parentImport": true
+        },
+        "bower_components/iron-ajax/iron-ajax.html": {
+            "parentImport": true
+        },
+        "bower_components/iron-scroll-target-behavior/iron-scroll-target-behavior.html": {
             "parentImport": true
         },
         "bower_components/paper-icon-button/paper-icon-button.html": {
             "parentImport": true
         },
+        "bower_components/iron-icon/iron-icon.html": {
+            "parentImport": true
+        },
+        "bower_components/paper-tooltip/paper-tooltip.html": {
+            "parentImport": true
+        },
+        "bower_components/iron-selector/iron-selection.html": {
+            "parentImport": true
+        },
+        "bower_components/iron-behaviors/iron-button-state.html": {
+            "parentImport": true
+        },
+        "bower_components/paper-tabs/paper-tabs.html": {
+            "parentImport": true
+        },
         "bower_components/prendus-question-components/components/prendus-view-question/prendus-view-question.html": {
             "parentImport": true
         },
-        "bower_components/iron-icons/av-icons.html": {
+        "bower_components/paper-checkbox/paper-checkbox.html": {
             "parentImport": true
         },
         "bower_components/iron-icons/social-icons.html": {
@@ -327,31 +333,22 @@
         "components/prendus-collaborator-modal/prendus-collaborator-modal.html": {
             "parentImport": true
         },
-        "bower_components/iron-behaviors/iron-button-state.html": {
-            "parentImport": true
-        },
-        "bower_components/iron-icon/iron-icon.html": {
+        "bower_components/iron-icons/av-icons.html": {
             "parentImport": true
         },
         "bower_components/paper-styles/shadow.html": {
             "parentImport": true
         },
-        "bower_components/iron-selector/iron-multi-selectable.html": {
+        "bower_components/paper-behaviors/paper-ripple-behavior.html": {
             "parentImport": true
         },
-        "bower_components/paper-behaviors/paper-ripple-behavior.html": {
+        "bower_components/iron-selector/iron-multi-selectable.html": {
             "parentImport": true
         },
         "bower_components/iron-meta/iron-meta.html": {
             "parentImport": true
         },
-        "bower_components/neon-animation/neon-animation-behavior.html": {
-            "parentImport": true
-        },
-        "bower_components/neon-animation/web-animations.html": {
-            "parentImport": true
-        },
-        "bower_components/iron-fit-behavior/iron-fit-behavior.html": {
+        "bower_components/neon-animation/neon-animatable-behavior.html": {
             "parentImport": true
         },
         "bower_components/iron-overlay-behavior/iron-overlay-manager.html": {
@@ -360,142 +357,19 @@
         "bower_components/iron-overlay-behavior/iron-focusables-helper.html": {
             "parentImport": true
         },
-        "components/prendus-navbar/prendus-navbar.ts": {
+        "bower_components/prendus-video-viewer-component/prendus-video-viewer.html": {
             "parentImport": true
         },
-        "bower_components/paper-input/paper-input-behavior.html": {
+        "bower_components/neon-animation/neon-animation-behavior.html": {
             "parentImport": true
         },
-        "bower_components/iron-ajax/iron-ajax.html": {
-            "parentImport": true
-        },
-        "bower_components/paper-tooltip/paper-tooltip.html": {
-            "parentImport": true
-        },
-        "bower_components/neon-animation/neon-animatable-behavior.html": {
-            "parentImport": true
-        },
-        "bower_components/iron-icons/iron-icons.html": {
-            "parentImport": true
-        },
-        "bower_components/paper-input/paper-input-addon-behavior.html": {
-            "parentImport": true
-        },
-        "bower_components/plyr/dist/plyr.css": {
-            "parentImport": true
-        },
-        "bower_components/prendus-quiz-viewer-component/prendus-take-quiz.html": {
-            "parentImport": true
-        },
-        "bower_components/prendus-quiz-viewer-component/prendus-quiz-results.html": {
-            "parentImport": true
-        },
-        "bower_components/iron-icons/notification-icons.html": {
-            "parentImport": true
-        },
-        "bower_components/paper-fab/paper-fab.html": {
-            "parentImport": true
-        },
-        "bower_components/prendus-question-components/components/prendus-text-editor/prendus-text-editor.html": {
-            "parentImport": true
-        },
-        "bower_components/prendus-question-components/components/prendus-code-editor/prendus-code-editor.html": {
-            "parentImport": true
-        },
-        "bower_components/prendus-question-components/components/prendus-help/prendus-help.html": {
-            "parentImport": true
-        },
-        "bower_components/paper-dialog-scrollable/paper-dialog-scrollable.html": {
-            "parentImport": true
-        },
-        "bower_components/iron-validatable-behavior/iron-validatable-behavior.html": {
-            "parentImport": true
-        },
-        "bower_components/prendus-paper-tags-input/tag-item.html": {
-            "parentImport": true
-        },
-        "bower_components/iron-iconset-svg/iron-iconset-svg.html": {
-            "parentImport": true
-        },
-        "bower_components/iron-ajax/iron-request.html": {
-            "parentImport": true
-        },
-        "bower_components/iron-collapse/iron-collapse.html": {
-            "parentImport": true
-        },
-        "components/prendus-concept-video-container/prendus-concept-video-container.html": {
-            "parentImport": true
-        },
-        "components/prendus-concept-quiz-container/prendus-concept-quiz-container.html": {
-            "parentImport": true
-        },
-        "bower_components/iron-icons/editor-icons.html": {
-            "parentImport": true
-        },
-        "components/prendus-concept-video-container-edit/prendus-concept-video-container-edit.html": {
-            "parentImport": true
-        },
-        "bower_components/iron-media-query/iron-media-query.html": {
-            "parentImport": true
-        },
-        "bower_components/neon-animation/neon-animated-pages.html": {
-            "parentImport": true
-        },
-        "bower_components/neon-animation/neon-animatable.html": {
-            "parentImport": true
-        },
-        "bower_components/neon-animation/animations/fade-out-animation.html": {
-            "parentImport": true
-        },
-        "bower_components/iron-selector/iron-selector.html": {
-            "parentImport": true
-        },
-        "bower_components/moment-element/moment-with-locales-import.html": {
-            "parentImport": true
-        },
-        "bower_components/paper-date-picker/paper-calendar.html": {
-            "parentImport": true
-        },
-        "bower_components/paper-date-picker/paper-date-picker-dialog-style.html": {
-            "parentImport": true
-        },
-        "bower_components/paper-date-picker/paper-year-list.html": {
-            "parentImport": true
-        },
-        "bower_components/paper-behaviors/paper-inky-focus-behavior.html": {
-            "parentImport": true
-        },
-        "bower_components/iron-menu-behavior/iron-menubar-behavior.html": {
-            "parentImport": true
-        },
-        "bower_components/paper-tabs/paper-tabs-icons.html": {
-            "parentImport": true
-        },
-        "bower_components/paper-tabs/paper-tab.html": {
-            "parentImport": true
-        },
-        "bower_components/paper-behaviors/paper-checked-element-behavior.html": {
-            "parentImport": true
-        },
-        "bower_components/iron-autogrow-textarea/iron-autogrow-textarea.html": {
-            "parentImport": true
-        },
-        "bower_components/paper-radio-button/paper-radio-button.html": {
-            "parentImport": true
-        },
-        "bower_components/paper-dropdown-menu/paper-dropdown-menu.html": {
-            "parentImport": true
-        },
-        "bower_components/prendus-question-components/components/prendus-render-math/prendus-render-math.html": {
-            "parentImport": true
-        },
-        "bower_components/web-animations-js/web-animations-next-lite.min.js": {
-            "parentImport": true
-        },
-        "bower_components/iron-overlay-behavior/iron-overlay-backdrop.html": {
+        "bower_components/neon-animation/web-animations.html": {
             "parentImport": true
         },
         "components/prendus-course-router/prendus-course-router.ts": {
+            "parentImport": true
+        },
+        "components/prendus-terms-of-service/prendus-terms-of-service.ts": {
             "parentImport": true
         },
         "components/prendus-landing/prendus-landing.ts": {
@@ -504,22 +378,13 @@
         "components/prendus-privacy-policy/prendus-privacy-policy.ts": {
             "parentImport": true
         },
-        "components/prendus-terms-of-service/prendus-terms-of-service.ts": {
+        "bower_components/paper-input/paper-input-behavior.html": {
             "parentImport": true
         },
-        "bower_components/plyr/dist/plyr.js": {
+        "bower_components/iron-a11y-announcer/iron-a11y-announcer.html": {
             "parentImport": true
         },
-        "bower_components/Sortable/Sortable.js": {
-            "parentImport": true
-        },
-        "bower_components/neon-animation/animations/fade-in-animation.html": {
-            "parentImport": true
-        },
-        "bower_components/paper-radio-group/paper-radio-group.html": {
-            "parentImport": true
-        },
-        "bower_components/paper-ripple/paper-ripple.html": {
+        "bower_components/iron-fit-behavior/iron-fit-behavior.html": {
             "parentImport": true
         },
         "components/prendus-create-account/prendus-create-account.ts": {
@@ -531,22 +396,148 @@
         "components/prendus-login/prendus-login.ts": {
             "parentImport": true
         },
-        "node_modules/quill/dist/quill.snow.css": {
+        "bower_components/iron-icons/iron-icons.html": {
             "parentImport": true
         },
-        "node_modules/codemirror/lib/codemirror.css": {
+        "bower_components/Sortable/Sortable.js": {
+            "parentImport": true
+        },
+        "bower_components/paper-input/paper-input-addon-behavior.html": {
+            "parentImport": true
+        },
+        "bower_components/iron-collapse/iron-collapse.html": {
+            "parentImport": true
+        },
+        "components/prendus-concept-video-container/prendus-concept-video-container.html": {
+            "parentImport": true
+        },
+        "components/prendus-concept-quiz-container/prendus-concept-quiz-container.html": {
+            "parentImport": true
+        },
+        "bower_components/prendus-quiz-viewer-component/prendus-take-quiz.html": {
+            "parentImport": true
+        },
+        "components/prendus-concept-video-container-edit/prendus-concept-video-container-edit.html": {
+            "parentImport": true
+        },
+        "bower_components/prendus-quiz-viewer-component/prendus-quiz-results.html": {
+            "parentImport": true
+        },
+        "bower_components/iron-icons/notification-icons.html": {
+            "parentImport": true
+        },
+        "bower_components/prendus-question-components/components/prendus-text-editor/prendus-text-editor.html": {
+            "parentImport": true
+        },
+        "bower_components/paper-fab/paper-fab.html": {
+            "parentImport": true
+        },
+        "bower_components/prendus-question-components/components/prendus-code-editor/prendus-code-editor.html": {
+            "parentImport": true
+        },
+        "bower_components/prendus-question-components/components/prendus-help/prendus-help.html": {
+            "parentImport": true
+        },
+        "bower_components/paper-behaviors/paper-inky-focus-behavior.html": {
+            "parentImport": true
+        },
+        "bower_components/paper-dialog-scrollable/paper-dialog-scrollable.html": {
+            "parentImport": true
+        },
+        "bower_components/iron-validatable-behavior/iron-validatable-behavior.html": {
+            "parentImport": true
+        },
+        "bower_components/prendus-paper-tags-input/tag-item.html": {
+            "parentImport": true
+        },
+        "bower_components/iron-media-query/iron-media-query.html": {
+            "parentImport": true
+        },
+        "bower_components/neon-animation/neon-animatable.html": {
+            "parentImport": true
+        },
+        "bower_components/neon-animation/neon-animated-pages.html": {
+            "parentImport": true
+        },
+        "bower_components/neon-animation/animations/fade-in-animation.html": {
+            "parentImport": true
+        },
+        "bower_components/neon-animation/animations/fade-out-animation.html": {
+            "parentImport": true
+        },
+        "bower_components/iron-selector/iron-selector.html": {
+            "parentImport": true
+        },
+        "bower_components/moment-element/moment-with-locales-import.html": {
+            "parentImport": true
+        },
+        "bower_components/paper-date-picker/paper-year-list.html": {
+            "parentImport": true
+        },
+        "bower_components/paper-date-picker/paper-date-picker-dialog-style.html": {
+            "parentImport": true
+        },
+        "bower_components/iron-iconset-svg/iron-iconset-svg.html": {
+            "parentImport": true
+        },
+        "bower_components/iron-ajax/iron-request.html": {
+            "parentImport": true
+        },
+        "bower_components/iron-autogrow-textarea/iron-autogrow-textarea.html": {
+            "parentImport": true
+        },
+        "bower_components/paper-radio-group/paper-radio-group.html": {
+            "parentImport": true
+        },
+        "bower_components/paper-radio-button/paper-radio-button.html": {
+            "parentImport": true
+        },
+        "bower_components/iron-icons/editor-icons.html": {
+            "parentImport": true
+        },
+        "bower_components/paper-dropdown-menu/paper-dropdown-menu.html": {
+            "parentImport": true
+        },
+        "bower_components/iron-overlay-behavior/iron-overlay-backdrop.html": {
+            "parentImport": true
+        },
+        "bower_components/paper-ripple/paper-ripple.html": {
+            "parentImport": true
+        },
+        "bower_components/plyr/dist/plyr.css": {
+            "parentImport": true
+        },
+        "bower_components/iron-menu-behavior/iron-menubar-behavior.html": {
+            "parentImport": true
+        },
+        "bower_components/prendus-question-components/components/prendus-render-math/prendus-render-math.html": {
+            "parentImport": true
+        },
+        "bower_components/paper-tabs/paper-tab.html": {
+            "parentImport": true
+        },
+        "bower_components/paper-tabs/paper-tabs-icons.html": {
+            "parentImport": true
+        },
+        "bower_components/paper-behaviors/paper-checked-element-behavior.html": {
+            "parentImport": true
+        },
+        "bower_components/web-animations-js/web-animations-next-lite.min.js": {
+            "parentImport": true
+        },
+        "bower_components/plyr/dist/plyr.js": {
+            "parentImport": true
+        },
+        "bower_components/paper-date-picker/paper-calendar.html": {
+            "parentImport": true
+        },
+        "node_modules/quill/dist/quill.snow.css": {
             "parentImport": true
         },
         "node_modules/codemirror/addon/lint/lint.css": {
             "parentImport": true
         },
-        "bower_components/promise-polyfill/promise-polyfill-lite.html": {
-            "parentImport": true
-        },
         "components/prendus-video-editor/prendus-video-editor.html": {
-            "parentImport": true
-        },
-        "bower_components/iron-checked-element-behavior/iron-checked-element-behavior.html": {
             "parentImport": true
         },
         "bower_components/moment-element/moment-import.html": {
@@ -555,7 +546,10 @@
         "bower_components/paper-date-picker/paper-date-picker-icons.html": {
             "parentImport": true
         },
-        "bower_components/paper-menu-button/paper-menu-button.html": {
+        "bower_components/promise-polyfill/promise-polyfill-lite.html": {
+            "parentImport": true
+        },
+        "bower_components/iron-checked-element-behavior/iron-checked-element-behavior.html": {
             "parentImport": true
         },
         "bower_components/paper-dropdown-menu/paper-dropdown-menu-icons.html": {
@@ -564,13 +558,22 @@
         "bower_components/paper-dropdown-menu/paper-dropdown-menu-shared-styles.html": {
             "parentImport": true
         },
+        "bower_components/paper-menu-button/paper-menu-button.html": {
+            "parentImport": true
+        },
         "components/prendus-notification/prendus-notification.ts": {
+            "parentImport": true
+        },
+        "components/prendus-edit-quiz-router/prendus-edit-quiz-router.ts": {
+            "parentImport": true
+        },
+        "bower_components/redux-store-element/redux-store.ts": {
             "parentImport": true
         },
         "components/prendus-view-video-router/prendus-view-video-router.ts": {
             "parentImport": true
         },
-        "components/prendus-edit-quiz-router/prendus-edit-quiz-router.ts": {
+        "node_modules/codemirror/lib/codemirror.css": {
             "parentImport": true
         },
         "components/prendus-course-homepage/prendus-course-homepage.ts": {
@@ -582,25 +585,16 @@
         "components/prendus-edit-question-router/prendus-edit-question-router.ts": {
             "parentImport": true
         },
-        "components/prendus-quiz-editor/prendus-quiz-editor.ts": {
+        "components/prendus-course-view/prendus-course-view.ts": {
             "parentImport": true
         },
         "components/prendus-course-preview/prendus-course-preview.ts": {
             "parentImport": true
         },
+        "components/prendus-quiz-editor/prendus-quiz-editor.ts": {
+            "parentImport": true
+        },
         "bower_components/moment/min/moment-with-locales.min.js": {
-            "parentImport": true
-        },
-        "components/prendus-course-view/prendus-course-view.ts": {
-            "parentImport": true
-        },
-        "bower_components/redux-store-element/redux-store.ts": {
-            "parentImport": true
-        },
-        "node_modules/codemirror/lib/codemirror.js": {
-            "parentImport": true
-        },
-        "bower_components/promise-polyfill/Promise.js": {
             "parentImport": true
         },
         "bower_components/paper-menu/paper-submenu.html": {
@@ -609,37 +603,43 @@
         "bower_components/paper-menu/paper-menu.html": {
             "parentImport": true
         },
+        "bower_components/moment/min/moment.min.js": {
+            "parentImport": true
+        },
         "bower_components/paper-menu-button/paper-menu-button-animations.html": {
             "parentImport": true
         },
-        "bower_components/moment/min/moment.min.js": {
+        "node_modules/quill/dist/quill.js": {
+            "parentImport": true
+        },
+        "node_modules/codemirror/lib/codemirror.js": {
+            "parentImport": true
+        },
+        "bower_components/promise-polyfill/Promise.js": {
             "parentImport": true
         },
         "components/prendus-search-course-tags/prendus-search-course-tags.ts": {
             "parentImport": true
         },
-        "bower_components/prendus-quiz-viewer-component/prendus-quiz-viewer.ts": {
-            "parentImport": true
-        },
-        "bower_components/prendus-question-components/components/prendus-edit-question/prendus-edit-question.ts": {
-            "parentImport": true
-        },
         "components/prendus-concept-container/prendus-concept-container.ts": {
+            "parentImport": true
+        },
+        "bower_components/prendus-quiz-viewer-component/prendus-quiz-viewer.ts": {
             "parentImport": true
         },
         "components/prendus-concept-container-edit/prendus-concept-container-edit.ts": {
             "parentImport": true
         },
-        "components/prendus-concept-new-concept/prendus-concept-new-concept.ts": {
+        "bower_components/prendus-question-components/components/prendus-edit-question/prendus-edit-question.ts": {
             "parentImport": true
         },
-        "bower_components/prendus-question-components/components/prendus-view-question/prendus-view-question.ts": {
+        "components/prendus-concept-new-concept/prendus-concept-new-concept.ts": {
             "parentImport": true
         },
         "components/prendus-collaborator-modal/prendus-collaborator-modal.ts": {
             "parentImport": true
         },
-        "node_modules/quill/dist/quill.js": {
+        "bower_components/prendus-question-components/components/prendus-view-question/prendus-view-question.ts": {
             "parentImport": true
         },
         "bower_components/paper-menu/paper-menu-shared-styles.html": {
@@ -657,22 +657,22 @@
         "bower_components/prendus-question-components/components/prendus-render-math/prendus-render-math.ts": {
             "parentImport": true
         },
-        "bower_components/prendus-quiz-viewer-component/prendus-take-quiz.ts": {
-            "parentImport": true
-        },
-        "components/prendus-concept-video-container/prendus-concept-video-container.ts": {
+        "components/prendus-concept-video-container-edit/prendus-concept-video-container-edit.ts": {
             "parentImport": true
         },
         "components/prendus-concept-quiz-container/prendus-concept-quiz-container.ts": {
             "parentImport": true
         },
-        "components/prendus-concept-video-container-edit/prendus-concept-video-container-edit.ts": {
+        "components/prendus-concept-video-container/prendus-concept-video-container.ts": {
             "parentImport": true
         },
-        "bower_components/jsVideoUrlParser/dist/jsVideoUrlParser.min.js": {
+        "bower_components/prendus-quiz-viewer-component/prendus-take-quiz.ts": {
             "parentImport": true
         },
         "components/prendus-video-editor/prendus-video-editor.ts": {
+            "parentImport": true
+        },
+        "bower_components/jsVideoUrlParser/dist/jsVideoUrlParser.min.js": {
             "parentImport": true
         },
         "node_modules/prendus-services/services/firebase-service.ts": {
@@ -711,14 +711,14 @@
         "node_modules/prendus-services/models/emails-to-uids-model.ts": {
             "parentImport": false
         },
-        "node_modules/prendus-services/services/constants-service.ts": {
-            "parentImport": false
-        },
         "node_modules/prendus-services/services/xapi-service.ts": {
             "parentImport": false
         },
         "bower_components/prendus-question-components/components/prendus-text-editor/prendus-text-editor.ts": {
             "parentImport": true
+        },
+        "node_modules/prendus-services/services/constants-service.ts": {
+            "parentImport": false
         },
         "bower_components/prendus-quiz-viewer-component/redux/actions.ts": {
             "parentImport": false
