@@ -143,7 +143,6 @@ class PrendusQuizEditor {
     //Temporary based on Jordans preferences
     async createQuestion(e: any) {
         const visibility: QuestionVisibility = 'public'
-        Actions.showMainSpinner(this);
         window.history.pushState({}, '', `courses/edit-question/question/create`);
         this.fire('location-changed', {}, {node: window});
     }
