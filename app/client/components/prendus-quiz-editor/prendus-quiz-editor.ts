@@ -149,7 +149,7 @@ class PrendusQuizEditor {
 
     editQuestion(e: any) {
         const questionId = e.model.item;
-
+        Actions.showMainSpinner(this);
         window.history.pushState({}, '', `courses/edit-question/question/${questionId}`);
         this.fire('location-changed', {}, {node: window});
     }
