@@ -60,7 +60,6 @@ class PrendusEditQuestionRouter {
       const baseRoute: string = route.split('/')[1];
       switch(baseRoute) {
         case 'edit-question': {
-          console.log('edit-question!');
           break;
         }
 
