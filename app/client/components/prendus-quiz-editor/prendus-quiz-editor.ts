@@ -167,17 +167,17 @@ class PrendusQuizEditor {
 
         this.userQuestionIds.forEach((questionId) => {
             const viewQuestionElement = this.querySelector(`#user-question-id-${questionId}`);
-            viewQuestionElement.loadNextProblem();
+            viewQuestionElement.loadNextProblem(true);
         });
 
         this.publicQuestionIds.forEach((questionId) => {
             const viewQuestionElement = this.querySelector(`#public-question-id-${questionId}`);
-            viewQuestionElement.loadNextProblem();
+            viewQuestionElement.loadNextProblem(true);
         });
 
         this.quizQuestionIds.forEach((questionId) => {
             const viewQuestionElement = this.querySelector(`#quiz-question-id-${questionId}`);
-            viewQuestionElement.loadNextProblem();
+            viewQuestionElement.loadNextProblem(true);
         });
     }
 
