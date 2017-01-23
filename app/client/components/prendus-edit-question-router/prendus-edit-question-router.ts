@@ -97,7 +97,6 @@ class PrendusEditQuestionRouter {
         this.successMessage = 'Question saved successfully';
         const quizEditorComponent = document.getElementById('quizEditorComponent');
         quizEditorComponent.manuallyReloadQuestions();
-        // this.backToQuiz();
         //TODO this is evil, figure out another way to manually reload the questions without a DOM search
 
     }
