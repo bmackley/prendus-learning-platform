@@ -1,5 +1,6 @@
 import {StatechangeEvent} from '../../typings/statechange-event';
 import {Actions} from '../../redux/actions';
+import {UtilitiesService} from '../../node_modules/prendus-services/services/utilities-service';
 
 class PrendusRouter {
   public is: string;
@@ -27,52 +28,37 @@ class PrendusRouter {
     switch(route) {
 
       case '/': {
-        this.importElement('components/prendus-landing/prendus-landing.html', 'landing');
-        this.importElement('components/prendus-homepage/prendus-homepage.html', 'homepage');
+        UtilitiesService.importElement(this, 'components/prendus-landing/prendus-landing.html', 'landing');
+        UtilitiesService.importElement(this, 'components/prendus-homepage/prendus-homepage.html', 'homepage');
         break;
       }
 
       case '/login': {
-        this.importElement('components/prendus-login/prendus-login.html', 'login');
+        UtilitiesService.importElement(this, 'components/prendus-login/prendus-login.html', 'login');
         break;
       }
 
       case '/signup': {
-        this.importElement('components/prendus-create-account/prendus-create-account.html', 'create-account');
+        UtilitiesService.importElement(this, 'components/prendus-create-account/prendus-create-account.html', 'create-account');
         break;
       }
 
       case '/profile': {
-        this.importElement('components/prendus-profile/prendus-profile.html', 'profile');
+        UtilitiesService.importElement(this, 'components/prendus-profile/prendus-profile.html', 'profile');
         break;
       }
 
       case '/privacy-policy': {
-        this.importElement('components/prendus-privacy-policy/prendus-privacy-policy.html', 'privacy-policy');
+        UtilitiesService.importElement(this, 'components/prendus-privacy-policy/prendus-privacy-policy.html', 'privacy-policy');
         break;
       }
 
       case '/terms-of-service': {
-        this.importElement('components/prendus-terms-of-service/prendus-terms-of-service.html', 'terms-of-service');
+        UtilitiesService.importElement(this, 'components/prendus-terms-of-service/prendus-terms-of-service.html', 'terms-of-service');
         break;
       }
 
       default: break;
-    }
-
-  }
-
-  importElement(path: string, id: string): void {
-    if(!Polymer.isInstance(this.querySelector(`#${id}`))) {
-      Polymer.Base.importHref(
-        path,
-        () => {
-          //success
-        }, () => {
-          //failure
-          throw new Error('Importing element failed');
-        });
-
     }
 
   }
