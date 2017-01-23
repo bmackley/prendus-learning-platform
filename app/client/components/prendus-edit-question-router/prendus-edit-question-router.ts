@@ -14,6 +14,7 @@ class PrendusEditQuestionRouter {
     public successMessage: string;
     public querySelector: any;
     public quizSession: QuizSession;
+    public observers: string[];
 
     private endpointDomain: string;
 
@@ -25,6 +26,9 @@ class PrendusEditQuestionRouter {
               observer: 'setData'
             }
         };
+        this.observers = [
+        '_routeChanged(route.*)'
+        ];
     }
 
     async ready() {
@@ -48,9 +52,30 @@ class PrendusEditQuestionRouter {
         //TODO this is horrible and should be removed once the view problem component can be initialized without a quiz session being handed to it
     }
 
+    _routeChanged(routeObject: any): void {
+      const route: string = routeObject.value.path;
+      if(!route) {
+        return;
+      }
+      const baseRoute: string = route.split('/')[1];
+      switch(baseRoute) {
+        case 'edit-question': {
+          break;
+        }
+
+        default:  {
+          //TODO this is bad and horrible, we need to change this and hope that polymer 2 will fire change events when we set something...
+          this.data = null;
+          break;
+        }
+      }
+
+    }
     setData() {
-      this.conceptId = this.data.conceptId;
-      this.quizId = this.data.quizId;
+      if(this.data) {
+        this.conceptId = this.data.conceptId;
+        this.quizId = this.data.quizId;
+      }
     }
 
     editProblemComponentLoaded(e) {
@@ -68,11 +93,10 @@ class PrendusEditQuestionRouter {
 
     async questionSaved() {
         //TODO this is evil, figure out another way to manually reload the questions without a DOM search
-        this.successMessage = ""
-        this.successMessage = "Question saved successfully"
+        this.successMessage = '';
+        this.successMessage = 'Question saved successfully';
         const quizEditorComponent = document.getElementById('quizEditorComponent');
         quizEditorComponent.manuallyReloadQuestions();
-        this.backToQuiz();
         //TODO this is evil, figure out another way to manually reload the questions without a DOM search
 
     }
