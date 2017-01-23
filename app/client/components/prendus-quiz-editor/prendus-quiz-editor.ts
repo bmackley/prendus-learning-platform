@@ -142,17 +142,15 @@ class PrendusQuizEditor {
 
     //Temporary based on Jordans preferences
     async createQuestion(e: any) {
-        const visibility: QuestionVisibility = 'public'
         Actions.showMainSpinner(this);
+        const visibility: QuestionVisibility = 'public'
         window.history.pushState({}, '', `courses/edit-question/question/create`);
         this.fire('location-changed', {}, {node: window});
     }
 
     editQuestion(e: any) {
-        Actions.showMainSpinner(this);
-
         const questionId = e.model.item;
-
+        Actions.showMainSpinner(this);
         window.history.pushState({}, '', `courses/edit-question/question/${questionId}`);
         this.fire('location-changed', {}, {node: window});
     }
@@ -170,17 +168,17 @@ class PrendusQuizEditor {
 
         this.userQuestionIds.forEach((questionId) => {
             const viewQuestionElement = this.querySelector(`#user-question-id-${questionId}`);
-            viewQuestionElement.loadNextProblem();
+            viewQuestionElement.loadNextProblem(true);
         });
 
         this.publicQuestionIds.forEach((questionId) => {
             const viewQuestionElement = this.querySelector(`#public-question-id-${questionId}`);
-            viewQuestionElement.loadNextProblem();
+            viewQuestionElement.loadNextProblem(true);
         });
 
         this.quizQuestionIds.forEach((questionId) => {
             const viewQuestionElement = this.querySelector(`#quiz-question-id-${questionId}`);
-            viewQuestionElement.loadNextProblem();
+            viewQuestionElement.loadNextProblem(true);
         });
     }
 
