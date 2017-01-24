@@ -102,12 +102,12 @@
     </style>
 
     <redux-store on-statechange="mapStateToThis" action="[[action]]"></redux-store>
-
     <iron-ajax id="getUserQuestionIdsAjax" method="get" url="[[endpointDomain]]/api/jwt/[[jwt]]/question-ids" handle-as="json"></iron-ajax>
     <iron-ajax id="getPublicQuestionIdsAjax" method="get" url="[[endpointDomain]]/api/public/question-ids" handle-as="json"></iron-ajax>
     <iron-ajax id="getEmailsByIdsAjax" method="get" handle-as="json"></iron-ajax>
     <iron-ajax id="getUidByEmailAjax" method="get" handle-as="json"></iron-ajax>
     <iron-ajax id="startQuizSessionAjax" url="[[endpointDomain]]/api/quiz/start-session" method="post" content-type="application/json" handle-as="json"></iron-ajax>
+    <iron-ajax id="upvoteAjax" method="post" url="[[endpointDomain]]/api/public/upvote/[[questionId]]" handle-as"json"></iron-ajax>
 
     <prendus-notification success-message="[[successMessage]]" error-message="[[errorMessage]]"></prendus-notification>
 
@@ -184,9 +184,9 @@
 
             <div id="public-questions" class="tab-content">
               <template is="dom-repeat" items="[[publicQuestionIds]]">
-                <paper-icon-button id="thumb-down-[[item]]" icon="thumb-down" on-click="thumbDown"></paper-icon-button>
-                <paper-icon-button id="thumb-up-[[item]]" icon="thumb-up" on-click="thumbUp"></paper-icon-button>
                 <prendus-view-question id="public-question-id-[[item]]" question-id="[[item]]" quiz-id="NO_QUIZ" jwt="[[jwt]]" quiz-session="[[quizSession]]" concise></prendus-view-question>
+                <paper-icon-button id="thumb-down-[[item]]" icon="thumb-down" on-tap="thumbDown" vote="down"></paper-icon-button>
+                <paper-icon-button id="thumb-up-[[item]]" icon="thumb-up" on-tap="thumbUp" vote="up"></paper-icon-button>
                 <paper-icon-button id="add[[item]]" icon="av:playlist-add" on-click="addQuestionToQuiz"></paper-icon-button>
                 <paper-tooltip for="add[[item]]">Add to quiz</paper-tooltip>
                 <paper-icon-button id="edit[[item]]" icon="create" on-click="editQuestion"></paper-icon-button>

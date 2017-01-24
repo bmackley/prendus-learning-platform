@@ -12,6 +12,7 @@ import {QuizVisibility} from '../../node_modules/prendus-services/typings/quiz-v
 import {QuizModel} from '../../node_modules/prendus-services/models/quiz-model';
 import {Quiz} from '../../node_modules/prendus-services/typings/quiz';
 
+
 class PrendusQuizEditor {
     public is: string;
     public userQuestionIds: string[];
@@ -75,14 +76,32 @@ class PrendusQuizEditor {
         //TODO this is horrible and should be removed once the view problem component can be initialized without a quiz session being handed to it
     }
 
+    async changeThumbs(upOrDown: 'up' | 'down', questionId: string): Promise<void> {
+      const thumbUpColor: 'green' | 'none' = upOrDown === 'up' ? 'green' : 'none';
+      const thumbDownColor: 'red' | 'none' = upOrDown === 'down' ? 'red' : 'none';
+      this.questionId = questionId;
+      this.querySelector(`#thumb-up-${questionId}`).style = `color: ${thumbUpColor}`;
+      this.querySelector(`#thumb-down-${questionId}`).style = `color: ${thumbDownColor}`;
+      const upvoteAjax = this.querySelector('#upvoteAjax');
+      upvoteAjax.body = {
+        questionId,
+        hello: 'world'
+      };
+
+      console.log(upvoteAjax);
+      const request = upvoteAjax.generateRequest();
+      await request.completes;
+      console.log(request.response.data);
+    }
+
     thumbUp(e: any): void {
       const questionId: string = e.model.item;
-      this.querySelector(`#thumb-up-${questionId}`).style = 'color: green';
+      this.changeThumbs('up', questionId);
     }
 
     thumbDown(e: any): void {
       const questionId: string = e.model.item;
-      this.querySelector(`#thumb-down-${questionId}`).style = 'color: red';
+      this.changeThumbs('down', questionId);
     }
 
     async conceptIdSet() {
