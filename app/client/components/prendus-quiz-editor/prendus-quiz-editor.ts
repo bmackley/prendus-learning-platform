@@ -52,6 +52,7 @@ class PrendusQuizEditor {
             }
         };
     }
+
     async init() {
         this.endpointDomain = UtilitiesService.getPrendusServerEndpointDomain();
         const user = await FirebaseService.getLoggedInUser();
@@ -72,6 +73,16 @@ class PrendusQuizEditor {
         const quizSession: QuizSession = request.response.quizSession;
         this.quizSession = quizSession;
         //TODO this is horrible and should be removed once the view problem component can be initialized without a quiz session being handed to it
+    }
+
+    thumbUp(e: any): void {
+      const questionId: string = e.model.item;
+      this.querySelector(`#thumb-up-${questionId}`).style = 'color: green';
+    }
+
+    thumbDown(e: any): void {
+      const questionId: string = e.model.item;
+      this.querySelector(`#thumb-down-${questionId}`).style = 'color: red';
     }
 
     async conceptIdSet() {

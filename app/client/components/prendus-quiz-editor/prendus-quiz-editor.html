@@ -184,6 +184,8 @@
 
             <div id="public-questions" class="tab-content">
               <template is="dom-repeat" items="[[publicQuestionIds]]">
+                <paper-icon-button id="thumb-down-[[item]]" icon="thumb-down" on-click="thumbDown"></paper-icon-button>
+                <paper-icon-button id="thumb-up-[[item]]" icon="thumb-up" on-click="thumbUp"></paper-icon-button>
                 <prendus-view-question id="public-question-id-[[item]]" question-id="[[item]]" quiz-id="NO_QUIZ" jwt="[[jwt]]" quiz-session="[[quizSession]]" concise></prendus-view-question>
                 <paper-icon-button id="add[[item]]" icon="av:playlist-add" on-click="addQuestionToQuiz"></paper-icon-button>
                 <paper-tooltip for="add[[item]]">Add to quiz</paper-tooltip>
