@@ -59,7 +59,7 @@
 
     <redux-store on-statechange="mapStateToThis" action="[[action]]"></redux-store>
     <template is="dom-repeat" items="[[quizzes]]" as="quiz">
-      <iron-ajax method="get" id="getLTIajax" url="[[endpointDomain]]/api/lti/jwt/[[jwt]]/courseid/[[courseId]]/secret" content-type="application/json" handle-as="json"></iron-ajax>
+      <iron-ajax method="get" id="getLTIajax" url="[[endpointDomain]]/api/lti/jwt/[[jwt]]/course/[[courseId]]/secret" content-type="application/json" handle-as="json"></iron-ajax>
       <div class="quiz-row" on-tap="viewQuiz">
 				<span class="quiz-title">[[quiz.title]]</span>
 				<div class="quiz-icons">

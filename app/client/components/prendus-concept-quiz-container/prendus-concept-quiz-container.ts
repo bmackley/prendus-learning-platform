@@ -72,13 +72,9 @@ class PrendusConceptQuizContainer {
     }
 
     async getLTILinks(e: { model: any }): void {
-      console.log('e', e)
       e.stopPropagation();
-      console.log('LTI Links3')
       this.endpointDomain = UtilitiesService.getPrendusServerEndpointDomain();
-      console.log('endpoint domain', this.endpointDomain)
       const courseId = this.courseId;
-      console.log(courseId)
       const jwt = this.jwt;
       const LTIRequest = this.querySelector("#getLTIajax")
       LTIRequest.body = {
@@ -88,7 +84,8 @@ class PrendusConceptQuizContainer {
       const request = LTIRequest.generateRequest();
       await request.completes;
       console.log('rr', request.response)
-
+      const LTIlink = `http://prendus.com/course/${courseId}/quiz `
+      /course/:courseId/quiz/:quizId
     }
 
     openDeleteModal(e: any) {
