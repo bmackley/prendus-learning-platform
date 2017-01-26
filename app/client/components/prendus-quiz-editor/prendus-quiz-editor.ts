@@ -10,6 +10,7 @@ import {Course} from '../../node_modules/prendus-services/typings/course';
 import {CourseModel} from '../../node_modules/prendus-services/models/course-model';
 import {QuizVisibility} from '../../node_modules/prendus-services/typings/quiz-visibility';
 import {QuizModel} from '../../node_modules/prendus-services/models/quiz-model';
+import {QuestionModel} from '../../node_modules/prendus-services/models/question-model';
 import {Quiz} from '../../node_modules/prendus-services/typings/quiz';
 
 
@@ -79,19 +80,10 @@ class PrendusQuizEditor {
     async changeThumbs(upOrDown: 'up' | 'down', questionId: string): Promise<void> {
       const thumbUpColor: 'green' | 'none' = upOrDown === 'up' ? 'green' : 'none';
       const thumbDownColor: 'red' | 'none' = upOrDown === 'down' ? 'red' : 'none';
-      this.questionId = questionId;
       this.querySelector(`#thumb-up-${questionId}`).style = `color: ${thumbUpColor}`;
       this.querySelector(`#thumb-down-${questionId}`).style = `color: ${thumbDownColor}`;
-      const upvoteAjax = this.querySelector('#upvoteAjax');
-      upvoteAjax.body = {
-        questionId,
-        hello: 'world'
-      };
+      QuestionModel.vote(questionId, upOrDown);
 
-      console.log(upvoteAjax);
-      const request = upvoteAjax.generateRequest();
-      await request.completes;
-      console.log(request.response.data);
     }
 
     thumbUp(e: any): void {
