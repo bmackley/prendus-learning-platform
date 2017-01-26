@@ -34,8 +34,7 @@ class PrendusRouter {
         } else {
           UtilitiesService.importElement(this, 'components/prendus-landing/prendus-landing.html', 'landing');
         }
-
-
+        
         break;
       }
 
