@@ -85,7 +85,8 @@ class PrendusConceptQuizContainer {
       await request.completes;
       console.log('rr', request.response)
       const LTIlink = `http://prendus.com/course/${courseId}/quiz `
-      /course/:courseId/quiz/:quizId
+      this.querySelector('#get-quiz-lti-link').open()
+     /// /course/:courseId/quiz/:quizId
     }
 
     openDeleteModal(e: any) {

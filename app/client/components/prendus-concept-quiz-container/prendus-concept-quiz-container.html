@@ -86,6 +86,11 @@
         <paper-button class="delete-button" on-tap="deleteQuiz">Delete</paper-button>
       </div>
     </paper-dialog>
+    <paper-dialog id="get-quiz-lti-link" with-backdrop>
+      <h2>LTI links for [[quiz.title]]</h2>
+      <p>Copy this link to put in your course.</p>
+      <p>Course link goes here</p>
+    </paper-dialog>
     <prendus-notification error-message="[[errorMessage]]" success-message="[[successMessage]]"></prendus-notification>
   </template>
 
