@@ -5,7 +5,7 @@ import {UtilitiesService} from '../../node_modules/prendus-services/services/uti
 class PrendusRouter {
   public is: string;
   public username: string;
-  public loggedIn: string;
+  public loggedIn: 'true' | 'false';
   public mainViewToShow: 'routes' | 'spinner';
   public observers: string[];
   public querySelector: any;
@@ -18,18 +18,24 @@ class PrendusRouter {
     ];
 
   }
-  _routeChanged(routeObject: any): void {
+  async _routeChanged(routeObject: any): Promise<void> {
     if(!this.username || !this.loggedIn) {
       // Call default action to determine if the user is logged in, since
       // this route change function is called before the first mapStateToThis.
       Actions.defaultAction(this);
+      await Actions.checkUserAuth(this);
     }
     const route: string = routeObject.value.path;
     switch(route) {
 
       case '/': {
-        UtilitiesService.importElement(this, 'components/prendus-landing/prendus-landing.html', 'landing');
-        UtilitiesService.importElement(this, 'components/prendus-homepage/prendus-homepage.html', 'homepage');
+        if(this.loggedIn === 'true') {
+          UtilitiesService.importElement(this, 'components/prendus-homepage/prendus-homepage.html', 'homepage');
+        } else {
+          UtilitiesService.importElement(this, 'components/prendus-landing/prendus-landing.html', 'landing');
+        }
+
+
         break;
       }
 
@@ -66,7 +72,7 @@ class PrendusRouter {
   mapStateToThis(e: StatechangeEvent) {
       const state = e.detail.state;
       this.username = state.currentUser.metaData.email;
-      this.loggedIn = this.username ? "true" : "false";
+      this.loggedIn = this.username ? 'true' : 'false';
       this.mainViewToShow = state.mainViewToShow;
   }
 }
