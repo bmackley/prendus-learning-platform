@@ -19,9 +19,11 @@
       background-color: rgba(0, 0, 0, 0.2);
     }
 
+		#logo {
+			height: 50px;
+		}
+
     #home-link {
-      font-size: 1.3em;
-      font-weight: 100;
       margin-right: auto;
     }
 
@@ -53,7 +55,7 @@
     <redux-store on-statechange="mapStateToThis" action="[[action]]"></redux-store>
     <paper-header-panel>
         <paper-toolbar>
-          <a id="home-link" href="/">Prendus</a>
+          <a id="home-link" href="/"><img id="logo" src="../../images/navbar-logo.png" alt="Prendus"></a>
           <template is="dom-if" if="[[username]]">
             <div id="menu-name-button" on-tap="toggleMenu">
               <span>[[username]]</span><paper-button noink>Menu <iron-icon icon="arrow-drop-down"></iron-icon></paper-button>
