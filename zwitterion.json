@@ -779,6 +779,48 @@
         },
         "images/landing-image.jpg": {
             "parentImport": true
+        },
+        "bower_components/iron-icons/device-icons.html": {
+            "parentImport": true
+        },
+        "bower_components/prendus-question-components/components/prendus-multiple-selection/prendus-multiple-selection.html": {
+            "parentImport": true
+        },
+        "bower_components/prendus-question-components/components/prendus-multiple-choice/prendus-multiple-choice.html": {
+            "parentImport": true
+        },
+        "bower_components/prendus-question-components/components/prendus-fill-in-the-blank/prendus-fill-in-the-blank.html": {
+            "parentImport": true
+        },
+        "bower_components/prendus-question-components/components/prendus-multiple-choice/prendus-multiple-choice.ts": {
+            "parentImport": true
+        },
+        "bower_components/prendus-question-components/components/prendus-fill-in-the-blank/prendus-fill-in-the-blank.ts": {
+            "parentImport": true
+        },
+        "bower_components/prendus-question-components/components/prendus-multiple-selection/prendus-multiple-selection.ts": {
+            "parentImport": true
+        },
+        "node_modules/prendus-services/typings/answer-types.ts": {
+            "parentImport": false
+        },
+        "node_modules/prendus-services/services/question-to-code-service.ts": {
+            "parentImport": false
+        },
+        "node_modules/prendus-services/services/code-to-question-service.ts": {
+            "parentImport": false
+        },
+        "node_modules/prendus-services/typings/question.ts": {
+            "parentImport": false
+        },
+        "?course=-KTpltxb2TXI3I6IYmnX&quiz=-KVCCwRttHvW5IWyzZ89&jwt=eyJhbGciOiJIUzI1NiJ9.TFRJX1VTRVI.5gEKAYEfPa2gs1vbqOsDIOiXH6w_-tx4gHXanDa9_PY&userfullname=John%20Logie%20Baird&useremail=jbaird@uni.ac.uk": {
+            "parentImport": true
+        },
+        "bower_components/paper-input/paper-textarea.html": {
+            "parentImport": true
+        },
+        "?course=-KTpltxb2TXI3I6IYmnX&quiz=-KW5JuNEcNo09bbul4jy&jwt=eyJhbGciOiJIUzI1NiJ9.TFRJX1VTRVI.5gEKAYEfPa2gs1vbqOsDIOiXH6w_-tx4gHXanDa9_PY&userfullname=John%20Logie%20Baird&useremail=jbaird@uni.ac.uk": {
+            "parentImport": true
         }
     }
 }

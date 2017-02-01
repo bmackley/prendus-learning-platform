@@ -23,6 +23,9 @@ class PrendusConceptQuizContainer {
     public errorMessage: string;
     public jwt: string;
     public endpointDomain: string;
+    public ltiLink: string;
+    public ltiQuizId: string;
+    public secret: string; //need to place this somewhere more secure. Course settings perhaps? We need to finish course settings first if we're gonig to put it there.
 
     beforeRegister() {
         this.is = 'prendus-concept-quiz-container';
@@ -67,12 +70,14 @@ class PrendusConceptQuizContainer {
     editQuiz(e: { model: any }) {
       e.stopPropagation();
       const quizId: string = e.model.quiz.id;
-  		window.history.pushState({}, '', `courses/edit-quiz/course/${this.courseId}/concept/${this.conceptId}/quiz/${quizId}`);
+  		window.history.pushState({}, '', `courses/edit-quiz/course/${this.courseId}/concept/${this.conceptId}/quiz/`);
       this.fire('location-changed', {}, {node: window});
     }
 
     async getLTILinks(e: { model: any }): void {
+      //Start the server
       e.stopPropagation();
+      this.ltiQuizId = e.target.parentElement.dataQuiz;
       this.endpointDomain = UtilitiesService.getPrendusServerEndpointDomain();
       const courseId = this.courseId;
       const jwt = this.jwt;
@@ -84,7 +89,15 @@ class PrendusConceptQuizContainer {
       const request = LTIRequest.generateRequest();
       await request.completes;
       console.log('rr', request.response)
-      const LTIlink = `http://prendus.com/course/${courseId}/quiz `
+      this.secret = request.response.secret;
+      //const LTIlink = `http://prendus.com/course/${courseId}/quiz `
+      const env = window.PRENDUS_ENV;
+      if(env === 'development'){
+        console.log('development')
+        this.ltiLink = `http://localhost:5000/api/lti/course/${this.courseId}/quiz/${this.ltiQuizId}`
+      }else{
+        this.ltiLink = `http://prenduslearning.com/api/lti/course/${this.courseId}/quiz/${this.ltiQuizId}`
+      }
       this.querySelector('#get-quiz-lti-link').open()
      /// /course/:courseId/quiz/:quizId
     }
