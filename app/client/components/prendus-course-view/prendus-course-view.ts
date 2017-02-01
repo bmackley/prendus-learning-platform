@@ -12,6 +12,7 @@ export class PrendusCourseView {
   public is: string;
   public courseConcepts: CourseConceptData[];
   public currentCourse: Course;
+	public collaboratorEmails: string[];
   public courseTagNames: string[];
   public courseTags: Tag[];
   public courseId: string;
@@ -24,6 +25,7 @@ export class PrendusCourseView {
   public querySelector: any;
   public editingTitle: boolean;
   public editingDescription: boolean;
+  public editingDueDate: boolean;
   public listeners: any;
   public data: any;
   beforeRegister() {
@@ -50,7 +52,11 @@ export class PrendusCourseView {
       editingDescription: {
         type: Boolean,
         value: false
-      }
+      },
+			editingDueDate: {
+				type: Boolean,
+				value: false
+			}
     };
     this.observers = [
       'viewCourse(route)',
@@ -70,11 +76,12 @@ export class PrendusCourseView {
     this.courseTags = state.courseViewCurrentCourse.tags;
     this.courseTagNames = state.courseTagNames;
     this.courseConcepts = state.viewCourseConcepts[this.courseId];
+		this.collaboratorEmails = state.courseCollaboratorEmails[this.uid] && state.courseCollaboratorEmails[this.uid][this.courseId];
   }
 
   openEditConceptDialog(e: any): void {
     const conceptId: string = e.detail.conceptId;
-    this.querySelector('#addConceptDialog').edit(conceptId);
+    this.querySelector('#add-concept-dialog').edit(conceptId);
   }
 
   openCollaboratorsModal(e: any): void {
@@ -85,26 +92,66 @@ export class PrendusCourseView {
     return uid in collaborators;
   }
 
+	formatCollaboratorEmails(emails: string[]) {
+		return emails
+			// TODO: figure out why there are null collaborator emails and remove this
+			.filter((value: string, index: number, array: string[]) => {
+				return value !== null
+			})
+			.reduce((accum: string, value: string, index: number) => {
+				return value + (index > 0 ? ',' : '') + '';
+		}, '');
+	}
+
   toggleEditTitle(e: any): void {
     this.editingTitle = !this.editingTitle;
-  }
-
-  getTitleButtonText(editingTitle: string): string {
-    return editingTitle ? "Done" : "Edit Title";
   }
 
   toggleEditDescription(e: any): void {
     this.editingDescription = !this.editingDescription;
   }
 
-  getDescriptionButtonText(editingDescription: string): string {
-    return editingDescription ? "Done" : "Edit Description";
-  }
+	toggleEditDueDate(e: any): void {
+		this.editingDueDate = !this.editingDueDate;
+		// hack to fix a display bug because paper-date-picker doesn't resize
+		// correclty unless it is displaying
+		this.querySelector('paper-date-picker').fire('iron-resize');
+	}
+
+	getEditIcon(editStatus: boolean): string {
+		return editStatus ? "check" : "create";
+	}
+
+	makePrettyDate(dateString: string): string {
+		if(!dateString || dateString === null) return 'No due date set.'
+		const date: Date = new Date(dateString);
+		const prettyDate: string = `${[	'Sunday',
+																		'Monday',
+																		'Tuesday',
+																		'Wednesday',
+																		'Thursday',
+																		'Friday',
+																		'Saturday'][date.getDay()]},
+																${[	'January',
+																		'February',
+																		'March',
+																		'April',
+																		'May',
+																		'June',
+																		'July',
+																		'August',
+																		'September',
+																		'October',
+																		'November',
+																		'December'][date.getMonth()]}
+																${date.getDate()},
+																${date.getFullYear()}`
+		return prettyDate;
+	}
 
   displayDate(date: string): Date {
     // Set due date at the current date if the course has no due date yet.
-    const returnDate: Date =  date ? new Date(date) : new Date();
-    return returnDate;
+    return date ? new Date(date) : new Date();
   }
 
   async dueDateChanged(): Promise<void> {
@@ -196,11 +243,10 @@ export class PrendusCourseView {
 
   getLTILinks(): void {
     console.log('LTI Links3')
-
   }
 
   addConcept(e: any): void {
-    this.querySelector('#addConceptDialog').open();
+    this.querySelector('#add-concept-dialog').open();
   }
 
   async sortableEnded(e: any): Promise<void> { //This isn't the most elegant solution. I'm open to better ways of doing things.
