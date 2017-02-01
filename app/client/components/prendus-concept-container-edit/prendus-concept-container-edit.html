@@ -39,13 +39,11 @@
 			flex-grow: 1;
 		}
 
-		iron-icon,
-		paper-icon-button {
+		.icon-button {
 			color: rgba(0, 0, 0, .5);
 		}
 
-		iron-icon:hover,
-		paper-icon-button:hover {
+		.icon-button:hover {
 			color: rgba(0, 0, 0, .8);
 		}
 
@@ -53,10 +51,6 @@
 			padding: 0 8px;
 			flex-grow: 1;
       margin: 0;
-    }
-
-    #confirm-delete-title{
-      color: red;
     }
 
 		@media (max-width: 500px) {
@@ -75,15 +69,15 @@
 		<prendus-collaborator-modal id="collaborators-modal" course-id="[[courseId]]" concept-id="[[item.id]]" concept></prendus-collaborator-modal>
     <prendus-notification id="notification" success-message="[[successMessage]]" error-message="[[errorMessage]]"></prendus-notification>
     <div class="title-buttons" on-tap="toggle">
-      <iron-icon class="drag-icon" icon="editor:drag-handle"></iron-icon>
+      <iron-icon class="drag-icon icon-button" icon="editor:drag-handle"></iron-icon>
 			<div class="title-action-buttons">
 				<h3 class="concept-title">[[title]]</h3>
 				<div class="action-buttons">
-					<paper-icon-button id="edit-button" icon="create" on-tap="editItem"></paper-icon-button>
+					<paper-icon-button id="edit-button" class="icon-button" icon="create" on-tap="editItem"></paper-icon-button>
 					<paper-tooltip for="edit-button" offset="0" animation-delay="300">Edit Concept</paper-tooltip>
-					<paper-icon-button id="collaborator-button" icon="social:group-add" on-tap="openCollaboratorsModal"></paper-icon-button>
+					<paper-icon-button id="collaborator-button" class="icon-button" icon="social:group-add" on-tap="openCollaboratorsModal"></paper-icon-button>
 					<paper-tooltip for="collaborator-button" offset="0" animation-delay="300">Edit Collaborators</paper-tooltip>
-					<paper-icon-button id="delete-button" icon="delete" on-tap="deleteItem"></paper-icon-button>
+					<paper-icon-button id="delete-button" class="icon-button" icon="delete" on-tap="deleteItem"></paper-icon-button>
 					<paper-tooltip for="delete-button" offset="0" animation-delay="300">Delete Concept</paper-tooltip>
 				</div>
 			</div>
@@ -101,13 +95,12 @@
       </div>
     </iron-collapse>
     <paper-dialog id="delete-confirm-modal" modal>
-        <!-- Look up Iron keys to change this -->
-        <form is="iron-form">
-          <h1 id="confirm-delete-title">Confirm Delete </h1>
-          <p>Are you sure that you want to delete this concept?
-          <paper-button id="confirmDelete" on-tap="completeDelete">Yes</paper-button>
-          <paper-button dialog-dismiss>No</paper-button>
-        </form>
+      <h2>Confirm Delete </h2>
+      <p>Are you sure that you want to delete this concept?</p>
+			<div class="buttons">
+				<paper-button id="confirmDelete" on-tap="completeDelete">Delete</paper-button>
+				<paper-button dialog-dismiss>Cancel</paper-button>
+			</div>
     </paper-dialog>
   </template>
   <script src="prendus-concept-container-edit.ts"></script>
