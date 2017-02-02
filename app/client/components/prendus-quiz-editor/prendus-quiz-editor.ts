@@ -53,6 +53,7 @@ class PrendusQuizEditor {
         };
     }
     async init() {
+        Actions.showMainSpinner(this);
         this.endpointDomain = UtilitiesService.getPrendusServerEndpointDomain();
         const user = await FirebaseService.getLoggedInUser();
         this.jwt = await user.getToken();
@@ -72,6 +73,8 @@ class PrendusQuizEditor {
         const quizSession: QuizSession = request.response.quizSession;
         this.quizSession = quizSession;
         //TODO this is horrible and should be removed once the view problem component can be initialized without a quiz session being handed to it
+
+        Actions.hideMainSpinner(this);
     }
 
     async conceptIdSet() {
