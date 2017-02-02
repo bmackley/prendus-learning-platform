@@ -34,7 +34,7 @@ class PrendusRouter {
         } else {
           UtilitiesService.importElement(this, 'components/prendus-landing/prendus-landing.html', 'landing');
         }
-        
+
         break;
       }
 
@@ -68,7 +68,7 @@ class PrendusRouter {
 
   }
 
-  mapStateToThis(e: StatechangeEvent) {
+  mapStateToThis(e: StatechangeEvent): void {
       const state = e.detail.state;
       this.username = state.currentUser.metaData.email;
       this.loggedIn = this.username ? 'true' : 'false';

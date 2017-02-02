@@ -18,7 +18,7 @@ class PrendusEditQuestionRouter {
 
     private endpointDomain: string;
 
-    beforeRegister() {
+    beforeRegister(): void {
         this.is = 'prendus-edit-question-router';
         this.properties = {
             route: {
@@ -31,7 +31,7 @@ class PrendusEditQuestionRouter {
         ];
     }
 
-    async ready() {
+    async ready(): Promise<void> {
         Actions.showMainSpinner(this);
         Actions.defaultAction(this);
         this.endpointDomain = UtilitiesService.getPrendusServerEndpointDomain();

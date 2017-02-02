@@ -9,7 +9,7 @@ class PrendusCourseRouter {
   public observers: string[];
   public querySelector: any;
 
-  beforeRegister() {
+  beforeRegister(): void {
       this.is = 'prendus-course-router';
       this.observers = [
         '_routeChanged(route.*)'
