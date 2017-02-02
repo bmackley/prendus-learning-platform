@@ -11,9 +11,12 @@
   <style>
 
     a {
-      color: currentColor;
-      text-decoration: none;
+      color: inherit;
     }
+
+		a:hover {
+			text-decoration: none;
+		}
 
     paper-item:hover {
       background-color: rgba(0, 0, 0, 0.2);
@@ -38,6 +41,10 @@
     #menu-holder {
       align-self: flex-end;
     }
+
+		.menu-item {
+			cursor: pointer;
+		}
 
 		@media (max-width: 768px) {
 			#menu-name-button {
@@ -66,17 +73,17 @@
               <iron-dropdown id="menu-items" horizontal-align="right" no-auto-focus>
                 <paper-card class="dropdown-content">
                   <paper-listbox id="user-menu-listbox">
-                    <paper-item><a href="/profile" tabindex="-1"><paper-button on-tap="toggleMenu">Account ([[username]])</paper-button></a></paper-item>
-                    <paper-item><a href="/courses/home" tabindex="-1"><paper-button on-tap="toggleMenu">My Courses</paper-button></a></paper-item>
-                    <paper-item><paper-button on-tap="logOutUser">Logout</paper-button on-tap="toggleMenu"></paper-item>
+                    <a class="menu-item" href="/profile" tabindex="-1"><paper-item><paper-button noink on-tap="toggleMenu">Account ([[username]])</paper-button></paper-item></a>
+                    <a class="menu-item" href="/courses/home" tabindex="-1"><paper-item><paper-button noink on-tap="toggleMenu">My Courses</paper-button></paper-item></a>
+                    <paper-item class="menu-item" on-tap="logOutUser"><paper-button noink>Logout</paper-button></paper-item>
                   </paper-listbox>
                 </paper-card>
               </iron-dropdown>
             </div>
           </template>
           <template is="dom-if" if="{{!username}}">
-            <a href="/login" tabindex="-1"><paper-button>Log In</paper-button></a>
-            <a href="/signup" tabindex="-1"><paper-button>Sign Up</paper-button></a>
+            <a href="/login" tabindex="-1"><paper-button noink>Log In</paper-button></a>
+            <a href="/signup" tabindex="-1"><paper-button noink>Sign Up</paper-button></a>
           </template>
         </paper-toolbar>
     </paper-header-panel>
