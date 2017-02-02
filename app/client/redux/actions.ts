@@ -19,6 +19,7 @@ import {EmailsToUidsModel} from '../node_modules/prendus-services/models/emails-
 import {Video} from '../node_modules/prendus-services/typings/video';
 import {ExecuteAsyncInOrderService} from '../node_modules/prendus-services/services/execute-async-in-order-service';
 import {UtilitiesService} from '../node_modules/prendus-services/services/utilities-service';
+import {VoteModel} from '../node_modules/prendus-services/models/vote-model';
 
 const defaultAction = (context: any) => {
     context.action = {
@@ -40,7 +41,8 @@ const hideMainSpinner = (context: any) => {
 const updateVote = async (context: any, uid: string, questionId: string) => {
     try {
       // create vote with VoteModel
-      // set vote on questionmodel 
+      const voteId: string = await VoteModel.createOrUpdate(null, uid, questionId);
+      // set vote on questionmodel
     } catch(error) {
       throw error;
     }
@@ -1082,6 +1084,7 @@ export const Actions = {
     loginUser,
     checkUserAuth,
     deleteConcept,
+    updateVote,
     orderConcepts,
     addConcept,
     createUser,
