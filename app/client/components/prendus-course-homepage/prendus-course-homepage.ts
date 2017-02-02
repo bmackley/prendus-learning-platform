@@ -32,10 +32,14 @@ class PrendusCourseHomepage {
 
   async ready() {
       try {
+          Actions.showMainSpinner(this);
           const user = await FirebaseService.getLoggedInUser();
-          Actions.getCoursesByUser(this);
+          // Since this is the course page, the first thing they see is their own courses.
+          // So it is wise to await here.
+          await Actions.getCoursesByUser(this);
           Actions.getStarredCoursesByUser(this, user.uid);
           Actions.getSharedCoursesByUser(this, user.uid);
+          Actions.hideMainSpinner(this);
       } catch(error) {
           this.errorMessage = '';
           this.errorMessage = error.message;
