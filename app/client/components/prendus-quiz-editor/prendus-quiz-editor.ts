@@ -190,27 +190,27 @@ class PrendusQuizEditor {
     }
 
     async answerFeedbackToggled(e: any): Promise<void> {
-        const checked = e.target.checked;
+        const checked: boolean = e.target.checked;
         await this.applySettings('answerFeedback', checked, 'Answer feedback', true);
     }
 
     async showAnswerToggled(e: any): Promise<void> {
-        const checked = e.target.checked;
+        const checked: boolean = e.target.checked;
         await this.applySettings('showAnswer', checked, 'Show answer', true);
     }
 
     async showHintToggled(e: any): Promise<void> {
-        const checked = e.target.checked;
+        const checked: boolean = e.target.checked;
         await this.applySettings('showHint', checked, 'Show hint', true);
     }
 
     async showCodeToggled(e: any): Promise<void> {
-        const checked = e.target.checked;
+        const checked: boolean = e.target.checked;
         await this.applySettings('showCode', checked, 'Show code', true);
     }
 
     async gradedToggled(e: any): Promise<void> {
-        const checked = e.target.checked;
+        const checked: boolean = e.target.checked;
         await this.applySettings('graded', checked, 'Graded', true);
 
         // Reset quiz due date to the last day of the course.  If the course
@@ -247,12 +247,12 @@ class PrendusQuizEditor {
     }
 
     async showConfidenceLevelToggled(e: any): Promise<void> {
-        const checked = e.target.checked;
+        const checked: boolean = e.target.checked;
         await this.applySettings('showConfidenceLevel', checked, 'Show confidence level', true);
     }
 
     async allowGenerationToggled(e: any): Promise<void> {
-        const checked = e.target.checked;
+        const checked: boolean = e.target.checked;
         await this.applySettings('allowGeneration', checked, 'Allow generation', true);
     }
 
