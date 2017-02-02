@@ -8,9 +8,16 @@
 <dom-module id="prendus-collaborator-modal">
     <template>
         <style>
+
           .remove-collaborator {
             cursor: pointer;
           }
+
+					#add-collaborator-container {
+						display: flex;
+						align-items: center;
+					}
+
         </style>
 
         <redux-store on-statechange="mapStateToThis" action=[[action]]></redux-store>
@@ -21,11 +28,13 @@
             <template is="dom-repeat" items="[[collaboratorEmails]]">
                 <p>[[item]] <iron-icon class="remove-collaborator" icon="icons:clear" on-tap="removeCollaborator">remove</iron-icon></p>
             </template>
-            <paper-input id="collaboratorInput" label="Enter email address" stop-keyboard-event-propagation></paper-input>
-            <paper-button raised on-tap="addCollaborator">add</paper-button>
+						<div id="add-collaborator-container">
+							<paper-input id="collaboratorInput" label="Enter email address" stop-keyboard-event-propagation></paper-input>
+							<paper-button noink on-tap="addCollaborator"> Add</paper-button>
+						</div>
           </paper-dialog-scrollable>
           <div class="buttons">
-            <paper-button dialog-dismiss autofocus>Done</paper-button>
+            <paper-button noink dialog-dismiss autofocus>Done</paper-button>
           </div>
         </paper-dialog>
 

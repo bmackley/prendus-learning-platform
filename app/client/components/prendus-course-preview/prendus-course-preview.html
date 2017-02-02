@@ -19,6 +19,11 @@
 
 			a {
 				color: inherit;
+				height: 100%;
+			}
+
+			a:hover {
+				text-decoration: none;
 			}
 
       .course-icon {
@@ -32,15 +37,19 @@
       .course-card {
         cursor: pointer;
         width: 100%;
+				height: 100%;
+				display: flex;
+				flex-direction: column;
         --paper-card-header-text: {
           overflow: hidden;
           text-overflow: ellipsis;
           white-space: nowrap;
-        }
+        };
       }
 
       .card-content {
-        min-height: 150px;
+        overflow: hidden;
+				flex-grow: 1;
       }
 
       .delete-button {
@@ -52,34 +61,36 @@
 
     <redux-store on-statechange="mapStateToThis" action="[[action]]"></redux-store>
 
-    <a href="/courses/view/[[course.id]]"><paper-card class="course-card" heading="[[course.title]]">
-      <div class="card-content">
-        <template is="dom-if" if="[[course.description]]">
-          <div>
-            Description: [[course.description]]
-          </div>
-        </template>
-        <!-- Placeholder for tags, don't display until 100% ready to do so. -->
-        <!-- <template is="dom-if" if="[[course.tags.length]]">
-          Tags:
-          <template is="dom-repeat" items="[[course.tags]]">
-            <div>
-                [[item.name]]
-            </div>
-          </template>
-        </template> -->
-      </div>
-      <div class="card-actions">
-        <paper-icon-button id="star-course" class="course-icon" icon="[[starIcon]]" on-tap="starClick"></paper-icon-button>[[numStars]]
-        <paper-tooltip for="star-course" offset="0" animation-delay="300">Star Course</paper-tooltip>
-        <template is="dom-if" if="[[hasEditAccess]]">
-          <a href="/courses/view/[[course.id]]"><paper-icon-button id="edit-course" class="course-icon" icon="create"></paper-icon-button></a>
-          <paper-tooltip for="edit-course" offset="0" animation-delay="300">Edit Course</paper-tooltip>
-          <paper-icon-button id="delete-course" class="course-icon" icon="delete" on-tap="openDeleteModal"></paper-icon-button>
-          <paper-tooltip for="delete-course" offset="0" animation-delay="300">Delete Course</paper-tooltip>
-        </template>
-      </div>
-    </paper-card></a>
+    <a href="/courses/view/[[course.id]]">
+			<paper-card class="course-card" heading="[[course.title]]">
+	      <div class="card-content">
+	        <template is="dom-if" if="[[course.description]]">
+	          <div id="course-description">
+	            Description: [[course.description]]
+	          </div>
+	        </template>
+	        <!-- Placeholder for tags, don't display until 100% ready to do so. -->
+	        <!-- <template is="dom-if" if="[[course.tags.length]]">
+	          Tags:
+	          <template is="dom-repeat" items="[[course.tags]]">
+	            <div>
+	                [[item.name]]
+	            </div>
+	          </template>
+	        </template> -->
+	      </div>
+	      <div class="card-actions">
+	        <paper-icon-button id="star-course" class="course-icon" icon="[[starIcon]]" on-tap="starClick"></paper-icon-button>[[numStars]]
+	        <paper-tooltip for="star-course" offset="0" animation-delay="300">Star Course</paper-tooltip>
+	        <template is="dom-if" if="[[hasEditAccess]]">
+	          <a href="/courses/view/[[course.id]]"><paper-icon-button id="edit-course" class="course-icon" icon="create"></paper-icon-button></a>
+	          <paper-tooltip for="edit-course" offset="0" animation-delay="300">Edit Course</paper-tooltip>
+	          <paper-icon-button id="delete-course" class="course-icon" icon="delete" on-tap="openDeleteModal"></paper-icon-button>
+	          <paper-tooltip for="delete-course" offset="0" animation-delay="300">Delete Course</paper-tooltip>
+	        </template>
+	      </div>
+	    </paper-card>
+		</a>
     <paper-dialog id="confirm-delete-modal" modal>
       <h2>Confirm Delete</h2>
       <p>Are you sure you want to delete this course?  If you delete it, collaborators will lose access.</p>

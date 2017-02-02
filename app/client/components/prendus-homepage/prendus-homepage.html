@@ -37,53 +37,32 @@
       vertical-align: middle;
     }
 
-    iron-list {
-      flex: auto;
-    }
+		#course-list {
+			padding: 20px;
+		}
 
     .course-preview {
-
       position: relative;
-      width: 250px;
-      height: 300px;
-      margin: 8px;
+      width: 270px;
+      height: 350px;
+      padding: 8px;
       flex-grow: 0;
-      min-width: 0;
     }
 
-
-    .course-content {
-      @apply(--layout);
-    }
-
-    .course-content > prendus-course-preview {
-      @apply(--layout-flex);
-    }
-
-    @media (max-width: 800px) {
-      /*.course-container {
-        width: calc(50% - 16px);
-      }
-
-      .course-content {
-        width: auto;
-      }*/
-    }
     @media (max-width: 768px) {
+
       .course-preview {
-        flex-basis: 45%;
+        width: 50%;
       }
 
     }
 
 		@media (max-width: 500px) {
-			.homepage-courses {
-				display: block;
-			}
 
 			.course-preview {
-				margin: 10px auto;
+				width: 100%;
 			}
+			
 		}
 
   </style>
@@ -92,16 +71,9 @@
   <template>
     <prendus-notification success-message="[[successMessage]]" error-message="[[errorMessage]]"></prendus-notification>
     <redux-store on-statechange="mapStateToThis" action="[[action]]"></redux-store>
-    <!-- TODO: @Brandon I need your help to display more courses the just 2.  I think this website:
-    https://elements.polymer-project.org/bower_components/iron-list/demo/grid.html is a good example of maybe how we should do it?
-    It fills the entire page too. Source code can be found in app/client/bower_components/iron-list/demo/grid.html-->
-    <iron-list id="course-list" items="[[publicCourses]]" as="course" grid>
+    <iron-list id="course-list" scroll-target="document" items="[[publicCourses]]" as="course" grid>
       <template>
-        <div class="course-container">
-          <div class="course-content">
-            <prendus-course-preview id="[[course.id]]" class="course-preview" course="[[course]]"></prendus-course-preview>
-          </div>
-        </div>
+        <prendus-course-preview id="[[course.id]]" class="course-preview" course="[[course]]"></prendus-course-preview>
       </template>
     </iron-list>
 

@@ -25,7 +25,6 @@ export class PrendusCourseView {
   public querySelector: any;
   public editingTitle: boolean;
   public editingDescription: boolean;
-  public editingDueDate: boolean;
   public listeners: any;
   public data: any;
   beforeRegister() {
@@ -52,11 +51,7 @@ export class PrendusCourseView {
       editingDescription: {
         type: Boolean,
         value: false
-      },
-			editingDueDate: {
-				type: Boolean,
-				value: false
-			}
+      }
     };
     this.observers = [
       'viewCourse(route)',
@@ -84,6 +79,10 @@ export class PrendusCourseView {
     this.querySelector('#add-concept-dialog').edit(conceptId);
   }
 
+	openDueDateModal(e: any): void {
+    this.querySelector('#due-date-modal').open();
+  }
+
   openCollaboratorsModal(e: any): void {
     this.querySelector('#collaborators-modal').open();
   }
@@ -96,7 +95,7 @@ export class PrendusCourseView {
 		return emails
 			// TODO: figure out why there are null collaborator emails and remove this
 			.filter((value: string, index: number, array: string[]) => {
-				return value !== null
+				return value !== null;
 			})
 			.reduce((accum: string, value: string, index: number) => {
 				return value + (index > 0 ? ',' : '') + '';
@@ -111,19 +110,12 @@ export class PrendusCourseView {
     this.editingDescription = !this.editingDescription;
   }
 
-	toggleEditDueDate(e: any): void {
-		this.editingDueDate = !this.editingDueDate;
-		// hack to fix a display bug because paper-date-picker doesn't resize
-		// correclty unless it is displaying
-		this.querySelector('paper-date-picker').fire('iron-resize');
-	}
-
 	getEditIcon(editStatus: boolean): string {
-		return editStatus ? "check" : "create";
+		return editStatus ? 'check' : 'create';
 	}
 
 	makePrettyDate(dateString: string): string {
-		if(!dateString || dateString === null) return 'No due date set.'
+		if(!dateString || dateString === null) return 'No due date set.';
 		const date: Date = new Date(dateString);
 		const prettyDate: string = `${[	'Sunday',
 																		'Monday',
@@ -163,6 +155,7 @@ export class PrendusCourseView {
       // time a user clicks anywhere on the calendar, this function is called. To avoid
       // a firebase action, we compare the currentDate in firebase to the new UTCDate.
       if(currentDate !== UTCDate) {
+				this.querySelector('#due-date-modal').close();
         // Date has changed
         await Actions.updateCourseField(this, this.courseId, 'dueDate', UTCDate);
         await Actions.updateQuizDueDates(this.courseId);
