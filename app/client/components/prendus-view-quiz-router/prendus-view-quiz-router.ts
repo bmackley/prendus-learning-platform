@@ -8,6 +8,7 @@ class PrendusViewQuizRouter {
     public userFullName: string;
     public userEmail: string;
     public jwt: string;
+    public fire: any;
 
     ready(): void {
       Actions.defaultAction(this);
@@ -17,9 +18,9 @@ class PrendusViewQuizRouter {
         this.is = 'prendus-view-quiz-router';
     }
 
-    changeRoute(e): void {
+    changeRoute(e: any): void {
       console.log('e', e)
-      let location = 'courses/home'
+      let location: string = 'courses/home'
       window.history.pushState({}, '', location);
       this.fire('location-changed', {}, {node: window});
     }
