@@ -37,6 +37,15 @@ const hideMainSpinner = (context: any) => {
     };
 };
 
+const updateVote = async (context: any, uid: string, questionId: string) => {
+    try {
+      // create vote with VoteModel
+      // set vote on questionmodel 
+    } catch(error) {
+      throw error;
+    }
+};
+
 const loadCourseCollaboratorEmails = async (context: any, uid: string, courseId: string) => {
 
     ExecuteAsyncInOrderService.execute(operation);
