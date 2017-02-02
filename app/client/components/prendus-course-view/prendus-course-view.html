@@ -21,7 +21,7 @@
 
 <dom-module id="prendus-course-view">
 
-	<style include="color-styles"></style>
+	<style include="color-styles paper-date-picker-dialog-style"></style>
   <style>
 
     * {
@@ -54,18 +54,9 @@
 			color: rgba(0, 0, 0, .8);
 		}
 
-    .edit-button {
-      align-self: flex-start;
-    }
-
     #collaborators-button {
       align-self: flex-end;
     }
-
-		#due-date {
-			position: inherit;
-			display: flex;
-		}
 
     #concept-list {
       border: solid lightgrey 1px;
@@ -100,9 +91,11 @@
 
 		.edit-section {
 			display: flex;
+			align-items: center;
 		}
 
 		.edit-section .edit-button {
+			align-self: flex-start;
 			flex-shrink: 0;
 		}
 
@@ -178,21 +171,26 @@
 					<div class="edit-section">
 						<h3>Final due date: [[makePrettyDate(currentCourse.dueDate)]]</h3>
 						<template is="dom-if" if="[[hasEditAccess]]">
-							<paper-icon-button class="edit-button icon-button" icon="[[getEditIcon(editingDueDate)]]" noink on-tap="toggleEditDueDate"></paper-icon-button>
+							<paper-icon-button class="edit-button icon-button" icon="create" noink on-tap="openDueDateModal"></paper-icon-button>
 						</template>
 					</div>
 					<template is="dom-if" if="[[hasEditAccess]]">
-						<paper-date-picker id="due-date" hidden$="[[!editingDueDate]]" date="[[displayDate(currentCourse.dueDate)]]" on-click="dueDateChanged"></paper-date-picker>
+						<paper-dialog id="due-date-modal" class="paper-date-picker-dialog">
+							<paper-date-picker id="due-date" date="[[displayDate(currentCourse.dueDate)]]" on-tap="dueDateChanged"></paper-date-picker>
+							<div class="buttons">
+								<paper-button noink dialog-dismiss>Close</paper-button>
+							</div>
+						</paper-dialog>
 					</template>
 					<!-- COLLABORATORS -->
 					<div class="edit-section">
-						<h3>Collaborators</h3>
 						<template is="dom-if" if="[[hasEditAccess]]">
+							<h3>Collaborators</h3>
 							<prendus-collaborator-modal id="collaborators-modal" uid="[[uid]]" course-id="[[courseId]]" course></prendus-collaborator-modal>
 							<paper-icon-button class="edit-button icon-button" icon="create" noink on-tap="openCollaboratorsModal"></paper-icon-button>
 						</template>
 					</div>
-					<p>[[formatCollaboratorEmails(collaboratorEmails)]]</p>
+					<!-- <p>[[formatCollaboratorEmails(collaboratorEmails)]]</p> -->
 					<!-- LTI -->
 					<template is="dom-if" if="[[hasEditAccess]]">
 						<!-- <iron-icon id="lti-button" icon="social:share" on-tap="getLTILinks"></iron-icon> -->
