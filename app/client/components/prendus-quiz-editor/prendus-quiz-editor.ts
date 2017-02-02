@@ -82,7 +82,7 @@ class PrendusQuizEditor {
       const thumbDownColor: 'red' | 'none' = upOrDown === 'down' ? 'red' : 'none';
       this.querySelector(`#thumb-up-${questionId}`).style = `color: ${thumbUpColor}`;
       this.querySelector(`#thumb-down-${questionId}`).style = `color: ${thumbDownColor}`;
-      QuestionModel.vote(questionId, upOrDown);
+      QuestionModel.vote(questionId, upOrDown, this.uid);
 
     }
 
@@ -331,7 +331,9 @@ class PrendusQuizEditor {
         this.publicQuestionIds = state.publicQuestionIds;
         this.quizQuestionIds = state.quizQuestionIds;
         this.collaboratorEmails = state.collaboratorEmails;
-        this.uid = state.uid;
+        if(state.currentUser) {
+          this.uid = state.currentUser.metaData.uid;
+        }
     }
 }
 
