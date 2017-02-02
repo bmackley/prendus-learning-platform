@@ -36,7 +36,7 @@ class PrendusQuizEditor {
     public successMessage: string;
     public errorMessage: string;
 
-    beforeRegister() {
+    beforeRegister(): void {
         this.is = 'prendus-quiz-editor';
         this.properties = {
             conceptId: {
@@ -52,7 +52,7 @@ class PrendusQuizEditor {
             }
         };
     }
-    async init() {
+    async init(): Promise<void> {
         Actions.showMainSpinner(this);
         this.endpointDomain = UtilitiesService.getPrendusServerEndpointDomain();
         const user = await FirebaseService.getLoggedInUser();
@@ -77,7 +77,7 @@ class PrendusQuizEditor {
         Actions.hideMainSpinner(this);
     }
 
-    async conceptIdSet() {
+    async conceptIdSet(): Promise<void> {
         if (this.conceptId) {
             await this.init();
             await this.loadUserQuestionIds();
@@ -85,7 +85,7 @@ class PrendusQuizEditor {
         }
     }
 
-    async quizIdSet() {
+    async quizIdSet(): Promise<void> {
         if (this.quizId) {
             await this.init();
             const quiz: Quiz = await Actions.getQuiz(this.quizId);
@@ -95,28 +95,28 @@ class PrendusQuizEditor {
         }
     }
 
-    async loadPublicQuestionIds() {
+    async loadPublicQuestionIds(): Promise<void> {
         const getPublicQuestionIdsAjax = this.querySelector('#getPublicQuestionIdsAjax');
         await Actions.loadPublicQuestionIds(this, getPublicQuestionIdsAjax);
     }
 
-    async loadUserQuestionIds() {
+    async loadUserQuestionIds(): Promise<void> {
         const getUserQuestionIdsAjax = this.querySelector('#getUserQuestionIdsAjax');
         await Actions.loadUserQuestionIds(this, getUserQuestionIdsAjax);
     }
 
-    async loadQuizQuestionIds() {
+    async loadQuizQuestionIds(): Promise<void> {
         await Actions.loadQuizQuestionIds(this, this.quizId);
     }
 
-    async addQuestionToQuiz(e: any) {
-        const questionId = e.model.item;
+    async addQuestionToQuiz(e: any): Promise<void> {
+        const questionId: string = e.model.item;
         await Actions.addQuestionToQuiz(this, this.quizId, questionId);
         await this.loadQuizQuestionIds();
     }
 
-    async removeQuestionFromQuiz(e: any) {
-        const questionId = e.model.item;
+    async removeQuestionFromQuiz(e: any): Promise<void> {
+        const questionId: string = e.model.item;
         await Actions.removeQuestionFromQuiz(this, this.quizId, questionId);
         await this.loadQuizQuestionIds();
     }
@@ -127,43 +127,43 @@ class PrendusQuizEditor {
       return returnDate;
     }
 
-    shareQuiz() {
+    shareQuiz(): void {
         this.querySelector('#share-quiz-dialog').open();
     }
 
-    selectText(e: any) {
+    selectText(e: any): void {
       e.target.select();
     }
 
-    openCollaboratorsModal(e: any) {
+    openCollaboratorsModal(e: any): void {
       this.querySelector('#collaborators-modal').open();
     }
 
-    openSettingsModal(e: any) {
+    openSettingsModal(e: any): void {
       this.querySelector('#settings-modal').open();
     }
 
     //Temporary based on Jordans preferences
-    async createQuestion(e: any) {
+    async createQuestion(e: any): Promise<void> {
         Actions.showMainSpinner(this);
         const visibility: QuestionVisibility = 'public'
         window.history.pushState({}, '', `courses/edit-question/question/create`);
         this.fire('location-changed', {}, {node: window});
     }
 
-    editQuestion(e: any) {
-        const questionId = e.model.item;
+    editQuestion(e: any): void {
+        const questionId: string = e.model.item;
         Actions.showMainSpinner(this);
         window.history.pushState({}, '', `courses/edit-question/question/${questionId}`);
         this.fire('location-changed', {}, {node: window});
     }
 
-    showEmptyQuizQuestionsText(quizQuestionIds: string[]) {
-        const showEmptyQuizQuestionsText = !quizQuestionIds || quizQuestionIds.length === 0;
+    showEmptyQuizQuestionsText(quizQuestionIds: string[]): boolean {
+        const showEmptyQuizQuestionsText: boolean = !quizQuestionIds || quizQuestionIds.length === 0;
         return showEmptyQuizQuestionsText;
     }
 
-    async manuallyReloadQuestions() {
+    async manuallyReloadQuestions(): Promise<void> {
         //TODO this is all extremely not optimized
         await this.loadUserQuestionIds();
         await this.loadPublicQuestionIds();
@@ -185,31 +185,31 @@ class PrendusQuizEditor {
         });
     }
 
-    showSettingsMenu() {
+    showSettingsMenu(): void {
         this.showSettings = !this.showSettings;
     }
 
-    async answerFeedbackToggled(e: any) {
+    async answerFeedbackToggled(e: any): Promise<void> {
         const checked = e.target.checked;
         await this.applySettings('answerFeedback', checked, 'Answer feedback', true);
     }
 
-    async showAnswerToggled(e: any) {
+    async showAnswerToggled(e: any): Promise<void> {
         const checked = e.target.checked;
         await this.applySettings('showAnswer', checked, 'Show answer', true);
     }
 
-    async showHintToggled(e: any) {
+    async showHintToggled(e: any): Promise<void> {
         const checked = e.target.checked;
         await this.applySettings('showHint', checked, 'Show hint', true);
     }
 
-    async showCodeToggled(e: any) {
+    async showCodeToggled(e: any): Promise<void> {
         const checked = e.target.checked;
         await this.applySettings('showCode', checked, 'Show code', true);
     }
 
-    async gradedToggled(e: any) {
+    async gradedToggled(e: any): Promise<void> {
         const checked = e.target.checked;
         await this.applySettings('graded', checked, 'Graded', true);
 
@@ -223,7 +223,7 @@ class PrendusQuizEditor {
         await this.applySettings('dueDate', newQuizDueDate, null, true);
     }
 
-    async dueDateChanged(e: any) {
+    async dueDateChanged(e: any): Promise<void> {
         const dueDate: Date = this.querySelector('#dueDate').date;
         const UTCDueDate: number = UtilitiesService.dateToUTCNumber(dueDate);
         const course: Course = await CourseModel.getById(this.courseId);
@@ -246,22 +246,22 @@ class PrendusQuizEditor {
 
     }
 
-    async showConfidenceLevelToggled(e: any) {
+    async showConfidenceLevelToggled(e: any): Promise<void> {
         const checked = e.target.checked;
         await this.applySettings('showConfidenceLevel', checked, 'Show confidence level', true);
     }
 
-    async allowGenerationToggled(e: any) {
+    async allowGenerationToggled(e: any): Promise<void> {
         const checked = e.target.checked;
         await this.applySettings('allowGeneration', checked, 'Allow generation', true);
     }
 
-    async maxNumAttemptsChanged(e: any) {
+    async maxNumAttemptsChanged(e: any): Promise<void> {
         const value: number = Number(e.target.value);
         await this.applySettings('maxNumAttempts', value, 'Maximum number of attempts', true);
     }
 
-    async titleChanged(e: any) {
+    async titleChanged(e: any): Promise<void> {
       try {
         const value: string = e.target.value;
         await QuizModel.updateTitle(this.quizId, value);
@@ -275,7 +275,7 @@ class PrendusQuizEditor {
       await Actions.loadViewConceptQuizzes(this, this.conceptId);
     }
 
-    async privateToggled(e: any) {
+    async privateToggled(e: any): Promise<void> {
       const value: QuizVisibility = e.target.checked ? 'private' : 'public';
       // TODO: We don't want to update the question privacy. This should change eventually.
       await this.applySettings('visibility', value, 'Privacy', false);
@@ -284,7 +284,7 @@ class PrendusQuizEditor {
     determineVisibility(visibility: QuizVisibility): boolean {
       return visibility === 'private';
     }
-    async applySettings(settingName: string, value: number | boolean | QuizVisibility, successMessageName: string, updateQuestionSetting: boolean) {
+    async applySettings(settingName: string, value: number | boolean | QuizVisibility, successMessageName: string, updateQuestionSetting: boolean): Promise<void> {
       try {
         await Actions.setQuizQuestionSetting(this, this.quizId, settingName, value);
         if(updateQuestionSetting) {
@@ -305,7 +305,7 @@ class PrendusQuizEditor {
 
     }
 
-    mapStateToThis(e: StatechangeEvent) {
+    mapStateToThis(e: StatechangeEvent): void {
         const state = e.detail.state;
         this.quizQuestionSettings = state.quizQuestionSettings;
         this.userQuestionIds = state.userQuestionIds;
