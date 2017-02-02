@@ -68,7 +68,7 @@ export class PrendusCourseView {
     this.username = state.currentUser.metaData.email;
     this.uid = state.currentUser.metaData.uid;
     this.currentCourse = state.courseViewCurrentCourse;
-    this.courseTags = state.courseViewCurrentCourse.tags;
+    // this.courseTags = state.courseViewCurrentCourse.tags;
     this.courseTagNames = state.courseTagNames;
     this.courseConcepts = state.viewCourseConcepts[this.courseId];
 		this.collaboratorEmails = state.courseCollaboratorEmails[this.uid] && state.courseCollaboratorEmails[this.uid][this.courseId];
