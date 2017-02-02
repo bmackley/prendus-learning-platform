@@ -32,6 +32,7 @@ class PrendusEditQuestionRouter {
     }
 
     async ready() {
+        Actions.showMainSpinner(this);
         Actions.defaultAction(this);
         this.endpointDomain = UtilitiesService.getPrendusServerEndpointDomain();
 
@@ -51,6 +52,8 @@ class PrendusEditQuestionRouter {
         const quizSession: QuizSession = request.response.quizSession;
         this.quizSession = quizSession;
         //TODO this is horrible and should be removed once the view problem component can be initialized without a quiz session being handed to it
+
+        Actions.hideMainSpinner(this);
     }
 
     _routeChanged(routeObject: any): void {
