@@ -24,13 +24,13 @@ class PrendusCourseHomepage {
   };
   public querySelector: any;
   public errorMessage: string;
-  beforeRegister() {
+  beforeRegister(): void {
     this.is = 'prendus-course-homepage';
     this.properties = {
     };
   }
 
-  async ready() {
+  async ready(): Promise<void> {
       try {
           Actions.showMainSpinner(this);
           const user = await FirebaseService.getLoggedInUser();
