@@ -42,6 +42,7 @@ const updateVote = async (context: any, uid: string, questionId: string) => {
     try {
       // create vote with VoteModel
       const voteId: string = await VoteModel.createOrUpdate(null, uid, questionId);
+
       // set vote on questionmodel
     } catch(error) {
       throw error;

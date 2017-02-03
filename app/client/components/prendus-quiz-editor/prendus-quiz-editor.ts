@@ -82,8 +82,7 @@ class PrendusQuizEditor {
       const thumbDownColor: 'red' | 'none' = upOrDown === 'down' ? 'red' : 'none';
       this.querySelector(`#thumb-up-${questionId}`).style = `color: ${thumbUpColor}`;
       this.querySelector(`#thumb-down-${questionId}`).style = `color: ${thumbDownColor}`;
-      QuestionModel.vote(questionId, upOrDown, this.uid);
-
+      Actions.updateVote(this, this.uid, questionId);
     }
 
     thumbUp(e: any): void {
