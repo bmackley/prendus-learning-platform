@@ -821,6 +821,12 @@
         },
         "?course=-KTpltxb2TXI3I6IYmnX&quiz=-KW5JuNEcNo09bbul4jy&jwt=eyJhbGciOiJIUzI1NiJ9.TFRJX1VTRVI.5gEKAYEfPa2gs1vbqOsDIOiXH6w_-tx4gHXanDa9_PY&userfullname=John%20Logie%20Baird&useremail=jbaird@uni.ac.uk": {
             "parentImport": true
+        },
+        "bower_components/prendus-question-components/components/prendus-multiple-response/prendus-multiple-response.html": {
+            "parentImport": true
+        },
+        "bower_components/prendus-question-components/components/prendus-multiple-response/prendus-multiple-response.ts": {
+            "parentImport": true
         }
     }
 }
