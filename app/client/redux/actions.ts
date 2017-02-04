@@ -40,10 +40,10 @@ const hideMainSpinner = (context: any) => {
     };
 };
 
-const isVoted = async (uid: string, questionId: string): Promise<boolean> => {
+const isVoted = async (uid: string, questionId: string): Promise<VoteType> => {
   try {
     const vote: Vote = await VoteModel.getByUid(uid, questionId);
-    return vote ? true : false;
+    return vote ? vote.type : null;
   } catch(error) {
     throw error;
   }

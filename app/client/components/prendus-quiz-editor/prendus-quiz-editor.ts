@@ -78,16 +78,24 @@ class PrendusQuizEditor {
     }
 
     async changeThumbs(upOrDown: VoteType, questionId: string): Promise<void> {
-      const thumbUpColor: 'green' | 'none' = upOrDown === 'up' ? 'green' : 'none';
-      const thumbDownColor: 'red' | 'none' = upOrDown === 'down' ? 'red' : 'none';
-      this.querySelector(`#thumb-up-${questionId}`).style = `color: ${thumbUpColor}`;
-      this.querySelector(`#thumb-down-${questionId}`).style = `color: ${thumbDownColor}`;
+      const thumbColors: { thumbUpColor: 'green' | 'none', thumbDownColor: 'red' | 'none' } = this.getThumbColors(upOrDown);
+      this.querySelector(`#thumb-up-${questionId}`).style = `color: ${thumbColors.thumbUpColor}`;
+      this.querySelector(`#thumb-down-${questionId}`).style = `color: ${thumbColors.thumbDownColor}`;
       Actions.updateVote(this, this.uid, questionId, upOrDown);
     }
 
-    async isVoted(questionId: string): Promise<boolean> {
-      const isVoted: boolean = await Actions.isVoted(this.uid, questionId);
-      return isVoted;
+    getThumbColors(voteType: VoteType): { thumbUpColor: 'green' | 'none', thumbDownColor: 'red' | 'none' } {
+      return {
+        thumbUpColor: voteType === 'up' ? 'green' : 'none',
+        thumbDownColor: voteType === 'down' ? 'red' : 'none'
+      };
+    }
+
+    async isVoted(questionId: string): Promise<void> {
+      const isVoted: VoteType = await Actions.isVoted(this.uid, questionId);
+      const thumbColors: { thumbUpColor: 'green' | 'none', thumbDownColor: 'red' | 'none' } = this.getThumbColors(isVoted);
+      this.querySelector(`#thumb-up-${questionId}`).style = `color: ${thumbColors.thumbUpColor}`;
+      this.querySelector(`#thumb-down-${questionId}`).style = `color: ${thumbColors.thumbDownColor}`;
     };
 
     thumbUp(e: any): void {
