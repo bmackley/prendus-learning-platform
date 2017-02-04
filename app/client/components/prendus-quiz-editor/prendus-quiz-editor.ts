@@ -81,10 +81,11 @@ class PrendusQuizEditor {
       const thumbColors: { thumbUpColor: 'green' | 'none', thumbDownColor: 'red' | 'none' } = this.getThumbColors(upOrDown);
       this.querySelector(`#thumb-up-${questionId}`).style = `color: ${thumbColors.thumbUpColor}`;
       this.querySelector(`#thumb-down-${questionId}`).style = `color: ${thumbColors.thumbDownColor}`;
-      console.log('before updateVote');
-      await Actions.updateVote(this, this.uid, questionId, upOrDown);
-      console.log('after updateVote');
-      await this.updateScores();
+      const voteUpdated: boolean = await Actions.updateVote(this, this.uid, questionId, upOrDown);
+      if(voteUpdated) {
+        await this.updateScores();
+      }
+
     }
 
     getThumbColors(voteType: VoteType): { thumbUpColor: 'green' | 'none', thumbDownColor: 'red' | 'none' } {
@@ -102,11 +103,9 @@ class PrendusQuizEditor {
       return true;
     };
 
-    async updateScores(): Promise<void> {
-      console.log('updateScores!');
-      await UtilitiesService.asyncForEach(this.publicQuestionIds, async (questionId: string) => {
+    updateScores(): void {
+      UtilitiesService.asyncForEach(this.publicQuestionIds, async (questionId: string) => {
         const score: number = await QuestionModel.getScore(questionId);
-        console.log(score);
         this.querySelector(`#score-${questionId}`).innerText = score;
       });
     };

@@ -49,16 +49,16 @@ const isVoted = async (uid: string, questionId: string): Promise<VoteType> => {
   }
 };
 
-const updateVote = async (context: any, uid: string, questionId: string, type: VoteType) => {
+const updateVote = async (context: any, uid: string, questionId: string, type: VoteType): Promise<boolean> => {
     try {
       const vote: Vote = await VoteModel.getByUid(uid, questionId);
       const voteId: string = await VoteModel.createOrUpdate(vote ? vote.id : null, uid, questionId, type);
 
       if(!vote || vote.type != type) {
         await QuestionModel.vote(questionId, type, uid);
+        return true;
       }
-      // await QuestionModel.setVoteId(voteId, questionId);
-
+      return false;
     } catch(error) {
       throw error;
     }
