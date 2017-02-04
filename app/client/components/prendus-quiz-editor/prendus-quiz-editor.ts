@@ -98,7 +98,6 @@ class PrendusQuizEditor {
 
     async hasUserVote(questionId: string): Promise<boolean> {
       const voteType: VoteType = await Actions.isVoted(this.uid, questionId);
-      console.log(voteType);
       if(voteType) {
           this.updateThumbColors(voteType, questionId);
       }
@@ -107,7 +106,6 @@ class PrendusQuizEditor {
     };
 
     updateScores(): void {
-      console.log('updateScores');
       UtilitiesService.asyncForEach(this.publicQuestionIds, async (questionId: string) => {
         this.updateScore(questionId);
       });
