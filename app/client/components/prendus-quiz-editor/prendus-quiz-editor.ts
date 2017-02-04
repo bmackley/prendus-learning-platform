@@ -51,6 +51,9 @@ class PrendusQuizEditor {
             },
             courseId: {
               type: String
+            },
+            publicQuestionIds: {
+              observer: 'updateScores'
             }
         };
     }
@@ -83,7 +86,7 @@ class PrendusQuizEditor {
       this.querySelector(`#thumb-down-${questionId}`).style = `color: ${thumbColors.thumbDownColor}`;
       const voteUpdated: boolean = await Actions.updateVote(this, this.uid, questionId, upOrDown);
       if(voteUpdated) {
-        await this.updateScores();
+        this.updateScore(questionId);
       }
 
     }
@@ -110,6 +113,11 @@ class PrendusQuizEditor {
       });
     };
 
+    async updateScore(questionId: string): Promise<void> {
+      const score: number = await QuestionModel.getScore(questionId);
+      this.querySelector(`#score-${questionId}`).innerText = score;
+    }
+    
     thumbUp(e: any): void {
       const questionId: string = e.model.item;
       this.changeThumbs('up', questionId);
