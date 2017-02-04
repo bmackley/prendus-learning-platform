@@ -96,6 +96,7 @@ class PrendusQuizEditor {
       const thumbColors: { thumbUpColor: 'green' | 'none', thumbDownColor: 'red' | 'none' } = this.getThumbColors(isVoted);
       this.querySelector(`#thumb-up-${questionId}`).style = `color: ${thumbColors.thumbUpColor}`;
       this.querySelector(`#thumb-down-${questionId}`).style = `color: ${thumbColors.thumbDownColor}`;
+
       return true;
     };
 

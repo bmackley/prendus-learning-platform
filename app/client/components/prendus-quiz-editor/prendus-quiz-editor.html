@@ -184,7 +184,7 @@
             <div id="public-questions" class="tab-content">
               <template is="dom-repeat" items="[[publicQuestionIds]]" filter="isVoted">
                 <prendus-view-question id="public-question-id-[[item]]" question-id="[[item]]" quiz-id="NO_QUIZ" jwt="[[jwt]]" quiz-session="[[quizSession]]" concise></prendus-view-question>
-
+                <!-- <paper-icon id="score-[[item]]"></paper-icon> -->
                 <paper-icon-button id="thumb-down-[[item]]" icon="thumb-down" on-tap="thumbDown" vote="down"></paper-icon-button>
                 <paper-icon-button id="thumb-up-[[item]]" icon="thumb-up" on-tap="thumbUp" vote="up"></paper-icon-button>
                 <paper-icon-button id="add[[item]]" icon="av:playlist-add" on-click="addQuestionToQuiz"></paper-icon-button>
