@@ -91,11 +91,12 @@ class PrendusQuizEditor {
       };
     }
 
-    async isVoted(questionId: string): Promise<void> {
+    async isVoted(questionId: string): Promise<boolean> {
       const isVoted: VoteType = await Actions.isVoted(this.uid, questionId);
       const thumbColors: { thumbUpColor: 'green' | 'none', thumbDownColor: 'red' | 'none' } = this.getThumbColors(isVoted);
       this.querySelector(`#thumb-up-${questionId}`).style = `color: ${thumbColors.thumbUpColor}`;
       this.querySelector(`#thumb-down-${questionId}`).style = `color: ${thumbColors.thumbDownColor}`;
+      return true;
     };
 
     thumbUp(e: any): void {
