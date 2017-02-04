@@ -12,7 +12,7 @@ import {QuizVisibility} from '../../node_modules/prendus-services/typings/quiz-v
 import {QuizModel} from '../../node_modules/prendus-services/models/quiz-model';
 import {QuestionModel} from '../../node_modules/prendus-services/models/question-model';
 import {Quiz} from '../../node_modules/prendus-services/typings/quiz';
-
+import {VoteType} from '../../node_modules/prendus-services/typings/vote-type';
 
 class PrendusQuizEditor {
     public is: string;
@@ -77,13 +77,18 @@ class PrendusQuizEditor {
         //TODO this is horrible and should be removed once the view problem component can be initialized without a quiz session being handed to it
     }
 
-    async changeThumbs(upOrDown: 'up' | 'down', questionId: string): Promise<void> {
+    async changeThumbs(upOrDown: VoteType, questionId: string): Promise<void> {
       const thumbUpColor: 'green' | 'none' = upOrDown === 'up' ? 'green' : 'none';
       const thumbDownColor: 'red' | 'none' = upOrDown === 'down' ? 'red' : 'none';
       this.querySelector(`#thumb-up-${questionId}`).style = `color: ${thumbUpColor}`;
       this.querySelector(`#thumb-down-${questionId}`).style = `color: ${thumbDownColor}`;
-      Actions.updateVote(this, this.uid, questionId);
+      Actions.updateVote(this, this.uid, questionId, upOrDown);
     }
+
+    async isVoted(questionId: string): Promise<boolean> {
+      const isVoted: boolean = await Actions.isVoted(this.uid, questionId);
+      return isVoted;
+    };
 
     thumbUp(e: any): void {
       const questionId: string = e.model.item;

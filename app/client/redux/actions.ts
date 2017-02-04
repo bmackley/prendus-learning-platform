@@ -20,6 +20,8 @@ import {Video} from '../node_modules/prendus-services/typings/video';
 import {ExecuteAsyncInOrderService} from '../node_modules/prendus-services/services/execute-async-in-order-service';
 import {UtilitiesService} from '../node_modules/prendus-services/services/utilities-service';
 import {VoteModel} from '../node_modules/prendus-services/models/vote-model';
+import {VoteType} from '../node_modules/prendus-services/typings/vote-type';
+import {Vote} from '../node_modules/prendus-services/typings/vote';
 
 const defaultAction = (context: any) => {
     context.action = {
@@ -38,12 +40,20 @@ const hideMainSpinner = (context: any) => {
     };
 };
 
-const updateVote = async (context: any, uid: string, questionId: string) => {
-    try {
-      // create vote with VoteModel
-      const voteId: string = await VoteModel.createOrUpdate(null, uid, questionId);
+const isVoted = async (uid: string, questionId: string): Promise<boolean> => {
+  try {
+    const vote: Vote = await VoteModel.getByUid(uid, questionId);
+    return vote ? true : false;
+  } catch(error) {
+    throw error;
+  }
+};
 
-      // set vote on questionmodel
+const updateVote = async (context: any, uid: string, questionId: string, type: VoteType) => {
+    try {
+      const vote: Vote = await VoteModel.getByUid(uid, questionId);
+      const voteId: string = await VoteModel.createOrUpdate(vote ? vote.id : null, uid, questionId, type);
+      // await QuestionModel.setVoteId(voteId, questionId);
     } catch(error) {
       throw error;
     }
@@ -1085,6 +1095,7 @@ export const Actions = {
     loginUser,
     checkUserAuth,
     deleteConcept,
+    isVoted,
     updateVote,
     orderConcepts,
     addConcept,
