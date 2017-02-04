@@ -183,7 +183,7 @@
             </div>
 
             <div id="public-questions" class="tab-content">
-              <template is="dom-repeat" items="[[publicQuestionIds]]" filter="isVoted">
+              <template is="dom-repeat" items="[[publicQuestionIds]]" filter="hasUserVote">
                 <prendus-view-question id="public-question-id-[[item]]" question-id="[[item]]" quiz-id="NO_QUIZ" jwt="[[jwt]]" quiz-session="[[quizSession]]" concise></prendus-view-question>
 
                 <paper-icon-button id="thumb-down-[[item]]" icon="thumb-down" on-tap="thumbDown" vote="down"></paper-icon-button>

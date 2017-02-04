@@ -80,44 +80,44 @@ class PrendusQuizEditor {
         //TODO this is horrible and should be removed once the view problem component can be initialized without a quiz session being handed to it
     }
 
-    async changeThumbs(upOrDown: VoteType, questionId: string): Promise<void> {
-      const thumbColors: { thumbUpColor: 'green' | 'none', thumbDownColor: 'red' | 'none' } = this.getThumbColors(upOrDown);
-      this.querySelector(`#thumb-up-${questionId}`).style = `color: ${thumbColors.thumbUpColor}`;
-      this.querySelector(`#thumb-down-${questionId}`).style = `color: ${thumbColors.thumbDownColor}`;
-      const voteUpdated: boolean = await Actions.updateVote(this, this.uid, questionId, upOrDown);
+    async changeThumbs(voteType: VoteType, questionId: string): Promise<void> {
+      this.updateThumbColors(voteType, questionId);
+      const voteUpdated: boolean = await Actions.updateVote(this, this.uid, questionId, voteType);
       if(voteUpdated) {
         this.updateScore(questionId);
       }
 
     }
 
-    getThumbColors(voteType: VoteType): { thumbUpColor: 'green' | 'none', thumbDownColor: 'red' | 'none' } {
-      return {
-        thumbUpColor: voteType === 'up' ? 'green' : 'none',
-        thumbDownColor: voteType === 'down' ? 'red' : 'none'
-      };
+    updateThumbColors(voteType: VoteType, questionId: string) {
+      const thumbUpColor: 'green' | 'none' = voteType === 'up' ? 'green' : 'none';
+      const thumbDownColor: 'red' | 'none' = voteType === 'down' ? 'red' : 'none';
+      this.querySelector(`#thumb-up-${questionId}`).style = `color: ${thumbUpColor}`;
+      this.querySelector(`#thumb-down-${questionId}`).style = `color: ${thumbDownColor}`;
     }
 
-    async isVoted(questionId: string): Promise<boolean> {
-      const isVoted: VoteType = await Actions.isVoted(this.uid, questionId);
-      const thumbColors: { thumbUpColor: 'green' | 'none', thumbDownColor: 'red' | 'none' } = this.getThumbColors(isVoted);
-      this.querySelector(`#thumb-up-${questionId}`).style = `color: ${thumbColors.thumbUpColor}`;
-      this.querySelector(`#thumb-down-${questionId}`).style = `color: ${thumbColors.thumbDownColor}`;
+    async hasUserVote(questionId: string): Promise<boolean> {
+      const voteType: VoteType = await Actions.isVoted(this.uid, questionId);
+      console.log(voteType);
+      if(voteType) {
+          this.updateThumbColors(voteType, questionId);
+      }
+
       return true;
     };
 
     updateScores(): void {
+      console.log('updateScores');
       UtilitiesService.asyncForEach(this.publicQuestionIds, async (questionId: string) => {
-        const score: number = await QuestionModel.getScore(questionId);
-        this.querySelector(`#score-${questionId}`).innerText = score;
+        this.updateScore(questionId);
       });
     };
 
     async updateScore(questionId: string): Promise<void> {
       const score: number = await QuestionModel.getScore(questionId);
-      this.querySelector(`#score-${questionId}`).innerText = score;
+      this.querySelector(`#score-${questionId}`).innerText = score || 0;
     }
-    
+
     thumbUp(e: any): void {
       const questionId: string = e.model.item;
       this.changeThumbs('up', questionId);
