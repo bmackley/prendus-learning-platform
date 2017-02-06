@@ -39,8 +39,13 @@
 			flex-grow: 1;
 		}
 
+		.action-buttons {
+			flex-shrink: 0;
+		}
+
 		.icon-button {
 			color: rgba(0, 0, 0, .5);
+			flex-shrink: 0;
 		}
 
 		.icon-button:hover {
@@ -73,11 +78,11 @@
 			<div class="title-action-buttons">
 				<h3 class="concept-title">[[title]]</h3>
 				<div class="action-buttons">
-					<paper-icon-button id="edit-button" class="icon-button" icon="create" on-tap="editItem"></paper-icon-button>
+					<paper-icon-button id="edit-button" class="icon-button" icon="create" on-tap="editConcept"></paper-icon-button>
 					<paper-tooltip for="edit-button" offset="0" animation-delay="300">Edit Concept</paper-tooltip>
 					<paper-icon-button id="collaborator-button" class="icon-button" icon="social:group-add" on-tap="openCollaboratorsModal"></paper-icon-button>
 					<paper-tooltip for="collaborator-button" offset="0" animation-delay="300">Edit Collaborators</paper-tooltip>
-					<paper-icon-button id="delete-button" class="icon-button" icon="delete" on-tap="deleteItem"></paper-icon-button>
+					<paper-icon-button id="delete-button" class="icon-button" icon="delete" on-tap="openDeleteModal"></paper-icon-button>
 					<paper-tooltip for="delete-button" offset="0" animation-delay="300">Delete Concept</paper-tooltip>
 				</div>
 			</div>

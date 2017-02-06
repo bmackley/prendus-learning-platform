@@ -12,7 +12,7 @@
 <link rel="import" href="../../bower_components/prendus-paper-tags-input/prendus-paper-tags-input.html">
 <link rel="import" href="../prendus-notification/prendus-notification.html">
 
-<dom-module id="prendus-concept-new-concept">
+<dom-module id="prendus-concept-edit-modal">
   <template>
     <style>
     </style>
@@ -22,8 +22,8 @@
       <paper-dialog-scrollable>
         <form is="iron-form">
           <h2>[[conceptHeader]]</h2>
-          <paper-input name="name" label="Concept Name" value="[[conceptFormName]]" id="conceptFormName" required auto-validate></paper-input>
-          <prendus-paper-tags-input placeholder="Delete tags or add new ones" id="tags" tags="[[conceptTagNames]]" on-add="onAdd" on-remove="onRemove" duplicate-error-message="Tag cannot be a duplicate" required></prendus-paper-tags-input>
+          <paper-input id="concept-name" label="Concept Name" value="[[conceptFormName]]" maxlength="50" required auto-validate></paper-input>
+          <prendus-paper-tags-input id="concept-tags" placeholder="Delete tags or add new ones" tags="[[conceptTagNames]]" on-add="onAdd" on-remove="onRemove" duplicate-error-message="Tag cannot be a duplicate" required></prendus-paper-tags-input>
           <paper-button dialog-dismiss on-tap="clearValues">Cancel</paper-button>
           <paper-button on-tap="addConceptFormDone">Done</paper-button>
         </form>
@@ -32,5 +32,5 @@
     <prendus-notification success-message="[[successMessage]]" error-message="[[errorMessage]]"></prendus-notification>
   </template>
 
-  <script src="prendus-concept-new-concept.ts"></script>
+  <script src="prendus-concept-edit-modal.ts"></script>
 </dom-module>
