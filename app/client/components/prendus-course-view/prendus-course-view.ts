@@ -91,7 +91,7 @@ export class PrendusCourseView {
     return uid in collaborators;
   }
 
-	formatCollaboratorEmails(emails: string[]) {
+	formatCollaboratorEmails(emails: string[]): string {
 		return emails
 			// TODO: figure out why there are null collaborator emails and remove this
 			.filter((value: string, index: number, array: string[]) => {
