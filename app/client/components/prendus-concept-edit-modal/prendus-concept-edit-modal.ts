@@ -18,8 +18,9 @@ class PrendusConceptNewConcept {
   public courseId: string;
   public courseConcepts: Concept[];
   public conceptTagNames: string[];
+	public fire: any;
   beforeRegister() {
-    this.is = 'prendus-concept-new-concept';
+    this.is = 'prendus-concept-edit-modal';
     this.properties = {
     };
   }
@@ -30,7 +31,7 @@ class PrendusConceptNewConcept {
     this.querySelector('#dialog').open();
     this.conceptHeader = 'Add a Concept to the Course';
     this.conceptFormName = '';
-    this.querySelector('#tags').tags = [];
+    this.querySelector('#concept-tags').tags = [];
   }
   onRemove(e: any) {
     this.conceptTagNames = this.conceptTagNames.filter((tagName: string, index) => e.detail.index !== index);
@@ -63,10 +64,11 @@ class PrendusConceptNewConcept {
     try {
       await Actions.updateConceptTitle(this.conceptId, this.conceptFormName);
       await Actions.updateConceptTags(this.conceptId, this.conceptTagNames);
+			this.fire('finish-edit-concept', { conceptId: this.conceptId });
       this.querySelector('#dialog').close();
       this.successMessage = '';
       this.successMessage = `${this.conceptFormName} successfully edited.`;
-      this.querySelector('#tags').tags = [];
+      this.querySelector('#concept-tags').tags = [];
       this.conceptFormName = '';
       this.conceptId = '';
     } catch(error) {
@@ -77,7 +79,7 @@ class PrendusConceptNewConcept {
   }
   async addConceptFormDone(e: any) {
     e.preventDefault();
-    this.conceptFormName = this.querySelector('#conceptFormName').value;
+    this.conceptFormName = this.querySelector('#concept-name').value;
     if(this.conceptFormName && this.conceptId) {
       this.editConcept();
       return;
@@ -90,7 +92,6 @@ class PrendusConceptNewConcept {
       };
       try {
         await Actions.addConcept(this, this.courseId, newConcept, this.courseConcepts.length, this.conceptTagNames);
-        await Actions.getCourseViewCourseById(this, this.courseId);
         await Actions.loadViewCourseConcepts(this, this.courseId);
         this.successMessage = '';
         this.successMessage = 'Concept added successfully';

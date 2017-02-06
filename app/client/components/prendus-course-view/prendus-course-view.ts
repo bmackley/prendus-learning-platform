@@ -58,9 +58,14 @@ export class PrendusCourseView {
       'viewCourse(data)'
     ];
     this.listeners = {
-      'edit-concept': 'openEditConceptDialog'
+      'edit-concept': 'openEditConceptDialog',
+			'finish-edit-concept': 'reloadConcept'
     };
   }
+
+	reloadConcept(e: any): void {
+		this.querySelector(`#concept${e.detail.conceptId}`).init();
+	}
 
   mapStateToThis(e: StatechangeEvent): void {
     const state = e.detail.state;
