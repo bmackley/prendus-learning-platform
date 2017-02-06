@@ -142,7 +142,7 @@ class PrendusQuizEditor {
 
     //Temporary based on Jordans preferences
     async createQuestion(e: any) {
-        Actions.showMainSpinner(this);
+        // Actions.showMainSpinner(this);
         const visibility: QuestionVisibility = 'public'
         window.history.pushState({}, '', `courses/edit-question/question/create`);
         this.fire('location-changed', {}, {node: window});
@@ -150,7 +150,7 @@ class PrendusQuizEditor {
 
     editQuestion(e: any) {
         const questionId = e.model.item;
-        Actions.showMainSpinner(this);
+        // Actions.showMainSpinner(this);
         window.history.pushState({}, '', `courses/edit-question/question/${questionId}`);
         this.fire('location-changed', {}, {node: window});
     }
