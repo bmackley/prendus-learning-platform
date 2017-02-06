@@ -43,7 +43,7 @@ const hideMainSpinner = (context: any) => {
 const isVoted = async (uid: string, questionId: string): Promise<VoteType> => {
   try {
     const vote: Vote = await VoteModel.getByUid(uid, questionId);
-    return vote ? vote.type : null;
+    return vote ? vote.voteType : null;
   } catch(error) {
     throw error;
   }
@@ -54,7 +54,7 @@ const updateVote = async (context: any, uid: string, questionId: string, type: V
       const vote: Vote = await VoteModel.getByUid(uid, questionId);
       const voteId: string = await VoteModel.createOrUpdate(vote ? vote.id : null, uid, questionId, type);
 
-      if(!vote || vote.type != type) {
+      if(!vote || vote.voteType != type) {
         await QuestionModel.vote(questionId, type, uid);
         return true;
       }
