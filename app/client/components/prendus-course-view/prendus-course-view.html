@@ -17,7 +17,7 @@
 <link rel="import" href="../prendus-notification/prendus-notification.html">
 <link rel="import" href="../prendus-concept-container/prendus-concept-container.html">
 <link rel="import" href="../prendus-concept-container-edit/prendus-concept-container-edit.html">
-<link rel="import" href="../prendus-concept-new-concept/prendus-concept-new-concept.html">
+<link rel="import" href="../prendus-concept-edit-modal/prendus-concept-edit-modal.html">
 
 <dom-module id="prendus-course-view">
 
@@ -58,10 +58,6 @@
       align-self: flex-end;
     }
 
-    #concept-list {
-      border: solid lightgrey 1px;
-    }
-
     .tag {
       background-color: var(--light-primary-color);
       border-radius: 20px;
@@ -80,6 +76,10 @@
     .concept-container {
       display: flex;
     }
+
+		#concept-list {
+			border: solid lightgrey 1px;
+		}
 
     .concept-container + .concept-container {
       border-top: solid lightgrey 1px;
@@ -147,25 +147,33 @@
 					<!-- CONCEPTS -->
 					<h2>Concepts</h2>
 					<template is="dom-if" if="[[!hasEditAccess]]">
-						<template is="dom-repeat" items="[[courseConcepts]]">
-							<div class="concept-container">
-								<prendus-concept-container class="concept-edit-container" concept-id="[[item.id]]" course-id="[[data.courseId]]"></prendus-concept-container>
+						<template is="dom-if" if="[[!courseConcepts.length]]">
+							<p><strong>This course doesn't have any concepts yet.</strong></p>
+						</template>
+						<template is="dom-if" if="[[courseConcepts.length]]">
+							<div id="concept-list">
+								<template is="dom-repeat" items="[[courseConcepts]]" as="concept">
+									<div class="concept-container">
+										<prendus-concept-container id="concept[[concept.id]]" class="concept-edit-container" concept-id="[[concept.id]]" course-id="[[data.courseId]]"></prendus-concept-container>
+									</div>
+								</template>
 							</div>
 						</template>
 					</template>
 					<template is="dom-if" if="[[hasEditAccess]]">
 						<template is="dom-if" if="[[!courseConcepts.length]]">
-							<p><strong>Click the plus button to begin adding concepts to the course.</strong></p>
+							<p><strong>Click + ADD CONCEPT to begin adding concepts to the course.</strong></p>
 						</template>
-						<sortable-js id="concept-list" animation="200" on-sort="sortableEnded">
-							<template is="dom-repeat" items="[[courseConcepts]]">
-								<div class="concept-container">
-									<prendus-concept-container-edit class="concept-edit-container" concept-id="[[item.id]]"></prendus-concept-container-edit>
-								</div>
-							</template>
-						</sortable-js>
-						<paper-button class="add-concept-button" on-tap="addConcept"><iron-icon icon="add"></iron-icon>
-						Add Concept</paper-button>
+						<template is="dom-if" if="[[courseConcepts.length]]">
+							<sortable-js id="concept-list" animation="200" on-sort="sortableEnded">
+								<template is="dom-repeat" items="[[courseConcepts]]" as="concept">
+									<div class="concept-container">
+										<prendus-concept-container-edit id="concept[[concept.id]]" class="concept-edit-container" concept-id="[[concept.id]]"></prendus-concept-container-edit>
+									</div>
+								</template>
+							</sortable-js>
+						</template>
+						<paper-button class="add-concept-button" on-tap="addConcept"><iron-icon icon="add"></iron-icon> Add Concept</paper-button>
 					</template>
           <!-- DUE DATE -->
 					<div class="edit-section">
@@ -213,7 +221,7 @@
         <template is="dom-if" if="[[!username]]">
           <p>You are not signed in.  Please <a href="/login">sign in</a> to access this page </p>
         </template>
-        <prendus-concept-new-concept id="add-concept-dialog" uid="[[uid]]" course-id="[[courseId]]" course-concepts="[[courseConcepts]]"></prendus-concept-new-concept>
+        <prendus-concept-edit-modal id="add-concept-dialog" uid="[[uid]]" course-id="[[courseId]]" course-concepts="[[courseConcepts]]"></prendus-concept-edit-modal>
 
       </div>
     </paper-card>
