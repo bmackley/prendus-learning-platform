@@ -49,13 +49,16 @@ const isVoted = async (uid: string, questionId: string): Promise<VoteType> => {
   }
 };
 
+// Returns boolean indicating whether or not a vote was set
 const updateVote = async (context: any, uid: string, questionId: string, type: VoteType): Promise<boolean> => {
     try {
       const vote: Vote = await VoteModel.getByUid(uid, questionId);
       const voteId: string = await VoteModel.createOrUpdate(vote ? vote.id : null, uid, questionId, type);
 
       if(!vote || vote.voteType != type) {
-        await QuestionModel.vote(questionId, type, uid);
+        // Increase/decrease score by 2 if they're changing a vote.
+        await QuestionModel.updateScore(questionId, type, uid, vote ? 2 : 1);
+        await QuestionModel.setVoteId(voteId, questionId);
         return true;
       }
       return false;
