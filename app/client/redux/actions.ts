@@ -61,6 +61,12 @@ const updateVote = async (context: any, uid: string, questionId: string, type: V
         await QuestionModel.setVoteId(voteId, questionId);
         return true;
       }
+      //TODO delete a vote from question ids/votes if they are getting rid of one.
+      if(vote.voteType === type) {
+        // Delete the vote
+        await VoteModel.deleteVote(voteId);
+        await QuestionModel.deleteVote(questionId, voteId);
+      }
       return false;
     } catch(error) {
       throw error;
