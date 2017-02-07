@@ -25,6 +25,10 @@
           --paper-tab-ink: var(--prendus-primary-color);
         }
 
+				.text-icon {
+					padding: 5px;
+				}
+
         #quiz-container {
           width: 100%;
           display: flex;
@@ -120,6 +124,7 @@
       <!-- TODO: for mobile display, move the quiz preview to another tab in the questions card -->
       <paper-card>
         <div class="card-content">
+					<a href="/courses/view/[[courseId]]"><paper-button><iron-icon class="text-icon" icon="undo"></iron-icon> Back to course</paper-button></a>
           <paper-input id="quiz-title-input" label="Quiz Title" value="[[title]]" on-change="titleChanged"></paper-input>
           <paper-icon-button id="share-button" icon="social:share" on-tap="shareQuiz"></paper-icon-button>
           <paper-tooltip for="share-button" offset="0" animation-delay="300">Get Share Link</paper-tooltip>

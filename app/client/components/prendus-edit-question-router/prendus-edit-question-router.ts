@@ -15,6 +15,7 @@ class PrendusEditQuestionRouter {
     public querySelector: any;
     public quizSession: QuizSession;
     public observers: string[];
+		public data: any;
 
     private endpointDomain: string;
 
@@ -71,34 +72,29 @@ class PrendusEditQuestionRouter {
       }
 
     }
-    setData() {
+    setData(): void {
       if(this.data) {
         this.conceptId = this.data.conceptId;
         this.quizId = this.data.quizId;
       }
     }
 
-    editProblemComponentLoaded(e) {
+    editProblemComponentLoaded(e: any) {
         Actions.hideMainSpinner(this);
     }
 
-    backToQuiz() {
-      window.history.back();
-    }
-
-    mapStateToThis(e: StatechangeEvent) {
+    mapStateToThis(e: StatechangeEvent): void {
       const state = e.detail.state;
       this.jwt = state.jwt;
     }
 
-    async questionSaved() {
+    async questionSaved(): Promise<void> {
         //TODO this is evil, figure out another way to manually reload the questions without a DOM search
         this.successMessage = '';
         this.successMessage = 'Question saved successfully';
         const quizEditorComponent = document.getElementById('quizEditorComponent');
         quizEditorComponent.manuallyReloadQuestions();
         //TODO this is evil, figure out another way to manually reload the questions without a DOM search
-
     }
 }
 
