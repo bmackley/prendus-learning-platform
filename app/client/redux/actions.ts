@@ -58,7 +58,6 @@ const updateVote = async (context: any, uid: string, questionId: string, type: V
       if(!vote || vote.voteType != type) {
         // Increase/decrease score by 2 if they're changing a vote.
         const increment: number = (type === 'down' ? -1 : 1) * (vote ? 2 : 1);
-        await QuestionModel.updateScore(questionId, uid, increment);
         await QuestionModel.setVoteId(voteId, questionId);
         return true;
       }
@@ -67,8 +66,6 @@ const updateVote = async (context: any, uid: string, questionId: string, type: V
         // Delete the vote
         await VoteModel.deleteVote(voteId);
         await QuestionModel.deleteVote(questionId, voteId);
-        const increment: number = (type === 'down' ? 1 : -1);
-        await QuestionModel.updateScore(questionId, uid, increment);
         context.querySelector(`#thumb-up-${questionId}`).style = `color: none`;
         context.querySelector(`#thumb-down-${questionId}`).style = `color: none`;
         return true;
