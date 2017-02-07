@@ -89,7 +89,7 @@ class PrendusQuizEditor {
 
     }
 
-    updateThumbColors(voteType: VoteType, questionId: string): void {
+    updateThumbColors(voteType: VoteType | 'none', questionId: string): void {
       const thumbUpColor: 'green' | 'none' = voteType === 'up' ? 'green' : 'none';
       const thumbDownColor: 'red' | 'none' = voteType === 'down' ? 'red' : 'none';
       this.querySelector(`#thumb-up-${questionId}`).style = `color: ${thumbUpColor}`;
