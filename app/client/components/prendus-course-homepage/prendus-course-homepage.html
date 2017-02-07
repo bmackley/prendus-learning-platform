@@ -6,6 +6,7 @@
 <link rel="import" href="../prendus-notification/prendus-notification.html">
 <link rel="import" href="../prendus-search-course-tags/prendus-search-course-tags.html">
 <dom-module id="prendus-course-homepage">
+	<style include="color-styles"></style>
   <style>
 
     .courses-container {
@@ -26,6 +27,7 @@
       right: 5%;
       bottom: 6%;
       z-index: 10;
+			--paper-fab-background: var(--prendus-primary-color);
     }
 
     #add-course-dialog{
@@ -34,12 +36,8 @@
     }
 
     paper-button.indigo {
-      background-color: var(--paper-indigo-500);
+      background-color: var(--prendus-primary-color);
       color: white;
-      --paper-button-raised-keyboard-focus: {
-        background-color: var(--paper-pink-a200) !important;
-        color: white !important;
-      };
     }
 
     @media (max-width: 768px) {
