@@ -62,18 +62,16 @@ const updateVote = async (context: any, uid: string, questionId: string, type: V
             await UserModel.removeVoteId(voteId, uid);
         }
         await UserModel.addVoteId(voteId, uid);
-        // await QuestionModel.setVoteId(voteId, questionId);
+        await QuestionModel.setVoteId(voteId, questionId);
         return true;
       }
       //TODO add vote ids to users
       if(vote.voteType === type) {
         // Delete the vote
-        //TODO delete vote id from users
         context.updateThumbColors('none', questionId);
         await VoteModel.deleteVote(voteId, questionId, type);
         await UserModel.removeVoteId(voteId, uid);
-        // await QuestionModel.deleteVote(questionId, voteId);
-
+        await QuestionModel.deleteVote(questionId, voteId);
         return true;
       }
       return false;
