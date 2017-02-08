@@ -16,6 +16,10 @@ class PrendusCreateAccount {
       };
   }
 
+	createUserKeydown(e: any) {
+		if(e.keyCode === 13) this.createUser(e);
+	}
+
   async createUser(e: Event){
     try {
         const email = this.querySelector('#formEmail').value;
