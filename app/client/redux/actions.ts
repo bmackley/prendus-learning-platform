@@ -57,7 +57,8 @@ const updateVote = async (context: any, uid: string, questionId: string, type: V
 
       if(!vote || vote.voteType != type) {
         if(vote) {
-            //Delete the opposite vote.
+            // The user is changing their vote from say a downvote to an upvote on the same
+            // question. Delete the old vote.
             await VoteModel.deleteVote(voteId, questionId, vote.voteType);
             await UserModel.removeVoteId(voteId, uid);
         }
@@ -65,7 +66,6 @@ const updateVote = async (context: any, uid: string, questionId: string, type: V
         await QuestionModel.setVoteId(voteId, questionId);
         return true;
       }
-      //TODO add vote ids to users
       if(vote.voteType === type) {
         // Delete the vote
         context.updateThumbColors('none', questionId);
