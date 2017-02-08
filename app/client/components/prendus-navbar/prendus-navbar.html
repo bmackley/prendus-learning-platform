@@ -10,9 +10,10 @@
 <dom-module id="prendus-navbar">
   <style>
 
-    a {
-      color: inherit;
-    }
+		navbar-text,
+		paper-button.navbar-text {
+			color: white;
+		}
 
 		a:hover {
 			text-decoration: none;
@@ -41,6 +42,7 @@
 
     #menu-holder {
       align-self: flex-end;
+			color: initial;
     }
 
 		.menu-item {
@@ -65,10 +67,10 @@
         <paper-toolbar>
           <a id="home-link" href="/"><img id="logo" src="../../images/navbar-logo.png" alt="Prendus"></a>
           <template is="dom-if" if="[[username]]">
-            <div id="menu-name-button" on-tap="toggleMenu">
+            <div id="menu-name-button" class="navbar-text" on-tap="toggleMenu">
               <span>[[username]]</span><paper-button noink>Menu <iron-icon icon="arrow-drop-down"></iron-icon></paper-button>
             </div>
-						<iron-icon id="menu-icon-button" icon="menu" on-tap="toggleMenu"></iron-icon>
+						<iron-icon id="menu-icon-button" class="navbar-text" icon="menu" on-tap="toggleMenu"></iron-icon>
 
             <div id="menu-holder">
               <iron-dropdown id="menu-items" horizontal-align="right" no-auto-focus>
@@ -82,9 +84,9 @@
               </iron-dropdown>
             </div>
           </template>
-          <template is="dom-if" if="{{!username}}">
-            <a href="/login" tabindex="-1"><paper-button noink>Log In</paper-button></a>
-            <a href="/signup" tabindex="-1"><paper-button noink>Sign Up</paper-button></a>
+          <template is="dom-if" if="[[!username]]">
+            <a href="/login" tabindex="-1"><paper-button class="navbar-text" noink>Log In</paper-button></a>
+            <a href="/signup" tabindex="-1"><paper-button class="navbar-text" noink>Sign Up</paper-button></a>
           </template>
         </paper-toolbar>
     </paper-header-panel>
