@@ -18,7 +18,7 @@ class PrendusEditQuestionRouter {
 
     private endpointDomain: string;
 
-    beforeRegister() {
+    beforeRegister(): void {
         this.is = 'prendus-edit-question-router';
         this.properties = {
             route: {
@@ -31,7 +31,9 @@ class PrendusEditQuestionRouter {
         ];
     }
 
-    async ready() {
+    async ready(): Promise<void> {
+        Actions.showMainSpinner(this);
+        Actions.defaultAction(this);
         this.endpointDomain = UtilitiesService.getPrendusServerEndpointDomain();
 
         const user = await FirebaseService.getLoggedInUser();
@@ -50,6 +52,8 @@ class PrendusEditQuestionRouter {
         const quizSession: QuizSession = request.response.quizSession;
         this.quizSession = quizSession;
         //TODO this is horrible and should be removed once the view problem component can be initialized without a quiz session being handed to it
+
+        Actions.hideMainSpinner(this);
     }
 
     _routeChanged(routeObject: any): void {
