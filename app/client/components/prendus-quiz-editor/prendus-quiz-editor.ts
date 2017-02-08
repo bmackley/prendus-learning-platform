@@ -39,7 +39,7 @@ class PrendusQuizEditor {
 		public errorMessage: string;
 
 
-    beforeRegister() {
+    beforeRegister(): void {
         this.is = 'prendus-quiz-editor';
         this.properties = {
 
@@ -51,7 +51,8 @@ class PrendusQuizEditor {
 				]
     }
 
-    async init() {
+    async init(): Promise<void> {
+        Actions.showMainSpinner(this);
         this.endpointDomain = UtilitiesService.getPrendusServerEndpointDomain();
         const user = await FirebaseService.getLoggedInUser();
         this.jwt = await user.getToken();
@@ -70,6 +71,8 @@ class PrendusQuizEditor {
         const quizSession: QuizSession = request.response.quizSession;
         this.quizSession = quizSession;
         //TODO this is horrible and should be removed once the view problem component can be initialized without a quiz session being handed to it
+
+        Actions.hideMainSpinner(this);
     }
 
 		setQuizData(data: any): void {
@@ -107,13 +110,13 @@ class PrendusQuizEditor {
     }
 
     async addQuestionToQuiz(e: any): Promise<void> {
-        const questionId = e.model.item;
+        const questionId: string = e.model.item;
         await Actions.addQuestionToQuiz(this, this.quizId, questionId);
         await this.loadQuizQuestionIds();
     }
 
     async removeQuestionFromQuiz(e: any): Promise<void> {
-        const questionId = e.model.item;
+        const questionId: string = e.model.item;
         await Actions.removeQuestionFromQuiz(this, this.quizId, questionId);
         await this.loadQuizQuestionIds();
     }
@@ -149,14 +152,14 @@ class PrendusQuizEditor {
     }
 
     editQuestion(e: any): void {
-        const questionId = e.model.item;
+        const questionId: string = e.model.item;
         Actions.showMainSpinner(this);
         window.history.pushState({}, '', `courses/edit-question/question/${questionId}`);
         this.fire('location-changed', {}, {node: window});
     }
 
     showEmptyQuizQuestionsText(quizQuestionIds: string[]): boolean {
-        const showEmptyQuizQuestionsText = !quizQuestionIds || quizQuestionIds.length === 0;
+        const showEmptyQuizQuestionsText: boolean = !quizQuestionIds || quizQuestionIds.length === 0;
         return showEmptyQuizQuestionsText;
     }
 
@@ -187,27 +190,27 @@ class PrendusQuizEditor {
     }
 
     async answerFeedbackToggled(e: any): Promise<void> {
-        const checked = e.target.checked;
+        const checked: boolean = e.target.checked;
         await this.applySettings('answerFeedback', checked, 'Answer feedback', true);
     }
 
     async showAnswerToggled(e: any): Promise<void> {
-        const checked = e.target.checked;
+        const checked: boolean = e.target.checked;
         await this.applySettings('showAnswer', checked, 'Show answer', true);
     }
 
     async showHintToggled(e: any): Promise<void> {
-        const checked = e.target.checked;
+        const checked: boolean = e.target.checked;
         await this.applySettings('showHint', checked, 'Show hint', true);
     }
 
     async showCodeToggled(e: any): Promise<void> {
-        const checked = e.target.checked;
+        const checked: boolean = e.target.checked;
         await this.applySettings('showCode', checked, 'Show code', true);
     }
 
     async gradedToggled(e: any): Promise<void> {
-        const checked = e.target.checked;
+        const checked: boolean = e.target.checked;
         await this.applySettings('graded', checked, 'Graded', true);
 
         // Reset quiz due date to the last day of the course.  If the course
@@ -244,12 +247,12 @@ class PrendusQuizEditor {
     }
 
     async showConfidenceLevelToggled(e: any): Promise<void> {
-        const checked = e.target.checked;
+        const checked: boolean = e.target.checked;
         await this.applySettings('showConfidenceLevel', checked, 'Show confidence level', true);
     }
 
     async allowGenerationToggled(e: any): Promise<void> {
-        const checked = e.target.checked;
+        const checked: boolean = e.target.checked;
         await this.applySettings('allowGeneration', checked, 'Allow generation', true);
     }
 
