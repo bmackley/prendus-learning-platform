@@ -64,12 +64,8 @@ class PrendusQuizEditor {
             quizId: 'NO_QUIZ',
             jwt: this.jwt
         };
-
         const request = startQuizSessionAjax.generateRequest();
-				console.log(startQuizSessionAjax.activeRequests);
-				console.log(request.properties);
         await request.completes;
-				console.log(request.properties);
 
         const quizSession: QuizSession = request.response.quizSession;
         this.quizSession = quizSession;
@@ -89,11 +85,8 @@ class PrendusQuizEditor {
     }
 
     async setQuizId(quizId: string): Promise<void> {
-			console.log('setting new quiz id');
 			await this.init();
-			console.log('done initting');
 			const quiz: Quiz = await Actions.getQuiz(quizId);
-			console.log(quiz);
 			this.title = quiz.title;
 			this.loadQuizQuestionIds();
 			Actions.loadQuizQuestionSettings(this, quizId);
