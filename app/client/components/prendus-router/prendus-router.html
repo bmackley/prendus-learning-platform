@@ -1,17 +1,11 @@
-<link href="../../bower_components/polymer/polymer.html" rel="import">
-
+<link rel="import" href="../../bower_components/polymer/polymer.html">
 <link rel="import" href="../../bower_components/app-route/app-route.html">
 <link rel="import" href="../../bower_components/app-route/app-location.html">
 <link rel="import" href="../../bower_components/paper-spinner/paper-spinner.html">
 <link rel="import" href="../../bower_components/iron-pages/iron-pages.html">
-<link rel="import" href="../prendus-login/prendus-login.html">
-<link rel="import" href="../prendus-create-account/prendus-create-account.html">
+
+<!-- Import course router so the quiz-edit and course-edit can be loaded independently. -->
 <link rel="import" href="../prendus-course-router/prendus-course-router.html">
-<link rel="import" href="../prendus-landing/prendus-landing.html">
-<link rel="import" href="../prendus-homepage/prendus-homepage.html">
-<link rel="import" href="../prendus-profile/prendus-profile.html">
-<link rel="import" href="../prendus-privacy-policy/prendus-privacy-policy.html">
-<link rel="import" href="../prendus-terms-of-service/prendus-terms-of-service.html">
 
 <dom-module id="prendus-router">
   <style>
@@ -61,15 +55,15 @@
 
       <iron-pages id="app-container" selected="[[pageData.page]]" category="[[pageData.page]]" attr-for-selected ="data-page" show="routes">
         <iron-pages id="home-container" data-page="" selected="[[loggedIn]]" attr-for-selected="logged-in">
-          <prendus-landing logged-in="false"></prendus-landing>
-          <prendus-homepage logged-in="true" current-page="[[pageData.page]]"></prendus-homepage>
+          <prendus-landing id="landing" logged-in="false"></prendus-landing>
+          <prendus-homepage id="homepage" logged-in="true" current-page="[[pageData.page]]"></prendus-homepage>
         </iron-pages>
-        <prendus-login class="app-window" data-page="login"></prendus-login>
-        <prendus-create-account class="app-window" data-page="signup"></prendus-create-account>
-        <prendus-course-router data-page="courses" route="[[tail]]"></prendus-course-router>
-        <prendus-profile class="app-window" data-page="profile"></prendus-profile>
-        <prendus-privacy-policy class="app-window" data-page="privacy-policy"></prendus-privacy-policy>
-        <prendus-terms-of-service class="app-window" data-page="terms-of-service"></prendus-terms-of-service>
+        <prendus-login id="login" class="app-window" data-page="login"></prendus-login>
+        <prendus-create-account id="create-account" class="app-window" data-page="signup"></prendus-create-account>
+        <prendus-course-router id="course-router" data-page="courses" route="[[tail]]"></prendus-course-router>
+        <prendus-profile id="profile" class="app-window" data-page="profile"></prendus-profile>
+        <prendus-privacy-policy id="privacy-policy" class="app-window" data-page="privacy-policy"></prendus-privacy-policy>
+        <prendus-terms-of-service id="terms-of-service" class="app-window" data-page="terms-of-service"></prendus-terms-of-service>
       </iron-pages>
     </iron-pages>
   </template>
