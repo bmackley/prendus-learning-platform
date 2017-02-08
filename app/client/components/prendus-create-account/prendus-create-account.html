@@ -6,9 +6,11 @@
 <link rel="import" href="../../bower_components/paper-dialog/paper-dialog.html" >
 <link rel="import" href="../prendus-notification/prendus-notification.html">
 <link rel="import" href="../prendus-terms-of-service/prendus-terms-of-service.html">
+<link rel="import" href="../../styles/color-styles.html">
 
 
 <dom-module id="prendus-create-account">
+<style include="color-styles"></style>
   <style>
       :host {
         width: 100%;
@@ -33,7 +35,7 @@
     <redux-store action="[[action]]"></redux-store>
 
     <paper-card id="signupForm" heading="Create Account">
-      <form is="iron-form" class="card-content" method="get" action="/createclass" id="signupFormlocater">
+      <form  id="signupFormlocater" is="iron-form" class="card-content" method="get" action="/createclass" on-keydown="createUserKeydown">
         <paper-input name="email" id="formEmail" label="Email" required auto-validate></paper-input>
         <paper-input name="password" id="formPassword" label="Password" type="password" required auto-validate></paper-input>
         <paper-input name="verify_password" id="retypePassword" label="Retype password" type="password" required auto-validate></paper-input>

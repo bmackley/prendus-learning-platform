@@ -25,8 +25,6 @@
       color: white;
     }
     #create-account {
-      cursor: pointer;
-      position: relative;
       padding: 16px;
     }
   </style>
@@ -41,7 +39,7 @@
           <paper-button id="signin-submit" noink>Log In</paper-button>
           <paper-button noink on-click="sendResetEmailTrigger">Forgot Password</paper-button>
         </div>
-        <div id="create-account">Don't have an Account? <a href="/signup"><span on-tap="create-account">Create Account</span></a></div>
+        <div id="create-account">Don't have an account? <a href="/signup"><span on-tap="create-account">Sign up</span></a></div>
       </paper-card>
       <paper-dialog id = "forgotPasswordModal" modal>
         <div>
