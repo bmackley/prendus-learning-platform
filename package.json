@@ -13,7 +13,7 @@
   "homepage": "https://github.com/bmackley/prendus-learning-platform",
   "dependencies": {},
   "devDependencies": {
-    "@types/polymer": "^1.1.29",
+    "@types/polymer": "^1.1.30",
     "systemjs": "^0.19.41",
     "zwitterion": "^0.7.0"
   }
