@@ -56,18 +56,22 @@ const updateVote = async (context: any, uid: string, questionId: string, type: V
       const voteId: string = await VoteModel.createOrUpdate(vote ? vote.id : null, uid, questionId, type);
 
       if(!vote || vote.voteType != type) {
-        // Increase/decrease score by 2 if they're changing a vote.
         if(vote) {
+            //Delete the opposite vote.
             await VoteModel.deleteVote(voteId, questionId, vote.voteType);
+            await UserModel.removeVoteId(voteId, uid);
         }
-
+        await UserModel.addVoteId(voteId, uid);
+        // await QuestionModel.setVoteId(voteId, questionId);
         return true;
       }
-      //TODO delete a vote from question ids/votes if they are getting rid of one.
+      //TODO add vote ids to users
       if(vote.voteType === type) {
         // Delete the vote
+        //TODO delete vote id from users
         context.updateThumbColors('none', questionId);
         await VoteModel.deleteVote(voteId, questionId, type);
+        await UserModel.removeVoteId(voteId, uid);
         // await QuestionModel.deleteVote(questionId, voteId);
 
         return true;
