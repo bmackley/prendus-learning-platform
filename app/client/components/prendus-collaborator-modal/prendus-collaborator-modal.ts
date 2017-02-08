@@ -15,7 +15,7 @@ class PrendusCollaboratorModal {
     public quizId: string;
     public properties: any;
 
-    beforeRegister() {
+    beforeRegister(): void {
 
         this.is = 'prendus-collaborator-modal';
         this.properties = {
@@ -55,11 +55,11 @@ class PrendusCollaboratorModal {
         ];
     }
 
-    open() {
-      this.querySelector('paper-dialog').open();
+    public open(): void {
+      this.querySelector('#modal').open();
     }
 
-    async initCourse(uid: string, courseId: string, course: boolean) {
+    async initCourse(uid: string, courseId: string, course: boolean): Promise<void> {
         try {
             await Actions.loadCourseCollaboratorEmails(this, uid, courseId);
         }
@@ -68,7 +68,7 @@ class PrendusCollaboratorModal {
         }
     }
 
-    async initConcept(courseId: string, conceptId: string, concept: boolean) {
+    async initConcept(courseId: string, conceptId: string, concept: boolean): Promise<void> {
         try {
             await Actions.loadConceptCollaboratorEmails(this, courseId, conceptId);
         }
@@ -77,7 +77,7 @@ class PrendusCollaboratorModal {
         }
     }
 
-    async initVideo(conceptId: string, videoId: string, video: boolean) {
+    async initVideo(conceptId: string, videoId: string, video: boolean): Promise<void> {
         try {
             await Actions.loadVideoCollaboratorEmails(this, conceptId, videoId);
         }
@@ -86,7 +86,7 @@ class PrendusCollaboratorModal {
         }
     }
 
-    async initQuiz(conceptId: string, quizId: string, quiz: boolean) {
+    async initQuiz(conceptId: string, quizId: string, quiz: boolean): Promise<void> {
         try {
             await Actions.loadQuizCollaboratorEmails(this, conceptId, quizId);
         }
@@ -95,7 +95,7 @@ class PrendusCollaboratorModal {
         }
     }
 
-    async addCollaborator(e: Event) {
+    async addCollaborator(e: Event): Promise<void> {
         try {
             const email = this.querySelector('#collaboratorInput').value;
             if (this.uid && this.courseId) {
@@ -123,7 +123,7 @@ class PrendusCollaboratorModal {
         }
     }
 
-    async removeCollaborator(e: DOMRepeatEvent) {
+    async removeCollaborator(e: DOMRepeatEvent): Promise<void> {
         try {
             const email = e.model.item;
 
@@ -152,7 +152,7 @@ class PrendusCollaboratorModal {
         }
     }
 
-    mapStateToThis(e: StatechangeEvent) {
+    mapStateToThis(e: StatechangeEvent): void {
         const state = e.detail.state;
 
         if (this.uid && this.courseId) {
