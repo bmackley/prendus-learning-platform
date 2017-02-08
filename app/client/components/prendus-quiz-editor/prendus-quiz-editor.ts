@@ -14,44 +14,43 @@ import {Quiz} from '../../node_modules/prendus-services/typings/quiz';
 
 class PrendusQuizEditor {
     public is: string;
+		public querySelector: any;
+		public fire: any;
+		public properties: any;
+		public observers: string[];
+
+		public data: any;
+		public quizId: any;
+		public conceptId: any;
+		public courseId: any;
+		public uid: string;
     public userQuestionIds: string[];
     public publicQuestionIds: string[];
-    public conceptId: string;
-    public endpointDomain: string;
+		public quizQuestionIds: string[];
+		public quizSession: QuizSession;
+		public quizQuestionSettings: QuestionSettings;
+		public showSettings: boolean;
     public jwt: string;
-    public properties: any;
-    public observers: string[];
-    public quizId: string;
-    public quizQuestionIds: string[];
-    public showSettings: boolean;
-    public quizQuestionSettings: QuestionSettings;
     public title: string;
     public selected: number;
     public collaboratorEmails: string[];
-    public uid: string;
-    public quizSession: QuizSession;
-    public querySelector: any;
-    public courseId: string;
-    public fire: any;
-    public successMessage: string;
-    public errorMessage: string;
+		public endpointDomain: string;
+		public successMessage: string;
+		public errorMessage: string;
+
 
     beforeRegister() {
         this.is = 'prendus-quiz-editor';
         this.properties = {
-            conceptId: {
-                type: String,
-                observer: 'conceptIdSet'
-            },
-            quizId: {
-                type: String,
-                observer: 'quizIdSet'
-            },
-            courseId: {
-              type: String
-            }
+
         };
+				this.observers = [
+					'setQuizData(data)',
+					'setConceptId(conceptId)',
+					'setQuizId(quizId)'
+				]
     }
+
     async init() {
         this.endpointDomain = UtilitiesService.getPrendusServerEndpointDomain();
         const user = await FirebaseService.getLoggedInUser();
@@ -60,59 +59,67 @@ class PrendusQuizEditor {
         this.selected = 0;
 
         //TODO this is horrible and should be removed once the view problem component can be initialized without a quiz session being handed to it
-        const startQuizSessionAjax = this.querySelector(`#startQuizSessionAjax`);
+        const startQuizSessionAjax = this.querySelector('#startQuizSessionAjax');
         startQuizSessionAjax.body = {
             quizId: 'NO_QUIZ',
             jwt: this.jwt
         };
 
         const request = startQuizSessionAjax.generateRequest();
+				console.log(startQuizSessionAjax.activeRequests);
+				console.log(request.properties);
         await request.completes;
+				console.log(request.properties);
 
         const quizSession: QuizSession = request.response.quizSession;
         this.quizSession = quizSession;
         //TODO this is horrible and should be removed once the view problem component can be initialized without a quiz session being handed to it
     }
 
-    async conceptIdSet() {
-        if (this.conceptId) {
-            await this.init();
-            await this.loadUserQuestionIds();
-            await this.loadPublicQuestionIds();
-        }
+		setQuizData(data: any): void {
+			this.courseId = data.courseId;
+			this.conceptId = data.conceptId;
+			this.quizId = data.quizId;
+		}
+
+    async setConceptId(conceptId: string): Promise<void> {
+			await this.init();
+			await this.loadUserQuestionIds();
+			await this.loadPublicQuestionIds();
     }
 
-    async quizIdSet() {
-        if (this.quizId) {
-            await this.init();
-            const quiz: Quiz = await Actions.getQuiz(this.quizId);
-            this.title = quiz.title;
-            this.loadQuizQuestionIds();
-            Actions.loadQuizQuestionSettings(this, this.quizId);
-        }
+    async setQuizId(quizId: string): Promise<void> {
+			console.log('setting new quiz id');
+			await this.init();
+			console.log('done initting');
+			const quiz: Quiz = await Actions.getQuiz(quizId);
+			console.log(quiz);
+			this.title = quiz.title;
+			this.loadQuizQuestionIds();
+			Actions.loadQuizQuestionSettings(this, quizId);
     }
 
-    async loadPublicQuestionIds() {
+    async loadPublicQuestionIds(): Promise<void> {
         const getPublicQuestionIdsAjax = this.querySelector('#getPublicQuestionIdsAjax');
         await Actions.loadPublicQuestionIds(this, getPublicQuestionIdsAjax);
     }
 
-    async loadUserQuestionIds() {
+    async loadUserQuestionIds(): Promise<void> {
         const getUserQuestionIdsAjax = this.querySelector('#getUserQuestionIdsAjax');
         await Actions.loadUserQuestionIds(this, getUserQuestionIdsAjax);
     }
 
-    async loadQuizQuestionIds() {
+    async loadQuizQuestionIds(): Promise<void> {
         await Actions.loadQuizQuestionIds(this, this.quizId);
     }
 
-    async addQuestionToQuiz(e: any) {
+    async addQuestionToQuiz(e: any): Promise<void> {
         const questionId = e.model.item;
         await Actions.addQuestionToQuiz(this, this.quizId, questionId);
         await this.loadQuizQuestionIds();
     }
 
-    async removeQuestionFromQuiz(e: any) {
+    async removeQuestionFromQuiz(e: any): Promise<void> {
         const questionId = e.model.item;
         await Actions.removeQuestionFromQuiz(this, this.quizId, questionId);
         await this.loadQuizQuestionIds();
@@ -124,43 +131,43 @@ class PrendusQuizEditor {
       return returnDate;
     }
 
-    shareQuiz() {
+    shareQuiz(): void {
         this.querySelector('#share-quiz-dialog').open();
     }
 
-    selectText(e: any) {
+    selectText(e: any): void {
       e.target.select();
     }
 
-    openCollaboratorsModal(e: any) {
+    openCollaboratorsModal(e: any): void {
       this.querySelector('#collaborators-modal').open();
     }
 
-    openSettingsModal(e: any) {
+    openSettingsModal(e: any): void {
       this.querySelector('#settings-modal').open();
     }
 
     //Temporary based on Jordans preferences
-    async createQuestion(e: any) {
+    async createQuestion(e: any): Promise<void> {
         Actions.showMainSpinner(this);
         const visibility: QuestionVisibility = 'public'
         window.history.pushState({}, '', `courses/edit-question/question/create`);
         this.fire('location-changed', {}, {node: window});
     }
 
-    editQuestion(e: any) {
+    editQuestion(e: any): void {
         const questionId = e.model.item;
         Actions.showMainSpinner(this);
         window.history.pushState({}, '', `courses/edit-question/question/${questionId}`);
         this.fire('location-changed', {}, {node: window});
     }
 
-    showEmptyQuizQuestionsText(quizQuestionIds: string[]) {
+    showEmptyQuizQuestionsText(quizQuestionIds: string[]): boolean {
         const showEmptyQuizQuestionsText = !quizQuestionIds || quizQuestionIds.length === 0;
         return showEmptyQuizQuestionsText;
     }
 
-    async manuallyReloadQuestions() {
+    async manuallyReloadQuestions(): Promise<void> {
         //TODO this is all extremely not optimized
         await this.loadUserQuestionIds();
         await this.loadPublicQuestionIds();
@@ -182,31 +189,31 @@ class PrendusQuizEditor {
         });
     }
 
-    showSettingsMenu() {
+    showSettingsMenu(): void {
         this.showSettings = !this.showSettings;
     }
 
-    async answerFeedbackToggled(e: any) {
+    async answerFeedbackToggled(e: any): Promise<void> {
         const checked = e.target.checked;
         await this.applySettings('answerFeedback', checked, 'Answer feedback', true);
     }
 
-    async showAnswerToggled(e: any) {
+    async showAnswerToggled(e: any): Promise<void> {
         const checked = e.target.checked;
         await this.applySettings('showAnswer', checked, 'Show answer', true);
     }
 
-    async showHintToggled(e: any) {
+    async showHintToggled(e: any): Promise<void> {
         const checked = e.target.checked;
         await this.applySettings('showHint', checked, 'Show hint', true);
     }
 
-    async showCodeToggled(e: any) {
+    async showCodeToggled(e: any): Promise<void> {
         const checked = e.target.checked;
         await this.applySettings('showCode', checked, 'Show code', true);
     }
 
-    async gradedToggled(e: any) {
+    async gradedToggled(e: any): Promise<void> {
         const checked = e.target.checked;
         await this.applySettings('graded', checked, 'Graded', true);
 
@@ -220,7 +227,7 @@ class PrendusQuizEditor {
         await this.applySettings('dueDate', newQuizDueDate, null, true);
     }
 
-    async dueDateChanged(e: any) {
+    async dueDateChanged(e: any): Promise<void> {
         const dueDate: Date = this.querySelector('#dueDate').date;
         const UTCDueDate: number = UtilitiesService.dateToUTCNumber(dueDate);
         const course: Course = await CourseModel.getById(this.courseId);
@@ -243,22 +250,22 @@ class PrendusQuizEditor {
 
     }
 
-    async showConfidenceLevelToggled(e: any) {
+    async showConfidenceLevelToggled(e: any): Promise<void> {
         const checked = e.target.checked;
         await this.applySettings('showConfidenceLevel', checked, 'Show confidence level', true);
     }
 
-    async allowGenerationToggled(e: any) {
+    async allowGenerationToggled(e: any): Promise<void> {
         const checked = e.target.checked;
         await this.applySettings('allowGeneration', checked, 'Allow generation', true);
     }
 
-    async maxNumAttemptsChanged(e: any) {
+    async maxNumAttemptsChanged(e: any): Promise<void> {
         const value: number = Number(e.target.value);
         await this.applySettings('maxNumAttempts', value, 'Maximum number of attempts', true);
     }
 
-    async titleChanged(e: any) {
+    async titleChanged(e: any): Promise<void> {
       try {
         const value: string = e.target.value;
         await QuizModel.updateTitle(this.quizId, value);
@@ -272,7 +279,7 @@ class PrendusQuizEditor {
       await Actions.loadViewConceptQuizzes(this, this.conceptId);
     }
 
-    async privateToggled(e: any) {
+    async privateToggled(e: any): Promise<void> {
       const value: QuizVisibility = e.target.checked ? 'private' : 'public';
       // TODO: We don't want to update the question privacy. This should change eventually.
       await this.applySettings('visibility', value, 'Privacy', false);
@@ -281,12 +288,14 @@ class PrendusQuizEditor {
     determineVisibility(visibility: QuizVisibility): boolean {
       return visibility === 'private';
     }
-    async applySettings(settingName: string, value: number | boolean | QuizVisibility, successMessageName: string, updateQuestionSetting: boolean) {
+
+    async applySettings(settingName: string, value: number | boolean | QuizVisibility, successMessageName: string, updateQuestionSetting: boolean): Promise<void> {
+			const quizId = this.quizId;
       try {
-        await Actions.setQuizQuestionSetting(this, this.quizId, settingName, value);
+        await Actions.setQuizQuestionSetting(this, quizId, settingName, value);
         if(updateQuestionSetting) {
           this.quizQuestionIds.forEach((questionId) => {
-              Actions.setQuestionSetting(this, this.quizId, questionId, settingName, value);
+              Actions.setQuestionSetting(this, quizId, questionId, settingName, value);
           });
         }
 
@@ -302,7 +311,7 @@ class PrendusQuizEditor {
 
     }
 
-    mapStateToThis(e: StatechangeEvent) {
+    mapStateToThis(e: StatechangeEvent): void {
         const state = e.detail.state;
         this.quizQuestionSettings = state.quizQuestionSettings;
         this.userQuestionIds = state.userQuestionIds;
