@@ -7,6 +7,7 @@ import {VideoModel} from '../node_modules/prendus-services/models/video-model';
 import {TagModel} from '../node_modules/prendus-services/models/tag-model';
 import {QuizModel} from '../node_modules/prendus-services/models/quiz-model';
 import {Quiz} from '../node_modules/prendus-services/typings/quiz';
+import {QuizVisibility} from '../node_modules/prendus-services/typings/quiz-visibility';
 import {QuestionModel} from '../node_modules/prendus-services/models/question-model';
 import {Course} from '../node_modules/prendus-services/typings/course';
 import {Tag} from '../node_modules/prendus-services/typings/tag';
@@ -482,7 +483,7 @@ const setQuizQuestionSetting = async (context: any, quizId: string, settingName:
 
 };
 
-const setQuestionSetting = async (context: any, quizId: string, questionId: string, settingName: string, value: number | boolean) => {
+const setQuestionSetting = async (context: any, quizId: string, questionId: string, settingName: string, value: number | boolean | QuizVisibility) => {
   try {
     await QuizModel.setQuestionSetting(quizId, questionId, settingName, value);
   } catch(error) {
