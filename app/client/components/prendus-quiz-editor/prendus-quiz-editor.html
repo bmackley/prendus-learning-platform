@@ -1,5 +1,6 @@
 <link rel="import" href="../../bower_components/polymer/polymer.html">
 <link rel="import" href="../../bower_components/redux-store-element/redux-store.html">
+<link rel="import" href="../../bower_components/app-route/app-route.html">
 <link rel="import" href="../../bower_components/iron-ajax/iron-ajax.html">
 <link rel="import" href="../../bower_components/paper-input/paper-input.html">
 <link rel="import" href="../../bower_components/paper-tabs/paper-tabs.html">
@@ -106,6 +107,7 @@
     </style>
 
     <redux-store on-statechange="mapStateToThis" action="[[action]]"></redux-store>
+		<app-route route="[[route]]" pattern="/edit-quiz/course/:courseId/concept/:conceptId/quiz/:quizId" data="{{data}}" tail="{{tail}}"></app-route>
 
     <iron-ajax id="getUserQuestionIdsAjax" method="get" url="[[endpointDomain]]/api/jwt/[[jwt]]/question-ids" handle-as="json"></iron-ajax>
     <iron-ajax id="getPublicQuestionIdsAjax" method="get" url="[[endpointDomain]]/api/public/question-ids" handle-as="json"></iron-ajax>

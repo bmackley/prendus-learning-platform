@@ -5,7 +5,7 @@
 <link rel="import" href="../prendus-quiz-editor/prendus-quiz-editor.html">
 <link rel="import" href="../prendus-view-video-router/prendus-view-video-router.html">
 <link rel="import" href="../prendus-view-quiz-router/prendus-view-quiz-router.html">
-<link rel="import" href="../prendus-edit-quiz-router/prendus-edit-quiz-router.html">
+<link rel="import" href="../prendus-quiz-editor/prendus-quiz-editor.html">
 <link rel="import" href="../prendus-edit-question-router/prendus-edit-question-router.html">
 
 <dom-module id="prendus-course-router">
@@ -33,7 +33,7 @@
     <iron-pages id="course-container" selected="[[data.page]]" attr-for-selected="key">
       <prendus-course-homepage class="course-window" key="home"></prendus-course-homepage>
       <prendus-course-view class="course-window" key="view" route="[[route]]"></prendus-course-view>
-      <prendus-edit-quiz-router key="edit-quiz" route="[[route]]"></prendus-edit-quiz-router>
+      <prendus-quiz-editor key="edit-quiz" route="[[route]]"></prendus-quiz-editor>
       <prendus-edit-question-router class="course-window" key="edit-question" route="[[route]]"></prendus-edit-question-router>
       <prendus-view-video-router class="course-window" key="view-video" route="[[route]]"></prendus-view-video-router>
       <prendus-view-quiz-router class="course-window" key="view-quiz" route="[[route]]"></prendus-view-quiz-router>
