@@ -22,6 +22,8 @@ import {UtilitiesService} from '../node_modules/prendus-services/services/utilit
 import {VoteModel} from '../node_modules/prendus-services/models/vote-model';
 import {VoteType} from '../node_modules/prendus-services/typings/vote-type';
 import {Vote} from '../node_modules/prendus-services/typings/vote';
+import {QuizVisibility} from '../node_modules/prendus-services/typings/quiz-visibility';
+
 
 const defaultAction = (context: any) => {
     context.action = {
@@ -525,7 +527,7 @@ const setQuizQuestionSetting = async (context: any, quizId: string, settingName:
 
 };
 
-const setQuestionSetting = async (context: any, quizId: string, questionId: string, settingName: string, value: number | boolean) => {
+const setQuestionSetting = async (context: any, quizId: string, questionId: string, settingName: string, value: number | boolean | QuizVisibility) => {
   try {
     await QuizModel.setQuestionSetting(quizId, questionId, settingName, value);
   } catch(error) {
