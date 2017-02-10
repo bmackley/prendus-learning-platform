@@ -40,7 +40,7 @@ const hideMainSpinner = (context: any) => {
     };
 };
 
-const isVoted = async (uid: string, questionId: string): Promise<VoteType> => {
+const hasVote = async (uid: string, questionId: string): Promise<VoteType> => {
   try {
     const vote: Vote = await VoteModel.getByUid(uid, questionId);
     return vote ? vote.voteType : null;
@@ -1116,7 +1116,7 @@ export const Actions = {
     loginUser,
     checkUserAuth,
     deleteConcept,
-    isVoted,
+    hasVote,
     updateVote,
     orderConcepts,
     addConcept,

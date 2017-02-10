@@ -51,9 +51,6 @@ class PrendusQuizEditor {
             },
             courseId: {
               type: String
-            },
-            publicQuestionIds: {
-              observer: 'updateScores'
             }
         };
     }
@@ -99,18 +96,13 @@ class PrendusQuizEditor {
     }
 
     async hasUserVote(questionId: string): Promise<boolean> {
-      const voteType: VoteType = await Actions.isVoted(this.uid, questionId);
+      const voteType: VoteType = await Actions.hasVote(this.uid, questionId);
       if(voteType) {
           this.updateThumbColors(voteType, questionId);
       }
+      await this.updateScore(questionId);
 
       return true;
-    };
-
-    updateScores(): void {
-      UtilitiesService.asyncForEach(this.publicQuestionIds, async (questionId: string) => {
-        this.updateScore(questionId);
-      });
     };
 
     async updateScore(questionId: string): Promise<void> {
