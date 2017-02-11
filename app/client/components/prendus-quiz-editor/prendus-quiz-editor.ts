@@ -56,7 +56,7 @@ class PrendusQuizEditor {
             }
         };
     }
-    
+
     async init(): Promise<void> {
         Actions.showMainSpinner(this);
         this.endpointDomain = UtilitiesService.getPrendusServerEndpointDomain();
@@ -86,7 +86,7 @@ class PrendusQuizEditor {
      * Updates the thumbs in the dom.
      * Updates the votes in the database.
      * Updates the score in the dom.
-     * @TODO Polymer does not support asynchronous computed bindings, and
+     * TODO Polymer does not support asynchronous computed bindings, and
      * we should not hack the dom once it does support it.
      */
     async changeThumbs(voteType: VoteType, questionId: string): Promise<void> {
@@ -113,7 +113,7 @@ class PrendusQuizEditor {
      * filter on each element. Filter is supposed to be used to decide whether
      * or not to display an item. But we can use it to to set the color of the
      * thumbs and set the score.
-     * @TODO this is bad because I'm hacking the dom.  But polymer doesn't support
+     * TODO this is bad because I'm hacking the dom.  But polymer doesn't support
      * asynchronous computed bindings.. Once it does, then change this.
      */
     async hasUserVote(questionId: string): Promise<boolean> {
@@ -129,7 +129,7 @@ class PrendusQuizEditor {
 
     /**
      * Updates the score in the dom based on the questionId provided.
-     * @TODO This should not be hacking the dom. Unfortunately, Polymer
+     * TODO This should not be hacking the dom. Unfortunately, Polymer
      * does not support asynchronous computed bindings. So for now, this will do.
      */
     async updateScore(questionId: string): Promise<void> {
