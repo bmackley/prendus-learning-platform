@@ -186,6 +186,10 @@
               <!-- Filter is usually only used when you want to decide whether or not to display each item.
                    But since each item has a function called, I can use filter to display which thumb, if any,
                    to highlight as well as getting the score for each question.-->
+                   <!-- Filter is usually only used when you want to decide whether or not to display each item.
+                        But since each item has a function called, I can use filter to display which thumb, if any,
+                        to highlight as well as getting the score for each question.
+                      TODO polymer doesn't support asynchronous computed bindings, once they do change it-->
               <template is="dom-repeat" items="[[publicQuestionIds]]" filter="hasUserVote">
                 <prendus-view-question id="public-question-id-[[item]]" question-id="[[item]]" quiz-id="NO_QUIZ" jwt="[[jwt]]" quiz-session="[[quizSession]]" concise></prendus-view-question>
 
