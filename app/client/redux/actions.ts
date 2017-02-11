@@ -65,7 +65,7 @@ const updateVote = async (context: any, uid: string, questionId: string, type: V
             await UserModel.removeVoteId(voteId, uid);
         }
         await UserModel.addVoteId(voteId, uid);
-        await QuestionModel.setVoteId(voteId, questionId);
+        await QuestionModel.setVote(voteId, questionId);
         return true;
       }
       if(vote.voteType === type) {
