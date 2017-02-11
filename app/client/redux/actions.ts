@@ -42,30 +42,30 @@ const hideMainSpinner = (context: any) => {
     };
 };
 
-const hasVote = async (uid: string, questionId: string): Promise<VoteType> => {
-  try {
-    const vote: Vote = await VoteModel.getByUid(uid, questionId);
-    return vote ? vote.voteType : null;
-  } catch(error) {
-    throw error;
-  }
-};
-
-// Returns boolean indicating whether or not a vote was set
+/**
+ * Updates a vote or creates a vote if one does not already exist on the question (based on the current user).
+ * This is where most of the logic occurs when updating votes.
+ * Returns a boolean indicating if a vote was changed.
+ */
 const updateVote = async (context: any, uid: string, questionId: string, type: VoteType): Promise<boolean> => {
     try {
       const vote: Vote = await VoteModel.getByUid(uid, questionId);
       const voteId: string = await VoteModel.createOrUpdate(vote ? vote.id : null, uid, questionId, type);
 
-      if(!vote || vote.voteType != type) {
+
+      const voteChanged: boolean = !vote || vote.voteType !== type;
+      if(voteChanged) {
         if(vote) {
-            // The user is changing their vote from say a downvote to an upvote on the same
-            // question. Delete the old vote.
+            // Delete the old vote to prepare for the new vote
             await QuestionModel.deleteVote(voteId, questionId, vote.voteType);
+        } else {
+          // Only set the voteId on the user if there was no vote before.
+          UserModel.addVoteId(voteId, uid);
         }
         await QuestionModel.setVote(voteId, questionId, type);
         return true;
       }
+
       if(vote.voteType === type) {
         // Delete the vote
         context.updateThumbColors('none', questionId);
@@ -1116,7 +1116,6 @@ export const Actions = {
     loginUser,
     checkUserAuth,
     deleteConcept,
-    hasVote,
     updateVote,
     orderConcepts,
     addConcept,
