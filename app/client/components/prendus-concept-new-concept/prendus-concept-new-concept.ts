@@ -18,19 +18,24 @@ class PrendusConceptNewConcept {
   public courseId: string;
   public courseConcepts: Concept[];
   public conceptTagNames: string[];
+  public subtopics: string[];
+
   beforeRegister() {
     this.is = 'prendus-concept-new-concept';
     this.properties = {
     };
   }
   mapStateToThis(e: StatechangeEvent) {
+    const state = e.detail.state;
+    this.subtopics = state.subtopics;
     //this needs to be here so the actions will fire (this does not have a context unless the mapStateToThis function is here)
   }
-  open() {
+  async open() {
     this.querySelector('#dialog').open();
     this.conceptHeader = 'Add a Concept to the Course';
     this.conceptFormName = '';
     this.querySelector('#tags').tags = [];
+    await Actions.initSubTopics(this, this.courseId);
   }
   onRemove(e: any) {
     this.conceptTagNames = this.conceptTagNames.filter((tagName: string, index) => e.detail.index !== index);

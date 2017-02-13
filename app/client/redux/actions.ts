@@ -38,6 +38,19 @@ const hideMainSpinner = (context: any) => {
     };
 };
 
+const initSubTopics = async (context: any, questionId: string): Promise<void> => {
+  try {
+    const subject: string = await CourseModel.getSubject(questionId);
+    const subtopics: string[] = await SubjectsModel.getSubtopics(subject);
+    context.action = {
+      type: 'SET_SUBTOPICS',
+      subtopics
+    }
+  } catch(error) {
+    throw error;
+  }
+};
+
 const initSubjects = async (context: any, questionId: string): Promise<void> => {
   try {
     const subjects: string[] = await SubjectsModel.getSubjectValues();
@@ -1088,6 +1101,7 @@ export const Actions = {
     defaultAction,
     loginUser,
     initSubjects,
+    initSubTopics,
     checkUserAuth,
     deleteConcept,
     orderConcepts,

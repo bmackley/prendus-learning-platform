@@ -18,6 +18,12 @@ export function rootReducer(state: State = InitialState, action: Action): State 
 
             return newState;
         }
+        case 'SET_SUBTOPICS': {
+          return {
+            ...state,
+            subtopics: action.subtopics
+          }
+        }
         case 'SET_SUBJECTS': {
           return {
             ...state,

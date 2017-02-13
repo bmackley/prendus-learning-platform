@@ -6,6 +6,9 @@
 <link rel="import" href="../../bower_components/redux-store-element/redux-store.html">
 <link rel="import" href="../../bower_components/paper-input/paper-input.html">
 <link rel="import" href="../../bower_components/paper-input/paper-input-char-counter.html">
+<link rel="import" href="../../bower_components/paper-dropdown-menu/paper-dropdown-menu.html">
+<link rel="import" href="../../bower_components/paper-listbox/paper-listbox.html">
+<link rel="import" href="../../bower_components/paper-item/paper-item.html">
 <link rel="import" href="../../bower_components/Sortable/Sortable.html">
 <link rel="import" href="../../bower_components/app-route/app-route.html">
 <link rel="import" href="../../bower_components/paper-card/paper-card.html">
@@ -24,6 +27,13 @@
           <h2>[[conceptHeader]]</h2>
           <paper-input name="name" label="Concept Name" value="[[conceptFormName]]" id="conceptFormName" required auto-validate></paper-input>
           <prendus-paper-tags-input placeholder="Delete tags or add new ones" id="tags" tags="[[conceptTagNames]]" on-add="onAdd" on-remove="onRemove" duplicate-error-message="Tag cannot be a duplicate" required></prendus-paper-tags-input>
+          <paper-dropdown-menu label="Subtopic">
+						<paper-listbox class="dropdown-content">
+              <template is="dom-repeat" items="[[subtopics]]">
+                <paper-item>[[item]]</paper-item>
+              </template>
+					  </paper-listbox>
+					</paper-dropdown-menu>
           <paper-button dialog-dismiss on-tap="clearValues">Cancel</paper-button>
           <paper-button on-tap="addConceptFormDone">Done</paper-button>
         </form>

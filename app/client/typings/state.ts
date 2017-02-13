@@ -65,4 +65,5 @@ export interface State {
     mainViewToShow: 'routes' | 'spinner';
     subjects: string[];
     selectedSubjectIndex: number;
+    subtopics: string[];
 }

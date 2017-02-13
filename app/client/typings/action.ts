@@ -31,4 +31,5 @@ export interface Action {
   userMetaData: UserMetaData;
   subjects: string[];
   selectedSubjectIndex: number;
+  subtopics: string[];
 }
