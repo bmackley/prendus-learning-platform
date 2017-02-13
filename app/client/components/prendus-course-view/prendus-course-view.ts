@@ -110,6 +110,16 @@ export class PrendusCourseView {
     return returnDate;
   }
 
+  async subjectChange(e: any): Promise<void> {
+    try {
+      const subject: string = e.model.item;
+      await CourseModel.setSubject(subject, this.courseId);
+      const newSubject: string = await CourseModel.getSubject(this.courseId);
+    } catch(error) {
+      throw error;
+    }
+  }
+
   async dueDateChanged(): Promise<void> {
     try {
       const newDate: Date = this.querySelector('#due-date').date;

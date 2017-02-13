@@ -146,7 +146,7 @@
 					<paper-dropdown-menu label="Subject">
 						<paper-listbox class="dropdown-content">
 							<template is="dom-repeat" items="[[subjects]]">
-								<paper-item>[[item]]</paper-item>
+								<paper-item on-tap="subjectChange">[[item]]</paper-item>
 							</template>
 					  </paper-listbox>
 					</paper-dropdown-menu>
