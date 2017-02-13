@@ -26,6 +26,7 @@ export class PrendusCourseView {
   public editingDescription: boolean;
   public listeners: any;
   public data: any;
+  public options: string[];
   beforeRegister() {
     this.is = 'prendus-course-view';
     this.properties = {
@@ -59,6 +60,7 @@ export class PrendusCourseView {
     this.listeners = {
       'edit-concept': 'openEditConceptDialog'
     };
+
   }
 
   mapStateToThis(e: StatechangeEvent): void {
@@ -70,6 +72,7 @@ export class PrendusCourseView {
     this.courseTags = state.courseViewCurrentCourse.tags;
     this.courseTagNames = state.courseTagNames;
     this.courseConcepts = state.viewCourseConcepts[this.courseId];
+    this.options = ['allosaurus', 'brontosaurus', 'carcharodontosaurus', 'diplodocus', 'hello'];
   }
 
   openEditConceptDialog(e: any): void {

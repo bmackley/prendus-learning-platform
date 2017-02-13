@@ -144,13 +144,13 @@
           </template>
 					<!-- SUBJECT -->
 					<paper-dropdown-menu label="Subject">
-					  <paper-listbox class="dropdown-content">
-					    <paper-item>allosaurus</paper-item>
-					    <paper-item>brontosaurus</paper-item>
-					    <paper-item>carcharodontosaurus</paper-item>
-					    <paper-item>diplodocus</paper-item>
+						<paper-listbox class="dropdown-content">
+							<template is="dom-repeat" items="[[options]]">
+								<paper-item>[[item]]</paper-item>
+							</template>
 					  </paper-listbox>
 					</paper-dropdown-menu>
+
           <!-- DUE DATE -->
           <template is="dom-if" if="[[hasEditAccess]]">
             <br>
