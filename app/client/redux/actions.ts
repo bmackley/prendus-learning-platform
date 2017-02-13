@@ -40,7 +40,7 @@ const hideMainSpinner = (context: any) => {
 
 const initSubjects = async (context: any): Promise<void> => {
   try {
-    const subjects: string[] = await SubjectsModel.getSubjects();
+    const subjects: string[] = await SubjectsModel.getSubjectValues();
     context.action = {
       type: 'SET_SUBJECTS',
       subjects
