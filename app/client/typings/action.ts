@@ -30,4 +30,5 @@ export interface Action {
   videoId: string;
   userMetaData: UserMetaData;
   subjects: string[];
+  selectedSubjectIndex: number;
 }

@@ -27,6 +27,8 @@ export class PrendusCourseView {
   public listeners: any;
   public data: any;
   public subjects: string[];
+  public selectedSubjectIndex: number;
+
   beforeRegister() {
     this.is = 'prendus-course-view';
     this.properties = {
@@ -73,6 +75,7 @@ export class PrendusCourseView {
     this.courseTagNames = state.courseTagNames;
     this.courseConcepts = state.viewCourseConcepts[this.courseId];
     this.subjects = state.subjects;
+    this.selectedSubjectIndex = state.selectedSubjectIndex;
   }
 
   openEditConceptDialog(e: any): void {
@@ -115,6 +118,8 @@ export class PrendusCourseView {
       const subject: string = e.model.item;
       await CourseModel.setSubject(subject, this.courseId);
       const newSubject: string = await CourseModel.getSubject(this.courseId);
+      this.successMessage = '';
+      this.successMessage = `Subject updated to ${subject}`;
     } catch(error) {
       throw error;
     }
@@ -198,7 +203,7 @@ export class PrendusCourseView {
           Actions.showMainSpinner(this);
           await Actions.getCourseViewCourseById(this, this.data.courseId);
           await Actions.loadViewCourseConcepts(this, this.data.courseId);
-          await Actions.initSubjects(this);
+          await Actions.initSubjects(this, this.courseId);
           Actions.hideMainSpinner(this);
       }
     } catch(error) {

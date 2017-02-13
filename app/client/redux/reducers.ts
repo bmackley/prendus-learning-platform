@@ -21,7 +21,8 @@ export function rootReducer(state: State = InitialState, action: Action): State 
         case 'SET_SUBJECTS': {
           return {
             ...state,
-            subjects: action.subjects
+            subjects: action.subjects,
+            selectedSubjectIndex: action.selectedSubjectIndex
           }
         }
         case 'SET_COURSE_COLLABORATOR_EMAILS': {

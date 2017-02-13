@@ -38,12 +38,15 @@ const hideMainSpinner = (context: any) => {
     };
 };
 
-const initSubjects = async (context: any): Promise<void> => {
+const initSubjects = async (context: any, questionId: string): Promise<void> => {
   try {
     const subjects: string[] = await SubjectsModel.getSubjectValues();
+    const selectedSubject: string = await CourseModel.getSubject(questionId);
+    const selectedSubjectIndex: number = subjects.indexOf(selectedSubject);
     context.action = {
       type: 'SET_SUBJECTS',
-      subjects
+      subjects,
+      selectedSubjectIndex
     };
   } catch(error) {
     throw error;
