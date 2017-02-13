@@ -4,6 +4,9 @@
 <link rel="import" href="../../bower_components/paper-dialog-behavior/paper-dialog-behavior.html">
 <link rel="import" href="../../bower_components/paper-dialog-behavior/paper-dialog-shared-styles.html">
 <link rel="import" href="../../bower_components/paper-date-picker/paper-date-picker.html">
+<link rel="import" href="../../bower_components/paper-dropdown-menu/paper-dropdown-menu.html">
+<link rel="import" href="../../bower_components/paper-listbox/paper-listbox.html">
+<link rel="import" href="../../bower_components/paper-item/paper-item.html">
 <link rel="import" href="../../bower_components/redux-store-element/redux-store.html">
 <link rel="import" href="../../bower_components/paper-input/paper-input.html">
 <link rel="import" href="../../bower_components/paper-input/paper-input-char-counter.html">
@@ -108,6 +111,10 @@
 			color: white;
 		}
 
+		paper-dropdown-menu, paper-listbox {
+    	width: 250px;
+	  }
+
   </style>
   <template>
     <redux-store action="[[action]]" on-statechange="mapStateToThis"></redux-store>
@@ -135,6 +142,15 @@
           <template is="dom-if" if="[[hasEditAccess]]">
             <paper-button class="edit-button" raised noink on-tap="toggleEditDescription">[[getDescriptionButtonText(editingDescription)]]</paper-button>
           </template>
+					<!-- SUBJECT -->
+					<paper-dropdown-menu label="Subject">
+					  <paper-listbox class="dropdown-content">
+					    <paper-item>allosaurus</paper-item>
+					    <paper-item>brontosaurus</paper-item>
+					    <paper-item>carcharodontosaurus</paper-item>
+					    <paper-item>diplodocus</paper-item>
+					  </paper-listbox>
+					</paper-dropdown-menu>
           <!-- DUE DATE -->
           <template is="dom-if" if="[[hasEditAccess]]">
             <br>
