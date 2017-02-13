@@ -63,4 +63,5 @@ export interface State {
         };
     };
     mainViewToShow: 'routes' | 'spinner';
+    subjects: string[];
 }

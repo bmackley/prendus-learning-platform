@@ -19,6 +19,7 @@ import {EmailsToUidsModel} from '../node_modules/prendus-services/models/emails-
 import {Video} from '../node_modules/prendus-services/typings/video';
 import {ExecuteAsyncInOrderService} from '../node_modules/prendus-services/services/execute-async-in-order-service';
 import {UtilitiesService} from '../node_modules/prendus-services/services/utilities-service';
+import {SubjectsModel} from '../node_modules/prendus-services/models/subjects-model';
 
 const defaultAction = (context: any) => {
     context.action = {
@@ -35,6 +36,18 @@ const hideMainSpinner = (context: any) => {
     context.action = {
         type: 'HIDE_MAIN_SPINNER'
     };
+};
+
+const initSubjects = async (context: any): Promise<void> => {
+  try {
+    const subjects: string[] = await SubjectsModel.getSubjects();
+    context.action = {
+      type: 'SET_SUBJECTS',
+      subjects
+    };
+  } catch(error) {
+    throw error;
+  }
 };
 
 const loadCourseCollaboratorEmails = async (context: any, uid: string, courseId: string) => {
@@ -1071,6 +1084,7 @@ const reloadPublicCourses = async (context: any, courses: Course[]): Promise<voi
 export const Actions = {
     defaultAction,
     loginUser,
+    initSubjects,
     checkUserAuth,
     deleteConcept,
     orderConcepts,

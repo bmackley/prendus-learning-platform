@@ -18,6 +18,12 @@ export function rootReducer(state: State = InitialState, action: Action): State 
 
             return newState;
         }
+        case 'SET_SUBJECTS': {
+          return {
+            ...state,
+            subjects: action.subjects
+          }
+        }
         case 'SET_COURSE_COLLABORATOR_EMAILS': {
             const newState = Object.assign({}, state);
 

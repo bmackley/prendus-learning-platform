@@ -29,4 +29,5 @@ export interface Action {
   quizId: string;
   videoId: string;
   userMetaData: UserMetaData;
+  subjects: string[];
 }
