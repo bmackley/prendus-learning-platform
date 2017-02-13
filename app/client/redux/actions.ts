@@ -23,7 +23,7 @@ import {VoteModel} from '../node_modules/prendus-services/models/vote-model';
 import {VoteType} from '../node_modules/prendus-services/typings/vote-type';
 import {Vote} from '../node_modules/prendus-services/typings/vote';
 import {QuizVisibility} from '../node_modules/prendus-services/typings/quiz-visibility';
-
+import {PrendusQuizEditor} from '../components/prendus-quiz-editor/prendus-quiz-editor';
 
 const defaultAction = (context: any) => {
     context.action = {
@@ -47,11 +47,10 @@ const hideMainSpinner = (context: any) => {
  * This is where most of the logic occurs when updating votes.
  * Returns a boolean indicating if a vote was changed.
  */
-const updateVote = async (context: any, uid: string, questionId: string, type: VoteType): Promise<boolean> => {
+const updateVote = async (context: PrendusQuizEditor, uid: string, questionId: string, type: VoteType): Promise<boolean> => {
     try {
       const vote: Vote = await VoteModel.getByUid(uid, questionId);
       const voteId: string = await VoteModel.createOrUpdate(vote ? vote.id : null, uid, questionId, type);
-
 
       const voteChanged: boolean = !vote || vote.voteType !== type;
       if(voteChanged) {

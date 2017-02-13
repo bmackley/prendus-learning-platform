@@ -16,7 +16,7 @@ import {VoteType} from '../../node_modules/prendus-services/typings/vote-type';
 import {VoteModel} from '../../node_modules/prendus-services/models/vote-model';
 import {Vote} from '../../node_modules/prendus-services/typings/vote';
 
-class PrendusQuizEditor {
+export class PrendusQuizEditor {
     public is: string;
     public userQuestionIds: string[];
     public publicQuestionIds: string[];
