@@ -127,7 +127,7 @@ export class PrendusCourseView {
         await CourseModel.setSubject(subject, this.courseId);
         const conceptIds: string[] = await CourseModel.getConceptIds(this.courseId);
         await UtilitiesService.asyncForEach(conceptIds, async (conceptId: string) => {
-          await ConceptModel.updateSubtopic(conceptId, '');
+          await ConceptModel.deleteSubtopic(conceptId);
         });
         this.successMessage = '';
         this.successMessage = `Subject updated to ${subject}`;
