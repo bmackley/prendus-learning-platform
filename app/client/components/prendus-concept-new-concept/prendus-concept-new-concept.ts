@@ -76,6 +76,7 @@ export class PrendusConceptNewConcept {
 
   async addConceptFormDone(e: any): Promise<void> {
     try {
+      this.querySelector('#dialog').close();
       this.conceptFormName = this.querySelector('#conceptFormName').value;
       if(this.conceptFormName && this.conceptId) {
         await ConceptModel.updateTitle(this.conceptId, this.conceptFormName);
@@ -99,7 +100,7 @@ export class PrendusConceptNewConcept {
       this.errorMessage = '';
       this.errorMessage = error.message;
     }
-    this.querySelector('#dialog').close();
+
   }
 
   mapStateToThis(e: StatechangeEvent): void {
@@ -108,6 +109,8 @@ export class PrendusConceptNewConcept {
     if(state.currentConcept && this.subtopics) {
       this.conceptFormName = state.currentConcept.title;
       this.chosenSubTopicIndex = this.subtopics.indexOf(state.currentConcept.subtopic);
+      console.log('this.conceptFormName ', this.conceptFormName);
+      console.log('this.chosenSubTopicIndex ', this.chosenSubTopicIndex);
     } else {
       this.chosenSubTopicIndex = -1;
     }

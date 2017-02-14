@@ -123,7 +123,7 @@ export class PrendusCourseView {
   async subjectChange(e: any): Promise<void> {
     try {
       const subject: string = e.model.item;
-      if(this.selectedSubjectIndex === -1 || (this.selectedSubjectIndex !== -1 && this.subjects[this.selectedSubjectIndex] !== subject)) {
+      // if(this.selectedSubjectIndex === -1 || (this.selectedSubjectIndex !== -1 && this.subjects[this.selectedSubjectIndex] !== subject)) {
         await CourseModel.setSubject(subject, this.courseId);
         const conceptIds: string[] = await CourseModel.getConceptIds(this.courseId);
         await UtilitiesService.asyncForEach(conceptIds, async (conceptId: string) => {
@@ -131,7 +131,7 @@ export class PrendusCourseView {
         });
         this.successMessage = '';
         this.successMessage = `Subject updated to ${subject}`;
-      }
+      // }
 
     } catch(error) {
       console.error(error);
