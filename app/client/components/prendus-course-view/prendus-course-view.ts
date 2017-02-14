@@ -7,6 +7,7 @@ import {Tag} from '../../node_modules/prendus-services/typings/tag';
 import {Quiz} from '../../node_modules/prendus-services/typings/quiz';
 import {CourseModel} from '../../node_modules/prendus-services/models/course-model';
 import {UtilitiesService} from '../../node_modules/prendus-services/services/utilities-service';
+import {PrendusConceptNewConcept} from '../prendus-concept-new-concept/prendus-concept-new-concept';
 
 export class PrendusCourseView {
   public is: string;
@@ -79,7 +80,13 @@ export class PrendusCourseView {
 
   openEditConceptDialog(e: any): void {
     const conceptId: string = e.detail.conceptId;
-    this.querySelector('#addConceptDialog').edit(conceptId);
+    const editConceptDialog: PrendusConceptNewConcept = this.querySelector('#addConceptDialog');
+    editConceptDialog.edit(conceptId);
+  }
+
+  addConcept(e: any): void {
+    const newConceptDialog: PrendusConceptNewConcept = this.querySelector('#addConceptDialog');
+    newConceptDialog.open();
   }
 
   openCollaboratorsModal(e: any): void {
@@ -162,35 +169,6 @@ export class PrendusCourseView {
     return course.tags && !hasEditAccess;
   }
 
-  async onAdd(e: any): Promise<void> {
-    try {
-      const tag: string = e.detail.tag;
-      await Actions.addTagToCourse(this, tag, this.courseId);
-      this.successMessage = '';
-      this.successMessage = `${tag} added successfully.`;
-      Actions.getCoursesByUser(this);
-    } catch(error) {
-      this.errorMessage = '';
-      this.errorMessage = error.message;
-    }
-  }
-
-  async onRemove(e: any): Promise<void> {
-    try {
-      const tag: Tag = this.courseTags[e.detail.index];
-      if(tag) {
-        await Actions.deleteTagFromCourse(this, tag, this.courseId);
-        this.successMessage = '';
-        this.successMessage = `${tag.name} removed successfully.`;
-        Actions.getCoursesByUser(this);
-      }
-
-    } catch(error) {
-      this.errorMessage = '';
-      this.errorMessage = error.message;
-    }
-  }
-
   toggle(e: any): void {
     const collapseTarget = (e.target.id);
     this.querySelector('#Concept' + collapseTarget).toggle();
@@ -215,10 +193,6 @@ export class PrendusCourseView {
   getLTILinks(): void {
     console.log('LTI Links3')
 
-  }
-
-  addConcept(e: any): void {
-    this.querySelector('#addConceptDialog').open();
   }
 
   async sortableEnded(e: any): Promise<void> { //This isn't the most elegant solution. I'm open to better ways of doing things.

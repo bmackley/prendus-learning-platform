@@ -6,7 +6,7 @@ import {Concept} from '../../node_modules/prendus-services/typings/concept';
 import {State} from '../../typings/state';
 import {ConceptModel} from '../../node_modules/prendus-services/models/concept-model';
 
-class PrendusConceptNewConcept {
+export class PrendusConceptNewConcept {
   public is: string;
   public properties: any;
   public conceptFormName: string;
@@ -27,36 +27,39 @@ class PrendusConceptNewConcept {
   }
 
   async open(): Promise<void> {
-    this.querySelector('#dialog').open();
-    this.conceptHeader = 'Add a Concept to the Course';
-    this.conceptFormName = '';
-    await Actions.initSubTopics(this, this.courseId);
+    try {
+      this.conceptHeader = 'Add a Concept to the Course';
+      this.conceptFormName = '';
+      await Actions.initSubTopics(this, this.courseId);
+      await Actions.getConceptById(this, this.conceptId);
+      this.querySelector('#dialog').open();
+    } catch(error) {
+      this.errorMessage = '';
+      this.errorMessage = error.message;
+    }
+  }
+
+  async edit(conceptId: string): Promise<void> {
+    try {
+      this.conceptHeader = 'Edit concept';
+      this.conceptId = conceptId;
+      await Actions.initSubTopics(this, this.courseId);
+      await Actions.getConceptById(this, this.conceptId);
+      this.querySelector('#dialog').open();
+    } catch(error) {
+      this.errorMessage = '';
+      this.errorMessage = error.message;
+    }
+
   }
 
   clearValues(): void {
     this.conceptId = null;
   }
 
-  async edit(conceptId: string): Promise<void> {
-    this.conceptHeader = 'Edit concept';
-    this.conceptId = conceptId;
-    try {
-      const concept: Concept = await ConceptModel.getById(this.conceptId);
-      await Actions.initSubTopics(this, this.courseId);
-      await Actions.getConceptById(this, this.conceptId);
-
-
-
-    } catch(error) {
-      this.errorMessage = '';
-      this.errorMessage = error.message;
-    }
-    this.querySelector('#dialog').open();
-  }
-
   setSubtopic(e: any): void {
-      const subtopic: string = e.model.item;
-      this.subtopic = subtopic;
+    const subtopic: string = e.model.item;
+    this.subtopic = subtopic;
   }
 
   async addConceptFormDone(e: any): Promise<void> {
@@ -64,11 +67,9 @@ class PrendusConceptNewConcept {
       this.conceptFormName = this.querySelector('#conceptFormName').value;
       if(this.conceptFormName && this.conceptId) {
         await ConceptModel.updateTitle(this.conceptId, this.conceptFormName);
-        await ConceptModel.updateSubtopic(this.conceptId, this.subtopic);
+        await ConceptModel.updateSubtopic(this.conceptId, this.subtopic || '');
         this.successMessage = '';
         this.successMessage = `${this.conceptFormName} successfully edited.`;
-        this.conceptFormName = '';
-        this.conceptId = '';
       } else if(this.conceptFormName) {
         const newConcept: Concept = {
           uid: this.uid,
@@ -82,23 +83,22 @@ class PrendusConceptNewConcept {
         this.successMessage = '';
         this.successMessage = 'Concept added successfully';
       }
-      this.querySelector('#dialog').close();
     } catch(error) {
+      console.error(error.message);
       this.errorMessage = '';
       this.errorMessage = error.message;
     }
+    this.querySelector('#dialog').close();
   }
 
   mapStateToThis(e: StatechangeEvent): void {
     const state: State = e.detail.state;
     this.subtopics = state.subtopics;
-    if(state.currentConcept) {
+    if(state.currentConcept && this.subtopics) {
       this.conceptFormName = state.currentConcept.title;
-      if(this.subtopics) {
-          this.chosenSubTopicIndex = this.subtopics.indexOf(state.currentConcept.subtopic);
-          console.log('this.chosenSubTopicIndex ', this.chosenSubTopicIndex);
-      }
-
+      this.chosenSubTopicIndex = this.subtopics.indexOf(state.currentConcept.subtopic);
+    } else {
+      this.chosenSubTopicIndex = -1;
     }
 
   }

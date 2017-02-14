@@ -26,6 +26,7 @@
         <form is="iron-form">
           <h2>[[conceptHeader]]</h2>
           <paper-input name="name" label="Concept Name" value="[[conceptFormName]]" id="conceptFormName" required auto-validate></paper-input>
+          [[chosenSubTopicIndex]]
           <paper-dropdown-menu label="Subtopic" selected="[[chosenSubTopicIndex]]">
 						<paper-listbox class="dropdown-content">
               <template is="dom-repeat" items="[[subtopics]]">
