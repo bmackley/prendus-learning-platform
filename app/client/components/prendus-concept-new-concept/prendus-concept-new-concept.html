@@ -28,7 +28,7 @@
           <paper-input name="name" label="Concept Name" value="[[conceptFormName]]" id="conceptFormName" required auto-validate></paper-input>
           <!-- TODO make subtopic required-->
           <paper-dropdown-menu label="Subtopic" required>
-						<paper-listbox class="dropdown-content" selected="[[chosenSubTopicIndex]]">
+						<paper-listbox id="paper-listbox" class="dropdown-content" selected="[[chosenSubTopicIndex]]">
               <template is="dom-repeat" items="[[subtopics]]">
                 <paper-item on-tap="setSubtopic">[[item]]</paper-item>
               </template>

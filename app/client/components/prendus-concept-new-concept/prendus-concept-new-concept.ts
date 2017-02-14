@@ -21,6 +21,7 @@ export class PrendusConceptNewConcept {
   public subtopics: string[];
   public chosenSubTopicIndex: number;
   public subtopic: string;
+  public $: any;
 
   beforeRegister(): void {
     this.is = 'prendus-concept-new-concept';
@@ -110,8 +111,9 @@ export class PrendusConceptNewConcept {
       this.conceptFormName = state.currentConcept.title;
       this.chosenSubTopicIndex = this.subtopics.indexOf(state.currentConcept.subtopic);
       this.subtopic = state.currentConcept.subtopic;
-      console.log('this.conceptFormName ', this.conceptFormName);
-      console.log('this.chosenSubTopicIndex ', this.chosenSubTopicIndex);
+      //TODO i believe this is a bug with the paper-listbox. It is not always updating, and therefore I am setting it here to
+      // fix this bug.
+      this.querySelector('#paper-listbox').selected = this.chosenSubTopicIndex;
     } else {
       this.chosenSubTopicIndex = -1;
     }
