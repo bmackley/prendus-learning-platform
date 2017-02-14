@@ -25,7 +25,9 @@ export class PrendusConceptNewConcept {
   beforeRegister(): void {
     this.is = 'prendus-concept-new-concept';
   }
-
+  /**
+   * This function is called externally
+   */
   async open(): Promise<void> {
     try {
       this.conceptHeader = 'Add a Concept to the Course';
@@ -39,6 +41,9 @@ export class PrendusConceptNewConcept {
     }
   }
 
+  /**
+   * This function is called externally
+   */
   async edit(conceptId: string): Promise<void> {
     try {
       this.conceptHeader = 'Edit concept';
@@ -50,13 +55,18 @@ export class PrendusConceptNewConcept {
       this.errorMessage = '';
       this.errorMessage = error.message;
     }
-
   }
 
+  /**
+   * Called when the user presses the cancel button on the dialog.
+   */
   clearValues(): void {
     this.conceptId = null;
   }
 
+  /**
+   * Called when a user chooses a subtopic
+   */
   setSubtopic(e: any): void {
     const subtopic: string = e.model.item;
     this.subtopic = subtopic;
@@ -84,7 +94,6 @@ export class PrendusConceptNewConcept {
         this.successMessage = 'Concept added successfully';
       }
     } catch(error) {
-      console.error(error.message);
       this.errorMessage = '';
       this.errorMessage = error.message;
     }
