@@ -109,6 +109,7 @@ export class PrendusConceptNewConcept {
     if(state.currentConcept && this.subtopics) {
       this.conceptFormName = state.currentConcept.title;
       this.chosenSubTopicIndex = this.subtopics.indexOf(state.currentConcept.subtopic);
+      this.subtopic = state.currentConcept.subtopic;
       console.log('this.conceptFormName ', this.conceptFormName);
       console.log('this.chosenSubTopicIndex ', this.chosenSubTopicIndex);
     } else {
