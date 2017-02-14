@@ -38,9 +38,9 @@ const hideMainSpinner = (context: any) => {
     };
 };
 
-const initSubTopics = async (context: any, questionId: string): Promise<void> => {
+const initSubTopics = async (context: any, courseId: string): Promise<void> => {
   try {
-    const subject: string = await CourseModel.getSubject(questionId);
+    const subject: string = await CourseModel.getAttribute('subject', courseId);
     const subtopics: string[] = await SubjectsModel.getSubtopics(subject);
     context.action = {
       type: 'SET_SUBTOPICS',
@@ -53,9 +53,13 @@ const initSubTopics = async (context: any, questionId: string): Promise<void> =>
 
 const initGradeLevels = async (context: any, courseId: string): Promise<void> => {
   try {
-    const subject: string = await CourseModel.getSubject(courseId);
+    const course: Course = await CourseModel.getById(courseId);
+    console.log(course);
+    const subject: string = Object.keys(course.subject || {})[0];
+    console.log('subject ', subject);
     const gradeLevels: string[] = await SubjectsModel.getGradeLevels(subject);
-    const gradeLevel: string = '';
+    console.log(gradeLevels);
+    const gradeLevel: string = course.gradeLevel;
     const selectedGradeLevelIndex: number = gradeLevels.indexOf(gradeLevel);
     context.action = {
       type: 'SET_GRADE_LEVELS',
@@ -70,7 +74,7 @@ const initGradeLevels = async (context: any, courseId: string): Promise<void> =>
 const initSubjects = async (context: any, courseId: string): Promise<void> => {
   try {
     const subjects: string[] = await SubjectsModel.getSubjectValues();
-    const subject: string = await CourseModel.getSubject(courseId);
+    const subject: string = await CourseModel.getAttribute('subject', courseId);
     const selectedSubjectIndex: number = subjects.indexOf(subject);
     context.action = {
       type: 'SET_SUBJECTS',

@@ -131,7 +131,7 @@ export class PrendusCourseView {
   async subjectChange(e: any): Promise<void> {
     try {
       const subject: string = e.model.item;
-      await CourseModel.setSubject(subject, this.courseId);
+      await CourseModel.setAttribute('subject', subject, this.courseId);
       const conceptIds: string[] = await CourseModel.getConceptIds(this.courseId);
       await UtilitiesService.asyncForEach(conceptIds, async (conceptId: string) => {
         await ConceptModel.deleteSubtopic(conceptId);
@@ -151,6 +151,7 @@ export class PrendusCourseView {
   async gradeLevelChange(e: any): Promise<void> {
     try {
       const gradeLevel: string = e.model.item;
+      await CourseModel.setAttribute('gradeLevel', gradeLevel, this.courseId);
     } catch(error) {
       console.error(error);
     }
