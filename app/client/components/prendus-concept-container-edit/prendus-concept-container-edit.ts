@@ -35,11 +35,8 @@ export class PrendusConceptContainerEdit {
       try {
         const concept: Concept = await Actions.getConceptById(null, this.conceptId);
         this.title = concept.title;
-        if(concept.tags) {
-          this.tags = await Actions.resolveTagIdObject(concept.tags);
-        }
-
       } catch(error) {
+        this.errorMessage = '';
         this.errorMessage = error.message;
       }
 

@@ -2,8 +2,9 @@ import {Actions} from '../../redux/actions';
 import {Course} from '../../node_modules/prendus-services/typings/course';
 import {CourseConceptData} from '../../node_modules/prendus-services/typings/course-concept-data';
 import {StatechangeEvent} from '../../typings/statechange-event';
-import {Tag} from '../../node_modules/prendus-services/typings/tag';
 import {Concept} from '../../node_modules/prendus-services/typings/concept';
+import {State} from '../../typings/state';
+import {ConceptModel} from '../../node_modules/prendus-services/models/concept-model';
 
 class PrendusConceptNewConcept {
   public is: string;
@@ -20,54 +21,42 @@ class PrendusConceptNewConcept {
   public conceptTagNames: string[];
   public subtopics: string[];
 
-  beforeRegister() {
+  beforeRegister(): void {
     this.is = 'prendus-concept-new-concept';
-    this.properties = {
-    };
   }
-  mapStateToThis(e: StatechangeEvent) {
-    const state = e.detail.state;
+
+  mapStateToThis(e: StatechangeEvent): void {
+    const state: State = e.detail.state;
     this.subtopics = state.subtopics;
-    //this needs to be here so the actions will fire (this does not have a context unless the mapStateToThis function is here)
   }
-  async open() {
+
+  async open(): Promise<void> {
     this.querySelector('#dialog').open();
     this.conceptHeader = 'Add a Concept to the Course';
     this.conceptFormName = '';
-    this.querySelector('#tags').tags = [];
     await Actions.initSubTopics(this, this.courseId);
   }
-  onRemove(e: any) {
-    this.conceptTagNames = this.conceptTagNames.filter((tagName: string, index) => e.detail.index !== index);
-  }
-  onAdd(e: any) {
-    if(!this.conceptTagNames) {
-      this.conceptTagNames = [];
-    }
-    this.conceptTagNames = [...this.conceptTagNames, e.detail.tag];
-  }
-  clearValues() {
+
+  clearValues(): void {
     this.conceptId = null;
   }
-  async edit(conceptId: string) {
+
+  async edit(conceptId: string): Promise<void> {
     this.conceptHeader = 'Edit concept';
     this.conceptId = conceptId;
     try {
-      const conceptAndTagNames: { concept: Concept, tagNames: string[] } = await Actions.getConceptAndTagNamesById(this.conceptId);
-      const concept: Concept = conceptAndTagNames.concept;
-      const tagNames: string[] = conceptAndTagNames.tagNames;
+      const concept: Concept = await ConceptModel.getById(this.conceptId);
       this.conceptFormName = concept.title;
-      this.conceptTagNames = tagNames ? tagNames : [];
     } catch(error) {
       this.errorMessage = '';
       this.errorMessage = error.message;
     }
     this.querySelector('#dialog').open();
   }
-  async editConcept() {
+
+  async editConcept(): Promise<void> {
     try {
-      await Actions.updateConceptTitle(this.conceptId, this.conceptFormName);
-      await Actions.updateConceptTags(this.conceptId, this.conceptTagNames);
+      await ConceptModel.updateTitle(this.conceptId, this.conceptFormName);
       this.querySelector('#dialog').close();
       this.successMessage = '';
       this.successMessage = `${this.conceptFormName} successfully edited.`;
@@ -80,29 +69,31 @@ class PrendusConceptNewConcept {
     }
 
   }
-  async addConceptFormDone(e: any) {
-    e.preventDefault();
-    this.conceptFormName = this.querySelector('#conceptFormName').value;
-    if(this.conceptFormName && this.conceptId) {
-      this.editConcept();
-      return;
-    }
-    if(this.conceptFormName) {
-      this.querySelector('#dialog').close();
-      const newConcept: any = {
-        uid: this.uid,
-        title: this.conceptFormName
-      };
-      try {
-        await Actions.addConcept(this, this.courseId, newConcept, this.courseConcepts.length, this.conceptTagNames);
+
+  async addConceptFormDone(e: any): Promise<void> {
+    try {
+      this.conceptFormName = this.querySelector('#conceptFormName').value;
+      if(this.conceptFormName && this.conceptId) {
+        this.editConcept();
+        return;
+      }
+
+      if(this.conceptFormName) {
+        this.querySelector('#dialog').close();
+        const newConcept: Concept = {
+          uid: this.uid,
+          title: this.conceptFormName
+        };
+
+        await Actions.addConcept(this, this.courseId, newConcept, this.courseConcepts.length);
         await Actions.getCourseViewCourseById(this, this.courseId);
         await Actions.loadViewCourseConcepts(this, this.courseId);
         this.successMessage = '';
         this.successMessage = 'Concept added successfully';
-      } catch(error) {
-        this.errorMessage = '';
-        this.errorMessage = error.message;
       }
+    } catch(error) {
+      this.errorMessage = '';
+      this.errorMessage = error.message;
     }
   }
 }

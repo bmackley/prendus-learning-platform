@@ -734,81 +734,28 @@ const checkUserAuth = async (context: any) => {
     throw error;
   }
 };
-const addConcept = async (context: any, courseId: string, newConcept: Concept, conceptPos: number, tags: string[]) => {
+
+const addConcept = async (context: any, courseId: string, newConcept: Concept, conceptPos: number) => {
     try {
-      const conceptId = await ConceptModel.createOrUpdate(null, newConcept);
-      if(tags) {
-        await UtilitiesService.asyncForEach(tags, async (tag: string) => {
-            await addTagToConcept(null, tag, conceptId);
-        });
-      }
+      const conceptId: string = await ConceptModel.createOrUpdate(null, newConcept);
 
       await CourseModel.associateConcept(courseId, conceptId, conceptPos);
-      const course = await CourseModel.getById(courseId);
-      const conceptsArray = await CourseModel.courseConceptsToArray(course);
-      const orderedConcepts = await CourseModel.orderCourseConcepts(conceptsArray);
+      const course: Course = await CourseModel.getById(courseId);
+      const conceptsArray: CourseConceptData[] = await CourseModel.courseConceptsToArray(course);
+      const orderedConcepts: CourseConceptData[] = await CourseModel.orderCourseConcepts(conceptsArray);
       course.concepts = orderedConcepts;
       context.action = {
           type: 'ADD_CONCEPT',  //same as get course by id
           currentCourse: course
       };
 
-      const courseCollaboratorUids = await CourseModel.getCollaboratorUids(courseId);
+      const courseCollaboratorUids: string[] = await CourseModel.getCollaboratorUids(courseId);
       await ConceptModel.associateCollaborators(conceptId, courseCollaboratorUids);
     } catch(error) {
       throw error;
     }
 };
-const addTagToConcept = async (context: any, tag: string, conceptId: string) => {
-    try {
-        const tagId = await TagModel.createOrUpdate(tag, null, conceptId, null);
-        const concept = await ConceptModel.addTag(tagId, conceptId);
-        if(context) {
-            context.action = {
-                type: 'ADD_TAG_EDIT_CONCEPT',
-                concept
-            };
-        }
-    } catch(error) {
-        throw error;
-    }
-};
 
-const updateConceptTags = async (conceptId: string, newTags: string[]) => {
-    try {
-        const concept: Concept = await ConceptModel.getById(conceptId);
-        const oldTagIds: string[] = concept.tags ? Object.keys(concept.tags || {}) : null;
-        const oldTags: Tag[] = oldTagIds ? await TagModel.resolveTagIds(oldTagIds) : null;
-        const oldTagNames: string[] = oldTags ? await TagModel.getTagNameArray(oldTags) : null;
-        await ConceptModel.updateTags(conceptId, oldTags, oldTagNames, newTags);
-
-    } catch(error) {
-        throw error;
-    }
-};
-// Updates the title of a concept given a string conceptId and a new string title
-const updateConceptTitle = async (conceptId: string, title: string) => {
-    try {
-        ConceptModel.updateTitle(conceptId, title);
-    } catch(error) {
-        throw error;
-    }
-};
-
-const getConceptAndTagNamesById = async (id: string): Promise<{ concept: Concept, tagNames: string[] }> => {
-    try {
-        const concept: Concept = await ConceptModel.getById(id);
-        const tagArray: string[] = concept.tags ? Object.keys(concept.tags || {}) : null;
-        const tags: Tag[] = tagArray ? await TagModel.resolveTagIds(tagArray) : null;
-        const tagNames: string[] = tags ? await TagModel.getTagNameArray(tags) : null;
-        return {
-            concept,
-            tagNames
-        };
-    } catch(error) {
-        throw error;
-    }
-};
 const getConceptById = async (context: any, id: string) => {
     try {
       const concept = await ConceptModel.getById(id);
@@ -1136,9 +1083,6 @@ export const Actions = {
     deleteQuiz,
     getQuiz,
     getCourseViewCourseById,
-    updateConceptTags,
-    updateConceptTitle,
-    getConceptAndTagNamesById,
     getConceptById,
     resolveTagIdObject,
     loadPublicQuestionIds,
