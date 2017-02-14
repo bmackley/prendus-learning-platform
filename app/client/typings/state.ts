@@ -40,7 +40,7 @@ export interface State {
     currentUser: {
       metaData: UserMetaData
     };
-    currentEditQuizId: '';
+    currentEditQuizId: string;
     currentEditConceptId: '';
     jwt: string;
     courseCollaboratorEmails: {
@@ -67,4 +67,6 @@ export interface State {
     subjects: string[];
     selectedSubjectIndex: number;
     subtopics: string[];
+    gradeLevels: string[];
+    selectedGradeLevelIndex: number;
 }

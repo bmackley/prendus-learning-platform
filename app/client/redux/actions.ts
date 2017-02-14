@@ -51,11 +51,27 @@ const initSubTopics = async (context: any, questionId: string): Promise<void> =>
   }
 };
 
-const initSubjects = async (context: any, questionId: string): Promise<void> => {
+const initGradeLevels = async (context: any, courseId: string): Promise<void> => {
+  try {
+    const subject: string = await CourseModel.getSubject(courseId);
+    const gradeLevels: string[] = await SubjectsModel.getGradeLevels(subject);
+    const gradeLevel: string = '';
+    const selectedGradeLevelIndex: number = gradeLevels.indexOf(gradeLevel);
+    context.action = {
+      type: 'SET_GRADE_LEVELS',
+      gradeLevels,
+      selectedGradeLevelIndex
+    };
+  } catch(error) {
+    throw error;
+  }
+};
+
+const initSubjects = async (context: any, courseId: string): Promise<void> => {
   try {
     const subjects: string[] = await SubjectsModel.getSubjectValues();
-    const selectedSubject: string = await CourseModel.getSubject(questionId);
-    const selectedSubjectIndex: number = subjects.indexOf(selectedSubject);
+    const subject: string = await CourseModel.getSubject(courseId);
+    const selectedSubjectIndex: number = subjects.indexOf(subject);
     context.action = {
       type: 'SET_SUBJECTS',
       subjects,
@@ -1049,6 +1065,7 @@ export const Actions = {
     loginUser,
     initSubjects,
     initSubTopics,
+    initGradeLevels,
     checkUserAuth,
     deleteConcept,
     orderConcepts,

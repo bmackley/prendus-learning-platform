@@ -37,4 +37,6 @@ export interface Action {
   publicQuestionIds: string[];
   quizQuestionIds: string[];
   userQuestionIds: string[];
+  gradeLevels: string[];
+  selectedGradeLevelIndex: number;
 }

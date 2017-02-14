@@ -59,6 +59,15 @@ export function rootReducer(state: State = InitialState, action: Action): State 
 
             return newState;
         }
+
+        case 'SET_GRADE_LEVELS': {
+            return {
+              ...state,
+              gradeLevels: action.gradeLevels,
+              selectedGradeLevelIndex: action.selectedGradeLevelIndex
+            }
+        }
+
         case 'SET_VIDEO_COLLABORATOR_EMAILS': {
             const newState = Object.assign({}, state);
 

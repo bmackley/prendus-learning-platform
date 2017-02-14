@@ -142,7 +142,7 @@
           <template is="dom-if" if="[[hasEditAccess]]">
             <paper-button class="edit-button" raised noink on-tap="toggleEditDescription">[[getDescriptionButtonText(editingDescription)]]</paper-button>
           </template>
-					
+
 					<!-- SUBJECT -->
 					<paper-dropdown-menu label="Subject">
 						<paper-listbox class="dropdown-content" selected="[[selectedSubjectIndex]]">
@@ -152,6 +152,15 @@
 					  </paper-listbox>
 					</paper-dropdown-menu>
 
+					<!-- GRADE LEVEL -->
+					<paper-dropdown-menu label="Grade level">
+						<paper-listbox class="dropdown-content" selected="[[selectedGradeLevelIndex]]">
+							<template is="dom-repeat" items="[[gradeLevels]]">
+								<paper-item on-tap="gradeLevelChange">[[item]]</paper-item>
+							</template>
+						</paper-listbox>
+
+					</paper-dropdown-menu>
           <!-- DUE DATE -->
           <template is="dom-if" if="[[hasEditAccess]]">
             <br>

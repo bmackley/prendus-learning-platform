@@ -9,6 +9,7 @@ import {CourseModel} from '../../node_modules/prendus-services/models/course-mod
 import {UtilitiesService} from '../../node_modules/prendus-services/services/utilities-service';
 import {PrendusConceptNewConcept} from '../prendus-concept-new-concept/prendus-concept-new-concept';
 import {ConceptModel} from '../../node_modules/prendus-services/models/concept-model';
+import {State} from '../../typings/state';
 
 export class PrendusCourseView {
   public is: string;
@@ -30,6 +31,8 @@ export class PrendusCourseView {
   public data: any;
   public subjects: string[];
   public selectedSubjectIndex: number;
+  public gradeLevels: string[];
+  public selectedGradeLevelIndex: number;
 
   beforeRegister() {
     this.is = 'prendus-course-view';
@@ -68,7 +71,7 @@ export class PrendusCourseView {
   }
 
   mapStateToThis(e: StatechangeEvent): void {
-    const state = e.detail.state;
+    const state: State = e.detail.state;
     this.courseId = state.courseViewCurrentCourse.id;
     this.username = state.currentUser.metaData.email;
     this.uid = state.currentUser.metaData.uid;
@@ -77,6 +80,8 @@ export class PrendusCourseView {
     this.courseConcepts = state.viewCourseConcepts[this.courseId];
     this.subjects = state.subjects;
     this.selectedSubjectIndex = state.selectedSubjectIndex;
+    this.gradeLevels = state.gradeLevels;
+    this.selectedGradeLevelIndex = state.selectedGradeLevelIndex;
   }
 
   openEditConceptDialog(e: any): void {
@@ -120,19 +125,32 @@ export class PrendusCourseView {
     return returnDate;
   }
 
+  /**
+   * Called when a subject changes in the subject paper-dropdown-menu
+   */
   async subjectChange(e: any): Promise<void> {
     try {
       const subject: string = e.model.item;
-      // if(this.selectedSubjectIndex === -1 || (this.selectedSubjectIndex !== -1 && this.subjects[this.selectedSubjectIndex] !== subject)) {
-        await CourseModel.setSubject(subject, this.courseId);
-        const conceptIds: string[] = await CourseModel.getConceptIds(this.courseId);
-        await UtilitiesService.asyncForEach(conceptIds, async (conceptId: string) => {
-          await ConceptModel.deleteSubtopic(conceptId);
-        });
-        this.successMessage = '';
-        this.successMessage = `Subject updated to ${subject}`;
-      // }
+      await CourseModel.setSubject(subject, this.courseId);
+      const conceptIds: string[] = await CourseModel.getConceptIds(this.courseId);
+      await UtilitiesService.asyncForEach(conceptIds, async (conceptId: string) => {
+        await ConceptModel.deleteSubtopic(conceptId);
+      });
+      await Actions.initGradeLevels(this, this.courseId);
+      this.successMessage = '';
+      this.successMessage = `Subject updated to ${subject}`;
 
+    } catch(error) {
+      console.error(error);
+    }
+  }
+
+  /**
+   * Called when a grade level changes in the grade level paper-dropdown-menu
+   */
+  async gradeLevelChange(e: any): Promise<void> {
+    try {
+      const gradeLevel: string = e.model.item;
     } catch(error) {
       console.error(error);
     }
@@ -161,11 +179,13 @@ export class PrendusCourseView {
 
   }
 
-  // For showTagsTitle and showTagsView you have to pass in the course
-  // object instead of course.tags.length, if course.tags is null or
-  // undefined, then you are trying to call length on a null object.
-  // Also, in the HTML it will not execute these functions if one of
-  // the parameters is null.
+  /**
+   * For showTagsTitle and showTagsView you have to pass in the course
+   * object instead of course.tags.length, if course.tags is null or
+   * undefined, then you are trying to call length on a null object.
+   * Also, in the HTML it will not execute these functions if one of
+   * the parameters is null.
+   */
   showTagsTitle(course: Course, hasEditAccess: boolean): boolean {
     // Since this is an or, it will try to return the course.tags
     // object instead of a boolean that is checking if it's undefined.
@@ -188,6 +208,7 @@ export class PrendusCourseView {
           await Actions.getCourseViewCourseById(this, this.data.courseId);
           await Actions.loadViewCourseConcepts(this, this.data.courseId);
           await Actions.initSubjects(this, this.courseId);
+          await Actions.initGradeLevels(this, this.courseId);
           Actions.hideMainSpinner(this);
       }
     } catch(error) {
