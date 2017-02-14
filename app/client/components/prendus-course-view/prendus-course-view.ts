@@ -123,7 +123,6 @@ export class PrendusCourseView {
     try {
       const subject: string = e.model.item;
       await CourseModel.setSubject(subject, this.courseId);
-      const newSubject: string = await CourseModel.getSubject(this.courseId);
       this.successMessage = '';
       this.successMessage = `Subject updated to ${subject}`;
     } catch(error) {
