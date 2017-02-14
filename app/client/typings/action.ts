@@ -4,6 +4,7 @@ import {User} from '../node_modules/prendus-services/typings/user';
 import {UserMetaData} from '../node_modules/prendus-services/typings/user-meta-data';
 import {Course} from '../node_modules/prendus-services/typings/course';
 import {CourseConceptData} from '../node_modules/prendus-services/typings/course-concept-data';
+import {Concept} from '../node_modules/prendus-services/typings/concept';
 
 export interface Action {
   courses: Course[];
@@ -12,7 +13,7 @@ export interface Action {
   concepts: CourseConceptData[];
   videos: Video[];
   quizzes: Quiz[];
-  currentConcept: {};
+  currentConcept: Concept;
   currentCourse: Course;
   currentConceptVideoId: string;
   currentConceptVideoTitle: string;
@@ -32,4 +33,8 @@ export interface Action {
   subjects: string[];
   selectedSubjectIndex: number;
   subtopics: string[];
+  concept: Concept;
+  publicQuestionIds: string[];
+  quizQuestionIds: string[];
+  userQuestionIds: string[];
 }

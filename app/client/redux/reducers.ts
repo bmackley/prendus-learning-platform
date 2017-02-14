@@ -131,19 +131,22 @@ export function rootReducer(state: State = InitialState, action: Action): State 
             return newState;
         }
         case 'LOAD_QUIZ_QUESTION_IDS': {
-            const newState = Object.assign({}, state);
-            newState.quizQuestionIds = action.quizQuestionIds;
-            return newState;
+            return {
+              ...state,
+              quizQuestionIds: action.quizQuestionIds
+            };
         }
         case 'LOAD_USER_QUESTION_IDS': {
-            const newState = Object.assign({}, state);
-            newState.userQuestionIds = action.userQuestionIds;
-            return newState;
+            return {
+              ...state,
+              userQuestionIds: action.userQuestionIds
+            };
         }
         case 'LOAD_PUBLIC_QUESTION_IDS': {
-            const newState = Object.assign({}, state);
-            newState.publicQuestionIds = action.publicQuestionIds;
-            return newState;
+            return {
+              ...state,
+              publicQuestionIds: action.publicQuestionIds
+            };
         }
       case 'CHECK_USER_AUTH': {
         const newState = Object.assign({}, state);
@@ -152,9 +155,10 @@ export function rootReducer(state: State = InitialState, action: Action): State 
         return newState;
       }
       case 'GET_CONCEPT_BY_ID': {
-        const newState = Object.assign({}, state);
-        newState.currentConcept = action.concept;
-        return newState;
+          return {
+            ...state,
+            currentConcept: action.concept
+          }
       }
       case 'DELETE_CONCEPT': {
         const newState = {
@@ -219,32 +223,9 @@ export function rootReducer(state: State = InitialState, action: Action): State 
         newState.courses = action.courses;
         return newState;
       }
-      case 'LOOKUP_CONCEPT_TAGS': {
-        const newState = Object.assign({}, state);
-        newState.resultingConcepts = action.conceptsArray;
-        return newState;
-      }
-      case 'SET_COURSE_TAGS': {
-        const newState = Object.assign({}, state);
-        newState.resultingCourses = action.coursesArray;
-        return newState;
-      }
       case 'SET_COURSE_VIEW_CURRENT_COURSE': {
         const newState = Object.assign({}, state);
         newState.courseViewCurrentCourse = action.currentCourse;
-        newState.courseTagNames = action.courseTagNames;
-        return newState;
-      }
-      case 'ADD_TAG_EDIT_COURSE': {
-        const newState = Object.assign({}, state);
-        newState.courseViewCurrentCourse = action.currentCourse;
-        newState.courseTagNames = action.courseTagNames;
-        return newState;
-      }
-      case 'DELETE_TAG_EDIT_COURSE': {
-        const newState = Object.assign({}, state);
-        newState.courseViewCurrentCourse = action.currentCourse;
-        newState.courseTagNames = action.courseTagNames;
         return newState;
       }
       case 'ADD_COURSE': {

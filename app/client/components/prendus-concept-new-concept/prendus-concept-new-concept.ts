@@ -19,6 +19,8 @@ class PrendusConceptNewConcept {
   public courseId: string;
   public courseConcepts: Concept[];
   public subtopics: string[];
+  public chosenSubTopicIndex: number;
+  public subtopic: string;
 
   beforeRegister(): void {
     this.is = 'prendus-concept-new-concept';
@@ -40,7 +42,11 @@ class PrendusConceptNewConcept {
     this.conceptId = conceptId;
     try {
       const concept: Concept = await ConceptModel.getById(this.conceptId);
-      this.conceptFormName = concept.title;
+      await Actions.initSubTopics(this, this.courseId);
+      await Actions.getConceptById(this, this.conceptId);
+
+
+
     } catch(error) {
       this.errorMessage = '';
       this.errorMessage = error.message;
@@ -48,14 +54,9 @@ class PrendusConceptNewConcept {
     this.querySelector('#dialog').open();
   }
 
-  async editConcept(): Promise<void> {
-    try {
-
-    } catch(error) {
-      this.errorMessage = '';
-      this.errorMessage = error.message;
-    }
-
+  setSubtopic(e: any): void {
+      const subtopic: string = e.model.item;
+      this.subtopic = subtopic;
   }
 
   async addConceptFormDone(e: any): Promise<void> {
@@ -63,6 +64,7 @@ class PrendusConceptNewConcept {
       this.conceptFormName = this.querySelector('#conceptFormName').value;
       if(this.conceptFormName && this.conceptId) {
         await ConceptModel.updateTitle(this.conceptId, this.conceptFormName);
+        await ConceptModel.updateSubtopic(this.conceptId, this.subtopic);
         this.successMessage = '';
         this.successMessage = `${this.conceptFormName} successfully edited.`;
         this.conceptFormName = '';
@@ -70,7 +72,8 @@ class PrendusConceptNewConcept {
       } else if(this.conceptFormName) {
         const newConcept: Concept = {
           uid: this.uid,
-          title: this.conceptFormName
+          title: this.conceptFormName,
+          subtopic: this.subtopic
         };
 
         await Actions.addConcept(this, this.courseId, newConcept, this.courseConcepts.length);
@@ -89,6 +92,15 @@ class PrendusConceptNewConcept {
   mapStateToThis(e: StatechangeEvent): void {
     const state: State = e.detail.state;
     this.subtopics = state.subtopics;
+    if(state.currentConcept) {
+      this.conceptFormName = state.currentConcept.title;
+      if(this.subtopics) {
+          this.chosenSubTopicIndex = this.subtopics.indexOf(state.currentConcept.subtopic);
+          console.log('this.chosenSubTopicIndex ', this.chosenSubTopicIndex);
+      }
+
+    }
+
   }
 }
 
