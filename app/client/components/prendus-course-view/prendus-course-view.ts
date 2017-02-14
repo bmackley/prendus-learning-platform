@@ -8,6 +8,7 @@ import {Quiz} from '../../node_modules/prendus-services/typings/quiz';
 import {CourseModel} from '../../node_modules/prendus-services/models/course-model';
 import {UtilitiesService} from '../../node_modules/prendus-services/services/utilities-service';
 import {PrendusConceptNewConcept} from '../prendus-concept-new-concept/prendus-concept-new-concept';
+import {ConceptModel} from '../../node_modules/prendus-services/models/concept-model';
 
 export class PrendusCourseView {
   public is: string;
@@ -122,11 +123,18 @@ export class PrendusCourseView {
   async subjectChange(e: any): Promise<void> {
     try {
       const subject: string = e.model.item;
-      await CourseModel.setSubject(subject, this.courseId);
-      this.successMessage = '';
-      this.successMessage = `Subject updated to ${subject}`;
+      if(this.selectedSubjectIndex === -1 || (this.selectedSubjectIndex !== -1 && this.subjects[this.selectedSubjectIndex] !== subject)) {
+        await CourseModel.setSubject(subject, this.courseId);
+        const conceptIds: string[] = await CourseModel.getConceptIds(this.courseId);
+        await UtilitiesService.asyncForEach(conceptIds, async (conceptId: string) => {
+          await ConceptModel.updateSubtopic(conceptId, '');
+        });
+        this.successMessage = '';
+        this.successMessage = `Subject updated to ${subject}`;
+      }
+
     } catch(error) {
-      throw error;
+      console.error(error);
     }
   }
 
