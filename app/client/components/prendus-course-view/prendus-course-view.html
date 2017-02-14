@@ -142,6 +142,7 @@
           <template is="dom-if" if="[[hasEditAccess]]">
             <paper-button class="edit-button" raised noink on-tap="toggleEditDescription">[[getDescriptionButtonText(editingDescription)]]</paper-button>
           </template>
+					
 					<!-- SUBJECT -->
 					<paper-dropdown-menu label="Subject">
 						<paper-listbox class="dropdown-content" selected="[[selectedSubjectIndex]]">
@@ -157,18 +158,7 @@
             <h3>Last day of course</h3>
             <paper-date-picker id="due-date" date="[[displayDate(currentCourse.dueDate)]]" on-click="dueDateChanged"></paper-date-picker>
           </template>
-          <!-- TAGS -->
-          <h3 hidden$="[[!showTagsTitle(currentCourse, hasEditAccess)]]">Tags</h3>
-          <template is="dom-if" if="[[showTagsView(currentCourse, hasEditAccess)]]">
-            <div id="tags-container">
-              <template is="dom-repeat" items="[[currentCourse.tags]]">
-                <span class="tag">[[item.name]]</span>
-              </template>
-            </div>
-          </template>
-          <template is="dom-if" if="[[hasEditAccess]]">
-            <prendus-paper-tags-input placeholder="Delete tags or add new ones" duplicate-error-message="Tag cannot be a duplicate" id="tags" tags="[[courseTagNames]]" on-remove="onRemove" on-add="onAdd"></prendus-paper-tags-input>
-          </template>
+
           <!-- CONCEPTS -->
           <h2>[[currentCourse.title]] Concepts</h2>
           <template is="dom-if" if="[[!hasEditAccess]]">
