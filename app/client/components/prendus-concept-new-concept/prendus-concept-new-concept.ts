@@ -62,6 +62,8 @@ export class PrendusConceptNewConcept {
    */
   clearValues(): void {
     this.conceptId = null;
+    this.subtopic = null;
+    this.chosenSubTopicIndex = -1;
   }
 
   /**
