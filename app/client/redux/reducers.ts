@@ -64,7 +64,8 @@ export function rootReducer(state: State = InitialState, action: Action): State 
             return {
               ...state,
               gradeLevels: action.gradeLevels,
-              selectedGradeLevelIndex: action.selectedGradeLevelIndex
+              selectedGradeLevelIndex: action.selectedGradeLevelIndex,
+              subject: action.subject
             }
         }
 

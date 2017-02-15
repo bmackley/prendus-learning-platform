@@ -49,7 +49,7 @@ export class PrendusConceptNewConcept {
     try {
       this.conceptHeader = 'Edit concept';
       this.conceptId = conceptId;
-      await Actions.initSubTopics(this, this.courseId);
+      await Actions.initSubTopics(this, this.courseId, null);
       await Actions.getConceptById(this, this.conceptId);
       this.querySelector('#dialog').open();
     } catch(error) {

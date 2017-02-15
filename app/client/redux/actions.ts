@@ -38,10 +38,10 @@ const hideMainSpinner = (context: any) => {
     };
 };
 
-const initSubTopics = async (context: any, courseId: string): Promise<void> => {
+const initSubTopics = async (context: any, courseId: string, subject: string): Promise<void> => {
   try {
-    const subject: string = await CourseModel.getAttribute('subject', courseId);
-    const subtopics: string[] = await SubjectsModel.getSubtopics(subject);
+    const tempSubject: string = courseId ? await CourseModel.getAttribute('subject', courseId) : subject;
+    const subtopics: string[] = await SubjectsModel.getSubtopics(tempSubject);
     context.action = {
       type: 'SET_SUBTOPICS',
       subtopics
@@ -50,7 +50,18 @@ const initSubTopics = async (context: any, courseId: string): Promise<void> => {
     throw error;
   }
 };
-
+const initGradeLevelsBySubjectName = async (context: any, subject: string): Promise<void> => {
+  try {
+    const gradeLevels: string[] = await SubjectsModel.getGradeLevels(subject);
+    context.action = {
+      type: 'SET_GRADE_LEVELS',
+      gradeLevels,
+      subject
+    };
+  } catch(error) {
+    throw error;
+  }
+};
 const initGradeLevels = async (context: any, courseId: string): Promise<void> => {
   try {
     const course: Course = await CourseModel.getById(courseId);
@@ -1066,6 +1077,7 @@ export const Actions = {
     loginUser,
     initSubjects,
     initSubTopics,
+    initGradeLevelsBySubjectName,
     initGradeLevels,
     checkUserAuth,
     deleteConcept,

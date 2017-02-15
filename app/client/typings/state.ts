@@ -69,4 +69,5 @@ export interface State {
     subtopics: string[];
     gradeLevels: string[];
     selectedGradeLevelIndex: number;
+    subject: string;
 }

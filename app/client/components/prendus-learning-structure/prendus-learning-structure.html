@@ -5,6 +5,8 @@
 <link rel="import" href="../../bower_components/paper-item/paper-item.html">
 <link rel="import" href="../../bower_components/paper-button/paper-button.html">
 <link rel="import" href="../../bower_components/paper-dialog/paper-dialog.html">
+<link rel="import" href="../../bower_components/paper-icon-button/paper-icon-button.html">
+<link rel="import" href="../../bower_components/iron-icons/iron-icons.html">
 <link rel="import" href="../../styles/color-styles.html">
 
 <dom-module id="prendus-learning-structure">
@@ -15,13 +17,17 @@
     :host {
       width: 100%;
       display: flex;
-      flex-direction: column;
+      flex-direction: row;
       align-items: center;
     }
 
+    .icon {
+      color: rgba(0, 0, 0, .5);
+    }
+
     paper-card {
-      width: 100%;
-      max-width: 800px;
+      /*width: 100%;*/
+      /*max-width: 800px;*/
     }
 
     #add-subject-button {
@@ -32,6 +38,7 @@
   <template>
     <redux-store on-statechange="mapStateToThis" action="[[action]]"></redux-store>
     <paper-card heading="Change learning structure!!!">
+      <!-- SUBJECTS -->
       <paper-dropdown-menu label="Subjects">
         <paper-listbox class="dropdown-content">
           <template is="dom-repeat" items="[[subjects]]">
@@ -39,15 +46,44 @@
           </template>
         </paper-listbox>
       </paper-dropdown-menu>
+
+      <!-- GRADE LEVELS -->
+      <span>
+        <template is="dom-if" if="[[gradeLevels]]">
+          GRADE LEVELS
+          <!-- <paper-listbox class="dropdown-content"> -->
+            <template is="dom-repeat" items="[[gradeLevels]]">
+              <paper-item>
+                [[item]] <iron-icon icon="delete" item-icon on-tap="deleteGradeLevel"></iron-icon>
+              </paper-item>
+            </template>
+          <!-- </paper-listbox> -->
+        </template>
+      </span>
+      <!-- SUBTOPICS -->
+      <span>
+        <template is="dom-if" if="[[subtopics]]">
+          SUBTOPICS
+          <!-- <paper-listbox class="dropdown-content"> -->
+            <template is="dom-repeat" items="[[subtopics]]">
+              <paper-item>
+                [[item]] <iron-icon icon="delete" item-icon on-tap="deleteSubtopic"></iron-icon>
+              </paper-item>
+            </template>
+          <!-- </paper-listbox> -->
+        </template>
       <paper-button id="add-subject-button" on-tap="newSubject">Add subject</paper-button>
+      </span>
     </paper-card>
+
 
 
     <paper-dialog id="new-subject" modal>
       <paper-input label="Subject name" value="[[newSubjectName]]" required>
 
       </paper-input>
-
+      <paper-button dialog-dismiss>Cancel</paper-button>
+      <paper-button dialog-dismiss>Done</paper-button>
     </paper-dialog>
   </template>
 

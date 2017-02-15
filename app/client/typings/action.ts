@@ -39,4 +39,5 @@ export interface Action {
   userQuestionIds: string[];
   gradeLevels: string[];
   selectedGradeLevelIndex: number;
+  subject: string;
 }
