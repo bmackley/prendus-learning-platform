@@ -1,0 +1,55 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/paper-card/paper-card.html">
+<link rel="import" href="../../bower_components/paper-dropdown-menu/paper-dropdown-menu.html">
+<link rel="import" href="../../bower_components/paper-listbox/paper-listbox.html">
+<link rel="import" href="../../bower_components/paper-item/paper-item.html">
+<link rel="import" href="../../bower_components/paper-button/paper-button.html">
+<link rel="import" href="../../bower_components/paper-dialog/paper-dialog.html">
+<link rel="import" href="../../styles/color-styles.html">
+
+<dom-module id="prendus-learning-structure">
+
+  <style include="color-styles">
+  </style>
+  <style>
+    :host {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    paper-card {
+      width: 100%;
+      max-width: 800px;
+    }
+
+    #add-subject-button {
+      background-color: var(--prendus-primary-color);
+      color: white;
+    }
+  </style>
+  <template>
+    <redux-store on-statechange="mapStateToThis" action="[[action]]"></redux-store>
+    <paper-card heading="Change learning structure!!!">
+      <paper-dropdown-menu label="Subjects">
+        <paper-listbox class="dropdown-content">
+          <template is="dom-repeat" items="[[subjects]]">
+            <paper-item on-tap="subjectChange">[[item]]</paper-item>
+          </template>
+        </paper-listbox>
+      </paper-dropdown-menu>
+      <paper-button id="add-subject-button" on-tap="newSubject">Add subject</paper-button>
+    </paper-card>
+
+
+    <paper-dialog id="new-subject" modal>
+      <paper-input label="Subject name" value="[[newSubjectName]]" required>
+
+      </paper-input>
+
+    </paper-dialog>
+  </template>
+
+  <script src="prendus-learning-structure.ts"></script>
+</dom-module>
