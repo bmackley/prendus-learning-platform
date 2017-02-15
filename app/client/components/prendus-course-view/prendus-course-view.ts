@@ -137,6 +137,7 @@ export class PrendusCourseView {
         await ConceptModel.deleteSubtopic(conceptId);
       });
       await Actions.initGradeLevels(this, this.courseId);
+      await CourseModel.setAttribute('gradeLevel', '', this.courseId);
       this.successMessage = '';
       this.successMessage = `Subject updated to ${subject}`;
 
@@ -152,6 +153,8 @@ export class PrendusCourseView {
     try {
       const gradeLevel: string = e.model.item;
       await CourseModel.setAttribute('gradeLevel', gradeLevel, this.courseId);
+      this.successMessage = '';
+      this.successMessage = `Grade level updated to ${gradeLevel}`;
     } catch(error) {
       console.error(error);
     }

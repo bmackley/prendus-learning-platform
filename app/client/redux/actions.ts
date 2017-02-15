@@ -54,12 +54,9 @@ const initSubTopics = async (context: any, courseId: string): Promise<void> => {
 const initGradeLevels = async (context: any, courseId: string): Promise<void> => {
   try {
     const course: Course = await CourseModel.getById(courseId);
-    console.log(course);
     const subject: string = Object.keys(course.subject || {})[0];
-    console.log('subject ', subject);
     const gradeLevels: string[] = await SubjectsModel.getGradeLevels(subject);
-    console.log(gradeLevels);
-    const gradeLevel: string = course.gradeLevel;
+    const gradeLevel: string = Object.keys(course.gradeLevel || {})[0];
     const selectedGradeLevelIndex: number = gradeLevels.indexOf(gradeLevel);
     context.action = {
       type: 'SET_GRADE_LEVELS',
