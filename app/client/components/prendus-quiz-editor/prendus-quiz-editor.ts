@@ -286,12 +286,12 @@ class PrendusQuizEditor {
     }
 
     async applySettings(settingName: string, value: number | boolean | QuizVisibility, successMessageName: string, updateQuestionSetting: boolean): Promise<void> {
-			const quizId = this.quizId;
+			const quizId: string = this.quizId;
       try {
         await Actions.setQuizQuestionSetting(this, quizId, settingName, value);
         if(updateQuestionSetting) {
-          this.quizQuestionIds.forEach((questionId) => {
-              Actions.setQuestionSetting(this, quizId, questionId, settingName, value);
+          this.quizQuestionIds.forEach(async (questionId) => {
+              await Actions.setQuestionSetting(this, quizId, questionId, settingName, value);
           });
         }
 
