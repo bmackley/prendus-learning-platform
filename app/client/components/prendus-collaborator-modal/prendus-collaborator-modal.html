@@ -4,18 +4,25 @@
 <link rel="import" href="../../bower_components/paper-button/paper-button.html">
 <link rel="import" href="../../bower_components/paper-dialog-scrollable/paper-dialog-scrollable.html">
 <link rel="import" href="../../bower_components/iron-icon/iron-icon.html">
+<link rel="import" href="../../styles/color-styles.html">
 
 <dom-module id="prendus-collaborator-modal">
     <template>
+				<style include="color-styles"></style>
         <style>
 
           .remove-collaborator {
             cursor: pointer;
           }
 
-					#add-collaborator-container {
+					#add-container {
 						display: flex;
 						align-items: center;
+					}
+
+					#add-button {
+						background-color: var(--prendus-primary-color);
+						color: white;
 					}
 
         </style>
@@ -28,13 +35,13 @@
             <template is="dom-repeat" items="[[collaboratorEmails]]">
                 <p>[[item]] <iron-icon class="remove-collaborator" icon="icons:clear" on-tap="removeCollaborator">remove</iron-icon></p>
             </template>
-						<div id="add-collaborator-container">
+						<div id="add-container">
 							<paper-input id="collaboratorInput" label="Enter email address" stop-keyboard-event-propagation></paper-input>
-							<paper-button noink on-tap="addCollaborator"> Add</paper-button>
+							<paper-button id="add-button" noink on-tap="addCollaborator">Add</paper-button>
 						</div>
           </paper-dialog-scrollable>
           <div class="buttons">
-            <paper-button noink dialog-dismiss autofocus>Done</paper-button>
+            <paper-button noink dialog-dismiss>Done</paper-button>
           </div>
         </paper-dialog>
 

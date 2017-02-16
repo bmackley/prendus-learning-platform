@@ -108,11 +108,15 @@ export class PrendusCourseView {
 	}
 
   toggleEditTitle(e: any): void {
+		if(this.querySelector('#course-title').invalid) return;
     this.editingTitle = !this.editingTitle;
+		if(this.editingTitle) this.querySelector('#course-title').focus();
   }
 
   toggleEditDescription(e: any): void {
+		if(this.querySelector('#course-description').invalid) return;
     this.editingDescription = !this.editingDescription;
+		if(this.editingDescription) this.querySelector('#course-description').focus();
   }
 
 	getEditIcon(editStatus: boolean): string {
@@ -269,7 +273,7 @@ export class PrendusCourseView {
 
   async attributeChanged(e: any): Promise<void> {
     try {
-      if(typeof e.target !== 'undefined' ) {
+      if(typeof e.target !== 'undefined' && !e.target.invalid) {
         const value = e.target.value;
         const attribute = e.target.name;
         await Actions.updateCourseField(this, this.courseId, attribute, value);

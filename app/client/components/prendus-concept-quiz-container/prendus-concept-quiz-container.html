@@ -24,6 +24,10 @@
         cursor: pointer;
       }
 
+			.quiz-blankslate {
+				padding: 10px;
+			}
+
       .quiz-icon {
         color: rgba(0, 0, 0, .5);
       }
@@ -71,7 +75,7 @@
 				</div>
       </div>
     </template>
-    <h4 hidden$="[[hasQuizzes(quizzes)]]">This concept doesn't have any quizzes yet.</h4>
+    <h4 class="quiz-blankslate" hidden$="[[hasQuizzes(quizzes)]]">This concept doesn't have any quizzes yet.</h4>
     <template is="dom-if" if="[[courseEditAccess]]">
       <paper-button class="add-quiz-button" on-tap="addQuiz"><iron-icon icon="add"></iron-icon>Add Quiz</paper-button>
     </template>
