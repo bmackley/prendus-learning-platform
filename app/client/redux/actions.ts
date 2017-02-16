@@ -19,6 +19,11 @@ import {EmailsToUidsModel} from '../node_modules/prendus-services/models/emails-
 import {Video} from '../node_modules/prendus-services/typings/video';
 import {ExecuteAsyncInOrderService} from '../node_modules/prendus-services/services/execute-async-in-order-service';
 import {UtilitiesService} from '../node_modules/prendus-services/services/utilities-service';
+import {VoteModel} from '../node_modules/prendus-services/models/vote-model';
+import {VoteType} from '../node_modules/prendus-services/typings/vote-type';
+import {Vote} from '../node_modules/prendus-services/typings/vote';
+import {QuizVisibility} from '../node_modules/prendus-services/typings/quiz-visibility';
+import {PrendusQuizEditor} from '../components/prendus-quiz-editor/prendus-quiz-editor';
 
 const defaultAction = (context: any) => {
     context.action = {
@@ -35,6 +40,43 @@ const hideMainSpinner = (context: any) => {
     context.action = {
         type: 'HIDE_MAIN_SPINNER'
     };
+};
+
+/**
+ * Updates a vote or creates a vote if one does not already exist on the question (based on the current user).
+ * This is where most of the logic occurs when updating votes.
+ * Returns a boolean indicating if a vote was changed.
+ */
+const updateVote = async (context: PrendusQuizEditor, uid: string, questionId: string, type: VoteType): Promise<boolean> => {
+    try {
+      const vote: Vote = await VoteModel.getByUid(uid, questionId);
+      const voteId: string = await VoteModel.createOrUpdate(vote ? vote.id : null, uid, questionId, type);
+
+      const voteChanged: boolean = !vote || vote.voteType !== type;
+      if(voteChanged) {
+        if(vote) {
+            // Delete the old vote to prepare for the new vote
+            await QuestionModel.deleteVote(voteId, questionId, vote.voteType);
+        } else {
+          // Only set the voteId on the user if there was no vote before.
+          UserModel.addVoteId(voteId, uid);
+        }
+        await QuestionModel.setVote(voteId, questionId, type);
+        return true;
+      }
+
+      if(vote.voteType === type) {
+        // Delete the vote
+        context.updateThumbColors('none', questionId);
+        await VoteModel.deleteVote(voteId, questionId, type);
+        await UserModel.removeVoteId(voteId, uid);
+        await QuestionModel.deleteVote(voteId, questionId, type);
+        return true;
+      }
+      return false;
+    } catch(error) {
+      throw error;
+    }
 };
 
 const loadCourseCollaboratorEmails = async (context: any, uid: string, courseId: string) => {
@@ -482,7 +524,7 @@ const setQuizQuestionSetting = async (context: any, quizId: string, settingName:
 
 };
 
-const setQuestionSetting = async (context: any, quizId: string, questionId: string, settingName: string, value: number | boolean) => {
+const setQuestionSetting = async (context: any, quizId: string, questionId: string, settingName: string, value: number | boolean | QuizVisibility) => {
   try {
     await QuizModel.setQuestionSetting(quizId, questionId, settingName, value);
   } catch(error) {
@@ -1073,6 +1115,7 @@ export const Actions = {
     loginUser,
     checkUserAuth,
     deleteConcept,
+    updateVote,
     orderConcepts,
     addConcept,
     createUser,

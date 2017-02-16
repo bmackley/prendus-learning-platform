@@ -4,6 +4,7 @@ import {User} from '../node_modules/prendus-services/typings/user';
 import {UserMetaData} from '../node_modules/prendus-services/typings/user-meta-data';
 import {Course} from '../node_modules/prendus-services/typings/course';
 import {CourseConceptData} from '../node_modules/prendus-services/typings/course-concept-data';
+import {QuestionSettings} from '../node_modules/prendus-services/typings/question-settings';
 
 export interface State {
     editCourseConcepts: {
@@ -63,4 +64,9 @@ export interface State {
         };
     };
     mainViewToShow: 'routes' | 'spinner';
+    quizQuestionSettings: QuestionSettings;
+    userQuestionIds: string[];
+    publicQuestionIds: string[];
+    quizQuestionIds: string[];
+    collaboratorEmails: string[];
 }

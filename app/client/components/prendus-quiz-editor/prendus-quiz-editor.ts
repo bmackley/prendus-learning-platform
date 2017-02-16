@@ -10,9 +10,13 @@ import {Course} from '../../node_modules/prendus-services/typings/course';
 import {CourseModel} from '../../node_modules/prendus-services/models/course-model';
 import {QuizVisibility} from '../../node_modules/prendus-services/typings/quiz-visibility';
 import {QuizModel} from '../../node_modules/prendus-services/models/quiz-model';
+import {QuestionModel} from '../../node_modules/prendus-services/models/question-model';
 import {Quiz} from '../../node_modules/prendus-services/typings/quiz';
+import {VoteType} from '../../node_modules/prendus-services/typings/vote-type';
+import {VoteModel} from '../../node_modules/prendus-services/models/vote-model';
+import {Vote} from '../../node_modules/prendus-services/typings/vote';
 
-class PrendusQuizEditor {
+export class PrendusQuizEditor {
     public is: string;
     public userQuestionIds: string[];
     public publicQuestionIds: string[];
@@ -52,6 +56,7 @@ class PrendusQuizEditor {
             }
         };
     }
+
     async init(): Promise<void> {
         Actions.showMainSpinner(this);
         this.endpointDomain = UtilitiesService.getPrendusServerEndpointDomain();
@@ -75,6 +80,77 @@ class PrendusQuizEditor {
         //TODO this is horrible and should be removed once the view problem component can be initialized without a quiz session being handed to it
 
         Actions.hideMainSpinner(this);
+    }
+
+    /**
+     * Updates the thumbs in the dom.
+     * Updates the votes in the database.
+     * Updates the score in the dom.
+     * TODO Polymer does not support asynchronous computed bindings, and
+     * we should not hack the dom once it does support it.
+     */
+    async changeThumbs(voteType: VoteType, questionId: string): Promise<void> {
+      this.updateThumbColors(voteType, questionId);
+      const voteUpdated: boolean = await Actions.updateVote(this, this.uid, questionId, voteType);
+      if(voteUpdated) {
+        this.updateScore(questionId);
+      }
+
+    }
+
+    /**
+     * Does the actual changing of thumb colors in the dom.
+     */
+    updateThumbColors(voteType: VoteType | 'none', questionId: string): void {
+      const thumbUpColor: 'green' | 'none' = voteType === 'up' ? 'green' : 'none';
+      const thumbDownColor: 'red' | 'none' = voteType === 'down' ? 'red' : 'none';
+      this.querySelector(`#thumb-up-${questionId}`).style = `color: ${thumbUpColor}`;
+      this.querySelector(`#thumb-down-${questionId}`).style = `color: ${thumbDownColor}`;
+    }
+
+    /**
+     * Since the public preview questions are in a dom-repeat, you can call
+     * filter on each element. Filter is supposed to be used to decide whether
+     * or not to display an item. But we can use it to to set the color of the
+     * thumbs and set the score.
+     * TODO this is bad because I'm hacking the dom.  But polymer doesn't support
+     * asynchronous computed bindings.. Once it does, then change this.
+     */
+    async hasUserVote(questionId: string): Promise<boolean> {
+      const vote: Vote = await VoteModel.getByUid(this.uid, questionId);
+      if(vote) {
+        // There is a vote.
+        this.updateThumbColors(vote.voteType, questionId);
+      }
+      await this.updateScore(questionId);
+
+      return true;
+    };
+
+    /**
+     * Updates the score in the dom based on the questionId provided.
+     * TODO This should not be hacking the dom. Unfortunately, Polymer
+     * does not support asynchronous computed bindings. So for now, this will do.
+     */
+    async updateScore(questionId: string): Promise<void> {
+      const score: number = await QuestionModel.getScore(questionId);
+      this.querySelector(`#score-${questionId}`).innerText = score || 0;
+    }
+
+    /**
+     * This is the onclick handler when a up thumb is pressed.
+     */
+    thumbUp(e: any): void {
+      const questionId: string = e.model.item;
+      this.changeThumbs('up', questionId);
+    }
+
+    /**
+     * This is the onclick handler when a down thumb is pressed.
+     */
+    thumbDown(e: any): void {
+      const questionId: string = e.model.item;
+      this.changeThumbs('down', questionId);
     }
 
     async conceptIdSet(): Promise<void> {
@@ -312,7 +388,9 @@ class PrendusQuizEditor {
         this.publicQuestionIds = state.publicQuestionIds;
         this.quizQuestionIds = state.quizQuestionIds;
         this.collaboratorEmails = state.collaboratorEmails;
-        this.uid = state.uid;
+        if(state.currentUser) {
+          this.uid = state.currentUser.metaData.uid;
+        }
     }
 }
 

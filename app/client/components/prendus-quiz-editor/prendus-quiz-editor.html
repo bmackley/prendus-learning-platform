@@ -103,7 +103,6 @@
     </style>
 
     <redux-store on-statechange="mapStateToThis" action="[[action]]"></redux-store>
-
     <iron-ajax id="getUserQuestionIdsAjax" method="get" url="[[endpointDomain]]/api/jwt/[[jwt]]/question-ids" handle-as="json"></iron-ajax>
     <iron-ajax id="getPublicQuestionIdsAjax" method="get" url="[[endpointDomain]]/api/public/question-ids" handle-as="json"></iron-ajax>
     <iron-ajax id="getEmailsByIdsAjax" method="get" handle-as="json"></iron-ajax>
@@ -184,8 +183,18 @@
             </div>
 
             <div id="public-questions" class="tab-content">
-              <template is="dom-repeat" items="[[publicQuestionIds]]">
+
+                   <!-- Filter is usually only used when you want to decide whether or not to display each item.
+                        But since each item has a function called, I can use filter to display which thumb, if any,
+                        to highlight as well as getting the score for each question.
+                       TODO polymer doesn't support asynchronous computed bindings, once they do change the thumb up and thumb down
+                       colors to be computed via binding rather than hacking the dom.-->
+              <template is="dom-repeat" items="[[publicQuestionIds]]" filter="hasUserVote">
                 <prendus-view-question id="public-question-id-[[item]]" question-id="[[item]]" quiz-id="NO_QUIZ" jwt="[[jwt]]" quiz-session="[[quizSession]]" concise></prendus-view-question>
+
+                <paper-icon-button id="thumb-up-[[item]]" icon="thumb-up" on-tap="thumbUp" vote="up"></paper-icon-button>
+                <span id="score-[[item]]"> </span>
+                <paper-icon-button id="thumb-down-[[item]]" icon="thumb-down" on-tap="thumbDown" vote="down"></paper-icon-button>
                 <paper-icon-button id="add[[item]]" icon="av:playlist-add" on-click="addQuestionToQuiz"></paper-icon-button>
                 <paper-tooltip for="add[[item]]">Add to quiz</paper-tooltip>
                 <paper-icon-button id="edit[[item]]" icon="create" on-click="editQuestion"></paper-icon-button>
