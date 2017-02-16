@@ -33,7 +33,7 @@ export class PrendusConceptNewConcept {
     try {
       this.conceptHeader = 'Add a Concept to the Course';
       this.conceptFormName = '';
-      await Actions.initSubTopics(this, this.courseId);
+      await Actions.initSubTopics(this, this.courseId, null);
       await Actions.getConceptById(this, this.conceptId);
       this.querySelector('#dialog').open();
     } catch(error) {

@@ -3,7 +3,7 @@ import {FirebaseService} from '../../node_modules/prendus-services/services/fire
 import {StatechangeEvent} from '../../typings/statechange-event';
 import {UserMetaData} from '../../node_modules/prendus-services/typings/user-meta-data';
 import {State} from '../../typings/state';
-
+import {SubjectsModel} from '../../node_modules/prendus-services/models/subjects-model';
 
 export class PrendusLearningStructure {
   public is: string;
@@ -30,9 +30,18 @@ export class PrendusLearningStructure {
 
   newSubject(e: any): void {
     this.querySelector('#new-subject').open();
-
     console.log('new subject');
   }
+
+  /**
+   * Called when done is tapped in the new subject dialog
+   */
+  async newSubjectDone(e: any): Promise<void> {
+    console.log(this.newSubjectName);
+    const newSubjectName: string = this.querySelector('#new-subject-name');
+    await SubjectsModel.createOrUpdate(null, newSubjectName);
+  }
+
 
   deleteGradeLevel(e: any): void {
     const gradeLevel: string = e.model.item;
@@ -48,6 +57,13 @@ export class PrendusLearningStructure {
     console.log('chosenSubject ', this.chosenSubject);
   }
 
+  newGradeLevel(e: any): void {
+    this.querySelector('#new-grade-level').open();
+  }
+
+  newSubtopic(e: any): void {
+    this.querySelector('#new-subtopic').open();
+  }
   mapStateToThis(e: StatechangeEvent): void {
     const state: State = e.detail.state;
     this.subjects = state.subjects;

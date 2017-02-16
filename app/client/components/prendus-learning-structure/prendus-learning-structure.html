@@ -26,11 +26,21 @@
     }
 
     paper-card {
-      /*width: 100%;*/
-      /*max-width: 800px;*/
+      width: 100%;
+      max-width: 800px;
+    }
+    #rightWrapper {
+      margin: 0px;
+      display: inline-block;
     }
 
-    #add-subject-button {
+    #leftWrapper {
+      margin: 0px;
+      display: inline-block;
+      float: left;
+    }
+
+    #new-subject-button, #new-grade-level-button, #new-subtopic-button {
       background-color: var(--prendus-primary-color);
       color: white;
     }
@@ -39,16 +49,22 @@
     <redux-store on-statechange="mapStateToThis" action="[[action]]"></redux-store>
     <paper-card heading="Change learning structure!!!">
       <!-- SUBJECTS -->
-      <paper-dropdown-menu label="Subjects">
-        <paper-listbox class="dropdown-content">
-          <template is="dom-repeat" items="[[subjects]]">
-            <paper-item on-tap="subjectChange">[[item]]</paper-item>
-          </template>
-        </paper-listbox>
-      </paper-dropdown-menu>
+      <span id="leftWrapper">
+        <template is="dom-if" if="[[subjects]]">
+          <paper-dropdown-menu label="Subjects">
+            <paper-listbox class="dropdown-content">
+              <template is="dom-repeat" items="[[subjects]]">
+                <paper-item on-tap="subjectChange">[[item]]</paper-item>
+              </template>
+            </paper-listbox>
+          </paper-dropdown-menu><br>
+          <paper-button id="new-subject-button" on-tap="newSubject">Add subject</paper-button>
+        </template>
+
+      </span>
 
       <!-- GRADE LEVELS -->
-      <span>
+      <span id="leftWrapper">
         <template is="dom-if" if="[[gradeLevels]]">
           GRADE LEVELS
           <!-- <paper-listbox class="dropdown-content"> -->
@@ -58,10 +74,13 @@
               </paper-item>
             </template>
           <!-- </paper-listbox> -->
+          <paper-button id="new-grade-level-button" on-tap="newGradeLevel">Add grade level</paper-button>
         </template>
+
       </span>
+
       <!-- SUBTOPICS -->
-      <span>
+      <span id="rightWrapper">
         <template is="dom-if" if="[[subtopics]]">
           SUBTOPICS
           <!-- <paper-listbox class="dropdown-content"> -->
@@ -71,19 +90,37 @@
               </paper-item>
             </template>
           <!-- </paper-listbox> -->
+          <paper-button id="new-subtopic-button" on-tap="newSubtopic">Add subtopic</paper-button>
         </template>
-      <paper-button id="add-subject-button" on-tap="newSubject">Add subject</paper-button>
+
       </span>
+
+
     </paper-card>
 
 
-
-    <paper-dialog id="new-subject" modal>
-      <paper-input label="Subject name" value="[[newSubjectName]]" required>
+    <paper-dialog id="new-grade-level" modal>
+      <paper-input label="Grade level" required>
 
       </paper-input>
       <paper-button dialog-dismiss>Cancel</paper-button>
       <paper-button dialog-dismiss>Done</paper-button>
+    </paper-dialog>
+
+    <paper-dialog id="new-subtopic" modal>
+      <paper-input label="Subtopic" required>
+
+      </paper-input>
+      <paper-button dialog-dismiss>Cancel</paper-button>
+      <paper-button dialog-dismiss>Done</paper-button>
+    </paper-dialog>
+
+    <paper-dialog id="new-subject" modal>
+      <paper-input id="new-subject-name" label="Subject name" required>
+
+      </paper-input>
+      <paper-button dialog-dismiss>Cancel</paper-button>
+      <paper-button on-tap="newSubjectDone" dialog-dismiss>Done</paper-button>
     </paper-dialog>
   </template>
 
