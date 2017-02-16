@@ -55,7 +55,7 @@ class PrendusCollaboratorModal {
         ];
     }
 
-    public open(): void {
+    open(): void {
       this.querySelector('#modal').open();
     }
 

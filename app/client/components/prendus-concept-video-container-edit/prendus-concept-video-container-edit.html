@@ -29,6 +29,10 @@
 						cursor: pointer;
 					}
 
+					.video-blankslate {
+						padding: 10px;
+					}
+
           .add-video-button {
             background-color: var(--prendus-primary-color);
             color: white;
@@ -46,7 +50,7 @@
         <template is="dom-repeat" items="[[videos]]">
             <div class="video-row" on-tap="videoRowClick">[[item.title]]</div>
         </template>
-				<h4 hidden$="[[hasVideos(videos)]]">This concept doesn't have any videos yet.</h4>
+				<h4 class="video-blankslate" hidden$="[[hasVideos(videos)]]">This concept doesn't have any videos yet.</h4>
         <paper-button class="add-video-button" on-tap="addVideo"><iron-icon icon="add"></iron-icon>Add Video</paper-button>
     </template>
 
