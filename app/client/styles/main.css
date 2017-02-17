@@ -43,6 +43,7 @@ h3 {
   color: #777;
 }
 
+p,
 h1,
 h2,
 h3,
@@ -52,13 +53,14 @@ h6 {
 	margin: 0;
 }
 
-h1 + p,
-h2 + p,
-h3 + p,
-h4 + p,
-h5 + p,
-h6 + p {
-	margin-top: 20px;
+/* TODO: replace :webkit-any and :-moz-any with the standardized selector once implemented */
+
+:-webkit-any(p, h1, h2, h3, h4, h5, h6) + :-webkit-any(p, h1, h2, h3, h4, h5, h6) {
+	margin-top: .7em;
+}
+
+:-moz-any(p, h1, h2, h3, h4, h5, h6) + :-moz-any(p, h1, h2, h3, h4, h5, h6) {
+	margin-top: .7em;
 }
 
 .page-title {

@@ -837,7 +837,7 @@ const deleteCourse = async (context: any, course: Course) => {
       await UserModel.unshareCourseWithMe(course.collaborators[key], course.id);
     }
     // remove tag associations
-    await CourseModel.disassociateTags(course.id, course.tags);
+    // await CourseModel.disassociateTags(course.id, course.tags);
     // delete actual course
     await CourseModel.deleteCourse(course.id);
     // refresh the view in the GUI
