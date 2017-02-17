@@ -20,7 +20,8 @@
 						align-items: center;
 					}
 
-					#add-button {
+					/* Select only when it's not disabled */
+					#add-button:not([disabled]) {
 						background-color: var(--prendus-primary-color);
 						color: white;
 					}
@@ -36,8 +37,8 @@
                 <p>[[item]] <iron-icon class="remove-collaborator" icon="icons:clear" on-tap="removeCollaborator">remove</iron-icon></p>
             </template>
 						<div id="add-container">
-							<paper-input id="collaboratorInput" label="Enter email address" stop-keyboard-event-propagation></paper-input>
-							<paper-button id="add-button" noink on-tap="addCollaborator">Add</paper-button>
+							<paper-input id="add-input" label="Enter email address" value="{{newCollaboratorEmail}}" stop-keyboard-event-propagation></paper-input>
+							<paper-button id="add-button" disabled="[[!canAddCollaborator(newCollaboratorEmail)]]" noink on-tap="addCollaborator">Add</paper-button>
 						</div>
           </paper-dialog-scrollable>
           <div class="buttons">
