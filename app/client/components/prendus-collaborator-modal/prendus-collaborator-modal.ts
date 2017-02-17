@@ -5,6 +5,7 @@ import {DOMRepeatEvent} from '../../node_modules/prendus-services/typings/dom-re
 class PrendusCollaboratorModal {
     public is: string;
     public collaboratorEmails: string[];
+    public newCollaboratorEmail: string;
     public querySelector: any;
     public course: boolean;
     public observers: string[];
@@ -95,31 +96,37 @@ class PrendusCollaboratorModal {
         }
     }
 
+		canAddCollaborator(newCollaboratorEmail: string): boolean {
+			// use RegEx to validate that the user actually entered a valid email address
+			return newCollaboratorEmail.match(/^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$/) !== null;
+		}
+
     async addCollaborator(e: Event): Promise<void> {
         try {
-            const email = this.querySelector('#collaboratorInput').value;
             if (this.uid && this.courseId) {
-                await Actions.addCourseCollaborator(this, this.courseId, email);
+                await Actions.addCourseCollaborator(this, this.courseId, this.newCollaboratorEmail);
                 await Actions.loadCourseCollaboratorEmails(this, this.uid, this.courseId);
             }
 
             if (this.courseId && this.conceptId) {
-                await Actions.addConceptCollaborator(this, this.conceptId, email);
+                await Actions.addConceptCollaborator(this, this.conceptId, this.newCollaboratorEmail);
                 await Actions.loadConceptCollaboratorEmails(this, this.courseId, this.conceptId);
             }
 
             if (this.conceptId && this.videoId) {
-                await Actions.addVideoCollaborator(this, this.videoId, email);
+                await Actions.addVideoCollaborator(this, this.videoId, this.newCollaboratorEmail);
                 await Actions.loadVideoCollaboratorEmails(this, this.conceptId, this.videoId);
             }
 
             if (this.conceptId && this.quizId) {
-                await Actions.addQuizCollaborator(this, this.quizId, email);
+                await Actions.addQuizCollaborator(this, this.quizId, this.newCollaboratorEmail);
                 await Actions.loadQuizCollaboratorEmails(this, this.conceptId, this.quizId);
             }
         }
         catch(error) {
+					console.log('before catching');
             console.log(error);
+						console.log('after catching');
         }
     }
 
@@ -148,7 +155,7 @@ class PrendusCollaboratorModal {
             }
         }
         catch(error) {
-            alert(error);
+            console.log(error);
         }
     }
 
