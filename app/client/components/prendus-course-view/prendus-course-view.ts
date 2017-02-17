@@ -279,7 +279,7 @@ export class PrendusCourseView {
         await Actions.updateCourseField(this, this.courseId, attribute, value);
         await Actions.getCourseViewCourseById(this, this.courseId);
         this.successMessage = '';
-        this.successMessage = `${attribute} has been updated`;
+        this.successMessage = `Course ${attribute} has been updated`;
       }
     } catch(error) {
       this.errorMessage = '';

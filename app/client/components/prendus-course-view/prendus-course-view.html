@@ -137,7 +137,7 @@
 					<div class="edit-section">
 						<h1 hidden$="[[editingTitle]]">[[currentCourse.title]]</h1>
 						<template is="dom-if" if="[[hasEditAccess]]">
-							<paper-input id="course-title" class="edit-input" hidden$="[[!editingTitle]]" name="Course title" label="Course Title" value="[[currentCourse.title]]" maxlength="50" on-change="attributeChanged" required auto-validate error-message="Please enter a title."></paper-input>
+							<paper-input id="course-title" class="edit-input" hidden$="[[!editingTitle]]" name="title" label="Course Title" value="[[currentCourse.title]]" maxlength="50" on-change="attributeChanged" required auto-validate error-message="Please enter a title."></paper-input>
 							<paper-icon-button class="edit-button icon-button" icon="[[getEditIcon(editingTitle)]]" noink on-tap="toggleEditTitle"></paper-icon-button>
 						</template>
 					</div>
@@ -145,7 +145,7 @@
 					<div class="edit-section">
 						<h3 hidden="[[editingDescription]]">[[currentCourse.description]]</h3>
 						<template is="dom-if" if="[[hasEditAccess]]">
-							<paper-textarea id="course-description" class="edit-input" hidden="[[!editingDescription]]" name="Course description" label="Course Description" value="[[currentCourse.description]]" maxlength="100" on-change="attributeChanged" required auto-validate error-message="Please enter a description."></paper-textarea>
+							<paper-textarea id="course-description" class="edit-input" hidden="[[!editingDescription]]" name="description" label="Course Description" value="[[currentCourse.description]]" maxlength="100" on-change="attributeChanged" required auto-validate error-message="Please enter a description."></paper-textarea>
 							<paper-icon-button class="edit-button icon-button" icon="[[getEditIcon(editingDescription)]]" noink on-tap="toggleEditDescription"></paper-icon-button>
 						</template>
 					</div>
