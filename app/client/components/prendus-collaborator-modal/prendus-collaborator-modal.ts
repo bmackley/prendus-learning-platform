@@ -6,6 +6,8 @@ class PrendusCollaboratorModal {
     public is: string;
     public collaboratorEmails: string[];
     public newCollaboratorEmail: string;
+		public successMessage: string;
+		public errorMessage: string;
     public querySelector: any;
     public course: boolean;
     public observers: string[];
@@ -101,6 +103,10 @@ class PrendusCollaboratorModal {
 			return newCollaboratorEmail.match(/^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$/) !== null;
 		}
 
+		addCollaboratorIfEnter(e: any): void {
+			if(e.keyCode === 13) this.addCollaborator(e);
+		}
+
     async addCollaborator(e: Event): Promise<void> {
         try {
             if (this.uid && this.courseId) {
@@ -124,10 +130,14 @@ class PrendusCollaboratorModal {
             }
         }
         catch(error) {
-					console.log('before catching');
             console.log(error);
-						console.log('after catching');
+						this.errorMessage = '';
+						this.errorMessage = 'Could not add collaborator.';
+						return;
         }
+				this.newCollaboratorEmail = '';
+				this.successMessage = '';
+				this.successMessage = 'Collaborator added successfully.'
     }
 
     async removeCollaborator(e: DOMRepeatEvent): Promise<void> {
