@@ -18,7 +18,6 @@ import {UserMetaData} from '../node_modules/prendus-services/typings/user-meta-d
 import {User} from '../node_modules/prendus-services/typings/user';
 import {EmailsToUidsModel} from '../node_modules/prendus-services/models/emails-to-uids-model';
 import {Video} from '../node_modules/prendus-services/typings/video';
-import {ExecuteAsyncInOrderService} from '../node_modules/prendus-services/services/execute-async-in-order-service';
 import {UtilitiesService} from '../node_modules/prendus-services/services/utilities-service';
 
 const defaultAction = (context: any) => {
@@ -40,319 +39,270 @@ const hideMainSpinner = (context: any) => {
 
 const loadCourseCollaboratorEmails = async (context: any, uid: string, courseId: string) => {
 
-    ExecuteAsyncInOrderService.execute(operation);
+    try {
+        const uids = await CourseModel.getCollaboratorUids(courseId);
 
-    async function operation() {
-        try {
-            const uids = await CourseModel.getCollaboratorUids(courseId);
+        await FirebaseService.set(`security/${uid}/collaboratorSecurityInfo`, {
+            collection: CourseModel.dataPath,
+            id: courseId
+        });
+        const emails = await UserModel.getEmailsByIds(uids);
 
-            await FirebaseService.set(`security/${uid}/collaboratorSecurityInfo`, {
-                collection: CourseModel.dataPath,
-                id: courseId
-            });
-            const emails = await UserModel.getEmailsByIds(uids);
+        context.action = {
+            type: 'SET_COURSE_COLLABORATOR_EMAILS',
+            emails,
+            uid,
+            courseId
+        };
 
-            context.action = {
-                type: 'SET_COURSE_COLLABORATOR_EMAILS',
-                emails,
-                uid,
-                courseId
-            };
-
-            const conceptIds = await CourseModel.getConceptIds(courseId);
-            conceptIds.forEach((conceptId) => {
-                loadConceptCollaboratorEmails(context, courseId, conceptId);
-            });
-        }
-        catch(error) {
-            throw error;
-        }
+        const conceptIds = await CourseModel.getConceptIds(courseId);
+        conceptIds.forEach((conceptId) => {
+            loadConceptCollaboratorEmails(context, courseId, conceptId);
+        });
+    }
+    catch(error) {
+        throw error;
     }
 };
 
 const loadConceptCollaboratorEmails = async (context: any, courseId: string, conceptId: string) => {
 
-    ExecuteAsyncInOrderService.execute(operation);
+    try {
+        const user = await FirebaseService.getLoggedInUser();
 
-    async function operation() {
-        try {
-            const user = await FirebaseService.getLoggedInUser();
+        const uids = await ConceptModel.getCollaboratorUids(conceptId);
 
-            const uids = await ConceptModel.getCollaboratorUids(conceptId);
+        await FirebaseService.set(`security/${user.uid}/collaboratorSecurityInfo`, {
+            collection: ConceptModel.dataPath,
+            id: conceptId
+        });
+        const emails = await UserModel.getEmailsByIds(uids);
 
-            await FirebaseService.set(`security/${user.uid}/collaboratorSecurityInfo`, {
-                collection: ConceptModel.dataPath,
-                id: conceptId
-            });
-            const emails = await UserModel.getEmailsByIds(uids);
+        context.action = {
+            type: 'SET_CONCEPT_COLLABORATOR_EMAILS',
+            emails,
+            courseId,
+            conceptId
+        };
 
-            context.action = {
-                type: 'SET_CONCEPT_COLLABORATOR_EMAILS',
-                emails,
-                courseId,
-                conceptId
-            };
+        const videoIds = await ConceptModel.getVideoIds(conceptId);
+        videoIds.forEach((videoId) => {
+            loadVideoCollaboratorEmails(context, conceptId, videoId);
+        });
 
-            const videoIds = await ConceptModel.getVideoIds(conceptId);
-            videoIds.forEach((videoId) => {
-                loadVideoCollaboratorEmails(context, conceptId, videoId);
-            });
-
-            const quizIds: string[] = await ConceptModel.getQuizIds(conceptId);
-            quizIds.forEach((quizId) => {
-                loadQuizCollaboratorEmails(context, conceptId, quizId);
-            });
-        }
-        catch(error) {
-            throw error;
-        }
+        const quizIds: string[] = await ConceptModel.getQuizIds(conceptId);
+        quizIds.forEach((quizId) => {
+            loadQuizCollaboratorEmails(context, conceptId, quizId);
+        });
+    }
+    catch(error) {
+        throw error;
     }
 };
 
 const loadVideoCollaboratorEmails = async (context: any, conceptId: string, videoId: string) => {
 
-    ExecuteAsyncInOrderService.execute(operation);
+      try {
+          const user = await FirebaseService.getLoggedInUser();
 
-    async function operation() {
-        try {
-            const user = await FirebaseService.getLoggedInUser();
+          const uids = await VideoModel.getCollaboratorUids(videoId);
 
-            const uids = await VideoModel.getCollaboratorUids(videoId);
+          await FirebaseService.set(`security/${user.uid}/collaboratorSecurityInfo`, {
+              collection: VideoModel.dataPath,
+              id: videoId
+          });
+          const emails = await UserModel.getEmailsByIds(uids);
 
-            await FirebaseService.set(`security/${user.uid}/collaboratorSecurityInfo`, {
-                collection: VideoModel.dataPath,
-                id: videoId
-            });
-            const emails = await UserModel.getEmailsByIds(uids);
-
-            context.action = {
-                type: 'SET_VIDEO_COLLABORATOR_EMAILS',
-                emails,
-                conceptId,
-                videoId
-            };
-        }
-        catch(error) {
-            throw error;
-        }
-    }
+          context.action = {
+              type: 'SET_VIDEO_COLLABORATOR_EMAILS',
+              emails,
+              conceptId,
+              videoId
+          };
+      }
+      catch(error) {
+          throw error;
+      }
 };
 
 const loadQuizCollaboratorEmails = async (context: any, conceptId: string, quizId: string) => {
 
-    ExecuteAsyncInOrderService.execute(operation);
+    try {
+        const user = await FirebaseService.getLoggedInUser();
 
-    async function operation() {
-        try {
-            const user = await FirebaseService.getLoggedInUser();
+        const uids = await QuizModel.getCollaboratorUids(quizId);
 
-            const uids = await QuizModel.getCollaboratorUids(quizId);
+        await FirebaseService.set(`security/${user.uid}/collaboratorSecurityInfo`, {
+            collection: QuizModel.dataPath,
+            id: quizId
+        });
+        const emails = await UserModel.getEmailsByIds(uids);
 
-            await FirebaseService.set(`security/${user.uid}/collaboratorSecurityInfo`, {
-                collection: QuizModel.dataPath,
-                id: quizId
-            });
-            const emails = await UserModel.getEmailsByIds(uids);
-
-            context.action = {
-                type: 'SET_QUIZ_COLLABORATOR_EMAILS',
-                emails,
-                conceptId,
-                quizId
-            };
-        }
-        catch(error) {
-            throw error;
-        }
+        context.action = {
+            type: 'SET_QUIZ_COLLABORATOR_EMAILS',
+            emails,
+            conceptId,
+            quizId
+        };
+    }
+    catch(error) {
+        throw error;
     }
 };
 
 const addCourseCollaborator = async (context: any, courseId: string, email: string) => {
+    try {
+        const user = await FirebaseService.getLoggedInUser();
 
-    ExecuteAsyncInOrderService.execute(operation);
+        await FirebaseService.set(`security/${user.uid}/emailToUidSecurityInfo/encodedEmail`, btoa(email));
+        const uid = await EmailsToUidsModel.getUidByEmail(email);
 
-    async function operation() {
-        try {
-            const user = await FirebaseService.getLoggedInUser();
-
-            await FirebaseService.set(`security/${user.uid}/emailToUidSecurityInfo/encodedEmail`, btoa(email));
-            const uid = await EmailsToUidsModel.getUidByEmail(email);
-
-            if (!uid) {
-                throw 'The user does not exist';
-            }
-
-            await CourseModel.associateCollaborator(courseId, uid);
-            await UserModel.shareCourseWithMe(uid, courseId);
+        if (!uid) {
+            throw 'The user does not exist';
         }
-        catch(error) {
-            throw error;
-        }
+
+        await CourseModel.associateCollaborator(courseId, uid);
+        await UserModel.shareCourseWithMe(uid, courseId);
+    }
+    catch(error) {
+        throw error;
     }
 };
 
 const addConceptCollaborator = async (context: any, conceptId: string, email: string) => {
 
-    ExecuteAsyncInOrderService.execute(operation);
+    try {
+        const user = await FirebaseService.getLoggedInUser();
 
-    async function operation() {
-        try {
-            const user = await FirebaseService.getLoggedInUser();
+        await FirebaseService.set(`security/${user.uid}/emailToUidSecurityInfo/encodedEmail`, btoa(email));
+        const uid = await EmailsToUidsModel.getUidByEmail(email);
 
-            await FirebaseService.set(`security/${user.uid}/emailToUidSecurityInfo/encodedEmail`, btoa(email));
-            const uid = await EmailsToUidsModel.getUidByEmail(email);
-
-            if (!uid) {
-                throw 'The user does not exist';
-            }
-
-            await ConceptModel.associateCollaborator(conceptId, uid);
-            await UserModel.shareConceptWithMe(uid, conceptId);
+        if (!uid) {
+            throw 'The user does not exist';
         }
-        catch(error) {
-            throw error;
-        }
+
+        await ConceptModel.associateCollaborator(conceptId, uid);
+        await UserModel.shareConceptWithMe(uid, conceptId);
+    }
+    catch(error) {
+        throw error;
     }
 };
 
 const addVideoCollaborator = async (context: any, videoId: string, email: string) => {
 
-    ExecuteAsyncInOrderService.execute(operation);
+    try {
+        const user = await FirebaseService.getLoggedInUser();
 
-    async function operation() {
-        try {
-            const user = await FirebaseService.getLoggedInUser();
+        await FirebaseService.set(`security/${user.uid}/emailToUidSecurityInfo/encodedEmail`, btoa(email));
+        const uid = await EmailsToUidsModel.getUidByEmail(email);
 
-            await FirebaseService.set(`security/${user.uid}/emailToUidSecurityInfo/encodedEmail`, btoa(email));
-            const uid = await EmailsToUidsModel.getUidByEmail(email);
-
-            if (!uid) {
-                throw 'The user does not exist';
-            }
-
-            await VideoModel.associateCollaborator(videoId, uid);
-            await UserModel.shareVideoWithMe(uid, videoId);
+        if (!uid) {
+            throw 'The user does not exist';
         }
-        catch(error) {
-            throw error;
-        }
+
+        await VideoModel.associateCollaborator(videoId, uid);
+        await UserModel.shareVideoWithMe(uid, videoId);
+    }
+    catch(error) {
+        throw error;
     }
 };
 
 const addQuizCollaborator = async (context: any, quizId: string, email: string) => {
 
-    ExecuteAsyncInOrderService.execute(operation);
+    try {
+        const user = await FirebaseService.getLoggedInUser();
 
-    async function operation() {
-        try {
-            const user = await FirebaseService.getLoggedInUser();
+        await FirebaseService.set(`security/${user.uid}/emailToUidSecurityInfo/encodedEmail`, btoa(email));
+        const uid = await EmailsToUidsModel.getUidByEmail(email);
 
-            await FirebaseService.set(`security/${user.uid}/emailToUidSecurityInfo/encodedEmail`, btoa(email));
-            const uid = await EmailsToUidsModel.getUidByEmail(email);
-
-            if (!uid) {
-                throw 'The user does not exist';
-            }
-
-            await QuizModel.associateCollaborator(quizId, uid);
-            await UserModel.shareQuizWithMe(uid, quizId);
+        if (!uid) {
+            throw 'The user does not exist';
         }
-        catch(error) {
-            throw error;
-        }
+
+        await QuizModel.associateCollaborator(quizId, uid);
+        await UserModel.shareQuizWithMe(uid, quizId);
+    }
+    catch(error) {
+        throw error;
     }
 };
 
 const removeCourseCollaborator = async (context: any, courseId: string, email: string) => {
 
-    ExecuteAsyncInOrderService.execute(operation);
+    try {
+        const user = await FirebaseService.getLoggedInUser();
 
-    async function operation() {
-        try {
-            const user = await FirebaseService.getLoggedInUser();
+        await FirebaseService.set(`security/${user.uid}/emailToUidSecurityInfo/encodedEmail`, btoa(email));
+        const uid = await EmailsToUidsModel.getUidByEmail(email);
 
-            await FirebaseService.set(`security/${user.uid}/emailToUidSecurityInfo/encodedEmail`, btoa(email));
-            const uid = await EmailsToUidsModel.getUidByEmail(email);
-
-            if (!uid) {
-                throw 'The user does not exist';
-            }
-
-            await CourseModel.disassociateCollaborator(courseId, uid);
-            await UserModel.unshareCourseWithMe(uid, courseId);
+        if (!uid) {
+            throw 'The user does not exist';
         }
-        catch(error) {
-            throw error;
-        }
+
+        await CourseModel.disassociateCollaborator(courseId, uid);
+        await UserModel.unshareCourseWithMe(uid, courseId);
+    }
+    catch(error) {
+        throw error;
     }
 };
 
 const removeConceptCollaborator = async (context: any, conceptId: string, email: string) => {
 
-    ExecuteAsyncInOrderService.execute(operation);
+    try {
+        const user = await FirebaseService.getLoggedInUser();
 
-    async function operation() {
-        try {
-            const user = await FirebaseService.getLoggedInUser();
+        await FirebaseService.set(`security/${user.uid}/emailToUidSecurityInfo/encodedEmail`, btoa(email));
+        const uid = await EmailsToUidsModel.getUidByEmail(email);
 
-            await FirebaseService.set(`security/${user.uid}/emailToUidSecurityInfo/encodedEmail`, btoa(email));
-            const uid = await EmailsToUidsModel.getUidByEmail(email);
-
-            if (!uid) {
-                throw 'The user does not exist';
-            }
-
-            await ConceptModel.disassociateCollaborator(conceptId, uid);
+        if (!uid) {
+            throw 'The user does not exist';
         }
-        catch(error) {
-            throw error;
-        }
+
+        await ConceptModel.disassociateCollaborator(conceptId, uid);
+    }
+    catch(error) {
+        throw error;
     }
 };
 
 const removeVideoCollaborator = async (context: any, videoId: string, email: string) => {
 
-    ExecuteAsyncInOrderService.execute(operation);
+    try {
+        const user = await FirebaseService.getLoggedInUser();
 
-    async function operation() {
-        try {
-            const user = await FirebaseService.getLoggedInUser();
+        await FirebaseService.set(`security/${user.uid}/emailToUidSecurityInfo/encodedEmail`, btoa(email));
+        const uid = await EmailsToUidsModel.getUidByEmail(email);
 
-            await FirebaseService.set(`security/${user.uid}/emailToUidSecurityInfo/encodedEmail`, btoa(email));
-            const uid = await EmailsToUidsModel.getUidByEmail(email);
-
-            if (!uid) {
-                throw 'The user does not exist';
-            }
-
-            await VideoModel.disassociateCollaborator(videoId, uid);
+        if (!uid) {
+            throw 'The user does not exist';
         }
-        catch(error) {
-            throw error;
-        }
+
+        await VideoModel.disassociateCollaborator(videoId, uid);
+    }
+    catch(error) {
+        throw error;
     }
 };
 
 const removeQuizCollaborator = async (context: any, quizId: string, email: string) => {
 
-    ExecuteAsyncInOrderService.execute(operation);
+    try {
+        const user = await FirebaseService.getLoggedInUser();
 
-    async function operation() {
-        try {
-            const user = await FirebaseService.getLoggedInUser();
+        await FirebaseService.set(`security/${user.uid}/emailToUidSecurityInfo/encodedEmail`, btoa(email));
+        const uid = await EmailsToUidsModel.getUidByEmail(email);
 
-            await FirebaseService.set(`security/${user.uid}/emailToUidSecurityInfo/encodedEmail`, btoa(email));
-            const uid = await EmailsToUidsModel.getUidByEmail(email);
-
-            if (!uid) {
-                throw 'The user does not exist';
-            }
-
-            await QuizModel.disassociateCollaborator(quizId, uid);
+        if (!uid) {
+            throw 'The user does not exist';
         }
-        catch(error) {
-            throw error;
-        }
+
+        await QuizModel.disassociateCollaborator(quizId, uid);
+    }
+    catch(error) {
+        throw error;
     }
 };
 
