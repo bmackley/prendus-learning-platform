@@ -9,6 +9,8 @@ class PrendusCourseHomepage {
   public properties: any;
   public courses: string[];
   public newCourse: Course;
+	public courseTitle: string;
+	public courseDescription: string;
   private uid: string;
   public username: string;
   public userCourses: Course[];
@@ -24,6 +26,7 @@ class PrendusCourseHomepage {
   };
   public querySelector: any;
   public errorMessage: string;
+
   beforeRegister(): void {
     this.is = 'prendus-course-homepage';
     this.properties = {
@@ -39,6 +42,7 @@ class PrendusCourseHomepage {
           await Actions.getCoursesByUser(this);
           Actions.getStarredCoursesByUser(this, user.uid);
           Actions.getSharedCoursesByUser(this, user.uid);
+					Actions.getCoursesByVisibility(this, 'public', 6);
           Actions.hideMainSpinner(this);
       } catch(error) {
           this.errorMessage = '';
@@ -46,50 +50,55 @@ class PrendusCourseHomepage {
       }
   }
 
-  //Opens new course dialog
-  addCourse(e: any) {
+  openAddCourseDialog(e: any): void {
     this.querySelector('#add-course-dialog').open();
   }
-  onRemove(e: any) {
+
+	canAddCourse(courseTitle: string, courseDescription: string): boolean {
+		return !!(courseTitle.length && courseDescription.length);
+	}
+
+  onRemove(e: any): void {
     this.courseTagNames = this.courseTagNames.filter((tagName: string, index) => e.detail.index !== index);
   }
-  onAdd(e: any) {
+
+  onAdd(e: any): void {
     if(!this.courseTagNames) {
       this.courseTagNames = [];
     }
     this.courseTagNames = [...this.courseTagNames, e.detail.tag];
   }
-  //Adds course to database
-  async addCourseFormDone(e: any) {
-    e.preventDefault();
-    if(this.querySelector('#courseFormName').value){
-      this.querySelector('#add-course-dialog').close();
-      const formTitle: string = this.querySelector('#courseFormName').value;
-      const courseDescription: string = this.querySelector('#courseDescription').value;
-      const visibility: CourseVisibility = 'public';
-      const newCourse: Course = {
-        id: '',
-        concepts: null,
-        tags: null,
-        collaborators: null,
-        userStars: null,
-        visibility,
-        title: formTitle,
-        description: courseDescription,
-        uid: this.uid
-      };
-      try {
-        await Actions.addCourse(this, newCourse, this.courseTagNames);
-        await Actions.getCoursesByUser(this);
-      } catch(error) {
-        this.errorMessage = '';
-        this.errorMessage = error.message;
-      }
-      this.querySelector('#courseFormName').value = '';
+
+  // Adds course to database
+  async addCourse(e: any): Promise<void> {
+    this.querySelector('#add-course-dialog').close();
+    const visibility: CourseVisibility = 'public';
+    const newCourse: Course = {
+      id: '',
+      concepts: null,
+      tags: null,
+      collaborators: null,
+			dueDate: 0,
+      userStars: null,
+      visibility,
+      title: this.courseTitle,
+      description: this.courseDescription,
+      uid: this.uid
+    };
+    try {
+      await Actions.addCourse(this, newCourse, this.courseTagNames);
+      await Actions.getCoursesByUser(this);
+    } catch(error) {
+      this.errorMessage = '';
+      this.errorMessage = error.message;
     }
+    this.courseTitle = '';
+    this.courseDescription = '';
+		this.querySelector('#edit-course-name').invalid = false;
+		this.querySelector('#edit-course-description').invalid = false;
   }
 
-  mapStateToThis(e: StatechangeEvent) {
+  mapStateToThis(e: StatechangeEvent): void {
     const state = e.detail.state;
     this.userCourses = state.courses;
     this.starredCourses = state.starredCourses;
