@@ -275,6 +275,7 @@ export class PrendusCourseView {
     try {
       if(typeof e.target !== 'undefined' && !e.target.invalid) {
         const value = e.target.value;
+				if(value === '') return;
         const attribute = e.target.name;
         await Actions.updateCourseField(this, this.courseId, attribute, value);
         await Actions.getCourseViewCourseById(this, this.courseId);

@@ -18,42 +18,48 @@
         flex-direction: column;
         align-items: center;
       }
+
       paper-card {
         width: 100%;
         max-width: 320px;
       }
-      paper-button.indigo {
+
+      paper-button.indigo:not([disabled]) {
         background-color: var(--prendus-primary-color);
         color: white;
       }
+
       #email-confirmation-dialog {
-      width: 33%;
-      min-width: 300px;
+	      width: 33%;
+	      min-width: 300px;
       }
+
     </style>
   <template>
     <redux-store action="[[action]]"></redux-store>
 
     <paper-card id="signupForm" heading="Create Account">
-      <form  id="signupFormlocater" is="iron-form" class="card-content" method="get" action="/createclass" on-keydown="createUserKeydown">
-        <paper-input name="email" id="formEmail" label="Email" required auto-validate></paper-input>
-        <paper-input name="password" id="formPassword" label="Password" type="password" required auto-validate></paper-input>
-        <paper-input name="verify_password" id="retypePassword" label="Retype password" type="password" required auto-validate></paper-input>
+      <form  id="signupFormlocater" is="iron-form" class="card-content" method="get" action="/createclass" on-keydown="createUserOnEnter">
+        <paper-input id="email" name="email" label="Email" value="{{email}}" required on-change="hardValidateEmail" on-keyup="softValidateEmail" pattern="^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$" error-message="Please enter a valid email address."></paper-input>
+        <paper-input id="password" name="password" label="Password" type="password" value="{{password}}" required auto-validate error-message="Please enter a password."></paper-input>
+        <paper-input id="confirm-password" name="confirm-password" label="Confirm Password" type="password" value="{{confirmPassword}}" required on-change="hardValidatePassword" on-keyup="softValidatePassword" error-message="Passwords do not match."></paper-input>
         <paper-input name="firstName" id="firstName" label="First Name"></paper-input>
         <paper-input name="lastName" id="lastName" label="Last Name"></paper-input>
         <paper-input name="Intitution" id="institution" label="Institution (school)"></paper-input>
       </form>
       <div class="card-actions">
-        <paper-button id="signup-submit" class="indigo" raised>Submit</paper-button>
+        <paper-button id="signup-submit" class="indigo" disabled$="[[!enableSignup(email, password, confirmPassword)]]" noink>Submit</paper-button>
       </div>
     </paper-card>
+
     <paper-dialog id="email-confirmation-dialog" modal>
       <div>
         [[createCourseEmailMessage]]
         <br>
-        <a href="/login"><paper-button id="continueToLogin" class="indigo" raised>Continue</paper-button></a>
+        <a href="/login"><paper-button id="continueToLogin" class="indigo" noink>Continue</paper-button></a>
       </div>
     </paper-dialog>
+
     <prendus-notification error-message="[[errorMessage]]"></prendus-notification>
   </template>
 
