@@ -38,7 +38,7 @@
                 <p>[[item]] <iron-icon class="remove-collaborator" icon="icons:clear" on-tap="removeCollaborator">remove</iron-icon></p>
             </template>
 						<div id="add-container">
-							<paper-input id="add-input" label="Enter email address" value="{{newCollaboratorEmail}}" on-keydown="addCollaboratorIfEnter"></paper-input>
+							<paper-input id="add-input" label="Enter email address" tabindex="0" value="{{newCollaboratorEmail}}" on-keydown="addCollaboratorIfEnter"></paper-input>
 							<paper-button disabled="[[!canAddCollaborator(newCollaboratorEmail)]]" noink on-tap="addCollaborator">Add</paper-button>
 						</div>
           </paper-dialog-scrollable>

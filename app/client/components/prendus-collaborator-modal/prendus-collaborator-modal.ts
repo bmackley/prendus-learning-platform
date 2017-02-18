@@ -58,7 +58,7 @@ class PrendusCollaboratorModal {
         ];
     }
 
-    open(): void {
+    async open(): Promise<void> {
       this.querySelector('#modal').open();
     }
 

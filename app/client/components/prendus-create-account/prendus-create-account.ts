@@ -20,6 +20,9 @@ class PrendusCreateAccount {
       };
   }
 
+	// each input has a hard validation for when focus is lost and a soft validation
+	// for when the user is typing (to be responsive but not obnoxious)
+
 	hardValidateEmail(): void {
 		const emailElement: any = this.querySelector('#email');
 		emailElement.validate();
@@ -31,11 +34,21 @@ class PrendusCreateAccount {
 	}
 
 	hardValidatePassword(): void {
+		const passwordElement: any = this.querySelector('#password');
+		passwordElement.validate();
+	}
+
+	softValidatePassword(): void {
+		const passwordElement: any = this.querySelector('#password');
+		if(this.password.length >= 6) passwordElement.invalid = false;
+	}
+
+	hardValidateConfirmPassword(): void {
 		const confirmPasswordElement: any = this.querySelector('#confirm-password');
 		if(this.password !== this.confirmPassword) confirmPasswordElement.invalid = true;
 	}
 
-	softValidatePassword(): void {
+	softValidateConfirmPassword(): void {
 		const confirmPasswordElement: any = this.querySelector('#confirm-password');
 		if(this.password === this.confirmPassword) confirmPasswordElement.invalid = false;
 	}
@@ -55,10 +68,10 @@ class PrendusCreateAccount {
     try {
         const email = this.querySelector('#email').value;
 				const password = this.querySelector('#password').value;
-        const firstName = this.querySelector('#firstName').value;
-        const lastName = this.querySelector('#lastName').value;
+        const firstName = this.querySelector('#first-name').value;
+        const lastName = this.querySelector('#last-name').value;
         const institution = this.querySelector('#institution').value;
-        //TODO verify passwords match
+
         const userMetaData = {
             uid: '',
             email,
@@ -69,9 +82,9 @@ class PrendusCreateAccount {
 
         await Actions.createUser(this, userMetaData, password);
 
-        //TODO decide on way to show a confirmation
+        // TODO decide on way to show a confirmation
         this.querySelector('#email-confirmation-dialog').open();
-        //TODO decide on confirmation message
+        // TODO decide on confirmation message
         this.createCourseEmailMessage =
         `Your account has been created. Please confirm your email
          address. A confirmation email has been sent to ${email}.
