@@ -4,11 +4,15 @@ import {User} from '../../node_modules/prendus-services/typings/user';
 
 class PrendusCreateAccount {
   public is: string;
+  public email: string;
+  public password: string;
+  public confirmPassword: string;
   public errorMessage: string;
   public listeners: any;
   public readonly querySelector: any;
   public createCourseEmailMessage: string;
-  beforeRegister() {
+
+  beforeRegister(): void {
       this.is = 'prendus-create-account';
       this.listeners =  {
         'signup-submit.tap': 'createUser',
@@ -16,17 +20,44 @@ class PrendusCreateAccount {
       };
   }
 
-	createUserKeydown(e: any) {
+	hardValidateEmail(): void {
+		const emailElement: any = this.querySelector('#email');
+		emailElement.validate();
+	}
+
+	softValidateEmail(): void {
+		const emailElement: any = this.querySelector('#email');
+		if(this.email.match(/^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$/) !== null) emailElement.invalid = false;
+	}
+
+	hardValidatePassword(): void {
+		const confirmPasswordElement: any = this.querySelector('#confirm-password');
+		if(this.password !== this.confirmPassword) confirmPasswordElement.invalid = true;
+	}
+
+	softValidatePassword(): void {
+		const confirmPasswordElement: any = this.querySelector('#confirm-password');
+		if(this.password === this.confirmPassword) confirmPasswordElement.invalid = false;
+	}
+
+	enableSignup(email: string, password: string, confirmPassword: string): boolean {
+		return 	email.match(/^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$/) !== null
+				&&	password !== ''
+				&&	confirmPassword !== ''
+				&&	password === confirmPassword;
+	}
+
+	createUserOnEnter(e: any): void {
 		if(e.keyCode === 13) this.createUser(e);
 	}
 
   async createUser(e: Event){
     try {
-        const email = this.querySelector('#formEmail').value;
+        const email = this.querySelector('#email').value;
+				const password = this.querySelector('#password').value;
         const firstName = this.querySelector('#firstName').value;
         const lastName = this.querySelector('#lastName').value;
         const institution = this.querySelector('#institution').value;
-        const password = this.querySelector('#formPassword').value;
         //TODO verify passwords match
         const userMetaData = {
             uid: '',
@@ -51,9 +82,7 @@ class PrendusCreateAccount {
         this.errorMessage = error.message
     }
   }
-  closeDialog() {
-      this.querySelector('#email-confirmation-dialog').close();
-  }
+
 }
 
 

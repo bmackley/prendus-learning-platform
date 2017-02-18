@@ -345,7 +345,7 @@ const createNewQuiz = async (context: any, conceptId: string) => {
         visibility: 'public',
         quizQuestionSettings: {
             answerFeedback: true,
-            showAnswer: true,
+            showAnswer: false,
             showHint: true,
             showCode: true,
             graded: false,
