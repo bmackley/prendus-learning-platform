@@ -5,28 +5,34 @@
 <link rel="import" href="../../bower_components/paper-card/paper-card.html">
 <link rel="import" href="../../bower_components/paper-button/paper-button.html">
 <link rel="import" href="../../bower_components/paper-dialog/paper-dialog.html">
-
 <link rel="import" href="../prendus-notification/prendus-notification.html">
+<link rel="import" href="../../styles/color-styles.html">
 
 <dom-module id="prendus-login">
+	<style include="color-styles"></style>
   <style>
+
     :host {
       width: 100%;
       display: flex;
       flex-direction: column;
       align-items: center;
     }
+
     paper-card {
       width: 100%;
       max-width: 320px;
     }
-    paper-button.indigo {
+
+    paper-button.indigo:not([disabled]) {
       background-color: var(--prendus-primary-color);
       color: white;
     }
+
     #create-account {
       padding: 16px;
     }
+
   </style>
   <template>
     <redux-store action="[[action]]"></redux-store>
@@ -36,7 +42,7 @@
           <paper-input name="password" id="loginPassword" label="Password" type="password" required auto-validate></paper-input>
         </form>
         <div class="card-actions">
-          <paper-button id="signin-submit" noink>Log In</paper-button>
+          <paper-button id="signin-submit" class="indigo" noink>Log In</paper-button>
           <paper-button noink on-click="sendResetEmailTrigger">Forgot Password</paper-button>
         </div>
         <div id="create-account">Don't have an account? <a href="/signup"><span on-tap="create-account">Sign up</span></a></div>
