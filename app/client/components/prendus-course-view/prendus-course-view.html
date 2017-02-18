@@ -87,12 +87,19 @@
     }
 
     .concept-edit-container {
+			/* keeps text from overflowing a flexbox container */
+			min-width: 0;
       flex-grow: 1;
     }
 
 		.edit-section {
 			display: flex;
 			align-items: center;
+		}
+
+		.edit-section * {
+			/* keeps text from overflowing a flexbox container */
+			min-width: 0;
 		}
 
 		.edit-input {
