@@ -36,27 +36,24 @@
   </style>
   <template>
     <redux-store action="[[action]]"></redux-store>
-      <paper-card id = "loginFormCard" heading ="Login">
-        <form class="card-content" is="iron-form" id="loginForm" on-keydown="loginKeydown">
-          <paper-input name="email" id="loginEmail" label="Email" required auto-validate></paper-input>
-          <paper-input name="password" id="loginPassword" label="Password" type="password" required auto-validate></paper-input>
+      <paper-card id="login-container" heading="Log in">
+        <form id="login-form" class="card-content" is="iron-form" on-keydown="loginOnEnter">
+          <paper-input id="email" name="email" label="Email" value="{{email}}" required on-change="hardValidateEmail" on-keyup="softValidateEmail" pattern="^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$" error-message="Please enter a valid email address."></paper-input>
+          <paper-input id="password" name="password" label="Password" value="{{password}}" type="password" required auto-validate error-message="Please enter your password."></paper-input>
         </form>
         <div class="card-actions">
-          <paper-button id="signin-submit" class="indigo" noink>Log In</paper-button>
-          <paper-button noink on-click="sendResetEmailTrigger">Forgot Password</paper-button>
+          <paper-button noink on-tap="openResetPasswordModal">Forgot Password</paper-button>
+					<paper-button id="log-in-submit" class="indigo" disabled="[[!enableLogIn(email, password)]]" noink on-tap="login">Log In</paper-button>
         </div>
-        <div id="create-account">Don't have an account? <a href="/signup"><span on-tap="create-account">Sign up</span></a></div>
+        <div id="create-account">Don't have an account? <a href="/signup">Sign up</a></div>
       </paper-card>
-      <paper-dialog id = "forgotPasswordModal" modal>
-        <div>
-          <!-- Look up Iron keys to change this -->
-          <form is="iron-form">
-            <h2>Enter Email to Send Password Reset Link</h2>
-            <paper-input name="resetPasswordEmail" id = "resetPasswordEmail" label="Email" required auto-validate></paper-input>
-            <paper-button noink dialog-dismiss>Cancel</paper-button>
-            <paper-button noink on-click="sendResetEmail">Submit</paper-button>
-          </form>
-        </div>
+      <paper-dialog id="reset-password-modal" modal>
+        <form is="iron-form">
+          <h2>Enter Email to Send Password Reset Link</h2>
+          <paper-input name="resetPasswordEmail" id = "resetPasswordEmail" label="Email" required auto-validate></paper-input>
+          <paper-button noink dialog-dismiss>Cancel</paper-button>
+          <paper-button class="indigo" noink on-click="sendResetEmail">Submit</paper-button>
+        </form>
       </paper-dialog>
       <prendus-notification error-message="[[errorMessage]]"></prendus-notification>
   </template>
