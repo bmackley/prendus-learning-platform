@@ -33,7 +33,7 @@ export class PrendusProfile {
 
   async changeProfile(e: any): Promise<void> {
     if(this.querySelector('#updateEmail').value != this.pastEmail) {
-      this.querySelector('#confirmEmailChange').open();
+      this.querySelector('#enter-password').open();
     } else {
       const submitValue: UserMetaData = {
         uid: this.uid,
@@ -51,32 +51,35 @@ export class PrendusProfile {
         this.errorMessage = error.message;
       }
     }
-
   }
 
-  async closeOverlay(e: any): Promise<void> {
-    if(e.detail.confirmed === true) {
-      try {
-        const submitValue: UserMetaData = {
-          uid: this.uid,
-          firstName: this.querySelector('#firstName').value,
-          lastName: this.querySelector('#lastName').value,
-          institution: this.querySelector('#institution').value,
-          email:  this.querySelector('#updateEmail').value,
-        };
-        Actions.showMainSpinner(this);
-        await Actions.updateUserEmail(this, this.pastEmail, this.querySelector('#changeEmailPassword').value, submitValue.email);
-        await Actions.updateUserMetaData(this, this.uid, submitValue);
-        Actions.hideMainSpinner(this);
-        this.successMessage = '';
-        this.successMessage = 'Profile & Email Updated Successfully';
-      } catch(error) {
-        this.errorMessage = '';
-        this.errorMessage = error.message;
-      }
-    }
-    this.querySelector('#changeEmailPassword').value = ''; //need to clear the form
-  }
+	confirmIfEnter(e: any): void {
+		if(e.keyCode === 13) this.changeEmail();
+	}
+
+	async changeEmail(): Promise<void> {
+		this.querySelector('#enter-password').close();
+		try {
+			const submitValue: UserMetaData = {
+				uid: this.uid,
+				firstName: this.querySelector('#firstName').value,
+				lastName: this.querySelector('#lastName').value,
+				institution: this.querySelector('#institution').value,
+				email:  this.querySelector('#updateEmail').value,
+			};
+			Actions.showMainSpinner(this);
+			await Actions.updateUserEmail(this, this.pastEmail, this.querySelector('#password').value, submitValue.email);
+			await Actions.updateUserMetaData(this, this.uid, submitValue);
+			Actions.hideMainSpinner(this);
+			this.successMessage = '';
+			this.successMessage = 'Profile & Email Updated Successfully';
+		} catch(error) {
+			this.errorMessage = '';
+			this.errorMessage = error.message;
+		}
+		// clear password form
+		this.querySelector('#password').value = '';
+	}
 
   submitKeydown(e: any): void {
     if(e.keyCode === 13) this.changeProfile(e);

@@ -6,11 +6,13 @@
 <link rel="import" href="../../bower_components/iron-icon/iron-icon.html">
 <link rel="import" href="../../bower_components/redux-store-element/redux-store.html">
 <link rel="import" href="../../bower_components/paper-toolbar/paper-toolbar.html">
+<link rel="import" href="../../styles/color-styles.html">
 <link rel="import" href="../prendus-notification/prendus-notification.html">
 
 <dom-module id="prendus-course-preview">
   <template>
 
+		<style include="color-styles"></style>
     <style>
 
 			:host {
@@ -52,9 +54,9 @@
 				flex-grow: 1;
       }
 
-      .delete-button {
+      #delete-button {
+				background-color: var(--prendus-red);
         color: white;
-        background: red;
       }
 
     </style>
@@ -91,12 +93,13 @@
 	      </div>
 	    </paper-card>
 		</a>
-    <paper-dialog id="confirm-delete-modal" modal>
+
+    <paper-dialog id="confirm-delete-modal" with-backdrop>
       <h2>Confirm Delete</h2>
       <p>Are you sure you want to delete this course?  If you delete it, collaborators will lose access.</p>
       <div class="buttons">
-        <paper-button dialog-dismiss>Cancel</paper-button>
-        <paper-button class="delete-button" on-tap="deleteCourse">Delete</paper-button>
+        <paper-button dialog-dismiss on-tap="closeDeleteModal">Cancel</paper-button>
+        <paper-button id="delete-button" on-tap="deleteCourse">Delete</paper-button>
       </div>
     </paper-dialog>
     <prendus-notification error-message="[[errorMessage]]"></prendus-notification>

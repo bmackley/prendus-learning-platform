@@ -12,6 +12,7 @@
   <style include="color-styles">
   </style>
   <style>
+
     :host {
       width: 100%;
       display: flex;
@@ -33,24 +34,14 @@
       --paper-toast-background-color: red;
     }
 
-    paper-button.cancel:hover {
-      color: red;
-    }
-
-    paper-button.confirm:hover {
-      color: green;
-    }
-
-    #submit-button {
-      background-color: var(--prendus-primary-color);
-      color: white;
-    }
   </style>
+
   <template>
     <redux-store on-statechange="mapStateToThis" action="[[action]]"></redux-store>
     <paper-toast id="updateProfileErrorToast" duration="5000" verticalAlign="top" text=[[updateProfileErrorToastText]]></paper-toast>
     <paper-toast id="updateProfileSuccessToast" duration="5000" verticalAlign="top" text=[[updateProfileSuccessToastText]]></paper-toast>
-    <paper-card id = "profileFormCard" heading ="Update Profile">
+
+    <paper-card id="profileFormCard" heading ="Update Profile">
       <form class="card-content" is="iron-form" id="form" method="post" action="/form/handler" on-keydown="submitKeydown">
         <paper-input name="firstName" id="firstName" label="First Name" value="[[firstName]]"></paper-input>
         <paper-input name="lastName" id="lastName" label="Last Name" value="[[lastName]]"></paper-input>
@@ -58,21 +49,21 @@
         <paper-input name="Email" id="updateEmail" label="Email" required value="[[email]]"></paper-input>
       </form>
       <div class="card-actions">
-        <paper-button raised on-tap="changeProfile" id="submit-button">Submit</paper-button>
+        <paper-button class="indigo" on-tap="changeProfile" noink>Update</paper-button>
       </div>
     </paper-card>
+
     <div id="toastTarget"></div>
     <prendus-notification error-message="[[errorMessage]]"></prendus-notification>
     <prendus-notification success-message="[[successMessage]]"></prendus-notification>
-    <paper-dialog id="confirmEmailChange" modal on-iron-overlay-closed="closeOverlay">
+
+    <paper-dialog id="enter-password" with-backdrop on-iron-overlay-closed="closeOverlay">
       <h2>Password Verification</h2>
-      <paper-dialog-scrollable>
-        You are changing your email. Your account password is needed to perform this function.
-        <paper-input type= "password" name="password" id="changeEmailPassword" label="Password"></paper-input>
-      </paper-dialog-scrollable>
+        <p>You are changing your email. Your account password is needed to perform this function.</p>
+        <paper-input id="password" type= "password" name="password" label="Password" on-keydown="confirmIfEnter"></paper-input>
       <div class="buttons">
-        <paper-button class="cancel" dialog-dismiss>Cancel</paper-button>
-        <paper-button class="confirm" dialog-confirm>Continue</paper-button>
+        <paper-button dialog-dismiss>Cancel</paper-button>
+        <paper-button class="indigo" on-tap="changeEmail">Continue</paper-button>
       </div>
     </paper-dialog>
   </template>

@@ -10,11 +10,11 @@
 <link rel="import" href="../../bower_components/paper-checkbox/paper-checkbox.html">
 <link rel="import" href="../../bower_components/iron-pages/iron-pages.html">
 <link rel="import" href="../../bower_components/paper-icon-button/paper-icon-button.html">
-<link rel="import" href="../../bower_components/prendus-question-components/components/prendus-view-question/prendus-view-question.html">
 <link rel="import" href="../../bower_components/iron-icons/iron-icons.html">
 <link rel="import" href="../../bower_components/iron-icons/av-icons.html">
 <link rel="import" href="../../bower_components/iron-icons/social-icons.html">
 <link rel="import" href="../../bower_components/paper-date-picker/paper-date-picker.html">
+<link rel="import" href="../../bower_components/prendus-question-components/components/prendus-view-question/prendus-view-question.html">
 <link rel="import" href="../../styles/color-styles.html">
 <link rel="import" href="../prendus-collaborator-modal/prendus-collaborator-modal.html">
 <link rel="import" href="../prendus-notification/prendus-notification.html">
@@ -48,20 +48,21 @@
         #quiz-title-input {
             --paper-input-container-input: {
                 font-size: 25px;
-                margin-left: 2%;
             };
 
             --paper-input-container-label: {
                 font-size: 25px;
-                margin-left: 2%;
             };
         }
+
+				.indigo {
+					background-color: var(--prendus-primary-color);
+					color: white;
+				}
 
         #new-question {
           width: 100%;
           margin: 15px auto;
-          background-color: var(--prendus-primary-color);
-          color: white;
         }
 
         .tab-content {
@@ -70,11 +71,6 @@
 
         #share-quiz-dialog {
           width: 80vw;
-        }
-
-        #share-quiz-dialog > * {
-          padding: 0;
-          width: 100%;
         }
 
         #settings-modal {
@@ -118,9 +114,12 @@
 
     <prendus-notification success-message="[[successMessage]]" error-message="[[errorMessage]]"></prendus-notification>
 
-    <paper-dialog id="share-quiz-dialog" with-backdrop style="padding: 25px">
-      <p>Use this link to access the quiz:</p>
-      <input id="share-quiz-link" value="https://prendus.com/courses/view-quiz/course/[[courseId]]/concept/[[conceptId]]/quiz/[[quizId]]" readonly on-tap="selectText"></input>
+    <paper-dialog id="share-quiz-dialog" with-backdrop>
+      <h3>Use this link to access the quiz:</h3>
+      <paper-input id="share-quiz-link" noink value="https://prendus.com/courses/view-quiz/course/[[courseId]]/concept/[[conceptId]]/quiz/[[quizId]]" readonly on-tap="selectText"></paper-input>
+			<div class="buttons">
+				<paper-button class="indigo" noink dialog-dismiss>Done</paper-button>
+			</div>
     </paper-dialog>
 
     <div id="quiz-container">
@@ -129,7 +128,7 @@
         <div class="card-content">
 					<a href="/courses/view/[[courseId]]"><paper-button><iron-icon class="text-icon" icon="undo"></iron-icon> Back to course</paper-button></a>
 					<!-- QUIZ TITLE -->
-          <paper-input id="quiz-title-input" label="Quiz Title" value="[[title]]" on-change="titleChanged"></paper-input>
+          <paper-input id="quiz-title-input" label="Quiz Title" value="[[title]]" on-change="titleChanged" required auto-validate maxlength="50"></paper-input>
 					<!-- OPTIONS -->
           <paper-icon-button id="share-button" icon="social:share" on-tap="shareQuiz"></paper-icon-button>
           <paper-tooltip for="share-button" offset="0" animation-delay="300">Get Share Link</paper-tooltip>
@@ -181,7 +180,7 @@
       <paper-card>
         <div class="card-content">
 					<!-- QUESTION TYPE TABS -->
-          <paper-tabs id="question-tabs" selected="{{selected}}" scrollable fit-container>
+          <paper-tabs id="question-tabs" selected="{{selected}}" scrollable fit-container noink>
             <paper-tab>My Questions</paper-tab>
             <paper-tab>Public Questions</paper-tab>
           </paper-tabs>
@@ -189,7 +188,7 @@
           <iron-pages selected="{{selected}}">
 						<!-- USER'S QUESTIONS -->
             <div id="my-questions" class="tab-content">
-              <paper-button id="new-question" on-tap="createQuestion">New Question</paper-button>
+              <paper-button id="new-question" class="indigo" on-tap="createQuestion">New Question</paper-button>
               <template is="dom-repeat" items="[[userQuestionIds]]">
                 <prendus-view-question id="user-question-id-[[item]]" question-id="[[item]]" quiz-id="NO_QUIZ" jwt="[[jwt]]" quiz-session="[[quizSession]]" concise></prendus-view-question>
                 <paper-icon-button id="add[[item]]" icon="av:playlist-add" on-click="addQuestionToQuiz"></paper-icon-button>

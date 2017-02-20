@@ -132,7 +132,7 @@ class PrendusQuizEditor {
     }
 
     selectText(e: any): void {
-      e.target.select();
+			if(e.target.select) e.target.select();
     }
 
     openCollaboratorsModal(e: any): void {
