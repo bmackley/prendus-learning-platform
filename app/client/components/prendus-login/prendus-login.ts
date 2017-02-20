@@ -31,11 +31,11 @@ class PrendusLogin {
 
 	enableLogIn(email: string, password: string): boolean {
 		return 	email.match(/^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$/) !== null
-				&&	password !== '';
+				&&	password.length >= 6;
 	}
 
 	loginOnEnter(e: any) {
-		if(e.keyCode === 13) this.login();
+		if(e.keyCode === 13 && this.enableLogIn(this.email, this.password)) this.login();
 	}
 
   async login() {
@@ -56,8 +56,8 @@ class PrendusLogin {
     }
   }
 
-	openResetPasswordModal(): void {
-		this.querySelector('#reset-password-modal').open()
+	openResetPasswordDialog(): void {
+		this.querySelector('#reset-password-dialog').open()
 	}
 
   async sendResetEmail(e: any) {
@@ -66,11 +66,11 @@ class PrendusLogin {
     const emailReset: string = this.querySelector('#resetPasswordEmail').value;
     try {
       await FirebaseService.sendPasswordResetEmail(emailReset);
-      this.querySelector('#reset-password-modal').close();
+      this.querySelector('#reset-password-dialog').close();
       this.successMessage = '';
       this.successMessage = 'Password sent';
     } catch(error){
-      this.querySelector('#reset-password-modal').close();
+      this.querySelector('#reset-password-dialog').close();
       this.errorMessage = '';
       this.errorMessage = error.message;
     }

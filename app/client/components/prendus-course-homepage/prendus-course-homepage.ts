@@ -50,11 +50,11 @@ class PrendusCourseHomepage {
       }
   }
 
-  openAddCourseDialog(e: any): void {
-    this.querySelector('#add-course-dialog').open();
+  openCreateCourseDialog(e: any): void {
+    this.querySelector('#create-course-dialog').open();
   }
 
-	canAddCourse(courseTitle: string, courseDescription: string): boolean {
+	canCreateCourse(courseTitle: string, courseDescription: string): boolean {
 		return !!(courseTitle.length && courseDescription.length);
 	}
 
@@ -69,9 +69,21 @@ class PrendusCourseHomepage {
     this.courseTagNames = [...this.courseTagNames, e.detail.tag];
   }
 
+	createCourseOnEnter(e: any): void {
+		console.log('key pressed');
+		console.log(e);
+		console.log(e.keyCode);
+		if(			e.keyCode === 13
+				&&	this.querySelector('#edit-course-name').validate()
+				&&	this.querySelector('#edit-course-description').validate()) {
+			console.log('enter pressed');
+			this.createCourse(e);
+		}
+	}
+
   // Adds course to database
-  async addCourse(e: any): Promise<void> {
-    this.querySelector('#add-course-dialog').close();
+  async createCourse(e: any): Promise<void> {
+    this.querySelector('#create-course-dialog').close();
     const visibility: CourseVisibility = 'public';
     const newCourse: Course = {
       id: '',

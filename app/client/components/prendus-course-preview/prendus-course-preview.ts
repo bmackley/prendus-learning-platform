@@ -14,7 +14,10 @@ class PrendusCoursePreview {
     public hasEditAccess: boolean;
     public successMessage: string;
     public errorMessage: string;
-    beforeRegister() {
+		public querySelector: any;
+		public style: any;
+
+    beforeRegister(): void {
         this.is = 'prendus-course-preview';
         this.properties = {
             course: {
@@ -83,11 +86,20 @@ class PrendusCoursePreview {
     openDeleteModal(e: any) {
       e.stopPropagation();
 			e.preventDefault();
+			// hack to prevent stacking error
+			this.style.zIndex = 1;
       this.querySelector('#confirm-delete-modal').open();
     }
 
+		closeDeleteModal(e: any) {
+			// hack to prevent stacking error
+			this.style.zIndex = 0;
+		}
+
     async deleteCourse(e: any) {
       this.querySelector('#confirm-delete-modal').close();
+			// hack to prevent stacking error
+			this.style.zIndex = 0;
       try {
         await Actions.deleteCourse(this, this.course);
         this.successMessage = '';
