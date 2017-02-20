@@ -70,13 +70,9 @@ class PrendusCourseHomepage {
   }
 
 	createCourseOnEnter(e: any): void {
-		console.log('key pressed');
-		console.log(e);
-		console.log(e.keyCode);
 		if(			e.keyCode === 13
 				&&	this.querySelector('#edit-course-name').validate()
 				&&	this.querySelector('#edit-course-description').validate()) {
-			console.log('enter pressed');
 			this.createCourse(e);
 		}
 	}

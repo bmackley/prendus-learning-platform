@@ -86,20 +86,21 @@ class PrendusCoursePreview {
     openDeleteModal(e: any) {
       e.stopPropagation();
 			e.preventDefault();
-			// hack to prevent stacking error
+			// this dialog does not have a backdrop for now because of issues with the
+			// paper-dialog element (see https://github.com/PolymerElements/paper-dialog/issues/7)
+			// this is a hack to prevent stacking errors
 			this.style.zIndex = 1;
-      this.querySelector('#confirm-delete-modal').open();
-    }
+			this.querySelector('#confirm-delete-modal').open();
+		}
 
 		closeDeleteModal(e: any) {
-			// hack to prevent stacking error
+			// hack to prevent stacking errors
 			this.style.zIndex = 0;
 		}
 
     async deleteCourse(e: any) {
       this.querySelector('#confirm-delete-modal').close();
-			// hack to prevent stacking error
-			this.style.zIndex = 0;
+			this.closeDeleteModal(e);
       try {
         await Actions.deleteCourse(this, this.course);
         this.successMessage = '';
