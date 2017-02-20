@@ -2,6 +2,7 @@
 <link rel="import" href="../../bower_components/redux-store-element/redux-store.html">
 <link rel="import" href="../../bower_components/paper-input/paper-input.html">
 <link rel="import" href="../../bower_components/paper-button/paper-button.html">
+<link rel="import" href="../../bower_components/paper-dialog/paper-dialog.html">
 <link rel="import" href="../../bower_components/paper-dialog-scrollable/paper-dialog-scrollable.html">
 <link rel="import" href="../../bower_components/iron-icon/iron-icon.html">
 <link rel="import" href="../../styles/color-styles.html">
@@ -31,7 +32,7 @@
 				<prendus-notification success-message="[[successMessage]]" error-message="[[errorMessage]]"></prendus-notification>
 				<redux-store on-statechange="mapStateToThis" action=[[action]]></redux-store>
 
-        <paper-dialog id="modal">
+        <paper-dialog id="modal" with-backdrop>
           <h2>Collaborators</h2>
           <paper-dialog-scrollable>
             <template is="dom-repeat" items="[[collaboratorEmails]]">

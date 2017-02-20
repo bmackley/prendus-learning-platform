@@ -3,8 +3,6 @@
 <link rel="import" href="../../bower_components/paper-button/paper-button.html">
 <link rel="import" href="../../bower_components/paper-icon-button/paper-icon-button.html">
 <link rel="import" href="../../bower_components/iron-icon/iron-icon.html">
-<link rel="import" href="../../bower_components/paper-dialog-behavior/paper-dialog-behavior.html">
-<link rel="import" href="../../bower_components/paper-dialog-behavior/paper-dialog-shared-styles.html">
 <link rel="import" href="../../bower_components/paper-date-picker/paper-date-picker.html">
 <link rel="import" href="../../bower_components/redux-store-element/redux-store.html">
 <link rel="import" href="../../bower_components/paper-input/paper-input.html">
@@ -195,7 +193,7 @@
 						</template>
 					</div>
 					<template is="dom-if" if="[[hasEditAccess]]">
-						<paper-dialog id="due-date-modal" class="paper-date-picker-dialog">
+						<paper-dialog id="due-date-modal" class="paper-date-picker-dialog" with-backdrop>
 							<paper-date-picker id="due-date" date="[[displayDate(currentCourse.dueDate)]]" on-tap="dueDateChanged"></paper-date-picker>
 							<div class="buttons">
 								<paper-button noink dialog-dismiss>Close</paper-button>

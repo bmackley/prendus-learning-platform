@@ -42,12 +42,13 @@
           <paper-input id="password" name="password" label="Password" value="{{password}}" type="password" required auto-validate error-message="Please enter your password."></paper-input>
         </form>
         <div class="card-actions">
-          <paper-button noink on-tap="openResetPasswordModal">Forgot Password</paper-button>
+          <paper-button noink on-tap="openResetPasswordDialog">Forgot Password</paper-button>
 					<paper-button id="log-in-submit" class="indigo" disabled="[[!enableLogIn(email, password)]]" noink on-tap="login">Log In</paper-button>
         </div>
         <div id="create-account">Don't have an account? <a href="/signup">Sign up</a></div>
       </paper-card>
-      <paper-dialog id="reset-password-modal" modal>
+
+      <paper-dialog id="reset-password-dialog" with-backdrop>
         <form is="iron-form">
           <h2>Enter Email to Send Password Reset Link</h2>
           <paper-input name="resetPasswordEmail" id = "resetPasswordEmail" label="Email" required auto-validate></paper-input>
@@ -55,6 +56,7 @@
           <paper-button class="indigo" noink on-click="sendResetEmail">Submit</paper-button>
         </form>
       </paper-dialog>
+
       <prendus-notification error-message="[[errorMessage]]"></prendus-notification>
   </template>
 

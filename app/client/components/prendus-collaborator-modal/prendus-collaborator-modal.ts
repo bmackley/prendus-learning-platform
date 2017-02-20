@@ -67,7 +67,7 @@ class PrendusCollaboratorModal {
             await Actions.loadCourseCollaboratorEmails(this, uid, courseId);
         }
         catch(error) {
-            alert(error);
+            console.error(error);
         }
     }
 
@@ -76,7 +76,7 @@ class PrendusCollaboratorModal {
             await Actions.loadConceptCollaboratorEmails(this, courseId, conceptId);
         }
         catch(error) {
-            alert(error);
+            console.error(error);
         }
     }
 
@@ -85,7 +85,7 @@ class PrendusCollaboratorModal {
             await Actions.loadVideoCollaboratorEmails(this, conceptId, videoId);
         }
         catch(error) {
-            alert(error);
+            console.error(error);
         }
     }
 
@@ -94,7 +94,7 @@ class PrendusCollaboratorModal {
             await Actions.loadQuizCollaboratorEmails(this, conceptId, quizId);
         }
         catch(error) {
-            alert(error);
+            console.error(error);
         }
     }
 
@@ -130,7 +130,7 @@ class PrendusCollaboratorModal {
             }
         }
         catch(error) {
-            console.log(error);
+            console.error(error);
 						this.errorMessage = '';
 						this.errorMessage = 'Could not add collaborator.';
 						return;
@@ -165,7 +165,7 @@ class PrendusCollaboratorModal {
             }
         }
         catch(error) {
-            console.log(error);
+            console.error(error);
         }
     }
 

@@ -10,7 +10,7 @@ class PrendusCreateAccount {
   public errorMessage: string;
   public listeners: any;
   public readonly querySelector: any;
-  public createCourseEmailMessage: string;
+  public createAccountEmailMessage: string;
 
   beforeRegister(): void {
       this.is = 'prendus-create-account';
@@ -61,7 +61,7 @@ class PrendusCreateAccount {
 	}
 
 	createUserOnEnter(e: any): void {
-		if(e.keyCode === 13) this.createUser(e);
+		if(e.keyCode === 13 && this.enableSignup(this.email, this.password, this.confirmPassword)) this.createUser(e);
 	}
 
   async createUser(e: Event){
@@ -85,7 +85,7 @@ class PrendusCreateAccount {
         // TODO decide on way to show a confirmation
         this.querySelector('#email-confirmation-dialog').open();
         // TODO decide on confirmation message
-        this.createCourseEmailMessage =
+        this.createAccountEmailMessage =
         `Your account has been created. Please confirm your email
          address. A confirmation email has been sent to ${email}.
          You will now be redirected to the login page.`;
