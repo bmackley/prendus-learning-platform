@@ -47,7 +47,7 @@ class PrendusCollaboratorModal {
                 type: String
             },
             quiz: {
-                type: String
+                type: Boolean
             }
         };
         this.observers = [
