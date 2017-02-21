@@ -16,8 +16,6 @@
         <prendus-notification success-message="[[successMessage]]" error-message="[[errorMessage]]"></prendus-notification>
 
         <app-route route="[[route]]" pattern="/edit-question/question/:questionId" data="{{data}}" tail="{{tail}}"></app-route>
-				<!-- TODO: link these buttons properly once we have courseId and quizId information -->
-				<!-- <a href="/courses/view/[[data.courseId]]"><paper-button>Course</paper-button></a> / <a href="/courses/view/[[data.quizId]]"><paper-button>Quiz</paper-button></a> -->
         <prendus-edit-question id="editProblemComponent" jwt="[[jwt]]" external-question-id="[[data.questionId]]" quiz-session="[[quizSession]]" on-savequestion="questionSaved" on-loaded="editProblemComponentLoaded"></prendus-edit-question>
     </template>
 

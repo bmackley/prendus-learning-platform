@@ -18,6 +18,7 @@
 <link rel="import" href="../../styles/color-styles.html">
 <link rel="import" href="../prendus-collaborator-modal/prendus-collaborator-modal.html">
 <link rel="import" href="../prendus-notification/prendus-notification.html">
+<link rel="import" href="../prendus-breadcrumbs/prendus-breadcrumbs.html">
 
 <dom-module id="prendus-quiz-editor">
   <template>
@@ -126,7 +127,7 @@
       <!-- TODO: for mobile display, move the quiz preview to another tab in the questions card -->
       <paper-card>
         <div class="card-content">
-					<a href="/courses/view/[[courseId]]"><paper-button><iron-icon class="text-icon" icon="undo"></iron-icon> Back to course</paper-button></a>
+					<prendus-breadcrumbs course-id="[[courseId]]"></prendus-breadcrumbs>
 					<!-- QUIZ TITLE -->
           <paper-input id="quiz-title-input" label="Quiz Title" value="[[title]]" on-change="titleChanged" required auto-validate maxlength="50"></paper-input>
 					<!-- OPTIONS -->

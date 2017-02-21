@@ -1,0 +1,33 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+
+<dom-module id="prendus-breadcrumbs">
+
+	<style>
+
+		#breadcrumbs-container {
+			display: flex;
+		}
+
+		.breadcrumb {
+
+		}
+
+		.breadcrumb + .breadcrumb::before {
+			content: "/";
+			padding: 5px;
+		}
+
+	</style>
+
+	<template>
+
+		<div id="breadcrumbs-container">
+			<span class="breadcrumb"><a href="/">Home</a></span>
+			<span class="breadcrumb" hidden$="[[!courseId]]"><a href$="/courses/view/[[courseId]]">Course</a></span>
+			<span class="breadcrumb" hidden$="[[!showQuizLink(courseId, conceptId, quizId)]]"><a href$="/courses/edit-quiz/course/[[courseId]]/concept/[[conceptId]]/quiz/[[quizId]]">Quiz</a></span>
+		</div>
+
+	</template>
+
+	<script src="prendus-breadcrumbs.ts"></script>
+</dom-module>
