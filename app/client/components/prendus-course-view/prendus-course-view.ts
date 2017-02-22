@@ -16,6 +16,7 @@ export class PrendusCourseView {
   public courseTagNames: string[];
   public courseTags: Tag[];
   public courseId: string;
+	public courseLoaded: boolean;
   public properties: any;
   public observers: string[];
   public username: string;
@@ -67,18 +68,6 @@ export class PrendusCourseView {
 	reloadConcept(e: any): void {
 		this.querySelector(`#concept${e.detail.conceptId}`).init();
 	}
-
-  mapStateToThis(e: StatechangeEvent): void {
-    const state = e.detail.state;
-    this.courseId = state.courseViewCurrentCourse.id;
-    this.username = state.currentUser.metaData.email;
-    this.uid = state.currentUser.metaData.uid;
-    this.currentCourse = state.courseViewCurrentCourse;
-    // this.courseTags = state.courseViewCurrentCourse.tags;
-    this.courseTagNames = state.courseTagNames;
-    this.courseConcepts = state.viewCourseConcepts[this.courseId];
-		this.collaboratorEmails = state.courseCollaboratorEmails[this.uid] && state.courseCollaboratorEmails[this.uid][this.courseId];
-  }
 
   openEditConceptDialog(e: any): void {
     const conceptId: string = e.detail.conceptId;
@@ -235,13 +224,14 @@ export class PrendusCourseView {
           Actions.showMainSpinner(this);
           await Actions.getCourseViewCourseById(this, this.data.courseId);
           await Actions.loadViewCourseConcepts(this, this.data.courseId);
-          Actions.hideMainSpinner(this);
+					this.courseLoaded = true;
       }
     } catch(error) {
+			this.courseLoaded = false;
       this.errorMessage = '';
       this.errorMessage = error.message;
     }
-
+		Actions.hideMainSpinner(this);
   }
 
   getLTILinks(): void {
@@ -287,6 +277,18 @@ export class PrendusCourseView {
       this.errorMessage = '';
       this.errorMessage = error.message;
     }
+  }
+
+  mapStateToThis(e: StatechangeEvent): void {
+    const state = e.detail.state;
+    this.courseId = state.courseViewCurrentCourse.id;
+    this.username = state.currentUser.metaData.email;
+    this.uid = state.currentUser.metaData.uid;
+    this.currentCourse = state.courseViewCurrentCourse;
+    // this.courseTags = state.courseViewCurrentCourse.tags;
+    this.courseTagNames = state.courseTagNames;
+    this.courseConcepts = state.viewCourseConcepts[this.courseId];
+		this.collaboratorEmails = state.courseCollaboratorEmails[this.uid] && state.courseCollaboratorEmails[this.uid][this.courseId];
   }
 }
 

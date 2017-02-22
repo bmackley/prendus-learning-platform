@@ -20,9 +20,10 @@ class PrendusQuizEditor {
 		public observers: string[];
 
 		public data: any;
-		public quizId: any;
-		public conceptId: any;
-		public courseId: any;
+		public quizLoaded: boolean;
+		public quizId: string;
+		public conceptId: string;
+		public courseId: string;
 		public uid: string;
     public userQuestionIds: string[];
     public publicQuestionIds: string[];
@@ -67,9 +68,7 @@ class PrendusQuizEditor {
         };
         const request = startQuizSessionAjax.generateRequest();
         await request.completes;
-
-        const quizSession: QuizSession = request.response.quizSession;
-        this.quizSession = quizSession;
+        this.quizSession = request.response.quizSession;
         //TODO this is horrible and should be removed once the view problem component can be initialized without a quiz session being handed to it
 
         Actions.hideMainSpinner(this);
@@ -89,10 +88,16 @@ class PrendusQuizEditor {
 
     async setQuizId(quizId: string): Promise<void> {
 			await this.init();
-			const quiz: Quiz = await Actions.getQuiz(quizId);
-			this.title = quiz.title;
-			this.loadQuizQuestionIds();
-			Actions.loadQuizQuestionSettings(this, quizId);
+			try {
+				const quiz: Quiz = await Actions.getQuiz(quizId);
+				this.title = quiz.title;
+				this.loadQuizQuestionIds();
+				Actions.loadQuizQuestionSettings(this, quizId);
+				this.quizLoaded = true;
+			} catch(error) {
+				this.quizLoaded = false;
+				console.error(error);
+			}
     }
 
     async loadPublicQuestionIds(): Promise<void> {
