@@ -18,10 +18,13 @@
   <style include="color-styles"></style>
   <style>
 
-    #resource-tabs {
+    paper-tabs {
       --paper-tabs-selection-bar-color: var(--prendus-primary-color);
       text-transform: uppercase;
     }
+
+		paper-tab {
+		}
 
     .title-buttons {
       display: flex;
@@ -82,22 +85,23 @@
 		<prendus-collaborator-modal id="collaborators-modal" course-id="[[courseId]]" concept-id="[[item.id]]" concept></prendus-collaborator-modal>
     <prendus-notification id="notification" success-message="[[successMessage]]" error-message="[[errorMessage]]"></prendus-notification>
     <div class="title-buttons" on-tap="toggle">
-      <iron-icon class="drag-icon icon-button" icon="editor:drag-handle"></iron-icon>
+      <iron-icon id="drag-handle" class="icon-button" icon="editor:drag-handle"></iron-icon>
+			<paper-tooltip for="drag-handle" offset="0" animation-delay="300">Drag to change concept order</paper-tooltip>
 			<div class="title-action-buttons">
 				<h3 class="concept-title">[[title]]</h3>
 				<div class="action-buttons">
 					<paper-icon-button id="edit-button" class="icon-button" icon="create" on-tap="editConcept"></paper-icon-button>
-					<paper-tooltip for="edit-button" offset="0" animation-delay="300">Edit Concept</paper-tooltip>
+					<paper-tooltip for="edit-button" offset="0" animation-delay="300">Edit concept</paper-tooltip>
 					<paper-icon-button id="collaborator-button" class="icon-button" icon="social:group-add" on-tap="openCollaboratorsModal"></paper-icon-button>
-					<paper-tooltip for="collaborator-button" offset="0" animation-delay="300">Edit Collaborators</paper-tooltip>
+					<paper-tooltip for="collaborator-button" offset="0" animation-delay="300">Edit collaborators</paper-tooltip>
 					<paper-icon-button id="delete-button" class="icon-button" icon="delete" on-tap="openDeleteModal"></paper-icon-button>
-					<paper-tooltip for="delete-button" offset="0" animation-delay="300">Delete Concept</paper-tooltip>
+					<paper-tooltip for="delete-button" offset="0" animation-delay="300">Delete concept</paper-tooltip>
 				</div>
 			</div>
     </div>
     <iron-collapse id="collapsible-section">
       <div id="collapsible-content">
-        <paper-tabs id="resource-tabs" selected="{{selected}}">
+        <paper-tabs id="resource-tabs" selected="{{selected}}" noink>
             <paper-tab>Quizzes</paper-tab>
             <paper-tab>Videos</paper-tab>
         </paper-tabs>

@@ -77,7 +77,12 @@ class PrendusConceptNewConcept {
     }
 
   }
-  async addConceptFormDone(e: any) {
+
+	updateConceptIfEnter(e: any): void {
+		if(e.keyCode === 13) this.updateConcept(e);
+	}
+
+  async updateConcept(e: any) {
     e.preventDefault();
     this.conceptFormName = this.querySelector('#concept-name').value;
     if(this.conceptFormName && this.conceptId) {
