@@ -809,6 +809,9 @@
         },
         "components/prendus-breadcrumbs/prendus-breadcrumbs.ts": {
             "parentImport": true
+        },
+        "images/favicon.png": {
+            "parentImport": true
         }
     }
 }
