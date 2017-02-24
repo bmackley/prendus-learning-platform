@@ -77,6 +77,7 @@ class PrendusQuizEditor {
     async setQuizId(quizId: string): Promise<void> {
 			try {
 				await this.init();
+				Actions.hideMainSpinner(this);
 				const quiz: Quiz = await Actions.getQuiz(quizId);
 				this.title = quiz.title;
 				this.quizLoaded = true;
@@ -84,7 +85,7 @@ class PrendusQuizEditor {
 				this.quizLoaded = false;
 				console.error(error);
 			}
-			Actions.hideMainSpinner(this);
+
 			try {
 				await Promise.all([
 					Actions.loadQuizQuestionSettings(this, quizId),
