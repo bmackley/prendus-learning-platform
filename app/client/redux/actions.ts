@@ -18,6 +18,7 @@ import {UserMetaData} from '../node_modules/prendus-services/typings/user-meta-d
 import {User} from '../node_modules/prendus-services/typings/user';
 import {EmailsToUidsModel} from '../node_modules/prendus-services/models/emails-to-uids-model';
 import {Video} from '../node_modules/prendus-services/typings/video';
+import {ExecuteAsyncInOrderService} from '../node_modules/prendus-services/services/execute-async-in-order-service';
 import {UtilitiesService} from '../node_modules/prendus-services/services/utilities-service';
 
 const defaultAction = (context: any) => {
@@ -39,6 +40,9 @@ const hideMainSpinner = (context: any) => {
 
 const loadCourseCollaboratorEmails = async (context: any, uid: string, courseId: string) => {
 
+	ExecuteAsyncInOrderService.execute(operation);
+
+	async function operation() {
     try {
         const uids = await CourseModel.getCollaboratorUids(courseId);
 
@@ -63,10 +67,14 @@ const loadCourseCollaboratorEmails = async (context: any, uid: string, courseId:
     catch(error) {
         throw error;
     }
+	}
 };
 
 const loadConceptCollaboratorEmails = async (context: any, courseId: string, conceptId: string) => {
 
+	ExecuteAsyncInOrderService.execute(operation);
+
+	async function operation() {
     try {
         const user = await FirebaseService.getLoggedInUser();
 
@@ -98,10 +106,14 @@ const loadConceptCollaboratorEmails = async (context: any, courseId: string, con
     catch(error) {
         throw error;
     }
+	}
 };
 
 const loadVideoCollaboratorEmails = async (context: any, conceptId: string, videoId: string) => {
 
+	ExecuteAsyncInOrderService.execute(operation);
+
+	async function operation() {
       try {
           const user = await FirebaseService.getLoggedInUser();
 
@@ -123,10 +135,14 @@ const loadVideoCollaboratorEmails = async (context: any, conceptId: string, vide
       catch(error) {
           throw error;
       }
+		}
 };
 
 const loadQuizCollaboratorEmails = async (context: any, conceptId: string, quizId: string) => {
 
+	ExecuteAsyncInOrderService.execute(operation);
+
+	async function operation() {
     try {
         const user = await FirebaseService.getLoggedInUser();
 
@@ -148,9 +164,13 @@ const loadQuizCollaboratorEmails = async (context: any, conceptId: string, quizI
     catch(error) {
         throw error;
     }
+	}
 };
 
 const addCourseCollaborator = async (context: any, courseId: string, email: string) => {
+	ExecuteAsyncInOrderService.execute(operation);
+
+	async function operation() {
     try {
         const user = await FirebaseService.getLoggedInUser();
 
@@ -167,10 +187,13 @@ const addCourseCollaborator = async (context: any, courseId: string, email: stri
     catch(error) {
         throw error;
     }
+	}
 };
 
 const addConceptCollaborator = async (context: any, conceptId: string, email: string) => {
+	ExecuteAsyncInOrderService.execute(operation);
 
+	async function operation() {
     try {
         const user = await FirebaseService.getLoggedInUser();
 
@@ -187,10 +210,13 @@ const addConceptCollaborator = async (context: any, conceptId: string, email: st
     catch(error) {
         throw error;
     }
+	}
 };
 
 const addVideoCollaborator = async (context: any, videoId: string, email: string) => {
+	ExecuteAsyncInOrderService.execute(operation);
 
+	async function operation() {
     try {
         const user = await FirebaseService.getLoggedInUser();
 
@@ -207,10 +233,13 @@ const addVideoCollaborator = async (context: any, videoId: string, email: string
     catch(error) {
         throw error;
     }
+	}
 };
 
 const addQuizCollaborator = async (context: any, quizId: string, email: string) => {
+	ExecuteAsyncInOrderService.execute(operation);
 
+	async function operation() {
     try {
         const user = await FirebaseService.getLoggedInUser();
 
@@ -227,10 +256,13 @@ const addQuizCollaborator = async (context: any, quizId: string, email: string) 
     catch(error) {
         throw error;
     }
+	}
 };
 
 const removeCourseCollaborator = async (context: any, courseId: string, email: string) => {
+	ExecuteAsyncInOrderService.execute(operation);
 
+	async function operation() {
     try {
         const user = await FirebaseService.getLoggedInUser();
 
@@ -247,10 +279,13 @@ const removeCourseCollaborator = async (context: any, courseId: string, email: s
     catch(error) {
         throw error;
     }
+	}
 };
 
 const removeConceptCollaborator = async (context: any, conceptId: string, email: string) => {
+	ExecuteAsyncInOrderService.execute(operation);
 
+	async function operation() {
     try {
         const user = await FirebaseService.getLoggedInUser();
 
@@ -266,10 +301,13 @@ const removeConceptCollaborator = async (context: any, conceptId: string, email:
     catch(error) {
         throw error;
     }
+	}
 };
 
 const removeVideoCollaborator = async (context: any, videoId: string, email: string) => {
+	ExecuteAsyncInOrderService.execute(operation);
 
+	async function operation() {
     try {
         const user = await FirebaseService.getLoggedInUser();
 
@@ -285,10 +323,13 @@ const removeVideoCollaborator = async (context: any, videoId: string, email: str
     catch(error) {
         throw error;
     }
+	}
 };
 
 const removeQuizCollaborator = async (context: any, quizId: string, email: string) => {
+	ExecuteAsyncInOrderService.execute(operation);
 
+	async function operation() {
     try {
         const user = await FirebaseService.getLoggedInUser();
 
@@ -304,6 +345,7 @@ const removeQuizCollaborator = async (context: any, quizId: string, email: strin
     catch(error) {
         throw error;
     }
+	}
 };
 
 const starCourse = async (context: any, courseId: string) => {
@@ -444,10 +486,22 @@ const setQuestionSetting = async (context: any, quizId: string, questionId: stri
 const loadQuizQuestionIds = async (context: any, quizId: string) => {
     const quizQuestionIds = await QuizModel.getQuestionIds(quizId);
 
-    context.action = {
-        type: 'LOAD_QUIZ_QUESTION_IDS',
-        quizQuestionIds
-    };
+		streamId(quizQuestionIds, 0);
+
+		function streamId(ids: string[], index: number) {
+			setTimeout(() => {
+				if (index === ids.length - 1) {
+					return;
+				}
+
+				context.action = {
+					type: 'LOAD_QUIZ_QUESTION_IDS',
+					quizQuestionIds: ids.slice(0, index)
+				};
+
+				streamId(ids, index + 1);
+			});
+		}
 };
 
 const addQuestionToQuiz = async (context: any, quizId: string, questionId: string) => {
@@ -464,10 +518,22 @@ const loadUserQuestionIds = async (context: any, getUserQuestionIdsAjax: any) =>
 
     const userQuestionIds = request.response.questionIds;
 
-    context.action = {
-        type: 'LOAD_USER_QUESTION_IDS',
-        userQuestionIds
-    };
+		streamId(userQuestionIds, 0);
+
+		function streamId(ids: string[], index: number) {
+			setTimeout(() => {
+				if (index === ids.length - 1) {
+					return;
+				}
+
+				context.action = {
+					type: 'LOAD_USER_QUESTION_IDS',
+					userQuestionIds: ids.slice(0, index)
+				};
+
+				streamId(ids, index + 1);
+			});
+		}
 };
 
 const loadPublicQuestionIds = async (context: any, getPublicQuestionIdsAjax: any) => {
@@ -476,10 +542,22 @@ const loadPublicQuestionIds = async (context: any, getPublicQuestionIdsAjax: any
 
     const publicQuestionIds = request.response.questionIds;
 
-    context.action = {
-        type: 'LOAD_PUBLIC_QUESTION_IDS',
-        publicQuestionIds
-    };
+		streamId(publicQuestionIds, 0);
+
+		function streamId(ids: string[], index: number) {
+			setTimeout(() => {
+				if (index === ids.length - 1) {
+					return;
+				}
+
+				context.action = {
+					type: 'LOAD_PUBLIC_QUESTION_IDS',
+					publicQuestionIds: ids.slice(0, index)
+				};
+
+				streamId(ids, index + 1);
+			});
+		}
 };
 
 const deleteVideo = async (context: any, conceptId: string, videoId: string) => {
