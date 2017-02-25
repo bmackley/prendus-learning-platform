@@ -1,7 +1,9 @@
 import {Actions} from '../../redux/actions';
 import {rootReducer} from '../../redux/reducers';
 import {StatechangeEvent} from '../../typings/statechange-event';
+import {ConstantsService} from '../../node_modules/prendus-services/services/constants-service';
 import {FirebaseService} from '../../node_modules/prendus-services/services/firebase-service';
+
 class PrendusLogin {
   public is: string;
   public email: string;
@@ -26,11 +28,11 @@ class PrendusLogin {
 
 	softValidateEmail(): void {
 		const emailElement: any = this.querySelector('#email');
-		if(this.email.match(/^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$/) !== null) emailElement.invalid = false;
+		if(this.email.match(ConstantsService.EMAIL_REGEX) !== null) emailElement.invalid = false;
 	}
 
 	enableLogIn(email: string, password: string): boolean {
-		return 	email.match(/^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$/) !== null
+		return 	email.match(ConstantsService.EMAIL_REGEX) !== null
 				&&	password.length >= 6;
 	}
 
