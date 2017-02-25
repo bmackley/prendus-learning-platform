@@ -812,6 +812,9 @@
         },
         "images/favicon.png": {
             "parentImport": true
+        },
+        "bower_components/prendus-video-viewer-component/svgfixer.ts": {
+            "parentImport": false
         }
     }
 }
