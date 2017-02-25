@@ -17,9 +17,10 @@ class PrendusConceptNewConcept {
   public uid: string;
   public courseId: string;
   public courseConcepts: Concept[];
-  public conceptTagNames: string[];
+  // public conceptTagNames: string[];
+	public fire: any;
   beforeRegister() {
-    this.is = 'prendus-concept-new-concept';
+    this.is = 'prendus-concept-edit-modal';
     this.properties = {
     };
   }
@@ -30,17 +31,8 @@ class PrendusConceptNewConcept {
     this.querySelector('#dialog').open();
     this.conceptHeader = 'Add a Concept to the Course';
     this.conceptFormName = '';
-    this.querySelector('#tags').tags = [];
   }
-  onRemove(e: any) {
-    this.conceptTagNames = this.conceptTagNames.filter((tagName: string, index) => e.detail.index !== index);
-  }
-  onAdd(e: any) {
-    if(!this.conceptTagNames) {
-      this.conceptTagNames = [];
-    }
-    this.conceptTagNames = [...this.conceptTagNames, e.detail.tag];
-  }
+
   clearValues() {
     this.conceptId = null;
   }
@@ -50,9 +42,9 @@ class PrendusConceptNewConcept {
     try {
       const conceptAndTagNames: { concept: Concept, tagNames: string[] } = await Actions.getConceptAndTagNamesById(this.conceptId);
       const concept: Concept = conceptAndTagNames.concept;
-      const tagNames: string[] = conceptAndTagNames.tagNames;
+      // const tagNames: string[] = conceptAndTagNames.tagNames;
       this.conceptFormName = concept.title;
-      this.conceptTagNames = tagNames ? tagNames : [];
+      // this.conceptTagNames = tagNames ? tagNames : [];
     } catch(error) {
       this.errorMessage = '';
       this.errorMessage = error.message;
@@ -62,11 +54,12 @@ class PrendusConceptNewConcept {
   async editConcept() {
     try {
       await Actions.updateConceptTitle(this.conceptId, this.conceptFormName);
-      await Actions.updateConceptTags(this.conceptId, this.conceptTagNames);
+      // await Actions.updateConceptTag   s(this.conceptId, this.conceptTagNames);
+			this.fire('finish-edit-concept', { conceptId: this.conceptId });
       this.querySelector('#dialog').close();
       this.successMessage = '';
       this.successMessage = `${this.conceptFormName} successfully edited.`;
-      this.querySelector('#tags').tags = [];
+      // this.querySelector('#concept-tags').tags = [];
       this.conceptFormName = '';
       this.conceptId = '';
     } catch(error) {
@@ -75,9 +68,14 @@ class PrendusConceptNewConcept {
     }
 
   }
-  async addConceptFormDone(e: any) {
+
+	updateConceptIfEnter(e: any): void {
+		if(e.keyCode === 13) this.updateConcept(e);
+	}
+
+  async updateConcept(e: any) {
     e.preventDefault();
-    this.conceptFormName = this.querySelector('#conceptFormName').value;
+    this.conceptFormName = this.querySelector('#concept-name').value;
     if(this.conceptFormName && this.conceptId) {
       this.editConcept();
       return;
@@ -89,8 +87,7 @@ class PrendusConceptNewConcept {
         title: this.conceptFormName
       };
       try {
-        await Actions.addConcept(this, this.courseId, newConcept, this.courseConcepts.length, this.conceptTagNames);
-        await Actions.getCourseViewCourseById(this, this.courseId);
+        await Actions.addConcept(this, this.courseId, newConcept, this.courseConcepts.length, null);
         await Actions.loadViewCourseConcepts(this, this.courseId);
         this.successMessage = '';
         this.successMessage = 'Concept added successfully';

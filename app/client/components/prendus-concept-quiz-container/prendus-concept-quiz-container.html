@@ -24,6 +24,14 @@
         cursor: pointer;
       }
 
+			.quiz-row + .quiz-row {
+				border-top: solid lightgrey 1px;
+			}
+
+			.quiz-blankslate {
+				padding: 10px;
+			}
+
       .quiz-icon {
         color: rgba(0, 0, 0, .5);
       }
@@ -33,7 +41,13 @@
       }
 
 			.quiz-title {
+				/* keeps text from overflowing a flexbox container */
+				min-width: 0;
 				flex-grow: 1;
+			}
+
+			.quiz-icons {
+				flex-shrink: 0;
 			}
 
       .delete-button {
@@ -58,6 +72,7 @@
     </style>
 
     <redux-store on-statechange="mapStateToThis" action="[[action]]"></redux-store>
+
     <template is="dom-repeat" items="[[quizzes]]" as="quiz">
       <div class="quiz-row" on-tap="viewQuiz">
 				<span class="quiz-title">[[quiz.title]]</span>
@@ -71,11 +86,13 @@
 				</div>
       </div>
     </template>
-    <h4 hidden$="[[hasQuizzes(quizzes)]]">This concept doesn't have any quizzes yet.</h4>
+
+    <h4 class="quiz-blankslate" hidden$="[[hasQuizzes(quizzes)]]">This concept doesn't have any quizzes yet.</h4>
     <template is="dom-if" if="[[courseEditAccess]]">
-      <paper-button class="add-quiz-button" on-tap="addQuiz"><iron-icon icon="add"></iron-icon>Add Quiz</paper-button>
+      <paper-button class="add-quiz-button" on-tap="addQuiz" noink><iron-icon icon="add"></iron-icon>Add Quiz</paper-button>
     </template>
-    <paper-dialog id="confirm-delete-modal" modal>
+
+    <paper-dialog id="confirm-delete-modal" with-backdrop>
       <h2>Confirm Delete</h2>
       <p>Are you sure you want to delete this quiz?  If you delete it, collaborators will lose access.</p>
       <div class="buttons">
@@ -83,6 +100,7 @@
         <paper-button class="delete-button" on-tap="deleteQuiz">Delete</paper-button>
       </div>
     </paper-dialog>
+
     <prendus-notification error-message="[[errorMessage]]" success-message="[[successMessage]]"></prendus-notification>
   </template>
 

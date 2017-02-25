@@ -1,6 +1,7 @@
 <link rel="import" href="../../bower_components/polymer/polymer.html">
 <link rel="import" href="../../bower_components/redux-store-element/redux-store.html">
 <link rel="import" href="../../bower_components/iron-icons/iron-icons.html">
+<link rel="import" href="../../bower_components/paper-dialog/paper-dialog.html">
 <link rel="import" href="../../bower_components/paper-dialog-scrollable/paper-dialog-scrollable.html">
 <link rel="import" href="../prendus-video-editor/prendus-video-editor.html">
 <link rel="import" href="../../bower_components/paper-button/paper-button.html">
@@ -29,6 +30,14 @@
 						cursor: pointer;
 					}
 
+					.video-row + .video-row {
+						border-top: solid lightgrey 1px;
+					}
+
+					.video-blankslate {
+						padding: 10px;
+					}
+
           .add-video-button {
             background-color: var(--prendus-primary-color);
             color: white;
@@ -43,11 +52,12 @@
             <prendus-video-editor id="videoEditor" concept-id="[[conceptId]]" video-id="[[currentVideoId]]" title="{{currentVideoTitle}}" url="{{currentVideoUrl}}" on-save="saveVideo" on-delete="deleteVideo"></prendus-video-editor>
           </paper-dialog-scrollable>
         </paper-dialog>
+
         <template is="dom-repeat" items="[[videos]]">
             <div class="video-row" on-tap="videoRowClick">[[item.title]]</div>
         </template>
-				<h4 hidden$="[[hasVideos(videos)]]">This concept doesn't have any videos yet.</h4>
-        <paper-button class="add-video-button" on-tap="addVideo"><iron-icon icon="add"></iron-icon>Add Video</paper-button>
+				<h4 class="video-blankslate" hidden$="[[hasVideos(videos)]]">This concept doesn't have any videos yet.</h4>
+        <paper-button class="add-video-button" on-tap="addVideo" noink><iron-icon icon="add"></iron-icon>Add Video</paper-button>
     </template>
 
     <script src="prendus-concept-video-container-edit.ts"></script>

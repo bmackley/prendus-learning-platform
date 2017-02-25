@@ -34,7 +34,7 @@ class PrendusCourseRouter {
       }
 
       case 'edit-quiz': {
-        UtilitiesService.importElement(this, 'components/prendus-edit-quiz-router/prendus-edit-quiz-router.html', 'edit-quiz');
+        UtilitiesService.importElement(this, 'components/prendus-quiz-editor/prendus-quiz-editor.html', 'edit-quiz');
         break;
       }
 

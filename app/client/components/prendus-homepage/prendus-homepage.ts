@@ -23,7 +23,7 @@ class PrendusHomepage {
 
     beforeRegister(): void {
         this.is = 'prendus-homepage';
-        this.numCoursesLoadOnScroll = 12;
+        this.numCoursesLoadOnScroll = 36;
     }
 
     async ready(): Promise<void> {
@@ -63,7 +63,7 @@ class PrendusHomepage {
           return;
         }
         // If we're on the homepage.
-        if(this.currentPage === "") {
+        if(this.currentPage === '') {
           const scrollRefAndCourses: { scrollRef: any, courses: Course[] } = await CourseModel.getNextCourses(this.scrollRef, this.numCoursesLoadOnScroll);
           const courses: Course[] = scrollRefAndCourses.courses;
           this.scrollRef = scrollRefAndCourses.scrollRef;
