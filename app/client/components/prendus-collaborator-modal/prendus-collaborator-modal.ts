@@ -1,10 +1,14 @@
 import {Actions} from '../../redux/actions';
 import {StatechangeEvent} from '../../typings/statechange-event';
+import {ConstantsService} from '../../node_modules/prendus-services/services/constants-service';
 import {DOMRepeatEvent} from '../../node_modules/prendus-services/typings/dom-repeat-event';
 
 class PrendusCollaboratorModal {
     public is: string;
     public collaboratorEmails: string[];
+    public newCollaboratorEmail: string;
+		public successMessage: string;
+		public errorMessage: string;
     public querySelector: any;
     public course: boolean;
     public observers: string[];
@@ -15,7 +19,7 @@ class PrendusCollaboratorModal {
     public quizId: string;
     public properties: any;
 
-    beforeRegister() {
+    beforeRegister(): void {
 
         this.is = 'prendus-collaborator-modal';
         this.properties = {
@@ -44,7 +48,7 @@ class PrendusCollaboratorModal {
                 type: String
             },
             quiz: {
-                type: String
+                type: Boolean
             }
         };
         this.observers = [
@@ -55,75 +59,89 @@ class PrendusCollaboratorModal {
         ];
     }
 
-    open() {
-      this.querySelector('paper-dialog').open();
+    async open(): Promise<void> {
+      this.querySelector('#modal').open();
     }
 
-    async initCourse(uid: string, courseId: string, course: boolean) {
+    async initCourse(uid: string, courseId: string, course: boolean): Promise<void> {
         try {
             await Actions.loadCourseCollaboratorEmails(this, uid, courseId);
         }
         catch(error) {
-            alert(error);
+            console.error(error);
         }
     }
 
-    async initConcept(courseId: string, conceptId: string, concept: boolean) {
+    async initConcept(courseId: string, conceptId: string, concept: boolean): Promise<void> {
         try {
             await Actions.loadConceptCollaboratorEmails(this, courseId, conceptId);
         }
         catch(error) {
-            alert(error);
+            console.error(error);
         }
     }
 
-    async initVideo(conceptId: string, videoId: string, video: boolean) {
+    async initVideo(conceptId: string, videoId: string, video: boolean): Promise<void> {
         try {
             await Actions.loadVideoCollaboratorEmails(this, conceptId, videoId);
         }
         catch(error) {
-            alert(error);
+            console.error(error);
         }
     }
 
-    async initQuiz(conceptId: string, quizId: string, quiz: boolean) {
+    async initQuiz(conceptId: string, quizId: string, quiz: boolean): Promise<void> {
         try {
             await Actions.loadQuizCollaboratorEmails(this, conceptId, quizId);
         }
         catch(error) {
-            alert(error);
+            console.error(error);
         }
     }
 
-    async addCollaborator(e: Event) {
+		canAddCollaborator(newCollaboratorEmail: string): boolean {
+			// use RegEx to validate that the user actually entered a valid email address
+			return newCollaboratorEmail.match(ConstantsService.EMAIL_REGEX) !== null;
+		}
+
+		addCollaboratorIfEnter(e: any): void {
+			if(e.keyCode === 13) this.addCollaborator(e);
+		}
+
+    async addCollaborator(e: Event): Promise<void> {
         try {
-            const email = this.querySelector('#collaboratorInput').value;
             if (this.uid && this.courseId) {
-                await Actions.addCourseCollaborator(this, this.courseId, email);
+                await Actions.addCourseCollaborator(this, this.courseId, this.newCollaboratorEmail);
                 await Actions.loadCourseCollaboratorEmails(this, this.uid, this.courseId);
             }
 
             if (this.courseId && this.conceptId) {
-                await Actions.addConceptCollaborator(this, this.conceptId, email);
+                await Actions.addConceptCollaborator(this, this.conceptId, this.newCollaboratorEmail);
                 await Actions.loadConceptCollaboratorEmails(this, this.courseId, this.conceptId);
             }
 
             if (this.conceptId && this.videoId) {
-                await Actions.addVideoCollaborator(this, this.videoId, email);
+                await Actions.addVideoCollaborator(this, this.videoId, this.newCollaboratorEmail);
                 await Actions.loadVideoCollaboratorEmails(this, this.conceptId, this.videoId);
             }
 
             if (this.conceptId && this.quizId) {
-                await Actions.addQuizCollaborator(this, this.quizId, email);
+                await Actions.addQuizCollaborator(this, this.quizId, this.newCollaboratorEmail);
                 await Actions.loadQuizCollaboratorEmails(this, this.conceptId, this.quizId);
             }
         }
         catch(error) {
-            alert(error);
+            console.error(error);
+						this.errorMessage = '';
+						this.errorMessage = 'Could not add collaborator.';
+						return;
         }
+				this.newCollaboratorEmail = '';
+				this.successMessage = '';
+				this.successMessage = 'Collaborator added successfully.'
     }
 
-    async removeCollaborator(e: DOMRepeatEvent) {
+    async removeCollaborator(e: DOMRepeatEvent): Promise<void> {
         try {
             const email = e.model.item;
 
@@ -148,11 +166,11 @@ class PrendusCollaboratorModal {
             }
         }
         catch(error) {
-            alert(error);
+            console.error(error);
         }
     }
 
-    mapStateToThis(e: StatechangeEvent) {
+    mapStateToThis(e: StatechangeEvent): void {
         const state = e.detail.state;
 
         if (this.uid && this.courseId) {
