@@ -1,5 +1,6 @@
 import {Actions} from '../../redux/actions';
 import {StatechangeEvent} from '../../typings/statechange-event';
+import {ConstantsService} from '../../node_modules/prendus-services/services/constants-service';
 import {DOMRepeatEvent} from '../../node_modules/prendus-services/typings/dom-repeat-event';
 
 class PrendusCollaboratorModal {
@@ -100,7 +101,7 @@ class PrendusCollaboratorModal {
 
 		canAddCollaborator(newCollaboratorEmail: string): boolean {
 			// use RegEx to validate that the user actually entered a valid email address
-			return newCollaboratorEmail.match(/^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$/) !== null;
+			return newCollaboratorEmail.match(ConstantsService.EMAIL_REGEX) !== null;
 		}
 
 		addCollaboratorIfEnter(e: any): void {
