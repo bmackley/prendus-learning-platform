@@ -1,4 +1,5 @@
 import {Actions} from '../../redux/actions';
+import {ConstantsService} from '../../node_modules/prendus-services/services/constants-service';
 import {UserMetaData} from '../../node_modules/prendus-services/typings/user-meta-data';
 import {User} from '../../node_modules/prendus-services/typings/user';
 
@@ -30,7 +31,7 @@ class PrendusCreateAccount {
 
 	softValidateEmail(): void {
 		const emailElement: any = this.querySelector('#email');
-		if(this.email.match(/^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$/) !== null) emailElement.invalid = false;
+		if(this.email.match(ConstantsService.EMAIL_REGEX) !== null) emailElement.invalid = false;
 	}
 
 	hardValidatePassword(): void {
@@ -54,7 +55,7 @@ class PrendusCreateAccount {
 	}
 
 	enableSignup(email: string, password: string, confirmPassword: string): boolean {
-		return 	email.match(/^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$/) !== null
+		return 	email.match(ConstantsService.EMAIL_REGEX) !== null
 				&&	password !== ''
 				&&	confirmPassword !== ''
 				&&	password === confirmPassword;

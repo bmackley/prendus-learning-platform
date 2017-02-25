@@ -431,7 +431,7 @@ const setQuizQuestionSetting = async (context: any, quizId: string, settingName:
 
 };
 
-const setQuestionSetting = async (context: any, quizId: string, questionId: string, settingName: string, value: number | boolean): Promise<void> => {
+const setQuestionSetting = async (context: any, quizId: string, questionId: string, settingName: string, value: number | boolean | QuizVisibility): Promise<void> => {
   try {
     await QuizModel.setQuestionSetting(quizId, questionId, settingName, value);
   } catch(error) {
@@ -442,22 +442,28 @@ const setQuestionSetting = async (context: any, quizId: string, questionId: stri
 const loadQuizQuestionIds = async (context: any, quizId: string): Promise<void> => {
     const quizQuestionIds: string[] = await QuizModel.getQuestionIds(quizId);
 
-		streamId(quizQuestionIds, 0);
+		context.action = {
+			type: 'LOAD_QUIZ_QUESTION_IDS',
+			quizQuestionIds
+		};
 
-		function streamId(ids: string[], index: number) {
-			setTimeout(() => {
-				if (index === ids.length - 1) {
-					return;
-				}
-
-				context.action = {
-					type: 'LOAD_QUIZ_QUESTION_IDS',
-					quizQuestionIds: ids.slice(0, index)
-				};
-
-				streamId(ids, index + 1);
-			});
-		}
+		// TODO: add this back in once we iron out the bugs
+		// streamId(quizQuestionIds, 0);
+		//
+		// function streamId(ids: string[], index: number) {
+		// 	setTimeout(() => {
+		// 		if (index === ids.length - 1) {
+		// 			return;
+		// 		}
+		//
+		// 		context.action = {
+		// 			type: 'LOAD_QUIZ_QUESTION_IDS',
+		// 			quizQuestionIds: ids.slice(0, index)
+		// 		};
+		//
+		// 		streamId(ids, index + 1);
+		// 	});
+		// }
 };
 
 const addQuestionToQuiz = async (context: any, quizId: string, questionId: string): Promise<void> => {
@@ -472,44 +478,59 @@ const loadUserQuestionIds = async (context: any, getUserQuestionIdsAjax: any): P
     const request: any = getUserQuestionIdsAjax.generateRequest();
     await request.completes;
     const userQuestionIds: string[] = request.response.questionIds;
-		streamId(userQuestionIds, 0);
 
-		function streamId(ids: string[], index: number) {
-			setTimeout(() => {
-				if (index === ids.length - 1) {
-					return;
-				}
+		context.action = {
+			type: 'LOAD_USER_QUESTION_IDS',
+			userQuestionIds
+		};
 
-				context.action = {
-					type: 'LOAD_USER_QUESTION_IDS',
-					userQuestionIds: ids.slice(0, index)
-				};
-
-				streamId(ids, index + 1);
-			});
-		}
+		// TODO: add this back in once we iron out the bugs
+		//
+		// streamId(userQuestionIds, 0);
+		//
+		// function streamId(ids: string[], index: number) {
+		// 	setTimeout(() => {
+		// 		if (index === ids.length - 1) {
+		// 			return;
+		// 		}
+		//
+		// 		context.action = {
+		// 			type: 'LOAD_USER_QUESTION_IDS',
+		// 			userQuestionIds: ids.slice(0, index)
+		// 		};
+		//
+		// 		streamId(ids, index + 1);
+		// 	});
+		// }
 };
 
 const loadPublicQuestionIds = async (context: any, getPublicQuestionIdsAjax: any): Promise<void> => {
     const request: any = getPublicQuestionIdsAjax.generateRequest();
     await request.completes;
     const publicQuestionIds: string[] = request.response.questionIds;
-		streamId(publicQuestionIds, 0);
 
-		function streamId(ids: string[], index: number) {
-			setTimeout(() => {
-				if (index === ids.length - 1) {
-					return;
-				}
+		context.action = {
+			type: 'LOAD_PUBLIC_QUESTION_IDS',
+			publicQuestionIds
+		};
 
-				context.action = {
-					type: 'LOAD_PUBLIC_QUESTION_IDS',
-					publicQuestionIds: ids.slice(0, index)
-				};
-
-				streamId(ids, index + 1);
-			});
-		}
+		// TODO: add this back in once we iron out the bugs
+		// streamId(publicQuestionIds, 0);
+		//
+		// function streamId(ids: string[], index: number) {
+		// 	setTimeout(() => {
+		// 		if (index === ids.length - 1) {
+		// 			return;
+		// 		}
+		//
+		// 		context.action = {
+		// 			type: 'LOAD_PUBLIC_QUESTION_IDS',
+		// 			publicQuestionIds: ids.slice(0, index)
+		// 		};
+		//
+		// 		streamId(ids, index + 1);
+		// 	});
+		// }
 };
 
 const deleteVideo = async (context: any, conceptId: string, videoId: string): Promise<void> => {
