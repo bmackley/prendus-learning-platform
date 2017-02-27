@@ -1,5 +1,6 @@
 import {Video} from '../node_modules/prendus-services/typings/video';
 import {Quiz} from '../node_modules/prendus-services/typings/quiz';
+import {Concept} from '../node_modules/prendus-services/typings/concept';
 import {QuestionSettings} from '../node_modules/prendus-services/typings/question-settings';
 import {User} from '../node_modules/prendus-services/typings/user';
 import {UserMetaData} from '../node_modules/prendus-services/typings/user-meta-data';
@@ -7,9 +8,6 @@ import {Course} from '../node_modules/prendus-services/typings/course';
 import {CourseConceptData} from '../node_modules/prendus-services/typings/course-concept-data';
 
 export interface State {
-    editCourseConcepts: {
-        [courseId: string]: CourseConceptData[]
-    };
     editConceptVideos: {
         [conceptId: string]: Video[]
     };
@@ -30,13 +28,10 @@ export interface State {
     sharedCourses: Course[];
     starredCourses: Course[];
     publicCourses: Course[];
-    currentConcept: {};
-    concepts: {};
+		currentVideo: Video
+    concepts: Concept[];
     courseTagNames: string[];
     courseViewCurrentCourse: Course;
-    currentConceptVideoId: string;
-    currentConceptVideoTitle: string;
-    currentConceptVideoUrl: string
     currentUser: {
       metaData: UserMetaData
     };

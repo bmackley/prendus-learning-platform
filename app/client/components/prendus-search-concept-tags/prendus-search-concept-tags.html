@@ -13,7 +13,7 @@
   <template>
     <redux-store on-statechange="mapStateToThis" action="[[action]]"></redux-store>
       <div>
-        <prendus-paper-tags-input placeholder="Type tags you wish to lookup. Press enter to add multiple" label="Search for concepts by tags" duplicate-error-message="Tag cannot be a duplicate" tags="{{tags}}"></prendus-paper-tags-input>
+        <prendus-paper-tags-input placeholder="Type tags you wish to look up. Press enter to add multiple" label="Search for concepts by tags" duplicate-error-message="Tag cannot be a duplicate" tags="{{tags}}"></prendus-paper-tags-input>
         <div> [[tags]] </div>
         <paper-button on-tap="clearTags">Clear</paper-button>
         <paper-button on-tap="searchTagsInDB">Search</paper-button>

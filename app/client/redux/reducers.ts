@@ -2,6 +2,9 @@ import {InitialState} from './initial-state';
 import {Actions} from './actions';
 import {State} from '../typings/state';
 import {Action} from '../typings/action';
+import {Quiz} from '../node_modules/prendus-services/typings/quiz';
+import {Concept} from '../node_modules/prendus-services/typings/concept';
+import {CourseConceptData} from '../node_modules/prendus-services/typings/course-concept-data';
 
 export function rootReducer(state: State = InitialState, action: Action): State {
     switch(action.type) {
@@ -18,7 +21,7 @@ export function rootReducer(state: State = InitialState, action: Action): State 
 					}
         }
         case 'SET_COURSE_COLLABORATOR_EMAILS': {
-					const courseCollaboratorEmails: { [uid: string]: { [courseId: string]: string[] } } = state.courseCollaboratorEmails;
+					const courseCollaboratorEmails: { [uid: string]: { [courseId: string]: string[] } } = { ...state.courseCollaboratorEmails };
 					if (state.courseCollaboratorEmails[action.uid]) {
 						courseCollaboratorEmails[action.uid][action.courseId] = action.emails;
 					} else {
@@ -32,7 +35,7 @@ export function rootReducer(state: State = InitialState, action: Action): State 
 					}
         }
         case 'SET_CONCEPT_COLLABORATOR_EMAILS': {
-					const conceptCollaboratorEmails: { [courseId: string]: { [conceptId: string]: string[] } } = state.conceptCollaboratorEmails;
+					const conceptCollaboratorEmails: { [courseId: string]: { [conceptId: string]: string[] } } = { ...state.conceptCollaboratorEmails };
 					if (state.conceptCollaboratorEmails[action.courseId]) {
 						conceptCollaboratorEmails[action.courseId][action.conceptId] = action.emails;
 					} else {
@@ -46,7 +49,7 @@ export function rootReducer(state: State = InitialState, action: Action): State 
 					}
         }
         case 'SET_VIDEO_COLLABORATOR_EMAILS': {
-					const videoCollaboratorEmails: { [conceptId: string]: { [videoId: string]: string[] } } = state.videoCollaboratorEmails;
+					const videoCollaboratorEmails: { [conceptId: string]: { [videoId: string]: string[] } } = { ...state.videoCollaboratorEmails };
 					if (state.videoCollaboratorEmails[action.conceptId]) {
 						videoCollaboratorEmails[action.conceptId][action.videoId] = action.emails;
 					} else {
@@ -60,7 +63,7 @@ export function rootReducer(state: State = InitialState, action: Action): State 
 					}
         }
         case 'SET_QUIZ_COLLABORATOR_EMAILS': {
-					const quizCollaboratorEmails: { [conceptId: string]: { [quizId: string]: string[] } } = state.quizCollaboratorEmails;
+					const quizCollaboratorEmails: { [conceptId: string]: { [quizId: string]: string[] } } = { ...state.quizCollaboratorEmails };
 					if (state.quizCollaboratorEmails[action.conceptId]) {
 						quizCollaboratorEmails[action.conceptId][action.quizId] = action.emails;
 					} else {
@@ -96,158 +99,191 @@ export function rootReducer(state: State = InitialState, action: Action): State 
 					}
         }
         case 'LOAD_EDIT_CONCEPT_QUIZZES': {
-            const newState = Object.assign({}, state);
-            newState.editConceptQuizzes[action.conceptId] = action.quizzes;
-            return newState;
+					const editConceptQuizzes: { [conceptId: string]: Quiz[] } = { ...state.editConceptQuizzes };
+					editConceptQuizzes[action.conceptId] = action.quizzes;
+					return {
+						...state,
+						editConceptQuizzes
+					}
         }
         case 'LOAD_VIEW_CONCEPT_QUIZZES': {
-            const newState = Object.assign({}, state);
-            newState.viewConceptQuizzes[action.conceptId] = action.quizzes;
-            return newState;
+					const viewConceptQuizzes: { [conceptId: string]: Quiz[] } = { ...state.viewConceptQuizzes };
+					viewConceptQuizzes[action.conceptId] = action.quizzes;
+					return {
+						...state,
+						viewConceptQuizzes
+					}
         }
         case 'SET_CURRENT_EDIT_QUIZ_ID': {
-            const newState = Object.assign({}, state);
-            newState.currentEditQuizId = action.quizId;
-            return newState;
+					return {
+						...state,
+						currentEditQuizId: action.quizId
+					}
         }
         case 'LOAD_QUIZ_SETTINGS': {
-            const newState = Object.assign({}, state);
-            newState.quizQuestionSettings = action.quizQuestionSettings;
-            return newState;
+					return {
+						...state,
+						quizQuestionSettings: action.quizQuestionSettings
+					}
         }
         case 'LOAD_QUIZ_QUESTION_IDS': {
-            const newState = Object.assign({}, state);
-            newState.quizQuestionIds = action.quizQuestionIds;
-            return newState;
+					return {
+						...state,
+						quizQuestionIds: action.quizQuestionIds
+					}
         }
         case 'LOAD_USER_QUESTION_IDS': {
-            const newState = Object.assign({}, state);
-            newState.userQuestionIds = action.userQuestionIds;
-            return newState;
+					return {
+						...state,
+						userQuestionIds: action.userQuestionIds
+					}
         }
         case 'LOAD_PUBLIC_QUESTION_IDS': {
-            const newState = Object.assign({}, state);
-            newState.publicQuestionIds = action.publicQuestionIds;
-            return newState;
+					return {
+						...state,
+						publicQuestionIds: action.publicQuestionIds
+					}
         }
       case 'CHECK_USER_AUTH': {
-        const newState = Object.assign({}, state);
-        newState.currentUser = action.user;
-        newState.jwt = action.jwt;
-        return newState;
+				return {
+					...state,
+					currentUser: action.user,
+					jwt: action.jwt
+				}
       }
       case 'GET_CONCEPT_BY_ID': {
-        const newState = Object.assign({}, state);
-        newState.currentConcept = action.concept;
-        return newState;
+				return {
+					...state,
+					currentConcept: action.concept
+				}
       }
+			case 'ADD_CONCEPT': {
+				const currentCourseConcepts: CourseConceptData[] = [
+					...state.viewCourseConcepts[action.courseId],
+					{
+						id: action.conceptId,
+						position: state.viewCourseConcepts[action.courseId].length
+					}
+				 ]
+				return {
+					...state,
+					viewCourseConcepts: {
+						...state.viewCourseConcepts,
+						[action.courseId]: currentCourseConcepts
+					}
+				}
+			}
       case 'DELETE_CONCEPT': {
-        const newState = {
+				const currentCourseConcepts: CourseConceptData[] = [ ...state.viewCourseConcepts[action.courseId] ]
+					.filter((conceptData) => conceptData.id !== action.conceptId);
+				const viewCourseConcepts: { [courseId: string]: CourseConceptData[] } = {
+					...state.viewCourseConcepts,
+					[action.courseId]: currentCourseConcepts
+				}
+        return {
           ...state,
-          currentCourseViewCourse: action.currentCourse
+          viewCourseConcepts
         }
-        delete newState.concepts[action.conceptKey];
-        return newState;
       }
       case 'UPDATE_USER_META_DATA': {
-        const newState = Object.assign({}, state);
-        newState.currentUser.metaData = action.userMetaData;
-        return newState;
+				return  {
+					...state,
+					currentUser: {
+						...state.currentUser,
+						metaData: action.userMetaData
+					}
+				}
       }
       case 'LOAD_EDIT_CONCEPT_VIDEOS': {
-          const newState = Object.assign({}, state);
-          newState.editConceptVideos[action.conceptId] = action.videos;
-          return newState;
+				return {
+					...state,
+					editConceptVideos: {
+						...state.editConceptVideos,
+						[action.conceptId]: action.videos
+					}
+				}
       }
       case 'LOAD_VIEW_CONCEPT_VIDEOS': {
-          const newState = Object.assign({}, state);
-          newState.viewConceptVideos[action.conceptId] = action.videos;
-          return newState;
-      }
-      case 'LOAD_EDIT_COURSE_CONCEPTS': {
-          const newState = Object.assign({}, state);
-          newState.editCourseConcepts[action.courseId] = action.concepts;
-          return newState;
+				return {
+					...state,
+					viewConceptVideos: {
+						...state.viewConceptVideos,
+						[action.conceptId]: action.videos
+					}
+				}
       }
       case 'LOAD_VIEW_COURSE_CONCEPTS': {
-        const newState = Object.assign({}, state);
-        newState.viewCourseConcepts[action.courseId] = action.orderedConcepts;
-        return newState;
-
+				return {
+					...state,
+					viewCourseConcepts: {
+						...state.viewCourseConcepts,
+						[action.courseId]: action.concepts
+					}
+				}
       }
       case 'SET_CURRENT_VIDEO_INFO': {
-          const newState = Object.assign({}, state);
-          newState.currentConceptVideoId = action.id;
-          newState.currentConceptVideoTitle = action.title;
-          newState.currentConceptVideoUrl = action.url;
-          return newState;
+				return {
+					...state,
+					currentVideo: action.currentVideo
+				}
       }
       case 'CLEAR_CURRENT_VIDEO_INFO': {
-          const newState = Object.assign({}, state);
-          newState.currentConceptVideoId = null;
-          newState.currentConceptVideoTitle = '';
-          newState.currentConceptVideoUrl = '';
-          return newState;
+				return {
+					...state,
+					currentVideo: {
+						id: '',
+						title: '',
+						url: '',
+						uid: '',
+						collaborators: {}
+					}
+				}
       }
       case 'SET_CURRENT_VIDEO_ID': {
-          const newState = Object.assign({}, state);
-          newState.currentConceptVideoId = action.id;
-          return newState;
-      }
-      case 'GET_COURSE_BY_ID' : {
-        const newState = Object.assign({}, state);
-        newState.courseViewCurrentCourse = action.currentCourse;
-        return newState;
+				return {
+					...state,
+					currentVideo: {
+						id: action.videoId,
+						title: '',
+						url: '',
+						uid: '',
+						collaborators: {}
+					}
+
+				}
       }
       case 'GET_COURSES_BY_USER': {
-        const newState = Object.assign({}, state);
-        newState.courses = action.courses;
-        return newState;
+				return {
+					...state,
+					courses: action.courses
+				}
       }
-      case 'LOOKUP_CONCEPT_TAGS': {
-        const newState = Object.assign({}, state);
-        newState.resultingConcepts = action.conceptsArray;
-        return newState;
+      case 'LOOK_UP_CONCEPT_TAGS': {
+				return {
+					...state,
+					resultingConcepts: action.concepts
+				}
       }
       case 'SET_COURSE_TAGS': {
-        const newState = Object.assign({}, state);
-        newState.resultingCourses = action.coursesArray;
-        return newState;
+				return {
+					...state,
+					resultingCourses: action.courses
+				}
       }
       case 'SET_COURSE_VIEW_CURRENT_COURSE': {
-        const newState = Object.assign({}, state);
-        newState.courseViewCurrentCourse = action.currentCourse;
-        // newState.courseTagNames = action.courseTagNames;
-        return newState;
+				return {
+					...state,
+					courseViewCurrentCourse: action.currentCourse,
+					// courseTagNames: action.courseTagNames
+				}
       }
-      case 'ADD_TAG_EDIT_COURSE': {
-        const newState = Object.assign({}, state);
-        newState.courseViewCurrentCourse = action.currentCourse;
-        // newState.courseTagNames = action.courseTagNames;
-        return newState;
-      }
-      case 'DELETE_TAG_EDIT_COURSE': {
-        const newState = Object.assign({}, state);
-        newState.courseViewCurrentCourse = action.currentCourse;
-        // newState.courseTagNames = action.courseTagNames;
-        return newState;
-      }
-      case 'ADD_COURSE': {
-        const newState = Object.assign({}, state);
-        newState.courses = action.courses;
-        newState.sharedCourses = action.courses;
-        return newState;
-      }
-      case 'DELETE_COURSE': {
-        const newState = Object.assign({}, state);
-        newState.courses = action.courses;
-        newState.sharedCourses = action.courses;
-        return newState;
-      }
-      case 'ADD_CONCEPT': {
-        const newState = Object.assign({}, state);
-        newState.currentCourse = action.currentCourse;
-        return newState;
+      case 'UPDATE_COURSES': {
+				return {
+					...state,
+					courses: action.courses,
+					// QUESTION: why are these being set to the same value?
+					sharedCourses: action.courses
+				}
       }
       case 'RELOAD_PUBLIC_COURSES': {
         return {
