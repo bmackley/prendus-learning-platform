@@ -6,96 +6,94 @@ import {Action} from '../typings/action';
 export function rootReducer(state: State = InitialState, action: Action): State {
     switch(action.type) {
         case 'SHOW_MAIN_SPINNER': {
-            return {
-              ...state,
-              mainViewToShow: 'spinner'
-            };
+          return {
+            ...state,
+            mainViewToShow: 'spinner'
+          };
         }
         case 'HIDE_MAIN_SPINNER': {
-            const newState = Object.assign({}, state);
-
-            newState.mainViewToShow = 'routes';
-
-            return newState;
+					return {
+						...state,
+						mainViewToShow: 'routes'
+					}
         }
         case 'SET_COURSE_COLLABORATOR_EMAILS': {
-            const newState = Object.assign({}, state);
-
-            if (newState.courseCollaboratorEmails[action.uid]) {
-                newState.courseCollaboratorEmails[action.uid][action.courseId] = action.emails;
-            }
-            else {
-                newState.courseCollaboratorEmails[action.uid] = {
-                    [action.courseId]: action.emails
-                };
-            }
-
-            return newState;
+					const courseCollaboratorEmails: { [uid: string]: { [courseId: string]: string[] } } = state.courseCollaboratorEmails;
+					if (state.courseCollaboratorEmails[action.uid]) {
+						courseCollaboratorEmails[action.uid][action.courseId] = action.emails;
+					} else {
+						courseCollaboratorEmails[action.uid] = {
+								[action.courseId]: action.emails
+						};
+					}
+					return {
+						...state,
+						courseCollaboratorEmails
+					}
         }
         case 'SET_CONCEPT_COLLABORATOR_EMAILS': {
-            const newState = Object.assign({}, state);
-
-            if (newState.conceptCollaboratorEmails[action.courseId]) {
-                newState.conceptCollaboratorEmails[action.courseId][action.conceptId] = action.emails;
-            }
-            else {
-                newState.conceptCollaboratorEmails[action.courseId] = {
-                    [action.conceptId]: action.emails
-                };
-            }
-
-            return newState;
+					const conceptCollaboratorEmails: { [courseId: string]: { [conceptId: string]: string[] } } = state.conceptCollaboratorEmails;
+					if (state.conceptCollaboratorEmails[action.courseId]) {
+						conceptCollaboratorEmails[action.courseId][action.conceptId] = action.emails;
+					} else {
+						conceptCollaboratorEmails[action.courseId] = {
+								[action.conceptId]: action.emails
+						};
+					}
+					return {
+						...state,
+						conceptCollaboratorEmails
+					}
         }
         case 'SET_VIDEO_COLLABORATOR_EMAILS': {
-            const newState = Object.assign({}, state);
-
-            if (newState.videoCollaboratorEmails[action.conceptId]) {
-                newState.videoCollaboratorEmails[action.conceptId][action.videoId] = action.emails;
-            }
-            else {
-                newState.videoCollaboratorEmails[action.conceptId] = {
-                    [action.videoId]: action.emails
-                };
-            }
-
-            return newState;
+					const videoCollaboratorEmails: { [conceptId: string]: { [videoId: string]: string[] } } = state.videoCollaboratorEmails;
+					if (state.videoCollaboratorEmails[action.conceptId]) {
+						videoCollaboratorEmails[action.conceptId][action.videoId] = action.emails;
+					} else {
+						videoCollaboratorEmails[action.conceptId] = {
+								[action.videoId]: action.emails
+						};
+					}
+					return {
+						...state,
+						videoCollaboratorEmails
+					}
         }
         case 'SET_QUIZ_COLLABORATOR_EMAILS': {
-            const newState = Object.assign({}, state);
-
-            if (newState.quizCollaboratorEmails[action.conceptId]) {
-                newState.quizCollaboratorEmails[action.conceptId][action.quizId] = action.emails;
-            }
-            else {
-                newState.quizCollaboratorEmails[action.conceptId] = {
-                    [action.quizId]: action.emails
-                };
-            }
-
-            return newState;
+					const quizCollaboratorEmails: { [conceptId: string]: { [quizId: string]: string[] } } = state.quizCollaboratorEmails;
+					if (state.quizCollaboratorEmails[action.conceptId]) {
+						quizCollaboratorEmails[action.conceptId][action.quizId] = action.emails;
+					} else {
+						quizCollaboratorEmails[action.conceptId] = {
+								[action.quizId]: action.emails
+						};
+					}
+					return {
+						...state,
+						quizCollaboratorEmails
+					}
         }
         case 'SET_SHARED_COURSES': {
-            const newState = Object.assign({}, state);
-
-            newState.sharedCourses = action.courses;
-
-            return newState;
+					return {
+						...state,
+						sharedCourses: action.courses
+					}
         }
         case 'SET_STARRED_COURSES': {
-            const newState = Object.assign({}, state);
-
-            newState.starredCourses = action.courses;
-
-            return newState;
+					return {
+						...state,
+						starredCourses: action.courses
+					}
         }
         case 'SET_COURSES_BY_VISIBILITY': {
-            const newState = Object.assign({}, state);
-
-            if (action.visibility === 'public') {
-                newState.publicCourses = action.courses;
-            }
-
-            return newState;
+					if(action.visibility === 'public') {
+						return {
+							...state,
+							publicCourses: action.courses
+						}
+					} else {
+						return state;
+					}
         }
         case 'LOAD_EDIT_CONCEPT_QUIZZES': {
             const newState = Object.assign({}, state);
