@@ -82,7 +82,7 @@
 
     <redux-store on-statechange="mapStateToThis" action="[[action]]"></redux-store>
 
-		<prendus-collaborator-modal id="collaborators-modal" course-id="[[courseId]]" concept-id="[[item.id]]" concept></prendus-collaborator-modal>
+		<!-- <prendus-collaborator-modal id="collaborators-modal" course-id="[[courseId]]" concept-id="[[conceptId]]" concept></prendus-collaborator-modal> -->
     <prendus-notification id="notification" success-message="[[successMessage]]" error-message="[[errorMessage]]"></prendus-notification>
     <div class="title-buttons" on-tap="toggle">
       <iron-icon id="drag-handle" class="icon-button" icon="editor:drag-handle"></iron-icon>
@@ -92,8 +92,8 @@
 				<div class="action-buttons">
 					<paper-icon-button id="edit-button" class="icon-button" icon="create" on-tap="editConcept"></paper-icon-button>
 					<paper-tooltip for="edit-button" offset="0" animation-delay="300">Edit concept</paper-tooltip>
-					<paper-icon-button id="collaborator-button" class="icon-button" icon="social:group-add" on-tap="openCollaboratorsModal"></paper-icon-button>
-					<paper-tooltip for="collaborator-button" offset="0" animation-delay="300">Edit collaborators</paper-tooltip>
+					<!-- <paper-icon-button id="collaborator-button" class="icon-button" icon="social:group-add" on-tap="openCollaboratorsModal"></paper-icon-button>
+					<paper-tooltip for="collaborator-button" offset="0" animation-delay="300">Edit collaborators</paper-tooltip> -->
 					<paper-icon-button id="delete-button" class="icon-button" icon="delete" on-tap="openDeleteModal"></paper-icon-button>
 					<paper-tooltip for="delete-button" offset="0" animation-delay="300">Delete concept</paper-tooltip>
 				</div>
