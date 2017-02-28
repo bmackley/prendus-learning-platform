@@ -66,6 +66,8 @@ class PrendusQuizEditor {
         await request.completes;
         this.quizSession = request.response.quizSession;
         //TODO this is horrible and should be removed once the view problem component can be initialized without a quiz session being handed to it
+
+        this.manuallyReloadQuestions();
     }
 
 		setQuizData(data: any): void {
@@ -116,6 +118,10 @@ class PrendusQuizEditor {
         const questionId: string = e.model.item;
         await Actions.addQuestionToQuiz(this, this.quizId, questionId);
         await this.loadQuizQuestionIds();
+        this.quizQuestionIds.forEach((questionId) => {
+            const viewQuestionElement = this.querySelector(`#quiz-question-id-${questionId}`);
+            viewQuestionElement.loadNextProblem(true);
+        });
     }
 
     async removeQuestionFromQuiz(e: any): Promise<void> {

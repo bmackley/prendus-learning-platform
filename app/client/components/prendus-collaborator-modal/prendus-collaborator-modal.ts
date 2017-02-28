@@ -2,6 +2,7 @@ import {Actions} from '../../redux/actions';
 import {StatechangeEvent} from '../../typings/statechange-event';
 import {ConstantsService} from '../../node_modules/prendus-services/services/constants-service';
 import {DOMRepeatEvent} from '../../node_modules/prendus-services/typings/dom-repeat-event';
+import {State} from '../../typings/state';
 
 class PrendusCollaboratorModal {
     public is: string;
@@ -66,8 +67,7 @@ class PrendusCollaboratorModal {
     async initCourse(uid: string, courseId: string, course: boolean): Promise<void> {
         try {
             await Actions.loadCourseCollaboratorEmails(this, uid, courseId);
-        }
-        catch(error) {
+        } catch(error) {
             console.error(error);
         }
     }
@@ -75,8 +75,7 @@ class PrendusCollaboratorModal {
     async initConcept(courseId: string, conceptId: string, concept: boolean): Promise<void> {
         try {
             await Actions.loadConceptCollaboratorEmails(this, courseId, conceptId);
-        }
-        catch(error) {
+        } catch(error) {
             console.error(error);
         }
     }
@@ -84,8 +83,7 @@ class PrendusCollaboratorModal {
     async initVideo(conceptId: string, videoId: string, video: boolean): Promise<void> {
         try {
             await Actions.loadVideoCollaboratorEmails(this, conceptId, videoId);
-        }
-        catch(error) {
+        } catch(error) {
             console.error(error);
         }
     }
@@ -93,8 +91,7 @@ class PrendusCollaboratorModal {
     async initQuiz(conceptId: string, quizId: string, quiz: boolean): Promise<void> {
         try {
             await Actions.loadQuizCollaboratorEmails(this, conceptId, quizId);
-        }
-        catch(error) {
+        } catch(error) {
             console.error(error);
         }
     }
@@ -129,8 +126,7 @@ class PrendusCollaboratorModal {
                 await Actions.addQuizCollaborator(this, this.quizId, this.newCollaboratorEmail);
                 await Actions.loadQuizCollaboratorEmails(this, this.conceptId, this.quizId);
             }
-        }
-        catch(error) {
+        } catch(error) {
             console.error(error);
 						this.errorMessage = '';
 						this.errorMessage = 'Could not add collaborator.';
@@ -164,15 +160,13 @@ class PrendusCollaboratorModal {
                 await Actions.removeQuizCollaborator(this, this.quizId, email);
                 await Actions.loadQuizCollaboratorEmails(this, this.conceptId, this.quizId);
             }
-        }
-        catch(error) {
+        } catch(error) {
             console.error(error);
         }
     }
 
     mapStateToThis(e: StatechangeEvent): void {
-        const state = e.detail.state;
-
+        const state: State = e.detail.state;
         if (this.uid && this.courseId) {
             this.collaboratorEmails = state.courseCollaboratorEmails[this.uid] && state.courseCollaboratorEmails[this.uid][this.courseId];
         }
