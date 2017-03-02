@@ -32,9 +32,7 @@ export interface State {
     concepts: Concept[];
     courseTagNames: string[];
     courseViewCurrentCourse: Course;
-    currentUser: {
-      metaData: UserMetaData
-    };
+    currentUser: User;
     currentEditQuizId: string;
     currentEditConceptId: string;
     jwt: string;

@@ -32,25 +32,10 @@ class PrendusCoursePreview {
     async init(course: Course): Promise<void> {
       try {
         await Actions.checkUserAuth(this);
-        this.numStars = Object.keys(this.course.userStars || {}).length;
-        if(this.user){
-          if(course.uid === this.uid) {
-            this.hasEditAccess = true;
-          } else if(course.collaborators){
-            this.hasEditAccess = this.checkCollaboratorStatus(course.collaborators, this.uid);
-          }
-        }
+        this.numStars = Object.keys(course.userStars || {}).length;
+				this.hasEditAccess = course.collaborators && this.uid in course.collaborators;
       } catch(error) {
-        this.errorMessage = '';
-        this.errorMessage = error.message;
-      }
-    }
-
-    checkCollaboratorStatus(collaborators: {  [uid: string]: string}, uid: string): boolean {
-      if (collaborators[uid]) {
-        return true;
-      } else {
-        return false;
+				console.error(error);
       }
     }
 
