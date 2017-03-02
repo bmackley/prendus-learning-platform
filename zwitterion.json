@@ -815,6 +815,9 @@
         },
         "bower_components/prendus-video-viewer-component/svgfixer.ts": {
             "parentImport": false
+        },
+        "node_modules/prendus-services/styles/prendus-styles.html": {
+            "parentImport": true
         }
     }
 }
