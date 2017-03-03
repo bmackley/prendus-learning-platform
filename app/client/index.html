@@ -37,8 +37,7 @@
 
             function getEnvironment(hostname) {
 
-                //TODO take out this public ip after testing..
-                if (hostname === 'localhost' || hostname === '127.0.0.1' || hostname === '138.68.44.195') {
+                if (hostname === 'localhost' || hostname === '127.0.0.1') {
                     return 'development';
                 }
                 else {
