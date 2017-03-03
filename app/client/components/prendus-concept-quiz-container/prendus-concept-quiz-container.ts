@@ -22,6 +22,7 @@ class PrendusConceptQuizContainer {
     public errorMessage: string;
 		public fire: any;
 		public querySelector: any;
+    public courseEditAccess: boolean
 
     beforeRegister() {
         this.is = 'prendus-concept-quiz-container';
@@ -32,10 +33,11 @@ class PrendusConceptQuizContainer {
             courseId: {
                 type: String
             },
-            courseEditAccess: {
-              type: Boolean,
-              computed: 'computeHasEditAccess(uid, currentCourse.collaborators)'
-            },
+            //TODO this will be back once collaborators are taken out
+            // courseEditAccess: {
+            //   type: Boolean,
+            //   computed: 'computeHasEditAccess(uid, currentCourse.collaborators)'
+            // },
         };
         this.observers = [
             'init(conceptId)'
@@ -53,9 +55,10 @@ class PrendusConceptQuizContainer {
       return !!quizzes.length;
     }
 
-    computeHasEditAccess(uid: string, collaborators: any) {
-      return uid in collaborators;
-    }
+    //TODO this will be called once collaborators are back
+    // computeHasEditAccess(uid: string, collaborators: any) {
+    //   return uid in collaborators;
+    // }
 
 		viewQuiz(e: any) {
 			const quizId: string = e.model.quiz.id;
@@ -100,6 +103,7 @@ class PrendusConceptQuizContainer {
       const state = e.detail.state;
       this.uid = state.currentUser.metaData.uid;
       this.currentCourse = state.courseViewCurrentCourse;
+      this.courseEditAccess = this.currentCourse && this.currentCourse.uid === this.uid;
       // determine user's edit access for each quiz
     	this.quizzes = (state.viewConceptQuizzes[this.conceptId] || []).map((quiz: Quiz) => {
     		if(quiz.uid === this.uid
