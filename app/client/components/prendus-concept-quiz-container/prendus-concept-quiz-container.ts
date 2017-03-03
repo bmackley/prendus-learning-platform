@@ -103,6 +103,7 @@ class PrendusConceptQuizContainer {
       const state = e.detail.state;
       this.uid = state.currentUser.metaData.uid;
       this.currentCourse = state.courseViewCurrentCourse;
+      //TODO take this out once collaborators are back
       this.courseEditAccess = this.currentCourse && this.currentCourse.uid === this.uid;
       // determine user's edit access for each quiz
     	this.quizzes = (state.viewConceptQuizzes[this.conceptId] || []).map((quiz: Quiz) => {
