@@ -274,7 +274,11 @@ export class PrendusCourseView {
         const attribute = e.target.name;
         await Actions.updateCourseField(this, this.courseId, attribute, value);
         await Actions.getCourseViewCourseById(this, this.courseId);
+
+        // It would probably be a good idea to only reload the course that was updated,
+        // but for now this will do.
         Actions.getCoursesByUser(this);
+        Actions.getStarredCoursesByUser(this, this.uid);
         if(this.numberOfPublicCoursesLoaded) {
             // This probably is not the most efficient way to reload the front page courses.
             // Ideally we would reload the one course that got updated. But for now this will do.
