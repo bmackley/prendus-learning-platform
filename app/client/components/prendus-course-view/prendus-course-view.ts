@@ -29,6 +29,7 @@ export class PrendusCourseView {
   public listeners: any;
   public data: any;
   public hasEditAccess: boolean;
+  public numberOfPublicCoursesLoaded: number;
 
   beforeRegister(): void {
     this.is = 'prendus-course-view';
@@ -85,9 +86,9 @@ export class PrendusCourseView {
   }
 
   //TODO this will be called when collaborators are back
-  computeHasEditAccess(uid: string, collaborators: any): boolean {
-    return uid in collaborators;
-  }
+  // computeHasEditAccess(uid: string, collaborators: any): boolean {
+  //   return uid in collaborators;
+  // }
 
 	formatCollaboratorEmails(emails: string[]): string {
 		return emails
@@ -273,6 +274,10 @@ export class PrendusCourseView {
         const attribute = e.target.name;
         await Actions.updateCourseField(this, this.courseId, attribute, value);
         await Actions.getCourseViewCourseById(this, this.courseId);
+        if(this.numberOfPublicCoursesLoaded) {
+            Actions.getCoursesByVisibility(this, 'public', this.numberOfPublicCoursesLoaded);
+        }
+
         this.successMessage = '';
         this.successMessage = `Course ${attribute} has been updated`;
       }
@@ -294,6 +299,7 @@ export class PrendusCourseView {
     this.courseTagNames = state.courseTagNames;
     this.courseConcepts = state.viewCourseConcepts[this.courseId];
 		this.collaboratorEmails = state.courseCollaboratorEmails[this.uid] && state.courseCollaboratorEmails[this.uid][this.courseId];
+    this.numberOfPublicCoursesLoaded = state.publicCourses ? state.publicCourses.length : this.numberOfPublicCoursesLoaded;
   }
 }
 
