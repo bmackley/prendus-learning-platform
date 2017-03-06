@@ -927,9 +927,9 @@ const lookupCourseTags = async (context: any, tag: string): Promise<void> => {
 const getCoursesByUser = async (context: any): Promise<void> => {
     try {
       const loggedInUser: any  = await FirebaseService.getLoggedInUser(); //not sure if this is the best way to do this. The user isn't set in the ready, and this is the only way to ensure that its set?
-      if(loggedInUser){
-        const tempCourses: Course[] = await CourseModel.getCoursesByUser(loggedInUser.uid);
-        const courses: Course[] = await CourseModel.resolveCourseArrayTagIds(tempCourses);
+      if(loggedInUser) {
+        const courses: Course[] = await CourseModel.getCoursesByUser(loggedInUser.uid);
+        // const courses: Course[] = await CourseModel.resolveCourseArrayTagIds(tempCourses);
         context.action = {
             type: 'GET_COURSES_BY_USER',
             courses
@@ -968,8 +968,8 @@ const getSharedCoursesByUser = async (context: any, uid: string): Promise<void> 
 
 const getCoursesByVisibility = async (context: any, visibility: CourseVisibility, limit: number): Promise<Course[]> => {
     try {
-      const tempCourses: Course[] = await CourseModel.getAllByVisibility(visibility, limit);
-      const courses: Course[] = await CourseModel.resolveCourseArrayTagIds(tempCourses);
+      const courses: Course[] = await CourseModel.getAllByVisibility(visibility, limit);
+      // const courses: Course[] = await CourseModel.resolveCourseArrayTagIds(tempCourses);
       context.action = {
           type: 'SET_COURSES_BY_VISIBILITY',
           visibility,
