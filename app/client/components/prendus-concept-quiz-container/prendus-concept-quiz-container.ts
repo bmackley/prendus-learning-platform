@@ -58,8 +58,9 @@ class PrendusConceptQuizContainer {
     // }
 
 		viewQuiz(e: any) {
-			const quizId: string = e.model.quiz.id;
-			window.history.pushState({}, '', `courses/view-quiz/course/${this.courseId}/concept/${this.conceptId}/quiz/${quizId}`);
+
+      const quizId: string = e.model.quiz.id;
+      window.history.pushState({}, '', `courses/view-quiz/course/${this.courseId}/concept/${this.conceptId}/quiz/${quizId}`);
 			this.fire('location-changed', {}, {node: window});
 		}
 
