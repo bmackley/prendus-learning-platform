@@ -1,16 +1,20 @@
 <link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/iron-icons/iron-icons.html">
 <link rel="import" href="../../bower_components/paper-card/paper-card.html">
 <link rel="import" href="../../bower_components/paper-dialog/paper-dialog.html">
 <link rel="import" href="../../bower_components/prendus-paper-tags-input/prendus-paper-tags-input.html">
 <link rel="import" href="../prendus-course-preview/prendus-course-preview.html">
 <link rel="import" href="../prendus-notification/prendus-notification.html">
 <link rel="import" href="../prendus-search-course-tags/prendus-search-course-tags.html">
+<link rel="import" href="../../node_modules/prendus-services/styles/prendus-styles.html">
+
 <dom-module id="prendus-course-homepage">
-	
+
   <style include="prendus-styles">
 
-		#course-types-container > * + * {
-			margin-top: 30px;
+		/* Don't put a margin before dom-if templates */
+		#course-types-container > *:not(template) + * {
+			margin-top: 25px;
 		}
 
     .courses-container {
@@ -31,12 +35,6 @@
 			width: 33%;
       min-width: 300px;
 		}
-
-		/* Select only paper-buttons that aren't disabled */
-    paper-button.indigo:not([disabled]) {
-      background-color: var(--prendus-primary-color);
-      color: white;
-    }
 
     @media (max-width: 768px) {
       .course-preview {
@@ -65,8 +63,8 @@
 		<div id="course-types-container">
 			<!-- USER OWNED COURSES -->
 			<template is="dom-if" if="[[userCourses.length]]">
-				<h1>My Courses</h1>
-				<paper-button icon="add" class="indigo" noink title="Add Course" on-tap="openCreateCourseDialog">Create Course</paper-button>
+				<h2>My Courses</h2>
+				<button class="prendus-button prendus-button--recommended" title="Add Course" on-tap="openCreateCourseDialog"><iron-icon icon="add"></iron-icon> Create course</button>
 				<div class="courses-container">
 					<template id="my-courses" is="dom-repeat" items="[[userCourses]]">
 						<prendus-course-preview class="course-preview" course="[[item]]"></prendus-course-preview>
@@ -75,7 +73,7 @@
 			</template>
 			<template is="dom-if" if="[[!userCourses.length]]">
 				<h2>Create Your Own Course</h2>
-				<paper-button icon="add" class="indigo" noink title="Add Course" on-tap="openCreateCourseDialog">Create Course</paper-button>
+				<button class="prendus-button prendus-button--recommended" title="Add Course" on-tap="openCreateCourseDialog"><iron-icon icon="add"></iron-icon> Create course</button>
 				<h2>Recommended Courses</h2>
 				<div class="courses-container">
 					<template id="recommended-courses" is="dom-repeat" items="[[publicCourses]]">
@@ -112,8 +110,8 @@
 			</form>
       <!-- <prendus-paper-tags-input placeholder="Add a tag to the course (optional). Press enter to add another tag." label="Course Tags" id="tags" tags="[[courseTagNames]]" on-remove="onRemove" on-add="onAdd" duplicate-error-message="Tag cannot be a duplicate"></prendus-paper-tags-input> -->
 			<div class="buttons">
-				<paper-button noink dialog-dismiss>Cancel</paper-button>
-				<paper-button class="indigo" disabled="[[!canCreateCourse(courseTitle, courseDescription)]]" noink on-tap="createCourse">Create</paper-button>
+				<button class="prendus-button prendus-button--minor" dialog-dismiss>Cancel</button>
+				<button class="prendus-button prendus-button--recommended" disabled="[[!canCreateCourse(courseTitle, courseDescription)]]" on-tap="createCourse">Create</button>
 			</div>
     </paper-dialog>
 

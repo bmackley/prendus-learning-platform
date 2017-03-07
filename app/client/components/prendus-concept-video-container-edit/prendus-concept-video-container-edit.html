@@ -10,7 +10,6 @@
 <dom-module id="prendus-concept-video-container-edit">
     <template>
 
-        
         <style include="prendus-styles">
 
 					:host {
@@ -38,11 +37,6 @@
 						padding: 10px;
 					}
 
-          .add-video-button {
-            background-color: var(--prendus-primary-color);
-            color: white;
-          }
-
         </style>
 
         <redux-store on-statechange="mapStateToThis" action="[[action]]"></redux-store>
@@ -57,7 +51,7 @@
             <div class="video-row" on-tap="videoRowClick">[[item.title]]</div>
         </template>
 				<h4 class="video-blankslate" hidden$="[[hasVideos(videos)]]">This concept doesn't have any videos yet.</h4>
-        <paper-button class="add-video-button" on-tap="addVideo" noink><iron-icon icon="add"></iron-icon>Add Video</paper-button>
+        <button class="prendus-button prendus-button--recommended" on-tap="addVideo"><iron-icon icon="add"></iron-icon>Add video</button>
     </template>
 
     <script src="prendus-concept-video-container-edit.ts"></script>

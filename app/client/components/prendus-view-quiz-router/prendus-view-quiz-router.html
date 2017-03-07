@@ -4,24 +4,28 @@
 <link rel="import" href="../../bower_components/paper-card/paper-card.html">
 <link rel="import" href="../../bower_components/paper-button/paper-button.html">
 <link rel="import" href="../../bower_components/prendus-quiz-viewer-component/prendus-quiz-viewer.html">
-<link href="../../bower_components/redux-store-element/redux-store.html" rel="import">
+<link rel="import" href="../../bower_components/redux-store-element/redux-store.html">
+<link rel="import" href="../../node_modules/prendus-services/styles/prendus-styles.html">
 
 <dom-module id="prendus-view-quiz-router">
-  <style include="prendus-styles">
-    :host {
-      display: block;
-    }
 
-    #quiz-container {
-      width: 100%;
-    }
+	<template>
 
-		iron-icon {
-			padding: 5px;
-		}
+	  <style include="prendus-styles">
+	    :host {
+	      display: block;
+	    }
 
-  </style>
-    <template>
+	    #quiz-container {
+	      width: 100%;
+	    }
+
+			iron-icon {
+				padding: 5px;
+			}
+
+	  </style>
+
         <redux-store on-statechange="mapStateToThis" action="[[action]]"></redux-store>
         <app-route route="[[route]]" pattern="/view-quiz/course/:courseId/concept/:conceptId/quiz/:quizId" data="{{data}}"></app-route>
         <paper-card id="quiz-container">

@@ -8,7 +8,6 @@
 <link rel="import" href="../prendus-terms-of-service/prendus-terms-of-service.html">
 <link rel="import" href="../../node_modules/prendus-services/styles/prendus-styles.html">
 
-
 <dom-module id="prendus-create-account">
 
   <style include="prendus-styles">
@@ -48,16 +47,15 @@
         <paper-input id="institution" name="Intitution" label="Institution (school)"></paper-input>
       </form>
       <div class="card-actions">
-        <paper-button id="signup-submit" class="indigo" disabled$="[[!enableSignup(email, password, confirmPassword)]]" noink>Submit</paper-button>
+        <button id="signup-submit" class="prendus-button prendus-button--recommended" disabled$="[[!enableSignup(email, password, confirmPassword)]]">Submit</button>
       </div>
     </paper-card>
 
     <paper-dialog id="email-confirmation-dialog" with-backdrop>
-      <div>
-        [[createAccountEmailMessage]]
-        <br>
-        <a href="/login"><paper-button id="continueToLogin" class="indigo" noink dialog-dismiss>Continue</paper-button></a>
-      </div>
+			<p>[[createAccountEmailMessage]]</p>
+			<div class="buttons">
+				<a class="prendus-button prendus-button--recommended" href="/login" dialog-dismiss>Continue</a>
+			</div>
     </paper-dialog>
 
     <prendus-notification error-message="[[errorMessage]]"></prendus-notification>

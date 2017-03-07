@@ -17,9 +17,6 @@ class PrendusCourseHomepage {
   public sharedCourses: Course[];
   public starredCourses: Course[];
   public publicCourses: Course[];
-  public userCoursesLength: number;
-  public sharedCoursesLength: number;
-  public starredCoursesLength: number;
   public courseTagNames: string[];
   public collaborators: {
     [uid: string]: string[];

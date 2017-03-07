@@ -1,26 +1,29 @@
 <link rel="import" href="../../bower_components/polymer/polymer.html">
 <link rel="import" href="../../bower_components/iron-pages/iron-pages.html">
+<link rel="import" href="../../node_modules/prendus-services/styles/prendus-styles.html">
 
 <dom-module id="prendus-course-router">
-  <style include="prendus-styles">
 
-    :host {
-      width: 100%;
-    }
+	<template>
 
-    #course-container {
-      padding: 20px;
-    }
+	  <style include="prendus-styles">
 
-    .course-window {
-      display: block;
-      margin: auto;
-      max-width: 800px;
-    }
+	    :host {
+	      width: 100%;
+	    }
 
-  </style>
+	    #course-container {
+	      padding: 20px;
+	    }
 
-  <template>
+	    .course-window {
+	      display: block;
+	      margin: auto;
+	      max-width: 800px;
+	    }
+
+	  </style>
+
     <app-route route="[[route]]" pattern="/:page" data="{{data}}" tail="{{tail}}"></app-route>
 
     <iron-pages id="course-container" selected="[[data.page]]" attr-for-selected="key">

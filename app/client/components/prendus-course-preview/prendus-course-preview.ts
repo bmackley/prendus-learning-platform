@@ -33,7 +33,9 @@ class PrendusCoursePreview {
       try {
         await Actions.checkUserAuth(this);
         this.numStars = Object.keys(course.userStars || {}).length;
-				this.hasEditAccess = course.collaborators && this.uid in course.collaborators;
+				this.hasEditAccess = this.uid === course.uid;
+				// put this back once collaborators work again
+				// this.hasEditAccess = course.collaborators && this.uid in course.collaborators;
       } catch(error) {
 				console.error(error);
       }
