@@ -97,8 +97,11 @@ class PrendusEditQuestionRouter {
         //TODO this is evil, figure out another way to manually reload the questions without a DOM search
         this.successMessage = '';
         this.successMessage = 'Question saved successfully';
+        const editQuizComponent = document.querySelector('#edit-quiz');
+        if(typeof editQuizComponent.manuallyReloadQuestions === 'function') {
+          editQuizComponent.manuallyReloadQuestions();
+        }
 
-        document.querySelector('#edit-quiz').manuallyReloadQuestions();
         //TODO this is evil, figure out another way to manually reload the questions without a DOM search
     }
 }

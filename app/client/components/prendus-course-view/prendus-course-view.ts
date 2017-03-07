@@ -28,6 +28,8 @@ export class PrendusCourseView {
   public editingDescription: boolean;
   public listeners: any;
   public data: any;
+  public hasEditAccess: boolean;
+  public numberOfPublicCoursesLoaded: number;
 
   beforeRegister(): void {
     this.is = 'prendus-course-view';
@@ -42,10 +44,11 @@ export class PrendusCourseView {
       data: {
         type: Object,
       },
-      hasEditAccess: {
-        type: Boolean,
-        computed: 'computeHasEditAccess(uid, currentCourse.collaborators)'
-      },
+      //TODO this will come back once collaborators are back!
+      // hasEditAccess: {
+      //   type: Boolean,
+      //   computed: 'computeHasEditAccess(uid)'
+      // },
       editingTitle: {
         type: Boolean,
         value: false
@@ -82,9 +85,10 @@ export class PrendusCourseView {
     this.querySelector('#collaborators-modal').open();
   }
 
-  computeHasEditAccess(uid: string, collaborators: any): boolean {
-    return uid in collaborators;
-  }
+  //TODO this will be called when collaborators are back
+  // computeHasEditAccess(uid: string, collaborators: any): boolean {
+  //   return uid in collaborators;
+  // }
 
 	formatCollaboratorEmails(emails: string[]): string {
 		return emails
@@ -270,6 +274,17 @@ export class PrendusCourseView {
         const attribute = e.target.name;
         await Actions.updateCourseField(this, this.courseId, attribute, value);
         await Actions.getCourseViewCourseById(this, this.courseId);
+
+        // It would probably be a good idea to only reload the course that was updated,
+        // but for now this will do.
+        Actions.getCoursesByUser(this);
+        Actions.getStarredCoursesByUser(this, this.uid);
+        if(this.numberOfPublicCoursesLoaded) {
+            // This probably is not the most efficient way to reload the front page courses.
+            // Ideally we would reload the one course that got updated. But for now this will do.
+            Actions.getCoursesByVisibility(this, 'public', this.numberOfPublicCoursesLoaded);
+        }
+
         this.successMessage = '';
         this.successMessage = `Course ${attribute} has been updated`;
       }
@@ -283,12 +298,15 @@ export class PrendusCourseView {
     const state = e.detail.state;
     this.courseId = state.courseViewCurrentCourse.id;
     this.username = state.currentUser.metaData.email;
-    this.uid = state.currentUser.metaData.uid;
     this.currentCourse = state.courseViewCurrentCourse;
+    this.uid = state.currentUser.metaData.uid;
+    //TODO this will be gone once collaborators are back!!
+    this.hasEditAccess = this.currentCourse && this.currentCourse.uid === this.uid;
     // this.courseTags = state.courseViewCurrentCourse.tags;
     this.courseTagNames = state.courseTagNames;
     this.courseConcepts = state.viewCourseConcepts[this.courseId];
 		this.collaboratorEmails = state.courseCollaboratorEmails[this.uid] && state.courseCollaboratorEmails[this.uid][this.courseId];
+    this.numberOfPublicCoursesLoaded = state.publicCourses ? state.publicCourses.length : this.numberOfPublicCoursesLoaded;
   }
 }
 

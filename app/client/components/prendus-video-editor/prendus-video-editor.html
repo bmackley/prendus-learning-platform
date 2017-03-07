@@ -31,8 +31,10 @@
       </style>
 
       <div>
-        <paper-icon-button icon="social:group-add" on-tap="openCollaboratorsModal"></paper-icon-button>
-        <prendus-collaborator-modal id="collaborators-modal" concept-id="[[conceptId]]" video-id="[[videoId]]" video></prendus-collaborator-modal>
+
+        <!-- TODO add this back once we're ready for collaborators-->
+        <!-- <paper-icon-button icon="social:group-add" on-tap="openCollaboratorsModal"></paper-icon-button> -->
+        <!-- <prendus-collaborator-modal id="collaborators-modal" concept-id="[[conceptId]]" video-id="[[videoId]]" video></prendus-collaborator-modal> -->
         <paper-icon-button icon="delete" on-tap="deleteVideo"></paper-icon-button>
       </div>
       <paper-input id="titleInput" label="Video Title" on-input="updateTitle" value="[[title]]"></paper-input>
