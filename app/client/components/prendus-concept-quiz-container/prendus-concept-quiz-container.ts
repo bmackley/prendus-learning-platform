@@ -62,13 +62,8 @@ class PrendusConceptQuizContainer {
 
 		viewQuiz(e: any) {
 
-      // Temporary solution - hopefully polymer 2 will support setting notifications even if the variable
-      // is being set to the same value.  prendus-take-quiz has it setup so when quizId changes, init is called.
-      // Therefore, I call it with quizId set to '' so that it will always fire init.
-      window.history.pushState({}, '', `courses/view-quiz/course/${this.courseId}/concept/${this.conceptId}/quiz/`);
-      this.fire('location-changed', {}, {node: window});
       const quizId: string = e.model.quiz.id;
-			window.history.pushState({}, '', `courses/view-quiz/course/${this.courseId}/concept/${this.conceptId}/quiz/${quizId}`);
+      window.history.pushState({}, '', `courses/view-quiz/course/${this.courseId}/concept/${this.conceptId}/quiz/${quizId}`);
 			this.fire('location-changed', {}, {node: window});
 		}
 
