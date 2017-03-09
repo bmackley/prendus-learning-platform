@@ -23,11 +23,6 @@
           display: block;
         }
 
-				#save {
-					background-color: var(--prendus-primary-color);
-					color: white;
-				}
-
       </style>
 
       <div>
@@ -39,7 +34,7 @@
       </div>
       <paper-input id="titleInput" label="Video Title" on-input="updateTitle" value="[[title]]"></paper-input>
       <paper-input id="urlInput" label="Video URL" on-input="updateUrl" value="[[url]]"></paper-input>
-      <button id="save" class="prendus-button prendus-button--recommended" on-tap="saveVideo">Save</button>
+      <button class="prendus-button prendus-button--recommended" on-tap="saveVideo">Save</button>
       <prendus-video-viewer url="[[url]]" no-xapi></prendus-video-viewer>
       <paper-toast id="savedToast" text="Video saved"></paper-toast>
     </template>

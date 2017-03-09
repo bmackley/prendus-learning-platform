@@ -27,14 +27,6 @@
 				text-decoration: none;
 			}
 
-      .course-icon {
-        color: rgba(0, 0, 0, .5);
-      }
-
-      .course-icon:hover {
-        color: rgba(0, 0, 0, .8);
-      }
-
       .course-card {
         cursor: pointer;
         width: 100%;
@@ -81,12 +73,12 @@
 	        </template> -->
 	      </div>
 	      <div class="card-actions">
-	        <paper-icon-button id="star-course" class="course-icon" icon="[[starIcon]]" on-tap="starClick"></paper-icon-button>[[numStars]]
+	        <paper-icon-button id="star-course" class="prendus-icon-button" icon="[[starIcon]]" on-tap="starClick"></paper-icon-button>[[numStars]]
 	        <paper-tooltip for="star-course" offset="0" animation-delay="300">Star Course</paper-tooltip>
 	        <template is="dom-if" if="[[hasEditAccess]]">
-	          <a href="/courses/view/[[course.id]]"><paper-icon-button id="edit-course" class="course-icon" icon="create"></paper-icon-button></a>
+	          <a href="/courses/view/[[course.id]]"><paper-icon-button id="edit-course" class="prendus-icon-button" icon="create"></paper-icon-button></a>
 	          <paper-tooltip for="edit-course" offset="0" animation-delay="300">Edit Course</paper-tooltip>
-	          <paper-icon-button id="delete-course" class="course-icon" icon="delete" on-tap="openDeleteModal"></paper-icon-button>
+	          <paper-icon-button id="delete-course" class="prendus-icon-button" icon="delete" on-tap="openDeleteModal"></paper-icon-button>
 	          <paper-tooltip for="delete-course" offset="0" animation-delay="300">Delete Course</paper-tooltip>
 	        </template>
 	      </div>

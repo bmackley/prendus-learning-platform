@@ -44,14 +44,6 @@
       margin-top: 20px;
     }
 
-		.icon-button {
-			color: rgba(0, 0, 0, .5);
-		}
-
-		.icon-button:hover {
-			color: rgba(0, 0, 0, .8);
-		}
-
     #collaborators-button {
       align-self: flex-end;
     }
@@ -128,11 +120,6 @@
       };
     }
 
-		.add-concept-button {
-			background-color: var(--prendus-primary-color);
-			color: white;
-		}
-
   </style>
   <template>
     <redux-store action="[[action]]" on-statechange="mapStateToThis"></redux-store>
@@ -152,7 +139,7 @@
 						<h1 hidden$="[[editingTitle]]">[[currentCourse.title]]</h1>
 						<template is="dom-if" if="[[hasEditAccess]]">
 							<paper-input id="course-title" class="edit-input" hidden$="[[!editingTitle]]" name="title" label="Course Title" value="[[currentCourse.title]]" maxlength="50" on-change="attributeChanged" required auto-validate error-message="Please enter a title."></paper-input>
-							<paper-icon-button id="edit-title" class="edit-button icon-button" icon="[[getEditIcon(editingTitle)]]" noink on-tap="toggleEditTitle"></paper-icon-button>
+							<paper-icon-button id="edit-title" class="edit-button prendus-icon-button" icon="[[getEditIcon(editingTitle)]]" noink on-tap="toggleEditTitle"></paper-icon-button>
 							<paper-tooltip for="edit-title" offset="0" animation-delay="300">Click to edit course title</paper-tooltip>
 						</template>
 					</div>
@@ -161,7 +148,7 @@
 						<h3 hidden="[[editingDescription]]">[[currentCourse.description]]</h3>
 						<template is="dom-if" if="[[hasEditAccess]]">
 							<paper-textarea id="course-description" class="edit-input" hidden="[[!editingDescription]]" name="description" label="Course Description" value="[[currentCourse.description]]" maxlength="100" on-change="attributeChanged" required auto-validate error-message="Please enter a description."></paper-textarea>
-							<paper-icon-button id="edit-description" class="edit-button icon-button" icon="[[getEditIcon(editingDescription)]]" noink on-tap="toggleEditDescription"></paper-icon-button>
+							<paper-icon-button id="edit-description" class="edit-button prendus-icon-button" icon="[[getEditIcon(editingDescription)]]" noink on-tap="toggleEditDescription"></paper-icon-button>
 							<paper-tooltip for="edit-description" offset="0" animation-delay="300">Click to edit course description</paper-tooltip>
 						</template>
 					</div>
@@ -194,13 +181,13 @@
 								</template>
 							</sortable-js>
 						</template>
-						<button class="prendus-button prendus-button--recommended add-concept-button" on-tap="addConcept"><iron-icon icon="add"></iron-icon>Add concept</button>
+						<button class="prendus-button prendus-button--recommended" on-tap="addConcept"><iron-icon icon="add"></iron-icon>Add concept</button>
 					</template>
           <!-- DUE DATE -->
 					<!-- <div class="edit-section">
 						<h3>Final due date: [[makePrettyDate(currentCourse.dueDate)]]</h3>
 						<template is="dom-if" if="[[hasEditAccess]]">
-							<paper-icon-button class="edit-button icon-button" icon="create" noink on-tap="openDueDateModal"></paper-icon-button>
+							<paper-icon-button class="edit-button prendus-icon-button" icon="create" noink on-tap="openDueDateModal"></paper-icon-button>
 						</template>
 					</div>
 					<template is="dom-if" if="[[hasEditAccess]]">
@@ -216,7 +203,7 @@
 						<template is="dom-if" if="[[hasEditAccess]]">
 							<h3>Collaborators</h3>
 							<prendus-collaborator-modal id="collaborators-modal" uid="[[uid]]" course-id="[[courseId]]" course></prendus-collaborator-modal>
-							<paper-icon-button id="edit-collaborators" class="edit-button icon-button" icon="create" noink on-tap="openCollaboratorsModal"></paper-icon-button>
+							<paper-icon-button id="edit-collaborators" class="edit-button prendus-icon-button" icon="create" noink on-tap="openCollaboratorsModal"></paper-icon-button>
 							<paper-tooltip for="edit-collaborators" offset="0" animation-delay="300">Click to add or remove collaborators</paper-tooltip>
 						</template>
 					</div> -->
