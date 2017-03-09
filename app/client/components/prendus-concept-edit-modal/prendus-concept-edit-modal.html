@@ -25,7 +25,7 @@
       <!-- <prendus-paper-tags-input id="concept-tags" placeholder="Delete tags or add new ones" tags="[[conceptTagNames]]" on-add="onAdd" on-remove="onRemove" duplicate-error-message="Tag cannot be a duplicate" required></prendus-paper-tags-input> -->
 			<div class="buttons">
 				<button class="prendus-button prendus-button--minor" dialog-dismiss on-tap="clearValues">Cancel</button>
-				<button class="prendus-button prendus-button--recommended" disabled$=[[!enableConceptSubmission(newConceptName)]] on-tap="updateConcept">Done</button>
+				<button class="prendus-button prendus-button--recommended" disabled$=[[!enableConceptSubmission(newConceptName)]] on-tap="updateConcept">Add</button>
 			</div>
     </paper-dialog>
     <prendus-notification success-message="[[successMessage]]" error-message="[[errorMessage]]"></prendus-notification>

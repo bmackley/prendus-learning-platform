@@ -3,13 +3,12 @@
 <link rel="import" href="../../bower_components/paper-toast/paper-toast.html">
 <link rel="import" href="../../bower_components/paper-input/paper-input.html">
 <link rel="import" href="../../bower_components/paper-card/paper-card.html">
-<link rel="import" href="../../bower_components/paper-button/paper-button.html">
 <link rel="import" href="../../bower_components/paper-dialog/paper-dialog.html">
 <link rel="import" href="../prendus-notification/prendus-notification.html">
 <link rel="import" href="../../node_modules/prendus-services/styles/prendus-styles.html">
 
 <dom-module id="prendus-login">
-	
+
   <style include="prendus-styles">
 
     :host {
@@ -22,11 +21,6 @@
     paper-card {
       width: 100%;
       max-width: 320px;
-    }
-
-    paper-button.indigo:not([disabled]) {
-      background-color: var(--prendus-primary-color);
-      color: white;
     }
 
     #create-account {
@@ -42,22 +36,25 @@
           <paper-input id="password" name="password" label="Password" value="{{password}}" type="password" required auto-validate error-message="Please enter your password."></paper-input>
         </form>
         <div class="card-actions">
-          <paper-button noink on-tap="openResetPasswordDialog">Forgot Password</paper-button>
-					<paper-button id="log-in-submit" class="indigo" disabled="[[!enableLogIn(email, password)]]" noink on-tap="login">Log In</paper-button>
+          <button class="prendus-button prendus-button--minor" on-tap="openResetPasswordDialog">Forgot password</button>
+					<button class="prendus-button prendus-button--recommended" disabled="[[!enableLogIn(email, password)]]" on-tap="login">Log in</button>
         </div>
         <div id="create-account">Don't have an account? <a href="/signup">Sign up</a></div>
       </paper-card>
 
       <paper-dialog id="reset-password-dialog" with-backdrop>
         <form is="iron-form">
-          <h2>Enter Email to Send Password Reset Link</h2>
-          <paper-input name="resetPasswordEmail" id = "resetPasswordEmail" label="Email" required auto-validate></paper-input>
-          <paper-button noink dialog-dismiss>Cancel</paper-button>
-          <paper-button class="indigo" noink on-click="sendResetEmail">Submit</paper-button>
+          <h2>Reset password</h2>
+					<p>Enter your email address below.  We'll send you a link to reset your password.</p>
+          <paper-input id="reset-password-email" label="Email address" value="{{resetPasswordEmail}}" required auto-validate error-message="Please enter a valid email address." on-keydown="resetPasswordOnEnter"></paper-input>
+					<div class="buttons">
+						<button class="prendus-button prendus-button--minor" dialog-dismiss>Cancel</button>
+						<button class="prendus-button prendus-button--recommended" disabled$="[[!enableResetPassword(resetPasswordEmail)]]" on-tap="sendResetEmail">Submit</button>
+					</div>
         </form>
       </paper-dialog>
 
-      <prendus-notification error-message="[[errorMessage]]"></prendus-notification>
+      <prendus-notification success-message="[[successMessage]]" error-message="[[errorMessage]]"></prendus-notification>
   </template>
 
   <script src="prendus-login.ts"></script>

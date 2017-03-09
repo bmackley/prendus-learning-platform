@@ -1,7 +1,6 @@
 <link rel="import" href="../../bower_components/polymer/polymer.html">
 <link rel="import" href="../../bower_components/redux-store-element/redux-store.html">
 <link rel="import" href="../../bower_components/paper-input/paper-input.html">
-<link rel="import" href="../../bower_components/paper-button/paper-button.html">
 <link rel="import" href="../../bower_components/paper-dialog/paper-dialog.html">
 <link rel="import" href="../../bower_components/paper-dialog-scrollable/paper-dialog-scrollable.html">
 <link rel="import" href="../../bower_components/iron-icon/iron-icon.html">
@@ -9,7 +8,7 @@
 
 <dom-module id="prendus-collaborator-modal">
     <template>
-				
+
         <style include="prendus-styles">
 
           .remove-collaborator {
@@ -19,12 +18,6 @@
 					#add-container {
 						display: flex;
 						align-items: center;
-					}
-
-					/* Select only when it's not disabled */
-					paper-button:not([disabled]) {
-						background-color: var(--prendus-primary-color);
-						color: white;
 					}
 
         </style>
@@ -40,11 +33,11 @@
             </template>
 						<div id="add-container">
 							<paper-input id="add-input" label="Enter email address" tabindex="0" value="{{newCollaboratorEmail}}" on-keydown="addCollaboratorIfEnter"></paper-input>
-							<paper-button disabled="[[!canAddCollaborator(newCollaboratorEmail)]]" noink on-tap="addCollaborator">Add</paper-button>
+							<button class="prendus-button prendus-button--recommended" disabled="[[!canAddCollaborator(newCollaboratorEmail)]]" on-tap="addCollaborator">Add</button>
 						</div>
           </paper-dialog-scrollable>
           <div class="buttons">
-            <paper-button noink dialog-dismiss>Done</paper-button>
+            <button class="prendus-button prendus-button--recommended" dialog-dismiss>Done</button>
           </div>
         </paper-dialog>
 

@@ -183,7 +183,7 @@
 					</template>
 					<template is="dom-if" if="[[hasEditAccess]]">
 						<template is="dom-if" if="[[!courseConcepts.length]]">
-							<p><strong>Click + ADD CONCEPT to begin adding concepts to the course.</strong></p>
+							<p><strong>No concepts yet...</strong></p>
 						</template>
 						<template is="dom-if" if="[[courseConcepts.length]]">
 							<sortable-js id="concept-list" animation="200" on-sort="sortableEnded">
@@ -194,7 +194,7 @@
 								</template>
 							</sortable-js>
 						</template>
-						<button class="prendus-button prendus-button--recommended add-concept-button" on-tap="addConcept"><iron-icon icon="add"></iron-icon>Add Concept</button>
+						<button class="prendus-button prendus-button--recommended add-concept-button" on-tap="addConcept"><iron-icon icon="add"></iron-icon>Add concept</button>
 					</template>
           <!-- DUE DATE -->
 					<!-- <div class="edit-section">

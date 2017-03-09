@@ -42,7 +42,7 @@
       <div class="search">
         <!-- TODO: add functionality to match more than just one word -->
         <paper-input placeholder="Search for courses" id="tag" on-keydown="checkForEnter"> </paper-input>
-        <paper-button raised on-tap="searchTagsInDB" id="search-button">Search</paper-button>
+        <button id="search-button" class="prendus-button prendus-button--recommended" on-tap="searchTagsInDB">Search</button>
       </div>
     <template is="dom-if" if="[[resultingCourses.length]]">
       <h1>Search Results</h1>

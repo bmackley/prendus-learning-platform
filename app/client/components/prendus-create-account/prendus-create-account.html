@@ -1,4 +1,4 @@
-<link href="../../bower_components/polymer/polymer.html" rel="import">
+<link rel="import" href="../../bower_components/polymer/polymer.html">
 <link rel="import" href="../../bower_components/redux-store-element/redux-store.html">
 <link rel="import" href="../../bower_components/paper-toast/paper-toast.html">
 <link rel="import" href="../../bower_components/paper-input/paper-input.html">
@@ -11,6 +11,7 @@
 <dom-module id="prendus-create-account">
 
   <style include="prendus-styles">
+
       :host {
         width: 100%;
         display: flex;
@@ -21,11 +22,6 @@
       paper-card {
         width: 100%;
         max-width: 320px;
-      }
-
-      paper-button.indigo:not([disabled]) {
-        background-color: var(--prendus-primary-color);
-        color: white;
       }
 
       #email-confirmation-dialog {

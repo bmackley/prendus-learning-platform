@@ -82,15 +82,11 @@ class PrendusQuizEditor {
 			try {
 				await this.init();
 				const quiz: Quiz = await Actions.getQuiz(quizId);
-				console.log(quiz);
-				console.log(this.uid);
-				console.log(quiz.collaborators);
-				this.hasEditAccess = this.uid in quiz.collaborators;
+				this.hasEditAccess = this.uid === quiz.uid;
+				// put this back once collaborators work again
+				// this.hasEditAccess = this.uid in quiz.collaborators;
 				this.title = quiz.title;
 				this.quizLoaded = true;
-				console.log(`hasEditAccess is ${this.hasEditAccess}`);
-				console.log(`quizLoaded is ${this.quizLoaded}`);
-				console.log(`showErrorMessage is ${this.showErrorMessage(this.quizLoaded, this.hasEditAccess)}`);
 			} catch(error) {
 				this.quizLoaded = false;
 				console.error(error);
@@ -239,7 +235,7 @@ class PrendusQuizEditor {
     }
 
     async dueDateChanged(e: any): Promise<void> {
-        const dueDate: Date = this.querySelector('#dueDate').date;
+        const dueDate: Date = this.querySelector('#due-date').date;
         const UTCDueDate: number = UtilitiesService.dateToUTCNumber(dueDate);
         const course: Course = await CourseModel.getById(this.courseId);
         if(UTCDueDate > course.dueDate) {

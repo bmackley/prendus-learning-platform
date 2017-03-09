@@ -3,33 +3,35 @@
 <link rel="import" href="../../node_modules/prendus-services/styles/prendus-styles.html">
 
 <dom-module id="prendus-footer">
-	
-  <style include="prendus-styles">
 
-		a,
-		a:visited {
-			color: white;
-		}
+	<template>
 
-    footer {
-      width: 100%;
-    }
+	  <style include="prendus-styles">
 
-    .footer-items {
-      width: 100%;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-
-		@media (max-width: 500px) {
-			.long-text {
-				display: none;
+			a,
+			a:visited {
+				color: white;
 			}
-		}
 
-  </style>
-  <template>
+	    footer {
+	      width: 100%;
+	    }
+
+	    .footer-items {
+	      width: 100%;
+	      display: flex;
+	      justify-content: space-between;
+	      align-items: center;
+	    }
+
+			@media (max-width: 500px) {
+				.long-text {
+					display: none;
+				}
+			}
+
+	  </style>
+
     <paper-toolbar>
       <footer class="footer-items">
         <div>&copy; [[getYear()]]&nbsp;<span class="long-text">Prendus LLC</span></div>
@@ -37,6 +39,7 @@
 				<a href="/privacy-policy">Privacy&nbsp;<span id="privacy-policy" class="long-text">Policy</span></a>
       </footer>
     </paper-toolbar>
+		
   </template>
 
   <script src="prendus-footer.ts"></script>

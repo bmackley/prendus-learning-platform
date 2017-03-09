@@ -63,7 +63,7 @@
 		<div id="course-types-container">
 			<!-- USER OWNED COURSES -->
 			<template is="dom-if" if="[[userCourses.length]]">
-				<h2>My Courses</h2>
+				<h1>Your courses</h1>
 				<button class="prendus-button prendus-button--recommended" title="Add Course" on-tap="openCreateCourseDialog"><iron-icon icon="add"></iron-icon> Create course</button>
 				<div class="courses-container">
 					<template id="my-courses" is="dom-repeat" items="[[userCourses]]">
@@ -72,9 +72,9 @@
 				</div>
 			</template>
 			<template is="dom-if" if="[[!userCourses.length]]">
-				<h2>Create Your Own Course</h2>
+				<h1>Create Your Own Course</h1>
 				<button class="prendus-button prendus-button--recommended" title="Add Course" on-tap="openCreateCourseDialog"><iron-icon icon="add"></iron-icon> Create course</button>
-				<h2>Recommended Courses</h2>
+				<h1>Recommended Courses</h1>
 				<div class="courses-container">
 					<template id="recommended-courses" is="dom-repeat" items="[[publicCourses]]">
 						<prendus-course-preview class="course-preview" course="[[item]]"></prendus-course-preview>

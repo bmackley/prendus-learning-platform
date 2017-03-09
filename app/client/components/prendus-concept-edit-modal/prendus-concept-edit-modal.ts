@@ -80,7 +80,6 @@ class PrendusConceptNewConcept {
 
   async updateConcept(e: any) {
     e.preventDefault();
-    this.newConceptName = this.querySelector('#concept-name').value;
     if(this.newConceptName && this.conceptId) {
       this.editConcept();
       return;

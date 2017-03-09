@@ -31,7 +31,9 @@ class PrendusViewQuizRouter {
 
 		async updateEditAccess(data: any) {
 			const quiz: Quiz = await Actions.getQuiz(data.quizId);
-			this.hasEditAccess = this.uid in quiz.collaborators;
+			this.hasEditAccess = this.uid === quiz.uid;
+			// put this back once collaborators work again
+			// this.hasEditAccess = this.uid in quiz.collaborators;
 		}
 
     quizSubmissionStarted(): void {
