@@ -139,13 +139,13 @@
 					<!-- QUIZ TITLE -->
 					<paper-input id="quiz-title-input" label="Quiz Title" value="[[title]]" on-change="titleChanged" required auto-validate maxlength="50"></paper-input>
 					<!-- OPTIONS -->
-					<paper-icon-button id="share-button" icon="social:share" on-tap="shareQuiz"></paper-icon-button>
+					<paper-icon-button id="share-button" class="prendus-icon-button" icon="social:share" on-tap="shareQuiz"></paper-icon-button>
 					<paper-tooltip for="share-button" offset="0" animation-delay="300">Get Share Link</paper-tooltip>
           <!--TODO this is the collaborators feature - taking out for now for this quick release to production. -->
 					<!-- <paper-icon-button id="collaborators-button" icon="social:group-add" on-tap="openCollaboratorsModal"></paper-icon-button>
 					<paper-tooltip for="collaborators-button" offset="0" animation-delay="300">Edit Collaborators</paper-tooltip> -->
 					<!-- <prendus-collaborator-modal id="collaborators-modal" concept-id="[[conceptId]]" quiz-id="[[quizId]]" quiz></prendus-collaborator-modal> -->
-					<paper-icon-button id="settings-button" icon="settings" on-tap="openSettingsModal"></paper-icon-button>
+					<paper-icon-button id="settings-button" class="prendus-icon-button" icon="settings" on-tap="openSettingsModal"></paper-icon-button>
 					<paper-tooltip for="settings-button" offset="0" animation-delay="300">Quiz Settings</paper-tooltip>
 
 					<!-- QUIZ SETTINGS -->
@@ -178,7 +178,7 @@
 						<template is="dom-repeat" items="[[quizQuestionIds]]">
 							<div style="position: relative">
 								<prendus-view-question id="quiz-question-id-[[item]]" question-id="[[item]]" quiz-id="NO_QUIZ" jwt="[[jwt]]" quiz-session="[[quizSession]]" concise></prendus-view-question>
-								<paper-icon-button id="remove[[item]]" icon="icons:clear" on-click="removeQuestionFromQuiz"></paper-icon-button>
+								<paper-icon-button id="remove[[item]]" class="prendus-icon-button" icon="icons:clear" on-click="removeQuestionFromQuiz"></paper-icon-button>
 								<paper-tooltip for="remove[[item]]" offset="0" animation-delay="300">Remove from quiz</paper-tooltip>
 								<hr>
 							</div>
@@ -200,9 +200,9 @@
 							<button id="new-question" class="prendus-button prendus-button--recommended" on-tap="createQuestion"><iron-icon icon="add"></iron-icon>New question</button>
 							<template is="dom-repeat" items="[[userQuestionIds]]">
 								<prendus-view-question id="user-question-id-[[item]]" question-id="[[item]]" quiz-id="NO_QUIZ" jwt="[[jwt]]" quiz-session="[[quizSession]]" concise></prendus-view-question>
-								<paper-icon-button id="add[[item]]" icon="av:playlist-add" on-click="addQuestionToQuiz"></paper-icon-button>
+								<paper-icon-button id="add[[item]]" class="prendus-icon-button" icon="av:playlist-add" on-click="addQuestionToQuiz"></paper-icon-button>
 								<paper-tooltip for="add[[item]]">Add to quiz</paper-tooltip>
-								<paper-icon-button id="edit[[item]]" icon="create" on-click="editQuestion"></paper-icon-button>
+								<paper-icon-button id="edit[[item]]" class="prendus-icon-button" icon="create" on-click="editQuestion"></paper-icon-button>
 								<paper-tooltip for="edit[[item]]">Edit question</paper-tooltip>
 								<hr>
 							</template>
@@ -211,10 +211,10 @@
 						<div id="public-questions" class="tab-content">
 							<template is="dom-repeat" items="[[publicQuestionIds]]">
 								<prendus-view-question id="public-question-id-[[item]]" question-id="[[item]]" quiz-id="NO_QUIZ" jwt="[[jwt]]" quiz-session="[[quizSession]]" concise></prendus-view-question>
-								<paper-icon-button id="add[[item]]" icon="av:playlist-add" on-click="addQuestionToQuiz"></paper-icon-button>
+								<paper-icon-button id="add[[item]]" class="prendus-icon-button" icon="av:playlist-add" on-click="addQuestionToQuiz"></paper-icon-button>
 								<paper-tooltip for="add[[item]]">Add to quiz</paper-tooltip>
                 <!-- TODO took out the ability to edit a public question for now.-->
-                <!-- <paper-icon-button id="edit[[item]]" icon="create" on-click="editQuestion"></paper-icon-button>
+                <!-- <paper-icon-button id="edit[[item]]" class="prendus-icon-button" icon="create" on-click="editQuestion"></paper-icon-button>
 								<paper-tooltip for="edit[[item]]">Edit question</paper-tooltip> -->
 								<hr>
 							</template>
