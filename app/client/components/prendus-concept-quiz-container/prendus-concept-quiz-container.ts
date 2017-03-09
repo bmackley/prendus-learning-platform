@@ -13,9 +13,6 @@ class PrendusConceptQuizContainer {
     public courseId: string;
     public quizzes: Quiz[];
 		public quizToDelete: Quiz;
-    public currentVideoId: string;
-    public currentVideoTitle: string;
-    public currentVideoUrl: string;
     public uid: string;
     public currentCourse: Course;
     public successMessage: string;

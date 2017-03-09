@@ -58,6 +58,7 @@ class PrendusEditQuestionRouter {
     }
 
     _routeChanged(routeObject: any): void {
+			Actions.hideMainSpinner(this);
       const route: string = routeObject.value.path;
       if(!route) {
         return;

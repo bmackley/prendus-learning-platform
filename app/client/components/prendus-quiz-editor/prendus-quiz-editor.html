@@ -15,14 +15,14 @@
 <link rel="import" href="../../bower_components/iron-icons/social-icons.html">
 <link rel="import" href="../../bower_components/paper-date-picker/paper-date-picker.html">
 <link rel="import" href="../../bower_components/prendus-question-components/components/prendus-view-question/prendus-view-question.html">
-<link rel="import" href="../../styles/color-styles.html">
+<link rel="import" href="../../node_modules/prendus-services/styles/prendus-styles.html">
 <!-- <link rel="import" href="../prendus-collaborator-modal/prendus-collaborator-modal.html"> -->
 <link rel="import" href="../prendus-notification/prendus-notification.html">
 
 <dom-module id="prendus-quiz-editor">
   <template>
-    <style include="color-styles"></style>
-    <style>
+    
+    <style include="prendus-styles">
         :host {
           --paper-tab-ink: var(--prendus-primary-color);
         }
@@ -31,8 +31,7 @@
 					padding: 5px;
 				}
 
-        #quiz-container {
-          width: 100%;
+        .container {
           display: flex;
         }
 
@@ -129,108 +128,108 @@
 			</div>
     </paper-dialog>
 
-    <div id="quiz-container">
-			<template id="no-quiz" is="dom-if" if="[[!quizLoaded]]">
-				<paper-card id="no-quiz">
-				  <div class="card-content">
-						<h3>Sorry, the quiz you were looking for could not be loaded.</h3>
-						<p>It may have been removed or never existed in the first place.  Try starting from the <a href="/">home page</a>.</p>
-					</div>
-				</paper-card>
-			</template>
-			<template is="dom-if" if="[[quizLoaded]]">
-	      <!-- TODO: for mobile display, move the quiz preview to another tab in the questions card -->
-	      <paper-card>
-	        <div class="card-content">
-						<a href="/courses/view/[[courseId]]"><paper-button><iron-icon class="text-icon" icon="undo"></iron-icon> Back to course</paper-button></a>
-						<!-- QUIZ TITLE -->
-						<paper-input id="quiz-title-input" label="Quiz Title" value="[[title]]" on-change="titleChanged" required auto-validate maxlength="50"></paper-input>
-						<!-- OPTIONS -->
-						<paper-icon-button id="share-button" icon="social:share" on-tap="shareQuiz"></paper-icon-button>
-						<paper-tooltip for="share-button" offset="0" animation-delay="300">Get Share Link</paper-tooltip>
-            <!--TODO this is the collaborators feature - taking out for now for this quick release to production. -->
-						<!-- <paper-icon-button id="collaborators-button" icon="social:group-add" on-tap="openCollaboratorsModal"></paper-icon-button>
-						<paper-tooltip for="collaborators-button" offset="0" animation-delay="300">Edit Collaborators</paper-tooltip> -->
-						<!-- <prendus-collaborator-modal id="collaborators-modal" concept-id="[[conceptId]]" quiz-id="[[quizId]]" quiz></prendus-collaborator-modal> -->
-						<paper-icon-button id="settings-button" icon="settings" on-tap="openSettingsModal"></paper-icon-button>
-						<paper-tooltip for="settings-button" offset="0" animation-delay="300">Quiz Settings</paper-tooltip>
+		<paper-card class="container" hidden$="[[!showErrorMessage(quizLoaded, hasEditAccess)]]">
+		  <div class="card-content" hidden$="[[quizLoaded]]">
+				<h3>Sorry, the quiz you were looking for could not be loaded.</h3>
+				<p>It may have been removed or never existed in the first place.  Try starting from the <a href="/">home page</a>.</p>
+			</div>
+			<div class="card-content" hidden$="[[hasEditAccess]]">
+				<h3>Sorry, you don't have edit access to this quiz.</h3>
+				<p>If you like you can <a href="/courses/view-quiz/course/[[courseId]]/concept/[[conceptId]]/quiz/[[quizId]]">take this quiz</a>.</p>
+			</div>
+		</paper-card>
+		<div id="quiz-container" class="container" hidden$="[[showErrorMessage(quizLoaded, hasEditAccess)]]">
+      <!-- TODO: for mobile display, move the quiz preview to another tab in the questions card -->
+      <paper-card >
+        <div class="card-content">
+					<a href="/courses/view/[[courseId]]"><paper-button><iron-icon class="text-icon" icon="undo"></iron-icon> Back to course</paper-button></a>
+					<!-- QUIZ TITLE -->
+					<paper-input id="quiz-title-input" label="Quiz Title" value="[[title]]" on-change="titleChanged" required auto-validate maxlength="50"></paper-input>
+					<!-- OPTIONS -->
+					<paper-icon-button id="share-button" icon="social:share" on-tap="shareQuiz"></paper-icon-button>
+					<paper-tooltip for="share-button" offset="0" animation-delay="300">Get Share Link</paper-tooltip>
+          <!--TODO this is the collaborators feature - taking out for now for this quick release to production. -->
+					<!-- <paper-icon-button id="collaborators-button" icon="social:group-add" on-tap="openCollaboratorsModal"></paper-icon-button>
+					<paper-tooltip for="collaborators-button" offset="0" animation-delay="300">Edit Collaborators</paper-tooltip> -->
+					<!-- <prendus-collaborator-modal id="collaborators-modal" concept-id="[[conceptId]]" quiz-id="[[quizId]]" quiz></prendus-collaborator-modal> -->
+					<paper-icon-button id="settings-button" icon="settings" on-tap="openSettingsModal"></paper-icon-button>
+					<paper-tooltip for="settings-button" offset="0" animation-delay="300">Quiz Settings</paper-tooltip>
 
-						<!-- QUIZ SETTINGS -->
-						<paper-dialog id="settings-modal" with-backdrop>
-							<h2>Quiz Settings</h2>
-							<p>Changes to settings made here are applied to each question on the quiz.</p>
-							<paper-checkbox class="setting" on-change="answerFeedbackToggled" checked="[[quizQuestionSettings.answerFeedback]]" noink>Allow viewers to check if each answer is correct</paper-checkbox>
-							<paper-checkbox class="setting" on-change="showAnswerToggled" checked="[[quizQuestionSettings.showAnswer]]" noink>Allow viewers to see the answer to each question</paper-checkbox>
-							<!-- <paper-checkbox class="setting" on-change="showHintToggled" checked="[[quizQuestionSettings.showHint]]" noink>Show hint</paper-checkbox> -->
-							<!-- <paper-checkbox class="setting" on-change="showCodeToggled" checked="[[quizQuestionSettings.showCode]]" noink>Show code</paper-checkbox> -->
-							<!-- <paper-checkbox class="setting" on-change="gradedToggled" checked="[[quizQuestionSettings.graded]]" noink>Graded</paper-checkbox>
-							<template class="setting" is="dom-if" if="[[quizQuestionSettings.graded]]">
-								<paper-date-picker id="dueDate" date="[[displayDate(quizQuestionSettings.dueDate)]]" on-click="dueDateChanged"></paper-date-picker>
-							</template> -->
-							<!-- TODO: Only show this option if user has paid for premium-->
-							<!-- <paper-checkbox class="setting" on-change="privateToggled" checked="[[determineVisibility(quizQuestionSettings.visibility)]]" noink>Private</paper-checkbox>
-							<paper-checkbox class="setting" on-change="showConfidenceLevelToggled" checked="[[quizQuestionSettings.showConfidenceLevel]]" noink>Show confidence level</paper-checkbox>
-							<paper-checkbox class="setting" on-change="allowGenerationToggled" checked="[[quizQuestionSettings.allowGeneration]]" noink>Allow question generation</paper-checkbox>
-							<paper-input class="setting" type="number" label="Maximum number of attempts" value=[[quizQuestionSettings.maxNumAttempts]] on-change="maxNumAttemptsChanged"></paper-input> -->
-							<div class="buttons">
-								<paper-button class="indigo" noink dialog-dismiss>Done</paper-button>
+					<!-- QUIZ SETTINGS -->
+					<paper-dialog id="settings-modal" with-backdrop>
+						<h2>Quiz Settings</h2>
+						<p>Changes to settings made here are applied to each question on the quiz.</p>
+						<paper-checkbox class="setting" on-change="answerFeedbackToggled" checked="[[quizQuestionSettings.answerFeedback]]" noink>Allow viewers to check if each answer is correct</paper-checkbox>
+						<paper-checkbox class="setting" on-change="showAnswerToggled" checked="[[quizQuestionSettings.showAnswer]]" noink>Allow viewers to see the answer to each question</paper-checkbox>
+						<!-- <paper-checkbox class="setting" on-change="showHintToggled" checked="[[quizQuestionSettings.showHint]]" noink>Show hint</paper-checkbox> -->
+						<!-- <paper-checkbox class="setting" on-change="showCodeToggled" checked="[[quizQuestionSettings.showCode]]" noink>Show code</paper-checkbox> -->
+						<!-- <paper-checkbox class="setting" on-change="gradedToggled" checked="[[quizQuestionSettings.graded]]" noink>Graded</paper-checkbox>
+						<template class="setting" is="dom-if" if="[[quizQuestionSettings.graded]]">
+							<paper-date-picker id="dueDate" date="[[displayDate(quizQuestionSettings.dueDate)]]" on-click="dueDateChanged"></paper-date-picker>
+						</template> -->
+						<!-- TODO: Only show this option if user has paid for premium-->
+						<!-- <paper-checkbox class="setting" on-change="privateToggled" checked="[[determineVisibility(quizQuestionSettings.visibility)]]" noink>Private</paper-checkbox>
+						<paper-checkbox class="setting" on-change="showConfidenceLevelToggled" checked="[[quizQuestionSettings.showConfidenceLevel]]" noink>Show confidence level</paper-checkbox>
+						<paper-checkbox class="setting" on-change="allowGenerationToggled" checked="[[quizQuestionSettings.allowGeneration]]" noink>Allow question generation</paper-checkbox>
+						<paper-input class="setting" type="number" label="Maximum number of attempts" value=[[quizQuestionSettings.maxNumAttempts]] on-change="maxNumAttemptsChanged"></paper-input> -->
+						<div class="buttons">
+							<paper-button class="indigo" noink dialog-dismiss>Done</paper-button>
+						</div>
+					</paper-dialog>
+
+					<!-- QUESTIONS IN QUIZ -->
+					<template is="dom-if" if="[[showEmptyQuizQuestionsText(quizQuestionIds)]]">
+						<h3>Create questions and click <iron-icon icon="av:playlist-add"></iron-icon> to add them to the quiz.</h3>
+					</template>
+					<div id="quizDomRepeatContainer">
+						<template is="dom-repeat" items="[[quizQuestionIds]]">
+							<div style="position: relative">
+								<prendus-view-question id="quiz-question-id-[[item]]" question-id="[[item]]" quiz-id="NO_QUIZ" jwt="[[jwt]]" quiz-session="[[quizSession]]" concise></prendus-view-question>
+								<paper-icon-button id="remove[[item]]" icon="icons:clear" on-click="removeQuestionFromQuiz"></paper-icon-button>
+								<paper-tooltip for="remove[[item]]" offset="0" animation-delay="300">Remove from quiz</paper-tooltip>
+								<hr>
 							</div>
-						</paper-dialog>
-
-						<!-- QUESTIONS IN QUIZ -->
-						<template is="dom-if" if="[[showEmptyQuizQuestionsText(quizQuestionIds)]]">
-							<h3>Create questions and click <iron-icon icon="av:playlist-add"></iron-icon> to add them to the quiz.</h3>
 						</template>
-						<div id="quizDomRepeatContainer">
-							<template is="dom-repeat" items="[[quizQuestionIds]]">
-								<div style="position: relative">
-									<prendus-view-question id="quiz-question-id-[[item]]" question-id="[[item]]" quiz-id="NO_QUIZ" jwt="[[jwt]]" quiz-session="[[quizSession]]" concise></prendus-view-question>
-									<paper-icon-button id="remove[[item]]" icon="icons:clear" on-click="removeQuestionFromQuiz"></paper-icon-button>
-									<paper-tooltip for="remove[[item]]" offset="0" animation-delay="300">Remove from quiz</paper-tooltip>
-									<hr>
-								</div>
+					</div>
+				</div>
+			</paper-card>
+			<paper-card>
+				<div class="card-content">
+					<!-- QUESTION TYPE TABS -->
+					<paper-tabs id="question-tabs" selected="{{selected}}" scrollable fit-container noink>
+						<paper-tab>My Questions</paper-tab>
+						<paper-tab>Public Questions</paper-tab>
+					</paper-tabs>
+
+					<iron-pages selected="[[selected]]">
+						<!-- USER'S QUESTIONS -->
+						<div id="my-questions" class="tab-content">
+							<paper-button id="new-question" class="indigo" on-tap="createQuestion">New Question</paper-button>
+							<template is="dom-repeat" items="[[userQuestionIds]]">
+								<prendus-view-question id="user-question-id-[[item]]" question-id="[[item]]" quiz-id="NO_QUIZ" jwt="[[jwt]]" quiz-session="[[quizSession]]" concise></prendus-view-question>
+								<paper-icon-button id="add[[item]]" icon="av:playlist-add" on-click="addQuestionToQuiz"></paper-icon-button>
+								<paper-tooltip for="add[[item]]">Add to quiz</paper-tooltip>
+								<paper-icon-button id="edit[[item]]" icon="create" on-click="editQuestion"></paper-icon-button>
+								<paper-tooltip for="edit[[item]]">Edit question</paper-tooltip>
+								<hr>
 							</template>
 						</div>
-					</div>
-				</paper-card>
-				<paper-card>
-					<div class="card-content">
-						<!-- QUESTION TYPE TABS -->
-						<paper-tabs id="question-tabs" selected="{{selected}}" scrollable fit-container noink>
-							<paper-tab>My Questions</paper-tab>
-							<paper-tab>Public Questions</paper-tab>
-						</paper-tabs>
-
-						<iron-pages selected="[[selected]]">
-							<!-- USER'S QUESTIONS -->
-							<div id="my-questions" class="tab-content">
-								<paper-button id="new-question" class="indigo" on-tap="createQuestion">New Question</paper-button>
-								<template is="dom-repeat" items="[[userQuestionIds]]">
-									<prendus-view-question id="user-question-id-[[item]]" question-id="[[item]]" quiz-id="NO_QUIZ" jwt="[[jwt]]" quiz-session="[[quizSession]]" concise></prendus-view-question>
-									<paper-icon-button id="add[[item]]" icon="av:playlist-add" on-click="addQuestionToQuiz"></paper-icon-button>
-									<paper-tooltip for="add[[item]]">Add to quiz</paper-tooltip>
-									<paper-icon-button id="edit[[item]]" icon="create" on-click="editQuestion"></paper-icon-button>
-									<paper-tooltip for="edit[[item]]">Edit question</paper-tooltip>
-									<hr>
-								</template>
-							</div>
-							<!-- PUBLIC QUESTIONS -->
-							<div id="public-questions" class="tab-content">
-								<template is="dom-repeat" items="[[publicQuestionIds]]">
-									<prendus-view-question id="public-question-id-[[item]]" question-id="[[item]]" quiz-id="NO_QUIZ" jwt="[[jwt]]" quiz-session="[[quizSession]]" concise></prendus-view-question>
-									<paper-icon-button id="add[[item]]" icon="av:playlist-add" on-click="addQuestionToQuiz"></paper-icon-button>
-									<paper-tooltip for="add[[item]]">Add to quiz</paper-tooltip>
-                  <!-- TODO took out the ability to edit a public question for now.-->
-                  <!-- <paper-icon-button id="edit[[item]]" icon="create" on-click="editQuestion"></paper-icon-button>
-									<paper-tooltip for="edit[[item]]">Edit question</paper-tooltip> -->
-									<hr>
-								</template>
-							</div>
-						</iron-pages>
-	        </div>
-	      </paper-card>
-			</template>
-    </div>
+						<!-- PUBLIC QUESTIONS -->
+						<div id="public-questions" class="tab-content">
+							<template is="dom-repeat" items="[[publicQuestionIds]]">
+								<prendus-view-question id="public-question-id-[[item]]" question-id="[[item]]" quiz-id="NO_QUIZ" jwt="[[jwt]]" quiz-session="[[quizSession]]" concise></prendus-view-question>
+								<paper-icon-button id="add[[item]]" icon="av:playlist-add" on-click="addQuestionToQuiz"></paper-icon-button>
+								<paper-tooltip for="add[[item]]">Add to quiz</paper-tooltip>
+                <!-- TODO took out the ability to edit a public question for now.-->
+                <!-- <paper-icon-button id="edit[[item]]" icon="create" on-click="editQuestion"></paper-icon-button>
+								<paper-tooltip for="edit[[item]]">Edit question</paper-tooltip> -->
+								<hr>
+							</template>
+						</div>
+					</iron-pages>
+        </div>
+      </paper-card>
+		</div>
   </template>
 
   <script src="prendus-quiz-editor.ts"></script>

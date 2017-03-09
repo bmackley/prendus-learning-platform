@@ -20,7 +20,7 @@ class PrendusSearchCourseTags {
   async searchTagsInDB(e: any) {
     try {
       const tag: string = this.querySelector('#tag').value;
-      await Actions.lookupCourseTags(this, tag);
+      await Actions.lookUpCourseTags(this, tag);
     } catch(error) {
       this.errorMessage = '';
       this.errorMessage = error.message;

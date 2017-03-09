@@ -18,7 +18,7 @@
 //   //looks through concept tags in database for matching tags
 //   async searchTagsInDB(e: any) {
 //     try {
-//       await Actions.lookupConceptTags(this, this.tags);
+//       await Actions.lookUpConceptTags(this, this.tags);
 //     } catch(error) {
 //       this.domHost.errorMessage = '';
 //       this.domHost.errorMessage = error.message;

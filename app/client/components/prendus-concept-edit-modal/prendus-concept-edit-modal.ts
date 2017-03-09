@@ -88,9 +88,8 @@ class PrendusConceptNewConcept {
       };
       try {
         await Actions.addConcept(this, this.courseId, newConcept, this.courseConcepts.length, null);
-        await Actions.loadViewCourseConcepts(this, this.courseId);
         this.successMessage = '';
-        this.successMessage = 'Concept added successfully';
+        this.successMessage = `${this.conceptFormName} added successfully`;
       } catch(error) {
         this.errorMessage = '';
         this.errorMessage = error.message;

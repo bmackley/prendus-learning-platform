@@ -18,12 +18,13 @@ class PrendusQuizEditor {
 		public fire: any;
 		public properties: any;
 		public observers: string[];
-
 		public data: any;
+		public hasEditAccess: boolean;
 		public quizLoaded: boolean;
 		public quizId: string;
 		public conceptId: string;
 		public courseId: string;
+		public uid: string;
     public userQuestionIds: string[];
     public publicQuestionIds: string[];
 		public quizQuestionIds: string[];
@@ -74,20 +75,27 @@ class PrendusQuizEditor {
 			this.courseId = data.courseId;
 			this.conceptId = data.conceptId;
 			this.quizId = data.quizId;
+			this.hasEditAccess = true;
 		}
 
     async setQuizId(quizId: string): Promise<void> {
 			try {
 				await this.init();
-				Actions.hideMainSpinner(this);
 				const quiz: Quiz = await Actions.getQuiz(quizId);
+				console.log(quiz);
+				console.log(this.uid);
+				console.log(quiz.collaborators);
+				this.hasEditAccess = this.uid in quiz.collaborators;
 				this.title = quiz.title;
 				this.quizLoaded = true;
+				console.log(`hasEditAccess is ${this.hasEditAccess}`);
+				console.log(`quizLoaded is ${this.quizLoaded}`);
+				console.log(`showErrorMessage is ${this.showErrorMessage(this.quizLoaded, this.hasEditAccess)}`);
 			} catch(error) {
 				this.quizLoaded = false;
 				console.error(error);
 			}
-
+			Actions.hideMainSpinner(this);
 			try {
 				await Promise.all([
 					Actions.loadQuizQuestionSettings(this, quizId),
@@ -165,6 +173,10 @@ class PrendusQuizEditor {
         window.history.pushState({}, '', `courses/edit-question/question/${questionId}`);
         this.fire('location-changed', {}, {node: window});
     }
+
+		showErrorMessage(quizLoaded: boolean, hasEditAccess: boolean): boolean {
+			return !(quizLoaded && hasEditAccess);
+		}
 
     showEmptyQuizQuestionsText(quizQuestionIds: string[]): boolean {
         return !quizQuestionIds || quizQuestionIds.length === 0;
@@ -313,6 +325,7 @@ class PrendusQuizEditor {
 
     mapStateToThis(e: StatechangeEvent): void {
         const state = e.detail.state;
+				this.uid = state.currentUser.metaData.uid;
 				this.userQuestionIds = state.userQuestionIds;
 				this.publicQuestionIds = state.publicQuestionIds;
 				this.quizQuestionIds = state.quizQuestionIds;
