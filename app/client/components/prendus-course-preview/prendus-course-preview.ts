@@ -103,6 +103,7 @@ class PrendusCoursePreview {
 			this.closeDeleteModal(e);
 
       try {
+        Actions.getStarredCoursesByUser(this, this.user.metaData.uid);
         await Actions.deleteCourse(this, this.course);
         await Actions.getCoursesByVisibility(this, 'public', this.numberOfPublicCoursesLoaded);
         this.successMessage = '';
