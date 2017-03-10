@@ -167,6 +167,7 @@ export class PrendusCourseView {
       }
 
     } catch(error) {
+      console.error(error.message);
       this.errorMessage = '';
       this.errorMessage = error.message;
     }
@@ -224,7 +225,7 @@ export class PrendusCourseView {
 
   async viewCourse(): Promise<void> {
     try {
-      if (this.data.courseId) {
+      if (this.data && this.data.courseId) {
           Actions.showMainSpinner(this);
           await Actions.getCourseViewCourseById(this, this.data.courseId);
           await Actions.loadViewCourseConcepts(this, this.data.courseId);
@@ -232,6 +233,7 @@ export class PrendusCourseView {
       }
     } catch(error) {
 			this.courseLoaded = false;
+      console.error(error.message);
       this.errorMessage = '';
       this.errorMessage = error.message;
     }
@@ -260,6 +262,7 @@ export class PrendusCourseView {
         this.successMessage = '';
         this.successMessage = 'Concept ordered successfully';
       } catch(error) {
+        console.error(error.message);
         this.errorMessage = '';
         this.errorMessage = error.message;
       }
@@ -289,6 +292,7 @@ export class PrendusCourseView {
         this.successMessage = `Course ${attribute} has been updated`;
       }
     } catch(error) {
+      console.error(error.message)
       this.errorMessage = '';
       this.errorMessage = error.message;
     }
