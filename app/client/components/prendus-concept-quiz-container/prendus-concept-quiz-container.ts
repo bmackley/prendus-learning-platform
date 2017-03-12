@@ -12,14 +12,17 @@ class PrendusConceptQuizContainer {
     public conceptId: string;
     public courseId: string;
     public quizzes: Quiz[];
+		public quizToDelete: Quiz;
     public currentVideoId: string;
     public currentVideoTitle: string;
     public currentVideoUrl: string;
-    public user: UserMetaData;
     public uid: string;
     public currentCourse: Course;
     public successMessage: string;
     public errorMessage: string;
+		public fire: any;
+		public querySelector: any;
+    public courseEditAccess: boolean
 
     beforeRegister() {
         this.is = 'prendus-concept-quiz-container';
@@ -30,10 +33,11 @@ class PrendusConceptQuizContainer {
             courseId: {
                 type: String
             },
-            courseEditAccess: {
-              type: Boolean,
-              computed: 'computeHasEditAccess(uid, currentCourse.collaborators)'
-            },
+            //TODO this will be back once collaborators are taken out
+            // courseEditAccess: {
+            //   type: Boolean,
+            //   computed: 'computeHasEditAccess(uid, currentCourse.collaborators)'
+            // },
         };
         this.observers = [
             'init(conceptId)'
@@ -51,17 +55,19 @@ class PrendusConceptQuizContainer {
       return !!quizzes.length;
     }
 
-    computeHasEditAccess(uid: string, collaborators: any) {
-      return uid in collaborators;
-    }
+    //TODO this will be called once collaborators are back
+    // computeHasEditAccess(uid: string, collaborators: any) {
+    //   return uid in collaborators;
+    // }
 
-		viewQuiz(e: { model: any }) {
-			const quizId: string = e.model.quiz.id;
-			window.history.pushState({}, '', `courses/view-quiz/course/${this.courseId}/concept/${this.conceptId}/quiz/${quizId}`);
+		viewQuiz(e: any) {
+
+      const quizId: string = e.model.quiz.id;
+      window.history.pushState({}, '', `courses/view-quiz/course/${this.courseId}/concept/${this.conceptId}/quiz/${quizId}`);
 			this.fire('location-changed', {}, {node: window});
 		}
 
-    editQuiz(e: { model: any }) {
+    editQuiz(e: any) {
       e.stopPropagation();
       const quizId: string = e.model.quiz.id;
   		window.history.pushState({}, '', `courses/edit-quiz/course/${this.courseId}/concept/${this.conceptId}/quiz/${quizId}`);
@@ -96,9 +102,10 @@ class PrendusConceptQuizContainer {
 
     mapStateToThis(e: StatechangeEvent) {
       const state = e.detail.state;
-      this.user = state.currentUser;
       this.uid = state.currentUser.metaData.uid;
       this.currentCourse = state.courseViewCurrentCourse;
+      //TODO take this out once collaborators are back
+      this.courseEditAccess = this.currentCourse && this.currentCourse.uid === this.uid;
       // determine user's edit access for each quiz
     	this.quizzes = (state.viewConceptQuizzes[this.conceptId] || []).map((quiz: Quiz) => {
     		if(quiz.uid === this.uid
