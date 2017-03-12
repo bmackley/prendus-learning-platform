@@ -1,5 +1,5 @@
-<link href="../../bower_components/polymer/polymer.html" rel="import">
-<link href="../../bower_components/iron-pages/iron-pages.html" rel="import">
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/iron-pages/iron-pages.html">
 
 <dom-module id="prendus-course-router">
   <style>
@@ -26,7 +26,7 @@
     <iron-pages id="course-container" selected="[[data.page]]" attr-for-selected="key">
       <prendus-course-homepage id="course-homepage" class="course-window" key="home"></prendus-course-homepage>
       <prendus-course-view id="course-view" class="course-window" key="view" route="[[route]]"></prendus-course-view>
-      <prendus-edit-quiz-router id="edit-quiz" key="edit-quiz" route="[[route]]"></prendus-edit-quiz-router>
+			<prendus-quiz-editor id="edit-quiz" key="edit-quiz" route="[[route]]"></prendus-quiz-editor>
       <prendus-edit-question-router id="edit-question" class="course-window" key="edit-question" route="[[route]]"></prendus-edit-question-router>
       <prendus-view-video-router id="view-video" class="course-window" key="view-video" route="[[route]]"></prendus-view-video-router>
       <prendus-view-quiz-router id="view-quiz" class="course-window" key="view-quiz" route="[[route]]"></prendus-view-quiz-router>

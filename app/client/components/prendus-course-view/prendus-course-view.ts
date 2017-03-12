@@ -7,7 +7,6 @@ import {Tag} from '../../node_modules/prendus-services/typings/tag';
 import {Quiz} from '../../node_modules/prendus-services/typings/quiz';
 import {CourseModel} from '../../node_modules/prendus-services/models/course-model';
 import {UtilitiesService} from '../../node_modules/prendus-services/services/utilities-service';
-import {PrendusConceptNewConcept} from '../prendus-concept-new-concept/prendus-concept-new-concept';
 import {ConceptModel} from '../../node_modules/prendus-services/models/concept-model';
 import {State} from '../../typings/state';
 
@@ -15,9 +14,11 @@ export class PrendusCourseView {
   public is: string;
   public courseConcepts: CourseConceptData[];
   public currentCourse: Course;
+	public collaboratorEmails: string[];
   public courseTagNames: string[];
   public courseTags: Tag[];
   public courseId: string;
+	public courseLoaded: boolean;
   public properties: any;
   public observers: string[];
   public username: string;
@@ -29,12 +30,10 @@ export class PrendusCourseView {
   public editingDescription: boolean;
   public listeners: any;
   public data: any;
-  public subjects: string[];
-  public selectedSubjectIndex: number;
-  public gradeLevels: string[];
-  public selectedGradeLevelIndex: number;
+  public hasEditAccess: boolean;
+  public numberOfPublicCoursesLoaded: number;
 
-  beforeRegister() {
+  beforeRegister(): void {
     this.is = 'prendus-course-view';
     this.properties = {
       title: {
@@ -47,10 +46,11 @@ export class PrendusCourseView {
       data: {
         type: Object,
       },
-      hasEditAccess: {
-        type: Boolean,
-        computed: 'computeHasEditAccess(uid, currentCourse.collaborators)'
-      },
+      //TODO this will come back once collaborators are back!
+      // hasEditAccess: {
+      //   type: Boolean,
+      //   computed: 'computeHasEditAccess(uid)'
+      // },
       editingTitle: {
         type: Boolean,
         value: false
@@ -65,64 +65,78 @@ export class PrendusCourseView {
       'viewCourse(data)'
     ];
     this.listeners = {
-      'edit-concept': 'openEditConceptDialog'
+      'edit-concept': 'openEditConceptDialog',
+			'finish-edit-concept': 'reloadConcept'
     };
 
-  }
-
-  mapStateToThis(e: StatechangeEvent): void {
-    const state: State = e.detail.state;
-    this.courseId = state.courseViewCurrentCourse.id;
-    this.username = state.currentUser.metaData.email;
-    this.uid = state.currentUser.metaData.uid;
-    this.currentCourse = state.courseViewCurrentCourse;
-    this.courseTagNames = state.courseTagNames;
-    this.courseConcepts = state.viewCourseConcepts[this.courseId];
-    this.subjects = state.subjects;
-    this.selectedSubjectIndex = state.selectedSubjectIndex;
-    this.gradeLevels = state.gradeLevels;
-    this.selectedGradeLevelIndex = state.selectedGradeLevelIndex;
-  }
-
-  openEditConceptDialog(e: any): void {
-    const conceptId: string = e.detail.conceptId;
-    const editConceptDialog: PrendusConceptNewConcept = this.querySelector('#addConceptDialog');
-    editConceptDialog.edit(conceptId);
-  }
-
-  addConcept(e: any): void {
-    const newConceptDialog: PrendusConceptNewConcept = this.querySelector('#addConceptDialog');
-    newConceptDialog.open();
   }
 
   openCollaboratorsModal(e: any): void {
     this.querySelector('#collaborators-modal').open();
   }
 
-  computeHasEditAccess(uid: string, collaborators: any): boolean {
-    return uid in collaborators;
-  }
+  //TODO this will be called when collaborators are back
+  // computeHasEditAccess(uid: string, collaborators: any): boolean {
+  //   return uid in collaborators;
+  // }
+
+	formatCollaboratorEmails(emails: string[]): string {
+		return emails
+			// TODO: figure out why there are null collaborator emails and remove this
+			.filter((value: string, index: number, array: string[]) => {
+				return value !== null;
+			})
+			.reduce((accum: string, value: string, index: number) => {
+				return value + (index > 0 ? ',' : '') + '';
+		}, '');
+	}
 
   toggleEditTitle(e: any): void {
+		if(this.querySelector('#course-title').invalid) return;
     this.editingTitle = !this.editingTitle;
-  }
-
-  getTitleButtonText(editingTitle: string): string {
-    return editingTitle ? "Done" : "Edit Title";
+		if(this.editingTitle) this.querySelector('#course-title').focus();
   }
 
   toggleEditDescription(e: any): void {
+		if(this.querySelector('#course-description').invalid) return;
     this.editingDescription = !this.editingDescription;
+		if(this.editingDescription) this.querySelector('#course-description').focus();
   }
 
-  getDescriptionButtonText(editingDescription: string): string {
-    return editingDescription ? "Done" : "Edit Description";
-  }
+	getEditIcon(editStatus: boolean): string {
+		return editStatus ? 'check' : 'create';
+	}
+
+	makePrettyDate(dateString: string): string {
+		if(!dateString || dateString === null) return 'No due date set.';
+		const date: Date = new Date(dateString);
+		const prettyDate: string = `${[	'Sunday',
+																		'Monday',
+																		'Tuesday',
+																		'Wednesday',
+																		'Thursday',
+																		'Friday',
+																		'Saturday'][date.getDay()]},
+																${[	'January',
+																		'February',
+																		'March',
+																		'April',
+																		'May',
+																		'June',
+																		'July',
+																		'August',
+																		'September',
+																		'October',
+																		'November',
+																		'December'][date.getMonth()]}
+																${date.getDate()},
+																${date.getFullYear()}`
+		return prettyDate;
+	}
 
   displayDate(date: string): Date {
     // Set due date at the current date if the course has no due date yet.
-    const returnDate: Date =  date ? new Date(date) : new Date();
-    return returnDate;
+    return date ? new Date(date) : new Date();
   }
 
   /**
@@ -169,6 +183,7 @@ export class PrendusCourseView {
       // time a user clicks anywhere on the calendar, this function is called. To avoid
       // a firebase action, we compare the currentDate in firebase to the new UTCDate.
       if(currentDate !== UTCDate) {
+				this.querySelector('#due-date-modal').close();
         // Date has changed
         await Actions.updateCourseField(this, this.courseId, 'dueDate', UTCDate);
         await Actions.updateQuizDueDates(this.courseId);
@@ -177,6 +192,7 @@ export class PrendusCourseView {
       }
 
     } catch(error) {
+      console.error(error.message);
       this.errorMessage = '';
       this.errorMessage = error.message;
     }
@@ -207,24 +223,30 @@ export class PrendusCourseView {
 
   async viewCourse(): Promise<void> {
     try {
-      if (this.data.courseId) {
+      if (this.data && this.data.courseId) {
           Actions.showMainSpinner(this);
           await Actions.getCourseViewCourseById(this, this.data.courseId);
           await Actions.loadViewCourseConcepts(this, this.data.courseId);
           await Actions.initSubjects(this, this.courseId);
           await Actions.initGradeLevels(this, this.courseId);
           Actions.hideMainSpinner(this);
+					this.courseLoaded = true;
       }
     } catch(error) {
+			this.courseLoaded = false;
+      console.error(error.message);
       this.errorMessage = '';
       this.errorMessage = error.message;
     }
-
+		Actions.hideMainSpinner(this);
   }
 
   getLTILinks(): void {
     console.log('LTI Links3')
+  }
 
+  addConcept(e: any): void {
+    this.querySelector('#add-concept-dialog').open();
   }
 
   async sortableEnded(e: any): Promise<void> { //This isn't the most elegant solution. I'm open to better ways of doing things.
@@ -241,6 +263,7 @@ export class PrendusCourseView {
         this.successMessage = '';
         this.successMessage = 'Concept ordered successfully';
       } catch(error) {
+        console.error(error.message);
         this.errorMessage = '';
         this.errorMessage = error.message;
       }
@@ -249,18 +272,46 @@ export class PrendusCourseView {
 
   async attributeChanged(e: any): Promise<void> {
     try {
-      if(typeof e.target !== 'undefined' ) {
+      if(typeof e.target !== 'undefined' && !e.target.invalid) {
         const value = e.target.value;
+				if(value === '') return;
         const attribute = e.target.name;
         await Actions.updateCourseField(this, this.courseId, attribute, value);
         await Actions.getCourseViewCourseById(this, this.courseId);
+
+        // It would probably be a good idea to only reload the course that was updated,
+        // but for now this will do.
+        Actions.getCoursesByUser(this);
+        Actions.getStarredCoursesByUser(this, this.uid);
+        if(this.numberOfPublicCoursesLoaded) {
+            // This probably is not the most efficient way to reload the front page courses.
+            // Ideally we would reload the one course that got updated. But for now this will do.
+            Actions.getCoursesByVisibility(this, 'public', this.numberOfPublicCoursesLoaded);
+        }
+
         this.successMessage = '';
-        this.successMessage = `${attribute} has been updated`;
+        this.successMessage = `Course ${attribute} has been updated`;
       }
     } catch(error) {
+      console.error(error.message)
       this.errorMessage = '';
       this.errorMessage = error.message;
     }
+  }
+
+  mapStateToThis(e: StatechangeEvent): void {
+    const state = e.detail.state;
+    this.courseId = state.courseViewCurrentCourse.id;
+    this.username = state.currentUser.metaData.email;
+    this.currentCourse = state.courseViewCurrentCourse;
+    this.uid = state.currentUser.metaData.uid;
+    //TODO this will be gone once collaborators are back!!
+    this.hasEditAccess = this.currentCourse && this.currentCourse.uid === this.uid;
+    // this.courseTags = state.courseViewCurrentCourse.tags;
+    this.courseTagNames = state.courseTagNames;
+    this.courseConcepts = state.viewCourseConcepts[this.courseId];
+		this.collaboratorEmails = state.courseCollaboratorEmails[this.uid] && state.courseCollaboratorEmails[this.uid][this.courseId];
+    this.numberOfPublicCoursesLoaded = state.publicCourses ? state.publicCourses.length : this.numberOfPublicCoursesLoaded;
   }
 }
 
