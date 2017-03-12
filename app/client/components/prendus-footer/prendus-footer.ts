@@ -13,11 +13,6 @@ class PrendusFooter {
     return currentDate.getFullYear();
   }
 
-  changeURL(e: any): void {
-    const location: string = e.target.id
-    window.history.pushState({}, '', location);
-    this.fire('location-changed', {}, {node: window});
-  }
 }
 
 Polymer(PrendusFooter);
