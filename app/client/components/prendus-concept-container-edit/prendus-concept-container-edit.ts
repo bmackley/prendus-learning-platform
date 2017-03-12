@@ -43,8 +43,9 @@ export class PrendusConceptContainerEdit {
     }
   }
 
-  editItem(e: any): void {
-    this.fire("edit-concept", { conceptId: this.conceptId});
+  editConcept(e: any): void {
+		e.stopPropagation();
+    this.fire('edit-concept', { conceptId: this.conceptId });
   }
 
   openCollaboratorsModal(e: any): void {
@@ -61,7 +62,7 @@ export class PrendusConceptContainerEdit {
     this.courseId = state.courseViewCurrentCourse.id;
   }
 
-  deleteItem(e: any): void {
+  openDeleteModal(e: any): void {
     e.stopPropagation();
     this.querySelector('#delete-confirm-modal').open();
   }
