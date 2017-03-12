@@ -8,6 +8,8 @@ export class PrendusVideoEditor {
         urlInput: any
     };
     public fire: any;
+    public querySelector: any;
+    public addEventListener: any;
     public title: string;
     public url: string;
 
@@ -33,7 +35,7 @@ export class PrendusVideoEditor {
 
     ready() {
         this.$.savedToast.fitInto = this;
-        this.addEventListener('mousedown', (e) => {
+        this.addEventListener('mousedown', (e: any) => {
             e.stopPropagation();
         });
 
@@ -43,11 +45,11 @@ export class PrendusVideoEditor {
         // });
     }
 
-    openCollaboratorsModal(e) {
+    openCollaboratorsModal(e: any): void {
       this.querySelector('#collaborators-modal').open();
     }
 
-    saveVideo() {
+    saveVideo(): void {
         const title = this.querySelector('#titleInput').value;
         const url = this.querySelector('#urlInput').value;
 
@@ -59,7 +61,7 @@ export class PrendusVideoEditor {
         });
     }
 
-    deleteVideo() {
+    deleteVideo(): void {
         this.fire('delete', {
 
         }, {
@@ -67,15 +69,15 @@ export class PrendusVideoEditor {
         });
     }
 
-    updateTitle() {
+    updateTitle(): void {
         this.title = this.$.titleInput.value;
     }
 
-    updateUrl() {
+    updateUrl(): void {
         this.url = this.$.urlInput.value;
     }
 
-    indicateSaved() {
+    indicateSaved(): void {
         this.$.savedToast.open();
     }
 }

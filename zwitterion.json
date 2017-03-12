@@ -500,6 +500,321 @@
         },
         "bower_components/prendus-video-viewer-component/prendus-video-viewer.ts": {
             "parentImport": true
+        },
+        "images/navbar-logo.png": {
+            "parentImport": true
+        },
+        "bower_components/paper-input/paper-textarea.html": {
+            "parentImport": true
+        },
+        "components/prendus-concept-edit-modal/prendus-concept-edit-modal.html": {
+            "parentImport": true
+        },
+        "components/prendus-collaborator-modal/prendus-collaborator-modal.html": {
+            "parentImport": true
+        },
+        "bower_components/iron-autogrow-textarea/iron-autogrow-textarea.html": {
+            "parentImport": true
+        },
+        "components/prendus-collaborator-modal/prendus-collaborator-modal.ts": {
+            "parentImport": true
+        },
+        "components/prendus-concept-edit-modal/prendus-concept-edit-modal.ts": {
+            "parentImport": true
+        },
+        "components/prendus-view-quiz-router/prendus-view-quiz-router.html": {
+            "parentImport": true
+        },
+        "bower_components/prendus-quiz-viewer-component/prendus-quiz-viewer.html": {
+            "parentImport": true
+        },
+        "bower_components/prendus-quiz-viewer-component/prendus-take-quiz.html": {
+            "parentImport": true
+        },
+        "bower_components/prendus-quiz-viewer-component/prendus-quiz-results.html": {
+            "parentImport": true
+        },
+        "components/prendus-view-quiz-router/prendus-view-quiz-router.ts": {
+            "parentImport": true
+        },
+        "bower_components/iron-ajax/iron-ajax.html": {
+            "parentImport": true
+        },
+        "bower_components/prendus-question-components/components/prendus-view-question/prendus-view-question.html": {
+            "parentImport": true
+        },
+        "bower_components/prendus-quiz-viewer-component/prendus-quiz-viewer.ts": {
+            "parentImport": true
+        },
+        "bower_components/iron-ajax/iron-request.html": {
+            "parentImport": true
+        },
+        "bower_components/paper-checkbox/paper-checkbox.html": {
+            "parentImport": true
+        },
+        "bower_components/paper-radio-group/paper-radio-group.html": {
+            "parentImport": true
+        },
+        "bower_components/prendus-question-components/components/prendus-render-math/prendus-render-math.html": {
+            "parentImport": true
+        },
+        "bower_components/paper-dropdown-menu/paper-dropdown-menu.html": {
+            "parentImport": true
+        },
+        "bower_components/paper-radio-button/paper-radio-button.html": {
+            "parentImport": true
+        },
+        "bower_components/prendus-quiz-viewer-component/prendus-quiz-results.ts": {
+            "parentImport": true
+        },
+        "bower_components/prendus-quiz-viewer-component/prendus-take-quiz.ts": {
+            "parentImport": true
+        },
+        "bower_components/promise-polyfill/promise-polyfill-lite.html": {
+            "parentImport": true
+        },
+        "bower_components/paper-behaviors/paper-checked-element-behavior.html": {
+            "parentImport": true
+        },
+        "bower_components/paper-dropdown-menu/paper-dropdown-menu-icons.html": {
+            "parentImport": true
+        },
+        "bower_components/paper-dropdown-menu/paper-dropdown-menu-shared-styles.html": {
+            "parentImport": true
+        },
+        "bower_components/promise-polyfill/Promise.js": {
+            "parentImport": true
+        },
+        "bower_components/iron-checked-element-behavior/iron-checked-element-behavior.html": {
+            "parentImport": true
+        },
+        "bower_components/prendus-question-components/components/prendus-view-question/prendus-view-question.ts": {
+            "parentImport": true
+        },
+        "bower_components/prendus-question-components/components/prendus-render-math/prendus-render-math.ts": {
+            "parentImport": true
+        },
+        "node_modules/prendus-services/services/constants-service.ts": {
+            "parentImport": false
+        },
+        "node_modules/prendus-services/services/xapi-service.ts": {
+            "parentImport": false
+        },
+        "bower_components/prendus-quiz-viewer-component/redux/actions.ts": {
+            "parentImport": false
+        },
+        "bower_components/prendus-quiz-viewer-component/redux/reducers.ts": {
+            "parentImport": false
+        },
+        "bower_components/prendus-quiz-viewer-component/redux/initial-state.ts": {
+            "parentImport": false
+        },
+        "components/prendus-homepage/prendus-homepage.html": {
+            "parentImport": true
+        },
+        "components/prendus-course-preview/prendus-course-preview.html": {
+            "parentImport": true
+        },
+        "bower_components/iron-scroll-threshold/iron-scroll-threshold.html": {
+            "parentImport": true
+        },
+        "bower_components/firebase/firebase.js": {
+            "parentImport": true
+        },
+        "components/prendus-course-preview/prendus-course-preview.ts": {
+            "parentImport": true
+        },
+        "bower_components/firebase-util/dist/firebase-util-normalize.min.js": {
+            "parentImport": true
+        },
+        "bower_components/firebase-util/dist/firebase-util-paginate.min.js": {
+            "parentImport": true
+        },
+        "bower_components/firebase-util/dist/firebase-util.min.js": {
+            "parentImport": true
+        },
+        "components/prendus-homepage/prendus-homepage.ts": {
+            "parentImport": true
+        },
+        "index.html": {
+            "parentImport": true
+        },
+        "components/prendus-quiz-editor/prendus-quiz-editor.html": {
+            "parentImport": true
+        },
+        "bower_components/iron-icons/av-icons.html": {
+            "parentImport": true
+        },
+        "components/prendus-quiz-editor/prendus-quiz-editor.ts": {
+            "parentImport": true
+        },
+        "components/prendus-edit-question-router/prendus-edit-question-router.html": {
+            "parentImport": true
+        },
+        "bower_components/prendus-question-components/components/prendus-edit-question/prendus-edit-question.html": {
+            "parentImport": true
+        },
+        "bower_components/iron-icons/hardware-icons.html": {
+            "parentImport": true
+        },
+        "bower_components/prendus-question-components/components/prendus-multiple-choice/prendus-multiple-choice.html": {
+            "parentImport": true
+        },
+        "bower_components/prendus-question-components/components/prendus-multiple-response/prendus-multiple-response.html": {
+            "parentImport": true
+        },
+        "bower_components/iron-icons/device-icons.html": {
+            "parentImport": true
+        },
+        "bower_components/prendus-question-components/components/prendus-text-editor/prendus-text-editor.html": {
+            "parentImport": true
+        },
+        "bower_components/prendus-question-components/components/prendus-fill-in-the-blank/prendus-fill-in-the-blank.html": {
+            "parentImport": true
+        },
+        "bower_components/prendus-question-components/components/prendus-code-editor/prendus-code-editor.html": {
+            "parentImport": true
+        },
+        "bower_components/prendus-question-components/components/prendus-help/prendus-help.html": {
+            "parentImport": true
+        },
+        "bower_components/iron-icons/notification-icons.html": {
+            "parentImport": true
+        },
+        "node_modules/codemirror/lib/codemirror.css": {
+            "parentImport": true
+        },
+        "node_modules/codemirror/addon/lint/lint.css": {
+            "parentImport": true
+        },
+        "node_modules/quill/dist/quill.snow.css": {
+            "parentImport": true
+        },
+        "components/prendus-edit-question-router/prendus-edit-question-router.ts": {
+            "parentImport": true
+        },
+        "node_modules/codemirror/lib/codemirror.js": {
+            "parentImport": true
+        },
+        "bower_components/prendus-question-components/components/prendus-edit-question/prendus-edit-question.ts": {
+            "parentImport": true
+        },
+        "node_modules/quill/dist/quill.js": {
+            "parentImport": true
+        },
+        "bower_components/prendus-question-components/components/prendus-help/prendus-help.ts": {
+            "parentImport": true
+        },
+        "bower_components/prendus-question-components/components/prendus-multiple-choice/prendus-multiple-choice.ts": {
+            "parentImport": true
+        },
+        "bower_components/prendus-question-components/components/prendus-fill-in-the-blank/prendus-fill-in-the-blank.ts": {
+            "parentImport": true
+        },
+        "bower_components/prendus-question-components/components/prendus-multiple-response/prendus-multiple-response.ts": {
+            "parentImport": true
+        },
+        "bower_components/prendus-question-components/components/prendus-edit-question/redux/actions.ts": {
+            "parentImport": false
+        },
+        "node_modules/prendus-services/typings/answer-types.ts": {
+            "parentImport": false
+        },
+        "bower_components/prendus-question-components/components/prendus-text-editor/prendus-text-editor.ts": {
+            "parentImport": true
+        },
+        "node_modules/codemirror/mode/javascript/javascript.js": {
+            "parentImport": true
+        },
+        "node_modules/prendus-services/models/question-model.ts": {
+            "parentImport": false
+        },
+        "node_modules/codemirror/addon/lint/lint.js": {
+            "parentImport": true
+        },
+        "node_modules/codemirror/addon/lint/javascript-lint.js": {
+            "parentImport": true
+        },
+        "node_modules/jshint/dist/jshint.js": {
+            "parentImport": true
+        },
+        "node_modules/codemirror/addon/display/placeholder.js": {
+            "parentImport": true
+        },
+        "bower_components/prendus-question-components/components/prendus-code-editor/prendus-code-editor.ts": {
+            "parentImport": true
+        },
+        "node_modules/prendus-services/services/question-to-code-service.ts": {
+            "parentImport": false
+        },
+        "bower_components/prendus-question-components/components/prendus-edit-question/redux/reducers.ts": {
+            "parentImport": false
+        },
+        "bower_components/prendus-question-components/components/prendus-edit-question/redux/initial-state.ts": {
+            "parentImport": false
+        },
+        "node_modules/prendus-services/services/code-to-question-service.ts": {
+            "parentImport": false
+        },
+        "components/prendus-course-homepage/prendus-course-homepage.html": {
+            "parentImport": true
+        },
+        "components/prendus-search-course-tags/prendus-search-course-tags.html": {
+            "parentImport": true
+        },
+        "components/prendus-course-homepage/prendus-course-homepage.ts": {
+            "parentImport": true
+        },
+        "components/prendus-search-course-tags/prendus-search-course-tags.ts": {
+            "parentImport": true
+        },
+        "components/prendus-landing/prendus-landing.html": {
+            "parentImport": true
+        },
+        "components/prendus-landing/prendus-landing.ts": {
+            "parentImport": true
+        },
+        "images/landing-image.jpg": {
+            "parentImport": true
+        },
+        "components/prendus-create-account/prendus-create-account.html": {
+            "parentImport": true
+        },
+        "components/prendus-terms-of-service/prendus-terms-of-service.html": {
+            "parentImport": true
+        },
+        "components/prendus-create-account/prendus-create-account.ts": {
+            "parentImport": true
+        },
+        "components/prendus-terms-of-service/prendus-terms-of-service.ts": {
+            "parentImport": true
+        },
+        "components/prendus-login/prendus-login.html": {
+            "parentImport": true
+        },
+        "components/prendus-login/prendus-login.ts": {
+            "parentImport": true
+        },
+        "components/prendus-profile/prendus-profile.html": {
+            "parentImport": true
+        },
+        "bower_components/iron-form/iron-form.html": {
+            "parentImport": true
+        },
+        "components/prendus-profile/prendus-profile.ts": {
+            "parentImport": true
+        },
+        "components/prendus-breadcrumbs/prendus-breadcrumbs.html": {
+            "parentImport": true
+        },
+        "components/prendus-breadcrumbs/prendus-breadcrumbs.ts": {
+            "parentImport": true
+        },
+        "images/favicon.png": {
+            "parentImport": true
+        },
+        "bower_components/prendus-video-viewer-component/svgfixer.ts": {
+            "parentImport": false
         }
     }
 }

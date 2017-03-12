@@ -14,44 +14,40 @@ import {Quiz} from '../../node_modules/prendus-services/typings/quiz';
 
 class PrendusQuizEditor {
     public is: string;
+		public querySelector: any;
+		public fire: any;
+		public properties: any;
+		public observers: string[];
+
+		public data: any;
+		public quizLoaded: boolean;
+		public quizId: string;
+		public conceptId: string;
+		public courseId: string;
     public userQuestionIds: string[];
     public publicQuestionIds: string[];
-    public conceptId: string;
-    public endpointDomain: string;
+		public quizQuestionIds: string[];
+		public quizSession: QuizSession;
+		public quizQuestionSettings: QuestionSettings;
     public jwt: string;
-    public properties: any;
-    public observers: string[];
-    public quizId: string;
-    public quizQuestionIds: string[];
-    public showSettings: boolean;
-    public quizQuestionSettings: QuestionSettings;
     public title: string;
     public selected: number;
-    public collaboratorEmails: string[];
-    public uid: string;
-    public quizSession: QuizSession;
-    public querySelector: any;
-    public courseId: string;
-    public fire: any;
-    public successMessage: string;
-    public errorMessage: string;
+		public endpointDomain: string;
+		public successMessage: string;
+		public errorMessage: string;
+
 
     beforeRegister(): void {
         this.is = 'prendus-quiz-editor';
         this.properties = {
-            conceptId: {
-                type: String,
-                observer: 'conceptIdSet'
-            },
-            quizId: {
-                type: String,
-                observer: 'quizIdSet'
-            },
-            courseId: {
-              type: String
-            }
+
         };
+				this.observers = [
+					'setQuizData(data)',
+					'setQuizId(quizId)'
+				]
     }
+
     async init(): Promise<void> {
         Actions.showMainSpinner(this);
         this.endpointDomain = UtilitiesService.getPrendusServerEndpointDomain();
@@ -61,38 +57,47 @@ class PrendusQuizEditor {
         this.selected = 0;
 
         //TODO this is horrible and should be removed once the view problem component can be initialized without a quiz session being handed to it
-        const startQuizSessionAjax = this.querySelector(`#startQuizSessionAjax`);
+        const startQuizSessionAjax = this.querySelector('#startQuizSessionAjax');
         startQuizSessionAjax.body = {
             quizId: 'NO_QUIZ',
             jwt: this.jwt
         };
-
         const request = startQuizSessionAjax.generateRequest();
         await request.completes;
-
-        const quizSession: QuizSession = request.response.quizSession;
-        this.quizSession = quizSession;
+        this.quizSession = request.response.quizSession;
         //TODO this is horrible and should be removed once the view problem component can be initialized without a quiz session being handed to it
 
-        Actions.hideMainSpinner(this);
+        this.manuallyReloadQuestions();
     }
 
-    async conceptIdSet(): Promise<void> {
-        if (this.conceptId) {
-            await this.init();
-            await this.loadUserQuestionIds();
-            await this.loadPublicQuestionIds();
-        }
-    }
+		setQuizData(data: any): void {
+			this.courseId = data.courseId;
+			this.conceptId = data.conceptId;
+			this.quizId = data.quizId;
+		}
 
-    async quizIdSet(): Promise<void> {
-        if (this.quizId) {
-            await this.init();
-            const quiz: Quiz = await Actions.getQuiz(this.quizId);
-            this.title = quiz.title;
-            this.loadQuizQuestionIds();
-            Actions.loadQuizQuestionSettings(this, this.quizId);
-        }
+    async setQuizId(quizId: string): Promise<void> {
+			try {
+				await this.init();
+				Actions.hideMainSpinner(this);
+				const quiz: Quiz = await Actions.getQuiz(quizId);
+				this.title = quiz.title;
+				this.quizLoaded = true;
+			} catch(error) {
+				this.quizLoaded = false;
+				console.error(error);
+			}
+
+			try {
+				await Promise.all([
+					Actions.loadQuizQuestionSettings(this, quizId),
+					this.loadQuizQuestionIds(),
+					this.loadUserQuestionIds(),
+					this.loadPublicQuestionIds()
+				])
+			} catch(error) {
+				console.error(error);
+			}
     }
 
     async loadPublicQuestionIds(): Promise<void> {
@@ -113,6 +118,10 @@ class PrendusQuizEditor {
         const questionId: string = e.model.item;
         await Actions.addQuestionToQuiz(this, this.quizId, questionId);
         await this.loadQuizQuestionIds();
+        this.quizQuestionIds.forEach((questionId) => {
+            const viewQuestionElement = this.querySelector(`#quiz-question-id-${questionId}`);
+            viewQuestionElement.loadNextProblem(true);
+        });
     }
 
     async removeQuestionFromQuiz(e: any): Promise<void> {
@@ -132,7 +141,7 @@ class PrendusQuizEditor {
     }
 
     selectText(e: any): void {
-      e.target.select();
+			if(e.target.select) e.target.select();
     }
 
     openCollaboratorsModal(e: any): void {
@@ -146,7 +155,6 @@ class PrendusQuizEditor {
     //Temporary based on Jordans preferences
     async createQuestion(e: any): Promise<void> {
         Actions.showMainSpinner(this);
-        const visibility: QuestionVisibility = 'public'
         window.history.pushState({}, '', `courses/edit-question/question/create`);
         this.fire('location-changed', {}, {node: window});
     }
@@ -159,12 +167,11 @@ class PrendusQuizEditor {
     }
 
     showEmptyQuizQuestionsText(quizQuestionIds: string[]): boolean {
-        const showEmptyQuizQuestionsText: boolean = !quizQuestionIds || quizQuestionIds.length === 0;
-        return showEmptyQuizQuestionsText;
+        return !quizQuestionIds || quizQuestionIds.length === 0;
     }
 
     async manuallyReloadQuestions(): Promise<void> {
-        //TODO this is all extremely not optimized
+        // TODO optimize this code
         await this.loadUserQuestionIds();
         await this.loadPublicQuestionIds();
         await this.loadQuizQuestionIds();
@@ -183,10 +190,6 @@ class PrendusQuizEditor {
             const viewQuestionElement = this.querySelector(`#quiz-question-id-${questionId}`);
             viewQuestionElement.loadNextProblem(true);
         });
-    }
-
-    showSettingsMenu(): void {
-        this.showSettings = !this.showSettings;
     }
 
     async answerFeedbackToggled(e: any): Promise<void> {
@@ -271,8 +274,9 @@ class PrendusQuizEditor {
         this.errorMessage = '';
         this.errorMessage = error.message;
       }
-      await Actions.loadEditConceptQuizzes(this, this.conceptId);
-      await Actions.loadViewConceptQuizzes(this, this.conceptId);
+			// load these in the background so they're updated when the user returns to that page
+      Actions.loadEditConceptQuizzes(this, this.conceptId);
+      Actions.loadViewConceptQuizzes(this, this.conceptId);
     }
 
     async privateToggled(e: any): Promise<void> {
@@ -284,12 +288,14 @@ class PrendusQuizEditor {
     determineVisibility(visibility: QuizVisibility): boolean {
       return visibility === 'private';
     }
+
     async applySettings(settingName: string, value: number | boolean | QuizVisibility, successMessageName: string, updateQuestionSetting: boolean): Promise<void> {
+			const quizId: string = this.quizId;
       try {
-        await Actions.setQuizQuestionSetting(this, this.quizId, settingName, value);
+        await Actions.setQuizQuestionSetting(this, quizId, settingName, value);
         if(updateQuestionSetting) {
-          this.quizQuestionIds.forEach((questionId) => {
-              Actions.setQuestionSetting(this, this.quizId, questionId, settingName, value);
+          this.quizQuestionIds.forEach(async (questionId) => {
+              await Actions.setQuestionSetting(this, quizId, questionId, settingName, value);
           });
         }
 
@@ -307,12 +313,10 @@ class PrendusQuizEditor {
 
     mapStateToThis(e: StatechangeEvent): void {
         const state = e.detail.state;
+				this.userQuestionIds = state.userQuestionIds;
+				this.publicQuestionIds = state.publicQuestionIds;
+				this.quizQuestionIds = state.quizQuestionIds;
         this.quizQuestionSettings = state.quizQuestionSettings;
-        this.userQuestionIds = state.userQuestionIds;
-        this.publicQuestionIds = state.publicQuestionIds;
-        this.quizQuestionIds = state.quizQuestionIds;
-        this.collaboratorEmails = state.collaboratorEmails;
-        this.uid = state.uid;
     }
 }
 
