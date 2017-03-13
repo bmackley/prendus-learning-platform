@@ -3,8 +3,8 @@
   "version": "0.3.0",
   "description": "The tool to create and upload videos and quizzes",
   "scripts": {
-    "start": "zwitterion --serve-dir app/client",
-    "production-build": "zwitterion --build --output-dir dist"
+    "start": "cd app/client && node_modules/.bin/zwitterion-production",
+    "dev": "cd app/client && node_modules/.bin/zwitterion-production --watch-files --port 8000"
   },
   "repository": {
     "type": "git",
@@ -14,7 +14,6 @@
   "dependencies": {},
   "devDependencies": {
     "@types/polymer": "^1.1.30",
-    "systemjs": "^0.19.41",
-    "zwitterion": "^0.7.0"
+    "systemjs": "^0.19.41"
   }
 }

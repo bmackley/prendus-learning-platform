@@ -31,9 +31,6 @@ export interface Action {
   conceptId: string;
   quizId: string;
   videoId: string;
-	userQuestionIds: [string];
-	publicQuestionIds: [string];
-	quizQuestionIds: [string];
 	quizQuestionSettings: QuestionSettings;
 	visibility: string;
   userMetaData: UserMetaData;

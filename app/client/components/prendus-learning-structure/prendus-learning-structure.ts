@@ -13,6 +13,21 @@ export class PrendusLearningStructure {
   public gradeLevels: string[];
   public subtopics: string[];
 
+  //discipline
+    // ?id
+    // title
+    // subjectid[]
+    // ?conceptid[]
+  //subject
+    // ?id
+    // title
+    // conceptid[]
+    // ?disciplineId
+  //concept
+    // ?id
+    // title
+    // ?disciplineid
+    // ?subjectid
   beforeRegister(): void {
     this.is = 'prendus-learning-structure';
   }

@@ -165,61 +165,6 @@
 						</template>
 					</div>
           <!-- DESCRIPTION -->
-<<<<<<< HEAD
-          <h3 hidden="[[editingDescription]]">[[currentCourse.description]]</h3>
-          <paper-input hidden="[[!editingDescription]]" name="description" id="course-description" label="Course Description" value="[[currentCourse.description]]" maxlength="100" on-change="attributeChanged"></paper-input>
-          <template is="dom-if" if="[[hasEditAccess]]">
-            <paper-button class="edit-button" raised noink on-tap="toggleEditDescription">[[getDescriptionButtonText(editingDescription)]]</paper-button>
-          </template>
-
-					<!-- SUBJECT -->
-					<paper-dropdown-menu label="Subject">
-						<paper-listbox class="dropdown-content" selected="[[selectedSubjectIndex]]">
-							<template is="dom-repeat" items="[[subjects]]">
-								<paper-item on-tap="subjectChange">[[item]]</paper-item>
-							</template>
-					  </paper-listbox>
-					</paper-dropdown-menu>
-
-					<!-- GRADE LEVEL -->
-					<paper-dropdown-menu label="Grade level">
-						<paper-listbox class="dropdown-content" selected="[[selectedGradeLevelIndex]]">
-							<template is="dom-repeat" items="[[gradeLevels]]">
-								<paper-item on-tap="gradeLevelChange">[[item]]</paper-item>
-							</template>
-						</paper-listbox>
-
-					</paper-dropdown-menu>
-          <!-- DUE DATE -->
-          <template is="dom-if" if="[[hasEditAccess]]">
-            <br>
-            <h3>Last day of course</h3>
-            <paper-date-picker id="due-date" date="[[displayDate(currentCourse.dueDate)]]" on-click="dueDateChanged"></paper-date-picker>
-          </template>
-
-          <!-- CONCEPTS -->
-          <h2>[[currentCourse.title]] Concepts</h2>
-          <template is="dom-if" if="[[!hasEditAccess]]">
-            <template is="dom-repeat" items="[[courseConcepts]]">
-              <div class="concept-container">
-                <prendus-concept-container class="concept-edit-container" concept-id="[[item.id]]" course-id="[[data.courseId]]"></prendus-concept-container>
-              </div>
-            </template>
-          </template>
-          <template is="dom-if" if="[[hasEditAccess]]">
-            <template is="dom-if" if="[[!courseConceptsLength]]">
-              <p>Click the plus button to begin adding concepts to the Course.</p>
-            </template>
-            <sortable-js id="concept-list" animation="200" on-sort="sortableEnded">
-              <template is="dom-repeat" items="[[courseConcepts]]">
-                <div class="concept-container">
-                  <prendus-concept-container-edit class="concept-edit-container" concept-id="[[item.id]]"></prendus-concept-container-edit>
-                </div>
-              </template>
-            </sortable-js>
-            <paper-button class="add-concept-button" on-tap="addConcept">Add Concept</paper-button>
-          </template>
-=======
 					<div class="edit-section">
 						<h3 hidden="[[editingDescription]]">[[currentCourse.description]]</h3>
 						<template is="dom-if" if="[[hasEditAccess]]">
@@ -301,7 +246,6 @@
           <template is="dom-if" if="[[hasEditAccess]]">
             <prendus-paper-tags-input placeholder="Delete tags or add new ones" duplicate-error-message="Tag cannot be a duplicate" id="tags" tags="[[courseTagNames]]" on-remove="onRemove" on-add="onAdd"></prendus-paper-tags-input>
           </template> -->
->>>>>>> develop
         </template>
 
         <template is="dom-if" if="[[!username]]">
