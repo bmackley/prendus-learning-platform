@@ -40,7 +40,7 @@
       float: left;
     }
 
-    #new-subject-button, #new-grade-level-button, #new-subtopic-button {
+    #new-discipline-button, #new-grade-level-button, #new-subtopic-button {
       background-color: var(--prendus-primary-color);
       color: white;
     }
@@ -48,19 +48,16 @@
   <template>
     <redux-store on-statechange="mapStateToThis" action="[[action]]"></redux-store>
     <paper-card heading="Change learning structure!!!">
-      <!-- SUBJECTS -->
+      <!-- DISCIPLINES -->
       <span id="leftWrapper">
-        <template is="dom-if" if="[[subjects]]">
-          <paper-dropdown-menu label="Subjects">
-            <paper-listbox class="dropdown-content">
-              <template is="dom-repeat" items="[[subjects]]">
-                <paper-item on-tap="subjectChange">[[item]]</paper-item>
-              </template>
-            </paper-listbox>
-          </paper-dropdown-menu><br>
-          <paper-button id="new-subject-button" on-tap="newSubject">Add subject</paper-button>
-        </template>
-
+        <paper-dropdown-menu label="Disciplines">
+          <paper-listbox class="dropdown-content">
+            <template is="dom-repeat" items="[[disciplines]]">
+              <paper-item on-tap="disciplineChange">[[item.title]]</paper-item>
+            </template>
+          </paper-listbox>
+        </paper-dropdown-menu><br>
+        <paper-button id="new-discipline-button" on-tap="newDiscipline">Add discipline</paper-button>
       </span>
 
       <!-- GRADE LEVELS -->
@@ -115,12 +112,12 @@
       <paper-button dialog-dismiss>Done</paper-button>
     </paper-dialog>
 
-    <paper-dialog id="new-subject" modal>
-      <paper-input id="new-subject-name" label="Subject name" required>
+    <paper-dialog id="new-discipline" modal>
+      <paper-input id="new-discipline-name" label="Discipline name" required>
 
       </paper-input>
       <paper-button dialog-dismiss>Cancel</paper-button>
-      <paper-button on-tap="newSubjectDone" dialog-dismiss>Done</paper-button>
+      <paper-button on-tap="newDisciplineDone" dialog-dismiss>Done</paper-button>
     </paper-dialog>
   </template>
 

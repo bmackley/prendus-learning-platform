@@ -4,15 +4,17 @@ import {StatechangeEvent} from '../../typings/statechange-event';
 import {UserMetaData} from '../../node_modules/prendus-services/typings/user-meta-data';
 import {State} from '../../typings/state';
 import {SubjectsModel} from '../../node_modules/prendus-services/models/subjects-model';
+import {DisciplinesModel} from '../../node_modules/prendus-services/models/discipline-model';
+import {Discipline} from '../../node_modules/prendus-services/typings/discipline';
 
 export class PrendusLearningStructure {
   public is: string;
-  public subjects: string[];
+  public subjects: string[] = [];
   public querySelector: any;
   public chosenSubject: string;
   public gradeLevels: string[];
   public subtopics: string[];
-
+  public disciplines: Discipline[];
   //discipline
     // ?id
     // title
@@ -33,7 +35,7 @@ export class PrendusLearningStructure {
   }
 
   async ready(): Promise<void> {
-    await Actions.initSubjects(this, null);
+    Actions.getAllDisciplines(this);
   }
 
   async subjectChange(e: any) {
@@ -43,35 +45,6 @@ export class PrendusLearningStructure {
     await Actions.initSubTopics(this, null, subject);
   }
 
-  newSubject(e: any): void {
-    this.querySelector('#new-subject').open();
-    console.log('new subject');
-  }
-
-  /**
-   * Called when done is tapped in the new subject dialog
-   */
-  async newSubjectDone(e: any): Promise<void> {
-    console.log(this.newSubjectName);
-    const newSubjectName: string = this.querySelector('#new-subject-name');
-    await SubjectsModel.createOrUpdate(null, newSubjectName);
-  }
-
-
-  deleteGradeLevel(e: any): void {
-    const gradeLevel: string = e.model.item;
-    console.log('gradeLevel ', gradeLevel);
-    console.log('delete item!');
-    console.log('chosenSubject ', this.chosenSubject);
-  }
-
-  deleteSubtopic(e: any): void {
-    const subtopic: string = e.model.item;
-    console.log('gradeLevel ', subtopic);
-    console.log('delete item!');
-    console.log('chosenSubject ', this.chosenSubject);
-  }
-
   newGradeLevel(e: any): void {
     this.querySelector('#new-grade-level').open();
   }
@@ -79,12 +52,31 @@ export class PrendusLearningStructure {
   newSubtopic(e: any): void {
     this.querySelector('#new-subtopic').open();
   }
+
+  disciplineChange(): void {
+
+  }
+
+  newDiscipline(): void {
+    console.log('new discipline')
+    this.querySelector('#new-discipline').open();
+  }
+  async newDisciplineDone(): Promise<void> {
+    try {
+      const title: string = this.querySelector('#new-discipline-name').value;
+      const id: string = await DisciplinesModel.createOrUpdate(null, {
+        title
+      });
+      console.log('id ', id);
+
+    } catch(error) {
+      console.error(error);
+    }
+
+  }
   mapStateToThis(e: StatechangeEvent): void {
     const state: State = e.detail.state;
-    this.subjects = state.subjects;
-    this.gradeLevels = state.gradeLevels;
-    this.chosenSubject = state.subject;
-    this.subtopics = state.subtopics;
+    this.disciplines = state.disciplines;
   }
 
 

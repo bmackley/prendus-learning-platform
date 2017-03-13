@@ -6,6 +6,8 @@ import {UserMetaData} from '../node_modules/prendus-services/typings/user-meta-d
 import {Course} from '../node_modules/prendus-services/typings/course';
 import {CourseConceptData} from '../node_modules/prendus-services/typings/course-concept-data';
 import {Concept} from '../node_modules/prendus-services/typings/concept';
+import {Discipline} from '../node_modules/prendus-services/typings/discipline'
+
 
 export interface State {
     editCourseConcepts: {
@@ -75,4 +77,5 @@ export interface State {
     gradeLevels: string[];
     selectedGradeLevelIndex: number;
     subject: string;
+    disciplines: Discipline[];
 }

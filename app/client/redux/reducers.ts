@@ -274,6 +274,14 @@ export function rootReducer(state: State = InitialState, action: Action): State 
           publicCourses: action.courses
         };
       }
+
+      case 'SET_DISCIPLINES': {
+          return {
+            ...state,
+            disciplines: action.disciplines
+          };
+      }
+
       default: {
           return state;
       }

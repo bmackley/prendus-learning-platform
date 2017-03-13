@@ -21,6 +21,8 @@ import {Video} from '../node_modules/prendus-services/typings/video';
 import {ExecuteAsyncInOrderService} from '../node_modules/prendus-services/services/execute-async-in-order-service';
 import {UtilitiesService} from '../node_modules/prendus-services/services/utilities-service';
 import {SubjectsModel} from '../node_modules/prendus-services/models/subjects-model';
+import {Discipline} from '../node_modules/prendus-services/typings/discipline';
+import {DisciplinesModel} from '../node_modules/prendus-services/models/discipline-model';
 
 const defaultAction = (context: any): void => {
     context.action = {
@@ -658,7 +660,7 @@ const loadEditCourseConcepts = async (context: any, courseId: string): Promise<v
     try {
         const user: any = await FirebaseService.getLoggedInUser();
         const course: Course = await CourseModel.getById(courseId);
-        const conceptDatasObject: { [conceptId: string]: CourseConceptData } = course.concepts;
+        const conceptDatasObject = course.concepts;
         const concepts: CourseConceptData[] = await ConceptModel.filterConceptDatasByCollaborator(conceptDatasObject, course.uid, user.uid);
 
         context.action = {
@@ -1115,6 +1117,21 @@ const reloadPublicCourses = async (context: any, courses: Course[]): Promise<voi
 
   }
 };
+
+/**
+ * Calls redux
+ */
+const getAllDisciplines = async (context: any): Promise<void> => {
+  try {
+    const disciplines: Discipline[] = await DisciplinesModel.getAll();
+    context.action = {
+      type: 'SET_DISCIPLINES',
+      disciplines
+    };
+  } catch(error) {
+    throw error;
+  }
+};
 export const Actions = {
     defaultAction,
     loginUser,
@@ -1183,5 +1200,6 @@ export const Actions = {
     showMainSpinner,
     hideMainSpinner,
     updateQuizDueDates,
-    reloadPublicCourses
+    reloadPublicCourses,
+    getAllDisciplines
   };
