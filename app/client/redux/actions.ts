@@ -1132,6 +1132,13 @@ const getAllDisciplines = async (context: any): Promise<void> => {
     throw error;
   }
 };
+
+const setChosenDiscipline = async (context: any, chosenDiscipline: Discipline): Promise<void> => {
+  context.action = {
+    type: 'SET_CHOSEN_DISCIPLINE',
+    chosenDiscipline
+  }
+};
 export const Actions = {
     defaultAction,
     loginUser,
@@ -1201,5 +1208,6 @@ export const Actions = {
     hideMainSpinner,
     updateQuizDueDates,
     reloadPublicCourses,
-    getAllDisciplines
+    getAllDisciplines,
+    setChosenDiscipline
   };

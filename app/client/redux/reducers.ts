@@ -268,6 +268,7 @@ export function rootReducer(state: State = InitialState, action: Action): State 
         newState.currentCourse = action.currentCourse;
         return newState;
       }
+
       case 'RELOAD_PUBLIC_COURSES': {
         return {
           ...state,
@@ -280,6 +281,13 @@ export function rootReducer(state: State = InitialState, action: Action): State 
             ...state,
             disciplines: action.disciplines
           };
+      }
+
+      case 'SET_CHOSEN_DISCIPLINE': {
+        return {
+          ...state,
+          chosenDiscipline: action.chosenDiscipline
+        };
       }
 
       default: {

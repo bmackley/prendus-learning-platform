@@ -7,6 +7,8 @@
 <link rel="import" href="../../bower_components/paper-dialog/paper-dialog.html">
 <link rel="import" href="../../bower_components/paper-icon-button/paper-icon-button.html">
 <link rel="import" href="../../bower_components/iron-icons/iron-icons.html">
+<link rel="import" href="../../bower_components/paper-icon-button/paper-icon-button.html">
+<link rel="import" href="../prendus-notification/prendus-notification.html">
 <link rel="import" href="../../styles/color-styles.html">
 
 <dom-module id="prendus-learning-structure">
@@ -40,77 +42,46 @@
       float: left;
     }
 
-    #new-discipline-button, #new-grade-level-button, #new-subtopic-button {
+    paper-button {
       background-color: var(--prendus-primary-color);
       color: white;
     }
+
   </style>
   <template>
+    <prendus-notification success-message="[[successMessage]]" error-message="[[errorMessage]]"></prendus-notification>
     <redux-store on-statechange="mapStateToThis" action="[[action]]"></redux-store>
     <paper-card heading="Change learning structure!!!">
       <!-- DISCIPLINES -->
+
       <span id="leftWrapper">
-        <paper-dropdown-menu label="Disciplines">
-          <paper-listbox class="dropdown-content">
-            <template is="dom-repeat" items="[[disciplines]]">
-              <paper-item on-tap="disciplineChange">[[item.title]]</paper-item>
-            </template>
-          </paper-listbox>
-        </paper-dropdown-menu><br>
-        <paper-button id="new-discipline-button" on-tap="newDiscipline">Add discipline</paper-button>
+        <div>
+          <paper-dropdown-menu label="Disciplines">
+            <paper-listbox id="discipline-paper-listbox" class="dropdown-content">
+              <template is="dom-repeat" items="[[disciplines]]">
+                <paper-item on-tap="disciplineChange">[[item.title]]</paper-item>
+              </template>
+            </paper-listbox>
+          </paper-dropdown-menu>
+          <template is="dom-if" if="[[chosenDiscipline]]">
+            <paper-icon-button id="edit-title" class="edit-button icon-button" icon="create" noink on-tap="editDiscipline"></paper-icon-button>
+          </template>
+        </div>
+        <div>
+          <paper-button on-tap="newDiscipline">Add discipline</paper-button>
+        </div>
       </span>
 
       <!-- GRADE LEVELS -->
       <span id="leftWrapper">
-        <template is="dom-if" if="[[gradeLevels]]">
-          GRADE LEVELS
-          <!-- <paper-listbox class="dropdown-content"> -->
-            <template is="dom-repeat" items="[[gradeLevels]]">
-              <paper-item>
-                [[item]] <iron-icon icon="delete" item-icon on-tap="deleteGradeLevel"></iron-icon>
-              </paper-item>
-            </template>
-          <!-- </paper-listbox> -->
-          <paper-button id="new-grade-level-button" on-tap="newGradeLevel">Add grade level</paper-button>
-        </template>
-
       </span>
 
       <!-- SUBTOPICS -->
       <span id="rightWrapper">
-        <template is="dom-if" if="[[subtopics]]">
-          SUBTOPICS
-          <!-- <paper-listbox class="dropdown-content"> -->
-            <template is="dom-repeat" items="[[subtopics]]">
-              <paper-item>
-                [[item]] <iron-icon icon="delete" item-icon on-tap="deleteSubtopic"></iron-icon>
-              </paper-item>
-            </template>
-          <!-- </paper-listbox> -->
-          <paper-button id="new-subtopic-button" on-tap="newSubtopic">Add subtopic</paper-button>
-        </template>
-
       </span>
 
 
     </paper-card>
-
-
-    <paper-dialog id="new-grade-level" modal>
-      <paper-input label="Grade level" required>
-
-      </paper-input>
-      <paper-button dialog-dismiss>Cancel</paper-button>
-      <paper-button dialog-dismiss>Done</paper-button>
-    </paper-dialog>
-
-    <paper-dialog id="new-subtopic" modal>
-      <paper-input label="Subtopic" required>
-
-      </paper-input>
-      <paper-button dialog-dismiss>Cancel</paper-button>
-      <paper-button dialog-dismiss>Done</paper-button>
-    </paper-dialog>
 
     <paper-dialog id="new-discipline" modal>
       <paper-input id="new-discipline-name" label="Discipline name" required>
@@ -118,6 +89,13 @@
       </paper-input>
       <paper-button dialog-dismiss>Cancel</paper-button>
       <paper-button on-tap="newDisciplineDone" dialog-dismiss>Done</paper-button>
+    </paper-dialog>
+    <paper-dialog id="edit-discipline" modal>
+      <paper-input id="edit-discipline-name" label="Discipline name" required>
+
+      </paper-input>
+      <paper-button dialog-dismiss>Cancel</paper-button>
+      <paper-button on-tap="editDisciplineDone" dialog-dismiss>Done</paper-button>
     </paper-dialog>
   </template>
 

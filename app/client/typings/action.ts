@@ -46,4 +46,9 @@ export interface Action {
   selectedGradeLevelIndex: number;
   subject: string;
 	disciplines: Discipline[];
+	chosenDiscipline: Discipline;
+	id: string;
+	orderedConcepts: CourseConceptData[];
+	title: string;
+	url: string;
 }

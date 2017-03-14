@@ -37,6 +37,7 @@ export interface State {
     concepts: {};
     courseTagNames: string[];
     courseViewCurrentCourse: Course;
+    currentCourse: Course;
     currentConceptVideoId: string;
     currentConceptVideoTitle: string;
     currentConceptVideoUrl: string
@@ -66,9 +67,9 @@ export interface State {
             [quizId: string]: string[];
         };
     };
-		userQuestionIds: [string];
-		publicQuestionIds: [string];
-		quizQuestionIds: [string];
+		userQuestionIds: string[];
+		publicQuestionIds: string[];
+		quizQuestionIds: string[];
 		quizQuestionSettings: QuestionSettings;
     mainViewToShow: 'routes' | 'spinner';
     subjects: string[];
@@ -78,4 +79,6 @@ export interface State {
     selectedGradeLevelIndex: number;
     subject: string;
     disciplines: Discipline[];
+    chosenDiscipline: Discipline;
+    
 }
