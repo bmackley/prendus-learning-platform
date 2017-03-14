@@ -64,7 +64,8 @@
             </paper-listbox>
           </paper-dropdown-menu>
           <template is="dom-if" if="[[chosenDiscipline]]">
-            <paper-icon-button id="edit-title" class="edit-button icon-button" icon="create" noink on-tap="editDiscipline"></paper-icon-button>
+            <paper-icon-button class="edit-button icon-button" icon="create" noink on-tap="editDiscipline"></paper-icon-button>
+            <paper-icon-button class="edit-button icon-button" icon="delete" noink on-tap="deleteDiscipline"></paper-icon-button>
           </template>
         </div>
         <div>

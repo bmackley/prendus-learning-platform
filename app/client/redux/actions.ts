@@ -22,7 +22,7 @@ import {ExecuteAsyncInOrderService} from '../node_modules/prendus-services/servi
 import {UtilitiesService} from '../node_modules/prendus-services/services/utilities-service';
 import {SubjectsModel} from '../node_modules/prendus-services/models/subjects-model';
 import {Discipline} from '../node_modules/prendus-services/typings/discipline';
-import {DisciplinesModel} from '../node_modules/prendus-services/models/discipline-model';
+import {DisciplineModel} from '../node_modules/prendus-services/models/discipline-model';
 
 const defaultAction = (context: any): void => {
     context.action = {
@@ -1123,7 +1123,7 @@ const reloadPublicCourses = async (context: any, courses: Course[]): Promise<voi
  */
 const getAllDisciplines = async (context: any): Promise<void> => {
   try {
-    const disciplines: Discipline[] = await DisciplinesModel.getAll();
+    const disciplines: Discipline[] = await DisciplineModel.getAll();
     context.action = {
       type: 'SET_DISCIPLINES',
       disciplines

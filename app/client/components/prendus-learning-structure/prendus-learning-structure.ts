@@ -4,7 +4,7 @@ import {StatechangeEvent} from '../../typings/statechange-event';
 import {UserMetaData} from '../../node_modules/prendus-services/typings/user-meta-data';
 import {State} from '../../typings/state';
 import {SubjectsModel} from '../../node_modules/prendus-services/models/subjects-model';
-import {DisciplinesModel} from '../../node_modules/prendus-services/models/discipline-model';
+import {DisciplineModel} from '../../node_modules/prendus-services/models/discipline-model';
 import {Discipline} from '../../node_modules/prendus-services/typings/discipline';
 import {UtilitiesService} from '../../node_modules/prendus-services/services/utilities-service';
 
@@ -18,8 +18,7 @@ export class PrendusLearningStructure {
   public disciplines: Discipline[];
   public chosenDiscipline: Discipline;
   public successMessage: string;
-  public properties: any;
-
+  public errorMessage: string;
   //discipline
     // ?id
     // title
@@ -49,10 +48,12 @@ export class PrendusLearningStructure {
    */
   editDiscipline(): void {
     this.querySelector('#edit-discipline-name').value = this.chosenDiscipline.title;
-    this.querySelector('#edit-discipline').disciplineId = this.chosenDiscipline.id;
     this.querySelector('#edit-discipline').open();
   }
 
+  /**
+   * Called when the user clicks DONE in the edit-discipline-modal
+   */
   async editDisciplineDone(): Promise<void> {
     try {
       const title: string = this.querySelector('#edit-discipline-name').value;
@@ -61,7 +62,7 @@ export class PrendusLearningStructure {
         ...this.chosenDiscipline,
         title
       };
-      await DisciplinesModel.createOrUpdate(id, newDiscipline);
+      await DisciplineModel.createOrUpdate(id, newDiscipline);
       await Actions.getAllDisciplines(this);
       Actions.setChosenDiscipline(this, newDiscipline);
 
@@ -75,7 +76,29 @@ export class PrendusLearningStructure {
     } catch(error) {
       console.error(error.message);
     }
+  }
 
+  /**
+   * Called when the user clicks the trashcan next to the discipline.
+   */
+  async deleteDiscipline(): Promise<void> {
+    try {
+      if(!UtilitiesService.isDefined(this.chosenDiscipline)) {
+        this.errorMessage = '';
+        this.errorMessage = 'How the heck did you get here?';
+      } else {
+        await DisciplineModel.deleteDiscipline(this.chosenDiscipline.id);
+        await Actions.getAllDisciplines(this);
+        Actions.setChosenDiscipline(this, null);
+        const paperListBox = this.querySelector('#discipline-paper-listbox');
+        paperListBox.select(-1);
+
+        this.successMessage = '';
+        this.successMessage = 'Discipline deleted.';
+      }
+    } catch(error) {
+      console.error(error.message);
+    }
   }
   /**
    * Called when the user changes a discipline in the select list of disciplines.
@@ -89,6 +112,7 @@ export class PrendusLearningStructure {
    * Called when the user clicks the button ADD DISCIPLINE
    */
   newDiscipline(): void {
+     this.querySelector('#new-discipline-name').value = '';
     this.querySelector('#new-discipline').open();
   }
 
@@ -98,9 +122,12 @@ export class PrendusLearningStructure {
   async newDisciplineDone(): Promise<void> {
     try {
       const title: string = this.querySelector('#new-discipline-name').value;
-      const id: string = await DisciplinesModel.createOrUpdate(null, {
+      const id: string = await DisciplineModel.createOrUpdate(null, {
         title
       });
+      await Actions.getAllDisciplines(this);
+      this.successMessage = '';
+      this.successMessage = 'Discipline added';
     } catch(error) {
       console.error(error);
     }
