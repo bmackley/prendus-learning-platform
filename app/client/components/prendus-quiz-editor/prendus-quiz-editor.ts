@@ -21,6 +21,7 @@ class PrendusQuizEditor {
 
 		public data: any;
 		public quizLoaded: boolean;
+		public newQuiz: boolean;
 		public quizId: string;
 		public conceptId: string;
 		public courseId: string;
@@ -36,20 +37,18 @@ class PrendusQuizEditor {
 		public successMessage: string;
 		public errorMessage: string;
 
-
     beforeRegister(): void {
         this.is = 'prendus-quiz-editor';
         this.properties = {
 
         };
 				this.observers = [
-					'setQuizData(data)',
-					'setQuizId(quizId)'
+					'setEditorProperties(data.courseId, data.conceptId, data.quizId)',
+					'setQuizData(quizId)'
 				]
     }
 
     async init(): Promise<void> {
-        Actions.showMainSpinner(this);
         this.endpointDomain = UtilitiesService.getPrendusServerEndpointDomain();
         const user = await FirebaseService.getLoggedInUser();
         this.jwt = await user.getToken();
@@ -70,16 +69,34 @@ class PrendusQuizEditor {
         this.manuallyReloadQuestions();
     }
 
-		setQuizData(data: any): void {
-			this.courseId = data.courseId;
-			this.conceptId = data.conceptId;
-			this.quizId = data.quizId;
+		async setEditorProperties(courseId: string, conceptId: string, quizId: string): Promise<void> {
+			this.courseId = courseId;
+			this.conceptId = conceptId;
+			this.quizId = quizId;
 		}
 
-    async setQuizId(quizId: string): Promise<void> {
+		async setQuizData(quizId: string): Promise<void> {
+
+			console.log(quizId);
+
+			if(quizId === 'create') {
+				this.quizLoaded = true;
+				this.newQuiz = true;
+				this.title = '';
+				this.querySelector('#new-quiz-input').invalid = false;
+				// delay opening the modal so it gets centered
+				setTimeout(() => {
+					this.querySelector('#title-quiz-dialog').open();
+				}, 0)
+				return;
+			}
+
+			this.newQuiz = false;
+			Actions.showMainSpinner(this);
+			console.log('showMainSpinner');
+
 			try {
 				await this.init();
-				Actions.hideMainSpinner(this);
 				const quiz: Quiz = await Actions.getQuiz(quizId);
 				this.title = quiz.title;
 				this.quizLoaded = true;
@@ -87,6 +104,9 @@ class PrendusQuizEditor {
 				this.quizLoaded = false;
 				console.error(error);
 			}
+
+			Actions.hideMainSpinner(this);
+			console.log('hideMainSpinner');
 
 			try {
 				await Promise.all([
@@ -99,6 +119,25 @@ class PrendusQuizEditor {
 				console.error(error);
 			}
     }
+
+		showBlank(quizLoaded: boolean, newQuiz: boolean) {
+			return quizLoaded && newQuiz;
+		}
+
+		enableCreateQuizButton(title: string): boolean {
+			return !!title.length;
+		}
+
+		async createQuiz(): Promise<void> {
+			const quizId = await Actions.createNewQuiz(this, this.title, this.conceptId);
+			// reload by watching data
+			this.data = {
+				...this.data,
+				quizId
+			}
+			this.newQuiz = false;
+			Actions.loadViewConceptQuizzes(this, this.conceptId);
+		}
 
     async loadPublicQuestionIds(): Promise<void> {
         const getPublicQuestionIdsAjax = this.querySelector('#getPublicQuestionIdsAjax');
