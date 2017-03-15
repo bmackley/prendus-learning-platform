@@ -290,6 +290,12 @@ export function rootReducer(state: State = InitialState, action: Action): State 
         };
       }
 
+      case 'SET_CHOSEN_SUBJECT': {
+        return {
+          ...state,
+          chosenSubject: action.chosenSubject
+        };
+      }
       default: {
           return state;
       }

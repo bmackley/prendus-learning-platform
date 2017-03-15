@@ -6,8 +6,8 @@ import {UserMetaData} from '../node_modules/prendus-services/typings/user-meta-d
 import {Course} from '../node_modules/prendus-services/typings/course';
 import {CourseConceptData} from '../node_modules/prendus-services/typings/course-concept-data';
 import {Concept} from '../node_modules/prendus-services/typings/concept';
-import {Discipline} from '../node_modules/prendus-services/typings/discipline'
-
+import {Discipline} from '../node_modules/prendus-services/typings/discipline';
+import {Subject} from '../node_modules/prendus-services/typings/subject';
 
 export interface State {
     editCourseConcepts: {
@@ -80,5 +80,6 @@ export interface State {
     subject: string;
     disciplines: Discipline[];
     chosenDiscipline: Discipline;
-    
+    chosenSubject: Subject;
+
 }

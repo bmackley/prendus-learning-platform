@@ -7,6 +7,7 @@ import {Course} from '../node_modules/prendus-services/typings/course';
 import {CourseConceptData} from '../node_modules/prendus-services/typings/course-concept-data';
 import {Concept} from '../node_modules/prendus-services/typings/concept';
 import {Discipline} from '../node_modules/prendus-services/typings/discipline';
+import {Subject} from '../node_modules/prendus-services/typings/subject';
 
 export interface Action {
 	type: string;
@@ -47,6 +48,7 @@ export interface Action {
   subject: string;
 	disciplines: Discipline[];
 	chosenDiscipline: Discipline;
+	chosenSubject: Subject;
 	id: string;
 	orderedConcepts: CourseConceptData[];
 	title: string;

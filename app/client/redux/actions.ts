@@ -20,9 +20,10 @@ import {EmailsToUidsModel} from '../node_modules/prendus-services/models/emails-
 import {Video} from '../node_modules/prendus-services/typings/video';
 import {ExecuteAsyncInOrderService} from '../node_modules/prendus-services/services/execute-async-in-order-service';
 import {UtilitiesService} from '../node_modules/prendus-services/services/utilities-service';
-import {SubjectsModel} from '../node_modules/prendus-services/models/subjects-model';
+import {SubjectModel} from '../node_modules/prendus-services/models/subject-model';
 import {Discipline} from '../node_modules/prendus-services/typings/discipline';
 import {DisciplineModel} from '../node_modules/prendus-services/models/discipline-model';
+import {Subject} from '../node_modules/prendus-services/typings/subject';
 
 const defaultAction = (context: any): void => {
     context.action = {
@@ -40,53 +41,6 @@ const hideMainSpinner = (context: any): void => {
     context.action = {
         type: 'HIDE_MAIN_SPINNER'
     };
-};
-
-const initSubTopics = async (context: any, courseId: string, subject: string): Promise<void> => {
-  try {
-    const tempSubject: string = courseId ? await CourseModel.getAttribute('subject', courseId) : subject;
-    const subtopics: string[] = await SubjectsModel.getSubtopics(tempSubject);
-    context.action = {
-      type: 'SET_SUBTOPICS',
-      subtopics
-    }
-  } catch(error) {
-    throw error;
-  }
-};
-const initGradeLevelsBySubjectName = async (context: any, subject: string): Promise<void> => {
-  try {
-    const gradeLevels: string[] = await SubjectsModel.getGradeLevels(subject);
-    context.action = {
-      type: 'SET_GRADE_LEVELS',
-      gradeLevels,
-      subject
-    };
-  } catch(error) {
-    throw error;
-  }
-};
-const initGradeLevels = async (context: any, courseId: string): Promise<void> => {
-  try {
-
-  } catch(error) {
-    throw error;
-  }
-};
-
-const initSubjects = async (context: any, courseId: string): Promise<void> => {
-  try {
-    const subjects: string[] = await SubjectsModel.getSubjectValues();
-    const subject: string = await CourseModel.getAttribute('subject', courseId);
-    const selectedSubjectIndex: number = subjects.indexOf(subject);
-    context.action = {
-      type: 'SET_SUBJECTS',
-      subjects,
-      selectedSubjectIndex
-    };
-  } catch(error) {
-    throw error;
-  }
 };
 
 const loadCourseCollaboratorEmails = async (context: any, uid: string, courseId: string): Promise<void> => {
@@ -1124,6 +1078,9 @@ const reloadPublicCourses = async (context: any, courses: Course[]): Promise<voi
 const getAllDisciplines = async (context: any): Promise<void> => {
   try {
     const disciplines: Discipline[] = await DisciplineModel.getAll();
+    await UtilitiesService.asyncForEach(disciplines, async (discipline: Discipline) => {
+      discipline.resolvedSubjects = await SubjectModel.getAllByDisciplineId(discipline.id);
+    });
     context.action = {
       type: 'SET_DISCIPLINES',
       disciplines
@@ -1133,19 +1090,87 @@ const getAllDisciplines = async (context: any): Promise<void> => {
   }
 };
 
+/**
+ * This sets the chosen discipline but will resolve everything inside of it.
+ */
+const setChosenResolvedDiscipline = async (context: any, disciplineId: string): Promise<void> => {
+  try {
+    const discipline: Discipline = await DisciplineModel.getById(disciplineId);
+    discipline.resolvedSubjects = await SubjectModel.getAllByDisciplineId(disciplineId);
+    setChosenDiscipline(context, discipline);
+  } catch(error) {
+    throw error;
+  }
+};
 const setChosenDiscipline = async (context: any, chosenDiscipline: Discipline): Promise<void> => {
   context.action = {
     type: 'SET_CHOSEN_DISCIPLINE',
     chosenDiscipline
   }
 };
+
+const deleteDiscipline = async (discipline: Discipline): Promise<void> => {
+  try {
+    await DisciplineModel.deleteDiscipline(discipline.id);
+    if(discipline.subjects) {
+
+      await UtilitiesService.asyncForEach(Object.keys(discipline.subjects), async (subjectId: string) => {
+        await SubjectModel.deleteSubject(subjectId);
+        //TODO delete concepts.
+      });
+    }
+
+
+  } catch(error) {
+    throw error;
+  }
+};
+
+/**
+ * Creates subject.
+ * Adds subject Id to the discipline.
+ */
+const createSubject = async (context: any, disciplineId: string, subject: Subject): Promise<string> => {
+  try {
+    const subjectId: string = await SubjectModel.createOrUpdate(null, subject);
+    await DisciplineModel.addSubject(disciplineId, subjectId);
+    return subjectId;
+  } catch(error) {
+    throw error;
+  }
+};
+
+/**
+ * Sets the chosen subject and resolves everything inside of it
+ */
+const setChosenResolvedSubject = async (context: any, subjectId: string): Promise<void> => {
+  try {
+    const subject: Subject = await SubjectModel.getById(subjectId);
+    //TODO resolve concept ids.
+    setChosenSubject(context, subject);
+  } catch(error) {
+    throw error;
+  }
+};
+
+const setChosenSubject = (context: any, chosenSubject: Subject): void => {
+  context.action = {
+    type: 'SET_CHOSEN_SUBJECT',
+    chosenSubject
+  }
+};
+
+const deleteSubject = async (subject: Subject): Promise<void> => {
+  try {
+    await SubjectModel.deleteSubject(subject.id);
+    //TODO delete concepts.
+  } catch(error) {
+    throw error;
+  }
+};
 export const Actions = {
     defaultAction,
     loginUser,
-    initSubjects,
-    initSubTopics,
-    initGradeLevelsBySubjectName,
-    initGradeLevels,
     checkUserAuth,
     deleteConcept,
     orderConcepts,
@@ -1209,5 +1234,11 @@ export const Actions = {
     updateQuizDueDates,
     reloadPublicCourses,
     getAllDisciplines,
-    setChosenDiscipline
+    setChosenResolvedDiscipline,
+    setChosenDiscipline,
+    deleteDiscipline,
+    createSubject,
+    setChosenResolvedSubject,
+    setChosenSubject,
+    deleteSubject
   };

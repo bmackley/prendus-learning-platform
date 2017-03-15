@@ -73,11 +73,31 @@
         </div>
       </span>
 
-      <!-- GRADE LEVELS -->
-      <span id="leftWrapper">
-      </span>
+      <!-- SUBJECTS -->
+      <template is="dom-if" if="[[chosenDiscipline]]">
+        <span id="leftWrapper">
+          <div>
+            <paper-dropdown-menu label="Subjects">
+              <paper-listbox id="subject-paper-listbox" class="dropdown-content">
+                <template is="dom-repeat" items="[[subjects]]">
+                  <paper-item on-tap="subjectChange">[[item.title]]</paper-item>
+                </template>
+              </paper-listbox>
+            </paper-dropdown-menu>
+            <template is="dom-if" if="[[chosenSubject]]">
+              <paper-icon-button class="edit-button icon-button" icon="create" noink on-tap="editSubject"></paper-icon-button>
+              <paper-icon-button class="edit-button icon-button" icon="delete" noink on-tap="deleteSubject"></paper-icon-button>
+            </template>
+          </div>
 
-      <!-- SUBTOPICS -->
+          <div>
+            <paper-button on-tap="newSubject">Add subject</paper-button>
+          </div>
+        </span>
+      </template>
+
+
+      <!-- CONCEPTS -->
       <span id="rightWrapper">
       </span>
 
@@ -85,18 +105,25 @@
     </paper-card>
 
     <paper-dialog id="new-discipline" modal>
-      <paper-input id="new-discipline-name" label="Discipline name" required>
-
-      </paper-input>
+      <paper-input id="new-discipline-name" label="Discipline name" required></paper-input>
       <paper-button dialog-dismiss>Cancel</paper-button>
       <paper-button on-tap="newDisciplineDone" dialog-dismiss>Done</paper-button>
     </paper-dialog>
     <paper-dialog id="edit-discipline" modal>
-      <paper-input id="edit-discipline-name" label="Discipline name" required>
-
-      </paper-input>
+      <paper-input id="edit-discipline-name" label="Discipline name" required></paper-input>
       <paper-button dialog-dismiss>Cancel</paper-button>
       <paper-button on-tap="editDisciplineDone" dialog-dismiss>Done</paper-button>
+    </paper-dialog>
+
+    <paper-dialog id="new-subject" modal>
+      <paper-input id="new-subject-name" label="Subject name" required></paper-input>
+      <paper-button dialog-dismiss>Cancel</paper-button>
+      <paper-button on-tap="newSubjectDone" dialog-dismiss>Done</paper-button>
+    </paper-dialog>
+    <paper-dialog id="edit-subject" modal>
+      <paper-input id="edit-subject-name" label="Subject name" required></paper-input>
+      <paper-button dialog-dismiss>Cancel</paper-button>
+      <paper-button on-tap="editSubjectDone" dialog-dismiss>Done</paper-button>
     </paper-dialog>
   </template>
 
