@@ -52,7 +52,7 @@
             --paper-tabs-selection-bar-color: var(--prendus-primary-color);
         }
 
-        #quiz-title-input {
+        .quiz-title-input {
             --paper-input-container-input: {
                 font-size: 25px;
             };
@@ -111,7 +111,7 @@
     </style>
 
     <redux-store on-statechange="mapStateToThis" action="[[action]]"></redux-store>
-		<app-route route="[[route]]" pattern="/edit-quiz/course/:courseId/concept/:conceptId/quiz/:quizId" data="{{data}}" tail="{{tail}}"></app-route>
+		<app-route route="{{route}}" pattern="/edit-quiz/course/:courseId/concept/:conceptId/quiz/:quizId" data="{{data}}" tail="{{tail}}"></app-route>
 
     <iron-ajax id="getUserQuestionIdsAjax" method="get" url="[[endpointDomain]]/api/jwt/[[jwt]]/question-ids" handle-as="json"></iron-ajax>
     <iron-ajax id="getPublicQuestionIdsAjax" method="get" url="[[endpointDomain]]/api/public/question-ids" handle-as="json"></iron-ajax>
@@ -122,12 +122,23 @@
     <prendus-notification success-message="[[successMessage]]" error-message="[[errorMessage]]"></prendus-notification>
 
     <paper-dialog id="share-quiz-dialog" with-backdrop>
-      <h3>Use this link to access the quiz:</h3>
+      <h2>Share this quiz</h2>
       <paper-input id="share-quiz-link" noink value="https://prendus.com/courses/view-quiz/course/[[courseId]]/concept/[[conceptId]]/quiz/[[quizId]]" readonly on-tap="selectText"></paper-input>
 			<div class="buttons">
 				<paper-button class="indigo" noink dialog-dismiss>Done</paper-button>
 			</div>
     </paper-dialog>
+
+		<paper-dialog id="title-quiz-dialog" modal>
+			<div class="content">
+				<h2>Enter quiz title</h2>
+				<paper-input id="new-quiz-input" class="quiz-title-input" label="Title" value="{{title}}" required auto-validate maxlength="50" error-message="Please enter a title"></paper-input>
+			</div>
+			<div class="buttons">
+				<a class="prendus-button prendus-button--minor" href="/courses/view/[[courseId]]" dialog-dismiss>Back</a>
+				<button class="prendus-button prendus-button--recommended" disabled$=[[!enableCreateQuizButton(title)]] on-tap="createQuiz" dialog-dismiss>Create</button>
+			</div>
+		</paper-dialog>
 
     <div id="quiz-container">
 			<template id="no-quiz" is="dom-if" if="[[!quizLoaded]]">
@@ -138,13 +149,13 @@
 					</div>
 				</paper-card>
 			</template>
-			<template is="dom-if" if="[[quizLoaded]]">
+			<template is="dom-if" if="[[!showBlank(quizLoaded, newQuiz)]]">
 	      <!-- TODO: for mobile display, move the quiz preview to another tab in the questions card -->
 	      <paper-card>
 	        <div class="card-content">
 						<a href="/courses/view/[[courseId]]"><paper-button><iron-icon class="text-icon" icon="undo"></iron-icon> Back to course</paper-button></a>
 						<!-- QUIZ TITLE -->
-						<paper-input id="quiz-title-input" label="Quiz Title" value="[[title]]" on-change="titleChanged" required auto-validate maxlength="50"></paper-input>
+						<paper-input class="quiz-title-input" label="Quiz Title" value="{{title}}" on-change="titleChanged" required auto-validate maxlength="50" error-message="Please enter a title"></paper-input>
 						<!-- OPTIONS -->
 						<paper-icon-button id="share-button" icon="social:share" on-tap="shareQuiz"></paper-icon-button>
 						<paper-tooltip for="share-button" offset="0" animation-delay="300">Get Share Link</paper-tooltip>
@@ -168,10 +179,10 @@
 								<paper-date-picker id="dueDate" date="[[displayDate(quizQuestionSettings.dueDate)]]" on-click="dueDateChanged"></paper-date-picker>
 							</template> -->
 							<!-- TODO: Only show this option if user has paid for premium-->
-							<!-- <paper-checkbox class="setting" on-change="privateToggled" checked="[[determineVisibility(quizQuestionSettings.visibility)]]" noink>Private</paper-checkbox>
-							<paper-checkbox class="setting" on-change="showConfidenceLevelToggled" checked="[[quizQuestionSettings.showConfidenceLevel]]" noink>Show confidence level</paper-checkbox>
+							<!-- <paper-checkbox class="setting" on-change="privateToggled" checked="[[determineVisibility(quizQuestionSettings.visibility)]]" noink>Private</paper-checkbox> -->
+							<!-- <paper-checkbox class="setting" on-change="showConfidenceLevelToggled" checked="[[quizQuestionSettings.showConfidenceLevel]]" noink>Show confidence level</paper-checkbox> -->
 							<paper-checkbox class="setting" on-change="allowGenerationToggled" checked="[[quizQuestionSettings.allowGeneration]]" noink>Allow question generation</paper-checkbox>
-							<paper-input class="setting" type="number" label="Maximum number of attempts" value=[[quizQuestionSettings.maxNumAttempts]] on-change="maxNumAttemptsChanged"></paper-input> -->
+							<!-- <paper-input class="setting" type="number" label="Maximum number of attempts" value=[[quizQuestionSettings.maxNumAttempts]] on-change="maxNumAttemptsChanged"></paper-input> -->
 							<div class="buttons">
 								<paper-button class="indigo" noink dialog-dismiss>Done</paper-button>
 							</div>
