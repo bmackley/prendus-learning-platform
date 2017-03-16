@@ -22,6 +22,8 @@ class PrendusQuizEditor {
 		public data: any;
 		public quizLoaded: boolean;
 		public newQuiz: boolean;
+		public hasEditAccess: boolean;
+		public uid: string;
 		public quizId: string;
 		public conceptId: string;
 		public courseId: string;
@@ -32,15 +34,22 @@ class PrendusQuizEditor {
 		public quizQuestionSettings: QuestionSettings;
     public jwt: string;
     public title: string;
+    public editingTitle: boolean;
     public selected: number;
 		public endpointDomain: string;
 		public successMessage: string;
 		public errorMessage: string;
+		public errorLink: string;
+		public errorText: string;
+		public errorLinkText: string;
 
     beforeRegister(): void {
         this.is = 'prendus-quiz-editor';
         this.properties = {
-
+					editingTitle: {
+		        type: Boolean,
+		        value: false
+		      },
         };
 				this.observers = [
 					'setEditorProperties(data.courseId, data.conceptId, data.quizId)',
@@ -50,23 +59,41 @@ class PrendusQuizEditor {
 
     async init(): Promise<void> {
         this.endpointDomain = UtilitiesService.getPrendusServerEndpointDomain();
-        const user = await FirebaseService.getLoggedInUser();
-        this.jwt = await user.getToken();
-        this.title = '';
-        this.selected = 0;
+				const user = await FirebaseService.getLoggedInUser();
+				if(!user) {
+					this.errorLink = '/login';
+					this.errorText = 'Please';
+					this.errorLinkText = 'log in';
+					throw 'Not logged in';
+				}
+				const quiz: Quiz = await Actions.getQuiz(this.quizId);
+				if(!quiz) {
+					this.errorLink = '/';
+					this.errorText = 'This quiz may have been removed or never existed in the first place.  Try starting from the';
+					this.errorLinkText = 'home page';
+					throw 'Quiz does not exist';
+				}
+				this.title = quiz.title;
+				this.hasEditAccess = quiz.uid === this.uid;
+				if(!this.hasEditAccess) {
+					this.errorText = 'You don\'t have edit access to this quiz.  Try asking the owner for access.';
+					throw 'Doesn\'t own quiz';
+				}
+				this.jwt = await user.getToken();
+				this.selected = 0;
 
-        //TODO this is horrible and should be removed once the view problem component can be initialized without a quiz session being handed to it
-        const startQuizSessionAjax = this.querySelector('#startQuizSessionAjax');
-        startQuizSessionAjax.body = {
-            quizId: 'NO_QUIZ',
-            jwt: this.jwt
-        };
-        const request = startQuizSessionAjax.generateRequest();
-        await request.completes;
-        this.quizSession = request.response.quizSession;
-        //TODO this is horrible and should be removed once the view problem component can be initialized without a quiz session being handed to it
+				//TODO this is horrible and should be removed once the view problem component can be initialized without a quiz session being handed to it
+				const startQuizSessionAjax = this.querySelector('#startQuizSessionAjax');
+				startQuizSessionAjax.body = {
+					quizId: 'NO_QUIZ',
+					jwt: this.jwt
+				};
+				const request = startQuizSessionAjax.generateRequest();
+				await request.completes;
+				this.quizSession = request.response.quizSession;
+				//TODO this is horrible and should be removed once the view problem component can be initialized without a quiz session being handed to it
 
-        this.manuallyReloadQuestions();
+				this.manuallyReloadQuestions();
     }
 
 		async setEditorProperties(courseId: string, conceptId: string, quizId: string): Promise<void> {
@@ -94,17 +121,8 @@ class PrendusQuizEditor {
 
 			try {
 				await this.init();
-				const quiz: Quiz = await Actions.getQuiz(quizId);
-				this.title = quiz.title;
 				this.quizLoaded = true;
-			} catch(error) {
-				this.quizLoaded = false;
-				console.error(error);
-			}
 
-			Actions.hideMainSpinner(this);
-
-			try {
 				await Promise.all([
 					Actions.loadQuizQuestionSettings(this, quizId),
 					this.loadQuizQuestionIds(),
@@ -112,12 +130,15 @@ class PrendusQuizEditor {
 					this.loadPublicQuestionIds()
 				])
 			} catch(error) {
+				this.quizLoaded = false;
 				console.error(error);
 			}
+
+			Actions.hideMainSpinner(this);
     }
 
 		showBlank(quizLoaded: boolean, newQuiz: boolean) {
-			return quizLoaded && newQuiz;
+			return !quizLoaded || newQuiz;
 		}
 
 		enableCreateQuizButton(title: string): boolean {
@@ -129,7 +150,6 @@ class PrendusQuizEditor {
 				this.createQuiz();
 				this.querySelector('#title-quiz-dialog').close();
 			}
-
 		}
 
 		async createQuiz(): Promise<void> {
@@ -293,7 +313,17 @@ class PrendusQuizEditor {
         await this.applySettings('maxNumAttempts', value, 'Maximum number of attempts', true);
     }
 
-    async titleChanged(e: any): Promise<void> {
+		getEditIcon(editStatus: boolean): string {
+			return editStatus ? 'check' : 'create';
+		}
+
+	  toggleEditTitle(e: any): void {
+			if(this.querySelector('#edit-quiz-input').invalid) return;
+	    this.editingTitle = !this.editingTitle;
+			if(this.editingTitle) this.querySelector('#edit-quiz-input').focus();
+	  }
+
+    async changeTitle(e: any): Promise<void> {
       try {
         const value: string = e.target.value;
         await QuizModel.updateTitle(this.quizId, value);
@@ -342,6 +372,7 @@ class PrendusQuizEditor {
 
     mapStateToThis(e: StatechangeEvent): void {
         const state = e.detail.state;
+				this.uid = state.currentUser.metaData.uid;
 				this.userQuestionIds = state.userQuestionIds;
 				this.publicQuestionIds = state.publicQuestionIds;
 				this.quizQuestionIds = state.quizQuestionIds;
