@@ -17,8 +17,6 @@ class PrendusCourseRouter {
   }
 
   _routeChanged(routeObject: any): void {
-		const backdrop: any = document.querySelector('iron-overlay-backdrop');
-		if(backdrop && backdrop.close) backdrop.close();
     const route: string = routeObject.value.path;
     if(!route) {
       return;
