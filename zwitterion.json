@@ -243,7 +243,7 @@
         "node_modules/prendus-services/models/course-model.ts": {
             "parentImport": false
         },
-        "node_modules/prendus-services/models/concept-model.ts": {
+        "node_modules/prendus-services/models/lesson-model.ts": {
             "parentImport": false
         },
         "node_modules/prendus-services/models/user-model.ts": {
@@ -300,7 +300,7 @@
         "components/prendus-lesson-container-edit/prendus-lesson-container-edit.html": {
             "parentImport": true
         },
-        "components/prendus-concept-new-concept/prendus-concept-new-concept.html": {
+        "components/prendus-lesson-new-lesson/prendus-lesson-new-lesson.html": {
             "parentImport": true
         },
         "bower_components/iron-form-element-behavior/iron-form-element-behavior.html": {
@@ -468,7 +468,7 @@
         "components/prendus-lesson-container-edit/prendus-lesson-container-edit.ts": {
             "parentImport": true
         },
-        "components/prendus-concept-new-concept/prendus-concept-new-concept.ts": {
+        "components/prendus-lesson-new-lesson/prendus-lesson-new-lesson.ts": {
             "parentImport": true
         },
         "bower_components/paper-menu/paper-menu-shared-styles.html": {

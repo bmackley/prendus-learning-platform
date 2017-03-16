@@ -28,7 +28,7 @@ export const InitialState: State = {
         },
         starredCourses: {},
         sharedWithMeCourses: {},
-        sharedWithMeConcepts: {},
+        sharedWithMeLessons: {},
         sharedWithMeVideos: {},
         sharedWithMeQuizzes: {}
     },

@@ -111,7 +111,7 @@
     </style>
 
     <redux-store on-statechange="mapStateToThis" action="[[action]]"></redux-store>
-		<app-route route="[[route]]" pattern="/edit-quiz/course/:courseId/concept/:conceptId/quiz/:quizId" data="{{data}}" tail="{{tail}}"></app-route>
+		<app-route route="[[route]]" pattern="/edit-quiz/course/:courseId/lesson/:lessonId/quiz/:quizId" data="{{data}}" tail="{{tail}}"></app-route>
 
     <iron-ajax id="getUserQuestionIdsAjax" method="get" url="[[endpointDomain]]/api/jwt/[[jwt]]/question-ids" handle-as="json"></iron-ajax>
     <iron-ajax id="getPublicQuestionIdsAjax" method="get" url="[[endpointDomain]]/api/public/question-ids" handle-as="json"></iron-ajax>
@@ -123,7 +123,7 @@
 
     <paper-dialog id="share-quiz-dialog" with-backdrop>
       <h3>Use this link to access the quiz:</h3>
-      <paper-input id="share-quiz-link" noink value="https://prendus.com/courses/view-quiz/course/[[courseId]]/concept/[[conceptId]]/quiz/[[quizId]]" readonly on-tap="selectText"></paper-input>
+      <paper-input id="share-quiz-link" noink value="https://prendus.com/courses/view-quiz/course/[[courseId]]/lesson/[[lessonId]]/quiz/[[quizId]]" readonly on-tap="selectText"></paper-input>
 			<div class="buttons">
 				<paper-button class="indigo" noink dialog-dismiss>Done</paper-button>
 			</div>
@@ -151,7 +151,7 @@
             <!--TODO this is the collaborators feature - taking out for now for this quick release to production. -->
 						<!-- <paper-icon-button id="collaborators-button" icon="social:group-add" on-tap="openCollaboratorsModal"></paper-icon-button>
 						<paper-tooltip for="collaborators-button" offset="0" animation-delay="300">Edit Collaborators</paper-tooltip> -->
-						<!-- <prendus-collaborator-modal id="collaborators-modal" concept-id="[[conceptId]]" quiz-id="[[quizId]]" quiz></prendus-collaborator-modal> -->
+						<!-- <prendus-collaborator-modal id="collaborators-modal" lesson-id="[[lessonId]]" quiz-id="[[quizId]]" quiz></prendus-collaborator-modal> -->
 						<paper-icon-button id="settings-button" icon="settings" on-tap="openSettingsModal"></paper-icon-button>
 						<paper-tooltip for="settings-button" offset="0" animation-delay="300">Quiz Settings</paper-tooltip>
 
