@@ -5,11 +5,11 @@ import {FirebaseService} from '../../node_modules/prendus-services/services/fire
 import {Tag} from '../../node_modules/prendus-services/typings/tag';
 import {State} from '../../typings/state';
 
-class PrendusConceptContainer {
+class PrendusLessonContainer {
   public is: string;
   public title: string;
   public properties: any;
-  public conceptId: string;
+  public lessonId: string;
   public observers: string[];
   public lessonData: Lesson;
   public selected: number;
@@ -18,9 +18,9 @@ class PrendusConceptContainer {
   public querySelector: any;
 
   beforeRegister(): void {
-    this.is = 'prendus-concept-container';
+    this.is = 'prendus-lesson-container';
     this.properties = {
-      conceptId: {
+      lessonId: {
           type: String
       },
       courseId: {
@@ -28,17 +28,17 @@ class PrendusConceptContainer {
       }
     };
     this.observers = [
-        'init(conceptId)'
+        'init(lessonId)'
     ];
   }
 
   async init(): Promise<void> {
-    if (this.conceptId) {
+    if (this.lessonId) {
       try {
-        const concept = await Actions.getConceptById(null, this.conceptId);
-        this.title = concept.title;
-        if(concept.tags) {
-          this.tags = await Actions.resolveTagIdObject(concept.tags);
+        const lesson = await Actions.getLessonById(null, this.lessonId);
+        this.title = lesson.title;
+        if(lesson.tags) {
+          this.tags = await Actions.resolveTagIdObject(lesson.tags);
         }
       } catch(error) {
         this.errorMessage = error.message;
@@ -48,7 +48,7 @@ class PrendusConceptContainer {
 
   toggle(e: any): void {
     const collapseTarget = (e.target.id);
-    this.querySelector('.conceptToggle').toggle();
+    this.querySelector('.lessonToggle').toggle();
   }
 
   mapStateToThis(e: StatechangeEvent): void {
@@ -61,4 +61,4 @@ class PrendusConceptContainer {
   }
 }
 
-Polymer(PrendusConceptContainer);
+Polymer(PrendusLessonContainer);

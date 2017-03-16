@@ -294,10 +294,10 @@
         "components/prendus-notification/prendus-notification.html": {
             "parentImport": true
         },
-        "components/prendus-concept-container/prendus-concept-container.html": {
+        "components/prendus-lesson-container/prendus-lesson-container.html": {
             "parentImport": true
         },
-        "components/prendus-concept-container-edit/prendus-concept-container-edit.html": {
+        "components/prendus-lesson-container-edit/prendus-lesson-container-edit.html": {
             "parentImport": true
         },
         "components/prendus-concept-new-concept/prendus-concept-new-concept.html": {
@@ -462,7 +462,7 @@
         "bower_components/moment/min/moment.min.js": {
             "parentImport": true
         },
-        "components/prendus-concept-container/prendus-concept-container.ts": {
+        "components/prendus-lesson-container/prendus-lesson-container.ts": {
             "parentImport": true
         },
         "components/prendus-concept-container-edit/prendus-concept-container-edit.ts": {
