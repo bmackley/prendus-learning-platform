@@ -465,7 +465,7 @@
         "components/prendus-lesson-container/prendus-lesson-container.ts": {
             "parentImport": true
         },
-        "components/prendus-concept-container-edit/prendus-concept-container-edit.ts": {
+        "components/prendus-lesson-container-edit/prendus-lesson-container-edit.ts": {
             "parentImport": true
         },
         "components/prendus-concept-new-concept/prendus-concept-new-concept.ts": {
