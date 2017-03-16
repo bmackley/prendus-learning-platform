@@ -37,9 +37,6 @@ class PrendusCourseRouter {
 
       case 'edit-quiz': {
         UtilitiesService.importElement(this, 'components/prendus-quiz-editor/prendus-quiz-editor.html', 'edit-quiz');
-				const editQuizElement = this.querySelector('#edit-quiz');
-				// manually reinitialize the quiz editor every time the view
-				if(editQuizElement && editQuizElement.setQuizData) editQuizElement.setQuizData(editQuizElement.quizId);
         break;
       }
 

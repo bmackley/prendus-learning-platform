@@ -31,6 +31,11 @@
 					padding: 5px;
 				}
 
+				.edit-section {
+					display: flex;
+					align-items: center;
+				}
+
         #quiz-container {
           width: 100%;
           display: flex;
@@ -144,8 +149,8 @@
 			<template id="no-quiz" is="dom-if" if="[[!quizLoaded]]">
 				<paper-card id="no-quiz">
 				  <div class="card-content">
-						<h3>Sorry, the quiz you were looking for could not be loaded.</h3>
-						<p>It may have been removed or never existed in the first place.  Try starting from the <a href="/">home page</a>.</p>
+						<h3>Error loading quiz editor</h3>
+						<p>[[errorText]] <a href$="[[errorLink]]">[[errorLinkText]]</a></p>
 					</div>
 				</paper-card>
 			</template>
@@ -155,15 +160,20 @@
 	        <div class="card-content">
 						<a href="/courses/view/[[courseId]]"><paper-button><iron-icon class="text-icon" icon="undo"></iron-icon> Back to course</paper-button></a>
 						<!-- QUIZ TITLE -->
-						<paper-input class="quiz-title-input" label="Quiz Title" value="{{title}}" on-change="titleChanged" required auto-validate maxlength="50" error-message="Please enter a title"></paper-input>
+						<div class="edit-section">
+							<h1 hidden$="[[editingTitle]]">[[title]]</h1>
+							<paper-input id="edit-quiz-input" class="quiz-title-input" hidden$="[[!editingTitle]]" label="Quiz Title" value="{{title}}" on-change="changeTitle" required auto-validate maxlength="50" error-message="Please enter a title"></paper-input>
+							<paper-icon-button id="edit-title" class="prendus-icon-button" icon="[[getEditIcon(editingTitle)]]" noink on-tap="toggleEditTitle"></paper-icon-button>
+							<paper-tooltip for="edit-title" offset="0" animation-delay="300">Edit quiz title</paper-tooltip>
+						</div>
 						<!-- OPTIONS -->
-						<paper-icon-button id="share-button" icon="social:share" on-tap="shareQuiz"></paper-icon-button>
+						<paper-icon-button id="share-button" class="prendus-icon-button" icon="social:share" on-tap="shareQuiz" noink></paper-icon-button>
 						<paper-tooltip for="share-button" offset="0" animation-delay="300">Get Share Link</paper-tooltip>
             <!--TODO this is the collaborators feature - taking out for now for this quick release to production. -->
-						<!-- <paper-icon-button id="collaborators-button" icon="social:group-add" on-tap="openCollaboratorsModal"></paper-icon-button>
+						<!-- <paper-icon-button id="collaborators-button" icon="social:group-add" on-tap="openCollaboratorsModal" noink></paper-icon-button>
 						<paper-tooltip for="collaborators-button" offset="0" animation-delay="300">Edit Collaborators</paper-tooltip> -->
 						<!-- <prendus-collaborator-modal id="collaborators-modal" concept-id="[[conceptId]]" quiz-id="[[quizId]]" quiz></prendus-collaborator-modal> -->
-						<paper-icon-button id="settings-button" icon="settings" on-tap="openSettingsModal"></paper-icon-button>
+						<paper-icon-button id="settings-button" class="prendus-icon-button" icon="settings" on-tap="openSettingsModal" noink></paper-icon-button>
 						<paper-tooltip for="settings-button" offset="0" animation-delay="300">Quiz Settings</paper-tooltip>
 
 						<!-- QUIZ SETTINGS -->
