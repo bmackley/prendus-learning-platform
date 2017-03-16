@@ -1,13 +1,174 @@
 <dom-module id="color-styles">
     <template>
         <style>
-            :root {
-                --prendus-primary-color: var(--paper-indigo-500);
-                --prendus-secondary-color: var(--paper-indigo-300);
-								--prendus-off-white: #fafafa;
-								--prendus-grey: #f0f0f0;
-								--prendus-red: var(--paper-red-500);
-            }
+					/* COLORS */
+
+					:root {
+						--prendus-primary-color: var(--paper-indigo-500);
+						--prendus-primary-color-emphasis: var(--paper-indigo-600);
+						--prendus-off-white: #fafafa;
+						--prendus-grey: #f0f0f0;
+						--prendus-red: var(--paper-red-500);
+					}
+
+					/* GENERAL */
+
+					* {
+						font-family: 'Roboto', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+						word-wrap: break-word;
+					}
+
+					a {
+					  text-decoration: none;
+					}
+
+					a:hover {
+						text-decoration: underline;
+					}
+
+					h1 {
+					  font-weight: 300;
+					  font-size: calc(2.2em + 2vw);
+					}
+
+					h2 {
+					  font-weight: 300;
+					  font-size: calc(1.4em + 1vw);
+					}
+
+					h3 {
+					  font-weight: 200;
+					  font-size: calc(1em + 1vw);
+					  color: #777;
+					}
+
+					p,
+					h1,
+					h2,
+					h3,
+					h4,
+					h5,
+					h6 {
+						margin: 0;
+					}
+
+					/* TODO: replace this obnoxious thing with :matches or equivalent once implemented */
+					/* See http://caniuse.com/#search=%3Amatches */
+
+					p + p,
+					p + h1,
+					p + h2,
+					p + h3,
+					p + h4,
+					h1 + p,
+					h1 + h1,
+					h1 + h2,
+					h1 + h3,
+					h1 + h4,
+					h2 + p,
+					h2 + h1,
+					h2 + h2,
+					h2 + h3,
+					h2 + h4,
+					h3 + p,
+					h3 + h1,
+					h3 + h2,
+					h3 + h3,
+					h3 + h4,
+					h4 + p,
+					h4 + h1,
+					h4 + h2,
+					h4 + h3,
+					h4 + h4 {
+						margin-top: .7em;
+					}
+
+					/* BUTTONS */
+
+					.prendus-button {
+						color: black;
+						font-size: 1em;
+						background-color: var(--paper-grey-200);
+						border-radius: 3px;
+						padding: .7em 1.4em;
+						box-sizing: border-box;
+						user-select: none;
+						display: inline-flex;
+						align-items: center;
+						justify-content: center;
+						border: none;
+						cursor: pointer;
+					}
+
+					.prendus-button iron-icon {
+						height: 1.3em;
+						width: 1.3em;
+					}
+
+					.prendus-button iron-icon + * {
+						margin-left: 5px;
+					}
+
+					.prendus-button:hover {
+						text-decoration: none;
+						background-color: var(--paper-grey-300);
+					}
+
+					.prendus-button[disabled] {
+						color: var(--paper-grey-500);
+						background-color: var(--paper-grey-200);
+						cursor: default;
+					}
+
+					.prendus-button[disabled]:hover {
+						background-color: var(--paper-grey-200);
+					}
+
+					.prendus-button--recommended {
+						color: white;
+						background-color: var(--prendus-primary-color);
+					}
+
+					.prendus-button--recommended:hover {
+						background-color: var(--prendus-primary-color-emphasis);
+					}
+
+					.prendus-button--minor {
+						color: var(--prendus-primary-color);
+						background: none;
+					}
+
+					.prendus-button--minor:hover {
+						text-decoration: underline;
+						background: none;
+					}
+
+					.prendus-button--destructive {
+						color: var(--paper-red-500);
+						background-color: white;
+					}
+
+					.prendus-button--destructive:hover {
+						color: white;
+						background-color: var(--paper-red-500);
+					}
+
+					.prendus-button--big {
+						font-size: 1.1em;
+						padding: .9em 1.8em;
+					}
+
+					.buttons .prendus-button + .prendus-button {
+						margin-left: 5px;
+					}
+
+					.prendus-icon-button {
+						color: rgba(0, 0, 0, .5);
+					}
+
+					.prendus-icon-button:hover {
+						color: rgba(0, 0, 0, .8);
+					}
         </style>
     </template>
 </dom-module>
