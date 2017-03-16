@@ -1,6 +1,6 @@
 import {Actions} from '../../redux/actions';
 import {Course} from '../../node_modules/prendus-services/typings/course';
-import {Concept} from '../../node_modules/prendus-services/typings/concept';
+import {Lesson} from '../../node_modules/prendus-services/typings/lesson';
 import {CourseLessonData} from '../../node_modules/prendus-services/typings/course-lesson-data';
 import {StatechangeEvent} from '../../typings/statechange-event';
 import {Tag} from '../../node_modules/prendus-services/typings/tag';
@@ -63,18 +63,18 @@ export class PrendusCourseView {
       'viewCourse(data)'
     ];
     this.listeners = {
-      'edit-concept': 'openEditConceptDialog',
-			'finish-edit-concept': 'reloadConcept'
+      'edit-lesson': 'openEditLessonDialog',
+			'finish-edit-lesson': 'reloadLesson'
     };
   }
 
-	reloadConcept(e: any): void {
-		this.querySelector(`#concept${e.detail.conceptId}`).init();
+	reloadLesson(e: any): void {
+		this.querySelector(`#lesson${e.detail.lessonId}`).init();
 	}
 
-  openEditConceptDialog(e: any): void {
-    const conceptId: string = e.detail.conceptId;
-    this.querySelector('#add-concept-dialog').edit(conceptId);
+  openEditLessonDialog(e: any): void {
+    const lessonId: string = e.detail.lessonId;
+    this.querySelector('#add-lesson-dialog').edit(lessonId);
   }
 
 	openDueDateModal(e: any): void {
@@ -220,7 +220,7 @@ export class PrendusCourseView {
 
   toggle(e: any): void {
     const collapseTarget = (e.target.id);
-    this.querySelector('#Concept' + collapseTarget).toggle();
+    this.querySelector('#lesson' + collapseTarget).toggle();
   }
 
   async viewCourse(): Promise<void> {
@@ -228,7 +228,7 @@ export class PrendusCourseView {
       if (this.data && this.data.courseId) {
           Actions.showMainSpinner(this);
           await Actions.getCourseViewCourseById(this, this.data.courseId);
-          await Actions.loadViewCourseConcepts(this, this.data.courseId);
+          await Actions.loadViewCourseLessons(this, this.data.courseId);
 					this.courseLoaded = true;
       }
     } catch(error) {
@@ -244,8 +244,8 @@ export class PrendusCourseView {
     console.log('LTI Links3')
   }
 
-  addConcept(e: any): void {
-    this.querySelector('#add-concept-dialog').open();
+  addLesson(e: any): void {
+    this.querySelector('#add-lesson-dialog').open();
   }
 
   async sortableEnded(e: any): Promise<void> { //This isn't the most elegant solution. I'm open to better ways of doing things.
@@ -258,9 +258,9 @@ export class PrendusCourseView {
         }
       }
       try {
-        await Actions.orderConcepts(this, this.courseId, updateLessonPositionArray);
+        await Actions.orderLessons(this, this.courseId, updateLessonPositionArray);
         this.successMessage = '';
-        this.successMessage = 'Concept ordered successfully';
+        this.successMessage = 'Lesson ordered successfully';
       } catch(error) {
         console.error(error.message);
         this.errorMessage = '';

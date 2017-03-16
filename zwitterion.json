@@ -324,7 +324,7 @@
         "bower_components/iron-collapse/iron-collapse.html": {
             "parentImport": true
         },
-        "components/prendus-concept-video-container/prendus-concept-video-container.html": {
+        "components/prendus-lesson-video-container/prendus-lesson-video-container.html": {
             "parentImport": true
         },
         "components/prendus-lesson-quiz-container/prendus-lesson-quiz-container.html": {
@@ -345,7 +345,7 @@
         "bower_components/paper-tooltip/paper-tooltip.html": {
             "parentImport": true
         },
-        "components/prendus-concept-video-container-edit/prendus-concept-video-container-edit.html": {
+        "components/prendus-lesson-video-container-edit/prendus-lesson-video-container-edit.html": {
             "parentImport": true
         },
         "bower_components/iron-media-query/iron-media-query.html": {
@@ -483,13 +483,13 @@
         "bower_components/plyr/dist/plyr.js": {
             "parentImport": true
         },
-        "components/prendus-concept-video-container/prendus-concept-video-container.ts": {
+        "components/prendus-lesson-video-container/prendus-lesson-video-container.ts": {
             "parentImport": true
         },
         "components/prendus-lesson-quiz-container/prendus-lesson-quiz-container.ts": {
             "parentImport": true
         },
-        "components/prendus-concept-video-container-edit/prendus-concept-video-container-edit.ts": {
+        "components/prendus-lesson-video-container-edit/prendus-lesson-video-container-edit.ts": {
             "parentImport": true
         },
         "components/prendus-video-editor/prendus-video-editor.ts": {

@@ -68,23 +68,23 @@
       padding: 20px;
     }
 
-    .course-concept {
+    .course-lesson {
       width: 100%;
     }
 
-    .concept-container {
+    .lesson-container {
       display: flex;
     }
 
-		#concept-list {
+		#lesson-list {
 			border: solid lightgrey 1px;
 		}
 
-    .concept-container + .concept-container {
+    .lesson-container + .lesson-container {
       border-top: solid lightgrey 1px;
     }
 
-    .concept-edit-container {
+    .lesson-edit-container {
 			/* keeps text from overflowing a flexbox container */
 			min-width: 0;
       flex-grow: 1;
@@ -129,7 +129,7 @@
       };
     }
 
-		.add-concept-button {
+		.add-lesson-button {
 			background-color: var(--prendus-primary-color);
 			color: white;
 		}
@@ -167,35 +167,35 @@
 						</template>
 					</div>
 					<!-- CONCEPTS -->
-					<h2>Concepts</h2>
+					<h2>Lessons</h2>
 					<template is="dom-if" if="[[!hasEditAccess]]">
-						<template is="dom-if" if="[[!courseConcepts.length]]">
-							<p><strong>This course doesn't have any concepts yet.</strong></p>
+						<template is="dom-if" if="[[!courseLessons.length]]">
+							<p><strong>This course doesn't have any lessons yet.</strong></p>
 						</template>
-						<template is="dom-if" if="[[courseConcepts.length]]">
-							<div id="concept-list">
-								<template is="dom-repeat" items="[[courseConcepts]]" as="concept">
-									<div class="concept-container">
-										<prendus-lesson-container id="concept[[concept.id]]" class="concept-edit-container" concept-id="[[concept.id]]" course-id="[[data.courseId]]"></prendus-lesson-container>
+						<template is="dom-if" if="[[courseLessons.length]]">
+							<div id="lesson-list">
+								<template is="dom-repeat" items="[[courseLessons]]" as="lesson">
+									<div class="lesson-container">
+										<prendus-lesson-container id="lesson[[lesson.id]]" class="lesson-edit-container" lesson-id="[[lesson.id]]" course-id="[[data.courseId]]"></prendus-lesson-container>
 									</div>
 								</template>
 							</div>
 						</template>
 					</template>
 					<template is="dom-if" if="[[hasEditAccess]]">
-						<template is="dom-if" if="[[!courseConcepts.length]]">
-							<p><strong>Click + ADD CONCEPT to begin adding concepts to the course.</strong></p>
+						<template is="dom-if" if="[[!courseLessons.length]]">
+							<p><strong>Click + ADD CONCEPT to begin adding lessons to the course.</strong></p>
 						</template>
-						<template is="dom-if" if="[[courseConcepts.length]]">
-							<sortable-js id="concept-list" animation="200" on-sort="sortableEnded">
-								<template is="dom-repeat" items="[[courseConcepts]]" as="concept">
-									<div class="concept-container">
-										<prendus-lesson-container-edit id="concept[[concept.id]]" class="concept-edit-container" concept-id="[[concept.id]]"></prendus-lesson-container-edit>
+						<template is="dom-if" if="[[courseLessons.length]]">
+							<sortable-js id="lesson-list" animation="200" on-sort="sortableEnded">
+								<template is="dom-repeat" items="[[courseLessons]]" as="lesson">
+									<div class="lesson-container">
+										<prendus-lesson-container-edit id="lesson[[lesson.id]]" class="lesson-edit-container" lesson-id="[[lesson.id]]"></prendus-lesson-container-edit>
 									</div>
 								</template>
 							</sortable-js>
 						</template>
-						<paper-button class="add-concept-button" on-tap="addConcept"><iron-icon icon="add"></iron-icon> Add Concept</paper-button>
+						<paper-button class="add-lesson-button" on-tap="addLesson"><iron-icon icon="add"></iron-icon> Add Lesson</paper-button>
 					</template>
           <!-- DUE DATE -->
 					<!-- <div class="edit-section">
@@ -247,7 +247,7 @@
 
       </div>
     </paper-card>
-		<prendus-lesson-edit-modal id="add-concept-dialog" uid="[[uid]]" course-id="[[courseId]]" course-concepts="[[courseConcepts]]"></prendus-lesson-edit-modal>
+		<prendus-lesson-edit-modal id="add-lesson-dialog" uid="[[uid]]" course-id="[[courseId]]" course-lessons="[[courseLessons]]"></prendus-lesson-edit-modal>
 
   </template>
 
