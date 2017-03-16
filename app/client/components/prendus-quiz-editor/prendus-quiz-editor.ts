@@ -50,14 +50,20 @@ class PrendusQuizEditor {
 		        type: Boolean,
 		        value: false
 		      },
+					selected: {
+						type: Number,
+						value: 0
+					}
         };
 				this.observers = [
-					'setEditorProperties(data.courseId, data.conceptId, data.quizId)',
-					'setQuizData(quizId, route.*)'
+					'setEditorProperties(data.courseId, data.conceptId, data.quizId, route.*)',
+					'setQuizData(quizId)',
+					'_routeChanged(route.*)'
 				]
     }
 
-    async init(): Promise<void> {
+    async init(quizId: string): Promise<any> {
+				const initData: any = {};
         this.endpointDomain = UtilitiesService.getPrendusServerEndpointDomain();
 				const user = await FirebaseService.getLoggedInUser();
 				if(!user) {
@@ -66,21 +72,20 @@ class PrendusQuizEditor {
 					this.errorLinkText = 'log in';
 					throw 'Not logged in';
 				}
-				const quiz: Quiz = await Actions.getQuiz(this.quizId);
+				const quiz: Quiz = await Actions.getQuiz(quizId);
 				if(!quiz) {
 					this.errorLink = '/';
 					this.errorText = 'This quiz may have been removed or never existed in the first place.  Try starting from the';
 					this.errorLinkText = 'home page';
 					throw 'Quiz does not exist';
 				}
-				this.title = quiz.title;
-				this.hasEditAccess = quiz.uid === this.uid;
-				if(!this.hasEditAccess) {
+				initData.title = quiz.title;
+				initData.hasEditAccess = quiz.uid === this.uid;
+				if(!initData.hasEditAccess) {
 					this.errorText = 'You don\'t have edit access to this quiz.  Try asking the owner for access.';
 					throw 'Doesn\'t own quiz';
 				}
 				this.jwt = await user.getToken();
-				this.selected = 0;
 
 				//TODO this is horrible and should be removed once the view problem component can be initialized without a quiz session being handed to it
 				const startQuizSessionAjax = this.querySelector('#startQuizSessionAjax');
@@ -93,47 +98,52 @@ class PrendusQuizEditor {
 				this.quizSession = request.response.quizSession;
 				//TODO this is horrible and should be removed once the view problem component can be initialized without a quiz session being handed to it
 
-				this.manuallyReloadQuestions();
+				return initData;
     }
 
-		async setEditorProperties(courseId: string, conceptId: string, quizId: string): Promise<void> {
+		async setEditorProperties(courseId: string, conceptId: string, quizId: string, route: any): Promise<void> {
 			this.courseId = courseId;
 			this.conceptId = conceptId;
 			this.quizId = quizId;
-		}
 
-		async setQuizData(quizId: string, route: any): Promise<void> {
-			// watch the route - if not navigating to the quiz editor, close the dialog and return
-			if(!route.value.includes || !route.value.includes('edit-quiz')) {
-				this.querySelector('#title-quiz-dialog').close();
-				return;
-			}
+			const titleDialog = this.querySelector('#title-quiz-dialog');
 
-			if(quizId === 'create') {
-				console.log('creating new quiz')
+			// watch the route - if not navigating to a new quiz, close the dialog and return
+			if(			route.path === 'route.path'
+					&&	route.value.includes
+					&&	route.value.includes('create')) {
 				this.quizLoaded = true;
 				this.newQuiz = true;
 				this.title = '';
 				this.querySelector('#new-quiz-input').invalid = false;
 				// delay opening the modal so it gets centered
 				setTimeout(() => {
-					this.querySelector('#title-quiz-dialog').open();
-				}, 0)
-				return;
+					titleDialog.open();
+				}, 0);
+			} else {
+				titleDialog.close();
 			}
+		}
+
+		async setQuizData(quizId: string): Promise<void> {
+			if(quizId === 'create') return;
 
 			this.newQuiz = false;
 			Actions.showMainSpinner(this);
 
 			try {
-				await this.init();
+				const initData: any = await this.init(quizId);
+				this.title = initData.title;
+				this.hasEditAccess = initData.hasEditAccess;
+
 				this.quizLoaded = true;
 
 				await Promise.all([
 					Actions.loadQuizQuestionSettings(this, quizId),
 					this.loadQuizQuestionIds(),
 					this.loadUserQuestionIds(),
-					this.loadPublicQuestionIds()
+					this.loadPublicQuestionIds(),
+					this.manuallyReloadQuestions()
 				])
 			} catch(error) {
 				this.quizLoaded = false;
@@ -142,6 +152,10 @@ class PrendusQuizEditor {
 
 			Actions.hideMainSpinner(this);
     }
+
+		_routeChanged(route: any): void {
+
+		}
 
 		showBlank(quizLoaded: boolean, newQuiz: boolean) {
 			return !quizLoaded || newQuiz;
