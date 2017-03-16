@@ -93,12 +93,6 @@ class PrendusConceptQuizContainer {
       }
     }
 
-    async addQuiz(e: Event) {
-        window.location.href;
-        this.fire('location-changed', {}, {node: window});
-        await Actions.loadViewConceptQuizzes(this, this.conceptId);
-    }
-
     mapStateToThis(e: StatechangeEvent) {
       const state = e.detail.state;
       this.uid = state.currentUser.metaData.uid;

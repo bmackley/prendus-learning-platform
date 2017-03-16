@@ -77,8 +77,6 @@ class PrendusQuizEditor {
 
 		async setQuizData(quizId: string): Promise<void> {
 
-			console.log(quizId);
-
 			if(quizId === 'create') {
 				this.quizLoaded = true;
 				this.newQuiz = true;
@@ -93,7 +91,6 @@ class PrendusQuizEditor {
 
 			this.newQuiz = false;
 			Actions.showMainSpinner(this);
-			console.log('showMainSpinner');
 
 			try {
 				await this.init();
@@ -106,7 +103,6 @@ class PrendusQuizEditor {
 			}
 
 			Actions.hideMainSpinner(this);
-			console.log('hideMainSpinner');
 
 			try {
 				await Promise.all([
@@ -126,6 +122,14 @@ class PrendusQuizEditor {
 
 		enableCreateQuizButton(title: string): boolean {
 			return !!title.length;
+		}
+
+		createQuizOnEnter(e: any): void {
+			if(e.keyCode === 13 && this.enableCreateQuizButton(this.title)) {
+				this.createQuiz();
+				this.querySelector('#title-quiz-dialog').close();
+			}
+
 		}
 
 		async createQuiz(): Promise<void> {
@@ -189,20 +193,6 @@ class PrendusQuizEditor {
 
     openSettingsModal(e: any): void {
       this.querySelector('#settings-modal').open();
-    }
-
-    //Temporary based on Jordans preferences
-    async createQuestion(e: any): Promise<void> {
-        Actions.showMainSpinner(this);
-        window.history.pushState({}, '', `courses/edit-question/question/create`);
-        this.fire('location-changed', {}, {node: window});
-    }
-
-    editQuestion(e: any): void {
-        const questionId: string = e.model.item;
-        Actions.showMainSpinner(this);
-        window.history.pushState({}, '', `courses/edit-question/question/${questionId}`);
-        this.fire('location-changed', {}, {node: window});
     }
 
     showEmptyQuizQuestionsText(quizQuestionIds: string[]): boolean {
