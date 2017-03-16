@@ -4,6 +4,11 @@
 <dom-module id="prendus-footer">
   <style>
 
+		a,
+		a:visited {
+			color: white;
+		}
+
     footer {
       width: 100%;
     }
@@ -26,8 +31,8 @@
     <paper-toolbar>
       <footer class="footer-items">
         <div>&copy; [[getYear()]]&nbsp;<span class="long-text">Prendus LLC</span></div>
-        <paper-button id="terms-of-service" on-tap="changeURL" noink>Terms&nbsp;<span class="long-text">of Service</span></paper-button>
-        <paper-button id="privacy-policy" on-tap="changeURL" noink>Privacy&nbsp;<span class="long-text">Policy</span></paper-button>
+        <a href="/terms-of-service">Terms&nbsp;<span id="terms-of-service" class="long-text">of Service</span></a>
+				<a href="/privacy-policy">Privacy&nbsp;<span id="privacy-policy" class="long-text">Policy</span></a>
       </footer>
     </paper-toolbar>
   </template>

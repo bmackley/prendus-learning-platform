@@ -1,11 +1,12 @@
-<link href="../../bower_components/polymer/polymer.html" rel="import">
-<link href="../../bower_components/paper-button/paper-button.html" rel="import">
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/paper-button/paper-button.html">
+<link rel="import" href="../../bower_components/iron-icons/iron-icons.html">
+<link rel="import" href="../../bower_components/iron-icons/social-icons.html">
+<link rel="import" href="../../styles/color-styles.html">
 
 <dom-module id="prendus-landing">
+	<style include="color-styles"></style>
   <style>
-    :host {
-
-    }
 
     #banner {
       display: flex;
@@ -40,7 +41,7 @@
     }
 
     paper-button.indigo {
-      background-color: var(--paper-indigo-500);
+      background-color: var(--prendus-primary-color);
       color: white;
     }
 
@@ -129,7 +130,7 @@
           </div>
         </div>
         <a href="/signup" tabindex="-1">
-          <paper-button class="signup-cta indigo" raised>Sign Up</paper-button>
+          <paper-button class="signup-cta indigo" noink>Sign Up</paper-button>
         </a>
       </section>
     </article>

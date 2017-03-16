@@ -8,10 +8,13 @@
 <link rel="import" href="../../bower_components/paper-menu/paper-menu.html">
 <link rel="import" href="../../bower_components/iron-icons/iron-icons.html">
 <link rel="import" href="../../bower_components/prendus-video-viewer-component/prendus-video-viewer.html">
+<link rel="import" href="../../styles/color-styles.html">
 
 <dom-module id="prendus-video-editor">
     <template>
+			<style include="color-styles"></style>
       <style>
+
         :host > * + * {
           margin-top: 10px;
         }
@@ -19,16 +22,24 @@
         prendus-video-viewer {
           display: block;
         }
+
+				#save {
+					background-color: var(--prendus-primary-color);
+					color: white;
+				}
+
       </style>
 
       <div>
-        <paper-icon-button icon="social:group-add" on-tap="openCollaboratorsModal"></paper-icon-button>
-        <prendus-collaborator-modal id="collaborators-modal" concept-id="[[conceptId]]" video-id="[[videoId]]" video></prendus-collaborator-modal>
+
+        <!-- TODO add this back once we're ready for collaborators-->
+        <!-- <paper-icon-button icon="social:group-add" on-tap="openCollaboratorsModal"></paper-icon-button> -->
+        <!-- <prendus-collaborator-modal id="collaborators-modal" concept-id="[[conceptId]]" video-id="[[videoId]]" video></prendus-collaborator-modal> -->
         <paper-icon-button icon="delete" on-tap="deleteVideo"></paper-icon-button>
       </div>
       <paper-input id="titleInput" label="Video Title" on-input="updateTitle" value="[[title]]"></paper-input>
       <paper-input id="urlInput" label="Video URL" on-input="updateUrl" value="[[url]]"></paper-input>
-      <paper-button on-tap="saveVideo" raised>Save</paper-button>
+      <paper-button id="save" on-tap="saveVideo" noink>Save</paper-button>
       <prendus-video-viewer url="[[url]]" no-xapi></prendus-video-viewer>
       <paper-toast id="savedToast" text="Video saved"></paper-toast>
     </template>

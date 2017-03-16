@@ -7,6 +7,7 @@ import {VideoModel} from '../node_modules/prendus-services/models/video-model';
 import {TagModel} from '../node_modules/prendus-services/models/tag-model';
 import {QuizModel} from '../node_modules/prendus-services/models/quiz-model';
 import {Quiz} from '../node_modules/prendus-services/typings/quiz';
+import {QuizVisibility} from '../node_modules/prendus-services/typings/quiz-visibility';
 import {QuestionModel} from '../node_modules/prendus-services/models/question-model';
 import {Course} from '../node_modules/prendus-services/typings/course';
 import {Tag} from '../node_modules/prendus-services/typings/tag';
@@ -20,344 +21,293 @@ import {Video} from '../node_modules/prendus-services/typings/video';
 import {ExecuteAsyncInOrderService} from '../node_modules/prendus-services/services/execute-async-in-order-service';
 import {UtilitiesService} from '../node_modules/prendus-services/services/utilities-service';
 
-const defaultAction = (context: any) => {
+const defaultAction = (context: any): void => {
     context.action = {
         type: 'DEFAULT_ACTION'
     };
 };
-const showMainSpinner = (context: any) => {
+
+const showMainSpinner = (context: any): void => {
     context.action = {
         type: 'SHOW_MAIN_SPINNER'
     };
 };
 
-const hideMainSpinner = (context: any) => {
+const hideMainSpinner = (context: any): void => {
     context.action = {
         type: 'HIDE_MAIN_SPINNER'
     };
 };
 
-const loadCourseCollaboratorEmails = async (context: any, uid: string, courseId: string) => {
+const loadCourseCollaboratorEmails = async (context: any, uid: string, courseId: string): Promise<void> => {
 
-    ExecuteAsyncInOrderService.execute(operation);
+	ExecuteAsyncInOrderService.execute(operation);
 
-    async function operation() {
-        try {
-            const uids = await CourseModel.getCollaboratorUids(courseId);
+	async function operation(): Promise<void> {
+    try {
+        const uids: string[] = await CourseModel.getCollaboratorUids(courseId);
+        await FirebaseService.set(`security/${uid}/collaboratorSecurityInfo`, {
+            collection: CourseModel.dataPath,
+            id: courseId
+        });
+        const emails: string[] = await UserModel.getEmailsByIds(uids);
 
-            await FirebaseService.set(`security/${uid}/collaboratorSecurityInfo`, {
-                collection: CourseModel.dataPath,
-                id: courseId
-            });
-            const emails = await UserModel.getEmailsByIds(uids);
+        context.action = {
+            type: 'SET_COURSE_COLLABORATOR_EMAILS',
+            emails,
+            uid,
+            courseId
+        };
 
-            context.action = {
-                type: 'SET_COURSE_COLLABORATOR_EMAILS',
-                emails,
-                uid,
-                courseId
-            };
-
-            const conceptIds = await CourseModel.getConceptIds(courseId);
-            conceptIds.forEach((conceptId) => {
-                loadConceptCollaboratorEmails(context, courseId, conceptId);
-            });
-        }
-        catch(error) {
-            throw error;
-        }
+        const conceptIds: string[] = await CourseModel.getConceptIds(courseId);
+        conceptIds.forEach((conceptId) => {
+            loadConceptCollaboratorEmails(context, courseId, conceptId);
+        });
+    } catch(error) {
+        throw error;
     }
+	}
 };
 
-const loadConceptCollaboratorEmails = async (context: any, courseId: string, conceptId: string) => {
+const loadConceptCollaboratorEmails = async (context: any, courseId: string, conceptId: string): Promise<void> => {
 
-    ExecuteAsyncInOrderService.execute(operation);
+	ExecuteAsyncInOrderService.execute(operation);
 
-    async function operation() {
-        try {
-            const user = await FirebaseService.getLoggedInUser();
+	async function operation(): Promise<void> {
+    try {
+        const user: any = await FirebaseService.getLoggedInUser();
+        const uids: string[] = await ConceptModel.getCollaboratorUids(conceptId);
+        await FirebaseService.set(`security/${user.uid}/collaboratorSecurityInfo`, {
+            collection: ConceptModel.dataPath,
+            id: conceptId
+        });
+        const emails: string[] = await UserModel.getEmailsByIds(uids);
 
-            const uids = await ConceptModel.getCollaboratorUids(conceptId);
+        context.action = {
+            type: 'SET_CONCEPT_COLLABORATOR_EMAILS',
+            emails,
+            courseId,
+            conceptId
+        };
 
-            await FirebaseService.set(`security/${user.uid}/collaboratorSecurityInfo`, {
-                collection: ConceptModel.dataPath,
-                id: conceptId
-            });
-            const emails = await UserModel.getEmailsByIds(uids);
+        const videoIds: string[] = await ConceptModel.getVideoIds(conceptId);
+        videoIds.forEach((videoId) => {
+            loadVideoCollaboratorEmails(context, conceptId, videoId);
+        });
 
-            context.action = {
-                type: 'SET_CONCEPT_COLLABORATOR_EMAILS',
-                emails,
-                courseId,
-                conceptId
-            };
-
-            const videoIds = await ConceptModel.getVideoIds(conceptId);
-            videoIds.forEach((videoId) => {
-                loadVideoCollaboratorEmails(context, conceptId, videoId);
-            });
-
-            const quizIds: string[] = await ConceptModel.getQuizIds(conceptId);
-            quizIds.forEach((quizId) => {
-                loadQuizCollaboratorEmails(context, conceptId, quizId);
-            });
-        }
-        catch(error) {
-            throw error;
-        }
+        const quizIds: string[] = await ConceptModel.getQuizIds(conceptId);
+        quizIds.forEach((quizId) => {
+            loadQuizCollaboratorEmails(context, conceptId, quizId);
+        });
+    } catch(error) {
+        throw error;
     }
+	}
 };
 
-const loadVideoCollaboratorEmails = async (context: any, conceptId: string, videoId: string) => {
+const loadVideoCollaboratorEmails = async (context: any, conceptId: string, videoId: string): Promise<void> => {
 
-    ExecuteAsyncInOrderService.execute(operation);
+	ExecuteAsyncInOrderService.execute(operation);
 
-    async function operation() {
-        try {
-            const user = await FirebaseService.getLoggedInUser();
+	async function operation(): Promise<void> {
+      try {
+          const user: any = await FirebaseService.getLoggedInUser();
+          const uids: string[] = await VideoModel.getCollaboratorUids(videoId);
+          await FirebaseService.set(`security/${user.uid}/collaboratorSecurityInfo`, {
+              collection: VideoModel.dataPath,
+              id: videoId
+          });
+          const emails: string[] = await UserModel.getEmailsByIds(uids);
 
-            const uids = await VideoModel.getCollaboratorUids(videoId);
-
-            await FirebaseService.set(`security/${user.uid}/collaboratorSecurityInfo`, {
-                collection: VideoModel.dataPath,
-                id: videoId
-            });
-            const emails = await UserModel.getEmailsByIds(uids);
-
-            context.action = {
-                type: 'SET_VIDEO_COLLABORATOR_EMAILS',
-                emails,
-                conceptId,
-                videoId
-            };
-        }
-        catch(error) {
-            throw error;
-        }
-    }
+          context.action = {
+              type: 'SET_VIDEO_COLLABORATOR_EMAILS',
+              emails,
+              conceptId,
+              videoId
+          };
+      } catch(error) {
+          throw error;
+      }
+		}
 };
 
-const loadQuizCollaboratorEmails = async (context: any, conceptId: string, quizId: string) => {
+const loadQuizCollaboratorEmails = async (context: any, conceptId: string, quizId: string): Promise<void> => {
 
-    ExecuteAsyncInOrderService.execute(operation);
+	ExecuteAsyncInOrderService.execute(operation);
 
-    async function operation() {
-        try {
-            const user = await FirebaseService.getLoggedInUser();
+	async function operation(): Promise<void> {
+    try {
+        const user: any = await FirebaseService.getLoggedInUser();
+        const uids: string[] = await QuizModel.getCollaboratorUids(quizId);
+        await FirebaseService.set(`security/${user.uid}/collaboratorSecurityInfo`, {
+            collection: QuizModel.dataPath,
+            id: quizId
+        });
+        const emails: string[] = await UserModel.getEmailsByIds(uids);
 
-            const uids = await QuizModel.getCollaboratorUids(quizId);
-
-            await FirebaseService.set(`security/${user.uid}/collaboratorSecurityInfo`, {
-                collection: QuizModel.dataPath,
-                id: quizId
-            });
-            const emails = await UserModel.getEmailsByIds(uids);
-
-            context.action = {
-                type: 'SET_QUIZ_COLLABORATOR_EMAILS',
-                emails,
-                conceptId,
-                quizId
-            };
-        }
-        catch(error) {
-            throw error;
-        }
+        context.action = {
+            type: 'SET_QUIZ_COLLABORATOR_EMAILS',
+            emails,
+            conceptId,
+            quizId
+        };
+    } catch(error) {
+        throw error;
     }
+	}
 };
 
-const addCourseCollaborator = async (context: any, courseId: string, email: string) => {
+const addCourseCollaborator = async (context: any, courseId: string, email: string): Promise<void> => {
+	ExecuteAsyncInOrderService.execute(operation);
 
-    ExecuteAsyncInOrderService.execute(operation);
-
-    async function operation() {
-        try {
-            const user = await FirebaseService.getLoggedInUser();
-
-            await FirebaseService.set(`security/${user.uid}/emailToUidSecurityInfo/encodedEmail`, btoa(email));
-            const uid = await EmailsToUidsModel.getUidByEmail(email);
-
-            if (!uid) {
-                throw 'The user does not exist';
-            }
-
-            await CourseModel.associateCollaborator(courseId, uid);
-            await UserModel.shareCourseWithMe(uid, courseId);
+	async function operation(): Promise<void> {
+    try {
+        const user: any = await FirebaseService.getLoggedInUser();
+        await FirebaseService.set(`security/${user.uid}/emailToUidSecurityInfo/encodedEmail`, btoa(email));
+        const uid: string = await EmailsToUidsModel.getUidByEmail(email);
+        if (!uid) {
+            throw 'The user does not exist';
         }
-        catch(error) {
-            throw error;
-        }
+        await CourseModel.associateCollaborator(courseId, uid);
+        await UserModel.shareCourseWithMe(uid, courseId);
+    } catch(error) {
+        throw error;
     }
+	}
 };
 
-const addConceptCollaborator = async (context: any, conceptId: string, email: string) => {
+const addConceptCollaborator = async (context: any, conceptId: string, email: string): Promise<void> => {
+	ExecuteAsyncInOrderService.execute(operation);
 
-    ExecuteAsyncInOrderService.execute(operation);
-
-    async function operation() {
-        try {
-            const user = await FirebaseService.getLoggedInUser();
-
-            await FirebaseService.set(`security/${user.uid}/emailToUidSecurityInfo/encodedEmail`, btoa(email));
-            const uid = await EmailsToUidsModel.getUidByEmail(email);
-
-            if (!uid) {
-                throw 'The user does not exist';
-            }
-
-            await ConceptModel.associateCollaborator(conceptId, uid);
-            await UserModel.shareConceptWithMe(uid, conceptId);
+	async function operation(): Promise<void> {
+    try {
+        const user: any = await FirebaseService.getLoggedInUser();
+        await FirebaseService.set(`security/${user.uid}/emailToUidSecurityInfo/encodedEmail`, btoa(email));
+        const uid: string = await EmailsToUidsModel.getUidByEmail(email);
+        if (!uid) {
+            throw 'The user does not exist';
         }
-        catch(error) {
-            throw error;
-        }
+        await ConceptModel.associateCollaborator(conceptId, uid);
+        await UserModel.shareConceptWithMe(uid, conceptId);
+    } catch(error) {
+        throw error;
     }
+	}
 };
 
-const addVideoCollaborator = async (context: any, videoId: string, email: string) => {
+const addVideoCollaborator = async (context: any, videoId: string, email: string): Promise<void> => {
+	ExecuteAsyncInOrderService.execute(operation);
 
-    ExecuteAsyncInOrderService.execute(operation);
-
-    async function operation() {
-        try {
-            const user = await FirebaseService.getLoggedInUser();
-
-            await FirebaseService.set(`security/${user.uid}/emailToUidSecurityInfo/encodedEmail`, btoa(email));
-            const uid = await EmailsToUidsModel.getUidByEmail(email);
-
-            if (!uid) {
-                throw 'The user does not exist';
-            }
-
-            await VideoModel.associateCollaborator(videoId, uid);
-            await UserModel.shareVideoWithMe(uid, videoId);
+	async function operation(): Promise<void> {
+    try {
+        const user: any = await FirebaseService.getLoggedInUser();
+        await FirebaseService.set(`security/${user.uid}/emailToUidSecurityInfo/encodedEmail`, btoa(email));
+        const uid: string = await EmailsToUidsModel.getUidByEmail(email);
+        if (!uid) {
+            throw 'The user does not exist';
         }
-        catch(error) {
-            throw error;
-        }
+        await VideoModel.associateCollaborator(videoId, uid);
+        await UserModel.shareVideoWithMe(uid, videoId);
+    } catch(error) {
+        throw error;
     }
+	}
 };
 
-const addQuizCollaborator = async (context: any, quizId: string, email: string) => {
+const addQuizCollaborator = async (context: any, quizId: string, email: string): Promise<void> => {
+	ExecuteAsyncInOrderService.execute(operation);
 
-    ExecuteAsyncInOrderService.execute(operation);
-
-    async function operation() {
-        try {
-            const user = await FirebaseService.getLoggedInUser();
-
-            await FirebaseService.set(`security/${user.uid}/emailToUidSecurityInfo/encodedEmail`, btoa(email));
-            const uid = await EmailsToUidsModel.getUidByEmail(email);
-
-            if (!uid) {
-                throw 'The user does not exist';
-            }
-
-            await QuizModel.associateCollaborator(quizId, uid);
-            await UserModel.shareQuizWithMe(uid, quizId);
+	async function operation(): Promise<void> {
+    try {
+        const user: any = await FirebaseService.getLoggedInUser();
+        await FirebaseService.set(`security/${user.uid}/emailToUidSecurityInfo/encodedEmail`, btoa(email));
+        const uid: string = await EmailsToUidsModel.getUidByEmail(email);
+        if (!uid) {
+            throw 'The user does not exist';
         }
-        catch(error) {
-            throw error;
-        }
+        await QuizModel.associateCollaborator(quizId, uid);
+        await UserModel.shareQuizWithMe(uid, quizId);
+    } catch(error) {
+        throw error;
     }
+	}
 };
 
-const removeCourseCollaborator = async (context: any, courseId: string, email: string) => {
+const removeCourseCollaborator = async (context: any, courseId: string, email: string): Promise<void> => {
+	ExecuteAsyncInOrderService.execute(operation);
 
-    ExecuteAsyncInOrderService.execute(operation);
-
-    async function operation() {
-        try {
-            const user = await FirebaseService.getLoggedInUser();
-
-            await FirebaseService.set(`security/${user.uid}/emailToUidSecurityInfo/encodedEmail`, btoa(email));
-            const uid = await EmailsToUidsModel.getUidByEmail(email);
-
-            if (!uid) {
-                throw 'The user does not exist';
-            }
-
-            await CourseModel.disassociateCollaborator(courseId, uid);
-            await UserModel.unshareCourseWithMe(uid, courseId);
+	async function operation(): Promise<void> {
+    try {
+        const user: any = await FirebaseService.getLoggedInUser();
+        await FirebaseService.set(`security/${user.uid}/emailToUidSecurityInfo/encodedEmail`, btoa(email));
+        const uid: string = await EmailsToUidsModel.getUidByEmail(email);
+        if (!uid) {
+            throw 'The user does not exist';
         }
-        catch(error) {
-            throw error;
-        }
+        await CourseModel.disassociateCollaborator(courseId, uid);
+        await UserModel.unshareCourseWithMe(uid, courseId);
+    } catch(error) {
+        throw error;
     }
+	}
 };
 
-const removeConceptCollaborator = async (context: any, conceptId: string, email: string) => {
+const removeConceptCollaborator = async (context: any, conceptId: string, email: string): Promise<void> => {
+	ExecuteAsyncInOrderService.execute(operation);
 
-    ExecuteAsyncInOrderService.execute(operation);
-
-    async function operation() {
-        try {
-            const user = await FirebaseService.getLoggedInUser();
-
-            await FirebaseService.set(`security/${user.uid}/emailToUidSecurityInfo/encodedEmail`, btoa(email));
-            const uid = await EmailsToUidsModel.getUidByEmail(email);
-
-            if (!uid) {
-                throw 'The user does not exist';
-            }
-
-            await ConceptModel.disassociateCollaborator(conceptId, uid);
+	async function operation(): Promise<void> {
+    try {
+        const user: any = await FirebaseService.getLoggedInUser();
+        await FirebaseService.set(`security/${user.uid}/emailToUidSecurityInfo/encodedEmail`, btoa(email));
+        const uid: string = await EmailsToUidsModel.getUidByEmail(email);
+        if (!uid) {
+            throw 'The user does not exist';
         }
-        catch(error) {
-            throw error;
-        }
+        await ConceptModel.disassociateCollaborator(conceptId, uid);
+    } catch(error) {
+        throw error;
     }
+	}
 };
 
-const removeVideoCollaborator = async (context: any, videoId: string, email: string) => {
+const removeVideoCollaborator = async (context: any, videoId: string, email: string): Promise<void> => {
+	ExecuteAsyncInOrderService.execute(operation);
 
-    ExecuteAsyncInOrderService.execute(operation);
-
-    async function operation() {
-        try {
-            const user = await FirebaseService.getLoggedInUser();
-
-            await FirebaseService.set(`security/${user.uid}/emailToUidSecurityInfo/encodedEmail`, btoa(email));
-            const uid = await EmailsToUidsModel.getUidByEmail(email);
-
-            if (!uid) {
-                throw 'The user does not exist';
-            }
-
-            await VideoModel.disassociateCollaborator(videoId, uid);
+	async function operation(): Promise<void> {
+    try {
+        const user: any = await FirebaseService.getLoggedInUser();
+        await FirebaseService.set(`security/${user.uid}/emailToUidSecurityInfo/encodedEmail`, btoa(email));
+        const uid: string = await EmailsToUidsModel.getUidByEmail(email);
+        if (!uid) {
+            throw 'The user does not exist';
         }
-        catch(error) {
-            throw error;
-        }
+        await VideoModel.disassociateCollaborator(videoId, uid);
+    } catch(error) {
+        throw error;
     }
+	}
 };
 
-const removeQuizCollaborator = async (context: any, quizId: string, email: string) => {
+const removeQuizCollaborator = async (context: any, quizId: string, email: string): Promise<void> => {
+	ExecuteAsyncInOrderService.execute(operation);
 
-    ExecuteAsyncInOrderService.execute(operation);
-
-    async function operation() {
-        try {
-            const user = await FirebaseService.getLoggedInUser();
-
-            await FirebaseService.set(`security/${user.uid}/emailToUidSecurityInfo/encodedEmail`, btoa(email));
-            const uid = await EmailsToUidsModel.getUidByEmail(email);
-
-            if (!uid) {
-                throw 'The user does not exist';
-            }
-
-            await QuizModel.disassociateCollaborator(quizId, uid);
+	async function operation(): Promise<void> {
+    try {
+        const user: any = await FirebaseService.getLoggedInUser();
+        await FirebaseService.set(`security/${user.uid}/emailToUidSecurityInfo/encodedEmail`, btoa(email));
+        const uid: string = await EmailsToUidsModel.getUidByEmail(email);
+        if (!uid) {
+            throw 'The user does not exist';
         }
-        catch(error) {
-            throw error;
-        }
+        await QuizModel.disassociateCollaborator(quizId, uid);
+    } catch(error) {
+        throw error;
     }
+	}
 };
 
-const starCourse = async (context: any, courseId: string) => {
-    const user = await FirebaseService.getLoggedInUser();
-
+const starCourse = async (context: any, courseId: string): Promise<void> => {
+    const user: any = await FirebaseService.getLoggedInUser();
     await CourseModel.associateUserStar(courseId, user.uid);
     await UserModel.starCourse(user.uid, courseId);
 
@@ -366,9 +316,8 @@ const starCourse = async (context: any, courseId: string) => {
     };
 };
 
-const unstarCourse = async (context: any, courseId: string) => {
-    const user = await FirebaseService.getLoggedInUser();
-
+const unstarCourse = async (context: any, courseId: string): Promise<void> => {
+    const user: any = await FirebaseService.getLoggedInUser();
     await CourseModel.disassociateUserStar(courseId, user.uid);
     await UserModel.unstarCourse(user.uid, courseId);
 
@@ -377,14 +326,14 @@ const unstarCourse = async (context: any, courseId: string) => {
     };
 };
 
-const getQuiz = async (quizId: string) => {
-    const quiz = await QuizModel.getById(quizId);
+const getQuiz = async (quizId: string): Promise<Quiz> => {
+    const quiz: Quiz = await QuizModel.getById(quizId);
 
     return quiz;
 };
 
-const createNewQuiz = async (context: any, conceptId: string) => {
-    const user = await FirebaseService.getLoggedInUser();
+const createNewQuiz = async (context: any, conceptId: string): Promise<string> => {
+    const user: any = await FirebaseService.getLoggedInUser();
     const uid: string = user.uid;
     // TODO: Create public courses and enforce payment before creation of a private course
     const quizId: string = await QuizModel.createOrUpdate(null, {
@@ -394,7 +343,7 @@ const createNewQuiz = async (context: any, conceptId: string) => {
         visibility: 'public',
         quizQuestionSettings: {
             answerFeedback: true,
-            showAnswer: true,
+            showAnswer: false,
             showHint: true,
             showCode: true,
             graded: false,
@@ -406,14 +355,14 @@ const createNewQuiz = async (context: any, conceptId: string) => {
     });
     await ConceptModel.associateQuiz(conceptId, quizId);
 
-    const conceptCollaboratorUids = await ConceptModel.getCollaboratorUids(conceptId);
+    const conceptCollaboratorUids: string[] = await ConceptModel.getCollaboratorUids(conceptId);
     await QuizModel.associateCollaborators(quizId, conceptCollaboratorUids);
 
     return quizId;
 };
 
-const deleteQuiz = async (context: any, conceptId: string, quiz: Quiz) => {
-    const user: User = await FirebaseService.getLoggedInUser();
+const deleteQuiz = async (context: any, conceptId: string, quiz: Quiz): Promise<void> => {
+    const user: any = await FirebaseService.getLoggedInUser();
     const concept: Concept = await ConceptModel.getById(conceptId);
     const quizIds: string[] = await ConceptModel.getQuizIds(conceptId);
     const quizzes: Quiz[] = await QuizModel.filterQuizzesByCollaborator(quizIds, concept.uid, user.uid);
@@ -427,9 +376,9 @@ const deleteQuiz = async (context: any, conceptId: string, quiz: Quiz) => {
     await QuizModel.deleteQuiz(quiz.id);
 }
 
-const loadEditConceptQuizzes = async (context: any, conceptId: string) => {
-    const user = await FirebaseService.getLoggedInUser();
-    const concept = await ConceptModel.getById(conceptId);
+const loadEditConceptQuizzes = async (context: any, conceptId: string): Promise<void> => {
+    const user: any = await FirebaseService.getLoggedInUser();
+    const concept: Concept = await ConceptModel.getById(conceptId);
 
     const quizIds: string[] = await ConceptModel.getQuizIds(conceptId);
     const quizzes: Quiz[] = await QuizModel.filterQuizzesByCollaborator(quizIds, concept.uid, user.uid);
@@ -441,7 +390,7 @@ const loadEditConceptQuizzes = async (context: any, conceptId: string) => {
     };
 };
 
-const loadViewConceptQuizzes = async (context: any, conceptId: string) => {
+const loadViewConceptQuizzes = async (context: any, conceptId: string): Promise<void> => {
     const quizIds: string[] = await ConceptModel.getQuizIds(conceptId);
     const quizzes: Quiz[] = await QuizModel.resolveQuizIds(quizIds);
 
@@ -452,14 +401,14 @@ const loadViewConceptQuizzes = async (context: any, conceptId: string) => {
     };
 };
 
-const setCurrentEditQuizId = (context: any, quizId: string) => {
+const setCurrentEditQuizId = (context: any, quizId: string): void => {
     context.action = {
         type: 'SET_CURRENT_EDIT_QUIZ_ID',
         quizId
     };
 };
 
-const loadQuizQuestionSettings = async (context: any, quizId: string) => {
+const loadQuizQuestionSettings = async (context: any, quizId: string): Promise<void> => {
     const quizQuestionSettings: QuestionSettings = await QuizModel.getQuizQuestionSettings(quizId);
 
     context.action = {
@@ -468,7 +417,7 @@ const loadQuizQuestionSettings = async (context: any, quizId: string) => {
     };
 };
 
-const setQuizQuestionSetting = async (context: any, quizId: string, settingName: string, value: number | boolean | string) => {
+const setQuizQuestionSetting = async (context: any, quizId: string, settingName: string, value: number | boolean | string): Promise<void> => {
   try {
     await QuizModel.setQuizQuestionSetting(quizId, settingName, value);
     const quizQuestionSettings: QuestionSettings = await QuizModel.getQuizQuestionSettings(quizId);
@@ -482,7 +431,7 @@ const setQuizQuestionSetting = async (context: any, quizId: string, settingName:
 
 };
 
-const setQuestionSetting = async (context: any, quizId: string, questionId: string, settingName: string, value: number | boolean) => {
+const setQuestionSetting = async (context: any, quizId: string, questionId: string, settingName: string, value: number | boolean | QuizVisibility): Promise<void> => {
   try {
     await QuizModel.setQuestionSetting(quizId, questionId, settingName, value);
   } catch(error) {
@@ -490,63 +439,114 @@ const setQuestionSetting = async (context: any, quizId: string, questionId: stri
   }
 };
 
-const loadQuizQuestionIds = async (context: any, quizId: string) => {
-    const quizQuestionIds = await QuizModel.getQuestionIds(quizId);
+const loadQuizQuestionIds = async (context: any, quizId: string): Promise<void> => {
+    const quizQuestionIds: string[] = await QuizModel.getQuestionIds(quizId);
 
-    context.action = {
-        type: 'LOAD_QUIZ_QUESTION_IDS',
-        quizQuestionIds
-    };
+		context.action = {
+			type: 'LOAD_QUIZ_QUESTION_IDS',
+			quizQuestionIds
+		};
+
+		// TODO: add this back in once we iron out the bugs
+		// streamId(quizQuestionIds, 0);
+		//
+		// function streamId(ids: string[], index: number) {
+		// 	setTimeout(() => {
+		// 		if (index === ids.length - 1) {
+		// 			return;
+		// 		}
+		//
+		// 		context.action = {
+		// 			type: 'LOAD_QUIZ_QUESTION_IDS',
+		// 			quizQuestionIds: ids.slice(0, index)
+		// 		};
+		//
+		// 		streamId(ids, index + 1);
+		// 	});
+		// }
 };
 
-const addQuestionToQuiz = async (context: any, quizId: string, questionId: string) => {
+const addQuestionToQuiz = async (context: any, quizId: string, questionId: string): Promise<void> => {
     await QuizModel.associateQuestion(quizId, questionId);
 };
 
-const removeQuestionFromQuiz = async (context: any, quizId: string, questionId: string) => {
+const removeQuestionFromQuiz = async (context: any, quizId: string, questionId: string): Promise<void> => {
     await QuizModel.disassociateQuestion(quizId, questionId);
 };
 
-const loadUserQuestionIds = async (context: any, getUserQuestionIdsAjax: any) => {
-    const request = getUserQuestionIdsAjax.generateRequest();
+const loadUserQuestionIds = async (context: any, getUserQuestionIdsAjax: any): Promise<void> => {
+    const request: any = getUserQuestionIdsAjax.generateRequest();
     await request.completes;
+    const userQuestionIds: string[] = request.response.questionIds;
 
-    const userQuestionIds = request.response.questionIds;
+		context.action = {
+			type: 'LOAD_USER_QUESTION_IDS',
+			userQuestionIds
+		};
 
-    context.action = {
-        type: 'LOAD_USER_QUESTION_IDS',
-        userQuestionIds
-    };
+		// TODO: add this back in once we iron out the bugs
+		//
+		// streamId(userQuestionIds, 0);
+		//
+		// function streamId(ids: string[], index: number) {
+		// 	setTimeout(() => {
+		// 		if (index === ids.length - 1) {
+		// 			return;
+		// 		}
+		//
+		// 		context.action = {
+		// 			type: 'LOAD_USER_QUESTION_IDS',
+		// 			userQuestionIds: ids.slice(0, index)
+		// 		};
+		//
+		// 		streamId(ids, index + 1);
+		// 	});
+		// }
 };
 
-const loadPublicQuestionIds = async (context: any, getPublicQuestionIdsAjax: any) => {
-    const request = getPublicQuestionIdsAjax.generateRequest();
+const loadPublicQuestionIds = async (context: any, getPublicQuestionIdsAjax: any): Promise<void> => {
+    const request: any = getPublicQuestionIdsAjax.generateRequest();
     await request.completes;
+    const publicQuestionIds: string[] = request.response.questionIds;
 
-    const publicQuestionIds = request.response.questionIds;
+		context.action = {
+			type: 'LOAD_PUBLIC_QUESTION_IDS',
+			publicQuestionIds
+		};
 
-    context.action = {
-        type: 'LOAD_PUBLIC_QUESTION_IDS',
-        publicQuestionIds
-    };
+		// TODO: add this back in once we iron out the bugs
+		// streamId(publicQuestionIds, 0);
+		//
+		// function streamId(ids: string[], index: number) {
+		// 	setTimeout(() => {
+		// 		if (index === ids.length - 1) {
+		// 			return;
+		// 		}
+		//
+		// 		context.action = {
+		// 			type: 'LOAD_PUBLIC_QUESTION_IDS',
+		// 			publicQuestionIds: ids.slice(0, index)
+		// 		};
+		//
+		// 		streamId(ids, index + 1);
+		// 	});
+		// }
 };
 
-const deleteVideo = async (context: any, conceptId: string, videoId: string) => {
+const deleteVideo = async (context: any, conceptId: string, videoId: string): Promise<void> => {
     try {
         await ConceptModel.disassociateVideo(conceptId, videoId);
-    }
-    catch(error) {
+    } catch(error) {
         throw error;
     }
 };
 
-const saveVideo = async (context: any, conceptId: string, videoId: string, video: Video) => {
+const saveVideo = async (context: any, conceptId: string, videoId: string, video: Video): Promise<void> => {
     try {
-        const newId = await VideoModel.createOrUpdate(videoId, video);
+        const newId: string = await VideoModel.createOrUpdate(videoId, video);
         await ConceptModel.associateVideo(conceptId, newId);
-
         if (!videoId) {
-            const conceptCollaboratorUids = await ConceptModel.getCollaboratorUids(conceptId);
+            const conceptCollaboratorUids: string[] = await ConceptModel.getCollaboratorUids(conceptId);
             await VideoModel.associateCollaborators(newId, conceptCollaboratorUids);
         }
 
@@ -554,13 +554,12 @@ const saveVideo = async (context: any, conceptId: string, videoId: string, video
             type: 'SET_CURRENT_VIDEO_ID',
             id: newId
         };
-    }
-    catch(error) {
+    } catch(error) {
         throw error;
     }
 };
 
-const setCurrentVideoInfo = (context: any, id: string, title: string, url: string) => {
+const setCurrentVideoInfo = (context: any, id: string, title: string, url: string): void => {
     context.action = {
         type: 'SET_CURRENT_VIDEO_INFO',
         id,
@@ -569,62 +568,57 @@ const setCurrentVideoInfo = (context: any, id: string, title: string, url: strin
     };
 };
 
-const clearCurrentVideoInfo = (context: any) => {
+const clearCurrentVideoInfo = (context: any): void => {
     context.action = {
         type: 'CLEAR_CURRENT_VIDEO_INFO'
     };
 };
 
-const loadEditConceptVideos = async (context: any, conceptId: string) => {
+const loadEditConceptVideos = async (context: any, conceptId: string): Promise<void> => {
     try {
-        const user = await FirebaseService.getLoggedInUser();
-        const concept = await ConceptModel.getById(conceptId);
-
-        const videoIds = await ConceptModel.getVideoIds(conceptId);
-        const videos = await VideoModel.filterVideosByCollaborator(videoIds, concept.uid, user.uid);
+        const user: any = await FirebaseService.getLoggedInUser();
+        const concept: Concept = await ConceptModel.getById(conceptId);
+        const videoIds: string[] = await ConceptModel.getVideoIds(conceptId);
+        const videos: Video[] = await VideoModel.filterVideosByCollaborator(videoIds, concept.uid, user.uid);
 
         context.action = {
             type: 'LOAD_EDIT_CONCEPT_VIDEOS',
             videos,
             conceptId
         };
-    }
-    catch(error) {
+    } catch(error) {
         throw error;
     }
 };
 
-const loadViewConceptVideos = async (context: any, conceptId: string) => {
+const loadViewConceptVideos = async (context: any, conceptId: string): Promise<void> => {
     try {
-        const videoIds = await ConceptModel.getVideoIds(conceptId);
-        const videos = await VideoModel.resolveVideoIds(videoIds);
+        const videoIds: string[] = await ConceptModel.getVideoIds(conceptId);
+        const videos: Video[] = await VideoModel.resolveVideoIds(videoIds);
 
         context.action = {
             type: 'LOAD_VIEW_CONCEPT_VIDEOS',
             videos,
             conceptId
         };
-    }
-    catch(error) {
+    } catch(error) {
         throw error;
     }
 };
 
-const loadEditCourseConcepts = async (context: any, courseId: string) => {
+const loadEditCourseConcepts = async (context: any, courseId: string): Promise<void> => {
     try {
-        const user = await FirebaseService.getLoggedInUser();
+        const user: any = await FirebaseService.getLoggedInUser();
+        const course: Course = await CourseModel.getById(courseId);
+        const conceptDatasObject: { [conceptId: string]: CourseConceptData } = course.concepts;
+        const concepts: CourseConceptData[] = await ConceptModel.filterConceptDatasByCollaborator(conceptDatasObject, course.uid, user.uid);
 
-        const course = await CourseModel.getById(courseId);
-        const conceptDatasObject = course.concepts;
-
-        const concepts = await ConceptModel.filterConceptDatasByCollaborator(conceptDatasObject, course.uid, user.uid);
         context.action = {
             type: 'LOAD_EDIT_COURSE_CONCEPTS',
             concepts,
             courseId
         };
-    }
-    catch(error) {
+    } catch(error) {
         throw error;
     }
 };
@@ -634,6 +628,7 @@ const loadViewCourseConcepts = async (context: any, courseId: string): Promise<v
         const course: Course = await CourseModel.getById(courseId);
         const conceptsArray: CourseConceptData[] = await CourseModel.courseConceptsToArray(course);
         const orderedConcepts: CourseConceptData[] = await CourseModel.orderCourseConcepts(conceptsArray);
+
         context.action = {
             type: 'LOAD_VIEW_COURSE_CONCEPTS',
             orderedConcepts,
@@ -644,10 +639,10 @@ const loadViewCourseConcepts = async (context: any, courseId: string): Promise<v
     }
 };
 
-const createUser = async (context: any, data: UserMetaData, password: string) => {
+const createUser = async (context: any, data: UserMetaData, password: string): Promise<void> => {
     try {
         await FirebaseService.createUserWithEmailAndPassword(data.email, password);
-        const loggedInUser = await FirebaseService.logInUserWithEmailAndPassword(data.email, password);
+        const loggedInUser: any = await FirebaseService.logInUserWithEmailAndPassword(data.email, password);
         UserModel.sendConfirmationEmail(loggedInUser);
         UserModel.updateMetaData(loggedInUser.uid, data);
         EmailsToUidsModel.setUidByEmail(data.email, loggedInUser.uid);
@@ -656,7 +651,8 @@ const createUser = async (context: any, data: UserMetaData, password: string) =>
         throw error;
     }
 };
-const loginUser = async (context: any, email: string, password: string) => {
+
+const loginUser = async (context: any, email: string, password: string): Promise<void> => {
       try {
         await UserModel.loginUser(email, password);
         checkUserAuth(context);
@@ -665,75 +661,73 @@ const loginUser = async (context: any, email: string, password: string) => {
       }
 };
 
-const updateUserEmail = async (context: any, pastEmail: string, password: string, newEmail: string) => {
+const updateUserEmail = async (context: any, pastEmail: string, password: string, newEmail: string): Promise<void> => {
   try{
-    const loggedInUser = await FirebaseService.logInUserWithEmailAndPassword(pastEmail, password);
+    const loggedInUser: any = await FirebaseService.logInUserWithEmailAndPassword(pastEmail, password);
     await UserModel.updateFirebaseUser(loggedInUser, newEmail);
     await EmailsToUidsModel.deleteUidToEmail(pastEmail);
     EmailsToUidsModel.setUidByEmail(newEmail, loggedInUser.uid);
 
-  }catch(error){
+  } catch(error) {
     throw error;
   }
 };
 
-const updateUserMetaData = async (context: any, uid: string, metaData: UserMetaData) => {
+const updateUserMetaData = async (context: any, uid: string, metaData: UserMetaData): Promise<void> => {
   try{
     await UserModel.updateMetaData(uid, metaData);
     context.action = {
       type: 'UPDATE_USER_META_DATA',
       userMetaData: metaData,
     };
-  }catch(error){
+  } catch(error) {
     throw error;
   }
 };
-const checkUserAuth = async (context: any) => {
+
+const checkUserAuth = async (context: any): Promise<void> => {
   try {
-    const loggedInUser = await FirebaseService.getLoggedInUser();
+    const loggedInUser: any  = await FirebaseService.getLoggedInUser();
     if(loggedInUser){
       let user = await UserModel.getById(loggedInUser.uid);
       user.metaData.uid = loggedInUser.uid; //OK because its being created here.
-      const jwt = await loggedInUser.getToken();
+      const jwt: string = await loggedInUser.getToken();
       context.action = {
         type: 'CHECK_USER_AUTH',
         user,
         jwt
       };
     }
-  }catch(error){
+  } catch(error) {
     throw error;
   }
 };
-const addConcept = async (context: any, courseId: string, newConcept: Concept, conceptPos: number, tags: string[]) => {
+
+const addConcept = async (context: any, courseId: string, newConcept: Concept, conceptPos: number, tags: string[]): Promise<void> => {
     try {
-      const conceptId = await ConceptModel.createOrUpdate(null, newConcept);
+      const conceptId: string = await ConceptModel.createOrUpdate(null, newConcept);
       if(tags) {
         await UtilitiesService.asyncForEach(tags, async (tag: string) => {
             await addTagToConcept(null, tag, conceptId);
         });
       }
-
       await CourseModel.associateConcept(courseId, conceptId, conceptPos);
-      const course = await CourseModel.getById(courseId);
-      const conceptsArray = await CourseModel.courseConceptsToArray(course);
-      const orderedConcepts = await CourseModel.orderCourseConcepts(conceptsArray);
-      course.concepts = orderedConcepts;
+
       context.action = {
-          type: 'ADD_CONCEPT',  //same as get course by id
-          currentCourse: course
+          type: 'ADD_CONCEPT'  //same as get course by id
       };
 
-      const courseCollaboratorUids = await CourseModel.getCollaboratorUids(courseId);
+      const courseCollaboratorUids: string[] = await CourseModel.getCollaboratorUids(courseId);
       await ConceptModel.associateCollaborators(conceptId, courseCollaboratorUids);
     } catch(error) {
       throw error;
     }
 };
-const addTagToConcept = async (context: any, tag: string, conceptId: string) => {
+
+const addTagToConcept = async (context: any, tag: string, conceptId: string): Promise<void> => {
     try {
-        const tagId = await TagModel.createOrUpdate(tag, null, conceptId, null);
-        const concept = await ConceptModel.addTag(tagId, conceptId);
+        const tagId: string = await TagModel.createOrUpdate(tag, null, conceptId, null);
+        const concept: Concept = await ConceptModel.addTag(tagId, conceptId);
         if(context) {
             context.action = {
                 type: 'ADD_TAG_EDIT_CONCEPT',
@@ -745,7 +739,7 @@ const addTagToConcept = async (context: any, tag: string, conceptId: string) => 
     }
 };
 
-const updateConceptTags = async (conceptId: string, newTags: string[]) => {
+const updateConceptTags = async (conceptId: string, newTags: string[]): Promise<void> => {
     try {
         const concept: Concept = await ConceptModel.getById(conceptId);
         const oldTagIds: string[] = concept.tags ? Object.keys(concept.tags || {}) : null;
@@ -757,8 +751,9 @@ const updateConceptTags = async (conceptId: string, newTags: string[]) => {
         throw error;
     }
 };
+
 // Updates the title of a concept given a string conceptId and a new string title
-const updateConceptTitle = async (conceptId: string, title: string) => {
+const updateConceptTitle = async (conceptId: string, title: string): Promise<void> => {
     try {
         ConceptModel.updateTitle(conceptId, title);
     } catch(error) {
@@ -780,9 +775,10 @@ const getConceptAndTagNamesById = async (id: string): Promise<{ concept: Concept
         throw error;
     }
 };
-const getConceptById = async (context: any, id: string) => {
+
+const getConceptById = async (context: any, id: string): Promise<Concept> => {
     try {
-      const concept = await ConceptModel.getById(id);
+      const concept: Concept = await ConceptModel.getById(id);
       if(context) {
           context.action = {
             type: 'GET_CONCEPT_BY_ID',
@@ -796,7 +792,7 @@ const getConceptById = async (context: any, id: string) => {
     }
 };
 
-//TODO: @jordan should this be an action of in the TagModel?
+// TODO: @jordan should this be an action of in the TagModel?
 const resolveTagIdObject = async (tags: {[tagId: string]: string}): Promise<Tag[]> => {
   try {
     const tagsAsStringArray: string[] = Object.keys(tags || {});
@@ -807,11 +803,11 @@ const resolveTagIdObject = async (tags: {[tagId: string]: string}): Promise<Tag[
   }
 }
 
-const addCourse = async (context: any, newCourse: Course, tags: string[]) => {
+const addCourse = async (context: any, newCourse: Course, tags: string[]): Promise<void> => {
     try {
-      const user = await FirebaseService.getLoggedInUser();
+      const user: any = await FirebaseService.getLoggedInUser();
 
-      const courseId = await CourseModel.createOrUpdate(null, newCourse);
+      const courseId: string = await CourseModel.createOrUpdate(null, newCourse);
       if(tags) {
         await UtilitiesService.asyncForEach(tags, async (tag: string) => {
             await addTagToCourse(null, tag, courseId);
@@ -819,24 +815,25 @@ const addCourse = async (context: any, newCourse: Course, tags: string[]) => {
       }
       await addCourseCollaborator(context, courseId, user.email);
 
-      const tempCourses = await CourseModel.getCoursesByUser(newCourse.uid);
-      const courses = await CourseModel.resolveCourseArrayTagIds(tempCourses);
+      const tempCourses: Course[] = await CourseModel.getCoursesByUser(newCourse.uid);
+      const courses: Course[] = await CourseModel.resolveCourseArrayTagIds(tempCourses);
       context.action = {
           type: 'ADD_COURSE',
           courses
       };
-    } catch(error){
+    } catch(error) {
       throw error;
     }
 };
-const deleteCourse = async (context: any, course: Course) => {
+
+const deleteCourse = async (context: any, course: Course): Promise<void> => {
   try {
     // remove associations of all collaborators
     for(const key in course.collaborators) {
       await UserModel.unshareCourseWithMe(course.collaborators[key], course.id);
     }
     // remove tag associations
-    await CourseModel.disassociateTags(course.id, course.tags);
+    // await CourseModel.disassociateTags(course.id, course.tags);
     // delete actual course
     await CourseModel.deleteCourse(course.id);
     // refresh the view in the GUI
@@ -850,13 +847,14 @@ const deleteCourse = async (context: any, course: Course) => {
     throw error;
   }
 }
-const deleteTagFromCourse = async (context: any, tag: Tag, courseId: string) => {
+
+const deleteTagFromCourse = async (context: any, tag: Tag, courseId: string): Promise<void> => {
     try {
-        const tagId = tag.id;
+        const tagId: string = tag.id;
         await CourseModel.removeTag(tagId, courseId);
         await TagModel.removeCourse(tagId, courseId);
-        const currentCourse = await CourseModel.getById(courseId);
-        const courseTagNames : string[] = currentCourse.tags ? await TagModel.getTagNameArray(currentCourse.tags) : [];
+        const currentCourse: Course = await CourseModel.getById(courseId);
+        const courseTagNames: string[] = currentCourse.tags ? await TagModel.getTagNameArray(currentCourse.tags) : [];
         context.action = {
             type: 'DELETE_TAG_EDIT_COURSE',
             currentCourse,
@@ -869,11 +867,12 @@ const deleteTagFromCourse = async (context: any, tag: Tag, courseId: string) => 
         throw error;
     }
 };
-const addTagToCourse = async (context: any, tag: string, courseId: string) => {
+
+const addTagToCourse = async (context: any, tag: string, courseId: string): Promise<void> => {
     try {
-        const tagId = await TagModel.createOrUpdate(tag, courseId, null, null);
-        const currentCourse = await CourseModel.addTag(tagId, courseId);
-        const courseTagNames : string[] = currentCourse.tags ? await TagModel.getTagNameArray(currentCourse.tags) : [];
+        const tagId: string = await TagModel.createOrUpdate(tag, courseId, null, null);
+        const currentCourse: Course = await CourseModel.addTag(tagId, courseId);
+        const courseTagNames: string[] = currentCourse.tags ? await TagModel.getTagNameArray(currentCourse.tags) : [];
         if(context) {
             context.action = {
                 type: 'ADD_TAG_EDIT_COURSE',
@@ -885,7 +884,8 @@ const addTagToCourse = async (context: any, tag: string, courseId: string) => {
         throw error;
     }
 };
-const lookupConceptTags = async (context: any, tags: string[]) => {
+
+const lookupConceptTags = async (context: any, tags: string[]): Promise<void> => {
     try {
         const tagObjects : Tag[] = await TagModel.getByNames(tags);
         const conceptsArray : Concept[] = await TagModel.getConceptsInTags(tagObjects);
@@ -902,7 +902,8 @@ const lookupConceptTags = async (context: any, tags: string[]) => {
         throw error;
     }
 };
-const lookupCourseTags = async (context: any, tag: string) => {
+
+const lookupCourseTags = async (context: any, tag: string): Promise<void> => {
     try {
         const tagObject: Tag = await TagModel.getByName(tag);
         // TODO: this will change with infinite scrolling.
@@ -922,54 +923,53 @@ const lookupCourseTags = async (context: any, tag: string) => {
     }
 
 };
-const getCoursesByUser = async (context: any) => {
+
+const getCoursesByUser = async (context: any): Promise<void> => {
     try {
-      const loggedInUser = await FirebaseService.getLoggedInUser(); //not sure if this is the best way to do this. The user isn't set in the ready, and this is the only way to ensure that its set?
-      if(loggedInUser){
-        const tempCourses = await CourseModel.getCoursesByUser(loggedInUser.uid);
-        const courses = await CourseModel.resolveCourseArrayTagIds(tempCourses);
+      const loggedInUser: any  = await FirebaseService.getLoggedInUser(); //not sure if this is the best way to do this. The user isn't set in the ready, and this is the only way to ensure that its set?
+      if(loggedInUser) {
+        const courses: Course[] = await CourseModel.getCoursesByUser(loggedInUser.uid);
+        // const courses: Course[] = await CourseModel.resolveCourseArrayTagIds(tempCourses);
         context.action = {
             type: 'GET_COURSES_BY_USER',
             courses
         };
       }
-    }catch(error){
+    } catch(error) {
       throw error;
     }
 };
 
-const getStarredCoursesByUser = async (context: any, uid: string) => {
+const getStarredCoursesByUser = async (context: any, uid: string): Promise<void> => {
     try {
-        const courseIds = await UserModel.getStarredCoursesIds(uid);
-        const courses = await CourseModel.resolveCourseIds(courseIds);
+        const courseIds: string[] = await UserModel.getStarredCoursesIds(uid);
+        const courses: Course[] = await CourseModel.resolveCourseIds(courseIds);
         context.action = {
             type: 'SET_STARRED_COURSES',
             courses
         };
-    }
-    catch(error) {
+    } catch(error) {
         throw error;
     }
 };
 
-const getSharedCoursesByUser = async (context: any, uid: string) => {
+const getSharedCoursesByUser = async (context: any, uid: string): Promise<void> => {
     try {
-        const courseIds = await UserModel.getSharedWithMeCoursesIds(uid);
-        const courses = await CourseModel.resolveCourseIds(courseIds);
+        const courseIds: string[] = await UserModel.getSharedWithMeCoursesIds(uid);
+        const courses: Course[] = await CourseModel.resolveCourseIds(courseIds);
         context.action = {
             type: 'SET_SHARED_COURSES',
             courses
         };
-    }
-    catch(error) {
+    } catch(error) {
         throw error;
     }
 };
 
 const getCoursesByVisibility = async (context: any, visibility: CourseVisibility, limit: number): Promise<Course[]> => {
     try {
-      const tempCourses: Course[] = await CourseModel.getAllByVisibility(visibility, limit);
-      const courses: Course[] = await CourseModel.resolveCourseArrayTagIds(tempCourses);
+      const courses: Course[] = await CourseModel.getAllByVisibility(visibility, limit);
+      // const courses: Course[] = await CourseModel.resolveCourseArrayTagIds(tempCourses);
       context.action = {
           type: 'SET_COURSES_BY_VISIBILITY',
           visibility,
@@ -983,15 +983,14 @@ const getCoursesByVisibility = async (context: any, visibility: CourseVisibility
 
 const getCourseViewCourseById = async (context: any, id: string): Promise<void> => {
     try {
-      const currentCourse = await CourseModel.getById(id);
+      const currentCourse: Course = await CourseModel.getById(id);
       const courseTagNames: string[] = currentCourse.tags ? await TagModel.getTagNameArray(currentCourse.tags) : [];
       context.action = {
           type: 'SET_COURSE_VIEW_CURRENT_COURSE',
           currentCourse,
           courseTagNames
       };
-    }
-    catch(error){
+    } catch(error){
       throw error;
     }
 };
@@ -1009,7 +1008,7 @@ const deleteConcept = async (context: any, courseId: string, conceptId: string):
       }
 };
 
-const orderConcepts = async (context: any, id: string, courseConceptsArray: CourseConceptData[]) => {
+const orderConcepts = async (context: any, id: string, courseConceptsArray: CourseConceptData[]): Promise<void> => {
   try {
     await CourseModel.updateCourseConcepts(id, courseConceptsArray);
   } catch(error){
@@ -1017,20 +1016,20 @@ const orderConcepts = async (context: any, id: string, courseConceptsArray: Cour
   }
 };
 
-const updateCourseField = async (context: any, id: string, field: string, value: string | number) => {
+const updateCourseField = async (context: any, id: string, field: string, value: string | number): Promise<void> => {
     try{
       await CourseModel.updateCourseField(id, field, value);
-      const course = await CourseModel.getById(id);
+      const course: Course = await CourseModel.getById(id);
       context.action = {
         type: 'GET_COURSE_BY_ID',
         currentCourse: course
       }
-    }catch(error){
+    } catch(error) {
       throw error;
     }
 };
 
-const logOutUser = async (context: any) => {
+const logOutUser = async (context: any): Promise<void> => {
     await FirebaseService.logOutUser();
     window.location.href = ''; //need to reset the state instead of reloading everything.
 };

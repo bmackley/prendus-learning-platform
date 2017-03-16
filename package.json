@@ -15,7 +15,7 @@
     "zwitterion": "^0.7.0"
   },
   "devDependencies": {
-    "@types/polymer": "^1.1.29",
+    "@types/polymer": "^1.1.30",
     "systemjs": "^0.19.41",
     "zwitterion": "^0.7.0"
   }

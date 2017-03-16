@@ -2,6 +2,7 @@ import {Course} from '../../node_modules/prendus-services/typings/course';
 import {StatechangeEvent} from '../../typings/statechange-event';
 import {User} from '../../node_modules/prendus-services/typings/user';
 import {Actions} from '../../redux/actions';
+import {State} from '../../typings/state';
 
 class PrendusCoursePreview {
     public is: string;
@@ -14,7 +15,11 @@ class PrendusCoursePreview {
     public hasEditAccess: boolean;
     public successMessage: string;
     public errorMessage: string;
-    beforeRegister() {
+		public querySelector: any;
+		public style: any;
+    public numberOfPublicCoursesLoaded: number;
+
+    beforeRegister(): void {
         this.is = 'prendus-course-preview';
         this.properties = {
             course: {
@@ -24,72 +29,83 @@ class PrendusCoursePreview {
         };
     }
 
-    async init(course: Course) {
-      try{
+    async init(course: Course): Promise<void> {
+      try {
         await Actions.checkUserAuth(this);
         this.numStars = Object.keys(this.course.userStars || {}).length;
         if(this.user){
-          if(course.uid === this.uid){
+          if(course.uid === this.uid) {
             this.hasEditAccess = true;
-          }else if(course.collaborators){
+          } else if(course.collaborators){
             this.hasEditAccess = this.checkCollaboratorStatus(course.collaborators, this.uid);
           }
         }
-      }catch(error){
+      } catch(error) {
         this.errorMessage = '';
         this.errorMessage = error.message;
       }
     }
 
-    checkCollaboratorStatus(collaborators: {  [uid: string]: string}, uid: string){
-      if (collaborators[uid]){
+    checkCollaboratorStatus(collaborators: {  [uid: string]: string}, uid: string): boolean {
+      if (collaborators[uid]) {
         return true;
-      }else{
+      } else {
         return false;
       }
     }
 
-    async starClick(e: any) {
+    async starClick(e: any): Promise<void> {
       e.stopPropagation();
 			e.preventDefault();
-      try{
+      try {
         await Actions.checkUserAuth(this);
         if (this.user && this.user.metaData.uid) {
             if (this.user.starredCourses) {
                 if (this.user.starredCourses[this.course.id]) {
                     await Actions.unstarCourse(this, this.course.id);
-                }
-                else {
+                } else {
                     await Actions.starCourse(this, this.course.id);
                 }
-            }
-            else {
+            } else {
                 await Actions.starCourse(this, this.course.id);
             }
-            Actions.getCoursesByVisibility(this, 'public');
+            Actions.getCoursesByVisibility(this, 'public', this.numberOfPublicCoursesLoaded);
             Actions.getCoursesByUser(this);
             Actions.getSharedCoursesByUser(this, this.user.metaData.uid);
             Actions.getStarredCoursesByUser(this, this.user.metaData.uid);
-        }else {
+        } else {
           this.errorMessage = '';
           this.errorMessage = 'You must be logged in to star a course';
         }
-      }catch(error){
+      } catch(error) {
         this.errorMessage = '';
         this.errorMessage = error.message;
       }
     }
 
-    openDeleteModal(e: any) {
+    openDeleteModal(e: any): void {
       e.stopPropagation();
 			e.preventDefault();
-      this.querySelector('#confirm-delete-modal').open();
-    }
+			// this dialog does not have a backdrop for now because of issues with the
+			// paper-dialog element (see https://github.com/PolymerElements/paper-dialog/issues/7)
+			// this is a hack to prevent stacking errors
+			this.style.zIndex = 1;
+			this.querySelector('#confirm-delete-modal').open();
+		}
 
-    async deleteCourse(e: any) {
+		closeDeleteModal(e: any) {
+			// hack to prevent stacking errors
+			this.style.zIndex = 0;
+		}
+
+    async deleteCourse(e: any): Promise<void> {
       this.querySelector('#confirm-delete-modal').close();
+			this.closeDeleteModal(e);
+
       try {
+        Actions.getStarredCoursesByUser(this, this.user.metaData.uid);
         await Actions.deleteCourse(this, this.course);
+        await Actions.getCoursesByVisibility(this, 'public', this.numberOfPublicCoursesLoaded);
         this.successMessage = '';
         this.successMessage = 'Course successfully deleted';
       } catch (error) {
@@ -98,10 +114,11 @@ class PrendusCoursePreview {
       }
     }
 
-    mapStateToThis(e: StatechangeEvent) {
-        const state = e.detail.state;
+    mapStateToThis(e: StatechangeEvent): void {
+        const state: State = e.detail.state;
         this.user = state.currentUser;
         this.uid = state.currentUser.metaData.uid;
+        this.numberOfPublicCoursesLoaded = state.publicCourses ? state.publicCourses.length : 0;
         this.numStars = Object.keys(this.course.userStars || {}).length;
         if (this.user && this.user.starredCourses && this.course) {
             if (this.user.starredCourses[this.course.id]) {
