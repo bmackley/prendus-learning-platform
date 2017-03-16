@@ -166,7 +166,7 @@
 							<paper-tooltip for="edit-description" offset="0" animation-delay="300">Click to edit course description</paper-tooltip>
 						</template>
 					</div>
-					<!-- CONCEPTS -->
+					<!-- LESSONS -->
 					<h2>Lessons</h2>
 					<template is="dom-if" if="[[!hasEditAccess]]">
 						<template is="dom-if" if="[[!courseLessons.length]]">
@@ -184,7 +184,7 @@
 					</template>
 					<template is="dom-if" if="[[hasEditAccess]]">
 						<template is="dom-if" if="[[!courseLessons.length]]">
-							<p><strong>Click + ADD CONCEPT to begin adding lessons to the course.</strong></p>
+							<p><strong>Click + ADD LESSON to begin adding lessons to the course.</strong></p>
 						</template>
 						<template is="dom-if" if="[[courseLessons.length]]">
 							<sortable-js id="lesson-list" animation="200" on-sort="sortableEnded">
