@@ -1,4 +1,4 @@
-lessonimport {Question} from '../../node_modules/prendus-services/typings/question';
+import {Question} from '../../node_modules/prendus-services/typings/question';
 import {QuestionVisibility} from '../../node_modules/prendus-services/typings/question-visibility';
 import {Actions} from '../../redux/actions';
 import {UtilitiesService} from '../../node_modules/prendus-services/services/utilities-service';
