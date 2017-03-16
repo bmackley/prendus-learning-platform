@@ -507,7 +507,7 @@
         "bower_components/paper-input/paper-textarea.html": {
             "parentImport": true
         },
-        "components/prendus-concept-edit-modal/prendus-concept-edit-modal.html": {
+        "components/prendus-lesson-edit-modal/prendus-lesson-edit-modal.html": {
             "parentImport": true
         },
         "components/prendus-collaborator-modal/prendus-collaborator-modal.html": {
@@ -519,7 +519,7 @@
         "components/prendus-collaborator-modal/prendus-collaborator-modal.ts": {
             "parentImport": true
         },
-        "components/prendus-concept-edit-modal/prendus-concept-edit-modal.ts": {
+        "components/prendus-lesson-edit-modal/prendus-lesson-edit-modal.ts": {
             "parentImport": true
         },
         "components/prendus-view-quiz-router/prendus-view-quiz-router.html": {
