@@ -21,7 +21,7 @@
   </style>
 
   <template>
-    <app-route route="[[route]]" pattern="/:page" data="{{data}}" tail="{{tail}}"></app-route>
+    <app-route route="{{route}}" pattern="/:page" data="{{data}}" tail="{{tail}}"></app-route>
 
     <iron-pages id="course-container" selected="[[data.page]]" attr-for-selected="key">
       <prendus-course-homepage id="course-homepage" class="course-window" key="home"></prendus-course-homepage>
