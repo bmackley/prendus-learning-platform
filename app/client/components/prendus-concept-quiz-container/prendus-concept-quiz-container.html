@@ -55,11 +55,6 @@
         background: red;
       }
 
-      .add-quiz-button {
-        background-color: var(--prendus-primary-color);
-        color: white;
-      }
-
 			@media (max-width: 500px) {
 
 				.quiz-row {
@@ -89,12 +84,14 @@
 
     <h4 class="quiz-blankslate" hidden$="[[hasQuizzes(quizzes)]]">This concept doesn't have any quizzes yet.</h4>
     <template is="dom-if" if="[[courseEditAccess]]">
-      <paper-button class="add-quiz-button" on-tap="addQuiz" noink><iron-icon icon="add"></iron-icon>Add Quiz</paper-button>
+      <a class="prendus-button prendus-button--recommended" href="courses/edit-quiz/course/[[courseId]]/concept/[[conceptId]]/quiz/create"><iron-icon icon="add"></iron-icon>Add Quiz</a>
     </template>
 
     <paper-dialog id="confirm-delete-modal" with-backdrop>
-      <h2>Confirm Delete</h2>
-      <p>Are you sure you want to delete this quiz?  If you delete it, collaborators will lose access.</p>
+			<div class="content">
+				<h2>Confirm Delete</h2>
+				<p>Are you sure you want to delete this quiz?  If you delete it, collaborators will lose access.</p>
+			</div>
       <div class="buttons">
         <paper-button dialog-dismiss>Cancel</paper-button>
         <paper-button class="delete-button" on-tap="deleteQuiz">Delete</paper-button>

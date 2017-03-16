@@ -49,7 +49,7 @@
     <redux-store on-statechange="mapStateToThis" action="[[action]]"></redux-store>
 
     <app-location route="{{route}}"></app-location>
-    <app-route route="[[route]]" pattern="/:page" data="{{pageData}}" tail="{{tail}}" active="{{pageActive}}"></app-route>
+    <app-route route="{{route}}" pattern="/:page" data="{{pageData}}" tail="{{tail}}" active="{{pageActive}}"></app-route>
     <iron-pages selected="[[mainViewToShow]]" attr-for-selected="show">
       <div class="loading-spinner" show="spinner"></div>
 
@@ -60,7 +60,7 @@
         </iron-pages>
         <prendus-login id="login" class="app-window" data-page="login"></prendus-login>
         <prendus-create-account id="create-account" class="app-window" data-page="signup"></prendus-create-account>
-        <prendus-course-router id="course-router" data-page="courses" route="[[tail]]"></prendus-course-router>
+        <prendus-course-router id="course-router" data-page="courses" route="{{tail}}"></prendus-course-router>
         <prendus-profile id="profile" class="app-window" data-page="profile"></prendus-profile>
         <prendus-privacy-policy id="privacy-policy" class="app-window" data-page="privacy-policy"></prendus-privacy-policy>
         <prendus-terms-of-service id="terms-of-service" class="app-window" data-page="terms-of-service"></prendus-terms-of-service>
