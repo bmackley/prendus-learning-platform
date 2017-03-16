@@ -53,7 +53,7 @@ class PrendusQuizEditor {
         };
 				this.observers = [
 					'setEditorProperties(data.courseId, data.conceptId, data.quizId)',
-					'setQuizData(quizId)'
+					'setQuizData(quizId, route.*)'
 				]
     }
 
@@ -102,9 +102,15 @@ class PrendusQuizEditor {
 			this.quizId = quizId;
 		}
 
-		async setQuizData(quizId: string): Promise<void> {
+		async setQuizData(quizId: string, route: any): Promise<void> {
+			// watch the route - if not navigating to the quiz editor, close the dialog and return
+			if(!route.value.includes || !route.value.includes('edit-quiz')) {
+				this.querySelector('#title-quiz-dialog').close();
+				return;
+			}
 
 			if(quizId === 'create') {
+				console.log('creating new quiz')
 				this.quizLoaded = true;
 				this.newQuiz = true;
 				this.title = '';
@@ -324,6 +330,7 @@ class PrendusQuizEditor {
 	  }
 
     async changeTitle(e: any): Promise<void> {
+			this.editingTitle = false;
       try {
         const value: string = e.target.value;
         await QuizModel.updateTitle(this.quizId, value);
