@@ -32,15 +32,15 @@ export function rootReducer(state: State = InitialState, action: Action): State 
 
             return newState;
         }
-        case 'SET_CONCEPT_COLLABORATOR_EMAILS': {
+        case 'SET_LESSON_COLLABORATOR_EMAILS': {
             const newState = Object.assign({}, state);
 
-            if (newState.conceptCollaboratorEmails[action.courseId]) {
-                newState.conceptCollaboratorEmails[action.courseId][action.conceptId] = action.emails;
+            if (newState.lessonCollaboratorEmails[action.courseId]) {
+                newState.lessonCollaboratorEmails[action.courseId][action.lessonId] = action.emails;
             }
             else {
-                newState.conceptCollaboratorEmails[action.courseId] = {
-                    [action.conceptId]: action.emails
+                newState.lessonCollaboratorEmails[action.courseId] = {
+                    [action.lessonId]: action.emails
                 };
             }
 
@@ -49,11 +49,11 @@ export function rootReducer(state: State = InitialState, action: Action): State 
         case 'SET_VIDEO_COLLABORATOR_EMAILS': {
             const newState = Object.assign({}, state);
 
-            if (newState.videoCollaboratorEmails[action.conceptId]) {
-                newState.videoCollaboratorEmails[action.conceptId][action.videoId] = action.emails;
+            if (newState.videoCollaboratorEmails[action.lessonId]) {
+                newState.videoCollaboratorEmails[action.lessonId][action.videoId] = action.emails;
             }
             else {
-                newState.videoCollaboratorEmails[action.conceptId] = {
+                newState.videoCollaboratorEmails[action.lessonId] = {
                     [action.videoId]: action.emails
                 };
             }
@@ -63,11 +63,11 @@ export function rootReducer(state: State = InitialState, action: Action): State 
         case 'SET_QUIZ_COLLABORATOR_EMAILS': {
             const newState = Object.assign({}, state);
 
-            if (newState.quizCollaboratorEmails[action.conceptId]) {
-                newState.quizCollaboratorEmails[action.conceptId][action.quizId] = action.emails;
+            if (newState.quizCollaboratorEmails[action.lessonId]) {
+                newState.quizCollaboratorEmails[action.lessonId][action.quizId] = action.emails;
             }
             else {
-                newState.quizCollaboratorEmails[action.conceptId] = {
+                newState.quizCollaboratorEmails[action.lessonId] = {
                     [action.quizId]: action.emails
                 };
             }
@@ -97,14 +97,14 @@ export function rootReducer(state: State = InitialState, action: Action): State 
 
             return newState;
         }
-        case 'LOAD_EDIT_CONCEPT_QUIZZES': {
+        case 'LOAD_EDIT_LESSON_QUIZZES': {
             const newState = Object.assign({}, state);
-            newState.editConceptQuizzes[action.conceptId] = action.quizzes;
+            newState.editLessonQuizzes[action.lessonId] = action.quizzes;
             return newState;
         }
-        case 'LOAD_VIEW_CONCEPT_QUIZZES': {
+        case 'LOAD_VIEW_LESSON_QUIZZES': {
             const newState = Object.assign({}, state);
-            newState.viewConceptQuizzes[action.conceptId] = action.quizzes;
+            newState.viewLessonQuizzes[action.lessonId] = action.quizzes;
             return newState;
         }
         case 'SET_CURRENT_EDIT_QUIZ_ID': {
@@ -138,17 +138,18 @@ export function rootReducer(state: State = InitialState, action: Action): State 
         newState.jwt = action.jwt;
         return newState;
       }
-      case 'GET_CONCEPT_BY_ID': {
+      case 'GET_LESSON_BY_ID': {
         const newState = Object.assign({}, state);
-        newState.currentConcept = action.concept;
+        newState.currentLesson = action.lesson;
         return newState;
       }
-      case 'DELETE_CONCEPT': {
+      case 'DELETE_LESSON': {
         const newState = {
           ...state,
           currentCourseViewCourse: action.currentCourse
         }
-        delete newState.concepts[action.conceptKey];
+        //TODO this may be broken idk
+        delete newState.lessons[action.lessonKey];
         return newState;
       }
       case 'UPDATE_USER_META_DATA': {
@@ -156,44 +157,44 @@ export function rootReducer(state: State = InitialState, action: Action): State 
         newState.currentUser.metaData = action.userMetaData;
         return newState;
       }
-      case 'LOAD_EDIT_CONCEPT_VIDEOS': {
+      case 'LOAD_EDIT_LESSON_VIDEOS': {
           const newState = Object.assign({}, state);
-          newState.editConceptVideos[action.conceptId] = action.videos;
+          newState.editLessonVideos[action.lessonId] = action.videos;
           return newState;
       }
-      case 'LOAD_VIEW_CONCEPT_VIDEOS': {
+      case 'LOAD_VIEW_LESSON_VIDEOS': {
           const newState = Object.assign({}, state);
-          newState.viewConceptVideos[action.conceptId] = action.videos;
+          newState.viewLessonVideos[action.lessonId] = action.videos;
           return newState;
       }
-      case 'LOAD_EDIT_COURSE_CONCEPTS': {
+      case 'LOAD_EDIT_COURSE_LESSONS': {
           const newState = Object.assign({}, state);
-          newState.editCourseConcepts[action.courseId] = action.concepts;
+          newState.editCourseLessons[action.courseId] = action.lessons;
           return newState;
       }
-      case 'LOAD_VIEW_COURSE_CONCEPTS': {
+      case 'LOAD_VIEW_COURSE_LESSONS': {
         const newState = Object.assign({}, state);
-        newState.viewCourseConcepts[action.courseId] = action.orderedConcepts;
+        newState.viewCourseLessons[action.courseId] = action.orderedLessons;
         return newState;
 
       }
       case 'SET_CURRENT_VIDEO_INFO': {
           const newState = Object.assign({}, state);
-          newState.currentConceptVideoId = action.id;
-          newState.currentConceptVideoTitle = action.title;
-          newState.currentConceptVideoUrl = action.url;
+          newState.currentLessonVideoId = action.id;
+          newState.currentLessonVideoTitle = action.title;
+          newState.currentLessonVideoUrl = action.url;
           return newState;
       }
       case 'CLEAR_CURRENT_VIDEO_INFO': {
           const newState = Object.assign({}, state);
-          newState.currentConceptVideoId = null;
-          newState.currentConceptVideoTitle = '';
-          newState.currentConceptVideoUrl = '';
+          newState.currentLessonVideoId = null;
+          newState.currentLessonVideoTitle = '';
+          newState.currentLessonVideoUrl = '';
           return newState;
       }
       case 'SET_CURRENT_VIDEO_ID': {
           const newState = Object.assign({}, state);
-          newState.currentConceptVideoId = action.id;
+          newState.currentLessonVideoId = action.id;
           return newState;
       }
       case 'GET_COURSE_BY_ID' : {
@@ -206,9 +207,9 @@ export function rootReducer(state: State = InitialState, action: Action): State 
         newState.courses = action.courses;
         return newState;
       }
-      case 'LOOKUP_CONCEPT_TAGS': {
+      case 'LOOKUP_LESSON_TAGS': {
         const newState = Object.assign({}, state);
-        newState.resultingConcepts = action.conceptsArray;
+        newState.resultingLessons = action.lessonsArray;
         return newState;
       }
       case 'SET_COURSE_TAGS': {
@@ -246,7 +247,7 @@ export function rootReducer(state: State = InitialState, action: Action): State 
         newState.sharedCourses = action.courses;
         return newState;
       }
-      case 'ADD_CONCEPT': {
+      case 'ADD_LESSON': {
         const newState = Object.assign({}, state);
         newState.currentCourse = action.currentCourse;
         return newState;

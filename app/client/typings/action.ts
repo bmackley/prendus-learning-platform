@@ -4,30 +4,31 @@ import {QuestionSettings} from '../node_modules/prendus-services/typings/questio
 import {User} from '../node_modules/prendus-services/typings/user';
 import {UserMetaData} from '../node_modules/prendus-services/typings/user-meta-data';
 import {Course} from '../node_modules/prendus-services/typings/course';
-import {CourseConceptData} from '../node_modules/prendus-services/typings/course-concept-data';
+import {CourseLessonData} from '../node_modules/prendus-services/typings/course-lesson-data';
+import {Lesson} from '../node_modules/prendus-services/typings/lesson';
 
 export interface Action {
 	type: string;
   courses: Course[];
   starredCourses: Course[];
   sharedCourses: Course[];
-  concepts: CourseConceptData[];
+  lessons: CourseLessonData[];
   videos: Video[];
   quizzes: Quiz[];
-  currentConcept: {};
+  currentLesson: {};
   currentCourse: Course;
-  currentConceptVideoId: string;
-  currentConceptVideoTitle: string;
-  currentConceptVideoUrl: string
+  currentLessonVideoId: string;
+  currentLessonVideoTitle: string;
+  currentLessonVideoUrl: string
   user: User;
-  courseConcepts: CourseConceptData[];
+  courseLessons: CourseLessonData[];
   currentEditQuizId: string;
-  currentEditConceptId: string;
+  currentEditLessonId: string;
   jwt: string;
   emails: string[];
   uid: string;
   courseId: string;
-  conceptId: string;
+  lessonId: string;
   quizId: string;
   videoId: string;
 	userQuestionIds: [string];
@@ -36,4 +37,12 @@ export interface Action {
 	quizQuestionSettings: QuestionSettings;
 	visibility: string;
   userMetaData: UserMetaData;
+	lesson: Lesson;
+	lessonKey: string;
+	orderedLessons: CourseLessonData[];
+	id: string;
+	title: string;
+	url: string;
+	lessonsArray: Lesson[];
+	coursesArray: Course[];
 }

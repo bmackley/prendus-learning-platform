@@ -327,7 +327,7 @@
         "components/prendus-concept-video-container/prendus-concept-video-container.html": {
             "parentImport": true
         },
-        "components/prendus-concept-quiz-container/prendus-concept-quiz-container.html": {
+        "components/prendus-lesson-quiz-container/prendus-lesson-quiz-container.html": {
             "parentImport": true
         },
         "styles/color-styles.html": {
@@ -486,7 +486,7 @@
         "components/prendus-concept-video-container/prendus-concept-video-container.ts": {
             "parentImport": true
         },
-        "components/prendus-concept-quiz-container/prendus-concept-quiz-container.ts": {
+        "components/prendus-lesson-quiz-container/prendus-lesson-quiz-container.ts": {
             "parentImport": true
         },
         "components/prendus-concept-video-container-edit/prendus-concept-video-container-edit.ts": {

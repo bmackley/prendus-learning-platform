@@ -113,7 +113,7 @@ class PrendusCollaboratorModal {
             }
 
             if (this.courseId && this.lessonId) {
-                await Actions.addConceptCollaborator(this, this.lessonId, this.newCollaboratorEmail);
+                await Actions.addLessonCollaborator(this, this.lessonId, this.newCollaboratorEmail);
                 await Actions.loadLessonCollaboratorEmails(this, this.courseId, this.lessonId);
             }
 
@@ -172,7 +172,7 @@ class PrendusCollaboratorModal {
         }
 
         if (this.courseId && this.lessonId) {
-            this.collaboratorEmails = state.conceptCollaboratorEmails[this.courseId] && state.conceptCollaboratorEmails[this.courseId][this.lessonId];
+            this.collaboratorEmails = state.lessonCollaboratorEmails[this.courseId] && state.lessonCollaboratorEmails[this.courseId][this.lessonId];
         }
 
         if (this.lessonId && this.videoId) {

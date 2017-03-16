@@ -1,7 +1,7 @@
 import {FirebaseService} from '../node_modules/prendus-services/services/firebase-service';
 import {CourseModel} from '../node_modules/prendus-services/models/course-model';
-import {ConceptModel} from '../node_modules/prendus-services/models/concept-model';
-import {CourseConceptData} from '../node_modules/prendus-services/typings/course-concept-data';
+import {LessonModel} from '../node_modules/prendus-services/models/lesson-model';
+import {CourseLessonData} from '../node_modules/prendus-services/typings/course-lesson-data';
 import {UserModel} from '../node_modules/prendus-services/models/user-model';
 import {VideoModel} from '../node_modules/prendus-services/models/video-model';
 import {TagModel} from '../node_modules/prendus-services/models/tag-model';
@@ -11,7 +11,7 @@ import {QuizVisibility} from '../node_modules/prendus-services/typings/quiz-visi
 import {QuestionModel} from '../node_modules/prendus-services/models/question-model';
 import {Course} from '../node_modules/prendus-services/typings/course';
 import {Tag} from '../node_modules/prendus-services/typings/tag';
-import {Concept} from '../node_modules/prendus-services/typings/concept';
+import {Lesson} from '../node_modules/prendus-services/typings/lesson';
 import {QuestionSettings} from '../node_modules/prendus-services/typings/question-settings';
 import {CourseVisibility} from '../node_modules/prendus-services/typings/course-visibility';
 import {UserMetaData} from '../node_modules/prendus-services/typings/user-meta-data';
@@ -59,9 +59,9 @@ const loadCourseCollaboratorEmails = async (context: any, uid: string, courseId:
             courseId
         };
 
-        const conceptIds: string[] = await CourseModel.getConceptIds(courseId);
-        conceptIds.forEach((conceptId) => {
-            loadLessonCollaboratorEmails(context, courseId, conceptId);
+        const lessonIds: string[] = await CourseModel.getLessonIds(courseId);
+        lessonIds.forEach((lessonId) => {
+            loadLessonCollaboratorEmails(context, courseId, lessonId);
         });
     } catch(error) {
         throw error;
@@ -69,35 +69,35 @@ const loadCourseCollaboratorEmails = async (context: any, uid: string, courseId:
 	}
 };
 
-const loadLessonCollaboratorEmails = async (context: any, courseId: string, conceptId: string): Promise<void> => {
+const loadLessonCollaboratorEmails = async (context: any, courseId: string, lessonId: string): Promise<void> => {
 
 	ExecuteAsyncInOrderService.execute(operation);
 
 	async function operation(): Promise<void> {
     try {
         const user: any = await FirebaseService.getLoggedInUser();
-        const uids: string[] = await ConceptModel.getCollaboratorUids(conceptId);
+        const uids: string[] = await LessonModel.getCollaboratorUids(lessonId);
         await FirebaseService.set(`security/${user.uid}/collaboratorSecurityInfo`, {
-            collection: ConceptModel.dataPath,
-            id: conceptId
+            collection: LessonModel.dataPath,
+            id: lessonId
         });
         const emails: string[] = await UserModel.getEmailsByIds(uids);
 
         context.action = {
-            type: 'SET_CONCEPT_COLLABORATOR_EMAILS',
+            type: 'SET_LESSON_COLLABORATOR_EMAILS',
             emails,
             courseId,
-            conceptId
+            lessonId
         };
 
-        const videoIds: string[] = await ConceptModel.getVideoIds(conceptId);
+        const videoIds: string[] = await LessonModel.getVideoIds(lessonId);
         videoIds.forEach((videoId) => {
-            loadVideoCollaboratorEmails(context, conceptId, videoId);
+            loadVideoCollaboratorEmails(context, lessonId, videoId);
         });
 
-        const quizIds: string[] = await ConceptModel.getQuizIds(conceptId);
+        const quizIds: string[] = await LessonModel.getQuizIds(lessonId);
         quizIds.forEach((quizId) => {
-            loadQuizCollaboratorEmails(context, conceptId, quizId);
+            loadQuizCollaboratorEmails(context, lessonId, quizId);
         });
     } catch(error) {
         throw error;
@@ -105,7 +105,7 @@ const loadLessonCollaboratorEmails = async (context: any, courseId: string, conc
 	}
 };
 
-const loadVideoCollaboratorEmails = async (context: any, conceptId: string, videoId: string): Promise<void> => {
+const loadVideoCollaboratorEmails = async (context: any, lessonId: string, videoId: string): Promise<void> => {
 
 	ExecuteAsyncInOrderService.execute(operation);
 
@@ -122,7 +122,7 @@ const loadVideoCollaboratorEmails = async (context: any, conceptId: string, vide
           context.action = {
               type: 'SET_VIDEO_COLLABORATOR_EMAILS',
               emails,
-              conceptId,
+              lessonId,
               videoId
           };
       } catch(error) {
@@ -131,7 +131,7 @@ const loadVideoCollaboratorEmails = async (context: any, conceptId: string, vide
 		}
 };
 
-const loadQuizCollaboratorEmails = async (context: any, conceptId: string, quizId: string): Promise<void> => {
+const loadQuizCollaboratorEmails = async (context: any, lessonId: string, quizId: string): Promise<void> => {
 
 	ExecuteAsyncInOrderService.execute(operation);
 
@@ -148,7 +148,7 @@ const loadQuizCollaboratorEmails = async (context: any, conceptId: string, quizI
         context.action = {
             type: 'SET_QUIZ_COLLABORATOR_EMAILS',
             emails,
-            conceptId,
+            lessonId,
             quizId
         };
     } catch(error) {
@@ -176,7 +176,7 @@ const addCourseCollaborator = async (context: any, courseId: string, email: stri
 	}
 };
 
-const addConceptCollaborator = async (context: any, conceptId: string, email: string): Promise<void> => {
+const addLessonCollaborator = async (context: any, lessonId: string, email: string): Promise<void> => {
 	ExecuteAsyncInOrderService.execute(operation);
 
 	async function operation(): Promise<void> {
@@ -187,8 +187,8 @@ const addConceptCollaborator = async (context: any, conceptId: string, email: st
         if (!uid) {
             throw 'The user does not exist';
         }
-        await ConceptModel.associateCollaborator(conceptId, uid);
-        await UserModel.shareConceptWithMe(uid, conceptId);
+        await LessonModel.associateCollaborator(lessonId, uid);
+        await UserModel.shareLessonWithMe(uid, lessonId);
     } catch(error) {
         throw error;
     }
@@ -252,7 +252,7 @@ const removeCourseCollaborator = async (context: any, courseId: string, email: s
 	}
 };
 
-const removeLessonCollaborator = async (context: any, conceptId: string, email: string): Promise<void> => {
+const removeLessonCollaborator = async (context: any, lessonId: string, email: string): Promise<void> => {
 	ExecuteAsyncInOrderService.execute(operation);
 
 	async function operation(): Promise<void> {
@@ -263,7 +263,7 @@ const removeLessonCollaborator = async (context: any, conceptId: string, email: 
         if (!uid) {
             throw 'The user does not exist';
         }
-        await ConceptModel.disassociateCollaborator(conceptId, uid);
+        await LessonModel.disassociateCollaborator(lessonId, uid);
     } catch(error) {
         throw error;
     }
@@ -332,7 +332,7 @@ const getQuiz = async (quizId: string): Promise<Quiz> => {
     return quiz;
 };
 
-const createNewQuiz = async (context: any, conceptId: string): Promise<string> => {
+const createNewQuiz = async (context: any, lessonId: string): Promise<string> => {
     const user: any = await FirebaseService.getLoggedInUser();
     const uid: string = user.uid;
     // TODO: Create public courses and enforce payment before creation of a private course
@@ -353,22 +353,22 @@ const createNewQuiz = async (context: any, conceptId: string): Promise<string> =
         questions: {},
         collaborators: {}
     });
-    await ConceptModel.associateQuiz(conceptId, quizId);
+    await LessonModel.associateQuiz(lessonId, quizId);
 
-    const conceptCollaboratorUids: string[] = await ConceptModel.getCollaboratorUids(conceptId);
-    await QuizModel.associateCollaborators(quizId, conceptCollaboratorUids);
+    const lessonCollaboratorUids: string[] = await LessonModel.getCollaboratorUids(lessonId);
+    await QuizModel.associateCollaborators(quizId, lessonCollaboratorUids);
 
     return quizId;
 };
 
-const deleteQuiz = async (context: any, conceptId: string, quiz: Quiz): Promise<void> => {
+const deleteQuiz = async (context: any, lessonId: string, quiz: Quiz): Promise<void> => {
     const user: any = await FirebaseService.getLoggedInUser();
-    const concept: Concept = await ConceptModel.getById(conceptId);
-    const quizIds: string[] = await ConceptModel.getQuizIds(conceptId);
-    const quizzes: Quiz[] = await QuizModel.filterQuizzesByCollaborator(quizIds, concept.uid, user.uid);
+    const lesson: Lesson = await LessonModel.getById(lessonId);
+    const quizIds: string[] = await LessonModel.getQuizIds(lessonId);
+    const quizzes: Quiz[] = await QuizModel.filterQuizzesByCollaborator(quizIds, lesson.uid, user.uid);
 
-    // disassociate concept and questions
-    await ConceptModel.disassociateQuiz(conceptId, quiz.id);
+    // disassociate lesson and questions
+    await LessonModel.disassociateQuiz(lessonId, quiz.id);
     for(let key in quiz.questions) {
       await QuizModel.disassociateQuestion(quiz.id, key);
     }
@@ -376,27 +376,27 @@ const deleteQuiz = async (context: any, conceptId: string, quiz: Quiz): Promise<
     await QuizModel.deleteQuiz(quiz.id);
 }
 
-const loadEditConceptQuizzes = async (context: any, conceptId: string): Promise<void> => {
+const loadEditLessonQuizzes = async (context: any, lessonId: string): Promise<void> => {
     const user: any = await FirebaseService.getLoggedInUser();
-    const concept: Concept = await ConceptModel.getById(conceptId);
+    const lesson: Lesson = await LessonModel.getById(lessonId);
 
-    const quizIds: string[] = await ConceptModel.getQuizIds(conceptId);
-    const quizzes: Quiz[] = await QuizModel.filterQuizzesByCollaborator(quizIds, concept.uid, user.uid);
+    const quizIds: string[] = await LessonModel.getQuizIds(lessonId);
+    const quizzes: Quiz[] = await QuizModel.filterQuizzesByCollaborator(quizIds, lesson.uid, user.uid);
 
     context.action = {
-        type: 'LOAD_EDIT_CONCEPT_QUIZZES',
-        conceptId,
+        type: 'LOAD_EDIT_LESSON_QUIZZES',
+        lessonId,
         quizzes
     };
 };
 
-const loadViewConceptQuizzes = async (context: any, conceptId: string): Promise<void> => {
-    const quizIds: string[] = await ConceptModel.getQuizIds(conceptId);
+const loadViewLessonQuizzes = async (context: any, lessonId: string): Promise<void> => {
+    const quizIds: string[] = await LessonModel.getQuizIds(lessonId);
     const quizzes: Quiz[] = await QuizModel.resolveQuizIds(quizIds);
 
     context.action = {
-        type: 'LOAD_VIEW_CONCEPT_QUIZZES',
-        conceptId,
+        type: 'LOAD_VIEW_LESSON_QUIZZES',
+        lessonId,
         quizzes
     };
 };
@@ -533,21 +533,21 @@ const loadPublicQuestionIds = async (context: any, getPublicQuestionIdsAjax: any
 		// }
 };
 
-const deleteVideo = async (context: any, conceptId: string, videoId: string): Promise<void> => {
+const deleteVideo = async (context: any, lessonId: string, videoId: string): Promise<void> => {
     try {
-        await ConceptModel.disassociateVideo(conceptId, videoId);
+        await LessonModel.disassociateVideo(lessonId, videoId);
     } catch(error) {
         throw error;
     }
 };
 
-const saveVideo = async (context: any, conceptId: string, videoId: string, video: Video): Promise<void> => {
+const saveVideo = async (context: any, lessonId: string, videoId: string, video: Video): Promise<void> => {
     try {
         const newId: string = await VideoModel.createOrUpdate(videoId, video);
-        await ConceptModel.associateVideo(conceptId, newId);
+        await LessonModel.associateVideo(lessonId, newId);
         if (!videoId) {
-            const conceptCollaboratorUids: string[] = await ConceptModel.getCollaboratorUids(conceptId);
-            await VideoModel.associateCollaborators(newId, conceptCollaboratorUids);
+            const lessonCollaboratorUids: string[] = await LessonModel.getCollaboratorUids(lessonId);
+            await VideoModel.associateCollaborators(newId, lessonCollaboratorUids);
         }
 
         context.action = {
@@ -574,48 +574,48 @@ const clearCurrentVideoInfo = (context: any): void => {
     };
 };
 
-const loadEditConceptVideos = async (context: any, conceptId: string): Promise<void> => {
+const loadEditLessonVideos = async (context: any, lessonId: string): Promise<void> => {
     try {
         const user: any = await FirebaseService.getLoggedInUser();
-        const concept: Concept = await ConceptModel.getById(conceptId);
-        const videoIds: string[] = await ConceptModel.getVideoIds(conceptId);
-        const videos: Video[] = await VideoModel.filterVideosByCollaborator(videoIds, concept.uid, user.uid);
+        const lesson: Lesson = await LessonModel.getById(lessonId);
+        const videoIds: string[] = await LessonModel.getVideoIds(lessonId);
+        const videos: Video[] = await VideoModel.filterVideosByCollaborator(videoIds, lesson.uid, user.uid);
 
         context.action = {
-            type: 'LOAD_EDIT_CONCEPT_VIDEOS',
+            type: 'LOAD_EDIT_LESSON_VIDEOS',
             videos,
-            conceptId
+            lessonId
         };
     } catch(error) {
         throw error;
     }
 };
 
-const loadViewConceptVideos = async (context: any, conceptId: string): Promise<void> => {
+const loadViewLessonVideos = async (context: any, lessonId: string): Promise<void> => {
     try {
-        const videoIds: string[] = await ConceptModel.getVideoIds(conceptId);
+        const videoIds: string[] = await LessonModel.getVideoIds(lessonId);
         const videos: Video[] = await VideoModel.resolveVideoIds(videoIds);
 
         context.action = {
-            type: 'LOAD_VIEW_CONCEPT_VIDEOS',
+            type: 'LOAD_VIEW_LESSON_VIDEOS',
             videos,
-            conceptId
+            lessonId
         };
     } catch(error) {
         throw error;
     }
 };
 
-const loadEditCourseConcepts = async (context: any, courseId: string): Promise<void> => {
+const loadEditCourseLessons = async (context: any, courseId: string): Promise<void> => {
     try {
         const user: any = await FirebaseService.getLoggedInUser();
         const course: Course = await CourseModel.getById(courseId);
-        const conceptDatasObject: { [conceptId: string]: CourseConceptData } = course.concepts;
-        const concepts: CourseConceptData[] = await ConceptModel.filterConceptDatasByCollaborator(conceptDatasObject, course.uid, user.uid);
+        const lessonDatasObject: { [lessonId: string]: CourseLessonData } = course.lessons;
+        const lessons: CourseLessonData[] = await LessonModel.filterLessonDatasByCollaborator(lessonDatasObject, course.uid, user.uid);
 
         context.action = {
-            type: 'LOAD_EDIT_COURSE_CONCEPTS',
-            concepts,
+            type: 'LOAD_EDIT_COURSE_LESSONS',
+            lessons,
             courseId
         };
     } catch(error) {
@@ -623,15 +623,15 @@ const loadEditCourseConcepts = async (context: any, courseId: string): Promise<v
     }
 };
 
-const loadViewCourseConcepts = async (context: any, courseId: string): Promise<void> => {
+const loadViewCourseLessons = async (context: any, courseId: string): Promise<void> => {
     try {
         const course: Course = await CourseModel.getById(courseId);
-        const conceptsArray: CourseConceptData[] = await CourseModel.courseConceptsToArray(course);
-        const orderedConcepts: CourseConceptData[] = await CourseModel.orderCourseConcepts(conceptsArray);
+        const lessonsArray: CourseLessonData[] = await CourseModel.courseLessonsToArray(course);
+        const orderedLessons: CourseLessonData[] = await CourseModel.orderCourseLessons(lessonsArray);
 
         context.action = {
-            type: 'LOAD_VIEW_COURSE_CONCEPTS',
-            orderedConcepts,
+            type: 'LOAD_VIEW_COURSE_LESSONS',
+            orderedLessons,
             courseId
         };
     } catch(error) {
@@ -703,35 +703,35 @@ const checkUserAuth = async (context: any): Promise<void> => {
   }
 };
 
-const addConcept = async (context: any, courseId: string, newConcept: Concept, conceptPos: number, tags: string[]): Promise<void> => {
+const addLesson = async (context: any, courseId: string, newLesson: Lesson, lessonPos: number, tags: string[]): Promise<void> => {
     try {
-      const conceptId: string = await ConceptModel.createOrUpdate(null, newConcept);
+      const lessonId: string = await LessonModel.createOrUpdate(null, newLesson);
       if(tags) {
         await UtilitiesService.asyncForEach(tags, async (tag: string) => {
-            await addTagToConcept(null, tag, conceptId);
+            await addTagToLesson(null, tag, lessonId);
         });
       }
-      await CourseModel.associateConcept(courseId, conceptId, conceptPos);
+      await CourseModel.associateLesson(courseId, lessonId, lessonPos);
 
       context.action = {
-          type: 'ADD_CONCEPT'  //same as get course by id
+          type: 'ADD_LESSON'  //same as get course by id
       };
 
       const courseCollaboratorUids: string[] = await CourseModel.getCollaboratorUids(courseId);
-      await ConceptModel.associateCollaborators(conceptId, courseCollaboratorUids);
+      await LessonModel.associateCollaborators(lessonId, courseCollaboratorUids);
     } catch(error) {
       throw error;
     }
 };
 
-const addTagToConcept = async (context: any, tag: string, conceptId: string): Promise<void> => {
+const addTagToLesson = async (context: any, tag: string, lessonId: string): Promise<void> => {
     try {
-        const tagId: string = await TagModel.createOrUpdate(tag, null, conceptId, null);
-        const concept: Concept = await ConceptModel.addTag(tagId, conceptId);
+        const tagId: string = await TagModel.createOrUpdate(tag, null, lessonId, null);
+        const lesson: Lesson = await LessonModel.addTag(tagId, lessonId);
         if(context) {
             context.action = {
-                type: 'ADD_TAG_EDIT_CONCEPT',
-                concept
+                type: 'ADD_TAG_EDIT_LESSON',
+                lesson
             };
         }
     } catch(error) {
@@ -739,36 +739,36 @@ const addTagToConcept = async (context: any, tag: string, conceptId: string): Pr
     }
 };
 
-const updateConceptTags = async (conceptId: string, newTags: string[]): Promise<void> => {
+const updateLessonTags = async (lessonId: string, newTags: string[]): Promise<void> => {
     try {
-        const concept: Concept = await ConceptModel.getById(conceptId);
-        const oldTagIds: string[] = concept.tags ? Object.keys(concept.tags || {}) : null;
+        const lesson: Lesson = await LessonModel.getById(lessonId);
+        const oldTagIds: string[] = lesson.tags ? Object.keys(lesson.tags || {}) : null;
         const oldTags: Tag[] = oldTagIds ? await TagModel.resolveTagIds(oldTagIds) : null;
         const oldTagNames: string[] = oldTags ? await TagModel.getTagNameArray(oldTags) : null;
-        await ConceptModel.updateTags(conceptId, oldTags, oldTagNames, newTags);
+        // await LessonModel.updateTags(lessonId, oldTags, oldTagNames, newTags);
 
     } catch(error) {
         throw error;
     }
 };
 
-// Updates the title of a concept given a string conceptId and a new string title
-const updateConceptTitle = async (conceptId: string, title: string): Promise<void> => {
+// Updates the title of a lesson given a string lessonId and a new string title
+const updateLessonTitle = async (lessonId: string, title: string): Promise<void> => {
     try {
-        ConceptModel.updateTitle(conceptId, title);
+        LessonModel.updateTitle(lessonId, title);
     } catch(error) {
         throw error;
     }
 };
 
-const getConceptAndTagNamesById = async (id: string): Promise<{ concept: Concept, tagNames: string[] }> => {
+const getLessonAndTagNamesById = async (id: string): Promise<{ lesson: Lesson, tagNames: string[] }> => {
     try {
-        const concept: Concept = await ConceptModel.getById(id);
-        const tagArray: string[] = concept.tags ? Object.keys(concept.tags || {}) : null;
+        const lesson: Lesson = await LessonModel.getById(id);
+        const tagArray: string[] = lesson.tags ? Object.keys(lesson.tags || {}) : null;
         const tags: Tag[] = tagArray ? await TagModel.resolveTagIds(tagArray) : null;
         const tagNames: string[] = tags ? await TagModel.getTagNameArray(tags) : null;
         return {
-            concept,
+            lesson,
             tagNames
         };
     } catch(error) {
@@ -776,17 +776,17 @@ const getConceptAndTagNamesById = async (id: string): Promise<{ concept: Concept
     }
 };
 
-const getConceptById = async (context: any, id: string): Promise<Concept> => {
+const getLessonById = async (context: any, id: string): Promise<Lesson> => {
     try {
-      const concept: Concept = await ConceptModel.getById(id);
+      const lesson: Lesson = await LessonModel.getById(id);
       if(context) {
           context.action = {
-            type: 'GET_CONCEPT_BY_ID',
-            concept
+            type: 'GET_LESSON_BY_ID',
+            lesson
           }
       }
 
-      return concept;
+      return lesson;
     } catch(error){
       throw error;
     }
@@ -885,18 +885,18 @@ const addTagToCourse = async (context: any, tag: string, courseId: string): Prom
     }
 };
 
-const lookupConceptTags = async (context: any, tags: string[]): Promise<void> => {
+const lookupLessonTags = async (context: any, tags: string[]): Promise<void> => {
     try {
         const tagObjects : Tag[] = await TagModel.getByNames(tags);
-        const conceptsArray : Concept[] = await TagModel.getConceptsInTags(tagObjects);
+        const lessonsArray : Lesson[] = await TagModel.getLessonsInTags(tagObjects);
         context.action = {
-            type: 'LOOKUP_CONCEPT_TAGS',
-            conceptsArray
+            type: 'LOOKUP_LESSON_TAGS',
+            lessonsArray
         }
-        // It's better to allow the redux action to take place so that the concepts listed
-        // in the search concepts page will be empty.
-        if(conceptsArray === null) {
-            throw new Error("No concepts match these tags");
+        // It's better to allow the redux action to take place so that the lessons listed
+        // in the search lessons page will be empty.
+        if(lessonsArray === null) {
+            throw new Error("No lessons match these tags");
         }
     } catch(error) {
         throw error;
@@ -995,12 +995,12 @@ const getCourseViewCourseById = async (context: any, id: string): Promise<void> 
     }
 };
 
-const deleteConcept = async (context: any, courseId: string, conceptId: string): Promise<void> => {
+const deleteLesson = async (context: any, courseId: string, lessonId: string): Promise<void> => {
       try {
-        await CourseModel.disassociateConcept(courseId, conceptId);
+        await CourseModel.disassociateLesson(courseId, lessonId);
         const currentCourse: Course = await CourseModel.getById(courseId);
         context.action = {
-            type: 'DELETE_CONCEPT',
+            type: 'DELETE_LESSON',
             currentCourse
         };
       } catch(error){
@@ -1008,9 +1008,9 @@ const deleteConcept = async (context: any, courseId: string, conceptId: string):
       }
 };
 
-const orderConcepts = async (context: any, id: string, courseConceptsArray: CourseConceptData[]): Promise<void> => {
+const orderLessons = async (context: any, id: string, courseLessonsArray: CourseLessonData[]): Promise<void> => {
   try {
-    await CourseModel.updateCourseConcepts(id, courseConceptsArray);
+    await CourseModel.updateCourseLessons(id, courseLessonsArray);
   } catch(error){
     throw error;
   }
@@ -1039,10 +1039,10 @@ const logOutUser = async (context: any): Promise<void> => {
 const updateQuizDueDates = async (courseId: string): Promise<void> => {
   try {
     const course: Course = await CourseModel.getById(courseId);
-    const conceptIds: string[] = Object.keys(course.concepts || {});
-    const resolvedConcepts: Concept[] = await ConceptModel.resolveConceptIds(conceptIds);
-    await UtilitiesService.asyncForEach(resolvedConcepts, async (concept: Concept) => {
-      const quizIds: string[] = Object.keys(concept.quizzes || {});
+    const lessonIds: string[] = Object.keys(course.lessons || {});
+    const resolvedLessons: Lesson[] = await LessonModel.resolveLessonIds(lessonIds);
+    await UtilitiesService.asyncForEach(resolvedLessons, async (lesson: Lesson) => {
+      const quizIds: string[] = Object.keys(lesson.quizzes || {});
       const resolvedQuizzes: Quiz[] = await QuizModel.resolveQuizIds(quizIds);
       await UtilitiesService.asyncForEach(resolvedQuizzes, async (quiz: Quiz) => {
         if(quiz.quizQuestionSettings === undefined ||
@@ -1071,15 +1071,15 @@ export const Actions = {
     defaultAction,
     loginUser,
     checkUserAuth,
-    deleteConcept,
-    orderConcepts,
-    addConcept,
+    deleteLesson,
+    orderLessons,
+    addLesson,
     createUser,
     logOutUser,
     updateUserEmail,
     updateUserMetaData,
-    loadEditConceptVideos,
-    loadViewConceptVideos,
+    loadEditLessonVideos,
+    loadViewLessonVideos,
     setCurrentVideoInfo,
     saveVideo,
     clearCurrentVideoInfo,
@@ -1098,16 +1098,16 @@ export const Actions = {
     setQuestionSetting,
     loadQuizQuestionSettings,
     setCurrentEditQuizId,
-    loadEditConceptQuizzes,
-    loadViewConceptQuizzes,
+    loadEditLessonQuizzes,
+    loadViewLessonQuizzes,
     createNewQuiz,
     deleteQuiz,
     getQuiz,
     getCourseViewCourseById,
-    updateConceptTags,
-    updateConceptTitle,
-    getConceptAndTagNamesById,
-    getConceptById,
+    updateLessonTags,
+    updateLessonTitle,
+    getLessonAndTagNamesById,
+    getLessonById,
     resolveTagIdObject,
     loadPublicQuestionIds,
     starCourse,
@@ -1121,16 +1121,16 @@ export const Actions = {
     loadLessonCollaboratorEmails,
     loadVideoCollaboratorEmails,
     addCourseCollaborator,
-    lookupConceptTags,
+    lookupLessonTags,
     lookupCourseTags,
-    addConceptCollaborator,
+    addLessonCollaborator,
     addVideoCollaborator,
     removeCourseCollaborator,
     removeLessonCollaborator,
     removeVideoCollaborator,
     updateCourseField,
-    loadEditCourseConcepts,
-    loadViewCourseConcepts,
+    loadEditCourseLessons,
+    loadViewCourseLessons,
     showMainSpinner,
     hideMainSpinner,
     updateQuizDueDates,

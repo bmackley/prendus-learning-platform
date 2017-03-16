@@ -6,8 +6,8 @@
 <link rel="import" href="../../bower_components/paper-icon-button/paper-icon-button.html">
 <link rel="import" href="../../bower_components/paper-dialog/paper-dialog.html">
 <link rel="import" href="../../bower_components/paper-tooltip/paper-tooltip.html">
-<link rel="import" href="../prendus-concept-video-container-edit/prendus-concept-video-container-edit.html">
-<link rel="import" href="../prendus-concept-quiz-container/prendus-concept-quiz-container.html">
+<link rel="import" href="../prendus-lesson-video-container-edit/prendus-lesson-video-container-edit.html">
+<link rel="import" href="../prendus-lesson-quiz-container/prendus-lesson-quiz-container.html">
 <link rel="import" href="../prendus-notification/prendus-notification.html">
 
 <link rel="import" href="../../styles/color-styles.html">
@@ -106,8 +106,8 @@
             <paper-tab>Videos</paper-tab>
         </paper-tabs>
         <iron-pages selected="[[selected]]">
-          <prendus-concept-quiz-container course-id="[[courseId]]" concept-id="[[conceptId]]"></prendus-concept-quiz-container>
-          <prendus-concept-video-container-edit concept-id="[[conceptId]]"></prendus-concept-video-container-edit>
+          <prendus-lesson-quiz-container course-id="[[courseId]]" concept-id="[[conceptId]]"></prendus-lesson-quiz-container>
+          <prendus-lesson-video-container-edit concept-id="[[conceptId]]"></prendus-lesson-video-container-edit>
         </iron-pages>
       </div>
     </iron-collapse>

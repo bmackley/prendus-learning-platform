@@ -11,6 +11,9 @@ class PrendusConceptVideoContainer {
     public currentVideoId: string;
     public currentVideoTitle: string;
     public currentVideoUrl: string;
+    public $: any;
+    public fire: any;
+    public courseId: string;
 
     beforeRegister() {
         this.is = 'prendus-concept-video-container';
@@ -55,10 +58,10 @@ class PrendusConceptVideoContainer {
     mapStateToThis(e: StatechangeEvent) {
         const state = e.detail.state;
 
-        this.videos = state.viewConceptVideos[this.conceptId];
-        this.currentVideoId = state.currentConceptVideoId;
-        this.currentVideoTitle = state.currentConceptVideoTitle;
-        this.currentVideoUrl = state.currentConceptVideoUrl;
+        this.videos = state.viewLessonVideos[this.conceptId];
+        this.currentVideoId = state.currentLessonVideoId;
+        this.currentVideoTitle = state.currentLessonVideoTitle;
+        this.currentVideoUrl = state.currentLessonVideoUrl;
     }
 }
 

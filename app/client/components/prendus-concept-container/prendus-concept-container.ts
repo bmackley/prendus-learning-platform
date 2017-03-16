@@ -1,8 +1,9 @@
-import {Concept} from '../../node_modules/prendus-services/typings/concept';
+import {Lesson} from '../../node_modules/prendus-services/typings/lesson';
 import {Actions} from '../../redux/actions';
 import {StatechangeEvent} from '../../typings/statechange-event';
 import {FirebaseService} from '../../node_modules/prendus-services/services/firebase-service';
 import {Tag} from '../../node_modules/prendus-services/typings/tag';
+import {State} from '../../typings/state';
 
 class PrendusConceptContainer {
   public is: string;
@@ -10,7 +11,7 @@ class PrendusConceptContainer {
   public properties: any;
   public conceptId: string;
   public observers: string[];
-  public conceptData: Concept;
+  public lessonData: Lesson;
   public selected: number;
   public errorMessage: string;
   public tags: Tag[];
@@ -51,8 +52,8 @@ class PrendusConceptContainer {
   }
 
   mapStateToThis(e: StatechangeEvent): void {
-    const state = e.detail.state;
-    this.conceptData = state.currentConcept;
+    const state: State = e.detail.state;
+    this.lessonData = state.currentLesson;
   }
 
   ready(): void {

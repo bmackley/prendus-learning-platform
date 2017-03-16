@@ -2,7 +2,7 @@
 <link rel="import" href="../../bower_components/iron-collapse/iron-collapse.html">
 <link rel="import" href="../../bower_components/redux-store-element/redux-store.html">
 <link rel="import" href="../prendus-concept-video-container/prendus-concept-video-container.html">
-<link rel="import" href="../prendus-concept-quiz-container/prendus-concept-quiz-container.html">
+<link rel="import" href="../prendus-lesson-quiz-container/prendus-lesson-quiz-container.html">
 <link rel="import" href="../../bower_components/paper-tabs/paper-tabs.html">
 <link rel="import" href="../../bower_components/iron-pages/iron-pages.html">
 <link rel="import" href="../../styles/color-styles.html">
@@ -34,7 +34,7 @@
           <paper-tab>Videos</paper-tab>
         </paper-tabs>
         <iron-pages selected="[[selected]]">
-          <prendus-concept-quiz-container course-id="[[courseId]]" concept-id="[[conceptId]]"></prendus-concept-quiz-container>
+          <prendus-lesson-quiz-container course-id="[[courseId]]" concept-id="[[conceptId]]"></prendus-lesson-quiz-container>
           <prendus-concept-video-container concept-id="[[conceptId]]"></prendus-concept-video-container>
         </iron-pages>
     </iron-collapse>

@@ -1,7 +1,7 @@
 import {Actions} from '../../redux/actions';
 import {Course} from '../../node_modules/prendus-services/typings/course';
 import {Concept} from '../../node_modules/prendus-services/typings/concept';
-import {CourseConceptData} from '../../node_modules/prendus-services/typings/course-concept-data';
+import {CourseLessonData} from '../../node_modules/prendus-services/typings/course-lesson-data';
 import {StatechangeEvent} from '../../typings/statechange-event';
 import {Tag} from '../../node_modules/prendus-services/typings/tag';
 import {Quiz} from '../../node_modules/prendus-services/typings/quiz';
@@ -10,7 +10,7 @@ import {UtilitiesService} from '../../node_modules/prendus-services/services/uti
 
 export class PrendusCourseView {
   public is: string;
-  public courseConcepts: CourseConceptData[];
+  public courseLessons: CourseLessonData[];
   public currentCourse: Course;
 	public collaboratorEmails: string[];
   public courseTagNames: string[];
@@ -250,15 +250,15 @@ export class PrendusCourseView {
 
   async sortableEnded(e: any): Promise<void> { //This isn't the most elegant solution. I'm open to better ways of doing things.
     if(typeof e.newIndex !== 'undefined') {
-      let updateConceptPositionArray: CourseConceptData[] = [];
-      for(let i:number = 0, len: number = this.courseConcepts.length; i< len; i++) {
-        updateConceptPositionArray.push(this.courseConcepts[i]);
-        if(this.courseConcepts[i].position != i) {
-          updateConceptPositionArray[i].position = i;
+      let updateLessonPositionArray: CourseLessonData[] = [];
+      for(let i:number = 0, len: number = this.courseLessons.length; i< len; i++) {
+        updateLessonPositionArray.push(this.courseLessons[i]);
+        if(this.courseLessons[i].position != i) {
+          updateLessonPositionArray[i].position = i;
         }
       }
       try {
-        await Actions.orderConcepts(this, this.courseId, updateConceptPositionArray);
+        await Actions.orderConcepts(this, this.courseId, updateLessonPositionArray);
         this.successMessage = '';
         this.successMessage = 'Concept ordered successfully';
       } catch(error) {
@@ -308,7 +308,7 @@ export class PrendusCourseView {
     this.hasEditAccess = this.currentCourse && this.currentCourse.uid === this.uid;
     // this.courseTags = state.courseViewCurrentCourse.tags;
     this.courseTagNames = state.courseTagNames;
-    this.courseConcepts = state.viewCourseConcepts[this.courseId];
+    this.courseLessons = state.viewCourseLessons[this.courseId];
 		this.collaboratorEmails = state.courseCollaboratorEmails[this.uid] && state.courseCollaboratorEmails[this.uid][this.courseId];
     this.numberOfPublicCoursesLoaded = state.publicCourses ? state.publicCourses.length : this.numberOfPublicCoursesLoaded;
   }
