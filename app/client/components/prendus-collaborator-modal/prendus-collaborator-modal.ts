@@ -15,7 +15,7 @@ class PrendusCollaboratorModal {
     public observers: string[];
     public uid: string;
     public courseId: string;
-    public conceptId: string;
+    public lessonId: string;
     public videoId: string;
     public quizId: string;
     public properties: any;
@@ -33,10 +33,10 @@ class PrendusCollaboratorModal {
             course: {
                 type: Boolean
             },
-            conceptId: {
+            lessonId: {
                 type: String
             },
-            concept: {
+            lesson: {
                 type: Boolean
             },
             videoId: {
@@ -54,9 +54,9 @@ class PrendusCollaboratorModal {
         };
         this.observers = [
             'initCourse(uid, courseId, course)',
-            'initConcept(courseId, conceptId, concept)',
-            'initVideo(conceptId, videoId, video)',
-            'initQuiz(conceptId, quizId, quiz)'
+            'initLesson(courseId, lessonId, lesson)',
+            'initVideo(lessonId, videoId, video)',
+            'initQuiz(lessonId, quizId, quiz)'
         ];
     }
 
@@ -72,25 +72,25 @@ class PrendusCollaboratorModal {
         }
     }
 
-    async initConcept(courseId: string, conceptId: string, concept: boolean): Promise<void> {
+    async initLesson(courseId: string, lessonId: string, lesson: boolean): Promise<void> {
         try {
-            await Actions.loadConceptCollaboratorEmails(this, courseId, conceptId);
+            await Actions.loadLessonCollaboratorEmails(this, courseId, lessonId);
         } catch(error) {
             console.error(error);
         }
     }
 
-    async initVideo(conceptId: string, videoId: string, video: boolean): Promise<void> {
+    async initVideo(lessonId: string, videoId: string, video: boolean): Promise<void> {
         try {
-            await Actions.loadVideoCollaboratorEmails(this, conceptId, videoId);
+            await Actions.loadVideoCollaboratorEmails(this, lessonId, videoId);
         } catch(error) {
             console.error(error);
         }
     }
 
-    async initQuiz(conceptId: string, quizId: string, quiz: boolean): Promise<void> {
+    async initQuiz(lessonId: string, quizId: string, quiz: boolean): Promise<void> {
         try {
-            await Actions.loadQuizCollaboratorEmails(this, conceptId, quizId);
+            await Actions.loadQuizCollaboratorEmails(this, lessonId, quizId);
         } catch(error) {
             console.error(error);
         }
@@ -112,19 +112,19 @@ class PrendusCollaboratorModal {
                 await Actions.loadCourseCollaboratorEmails(this, this.uid, this.courseId);
             }
 
-            if (this.courseId && this.conceptId) {
-                await Actions.addConceptCollaborator(this, this.conceptId, this.newCollaboratorEmail);
-                await Actions.loadConceptCollaboratorEmails(this, this.courseId, this.conceptId);
+            if (this.courseId && this.lessonId) {
+                await Actions.addConceptCollaborator(this, this.lessonId, this.newCollaboratorEmail);
+                await Actions.loadLessonCollaboratorEmails(this, this.courseId, this.lessonId);
             }
 
-            if (this.conceptId && this.videoId) {
+            if (this.lessonId && this.videoId) {
                 await Actions.addVideoCollaborator(this, this.videoId, this.newCollaboratorEmail);
-                await Actions.loadVideoCollaboratorEmails(this, this.conceptId, this.videoId);
+                await Actions.loadVideoCollaboratorEmails(this, this.lessonId, this.videoId);
             }
 
-            if (this.conceptId && this.quizId) {
+            if (this.lessonId && this.quizId) {
                 await Actions.addQuizCollaborator(this, this.quizId, this.newCollaboratorEmail);
-                await Actions.loadQuizCollaboratorEmails(this, this.conceptId, this.quizId);
+                await Actions.loadQuizCollaboratorEmails(this, this.lessonId, this.quizId);
             }
         } catch(error) {
             console.error(error);
@@ -146,19 +146,19 @@ class PrendusCollaboratorModal {
                 await Actions.loadCourseCollaboratorEmails(this, this.uid, this.courseId);
             }
 
-            if (this.courseId && this.conceptId) {
-                await Actions.removeConceptCollaborator(this, this.conceptId, email);
-                await Actions.loadConceptCollaboratorEmails(this, this.courseId, this.conceptId);
+            if (this.courseId && this.lessonId) {
+                await Actions.removeLessonCollaborator(this, this.lessonId, email);
+                await Actions.loadLessonCollaboratorEmails(this, this.courseId, this.lessonId);
             }
 
-            if (this.conceptId && this.videoId) {
+            if (this.lessonId && this.videoId) {
                 await Actions.removeVideoCollaborator(this, this.videoId, email);
-                await Actions.loadVideoCollaboratorEmails(this, this.conceptId, this.videoId);
+                await Actions.loadVideoCollaboratorEmails(this, this.lessonId, this.videoId);
             }
 
-            if (this.conceptId && this.quizId) {
+            if (this.lessonId && this.quizId) {
                 await Actions.removeQuizCollaborator(this, this.quizId, email);
-                await Actions.loadQuizCollaboratorEmails(this, this.conceptId, this.quizId);
+                await Actions.loadQuizCollaboratorEmails(this, this.lessonId, this.quizId);
             }
         } catch(error) {
             console.error(error);
@@ -171,16 +171,16 @@ class PrendusCollaboratorModal {
             this.collaboratorEmails = state.courseCollaboratorEmails[this.uid] && state.courseCollaboratorEmails[this.uid][this.courseId];
         }
 
-        if (this.courseId && this.conceptId) {
-            this.collaboratorEmails = state.conceptCollaboratorEmails[this.courseId] && state.conceptCollaboratorEmails[this.courseId][this.conceptId];
+        if (this.courseId && this.lessonId) {
+            this.collaboratorEmails = state.conceptCollaboratorEmails[this.courseId] && state.conceptCollaboratorEmails[this.courseId][this.lessonId];
         }
 
-        if (this.conceptId && this.videoId) {
-            this.collaboratorEmails = state.videoCollaboratorEmails[this.conceptId] && state.videoCollaboratorEmails[this.conceptId][this.videoId];
+        if (this.lessonId && this.videoId) {
+            this.collaboratorEmails = state.videoCollaboratorEmails[this.lessonId] && state.videoCollaboratorEmails[this.lessonId][this.videoId];
         }
 
-        if (this.conceptId && this.quizId) {
-            this.collaboratorEmails = state.quizCollaboratorEmails[this.conceptId] && state.quizCollaboratorEmails[this.conceptId][this.quizId];
+        if (this.lessonId && this.quizId) {
+            this.collaboratorEmails = state.quizCollaboratorEmails[this.lessonId] && state.quizCollaboratorEmails[this.lessonId][this.quizId];
         }
     }
 }

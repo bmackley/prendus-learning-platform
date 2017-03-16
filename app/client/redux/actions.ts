@@ -61,7 +61,7 @@ const loadCourseCollaboratorEmails = async (context: any, uid: string, courseId:
 
         const conceptIds: string[] = await CourseModel.getConceptIds(courseId);
         conceptIds.forEach((conceptId) => {
-            loadConceptCollaboratorEmails(context, courseId, conceptId);
+            loadLessonCollaboratorEmails(context, courseId, conceptId);
         });
     } catch(error) {
         throw error;
@@ -69,7 +69,7 @@ const loadCourseCollaboratorEmails = async (context: any, uid: string, courseId:
 	}
 };
 
-const loadConceptCollaboratorEmails = async (context: any, courseId: string, conceptId: string): Promise<void> => {
+const loadLessonCollaboratorEmails = async (context: any, courseId: string, conceptId: string): Promise<void> => {
 
 	ExecuteAsyncInOrderService.execute(operation);
 
@@ -252,7 +252,7 @@ const removeCourseCollaborator = async (context: any, courseId: string, email: s
 	}
 };
 
-const removeConceptCollaborator = async (context: any, conceptId: string, email: string): Promise<void> => {
+const removeLessonCollaborator = async (context: any, conceptId: string, email: string): Promise<void> => {
 	ExecuteAsyncInOrderService.execute(operation);
 
 	async function operation(): Promise<void> {
@@ -854,11 +854,11 @@ const deleteTagFromCourse = async (context: any, tag: Tag, courseId: string): Pr
         await CourseModel.removeTag(tagId, courseId);
         await TagModel.removeCourse(tagId, courseId);
         const currentCourse: Course = await CourseModel.getById(courseId);
-        const courseTagNames: string[] = currentCourse.tags ? await TagModel.getTagNameArray(currentCourse.tags) : [];
+        // const courseTagNames: string[] = currentCourse.tags ? await TagModel.getTagNameArray(currentCourse.tags) : [];
         context.action = {
             type: 'DELETE_TAG_EDIT_COURSE',
-            currentCourse,
-            courseTagNames
+            currentCourse
+            // courseTagNames
         };
     } catch(error) {
         context.action = {
@@ -872,12 +872,12 @@ const addTagToCourse = async (context: any, tag: string, courseId: string): Prom
     try {
         const tagId: string = await TagModel.createOrUpdate(tag, courseId, null, null);
         const currentCourse: Course = await CourseModel.addTag(tagId, courseId);
-        const courseTagNames: string[] = currentCourse.tags ? await TagModel.getTagNameArray(currentCourse.tags) : [];
+        // const courseTagNames: string[] = currentCourse.tags ? await TagModel.getTagNameArray(currentCourse.tags) : [];
         if(context) {
             context.action = {
                 type: 'ADD_TAG_EDIT_COURSE',
-                currentCourse,
-                courseTagNames
+                currentCourse
+                // courseTagNames
             };
         }
     } catch(error) {
@@ -968,7 +968,7 @@ const getSharedCoursesByUser = async (context: any, uid: string): Promise<void> 
 
 const getCoursesByVisibility = async (context: any, visibility: CourseVisibility, limit: number): Promise<Course[]> => {
     try {
-      const courses: Course[] = await CourseModel.getAllByVisibility(visibility, limit);
+      const courses: Course[] = await CourseModel.getAllByVisibility(visibility);
       // const courses: Course[] = await CourseModel.resolveCourseArrayTagIds(tempCourses);
       context.action = {
           type: 'SET_COURSES_BY_VISIBILITY',
@@ -984,11 +984,11 @@ const getCoursesByVisibility = async (context: any, visibility: CourseVisibility
 const getCourseViewCourseById = async (context: any, id: string): Promise<void> => {
     try {
       const currentCourse: Course = await CourseModel.getById(id);
-      const courseTagNames: string[] = currentCourse.tags ? await TagModel.getTagNameArray(currentCourse.tags) : [];
+      // const courseTagNames: string[] = currentCourse.tags ? await TagModel.getTagNameArray(currentCourse.tags) : [];
       context.action = {
           type: 'SET_COURSE_VIEW_CURRENT_COURSE',
-          currentCourse,
-          courseTagNames
+          currentCourse
+          // courseTagNames
       };
     } catch(error){
       throw error;
@@ -1118,7 +1118,7 @@ export const Actions = {
     removeQuizCollaborator,
     getSharedCoursesByUser,
     loadCourseCollaboratorEmails,
-    loadConceptCollaboratorEmails,
+    loadLessonCollaboratorEmails,
     loadVideoCollaboratorEmails,
     addCourseCollaborator,
     lookupConceptTags,
@@ -1126,7 +1126,7 @@ export const Actions = {
     addConceptCollaborator,
     addVideoCollaborator,
     removeCourseCollaborator,
-    removeConceptCollaborator,
+    removeLessonCollaborator,
     removeVideoCollaborator,
     updateCourseField,
     loadEditCourseConcepts,
