@@ -17,6 +17,8 @@ class PrendusCourseRouter {
   }
 
   _routeChanged(routeObject: any): void {
+		const backdrop: any = document.querySelector('iron-overlay-backdrop');
+		if(backdrop && backdrop.close) backdrop.close();
     const route: string = routeObject.value.path;
     if(!route) {
       return;
@@ -35,6 +37,9 @@ class PrendusCourseRouter {
 
       case 'edit-quiz': {
         UtilitiesService.importElement(this, 'components/prendus-quiz-editor/prendus-quiz-editor.html', 'edit-quiz');
+				const editQuizElement = this.querySelector('#edit-quiz');
+				// manually reinitialize the quiz editor every time the view
+				if(editQuizElement && editQuizElement.setQuizData) editQuizElement.setQuizData(editQuizElement.quizId);
         break;
       }
 

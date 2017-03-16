@@ -34,8 +34,6 @@ const showMainSpinner = (context: any): void => {
 };
 
 const hideMainSpinner = (context: any): void => {
-	console.log('hiding main spinner with context:')
-	console.log(context)
     context.action = {
         type: 'HIDE_MAIN_SPINNER'
     };

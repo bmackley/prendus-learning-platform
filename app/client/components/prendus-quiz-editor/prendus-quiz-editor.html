@@ -111,7 +111,7 @@
     </style>
 
     <redux-store on-statechange="mapStateToThis" action="[[action]]"></redux-store>
-		<app-route route="{{route}}" pattern="/edit-quiz/course/:courseId/concept/:conceptId/quiz/:quizId" data="{{data}}" tail="{{tail}}"></app-route>
+		<app-route route="{{route}}" pattern="/edit-quiz/course/:courseId/concept/:conceptId/quiz/:quizId" data="{{data}}" tail="{{tail}}" active="[[true]]"></app-route>
 
     <iron-ajax id="getUserQuestionIdsAjax" method="get" url="[[endpointDomain]]/api/jwt/[[jwt]]/question-ids" handle-as="json"></iron-ajax>
     <iron-ajax id="getPublicQuestionIdsAjax" method="get" url="[[endpointDomain]]/api/public/question-ids" handle-as="json"></iron-ajax>
@@ -132,7 +132,7 @@
 		<paper-dialog id="title-quiz-dialog" modal>
 			<div class="content">
 				<h2>Enter quiz title</h2>
-				<paper-input id="new-quiz-input" class="quiz-title-input" label="Title" value="{{title}}" required auto-validate maxlength="50" error-message="Please enter a title"></paper-input>
+				<paper-input id="new-quiz-input" class="quiz-title-input" label="Title" value="{{title}}" required auto-validate maxlength="50" error-message="Please enter a title" on-keydown="createQuizOnEnter"></paper-input>
 			</div>
 			<div class="buttons">
 				<a class="prendus-button prendus-button--minor" href="/courses/view/[[courseId]]" dialog-dismiss>Back</a>
@@ -215,12 +215,12 @@
 						<iron-pages selected="[[selected]]">
 							<!-- USER'S QUESTIONS -->
 							<div id="my-questions" class="tab-content">
-								<paper-button id="new-question" class="indigo" on-tap="createQuestion">New Question</paper-button>
+								<a id="new-question" class="prendus-button prendus-button--recommended" href="/courses/edit-question/question/create"><iron-icon icon="add"></iron-icon>New Question</a>
 								<template is="dom-repeat" items="[[userQuestionIds]]">
 									<prendus-view-question id="user-question-id-[[item]]" question-id="[[item]]" quiz-id="NO_QUIZ" jwt="[[jwt]]" quiz-session="[[quizSession]]" concise></prendus-view-question>
-									<paper-icon-button id="add[[item]]" icon="av:playlist-add" on-click="addQuestionToQuiz"></paper-icon-button>
+									<paper-icon-button id="add[[item]]" class="prendus-icon-button" icon="av:playlist-add" on-click="addQuestionToQuiz"></paper-icon-button>
 									<paper-tooltip for="add[[item]]">Add to quiz</paper-tooltip>
-									<paper-icon-button id="edit[[item]]" icon="create" on-click="editQuestion"></paper-icon-button>
+									<a href="/courses/edit-question/question/[[item]]" tabindex="-1"><paper-icon-button id="edit[[item]]" class="prendus-icon-button" icon="create"></paper-icon-button></a>
 									<paper-tooltip for="edit[[item]]">Edit question</paper-tooltip>
 									<hr>
 								</template>
