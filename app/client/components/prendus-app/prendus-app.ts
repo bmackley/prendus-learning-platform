@@ -1,6 +1,7 @@
 import {FirebaseService} from '../../node_modules/prendus-services/services/firebase-service';
 import {rootReducer} from '../../redux/reducers';
 import {State} from '../../typings/state';
+import {StatechangeEvent} from '../../typings/statechange-event';
 import {Action} from '../../typings/action';
 
 class PrendusApp {
@@ -12,7 +13,7 @@ class PrendusApp {
     this.is = 'prendus-app';
   }
 
-  mapStateToThis(e) {
+  mapStateToThis(e: StatechangeEvent) {
     const state = e.detail.state
     this.username = state.currentUser.email;
   }
