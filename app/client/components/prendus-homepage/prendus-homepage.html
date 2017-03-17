@@ -72,7 +72,7 @@
   <template>
     <prendus-notification success-message="[[successMessage]]" error-message="[[errorMessage]]"></prendus-notification>
     <redux-store on-statechange="mapStateToThis" action="[[action]]"></redux-store>
-    <iron-list id="course-list" items="[[publicCourses]]" as="course" grid>
+    <iron-list id="course-list" items="[[publicCourses]]" as="course" grid scroll-target="document">
       <template>
         <prendus-course-preview id="[[course.id]]" class="course-preview" course="[[course]]"></prendus-course-preview>
       </template>
