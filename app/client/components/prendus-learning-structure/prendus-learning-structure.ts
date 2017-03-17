@@ -348,10 +348,11 @@ export class PrendusLearningStructure {
    * right next to a chosen concept.
    */
   editConcept(): void {
-    if(!UtilitiesService.isDefined(this.chosenSubject)) {
+    if(!UtilitiesService.isDefined(this.chosenSubject)
+    || !UtilitiesService.isDefined(this.chosenConcept)) {
       console.error('The user is somehow editing a concept when it isn\'t defined..');
     } else {
-      this.querySelector('#edit-concept-name').value = this.chosenSubject.title;
+      this.querySelector('#edit-concept-name').value = this.chosenConcept.title;
       this.querySelector('#edit-concept').open();
     }
   }
@@ -415,6 +416,7 @@ export class PrendusLearningStructure {
     && UtilitiesService.isDefined(this.getSubjectPaperListBox())) {
       // if discipline is defined and subject is not, then remove selection.
       // this usually happens after a subject has been deleted
+
       const subjectPaperListBox = this.getSubjectPaperListBox();
       subjectPaperListBox.select(-1);
     }
@@ -427,10 +429,8 @@ export class PrendusLearningStructure {
                       && UtilitiesService.isDefined(state.chosenSubject)
                       && UtilitiesService.isDefined(state.chosenConcept)
                        ? state.chosenConcept : null;
-   if(UtilitiesService.isDefined(this.chosenDiscipline)
-  && !UtilitiesService.isDefined(this.chosenSubject)
-  && !UtilitiesService.isDefined(this.chosenConcept)
-  && UtilitiesService.isDefined(this.getConceptPaperListBox())) {
+   if(!UtilitiesService.isDefined(this.chosenConcept)
+   &&  UtilitiesService.isDefined(this.getConceptPaperListBox())) {
      // if discipline,subject is defined and concept is not, then remove selection.
      // this usually happens after a concept has been deleted
      const conceptPaperListBox = this.getConceptPaperListBox();
