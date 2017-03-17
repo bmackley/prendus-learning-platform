@@ -1083,7 +1083,11 @@ const getAllDisciplines = async (context: any): Promise<void> => {
     const disciplines: Discipline[] = await DisciplineModel.getAll();
     await UtilitiesService.asyncForEach(disciplines, async (discipline: Discipline) => {
       discipline.resolvedSubjects = await SubjectModel.getAllByDisciplineId(discipline.id);
+      await UtilitiesService.asyncForEach(discipline.resolvedSubjects, async (subject: Subject) => {
+        subject.resolvedConcepts = await ConceptModel.getAllBySubjectId(subject.id);
+      });
     });
+
     context.action = {
       type: 'SET_DISCIPLINES',
       disciplines
@@ -1100,6 +1104,9 @@ const setChosenResolvedDiscipline = async (context: any, disciplineId: string): 
   try {
     const discipline: Discipline = await DisciplineModel.getById(disciplineId);
     discipline.resolvedSubjects = await SubjectModel.getAllByDisciplineId(disciplineId);
+    await UtilitiesService.asyncForEach(discipline.resolvedSubjects, async (subject: Subject) => {
+      subject.resolvedConcepts = await ConceptModel.getAllBySubjectId(subject.id);
+    });
     setChosenDiscipline(context, discipline);
   } catch(error) {
     throw error;
@@ -1150,6 +1157,7 @@ const setChosenResolvedSubject = async (context: any, subjectId: string): Promis
   try {
     const subject: Subject = await SubjectModel.getById(subjectId);
     subject.resolvedConcepts = await ConceptModel.getAllBySubjectId(subjectId);
+    console.log('subject.resolvedConcepts ', subject.resolvedConcepts);
     setChosenSubject(context, subject);
   } catch(error) {
     throw error;

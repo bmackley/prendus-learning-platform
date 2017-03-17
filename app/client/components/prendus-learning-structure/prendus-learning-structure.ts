@@ -113,6 +113,7 @@ export class PrendusLearningStructure {
     // The discipine subjects should already be resolved so we gucci
     Actions.setChosenDiscipline(this, discipline);
     Actions.setChosenSubject(this, null);
+    Actions.setChosenConcept(this, null);
   }
 
   /**
@@ -372,6 +373,8 @@ export class PrendusLearningStructure {
     if(!UtilitiesService.isDefined(this.chosenDiscipline)) {
       console.error('the user is somehow choosing a subject when there is no discipline');
     } else {
+      const concept: Concept = e.model.item;
+      Actions.setChosenConcept(this, concept);
     }
   }
 
@@ -407,7 +410,6 @@ export class PrendusLearningStructure {
                       && UtilitiesService.isDefined(state.chosenSubject)
                       && UtilitiesService.isDefined(state.chosenConcept)
                        ? state.chosenConcept : null;
-
    if(UtilitiesService.isDefined(this.chosenDiscipline)
   && !UtilitiesService.isDefined(this.chosenSubject)
   && !UtilitiesService.isDefined(this.chosenConcept)
