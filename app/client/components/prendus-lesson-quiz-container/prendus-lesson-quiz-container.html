@@ -6,7 +6,7 @@
 <link rel="import" href="../../bower_components/paper-dialog/paper-dialog.html">
 <link rel="import" href="../../bower_components/paper-tooltip/paper-tooltip.html">
 <link rel="import" href="../../styles/color-styles.html">
-<dom-module id="prendus-concept-quiz-container">
+<dom-module id="prendus-lesson-quiz-container">
   <template>
 
 		<style include="color-styles"></style>
@@ -87,7 +87,7 @@
       </div>
     </template>
 
-    <h4 class="quiz-blankslate" hidden$="[[hasQuizzes(quizzes)]]">This concept doesn't have any quizzes yet.</h4>
+    <h4 class="quiz-blankslate" hidden$="[[hasQuizzes(quizzes)]]">This lesson doesn't have any quizzes yet.</h4>
     <template is="dom-if" if="[[courseEditAccess]]">
       <paper-button class="add-quiz-button" on-tap="addQuiz" noink><iron-icon icon="add"></iron-icon>Add Quiz</paper-button>
     </template>
@@ -104,5 +104,5 @@
     <prendus-notification error-message="[[errorMessage]]" success-message="[[successMessage]]"></prendus-notification>
   </template>
 
-  <script src="prendus-concept-quiz-container.ts"></script>
+  <script src="prendus-lesson-quiz-container.ts"></script>
 </dom-module>

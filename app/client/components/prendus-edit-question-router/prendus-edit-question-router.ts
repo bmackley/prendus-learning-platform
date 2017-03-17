@@ -7,7 +7,7 @@ import {QuizSession} from '../../node_modules/prendus-services/typings/quiz-sess
 class PrendusEditQuestionRouter {
     public is: string;
     public jwt: string;
-    public conceptId: string;
+    public lessonId: string;
     public quizId: string;
     public properties: Object;
     public errorMessage: string;
@@ -78,7 +78,7 @@ class PrendusEditQuestionRouter {
     }
     setData(): void {
       if(this.data) {
-        this.conceptId = this.data.conceptId;
+        this.lessonId = this.data.lessonId;
         this.quizId = this.data.quizId;
       }
     }

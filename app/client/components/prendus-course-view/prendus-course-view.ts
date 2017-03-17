@@ -1,18 +1,18 @@
 import {Actions} from '../../redux/actions';
 import {Course} from '../../node_modules/prendus-services/typings/course';
-import {Concept} from '../../node_modules/prendus-services/typings/concept';
-import {CourseConceptData} from '../../node_modules/prendus-services/typings/course-concept-data';
+import {Lesson} from '../../node_modules/prendus-services/typings/lesson';
+import {CourseLessonData} from '../../node_modules/prendus-services/typings/course-lesson-data';
 import {StatechangeEvent} from '../../typings/statechange-event';
 import {Tag} from '../../node_modules/prendus-services/typings/tag';
 import {Quiz} from '../../node_modules/prendus-services/typings/quiz';
 import {CourseModel} from '../../node_modules/prendus-services/models/course-model';
 import {UtilitiesService} from '../../node_modules/prendus-services/services/utilities-service';
-import {ConceptModel} from '../../node_modules/prendus-services/models/concept-model';
+import {LessonModel} from '../../node_modules/prendus-services/models/lesson-model';
 import {State} from '../../typings/state';
 
 export class PrendusCourseView {
   public is: string;
-  public courseConcepts: CourseConceptData[];
+  public courseLessons: CourseLessonData[];
   public currentCourse: Course;
 	public collaboratorEmails: string[];
   public courseTagNames: string[];
@@ -65,10 +65,21 @@ export class PrendusCourseView {
       'viewCourse(data)'
     ];
     this.listeners = {
-      'edit-concept': 'openEditConceptDialog',
-			'finish-edit-concept': 'reloadConcept'
+      'edit-lesson': 'openEditLessonDialog',
+			'finish-edit-lesson': 'reloadLesson'
     };
+  }
+	reloadLesson(e: any): void {
+		this.querySelector(`#lesson${e.detail.lessonId}`).init();
+	}
 
+  openEditLessonDialog(e: any): void {
+    const lessonId: string = e.detail.lessonId;
+    this.querySelector('#add-lesson-dialog').edit(lessonId);
+  }
+
+	openDueDateModal(e: any): void {
+    this.querySelector('#due-date-modal').open();
   }
 
   openCollaboratorsModal(e: any): void {
@@ -139,41 +150,6 @@ export class PrendusCourseView {
     return date ? new Date(date) : new Date();
   }
 
-  /**
-   * Called when a subject changes in the subject paper-dropdown-menu
-   */
-  async subjectChange(e: any): Promise<void> {
-    try {
-      const subject: string = e.model.item;
-      await CourseModel.setAttribute('subject', subject, this.courseId);
-      const conceptIds: string[] = await CourseModel.getConceptIds(this.courseId);
-      await UtilitiesService.asyncForEach(conceptIds, async (conceptId: string) => {
-        await ConceptModel.deleteSubtopic(conceptId);
-      });
-      await Actions.initGradeLevels(this, this.courseId);
-      await CourseModel.setAttribute('gradeLevel', '', this.courseId);
-      this.successMessage = '';
-      this.successMessage = `Subject updated to ${subject}`;
-
-    } catch(error) {
-      console.error(error);
-    }
-  }
-
-  /**
-   * Called when a grade level changes in the grade level paper-dropdown-menu
-   */
-  async gradeLevelChange(e: any): Promise<void> {
-    try {
-      const gradeLevel: string = e.model.item;
-      await CourseModel.setAttribute('gradeLevel', gradeLevel, this.courseId);
-      this.successMessage = '';
-      this.successMessage = `Grade level updated to ${gradeLevel}`;
-    } catch(error) {
-      console.error(error);
-    }
-  }
-
   async dueDateChanged(): Promise<void> {
     try {
       const newDate: Date = this.querySelector('#due-date').date;
@@ -218,7 +194,7 @@ export class PrendusCourseView {
 
   toggle(e: any): void {
     const collapseTarget = (e.target.id);
-    this.querySelector('#Concept' + collapseTarget).toggle();
+    this.querySelector('#lesson' + collapseTarget).toggle();
   }
 
   async viewCourse(): Promise<void> {
@@ -226,10 +202,8 @@ export class PrendusCourseView {
       if (this.data && this.data.courseId) {
           Actions.showMainSpinner(this);
           await Actions.getCourseViewCourseById(this, this.data.courseId);
-          await Actions.loadViewCourseConcepts(this, this.data.courseId);
-          await Actions.initSubjects(this, this.courseId);
-          await Actions.initGradeLevels(this, this.courseId);
           Actions.hideMainSpinner(this);
+          await Actions.loadViewCourseLessons(this, this.data.courseId);
 					this.courseLoaded = true;
       }
     } catch(error) {
@@ -245,23 +219,23 @@ export class PrendusCourseView {
     console.log('LTI Links3')
   }
 
-  addConcept(e: any): void {
-    this.querySelector('#add-concept-dialog').open();
+  addLesson(e: any): void {
+    this.querySelector('#add-lesson-dialog').open();
   }
 
   async sortableEnded(e: any): Promise<void> { //This isn't the most elegant solution. I'm open to better ways of doing things.
     if(typeof e.newIndex !== 'undefined') {
-      let updateConceptPositionArray: CourseConceptData[] = [];
-      for(let i:number = 0, len: number = this.courseConcepts.length; i< len; i++) {
-        updateConceptPositionArray.push(this.courseConcepts[i]);
-        if(this.courseConcepts[i].position != i) {
-          updateConceptPositionArray[i].position = i;
+      let updateLessonPositionArray: CourseLessonData[] = [];
+      for(let i:number = 0, len: number = this.courseLessons.length; i< len; i++) {
+        updateLessonPositionArray.push(this.courseLessons[i]);
+        if(this.courseLessons[i].position != i) {
+          updateLessonPositionArray[i].position = i;
         }
       }
       try {
-        await Actions.orderConcepts(this, this.courseId, updateConceptPositionArray);
+        await Actions.orderLessons(this, this.courseId, updateLessonPositionArray);
         this.successMessage = '';
-        this.successMessage = 'Concept ordered successfully';
+        this.successMessage = 'Lesson ordered successfully';
       } catch(error) {
         console.error(error.message);
         this.errorMessage = '';
@@ -309,7 +283,7 @@ export class PrendusCourseView {
     this.hasEditAccess = this.currentCourse && this.currentCourse.uid === this.uid;
     // this.courseTags = state.courseViewCurrentCourse.tags;
     this.courseTagNames = state.courseTagNames;
-    this.courseConcepts = state.viewCourseConcepts[this.courseId];
+    this.courseLessons = state.viewCourseLessons[this.courseId];
 		this.collaboratorEmails = state.courseCollaboratorEmails[this.uid] && state.courseCollaboratorEmails[this.uid][this.courseId];
     this.numberOfPublicCoursesLoaded = state.publicCourses ? state.publicCourses.length : this.numberOfPublicCoursesLoaded;
   }

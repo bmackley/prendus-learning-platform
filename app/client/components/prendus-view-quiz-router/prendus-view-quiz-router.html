@@ -23,7 +23,7 @@
   </style>
     <template>
         <redux-store on-statechange="mapStateToThis" action="[[action]]"></redux-store>
-        <app-route route="[[route]]" pattern="/view-quiz/course/:courseId/concept/:conceptId/quiz/:quizId" data="{{data}}"></app-route>
+        <app-route route="[[route]]" pattern="/view-quiz/course/:courseId/lesson/:lessonId/quiz/:quizId" data="{{data}}"></app-route>
         <template is="dom-if" if="[[!userEmail]]">
           <paper-card id="signInMessageCard" heading ="Log in to view quizzes">
             <div class= "card-content">

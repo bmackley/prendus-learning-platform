@@ -2,20 +2,23 @@ import {Video} from '../../node_modules/prendus-services/typings/video';
 import {Actions} from '../../redux/actions';
 import {StatechangeEvent} from '../../typings/statechange-event';
 
-class PrendusConceptVideoContainer {
+class PrendusLessonVideoContainer {
     public is: string;
     public properties: any;
     public observers: string[];
-    public conceptId: string;
+    public lessonId: string;
     public videos: Video[];
     public currentVideoId: string;
     public currentVideoTitle: string;
     public currentVideoUrl: string;
+    public $: any;
+    public fire: any;
+    public courseId: string;
 
     beforeRegister() {
-        this.is = 'prendus-concept-video-container';
+        this.is = 'prendus-lesson-video-container';
         this.properties = {
-            conceptId: {
+            lessonId: {
                 type: String
             },
             courseId: {
@@ -23,13 +26,13 @@ class PrendusConceptVideoContainer {
             }
         };
         this.observers = [
-            'init(conceptId)'
+            'init(lessonId)'
         ];
     }
 
     async init() {
-        if (this.conceptId) {
-            await Actions.loadViewConceptVideos(this, this.conceptId);
+        if (this.lessonId) {
+            await Actions.loadViewLessonVideos(this, this.lessonId);
         }
     }
 
@@ -55,11 +58,11 @@ class PrendusConceptVideoContainer {
     mapStateToThis(e: StatechangeEvent) {
         const state = e.detail.state;
 
-        this.videos = state.viewConceptVideos[this.conceptId];
-        this.currentVideoId = state.currentConceptVideoId;
-        this.currentVideoTitle = state.currentConceptVideoTitle;
-        this.currentVideoUrl = state.currentConceptVideoUrl;
+        this.videos = state.viewLessonVideos[this.lessonId];
+        this.currentVideoId = state.currentLessonVideoId;
+        this.currentVideoTitle = state.currentLessonVideoTitle;
+        this.currentVideoUrl = state.currentLessonVideoUrl;
     }
 }
 
-Polymer(PrendusConceptVideoContainer);
+Polymer(PrendusLessonVideoContainer);

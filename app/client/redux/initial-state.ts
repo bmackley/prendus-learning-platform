@@ -3,19 +3,19 @@ import {State} from '../typings/state';
 
 export const InitialState: State = {
     mainViewToShow: 'routes',
-    concepts: {
+    lessons: {
     },
-    currentConcept: {
+    currentLesson: {
     },
     courses: [],
     courseViewCurrentCourse: {},
-    editCourseConcepts: {},
-    viewCourseConcepts: {},
-    editConceptVideos: {},
-    viewConceptVideos: {},
-    currentConceptVideoId: '',
-    currentConceptVideoTitle: '',
-    currentConceptVideoUrl: '',
+    editCourseLessons: {},
+    viewCourseLessons: {},
+    editLessonVideos: {},
+    viewLessonVideos: {},
+    currentLessonVideoId: '',
+    currentLessonVideoTitle: '',
+    currentLessonVideoUrl: '',
     currentUser: {
         authorizedQuestions: {},
         authorizedQuizzes: {},
@@ -28,7 +28,7 @@ export const InitialState: State = {
         },
         starredCourses: {},
         sharedWithMeCourses: {},
-        sharedWithMeConcepts: {},
+        sharedWithMeLessons: {},
         sharedWithMeVideos: {},
         sharedWithMeQuizzes: {}
     },
@@ -37,14 +37,14 @@ export const InitialState: State = {
     quizQuestionIds: [],
     quizQuestionSettings: {},
     currentEditQuizId: '',
-    editConceptQuizzes: {},
-    viewConceptQuizzes: {},
-    currentEditConceptId: '',
+    editLessonQuizzes: {},
+    viewLessonQuizzes: {},
+    currentEditLessonId: '',
     publicCourses: [],
     starredCourses: [],
     sharedCourses: [],
     courseCollaboratorEmails: {},
-    conceptCollaboratorEmails: {},
+    lessonCollaboratorEmails: {},
     videoCollaboratorEmails: {},
     quizCollaboratorEmails: {}
 };

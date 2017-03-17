@@ -1,14 +1,14 @@
 import {Actions} from '../../redux/actions';
 import {StatechangeEvent} from '../../typings/statechange-event';
 import {FirebaseService} from '../../node_modules/prendus-services/services/firebase-service';
-import {Concept} from '../../node_modules/prendus-services/typings/concept';
+import {Lesson} from '../../node_modules/prendus-services/typings/lesson';
 import {Tag} from '../../node_modules/prendus-services/typings/tag';
 
-export class PrendusConceptContainerEdit {
+export class PrendusLessonContainerEdit {
   public is: string;
   public title: string;
   public properties: any;
-  public conceptId: string;
+  public lessonId: string;
   public courseId: string;
   public observers: string[];
   public selected: number;
@@ -19,22 +19,26 @@ export class PrendusConceptContainerEdit {
   public fire: any;
 
   beforeRegister(): void {
-    this.is = 'prendus-concept-container-edit';
+    this.is = 'prendus-lesson-container-edit';
     this.properties = {
-      conceptId: {
+      lessonId: {
           type: String
       }
     };
     this.observers = [
-        'init(conceptId)'
+        'init(lessonId)'
     ];
   }
 
   async init(): Promise<void> {
-    if (this.conceptId) {
+    if (this.lessonId) {
       try {
-        const concept: Concept = await Actions.getConceptById(null, this.conceptId);
-        this.title = concept.title;
+        const lesson: Lesson = await Actions.getLessonById(null, this.lessonId);
+        this.title = lesson.title;
+        if(lesson.tags) {
+          this.tags = await Actions.resolveTagIdObject(lesson.tags);
+        }
+
       } catch(error) {
         this.errorMessage = '';
         this.errorMessage = error.message;
@@ -43,9 +47,9 @@ export class PrendusConceptContainerEdit {
     }
   }
 
-  editConcept(e: any): void {
+  editLesson(e: any): void {
 		e.stopPropagation();
-    this.fire('edit-concept', { conceptId: this.conceptId });
+    this.fire('edit-lesson', { lessonId: this.lessonId });
   }
 
   openCollaboratorsModal(e: any): void {
@@ -70,10 +74,10 @@ export class PrendusConceptContainerEdit {
   async completeDelete(): Promise<void> {
     this.querySelector('#delete-confirm-modal').close();
     try {
-      await Actions.deleteConcept(this, this.courseId, this.conceptId);
-      await Actions.loadViewCourseConcepts(this, this.courseId);
+      await Actions.deleteLesson(this, this.courseId, this.lessonId);
+      await Actions.loadViewCourseLessons(this, this.courseId);
       this.successMessage = '';
-      this.successMessage = 'Concept deleted successfully';
+      this.successMessage = 'Lesson deleted successfully';
     } catch(error) {
       this.errorMessage = '';
       this.errorMessage = error.message;
@@ -85,4 +89,4 @@ export class PrendusConceptContainerEdit {
   }
 }
 
-Polymer(PrendusConceptContainerEdit);
+Polymer(PrendusLessonContainerEdit);

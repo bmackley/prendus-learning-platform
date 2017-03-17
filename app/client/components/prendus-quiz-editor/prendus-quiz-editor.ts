@@ -22,7 +22,7 @@ class PrendusQuizEditor {
 		public data: any;
 		public quizLoaded: boolean;
 		public quizId: string;
-		public conceptId: string;
+		public lessonId: string;
 		public courseId: string;
     public userQuestionIds: string[];
     public publicQuestionIds: string[];
@@ -72,7 +72,7 @@ class PrendusQuizEditor {
 
 		setQuizData(data: any): void {
 			this.courseId = data.courseId;
-			this.conceptId = data.conceptId;
+			this.lessonId = data.lessonId;
 			this.quizId = data.quizId;
 		}
 
@@ -275,8 +275,8 @@ class PrendusQuizEditor {
         this.errorMessage = error.message;
       }
 			// load these in the background so they're updated when the user returns to that page
-      Actions.loadEditConceptQuizzes(this, this.conceptId);
-      Actions.loadViewConceptQuizzes(this, this.conceptId);
+      Actions.loadEditLessonQuizzes(this, this.lessonId);
+      Actions.loadViewLessonQuizzes(this, this.lessonId);
     }
 
     async privateToggled(e: any): Promise<void> {
