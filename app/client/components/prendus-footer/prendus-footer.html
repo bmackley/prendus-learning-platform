@@ -1,6 +1,4 @@
 <link rel="import" href="../../bower_components/polymer/polymer.html">
-<link rel="import" href="../../bower_components/app-route/app-route.html">
-<link rel="import" href="../../bower_components/app-route/app-location.html">
 <link rel="import" href="../../bower_components/paper-toolbar/paper-toolbar.html">
 
 <dom-module id="prendus-footer">
@@ -33,10 +31,7 @@
 
 	  </style>
 
-		<app-location route="{{route}}"></app-location>
-		<app-route route="[[route]]" pattern="/:page" data="{{data}}"></app-route>
-
-    <paper-toolbar hidden$="[[!showFooter(data.page)]]">
+    <paper-toolbar>
       <footer class="footer-items">
         <div>&copy; [[getYear()]]&nbsp;<span class="long-text">Prendus LLC</span></div>
         <a href="/terms-of-service">Terms&nbsp;<span id="terms-of-service" class="long-text">of Service</span></a>
