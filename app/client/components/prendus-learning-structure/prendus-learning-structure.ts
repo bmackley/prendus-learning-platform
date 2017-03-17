@@ -9,6 +9,7 @@ import {Discipline} from '../../node_modules/prendus-services/typings/discipline
 import {UtilitiesService} from '../../node_modules/prendus-services/services/utilities-service';
 import {Subject} from '../../node_modules/prendus-services/typings/subject';
 import {Concept} from '../../node_modules/prendus-services/typings/concept';
+import {ConceptModel} from '../../node_modules/prendus-services/models/concept-model';
 
 export class PrendusLearningStructure {
   public is: string;
@@ -213,6 +214,7 @@ export class PrendusLearningStructure {
         }
 
         await SubjectModel.createOrUpdate(newSubject.id, newSubject);
+        Actions.getAllDisciplines(this);
         await Actions.setChosenResolvedDiscipline(this, this.chosenDiscipline.id);
         Actions.setChosenResolvedSubject(this, newSubject.id);
         // This is a hack so that the selected item will be updated.
@@ -252,8 +254,11 @@ export class PrendusLearningStructure {
       if(!UtilitiesService.isDefined(this.chosenSubject) || !UtilitiesService.isDefined(this.chosenDiscipline)) {
         console.error('the user is somehow deleting a subject they don\'t have access to');
       } else {
+
         await Actions.deleteSubject(this.chosenSubject);
+        Actions.getAllDisciplines(this);
         // This will update the select list of subjects
+
         await Actions.setChosenResolvedDiscipline(this, this.chosenDiscipline.id);
         Actions.setChosenSubject(this, null);
 
@@ -310,7 +315,7 @@ export class PrendusLearningStructure {
           uid: this.uid //TODO this is temporary!!!!!!!!!!!! Delete this once concepts are fully moved over to lessons!!!!
         };
         const conceptId: string = await Actions.createConcept(this, newConcept);
-        await Actions.getAllDisciplines(this);
+        Actions.getAllDisciplines(this);
         //This will update the list of concepts
         await Actions.setChosenResolvedDiscipline(this, this.chosenDiscipline.id);
         await Actions.setChosenResolvedSubject(this, this.chosenSubject.id);
@@ -333,9 +338,27 @@ export class PrendusLearningStructure {
    */
   async editConceptDone(): Promise<void> {
     try {
-      if(!UtilitiesService.isDefined(this.chosenSubject)) {
+      if(!UtilitiesService.isDefined(this.chosenSubject)
+      || !UtilitiesService.isDefined(this.chosenConcept)) {
         console.error('somehow the user is trying to edit an undefined concept');
       } else {
+        const title: string = this.querySelector('#edit-concept-name').value;
+        const newConcept: Concept = {
+          ...this.chosenConcept,
+          title
+        };
+        Actions.getAllDisciplines(this);
+        await ConceptModel.createOrUpdate(newConcept.id, newConcept);
+        await Actions.setChosenResolvedDiscipline(this, this.chosenDiscipline.id);
+        await Actions.setChosenResolvedSubject(this, this.chosenSubject.id);
+        await Actions.setChosenResolvedConcept(this, newConcept.id);
+        // This is a hack so that the selected item will be updated.
+        const paperListBox = this.getConceptPaperListBox();
+        paperListBox.selectPrevious();
+        paperListBox.selectNext();
+
+        this.successMessage = '';
+        this.successMessage = 'Subject updated';
       }
 
     } catch(error) {
@@ -366,11 +389,13 @@ export class PrendusLearningStructure {
       if(!UtilitiesService.isDefined(this.chosenSubject) || !UtilitiesService.isDefined(this.chosenDiscipline)) {
         console.error('the user is somehow deleting a concept they don\'t have access to');
       } else {
+
         await Actions.deleteConcept(this.chosenConcept);
         // This will update the select list of concepts
+        Actions.getAllDisciplines(this);
         await Actions.setChosenResolvedDiscipline(this, this.chosenDiscipline.id);
         await Actions.setChosenResolvedSubject(this, this.chosenSubject.id);
-        await Actions.getAllDisciplines(this);
+
         Actions.setChosenConcept(this, null);
         this.successMessage = '';
         this.successMessage = 'Concept deleted';
