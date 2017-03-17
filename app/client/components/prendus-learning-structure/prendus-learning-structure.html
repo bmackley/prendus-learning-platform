@@ -16,6 +16,7 @@
   <style include="color-styles">
   </style>
   <style>
+  /* TODO brandon i have no idea how to make this pretty, help me out? */
     :host {
       width: 100%;
       display: flex;
@@ -98,11 +99,30 @@
 
 
       <!-- CONCEPTS -->
-      <span id="rightWrapper">
-      </span>
 
+      <template is="dom-if" if="[[chosenSubject]]">
+        <span id="leftWrapper">
+          <div>
+            <paper-dropdown-menu label="Concepts">
+              <paper-listbox id="concept-paper-listbox" class="dropdown-content">
+                <template is="dom-repeat" items="[[concepts]]">
+                  <paper-item on-tap="conceptChange">[[item.title]]</paper-item>
+                </template>
+              </paper-listbox>
+            </paper-dropdown-menu>
+            <template is="dom-if" if="[[chosenConcept]]">
+              <paper-icon-button class="edit-button icon-button" icon="create" noink on-tap="editConcept"></paper-icon-button>
+              <paper-icon-button class="edit-button icon-button" icon="delete" noink on-tap="deleteConcept"></paper-icon-button>
+            </template>
+          </div>
 
+          <div>
+            <paper-button on-tap="newConcept">Add concept</paper-button>
+          </div>
+        </span>
+      </template>
     </paper-card>
+
 
     <paper-dialog id="new-discipline" modal>
       <paper-input id="new-discipline-name" label="Discipline name" required></paper-input>
@@ -124,6 +144,18 @@
       <paper-input id="edit-subject-name" label="Subject name" required></paper-input>
       <paper-button dialog-dismiss>Cancel</paper-button>
       <paper-button on-tap="editSubjectDone" dialog-dismiss>Done</paper-button>
+    </paper-dialog>
+
+    <paper-dialog id="new-concept" modal>
+      <paper-input id="new-concept-name" label="Concept name" required></paper-input>
+      <paper-button dialog-dismiss>Cancel</paper-button>
+      <paper-button on-tap="newConceptDone" dialog-dismiss>Done</paper-button>
+    </paper-dialog>
+
+    <paper-dialog id="edit-concept" modal>
+      <paper-intput id="edit-concept-name" label="Concept name" required></paper-intput>
+      <paper-button dialog-dismiss>Cancel</paper-button>
+      <paper-button on-tap="editConceptDone" dialog-dismiss>Done</paper-button>
     </paper-dialog>
   </template>
 
