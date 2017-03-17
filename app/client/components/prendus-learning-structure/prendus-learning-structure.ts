@@ -8,6 +8,7 @@ import {DisciplineModel} from '../../node_modules/prendus-services/models/discip
 import {Discipline} from '../../node_modules/prendus-services/typings/discipline';
 import {UtilitiesService} from '../../node_modules/prendus-services/services/utilities-service';
 import {Subject} from '../../node_modules/prendus-services/typings/subject';
+import {Concept} from '../../node_modules/prendus-services/typings/concept';
 
 export class PrendusLearningStructure {
   public is: string;
@@ -18,6 +19,8 @@ export class PrendusLearningStructure {
   public errorMessage: string;
   public subjects: Subject[];
   public chosenSubject: Subject;
+  public concepts: Concept[];
+  public chosenConcept: Concept;
   //discipline
     // ?id
     // title
@@ -277,6 +280,106 @@ export class PrendusLearningStructure {
     const subjectListBox = this.querySelector('#subject-paper-listbox');
     return subjectListBox;
   }
+
+  /**
+   * Called when the user clicks ADD CONCEPT
+   */
+  newConcept(): void {
+    this.querySelector('#new-concept-name').value = '';
+    this.querySelector('#new-concept').open();
+  }
+
+  /**
+   * Called when the user clicks DONE in the
+   * new concept modal.
+   */
+  async newConceptDone(): Promise<void> {
+    try {
+      if(!UtilitiesService.isDefined(this.chosenDiscipline)
+      || !UtilitiesService.isDefined(this.chosenSubject)) {
+        console.error('The user is somehow adding a concept when the chosen discipline is not defined....');
+      } else {
+        const title: string = this.querySelector('#new-concept-name').value;
+        const newConcept: Concept = {
+          title,
+          subjectId: this.chosenSubject.id
+        };
+        const conceptId: string = await Actions.createConcept(this, newConcept);
+        await Actions.getAllDisciplines(this);
+        //This will update the list of concepts
+        await Actions.setChosenResolvedDiscipline(this, this.chosenDiscipline.id);
+        await Actions.setChosenResolvedSubject(this, this.chosenSubject.id);
+        const paperListBox = this.getConceptPaperListBox();
+        paperListBox.select(this.concepts.length - 1);
+        this.successMessage = '';
+        this.successMessage = 'Concept set.';
+      }
+
+    } catch(error) {
+      console.error(error.message);
+    }
+  }
+
+
+  /**
+   * Called when the user clicks DONE in the
+   * edit concept modal
+   */
+  async editConceptDone(): Promise<void> {
+    try {
+      if(!UtilitiesService.isDefined(this.chosenSubject)) {
+        console.error('somehow the user is trying to edit an undefined concept');
+      } else {
+      }
+
+    } catch(error) {
+      console.error(error.message);
+    }
+  }
+
+  /**
+   * Called when the user clicks the pencil
+   * right next to a chosen concept.
+   */
+  editConcept(): void {
+    if(!UtilitiesService.isDefined(this.chosenSubject)) {
+      console.error('The user is somehow editing a concept when it isn\'t defined..');
+    } else {
+      this.querySelector('#edit-concept-name').value = this.chosenSubject.title;
+      this.querySelector('#edit-concept').open();
+    }
+  }
+
+  /**
+   * Called when the user clicks the trashcan
+   * right next to a chosen concept
+   */
+  async deleteConcept(): Promise<void> {
+    try {
+      if(!UtilitiesService.isDefined(this.chosenSubject) || !UtilitiesService.isDefined(this.chosenDiscipline)) {
+        console.error('the user is somehow deleting a concept they don\'t have access to');
+      } else {
+      }
+    } catch(error) {
+      console.error(error.message);
+    }
+  }
+
+  /**
+   * Called when the user chooses a concept in the dom.
+   */
+  conceptChange(e: any): void {
+    if(!UtilitiesService.isDefined(this.chosenDiscipline)) {
+      console.error('the user is somehow choosing a subject when there is no discipline');
+    } else {
+    }
+  }
+
+  private getConceptPaperListBox() {
+    const conceptListBox = this.querySelector('#concept-paper-listbox');
+    return conceptListBox;
+  }
+
   mapStateToThis(e: StatechangeEvent): void {
     const state: State = e.detail.state;
     this.disciplines = state.disciplines;
@@ -290,9 +393,30 @@ export class PrendusLearningStructure {
     this.chosenSubject = UtilitiesService.isDefined(state.chosenDiscipline) && UtilitiesService.isDefined(state.chosenSubject)
                        ? state.chosenSubject : null;
     if(UtilitiesService.isDefined(this.chosenDiscipline) && !UtilitiesService.isDefined(this.chosenSubject) && UtilitiesService.isDefined(this.getSubjectPaperListBox())) {
+      // if discipline is defined and subject is not, then remove selection.
+      // this usually happens after a subject has been deleted
       const subjectPaperListBox = this.getSubjectPaperListBox();
       subjectPaperListBox.select(-1);
     }
+
+    this.concepts = UtilitiesService.isDefined(state.chosenDiscipline)
+                 && UtilitiesService.isDefined(state.chosenSubject)
+                 && UtilitiesService.isDefined(state.chosenSubject.resolvedConcepts)
+                  ? state.chosenSubject.resolvedConcepts : null;
+    this.chosenConcept = UtilitiesService.isDefined(state.chosenDiscipline)
+                      && UtilitiesService.isDefined(state.chosenSubject)
+                      && UtilitiesService.isDefined(state.chosenConcept)
+                       ? state.chosenConcept : null;
+
+   if(UtilitiesService.isDefined(this.chosenDiscipline)
+  && !UtilitiesService.isDefined(this.chosenSubject)
+  && !UtilitiesService.isDefined(this.chosenConcept)
+  && UtilitiesService.isDefined(this.getConceptPaperListBox())) {
+     // if discipline,subject is defined and concept is not, then remove selection.
+     // this usually happens after a concept has been deleted
+     const conceptPaperListBox = this.getConceptPaperListBox();
+     conceptPaperListBox.select(-1);
+   }
   }
 
 

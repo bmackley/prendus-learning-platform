@@ -24,6 +24,8 @@ import {SubjectModel} from '../node_modules/prendus-services/models/subject-mode
 import {Discipline} from '../node_modules/prendus-services/typings/discipline';
 import {DisciplineModel} from '../node_modules/prendus-services/models/discipline-model';
 import {Subject} from '../node_modules/prendus-services/typings/subject';
+import {Concept} from '../node_modules/prendus-services/typings/concept';
+import {ConceptModel} from '../node_modules/prendus-services/models/concept-model';
 
 const defaultAction = (context: any): void => {
     context.action = {
@@ -1114,7 +1116,6 @@ const deleteDiscipline = async (discipline: Discipline): Promise<void> => {
   try {
     await DisciplineModel.deleteDiscipline(discipline.id);
     if(discipline.subjects) {
-
       await UtilitiesService.asyncForEach(Object.keys(discipline.subjects), async (subjectId: string) => {
         await SubjectModel.deleteSubject(subjectId);
         //TODO delete concepts.
@@ -1135,6 +1136,7 @@ const createSubject = async (context: any, disciplineId: string, subject: Subjec
   try {
     const subjectId: string = await SubjectModel.createOrUpdate(null, subject);
     await DisciplineModel.addSubject(disciplineId, subjectId);
+
     return subjectId;
   } catch(error) {
     throw error;
@@ -1147,7 +1149,7 @@ const createSubject = async (context: any, disciplineId: string, subject: Subjec
 const setChosenResolvedSubject = async (context: any, subjectId: string): Promise<void> => {
   try {
     const subject: Subject = await SubjectModel.getById(subjectId);
-    //TODO resolve concept ids.
+    subject.resolvedConcepts = await ConceptModel.getAllBySubjectId(subjectId);
     setChosenSubject(context, subject);
   } catch(error) {
     throw error;
@@ -1164,7 +1166,39 @@ const setChosenSubject = (context: any, chosenSubject: Subject): void => {
 const deleteSubject = async (subject: Subject): Promise<void> => {
   try {
     await SubjectModel.deleteSubject(subject.id);
-    //TODO delete concepts.
+    await UtilitiesService.asyncForEach(Object.keys(subject.concepts), async (conceptId: string) => {
+      await ConceptModel.deleteConcept(conceptId);
+    });
+  } catch(error) {
+    throw error;
+  }
+};
+
+/**
+ * Creates concept.
+ * Adds concept Id to the subject.
+ */
+const createConcept = async (context: any, concept: Concept): Promise<string> => {
+  try {
+    const conceptId: string = await ConceptModel.createOrUpdate(null, concept);
+    await SubjectModel.addConcept(concept.subjectId, conceptId);
+    return conceptId;
+  } catch(error) {
+    throw error;
+  }
+};
+
+const setChosenConcept = (context: any, chosenConcept: Concept): void => {
+  context.action = {
+    type: 'SET_CHOSEN_CONCEPT',
+    chosenConcept
+  };
+};
+
+const deleteConcept = async (concept: Concept): Promise<void> => {
+  try {
+    ConceptModel.deleteConcept(concept.id);
+    SubjectModel.deleteConcept(concept.subjectId, concept.id);
   } catch(error) {
     throw error;
   }
@@ -1243,5 +1277,8 @@ export const Actions = {
     createSubject,
     setChosenResolvedSubject,
     setChosenSubject,
-    deleteSubject
+    deleteSubject,
+    createConcept,
+    setChosenConcept,
+    deleteConcept
   };

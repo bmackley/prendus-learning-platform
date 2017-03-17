@@ -6,7 +6,9 @@ import {UserMetaData} from '../node_modules/prendus-services/typings/user-meta-d
 import {Course} from '../node_modules/prendus-services/typings/course';
 import {CourseLessonData} from '../node_modules/prendus-services/typings/course-lesson-data';
 import {Lesson} from '../node_modules/prendus-services/typings/lesson';
-
+import {Discipline} from '../node_modules/prendus-services/typings/discipline';
+import {Subject} from '../node_modules/prendus-services/typings/subject';
+import {Concept} from '../node_modules/prendus-services/typings/concept';
 export interface Action {
 	type: string;
   courses: Course[];
@@ -45,4 +47,9 @@ export interface Action {
 	url: string;
 	lessonsArray: Lesson[];
 	coursesArray: Course[];
+	disciplines: Discipline[];
+	chosenDiscipline: Discipline;
+	subjects: Subject[];
+	chosenSubject: Subject;
+	chosenConcept: Concept;
 }

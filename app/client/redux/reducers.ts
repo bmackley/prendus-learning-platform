@@ -18,19 +18,6 @@ export function rootReducer(state: State = InitialState, action: Action): State 
 
             return newState;
         }
-        case 'SET_SUBTOPICS': {
-          return {
-            ...state,
-            subtopics: action.subtopics
-          }
-        }
-        case 'SET_SUBJECTS': {
-          return {
-            ...state,
-            subjects: action.subjects,
-            selectedSubjectIndex: action.selectedSubjectIndex
-          }
-        }
         case 'SET_COURSE_COLLABORATOR_EMAILS': {
             const newState = Object.assign({}, state);
 
@@ -58,15 +45,6 @@ export function rootReducer(state: State = InitialState, action: Action): State 
             }
 
             return newState;
-        }
-
-        case 'SET_GRADE_LEVELS': {
-            return {
-              ...state,
-              gradeLevels: action.gradeLevels,
-              selectedGradeLevelIndex: action.selectedGradeLevelIndex,
-              subject: action.subject
-            }
         }
 
         case 'SET_VIDEO_COLLABORATOR_EMAILS': {
@@ -304,6 +282,13 @@ export function rootReducer(state: State = InitialState, action: Action): State 
         return {
           ...state,
           chosenSubject: action.chosenSubject
+        };
+      }
+
+      case 'SET_CHOSEN_CONCEPT': {
+        return {
+          ...state,
+          chosenConcept: action.chosenConcept
         };
       }
       default: {
