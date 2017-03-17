@@ -273,6 +273,7 @@ export class PrendusLearningStructure {
       console.error('the user is somehow choosing a subject when there is no discipline');
     } else {
       const subject: Subject = e.model.item;
+
       Actions.setChosenSubject(this, subject);
     }
 
@@ -312,6 +313,7 @@ export class PrendusLearningStructure {
         //This will update the list of concepts
         await Actions.setChosenResolvedDiscipline(this, this.chosenDiscipline.id);
         await Actions.setChosenResolvedSubject(this, this.chosenSubject.id);
+        await Actions.setChosenResolvedConcept(this, conceptId);
         const paperListBox = this.getConceptPaperListBox();
         paperListBox.select(this.concepts.length - 1);
         this.successMessage = '';
@@ -366,6 +368,7 @@ export class PrendusLearningStructure {
         // This will update the select list of concepts
         await Actions.setChosenResolvedDiscipline(this, this.chosenDiscipline.id);
         await Actions.setChosenResolvedSubject(this, this.chosenSubject.id);
+        await Actions.getAllDisciplines(this);
 
         this.successMessage = '';
         this.successMessage = 'Concept deleted';
@@ -400,11 +403,15 @@ export class PrendusLearningStructure {
       const disciplinePaperListBox = this.getDisciplinePaperListBox();
       disciplinePaperListBox.select(-1);
     }
-    this.subjects = UtilitiesService.isDefined(state.chosenDiscipline) && UtilitiesService.isDefined(state.chosenDiscipline.resolvedSubjects)
+    this.subjects = UtilitiesService.isDefined(state.chosenDiscipline)
+                 && UtilitiesService.isDefined(state.chosenDiscipline.resolvedSubjects)
                   ? state.chosenDiscipline.resolvedSubjects : null;
-    this.chosenSubject = UtilitiesService.isDefined(state.chosenDiscipline) && UtilitiesService.isDefined(state.chosenSubject)
+    this.chosenSubject = UtilitiesService.isDefined(state.chosenDiscipline)
+                      && UtilitiesService.isDefined(state.chosenSubject)
                        ? state.chosenSubject : null;
-    if(UtilitiesService.isDefined(this.chosenDiscipline) && !UtilitiesService.isDefined(this.chosenSubject) && UtilitiesService.isDefined(this.getSubjectPaperListBox())) {
+    if(UtilitiesService.isDefined(this.chosenDiscipline)
+    && !UtilitiesService.isDefined(this.chosenSubject)
+    && UtilitiesService.isDefined(this.getSubjectPaperListBox())) {
       // if discipline is defined and subject is not, then remove selection.
       // this usually happens after a subject has been deleted
       const subjectPaperListBox = this.getSubjectPaperListBox();

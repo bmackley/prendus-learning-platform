@@ -1157,7 +1157,7 @@ const setChosenResolvedSubject = async (context: any, subjectId: string): Promis
   try {
     const subject: Subject = await SubjectModel.getById(subjectId);
     subject.resolvedConcepts = await ConceptModel.getAllBySubjectId(subjectId);
-    console.log('subject.resolvedConcepts ', subject.resolvedConcepts);
+
     setChosenSubject(context, subject);
   } catch(error) {
     throw error;
@@ -1196,6 +1196,17 @@ const createConcept = async (context: any, concept: Concept): Promise<string> =>
   }
 };
 
+/**
+ * Just named it resolved to be consistent. Use this to query firebase.
+ */
+const setChosenResolvedConcept = async (context: any, conceptId: string): Promise<void> => {
+  try {
+    const concept: Concept = await ConceptModel.getById(conceptId);
+    setChosenConcept(context, concept);
+  } catch(error) {
+    throw error;
+  }
+}
 const setChosenConcept = (context: any, chosenConcept: Concept): void => {
   context.action = {
     type: 'SET_CHOSEN_CONCEPT',
@@ -1287,6 +1298,7 @@ export const Actions = {
     setChosenSubject,
     deleteSubject,
     createConcept,
+    setChosenResolvedConcept,
     setChosenConcept,
     deleteConcept
   };
