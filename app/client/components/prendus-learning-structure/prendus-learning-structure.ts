@@ -275,6 +275,7 @@ export class PrendusLearningStructure {
       const subject: Subject = e.model.item;
 
       Actions.setChosenSubject(this, subject);
+      Actions.setChosenConcept(this, null);
     }
 
   }
@@ -369,7 +370,7 @@ export class PrendusLearningStructure {
         await Actions.setChosenResolvedDiscipline(this, this.chosenDiscipline.id);
         await Actions.setChosenResolvedSubject(this, this.chosenSubject.id);
         await Actions.getAllDisciplines(this);
-
+        Actions.setChosenConcept(this, null);
         this.successMessage = '';
         this.successMessage = 'Concept deleted';
       }
