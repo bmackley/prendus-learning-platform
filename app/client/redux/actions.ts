@@ -332,14 +332,14 @@ const getQuiz = async (quizId: string): Promise<Quiz> => {
     return quiz;
 };
 
-const createNewQuiz = async (context: any, conceptId: string): Promise<string> => {
+const createNewQuiz = async (context: any, title: string, conceptId: string): Promise<string> => {
     const user: any = await FirebaseService.getLoggedInUser();
     const uid: string = user.uid;
     // TODO: Create public courses and enforce payment before creation of a private course
     const quizId: string = await QuizModel.createOrUpdate(null, {
         id: null,
         uid,
-        title: `Untitled Quiz`,
+        title,
         visibility: 'public',
         quizQuestionSettings: {
             answerFeedback: true,
@@ -348,7 +348,7 @@ const createNewQuiz = async (context: any, conceptId: string): Promise<string> =
             showCode: true,
             graded: false,
             showConfidenceLevel: false,
-            allowGeneration: true
+            allowGeneration: false
         },
         questions: {},
         collaborators: {}

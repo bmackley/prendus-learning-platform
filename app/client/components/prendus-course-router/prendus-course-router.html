@@ -24,12 +24,12 @@
 
 	  </style>
 
-    <app-route route="[[route]]" pattern="/:page" data="{{data}}" tail="{{tail}}"></app-route>
+    <app-route route="{{route}}" pattern="/:page" data="{{data}}" tail="{{tail}}"></app-route>
 
     <iron-pages id="course-container" selected="[[data.page]]" attr-for-selected="key">
       <prendus-course-homepage id="course-homepage" class="course-window" key="home"></prendus-course-homepage>
       <prendus-course-view id="course-view" class="course-window" key="view" route="[[route]]"></prendus-course-view>
-			<prendus-quiz-editor id="edit-quiz" key="edit-quiz" route="[[route]]"></prendus-quiz-editor>
+			<prendus-quiz-editor id="edit-quiz" key="edit-quiz" route="{{route}}"></prendus-quiz-editor>
       <prendus-edit-question-router id="edit-question" class="course-window" key="edit-question" route="[[route]]"></prendus-edit-question-router>
       <prendus-view-video-router id="view-video" class="course-window" key="view-video" route="[[route]]"></prendus-view-video-router>
       <prendus-view-quiz-router id="view-quiz" class="course-window" key="view-quiz" route="[[route]]"></prendus-view-quiz-router>
