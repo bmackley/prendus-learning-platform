@@ -21,6 +21,7 @@ export class PrendusLearningStructure {
   public chosenSubject: Subject;
   public concepts: Concept[];
   public chosenConcept: Concept;
+  public uid: string;
   //discipline
     // ?id
     // title
@@ -303,7 +304,8 @@ export class PrendusLearningStructure {
         const title: string = this.querySelector('#new-concept-name').value;
         const newConcept: Concept = {
           title,
-          subjectId: this.chosenSubject.id
+          subjectId: this.chosenSubject.id,
+          uid: this.uid //TODO this is temporary!!!!!!!!!!!! Delete this once concepts are fully moved over to lessons!!!!
         };
         const conceptId: string = await Actions.createConcept(this, newConcept);
         await Actions.getAllDisciplines(this);
@@ -360,6 +362,13 @@ export class PrendusLearningStructure {
       if(!UtilitiesService.isDefined(this.chosenSubject) || !UtilitiesService.isDefined(this.chosenDiscipline)) {
         console.error('the user is somehow deleting a concept they don\'t have access to');
       } else {
+        await Actions.deleteConcept(this.chosenConcept);
+        // This will update the select list of concepts
+        await Actions.setChosenResolvedDiscipline(this, this.chosenDiscipline.id);
+        await Actions.setChosenResolvedSubject(this, this.chosenSubject.id);
+
+        this.successMessage = '';
+        this.successMessage = 'Concept deleted';
       }
     } catch(error) {
       console.error(error.message);
@@ -419,6 +428,9 @@ export class PrendusLearningStructure {
      const conceptPaperListBox = this.getConceptPaperListBox();
      conceptPaperListBox.select(-1);
    }
+   this.uid = UtilitiesService.isDefined(state.currentUser)
+          &&  UtilitiesService.isDefined(state.currentUser.metaData)
+          ?   state.currentUser.metaData.uid : null;
   }
 
 
