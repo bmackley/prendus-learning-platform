@@ -136,11 +136,14 @@ export class PrendusLearningStructure {
         title
       });
       await Actions.getAllDisciplines(this);
-      this.successMessage = '';
-      this.successMessage = 'Discipline added';
+      await Actions.setChosenResolvedDiscipline(this, id);
+      Actions.setChosenSubject(this, null);
+      Actions.setChosenConcept(this, null);
       const paperListBox = this.getDisciplinePaperListBox();
       paperListBox.select(this.disciplines.length - 1);
-      await Actions.setChosenResolvedDiscipline(this, id);
+
+      this.successMessage = '';
+      this.successMessage = 'Discipline added';
     } catch(error) {
       console.error(error);
     }
@@ -185,6 +188,7 @@ export class PrendusLearningStructure {
         //This will update the list of subjects
         await Actions.setChosenResolvedDiscipline(this, this.chosenDiscipline.id);
         await Actions.setChosenResolvedSubject(this, subjectId);
+        Actions.setChosenConcept(this, null);
         const paperListBox = this.getSubjectPaperListBox();
         paperListBox.select(this.subjects.length - 1);
         this.successMessage = '';
