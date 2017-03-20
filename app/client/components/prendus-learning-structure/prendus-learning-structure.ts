@@ -30,7 +30,6 @@ export class PrendusLearningStructure {
 
   async ready(): Promise<void> {
     Actions.getAllDisciplines(this);
-    // Actions.getAdmins(this);
   }
 
   /**
