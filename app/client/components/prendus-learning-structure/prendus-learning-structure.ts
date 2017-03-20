@@ -23,21 +23,6 @@ export class PrendusLearningStructure {
   public concepts: Concept[];
   public chosenConcept: Concept;
   public uid: string;
-  //discipline
-    // ?id
-    // title
-    // subjectid[]
-    // ?conceptid[]
-  //subject
-    // ?id
-    // title
-    // conceptid[]
-    // ?disciplineId
-  //concept
-    // ?id
-    // title
-    // ?disciplineid
-    // ?subjectid
 
   beforeRegister(): void {
     this.is = 'prendus-learning-structure';
@@ -45,6 +30,7 @@ export class PrendusLearningStructure {
 
   async ready(): Promise<void> {
     Actions.getAllDisciplines(this);
+    // Actions.getAdmins(this);
   }
 
   /**
@@ -434,9 +420,7 @@ export class PrendusLearningStructure {
       const disciplinePaperListBox = this.getDisciplinePaperListBox();
       disciplinePaperListBox.select(-1);
     }
-    this.subjects = UtilitiesService.isDefined(state.chosenDiscipline)
-                 && UtilitiesService.isDefined(state.chosenDiscipline.resolvedSubjects)
-                  ? state.chosenDiscipline.resolvedSubjects : null;
+    this.subjects = !!(state.chosenDiscipline && state.chosenDiscipline.resolvedSubjects) ? state.chosenDiscipline.resolvedSubjects : null;
     this.chosenSubject = UtilitiesService.isDefined(state.chosenDiscipline)
                       && UtilitiesService.isDefined(state.chosenSubject)
                        ? state.chosenSubject : null;
@@ -449,7 +433,6 @@ export class PrendusLearningStructure {
       const subjectPaperListBox = this.getSubjectPaperListBox();
       subjectPaperListBox.select(-1);
     }
-
     this.concepts = UtilitiesService.isDefined(state.chosenDiscipline)
                  && UtilitiesService.isDefined(state.chosenSubject)
                  && UtilitiesService.isDefined(state.chosenSubject.resolvedConcepts)
@@ -458,14 +441,14 @@ export class PrendusLearningStructure {
                       && UtilitiesService.isDefined(state.chosenSubject)
                       && UtilitiesService.isDefined(state.chosenConcept)
                        ? state.chosenConcept : null;
-   if(!UtilitiesService.isDefined(this.chosenConcept)
-   &&  UtilitiesService.isDefined(this.getConceptPaperListBox())) {
-     // if discipline,subject is defined and concept is not, then remove selection.
-     // this usually happens after a concept has been deleted
-     const conceptPaperListBox = this.getConceptPaperListBox();
-     conceptPaperListBox.select(-1);
-   }
-   this.uid = UtilitiesService.isDefined(state.currentUser)
+    if(!UtilitiesService.isDefined(this.chosenConcept)
+    &&  UtilitiesService.isDefined(this.getConceptPaperListBox())) {
+      // if discipline,subject is defined and concept is not, then remove selection.
+      // this usually happens after a concept has been deleted
+      const conceptPaperListBox = this.getConceptPaperListBox();
+      conceptPaperListBox.select(-1);
+    }
+    this.uid = UtilitiesService.isDefined(state.currentUser)
           &&  UtilitiesService.isDefined(state.currentUser.metaData)
           ?   state.currentUser.metaData.uid : null;
   }
