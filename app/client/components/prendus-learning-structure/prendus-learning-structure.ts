@@ -45,7 +45,7 @@ export class PrendusLearningStructure {
    */
   async editDisciplineDone(): Promise<void> {
     try {
-      if(!UtilitiesService.isDefined(this.chosenDiscipline)) {
+      if(!this.chosenDiscipline) {
         console.error('the user is somehow trying to edit a null discipline');
       } else {
         const title: string = this.querySelector('#edit-discipline-name').value;
@@ -77,7 +77,7 @@ export class PrendusLearningStructure {
    */
   async deleteDiscipline(): Promise<void> {
     try {
-      if(!UtilitiesService.isDefined(this.chosenDiscipline)) {
+      if(!this.chosenDiscipline) {
         this.errorMessage = '';
         this.errorMessage = 'How the heck did you get here?';
       } else {
@@ -160,7 +160,7 @@ export class PrendusLearningStructure {
    */
   async newSubjectDone(): Promise<void> {
     try {
-      if(!UtilitiesService.isDefined(this.chosenDiscipline)) {
+      if(!this.chosenDiscipline) {
         console.error('The user is somehow adding a subject when the chosen discipline is not defined....');
       } else {
         const title: string = this.querySelector('#new-subject-name').value;
@@ -193,7 +193,7 @@ export class PrendusLearningStructure {
    */
   async editSubjectDone(): Promise<void> {
     try {
-      if(!UtilitiesService.isDefined(this.chosenSubject)) {
+      if(!this.chosenSubject) {
         console.error('somehow the user is trying to edit an undefined subject');
       } else {
         const title: string = this.querySelector('#edit-subject-name').value;
@@ -225,7 +225,7 @@ export class PrendusLearningStructure {
    * right next to a chosen subject.
    */
   editSubject(): void {
-    if(!UtilitiesService.isDefined(this.chosenSubject)) {
+    if(!this.chosenSubject) {
       console.error('The user is somehow editing a subject when it isn\'t defined..');
     } else {
       this.querySelector('#edit-subject-name').value = this.chosenSubject.title;
@@ -240,7 +240,7 @@ export class PrendusLearningStructure {
    */
   async deleteSubject(): Promise<void> {
     try {
-      if(!UtilitiesService.isDefined(this.chosenSubject) || !UtilitiesService.isDefined(this.chosenDiscipline)) {
+      if(!(this.chosenSubject || this.chosenDiscipline)) {
         console.error('the user is somehow deleting a subject they don\'t have access to');
       } else {
 
@@ -263,7 +263,7 @@ export class PrendusLearningStructure {
    * Called when the user chooses a subject in the dom.
    */
   subjectChange(e: any): void {
-    if(!UtilitiesService.isDefined(this.chosenDiscipline)) {
+    if(!this.chosenDiscipline) {
       console.error('the user is somehow choosing a subject when there is no discipline');
     } else {
       const subject: Subject = e.model.item;
@@ -293,8 +293,7 @@ export class PrendusLearningStructure {
    */
   async newConceptDone(): Promise<void> {
     try {
-      if(!UtilitiesService.isDefined(this.chosenDiscipline)
-      || !UtilitiesService.isDefined(this.chosenSubject)) {
+      if(!(this.chosenDiscipline || this.chosenSubject)) {
         console.error('The user is somehow adding a concept when the chosen discipline is not defined....');
       } else {
         const title: string = this.querySelector('#new-concept-name').value;
@@ -327,8 +326,7 @@ export class PrendusLearningStructure {
    */
   async editConceptDone(): Promise<void> {
     try {
-      if(!UtilitiesService.isDefined(this.chosenSubject)
-      || !UtilitiesService.isDefined(this.chosenConcept)) {
+      if(!(this.chosenSubject || this.chosenConcept)) {
         console.error('somehow the user is trying to edit an undefined concept');
       } else {
         const title: string = this.querySelector('#edit-concept-name').value;
@@ -360,8 +358,7 @@ export class PrendusLearningStructure {
    * right next to a chosen concept.
    */
   editConcept(): void {
-    if(!UtilitiesService.isDefined(this.chosenSubject)
-    || !UtilitiesService.isDefined(this.chosenConcept)) {
+    if(!(this.chosenSubject || this.chosenConcept)) {
       console.error('The user is somehow editing a concept when it isn\'t defined..');
     } else {
       this.querySelector('#edit-concept-name').value = this.chosenConcept.title;
@@ -375,7 +372,7 @@ export class PrendusLearningStructure {
    */
   async deleteConcept(): Promise<void> {
     try {
-      if(!UtilitiesService.isDefined(this.chosenSubject) || !UtilitiesService.isDefined(this.chosenDiscipline)) {
+      if(!(this.chosenSubject || this.chosenDiscipline)) {
         console.error('the user is somehow deleting a concept they don\'t have access to');
       } else {
 
@@ -398,7 +395,7 @@ export class PrendusLearningStructure {
    * Called when the user chooses a concept in the dom.
    */
   conceptChange(e: any): void {
-    if(!UtilitiesService.isDefined(this.chosenDiscipline)) {
+    if(!(this.chosenDiscipline)) {
       console.error('the user is somehow choosing a subject when there is no discipline');
     } else {
       const concept: Concept = e.model.item;
@@ -415,41 +412,35 @@ export class PrendusLearningStructure {
     const state: State = e.detail.state;
     this.disciplines = state.disciplines;
     this.chosenDiscipline = state.chosenDiscipline;
-    if(!UtilitiesService.isDefined(this.chosenDiscipline)) {
+    if(!this.chosenDiscipline) {
       const disciplinePaperListBox = this.getDisciplinePaperListBox();
       disciplinePaperListBox.select(-1);
     }
     this.subjects = !!(state.chosenDiscipline && state.chosenDiscipline.resolvedSubjects) ? state.chosenDiscipline.resolvedSubjects : null;
-    this.chosenSubject = UtilitiesService.isDefined(state.chosenDiscipline)
-                      && UtilitiesService.isDefined(state.chosenSubject)
-                       ? state.chosenSubject : null;
-    if(UtilitiesService.isDefined(this.chosenDiscipline)
-    && !UtilitiesService.isDefined(this.chosenSubject)
-    && UtilitiesService.isDefined(this.getSubjectPaperListBox())) {
+    this.chosenSubject = !!(state.chosenDiscipline && state.chosenSubject) ? state.chosenSubject : null;
+    if(!!this.chosenDiscipline && !this.chosenSubject && !!this.getSubjectPaperListBox()) {
       // if discipline is defined and subject is not, then remove selection.
       // this usually happens after a subject has been deleted
 
       const subjectPaperListBox = this.getSubjectPaperListBox();
       subjectPaperListBox.select(-1);
     }
-    this.concepts = UtilitiesService.isDefined(state.chosenDiscipline)
-                 && UtilitiesService.isDefined(state.chosenSubject)
-                 && UtilitiesService.isDefined(state.chosenSubject.resolvedConcepts)
+    this.concepts = !!(state.chosenDiscipline
+                    && state.chosenSubject
+                    && state.chosenSubject.resolvedConcepts)
                   ? state.chosenSubject.resolvedConcepts : null;
-    this.chosenConcept = UtilitiesService.isDefined(state.chosenDiscipline)
-                      && UtilitiesService.isDefined(state.chosenSubject)
-                      && UtilitiesService.isDefined(state.chosenConcept)
-                       ? state.chosenConcept : null;
-    if(!UtilitiesService.isDefined(this.chosenConcept)
-    &&  UtilitiesService.isDefined(this.getConceptPaperListBox())) {
+    this.chosenConcept = !!(state.chosenDiscipline
+                         && state.chosenSubject
+                         && state.chosenConcept)
+                          ? state.chosenConcept : null;
+    if(!this.chosenConcept && this.getConceptPaperListBox()) {
       // if discipline,subject is defined and concept is not, then remove selection.
       // this usually happens after a concept has been deleted
       const conceptPaperListBox = this.getConceptPaperListBox();
       conceptPaperListBox.select(-1);
     }
-    this.uid = UtilitiesService.isDefined(state.currentUser)
-          &&  UtilitiesService.isDefined(state.currentUser.metaData)
-          ?   state.currentUser.metaData.uid : null;
+    this.uid = !!(state.currentUser && state.currentUser.metaData)
+                ? state.currentUser.metaData.uid : null;
   }
 
 
