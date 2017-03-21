@@ -16,9 +16,9 @@
 
         <prendus-notification success-message="[[successMessage]]" error-message="[[errorMessage]]"></prendus-notification>
 
-        <app-route route="{{route}}" pattern="/edit-question/question/:questionId" data="{{data}}" tail="{{tail}}"></app-route>
+        <app-route route="[[route]]" pattern="/edit-question/question/:questionId" data="{{data}}" tail="{{tail}}"></app-route>
 				<!-- TODO: add breadcrumbs, hopefully with quizId and courseId -->
-        <prendus-edit-question id="editProblemComponent" jwt="[[jwt]]" external-question-id="{{data.questionId}}" quiz-session="[[quizSession]]" on-savequestion="questionSaved" on-loaded="editProblemComponentLoaded"></prendus-edit-question>
+        <prendus-edit-question id="editProblemComponent" jwt="[[jwt]]" external-question-id="[[data.questionId]]" quiz-session="[[quizSession]]" on-savequestion="questionSaved" on-loaded="editProblemComponentLoaded"></prendus-edit-question>
     </template>
 
     <script src="prendus-edit-question-router.ts"></script>
