@@ -79,5 +79,6 @@ export interface State {
     chosenDiscipline: Discipline;
     chosenSubject: Subject;
     chosenConcept: Concept;
-
+    subjects: Subject[];
+    concepts: Concept[];
 }
