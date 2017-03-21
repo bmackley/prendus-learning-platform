@@ -54,6 +54,10 @@ class PrendusCourseRouter {
       }
       default: break;
     }
+		// clear the onbeforeunload event that's only used for protecting unsaved questions
+		if(baseRoute !== 'edit-question') {
+			window.onbeforeunload = undefined;
+		}
   }
 }
 
