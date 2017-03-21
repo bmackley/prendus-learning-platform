@@ -10,7 +10,7 @@ class PrendusExample {
   }
   mapStateToThis(e: StatechangeEvent) {
     const state = e.detail.state
-    this.username = state.currentUser.email;
+    this.username = state.currentUser.metaData.email;
   }
 }
 
