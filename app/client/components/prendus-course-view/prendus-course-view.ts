@@ -7,6 +7,7 @@ import {Tag} from '../../node_modules/prendus-services/typings/tag';
 import {Quiz} from '../../node_modules/prendus-services/typings/quiz';
 import {CourseModel} from '../../node_modules/prendus-services/models/course-model';
 import {UtilitiesService} from '../../node_modules/prendus-services/services/utilities-service';
+import {State} from '../../typings/state';
 
 export class PrendusCourseView {
   public is: string;
@@ -295,7 +296,7 @@ export class PrendusCourseView {
   }
 
   mapStateToThis(e: StatechangeEvent): void {
-    const state = e.detail.state;
+    const state: State = e.detail.state;
     this.courseId = state.courseViewCurrentCourse.id;
     this.username = state.currentUser.metaData.email;
     this.currentCourse = state.courseViewCurrentCourse;

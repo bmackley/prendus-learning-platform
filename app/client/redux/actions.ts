@@ -854,11 +854,11 @@ const deleteTagFromCourse = async (context: any, tag: Tag, courseId: string): Pr
         await CourseModel.removeTag(tagId, courseId);
         await TagModel.removeCourse(tagId, courseId);
         const currentCourse: Course = await CourseModel.getById(courseId);
-        const courseTagNames: string[] = currentCourse.tags ? await TagModel.getTagNameArray(currentCourse.tags) : [];
+        // const courseTagNames: string[] = currentCourse.tags ? await TagModel.getTagNameArray(currentCourse.tags) : [];
         context.action = {
             type: 'DELETE_TAG_EDIT_COURSE',
-            currentCourse,
-            courseTagNames
+            currentCourse
+            // courseTagNames
         };
     } catch(error) {
         context.action = {
@@ -872,12 +872,12 @@ const addTagToCourse = async (context: any, tag: string, courseId: string): Prom
     try {
         const tagId: string = await TagModel.createOrUpdate(tag, courseId, null, null);
         const currentCourse: Course = await CourseModel.addTag(tagId, courseId);
-        const courseTagNames: string[] = currentCourse.tags ? await TagModel.getTagNameArray(currentCourse.tags) : [];
+        // const courseTagNames: string[] = currentCourse.tags ? await TagModel.getTagNameArray(currentCourse.tags) : [];
         if(context) {
             context.action = {
                 type: 'ADD_TAG_EDIT_COURSE',
-                currentCourse,
-                courseTagNames
+                currentCourse
+                // courseTagNames
             };
         }
     } catch(error) {
@@ -984,11 +984,11 @@ const getCoursesByVisibility = async (context: any, visibility: CourseVisibility
 const getCourseViewCourseById = async (context: any, id: string): Promise<void> => {
     try {
       const currentCourse: Course = await CourseModel.getById(id);
-      const courseTagNames: string[] = currentCourse.tags ? await TagModel.getTagNameArray(currentCourse.tags) : [];
+      // const courseTagNames: string[] = currentCourse.tags ? await TagModel.getTagNameArray(currentCourse.tags) : [];
       context.action = {
           type: 'SET_COURSE_VIEW_CURRENT_COURSE',
-          currentCourse,
-          courseTagNames
+          currentCourse
+          // courseTagNames
       };
     } catch(error){
       throw error;
