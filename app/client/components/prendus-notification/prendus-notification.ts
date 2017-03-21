@@ -1,13 +1,9 @@
-import {Actions} from '../../redux/actions';
-import {StatechangeEvent} from '../../typings/statechange-event';
-
 class PrendusNotification {
   public is: string;
   public username: string;
   public message: string;
   public properties: any;
   public toastText: string;
-  public observers: string[];
   public errorMessage: string;
   public successMessage: string;
   public querySelector: any;
@@ -38,11 +34,6 @@ class PrendusNotification {
       this.toastText = this.successMessage;
       this.querySelector('#successToastContainer').open();
     }
-  }
-
-  mapStateToThis(e: StatechangeEvent) {
-    const state = e.detail.state
-    this.username = state.currentUser.email;
   }
 
 }
