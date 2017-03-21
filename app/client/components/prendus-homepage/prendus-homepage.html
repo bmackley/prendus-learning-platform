@@ -41,7 +41,6 @@
 
 		#course-list {
 			padding: 20px;
-      height: 80vh;
 		}
 
     .course-preview {
@@ -73,12 +72,13 @@
   <template>
     <prendus-notification success-message="[[successMessage]]" error-message="[[errorMessage]]"></prendus-notification>
     <redux-store on-statechange="mapStateToThis" action="[[action]]"></redux-store>
-    <iron-list id="course-list" items="[[publicCourses]]" as="course" grid>
-      <template>
-        <prendus-course-preview id="[[course.id]]" class="course-preview" course="[[course]]"></prendus-course-preview>
-      </template>
-    </iron-list>
-
+		<div id="scrollable">
+			<iron-list id="course-list" items="[[publicCourses]]" as="course" grid scroll-target="scrollable">
+				<template>
+					<prendus-course-preview id="[[course.id]]" class="course-preview" course="[[course]]"></prendus-course-preview>
+				</template>
+			</iron-list>
+		</div>
 
     <div class="loading-indicator" hidden$="[[!loading]]">
       <paper-spinner active$="[[loading]]"></paper-spinner> Loading Courses</b>

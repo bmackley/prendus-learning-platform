@@ -109,6 +109,7 @@ class PrendusQuizEditor {
 			// watch the route - if not navigating to a new quiz, close the dialog and return
 			if(			route.path === 'route.path'
 					&&	route.value.includes
+					&&	route.value.includes('edit-quiz')
 					&&	route.value.includes('create')) {
 				this.quizLoaded = true;
 				this.newQuiz = true;

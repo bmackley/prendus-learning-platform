@@ -103,12 +103,14 @@
 
 		<!-- CREATE COURSE DIALOG -->
     <paper-dialog id="create-course-dialog" with-backdrop>
-			<h2>Create a Course</h2>
-			<form is="iron-form" id="create-course-form" on-keydown="createCourseOnEnter">
-				<paper-input id="edit-course-name" name="courseName" label="Course title" value="{{courseTitle}}" required auto-validate error-message="Please enter a course name." maxlength="50"></paper-input>
-				<paper-input id="edit-course-description" name="courseDescription" label="Course description" value="{{courseDescription}}" required auto-validate error-message="Please enter a course description." maxlength="100"></paper-input>
-			</form>
-      <!-- <prendus-paper-tags-input placeholder="Add a tag to the course (optional). Press enter to add another tag." label="Course Tags" id="tags" tags="[[courseTagNames]]" on-remove="onRemove" on-add="onAdd" duplicate-error-message="Tag cannot be a duplicate"></prendus-paper-tags-input> -->
+			<div class="content">				
+				<h2>Create a Course</h2>
+				<form is="iron-form" id="create-course-form" on-keydown="createCourseOnEnter">
+					<paper-input id="edit-course-name" name="courseName" label="Course title" value="{{courseTitle}}" required auto-validate error-message="Please enter a course name." maxlength="50"></paper-input>
+					<paper-input id="edit-course-description" name="courseDescription" label="Course description" value="{{courseDescription}}" required auto-validate error-message="Please enter a course description." maxlength="100"></paper-input>
+				</form>
+				<!-- <prendus-paper-tags-input placeholder="Add a tag to the course (optional). Press enter to add another tag." label="Course Tags" id="tags" tags="[[courseTagNames]]" on-remove="onRemove" on-add="onAdd" duplicate-error-message="Tag cannot be a duplicate"></prendus-paper-tags-input> -->
+			</div>
 			<div class="buttons">
 				<button class="prendus-button prendus-button--minor" dialog-dismiss>Cancel</button>
 				<button class="prendus-button prendus-button--recommended" disabled="[[!canCreateCourse(courseTitle, courseDescription)]]" on-tap="createCourse">Create</button>
