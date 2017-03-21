@@ -86,7 +86,7 @@ class PrendusEditQuestionRouter {
     async questionSaved(e: any): Promise<void> {
 				// navigate to the saved question
 				// replace history so the back button goes to the quiz and not a new question
-				window.history.replaceState({}, '', `/courses/edit-question/${e.target.externalQuestionId}/`);
+				window.history.replaceState({}, '', `/courses/edit-question/question/${e.target.externalQuestionId}/`);
 				this.fire('location-changed', {}, {node: window});
 
         //TODO this is evil, figure out another way to manually reload the questions without a DOM search
