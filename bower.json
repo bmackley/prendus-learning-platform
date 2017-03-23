@@ -1,6 +1,6 @@
 {
   "name": "prendus-learning-platform",
-  "version": "0.4.0",
+  "version": "0.4.1",
   "description": "An outcome management system and instructional materials generation tool",
   "authors": [
     "Jordan Last <jordan.michael.last@gmail.com>",
@@ -18,7 +18,7 @@
     "app-route": "PolymerElements/app-route#^0.9.1",
     "prendus-question-components": "git@github.com:lastmjs/prendus-question-components.git#0.2.0",
     "prendus-paper-tags-input": "git@github.com:mcrowder65/prendus-paper-tags-input.git#0.03",
-    "prendus-quiz-viewer-component": "git@github.com:lastmjs/prendus-quiz-viewer-component.git#0.2.0",
+    "prendus-quiz-viewer-component": "git@github.com:lastmjs/prendus-quiz-viewer-component.git#0.2.1",
     "prendus-video-viewer-component": "git@github.com:lastmjs/prendus-video-viewer-component.git#0.3.1",
     "paper-tabs": "^1.6.2",
     "paper-menu-button": "^1.5.1",
