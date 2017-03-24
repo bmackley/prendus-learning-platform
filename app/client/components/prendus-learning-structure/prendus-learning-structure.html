@@ -57,7 +57,7 @@
 
       <span id="leftWrapper">
         <div>
-          <paper-dropdown-menu label="Disciplines">
+          <paper-dropdown-menu label="Disciplines" on-tap="checkIfNoDisciplines">
             <paper-listbox id="discipline-paper-listbox" class="dropdown-content">
               <template is="dom-repeat" items="[[disciplines]]">
                 <paper-item on-tap="disciplineChange">[[item.title]]</paper-item>
@@ -78,7 +78,7 @@
       <template is="dom-if" if="[[chosenDiscipline]]">
         <span id="leftWrapper">
           <div>
-            <paper-dropdown-menu label="Subjects">
+            <paper-dropdown-menu label="Subjects" on-tap="checkIfNoSubjects">
               <paper-listbox id="subject-paper-listbox" class="dropdown-content">
                 <template is="dom-repeat" items="[[subjects]]">
                   <paper-item on-tap="subjectChange">[[item.title]]</paper-item>
@@ -102,7 +102,7 @@
       <template is="dom-if" if="[[chosenSubject]]">
         <span id="leftWrapper">
           <div>
-            <paper-dropdown-menu label="Concepts">
+            <paper-dropdown-menu label="Concepts" on-tap="checkIfNoConcepts">
               <paper-listbox id="concept-paper-listbox" class="dropdown-content">
                 <template is="dom-repeat" items="[[concepts]]">
                   <paper-item on-tap="conceptChange">[[item.title]]</paper-item>

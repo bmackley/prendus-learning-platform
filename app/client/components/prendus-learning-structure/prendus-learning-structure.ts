@@ -266,8 +266,9 @@ export class PrendusLearningStructure {
     if(!this.chosenDiscipline) {
       console.error('the user is somehow choosing a subject when there is no discipline');
     } else {
-      const subject: Subject = e.model.item;
 
+      const subject: Subject = e.model.item;
+      console.log('subject ', subject);
       Actions.setChosenSubject(this, subject);
       Actions.setChosenConcept(this, null);
     }
@@ -408,6 +409,26 @@ export class PrendusLearningStructure {
     return conceptListBox;
   }
 
+  checkIfNoDisciplines(): void {
+    if(!this.disciplines || this.disciplines.length === 0) {
+      this.errorMessage = '';
+      this.errorMessage = 'There are no disciplines yet!';
+    }
+  }
+
+  checkIfNoSubjects(): void {
+    if(!this.subjects || this.subjects.length === 0) {
+      this.errorMessage = '';
+      this.errorMessage = 'There are no subjects on the selected discipline yet!';
+    }
+  }
+
+  checkIfNoConcepts(): void {
+    if(!this.concepts || this.concepts.length === 0) {
+      this.errorMessage = '';
+      this.errorMessage = 'There are no concepts on the selected subject yet!';
+    }
+  }
   mapStateToThis(e: StatechangeEvent): void {
     const state: State = e.detail.state;
     this.disciplines = state.disciplines;
