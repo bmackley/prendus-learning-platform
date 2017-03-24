@@ -3,8 +3,8 @@
   "version": "0.4.1",
   "description": "The tool to create and upload videos and quizzes",
   "scripts": {
-		"start": "cd app/client && node_modules/.bin/zwitterion-production",
-		"dev": "cd app/client && node_modules/.bin/zwitterion-production --watch-files --port 8000"
+    "start": "cd app/client && node_modules/.bin/zwitterion-production",
+    "dev": "cd app/client && node_modules/.bin/zwitterion-production --watch-files --port 8000"
   },
   "engines": {
     "node": "6.3.1"
@@ -16,8 +16,6 @@
   "homepage": "https://github.com/bmackley/prendus-learning-platform",
   "dependencies": {},
   "devDependencies": {
-    "@types/polymer": "^1.1.30",
-    "systemjs": "^0.19.41",
-    "zwitterion": "^0.7.0"
+    "@types/polymer": "^1.1.30"
   }
 }
