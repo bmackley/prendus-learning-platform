@@ -3,7 +3,7 @@
   "version": "0.4.1",
   "description": "The tool to create and upload videos and quizzes",
   "scripts": {
-		"start": "npm install -g bower && bower install && cd app/client && npm install && cd ../.. && cd app/client && node_modules/.bin/zwitterion-production",
+		"start": "cd app/client && node_modules/.bin/zwitterion-production",
 		"dev": "cd app/client && node_modules/.bin/zwitterion-production --watch-files --port 8000"
   },
   "engines": {
