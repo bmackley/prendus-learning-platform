@@ -17,7 +17,7 @@
     "iron-ajax": "PolymerElements/iron-ajax#^1.2.0",
     "app-route": "PolymerElements/app-route#^0.9.1",
     "prendus-question-components": "git@github.com:lastmjs/prendus-question-components.git#0.2.0",
-    "prendus-paper-tags-input": "git@github.com:mcrowder65/prendus-paper-tags-input.git#0.03",
+    "prendus-paper-tags-input": "git@github.com:mcrowder65/prendus-paper-tags-input.git",
     "prendus-quiz-viewer-component": "git@github.com:lastmjs/prendus-quiz-viewer-component.git#0.2.1",
     "prendus-video-viewer-component": "git@github.com:lastmjs/prendus-video-viewer-component.git#0.3.1",
     "paper-tabs": "^1.6.2",
