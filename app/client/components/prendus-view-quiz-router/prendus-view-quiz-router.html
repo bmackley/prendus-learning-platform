@@ -39,7 +39,7 @@
         <paper-card id="quiz-container">
           <div class="card-content">
 						<a href="/courses/view/[[data.courseId]]"><paper-button><iron-icon icon="undo"></iron-icon> Back to course</paper-button></a>
-            <prendus-quiz-viewer jwt="[[jwt]]" course-id="[[data.courseId]]" quiz-id="[[data.quizId]]" user-full-name="[[userFullName]]" user-email="[[userEmail]]" on-quizsubmissionstarted="quizSubmissionStarted" on-quizsubmissionfinished="quizSubmissionFinished"></prendus-quiz-viewer>
+            <prendus-quiz-viewer quiz-type="LEARNING_PLATFORM" jwt="[[jwt]]" course-id="[[data.courseId]]" quiz-id="[[data.quizId]]" user-full-name="[[userFullName]]" user-email="[[userEmail]]" on-quizsubmissionstarted="quizSubmissionStarted" on-quizsubmissionfinished="quizSubmissionFinished"></prendus-quiz-viewer>
           </div>
         </paper-card>
 
