@@ -228,7 +228,7 @@
 					<iron-pages selected="[[selected]]">
 						<!-- USER'S QUESTIONS -->
 						<div id="my-questions" class="tab-content">
-							<button id="new-question" class="prendus-button prendus-button--recommended" on-tap="createQuestion"><iron-icon icon="add"></iron-icon>New question</button>
+							<a id="new-question" class="prendus-button prendus-button--recommended" href="/courses/edit-question/question/create"><iron-icon icon="add"></iron-icon>New question</a>
 							<template is="dom-repeat" items="[[userQuestionIds]]">
 								<prendus-view-question id="user-question-id-[[item]]" question-id="[[item]]" quiz-id="NO_QUIZ" jwt="[[jwt]]" quiz-session="[[quizSession]]" concise></prendus-view-question>
 								<paper-icon-button id="add[[item]]" class="prendus-icon-button" icon="av:playlist-add" on-click="addQuestionToQuiz"></paper-icon-button>
