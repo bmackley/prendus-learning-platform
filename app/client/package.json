@@ -1,6 +1,6 @@
 {
   "name": "prendus-learning-platform",
-  "version": "0.4.1",
+  "version": "0.4.2",
   "dependencies": {
     "codemirror": "5.16.0",
     "jshint": "2.9.2",

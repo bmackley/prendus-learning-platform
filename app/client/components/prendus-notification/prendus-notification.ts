@@ -23,18 +23,19 @@ class PrendusNotification {
   }
 
   showErrorMessage() {
-    if(this.errorMessage){
+    if(this.errorMessage) {
       this.toastText = this.errorMessage;
       this.querySelector('#errorToastContainer').open();
     }
   }
 
   showSuccessMessage() {
-    if(this.successMessage){
+    if(this.successMessage) {
       this.toastText = this.successMessage;
       this.querySelector('#successToastContainer').open();
     }
   }
+
 }
 
 Polymer(PrendusNotification);
