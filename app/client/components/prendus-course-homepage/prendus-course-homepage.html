@@ -2,7 +2,7 @@
 <link rel="import" href="../../bower_components/iron-icons/iron-icons.html">
 <link rel="import" href="../../bower_components/paper-card/paper-card.html">
 <link rel="import" href="../../bower_components/paper-dialog/paper-dialog.html">
-<link rel="import" href="../../bower_components/prendus-paper-tags-input/prendus-paper-tags-input.html">
+<!-- <link rel="import" href="../../bower_components/prendus-paper-tags-input/prendus-paper-tags-input.html"> -->
 <link rel="import" href="../prendus-course-preview/prendus-course-preview.html">
 <link rel="import" href="../prendus-notification/prendus-notification.html">
 <link rel="import" href="../prendus-search-course-tags/prendus-search-course-tags.html">
@@ -103,7 +103,7 @@
 
 		<!-- CREATE COURSE DIALOG -->
     <paper-dialog id="create-course-dialog" with-backdrop>
-			<div class="content">				
+			<div class="content">
 				<h2>Create a Course</h2>
 				<form is="iron-form" id="create-course-form" on-keydown="createCourseOnEnter">
 					<paper-input id="edit-course-name" name="courseName" label="Course title" value="{{courseTitle}}" required auto-validate error-message="Please enter a course name." maxlength="50"></paper-input>
