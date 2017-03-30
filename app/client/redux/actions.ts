@@ -630,10 +630,10 @@ const createUser = async (context: any, data: UserMetaData, password: string): P
     try {
         await FirebaseService.createUserWithEmailAndPassword(data.email, password);
         const loggedInUser: any = await FirebaseService.logInUserWithEmailAndPassword(data.email, password);
-        UserModel.sendConfirmationEmail(loggedInUser);
-        UserModel.updateMetaData(loggedInUser.uid, data);
-        EmailsToUidsModel.setUidByEmail(data.email, loggedInUser.uid);
-        FirebaseService.logOutUser(); //logout so user can't do things
+        await UserModel.sendConfirmationEmail(loggedInUser);
+        await UserModel.updateMetaData(loggedInUser.uid, data);
+        await EmailsToUidsModel.setUidByEmail(data.email, loggedInUser.uid);
+        await FirebaseService.logOutUser(); //logout so user can't do things
     } catch(error){
         throw error;
     }
