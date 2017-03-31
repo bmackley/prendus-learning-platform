@@ -2,13 +2,13 @@
 <link rel="import" href="../../bower_components/redux-store-element/redux-store.html">
 <link rel="import" href="../../bower_components/paper-card/paper-card.html">
 <link rel="import" href="../../bower_components/paper-item/paper-item.html">
-<link rel="import" href="../../bower_components/paper-button/paper-button.html">
 <link rel="import" href="../../bower_components/paper-spinner/paper-spinner.html">
 <link rel="import" href="../../bower_components/iron-list/iron-list.html">
 <link rel="import" href="../../bower_components/iron-scroll-threshold/iron-scroll-threshold.html">
 <link rel="import" href="../../bower_components/iron-icons/iron-icons.html">
 <link rel="import" href="../prendus-course-preview/prendus-course-preview.html">
 <link rel="import" href="../prendus-notification/prendus-notification.html">
+<link rel="import" href="../../bower_components/prendus-styles/prendus-styles.html">
 <script src="../../bower_components/firebase/firebase.js"></script>
 <script src="../../bower_components/firebase-util/dist/firebase-util-normalize.min.js"></script>
 <script src="../../bower_components/firebase-util/dist/firebase-util-paginate.min.js"></script>
@@ -16,7 +16,8 @@
 
 
 <dom-module id="prendus-homepage">
-  <style>
+
+  <style include="prendus-styles">
 
 		:host {
 			display: block;
@@ -71,12 +72,13 @@
   <template>
     <prendus-notification success-message="[[successMessage]]" error-message="[[errorMessage]]"></prendus-notification>
     <redux-store on-statechange="mapStateToThis" action="[[action]]"></redux-store>
-    <iron-list id="course-list" items="[[publicCourses]]" as="course" grid>
-      <template>
-        <prendus-course-preview id="[[course.id]]" class="course-preview" course="[[course]]"></prendus-course-preview>
-      </template>
-    </iron-list>
-
+		<div id="scrollable">
+			<iron-list id="course-list" items="[[publicCourses]]" as="course" grid scroll-target="scrollable">
+				<template>
+					<prendus-course-preview id="[[course.id]]" class="course-preview" course="[[course]]"></prendus-course-preview>
+				</template>
+			</iron-list>
+		</div>
 
     <div class="loading-indicator" hidden$="[[!loading]]">
       <paper-spinner active$="[[loading]]"></paper-spinner> Loading Courses</b>

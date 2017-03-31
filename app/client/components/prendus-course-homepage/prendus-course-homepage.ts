@@ -17,15 +17,13 @@ class PrendusCourseHomepage {
   public sharedCourses: Course[];
   public starredCourses: Course[];
   public publicCourses: Course[];
-  public userCoursesLength: number;
-  public sharedCoursesLength: number;
-  public starredCoursesLength: number;
   public courseTagNames: string[];
   public collaborators: {
     [uid: string]: string[];
   };
   public querySelector: any;
   public errorMessage: string;
+  public numberOfPublicCoursesLoaded: number;
 
   beforeRegister(): void {
     this.is = 'prendus-course-homepage';
@@ -96,6 +94,8 @@ class PrendusCourseHomepage {
     try {
       await Actions.addCourse(this, newCourse, this.courseTagNames);
       await Actions.getCoursesByUser(this);
+      // +1 because we added a course!
+      await Actions.getCoursesByVisibility(this, 'public', this.numberOfPublicCoursesLoaded + 1);
     } catch(error) {
       this.errorMessage = '';
       this.errorMessage = error.message;
@@ -112,6 +112,7 @@ class PrendusCourseHomepage {
     this.starredCourses = state.starredCourses;
     this.sharedCourses = state.sharedCourses;
     this.publicCourses = state.publicCourses;
+    this.numberOfPublicCoursesLoaded = state.publicCourses ? state.publicCourses.length : 0;
     this.username = state.currentUser.metaData.email;
     this.uid = state.currentUser.metaData.uid;
   }

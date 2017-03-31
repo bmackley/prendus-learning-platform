@@ -1,11 +1,14 @@
 import {Actions} from '../../redux/actions';
 import {rootReducer} from '../../redux/reducers';
 import {StatechangeEvent} from '../../typings/statechange-event';
+import {ConstantsService} from '../../node_modules/prendus-services/services/constants-service';
 import {FirebaseService} from '../../node_modules/prendus-services/services/firebase-service';
+
 class PrendusLogin {
   public is: string;
   public email: string;
   public password: string;
+	public resetPasswordEmail: string;
   public listeners: any;
   public errorMessage: string;
   public successMessage: string;
@@ -26,11 +29,11 @@ class PrendusLogin {
 
 	softValidateEmail(): void {
 		const emailElement: any = this.querySelector('#email');
-		if(this.email.match(/^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$/) !== null) emailElement.invalid = false;
+		if(this.email.match(ConstantsService.EMAIL_REGEX) !== null) emailElement.invalid = false;
 	}
 
 	enableLogIn(email: string, password: string): boolean {
-		return 	email.match(/^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$/) !== null
+		return 	email.match(ConstantsService.EMAIL_REGEX) !== null
 				&&	password.length >= 6;
 	}
 
@@ -60,20 +63,31 @@ class PrendusLogin {
 		this.querySelector('#reset-password-dialog').open()
 	}
 
-  async sendResetEmail(e: any) {
-    e.preventDefault();
+	enableResetPassword(resetPasswordEmail: string): boolean {
+		return resetPasswordEmail.match(ConstantsService.EMAIL_REGEX) !== null;
+	}
 
-    const emailReset: string = this.querySelector('#resetPasswordEmail').value;
+	resetPasswordOnEnter(e: any): void {
+		if(e.keyCode === 13) {
+			if(this.enableResetPassword(this.resetPasswordEmail)) this.sendResetEmail(e);
+			else e.preventDefault();
+		}
+	}
+
+  async sendResetEmail(e: any): Promise<void> {
+    e.preventDefault();
+		this.querySelector('#reset-password-dialog').close();
     try {
-      await FirebaseService.sendPasswordResetEmail(emailReset);
-      this.querySelector('#reset-password-dialog').close();
+      await FirebaseService.sendPasswordResetEmail(this.resetPasswordEmail);
       this.successMessage = '';
-      this.successMessage = 'Password sent';
-    } catch(error){
-      this.querySelector('#reset-password-dialog').close();
+      this.successMessage = 'Password reset link sent';
+    } catch(error) {
+			console.error(error);
       this.errorMessage = '';
-      this.errorMessage = error.message;
+      this.errorMessage = 'Could not send password reset email.  Check to make sure the email address you entered is correct.';
     }
+		this.resetPasswordEmail = '';
+		this.querySelector('#reset-password-email').invalid = false;
   }
 }
 

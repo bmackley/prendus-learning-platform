@@ -1,4 +1,4 @@
-<link href="../../bower_components/polymer/polymer.html" rel="import">
+<link rel="import" href="../../bower_components/polymer/polymer.html">
 <link rel="import" href="../../bower_components/redux-store-element/redux-store.html">
 <link rel="import" href="../../bower_components/paper-toast/paper-toast.html">
 <link rel="import" href="../../bower_components/paper-input/paper-input.html">
@@ -6,12 +6,12 @@
 <link rel="import" href="../../bower_components/paper-dialog/paper-dialog.html" >
 <link rel="import" href="../prendus-notification/prendus-notification.html">
 <link rel="import" href="../prendus-terms-of-service/prendus-terms-of-service.html">
-<link rel="import" href="../../styles/color-styles.html">
-
+<link rel="import" href="../../bower_components/prendus-styles/prendus-styles.html">
 
 <dom-module id="prendus-create-account">
-<style include="color-styles"></style>
-  <style>
+
+  <style include="prendus-styles">
+
       :host {
         width: 100%;
         display: flex;
@@ -22,11 +22,6 @@
       paper-card {
         width: 100%;
         max-width: 320px;
-      }
-
-      paper-button.indigo:not([disabled]) {
-        background-color: var(--prendus-primary-color);
-        color: white;
       }
 
       #email-confirmation-dialog {
@@ -48,16 +43,15 @@
         <paper-input id="institution" name="Intitution" label="Institution (school)"></paper-input>
       </form>
       <div class="card-actions">
-        <paper-button id="signup-submit" class="indigo" disabled$="[[!enableSignup(email, password, confirmPassword)]]" noink>Submit</paper-button>
+        <button id="signup-submit" class="prendus-button prendus-button--recommended" disabled$="[[!enableSignup(email, password, confirmPassword)]]">Submit</button>
       </div>
     </paper-card>
 
     <paper-dialog id="email-confirmation-dialog" with-backdrop>
-      <div>
-        [[createAccountEmailMessage]]
-        <br>
-        <a href="/login"><paper-button id="continueToLogin" class="indigo" noink dialog-dismiss>Continue</paper-button></a>
-      </div>
+			<p>[[createAccountEmailMessage]]</p>
+			<div class="buttons">
+				<a class="prendus-button prendus-button--recommended" href="/login" dialog-dismiss>Continue</a>
+			</div>
     </paper-dialog>
 
     <prendus-notification error-message="[[errorMessage]]"></prendus-notification>

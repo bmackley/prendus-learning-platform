@@ -10,18 +10,21 @@
 <link rel="import" href="../prendus-concept-quiz-container/prendus-concept-quiz-container.html">
 <link rel="import" href="../prendus-notification/prendus-notification.html">
 
-<link rel="import" href="../../styles/color-styles.html">
+<link rel="import" href="../../bower_components/prendus-styles/prendus-styles.html">
 
 <dom-module id="prendus-concept-container-edit">
   <template>
 
-  <style include="color-styles"></style>
-  <style>
 
-    #resource-tabs {
+  <style include="prendus-styles">
+
+    paper-tabs {
       --paper-tabs-selection-bar-color: var(--prendus-primary-color);
       text-transform: uppercase;
     }
+
+		paper-tab {
+		}
 
     .title-buttons {
       display: flex;
@@ -45,26 +48,12 @@
 			flex-shrink: 0;
 		}
 
-		.icon-button {
-			color: rgba(0, 0, 0, .5);
-			flex-shrink: 0;
-		}
-
-		.icon-button:hover {
-			color: rgba(0, 0, 0, .8);
-		}
-
     .concept-title {
 			min-width: 0;
 			padding: 0 8px;
 			flex-grow: 1;
       margin: 0;
     }
-
-		#confirm-delete {
-			background-color: var(--prendus-red);
-			color: white;
-		}
 
 		@media (max-width: 500px) {
 
@@ -79,25 +68,26 @@
 
     <redux-store on-statechange="mapStateToThis" action="[[action]]"></redux-store>
 
-		<prendus-collaborator-modal id="collaborators-modal" course-id="[[courseId]]" concept-id="[[item.id]]" concept></prendus-collaborator-modal>
+		<!-- <prendus-collaborator-modal id="collaborators-modal" course-id="[[courseId]]" concept-id="[[conceptId]]" concept></prendus-collaborator-modal> -->
     <prendus-notification id="notification" success-message="[[successMessage]]" error-message="[[errorMessage]]"></prendus-notification>
     <div class="title-buttons" on-tap="toggle">
-      <iron-icon class="drag-icon icon-button" icon="editor:drag-handle"></iron-icon>
+      <iron-icon id="drag-handle" class="prendus-icon-button" icon="editor:drag-handle"></iron-icon>
+			<paper-tooltip for="drag-handle" offset="0" animation-delay="300">Drag to change concept order</paper-tooltip>
 			<div class="title-action-buttons">
 				<h3 class="concept-title">[[title]]</h3>
 				<div class="action-buttons">
-					<paper-icon-button id="edit-button" class="icon-button" icon="create" on-tap="editConcept"></paper-icon-button>
-					<paper-tooltip for="edit-button" offset="0" animation-delay="300">Edit Concept</paper-tooltip>
-					<paper-icon-button id="collaborator-button" class="icon-button" icon="social:group-add" on-tap="openCollaboratorsModal"></paper-icon-button>
-					<paper-tooltip for="collaborator-button" offset="0" animation-delay="300">Edit Collaborators</paper-tooltip>
-					<paper-icon-button id="delete-button" class="icon-button" icon="delete" on-tap="openDeleteModal"></paper-icon-button>
-					<paper-tooltip for="delete-button" offset="0" animation-delay="300">Delete Concept</paper-tooltip>
+					<paper-icon-button id="edit-button" class="prendus-icon-button" icon="create" on-tap="editConcept"></paper-icon-button>
+					<paper-tooltip for="edit-button" offset="0" animation-delay="300">Edit concept</paper-tooltip>
+					<!-- <paper-icon-button id="collaborator-button" class="prendus-icon-button" icon="social:group-add" on-tap="openCollaboratorsModal"></paper-icon-button>
+					<paper-tooltip for="collaborator-button" offset="0" animation-delay="300">Edit collaborators</paper-tooltip> -->
+					<paper-icon-button id="delete-button" class="prendus-icon-button" icon="delete" on-tap="openDeleteModal"></paper-icon-button>
+					<paper-tooltip for="delete-button" offset="0" animation-delay="300">Delete concept</paper-tooltip>
 				</div>
 			</div>
     </div>
     <iron-collapse id="collapsible-section">
       <div id="collapsible-content">
-        <paper-tabs id="resource-tabs" selected="{{selected}}">
+        <paper-tabs id="resource-tabs" selected="{{selected}}" noink>
             <paper-tab>Quizzes</paper-tab>
             <paper-tab>Videos</paper-tab>
         </paper-tabs>
@@ -112,8 +102,8 @@
       <h2>Delete Concept</h2>
       <p>Are you sure that you want to delete this concept?</p>
 			<div class="buttons">
-				<paper-button dialog-dismiss>Cancel</paper-button>
-				<paper-button id="confirm-delete" on-tap="completeDelete">Delete</paper-button>
+				<button class="prendus-button prendus-button--minor" dialog-dismiss>Cancel</button>
+				<button class="prendus-button prendus-button--destructive" on-tap="completeDelete">Delete</button>
 			</div>
     </paper-dialog>
 

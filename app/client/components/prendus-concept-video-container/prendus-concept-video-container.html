@@ -2,15 +2,20 @@
 <link rel="import" href="../../bower_components/redux-store-element/redux-store.html">
 <link rel="import" href="../../bower_components/paper-dialog/paper-dialog.html">
 <link rel="import" href="../prendus-video-editor/prendus-video-editor.html">
+<link rel="import" href="../../bower_components/prendus-styles/prendus-styles.html">
 
 <dom-module id="prendus-concept-video-container">
     <template>
-        <style>
-				
+        <style include="prendus-styles">
+
             .video-row {
                 padding: 20px;
                 cursor: pointer;
             }
+
+						.video-row + .video-row {
+							border-top: solid lightgrey 1px;
+						}
 
         </style>
 

@@ -10,6 +10,7 @@ export class PrendusProfile {
   public institution: string;
   public pastEmail: string;
   public email: string;
+  public password: string;
   public uid: string;
   public updateProfileSuccessToastText: string;
   public updateProfileErrorToastText: string;
@@ -53,8 +54,12 @@ export class PrendusProfile {
     }
   }
 
+	enableConfirmEmail(password: string): boolean {
+		return password.length >= 6;
+	}
+
 	confirmIfEnter(e: any): void {
-		if(e.keyCode === 13) this.changeEmail();
+		if(e.keyCode === 13 && this.enableConfirmEmail(this.password)) this.changeEmail();
 	}
 
 	async changeEmail(): Promise<void> {
@@ -67,18 +72,17 @@ export class PrendusProfile {
 				institution: this.querySelector('#institution').value,
 				email:  this.querySelector('#updateEmail').value,
 			};
-			Actions.showMainSpinner(this);
 			await Actions.updateUserEmail(this, this.pastEmail, this.querySelector('#password').value, submitValue.email);
 			await Actions.updateUserMetaData(this, this.uid, submitValue);
-			Actions.hideMainSpinner(this);
 			this.successMessage = '';
-			this.successMessage = 'Profile & Email Updated Successfully';
+			this.successMessage = 'Account updated successfully.';
 		} catch(error) {
 			this.errorMessage = '';
-			this.errorMessage = error.message;
+			this.errorMessage = 'Could not update account.  Please try again later.';
+			console.error(error);
 		}
 		// clear password form
-		this.querySelector('#password').value = '';
+		this.password = '';
 	}
 
   submitKeydown(e: any): void {
