@@ -1,12 +1,11 @@
 <link rel="import" href="../../bower_components/polymer/polymer.html">
-<link rel="import" href="../../bower_components/paper-button/paper-button.html">
 <link rel="import" href="../../bower_components/iron-icons/iron-icons.html">
 <link rel="import" href="../../bower_components/iron-icons/social-icons.html">
-<link rel="import" href="../../styles/color-styles.html">
+<link rel="import" href="../../bower_components/prendus-styles/prendus-styles.html">
 
 <dom-module id="prendus-landing">
-	<style include="color-styles"></style>
-  <style>
+
+  <style include="prendus-styles">
 
     #banner {
       display: flex;
@@ -40,16 +39,9 @@
       max-width: 800px;
     }
 
-    paper-button.indigo {
-      background-color: var(--prendus-primary-color);
-      color: white;
-    }
-
     .signup-cta {
       margin: auto;
-      width: 120px;
-      display: block;
-      text-align: center;
+			align-self: center;
     }
 
     .landing-section {
@@ -57,6 +49,9 @@
       padding: 30px;
       max-width: 800px;
       position: relative;
+			display: flex;
+			flex-direction: column;
+			align-items: flex-start;
     }
 
     .landing-section > * + * {
@@ -66,6 +61,7 @@
     .landing-step {
       max-width: 600px;
       margin: auto;
+			width: 100%;
       display: flex;
     }
 
@@ -94,9 +90,7 @@
     <article class="container">
       <section id="banner">
         <h1>Collaborative learning.  For everyone.</h1>
-        <a href="/signup" tabindex="-1">
-          <paper-button class="signup-cta indigo" raised>Sign Up</paper-button>
-        </a>
+				<a class="prendus-button prendus-button--recommended prendus-button--big signup-cta" href="/signup">Sign up</a>
       </section>
       <section id="about" class="landing-section">
         <h2>Create and share learning resources across the globe.</h2>
@@ -129,9 +123,7 @@
             <p>Link to your course on a class website or send it to students and classmates.</p>
           </div>
         </div>
-        <a href="/signup" tabindex="-1">
-          <paper-button class="signup-cta indigo" noink>Sign Up</paper-button>
-        </a>
+				<a class="prendus-button prendus-button--recommended prendus-button--big signup-cta" href="/signup">Sign up</a>
       </section>
     </article>
   </template>

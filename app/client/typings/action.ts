@@ -1,5 +1,6 @@
 import {Video} from '../node_modules/prendus-services/typings/video';
 import {Quiz} from '../node_modules/prendus-services/typings/quiz';
+import {Concept} from '../node_modules/prendus-services/typings/concept';
 import {QuestionSettings} from '../node_modules/prendus-services/typings/question-settings';
 import {User} from '../node_modules/prendus-services/typings/user';
 import {UserMetaData} from '../node_modules/prendus-services/typings/user-meta-data';
@@ -14,11 +15,9 @@ export interface Action {
   concepts: CourseConceptData[];
   videos: Video[];
   quizzes: Quiz[];
-  currentConcept: {};
+	concept: Concept;
+	currentVideo: Video;
   currentCourse: Course;
-  currentConceptVideoId: string;
-  currentConceptVideoTitle: string;
-  currentConceptVideoUrl: string
   user: User;
   courseConcepts: CourseConceptData[];
   currentEditQuizId: string;

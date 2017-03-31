@@ -1,12 +1,20 @@
-<link href="../../bower_components/polymer/polymer.html" rel="import">
-<link href="../../bower_components/redux-store-element/redux-store.html" rel="import">
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/redux-store-element/redux-store.html">
+<link rel="import" href="../../bower_components/prendus-styles/prendus-styles.html">
 
 <dom-module id="prendus-example">
-  <style>
-    /* CSS rules for your element */
-  </style>
-  <template>
+
+	<template>
+
+	  <style include="prendus-styles">
+
+			/* styles */
+
+	  </style>
+
     <redux-store on-statechange="mapStateToThis" action="[[action]]"></redux-store>
+
+		<!-- DOM -->
 
   </template>
 

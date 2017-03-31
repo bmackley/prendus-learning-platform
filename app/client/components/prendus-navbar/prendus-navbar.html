@@ -3,15 +3,16 @@
 <link rel="import" href="../../bower_components/paper-toolbar/paper-toolbar.html">
 <link rel="import" href="../../bower_components/paper-listbox/paper-listbox.html">
 <link rel="import" href="../../bower_components/paper-item/paper-item.html">
-<link rel="import" href="../../bower_components/paper-button/paper-button.html">
 <link rel="import" href="../../bower_components/paper-card/paper-card.html">
 <link rel="import" href="../../bower_components/iron-dropdown/iron-dropdown.html">
+<link rel="import" href="../../bower_components/iron-icons/iron-icons.html">
+<link rel="import" href="../../bower_components/prendus-styles/prendus-styles.html">
 
 <dom-module id="prendus-navbar">
-  <style>
 
-		navbar-text,
-		paper-button.navbar-text {
+  <style include="prendus-styles">
+
+		.navbar-text {
 			color: white;
 		}
 
@@ -19,8 +20,12 @@
 			text-decoration: none;
 		}
 
+		a, a:visited {
+			color: currentColor;
+		}
+
     paper-item:hover {
-      background-color: rgba(0, 0, 0, 0.2);
+      background-color: var(--paper-grey-300);
     }
 
 		#logo {
@@ -33,6 +38,7 @@
 
     #menu-name-button {
       cursor: pointer;
+			user-select: none;
     }
 
 		#menu-icon-button {
@@ -45,8 +51,13 @@
 			color: initial;
     }
 
+		#user-menu-listbox {
+			min-width: 200px;
+		}
+
 		.menu-item {
 			cursor: pointer;
+			user-select: none;
 		}
 
 		@media (max-width: 768px) {
@@ -67,26 +78,28 @@
         <paper-toolbar>
           <a id="home-link" href="/"><img id="logo" src="../../images/navbar-logo.png" alt="Prendus"></a>
           <template is="dom-if" if="[[username]]">
-            <div id="menu-name-button" class="navbar-text" on-tap="toggleMenu">
-              <span>[[username]]</span><paper-button noink>Menu <iron-icon icon="arrow-drop-down"></iron-icon></paper-button>
-            </div>
-						<iron-icon id="menu-icon-button" class="navbar-text" icon="menu" on-tap="toggleMenu"></iron-icon>
+						<!-- NOTE: use on-up here in order to maintain menu functionality -->
+            <button id="menu-name-button" class="prendus-button prendus-button--recommended navbar-text" on-keydown="toggleMenuWithKeyboard" on-up="toggleMenu">
+              [[username]] <iron-icon icon="arrow-drop-down"></iron-icon>
+            </button>
+						<!-- NOTE: use on-up here in order to maintain menu functionality -->
+						<iron-icon id="menu-icon-button" class="navbar-text" icon="menu" on-up="toggleMenu"></iron-icon>
 
             <div id="menu-holder">
-              <iron-dropdown id="menu-items" horizontal-align="right" no-auto-focus>
+              <iron-dropdown id="menu-items" horizontal-align="right" no-auto-focus allow-outside-scroll>
                 <paper-card class="dropdown-content">
-                  <paper-listbox id="user-menu-listbox">
-                    <a class="menu-item" href="/profile" tabindex="-1"><paper-item><paper-button noink on-tap="toggleMenu">Account ([[username]])</paper-button></paper-item></a>
-                    <a class="menu-item" href="/courses/home" tabindex="-1"><paper-item><paper-button noink on-tap="toggleMenu">My Courses</paper-button></paper-item></a>
-                    <paper-item class="menu-item" on-tap="logOutUser"><paper-button noink>Logout</paper-button></paper-item>
+                  <paper-listbox id="user-menu-listbox" on-tap="toggleMenu">
+                    <a class="menu-item" href="/profile"><paper-item>Your account</paper-item></a>
+                    <a class="menu-item" href="/courses/home"><paper-item>Your courses</paper-item></a>
+                    <paper-item class="menu-item" on-tap="logOutUser" tabindex="0">Log out</paper-item>
                   </paper-listbox>
                 </paper-card>
               </iron-dropdown>
             </div>
           </template>
           <template is="dom-if" if="[[!username]]">
-            <a href="/login" tabindex="-1"><paper-button class="navbar-text" noink>Log In</paper-button></a>
-            <a href="/signup" tabindex="-1"><paper-button class="navbar-text" noink>Sign Up</paper-button></a>
+            <a class="prendus-button prendus-button--recommended navbar-text" href="/login">Log In</a>
+            <a class="prendus-button prendus-button--recommended navbar-text" href="/signup">Sign Up</a>
           </template>
         </paper-toolbar>
     </paper-header-panel>

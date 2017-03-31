@@ -18,11 +18,10 @@ class PrendusQuizEditor {
 		public fire: any;
 		public properties: any;
 		public observers: string[];
-
 		public data: any;
+		public hasEditAccess: boolean;
 		public quizLoaded: boolean;
 		public newQuiz: boolean;
-		public hasEditAccess: boolean;
 		public uid: string;
 		public quizId: string;
 		public conceptId: string;
@@ -57,8 +56,7 @@ class PrendusQuizEditor {
         };
 				this.observers = [
 					'setEditorProperties(data.courseId, data.conceptId, data.quizId, route.*)',
-					'setQuizData(quizId)',
-					'_routeChanged(route.*)'
+					'setQuizData(quizId)'
 				]
     }
 
@@ -153,10 +151,6 @@ class PrendusQuizEditor {
 
 			Actions.hideMainSpinner(this);
     }
-
-		_routeChanged(route: any): void {
-
-		}
 
 		showBlank(quizLoaded: boolean, newQuiz: boolean) {
 			return !quizLoaded || newQuiz;
@@ -297,7 +291,7 @@ class PrendusQuizEditor {
     }
 
     async dueDateChanged(e: any): Promise<void> {
-        const dueDate: Date = this.querySelector('#dueDate').date;
+        const dueDate: Date = this.querySelector('#due-date').date;
         const UTCDueDate: number = UtilitiesService.dateToUTCNumber(dueDate);
         const course: Course = await CourseModel.getById(this.courseId);
         if(UTCDueDate > course.dueDate) {

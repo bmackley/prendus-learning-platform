@@ -16,8 +16,7 @@ class PrendusCreateAccount {
   beforeRegister(): void {
       this.is = 'prendus-create-account';
       this.listeners =  {
-        'signup-submit.tap': 'createUser',
-        'continueToLogin.tap': 'closeDialog'
+        'signup-submit.tap': 'createUser'
       };
   }
 

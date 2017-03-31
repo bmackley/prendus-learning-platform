@@ -19,6 +19,7 @@ class PrendusRouter {
 
   }
   async _routeChanged(routeObject: any): Promise<void> {
+		Actions.hideMainSpinner(this);
     if(!this.username || !this.loggedIn) {
       // Call default action to determine if the user is logged in, since
       // this route change function is called before the first mapStateToThis.
