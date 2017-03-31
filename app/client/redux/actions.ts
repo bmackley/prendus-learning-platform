@@ -332,14 +332,14 @@ const getQuiz = async (quizId: string): Promise<Quiz> => {
     return quiz;
 };
 
-const createNewQuiz = async (context: any, conceptId: string): Promise<string> => {
+const createNewQuiz = async (context: any, title: string, conceptId: string): Promise<string> => {
     const user: any = await FirebaseService.getLoggedInUser();
     const uid: string = user.uid;
     // TODO: Create public courses and enforce payment before creation of a private course
     const quizId: string = await QuizModel.createOrUpdate(null, {
         id: null,
         uid,
-        title: `Untitled Quiz`,
+        title,
         visibility: 'public',
         quizQuestionSettings: {
             answerFeedback: true,
@@ -348,7 +348,7 @@ const createNewQuiz = async (context: any, conceptId: string): Promise<string> =
             showCode: true,
             graded: false,
             showConfidenceLevel: false,
-            allowGeneration: true
+            allowGeneration: false
         },
         questions: {},
         collaborators: {}
@@ -562,9 +562,13 @@ const saveVideo = async (context: any, conceptId: string, videoId: string, video
 const setCurrentVideoInfo = (context: any, id: string, title: string, url: string): void => {
     context.action = {
         type: 'SET_CURRENT_VIDEO_INFO',
-        id,
-        title,
-        url
+				currentVideo: {
+					id,
+					title,
+					url,
+					uid: '',
+					collaborators: {}
+				}
     };
 };
 
@@ -606,32 +610,15 @@ const loadViewConceptVideos = async (context: any, conceptId: string): Promise<v
     }
 };
 
-const loadEditCourseConcepts = async (context: any, courseId: string): Promise<void> => {
-    try {
-        const user: any = await FirebaseService.getLoggedInUser();
-        const course: Course = await CourseModel.getById(courseId);
-        const conceptDatasObject: { [conceptId: string]: CourseConceptData } = course.concepts;
-        const concepts: CourseConceptData[] = await ConceptModel.filterConceptDatasByCollaborator(conceptDatasObject, course.uid, user.uid);
-
-        context.action = {
-            type: 'LOAD_EDIT_COURSE_CONCEPTS',
-            concepts,
-            courseId
-        };
-    } catch(error) {
-        throw error;
-    }
-};
-
 const loadViewCourseConcepts = async (context: any, courseId: string): Promise<void> => {
     try {
         const course: Course = await CourseModel.getById(courseId);
         const conceptsArray: CourseConceptData[] = await CourseModel.courseConceptsToArray(course);
-        const orderedConcepts: CourseConceptData[] = await CourseModel.orderCourseConcepts(conceptsArray);
+        const concepts: CourseConceptData[] = await CourseModel.orderCourseConcepts(conceptsArray);
 
         context.action = {
             type: 'LOAD_VIEW_COURSE_CONCEPTS',
-            orderedConcepts,
+            concepts,
             courseId
         };
     } catch(error) {
@@ -643,10 +630,10 @@ const createUser = async (context: any, data: UserMetaData, password: string): P
     try {
         await FirebaseService.createUserWithEmailAndPassword(data.email, password);
         const loggedInUser: any = await FirebaseService.logInUserWithEmailAndPassword(data.email, password);
-        UserModel.sendConfirmationEmail(loggedInUser);
-        UserModel.updateMetaData(loggedInUser.uid, data);
-        EmailsToUidsModel.setUidByEmail(data.email, loggedInUser.uid);
-        FirebaseService.logOutUser(); //logout so user can't do things
+        await UserModel.sendConfirmationEmail(loggedInUser);
+        await UserModel.updateMetaData(loggedInUser.uid, data);
+        await EmailsToUidsModel.setUidByEmail(data.email, loggedInUser.uid);
+        await FirebaseService.logOutUser(); //logout so user can't do things
     } catch(error){
         throw error;
     }
@@ -714,7 +701,9 @@ const addConcept = async (context: any, courseId: string, newConcept: Concept, c
       await CourseModel.associateConcept(courseId, conceptId, conceptPos);
 
       context.action = {
-          type: 'ADD_CONCEPT'  //same as get course by id
+          type: 'ADD_CONCEPT',
+					courseId,
+					conceptId
       };
 
       const courseCollaboratorUids: string[] = await CourseModel.getCollaboratorUids(courseId);
@@ -818,7 +807,7 @@ const addCourse = async (context: any, newCourse: Course, tags: string[]): Promi
       const tempCourses: Course[] = await CourseModel.getCoursesByUser(newCourse.uid);
       const courses: Course[] = await CourseModel.resolveCourseArrayTagIds(tempCourses);
       context.action = {
-          type: 'ADD_COURSE',
+          type: 'UPDATE_COURSES',
           courses
       };
     } catch(error) {
@@ -840,7 +829,7 @@ const deleteCourse = async (context: any, course: Course): Promise<void> => {
     const tempCourses = await CourseModel.getCoursesByUser(course.uid);
     const courses = await CourseModel.resolveCourseArrayTagIds(tempCourses);
     context.action = {
-      type: 'DELETE_COURSE',
+      type: 'UPDATE_COURSES',
       courses
     }
   } catch (error) {
@@ -856,8 +845,8 @@ const deleteTagFromCourse = async (context: any, tag: Tag, courseId: string): Pr
         const currentCourse: Course = await CourseModel.getById(courseId);
         // const courseTagNames: string[] = currentCourse.tags ? await TagModel.getTagNameArray(currentCourse.tags) : [];
         context.action = {
-            type: 'DELETE_TAG_EDIT_COURSE',
-            currentCourse
+            type: 'SET_COURSE_VIEW_CURRENT_COURSE',
+            currentCourse,
             // courseTagNames
         };
     } catch(error) {
@@ -875,8 +864,8 @@ const addTagToCourse = async (context: any, tag: string, courseId: string): Prom
         // const courseTagNames: string[] = currentCourse.tags ? await TagModel.getTagNameArray(currentCourse.tags) : [];
         if(context) {
             context.action = {
-                type: 'ADD_TAG_EDIT_COURSE',
-                currentCourse
+                type: 'SET_COURSE_VIEW_CURRENT_COURSE',
+                currentCourse,
                 // courseTagNames
             };
         }
@@ -885,17 +874,17 @@ const addTagToCourse = async (context: any, tag: string, courseId: string): Prom
     }
 };
 
-const lookupConceptTags = async (context: any, tags: string[]): Promise<void> => {
+const lookUpConceptTags = async (context: any, tags: string[]): Promise<void> => {
     try {
         const tagObjects : Tag[] = await TagModel.getByNames(tags);
-        const conceptsArray : Concept[] = await TagModel.getConceptsInTags(tagObjects);
+        const concepts : Concept[] = await TagModel.getConceptsInTags(tagObjects);
         context.action = {
-            type: 'LOOKUP_CONCEPT_TAGS',
-            conceptsArray
+            type: 'LOOK_UP_CONCEPT_TAGS',
+            concepts
         }
         // It's better to allow the redux action to take place so that the concepts listed
         // in the search concepts page will be empty.
-        if(conceptsArray === null) {
+        if(concepts === null) {
             throw new Error("No concepts match these tags");
         }
     } catch(error) {
@@ -903,19 +892,19 @@ const lookupConceptTags = async (context: any, tags: string[]): Promise<void> =>
     }
 };
 
-const lookupCourseTags = async (context: any, tag: string): Promise<void> => {
+const lookUpCourseTags = async (context: any, tag: string): Promise<void> => {
     try {
         const tagObject: Tag = await TagModel.getByName(tag);
         // TODO: this will change with infinite scrolling.
         const maxAmountOfCoursesToDisplay: number = 9;
-        const coursesArray : Course[] = tagObject ? await TagModel.getCoursesInTags([tagObject], maxAmountOfCoursesToDisplay) : null;
+        const courses : Course[] = tagObject ? await TagModel.getCoursesInTags([tagObject], maxAmountOfCoursesToDisplay) : null;
         context.action = {
             type: 'SET_COURSE_TAGS',
-            coursesArray
+            courses
         };
         // It's better to allow the redux action to take place so that the courses listed
         // in the search courses page will be empty.
-        if(!coursesArray) {
+        if(!courses) {
             throw new Error("No courses match this tag");
         }
     } catch(error) {
@@ -998,10 +987,10 @@ const getCourseViewCourseById = async (context: any, id: string): Promise<void> 
 const deleteConcept = async (context: any, courseId: string, conceptId: string): Promise<void> => {
       try {
         await CourseModel.disassociateConcept(courseId, conceptId);
-        const currentCourse: Course = await CourseModel.getById(courseId);
         context.action = {
             type: 'DELETE_CONCEPT',
-            currentCourse
+            courseId,
+						conceptId
         };
       } catch(error){
         throw error;
@@ -1019,10 +1008,10 @@ const orderConcepts = async (context: any, id: string, courseConceptsArray: Cour
 const updateCourseField = async (context: any, id: string, field: string, value: string | number): Promise<void> => {
     try{
       await CourseModel.updateCourseField(id, field, value);
-      const course: Course = await CourseModel.getById(id);
+      const currentCourse: Course = await CourseModel.getById(id);
       context.action = {
-        type: 'GET_COURSE_BY_ID',
-        currentCourse: course
+        type: 'SET_COURSE_VIEW_CURRENT_COURSE',
+        currentCourse
       }
     } catch(error) {
       throw error;
@@ -1121,15 +1110,14 @@ export const Actions = {
     loadConceptCollaboratorEmails,
     loadVideoCollaboratorEmails,
     addCourseCollaborator,
-    lookupConceptTags,
-    lookupCourseTags,
+    lookUpConceptTags,
+    lookUpCourseTags,
     addConceptCollaborator,
     addVideoCollaborator,
     removeCourseCollaborator,
     removeConceptCollaborator,
     removeVideoCollaborator,
     updateCourseField,
-    loadEditCourseConcepts,
     loadViewCourseConcepts,
     showMainSpinner,
     hideMainSpinner,

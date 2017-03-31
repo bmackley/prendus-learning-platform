@@ -4,14 +4,12 @@
 <link rel="import" href="../../bower_components/paper-dialog/paper-dialog.html">
 <link rel="import" href="../../bower_components/paper-dialog-scrollable/paper-dialog-scrollable.html">
 <link rel="import" href="../prendus-video-editor/prendus-video-editor.html">
-<link rel="import" href="../../bower_components/paper-button/paper-button.html">
-<link rel="import" href="../../styles/color-styles.html">
+<link rel="import" href="../../bower_components/prendus-styles/prendus-styles.html">
 
 <dom-module id="prendus-concept-video-container-edit">
     <template>
 
-        <style include="color-styles"></style>
-        <style>
+        <style include="prendus-styles">
 
 					:host {
 						display: block;
@@ -38,11 +36,6 @@
 						padding: 10px;
 					}
 
-          .add-video-button {
-            background-color: var(--prendus-primary-color);
-            color: white;
-          }
-
         </style>
 
         <redux-store on-statechange="mapStateToThis" action="[[action]]"></redux-store>
@@ -57,7 +50,7 @@
             <div class="video-row" on-tap="videoRowClick">[[item.title]]</div>
         </template>
 				<h4 class="video-blankslate" hidden$="[[hasVideos(videos)]]">This concept doesn't have any videos yet.</h4>
-        <paper-button class="add-video-button" on-tap="addVideo" noink><iron-icon icon="add"></iron-icon>Add Video</paper-button>
+        <button class="prendus-button prendus-button--recommended" on-tap="addVideo"><iron-icon icon="add"></iron-icon>Add video</button>
     </template>
 
     <script src="prendus-concept-video-container-edit.ts"></script>

@@ -14,9 +14,6 @@ class PrendusConceptQuizContainer {
     public courseId: string;
     public quizzes: Quiz[];
 		public quizToDelete: Quiz;
-    public currentVideoId: string;
-    public currentVideoTitle: string;
-    public currentVideoUrl: string;
     public uid: string;
     public currentCourse: Course;
     public successMessage: string;
@@ -125,13 +122,6 @@ class PrendusConceptQuizContainer {
         this.errorMessage = '';
         this.errorMessage = error.message;
       }
-    }
-
-    async addQuiz(e: Event) {
-        const quizId: string = await Actions.createNewQuiz(this, this.conceptId);
-        window.history.pushState({}, '', `courses/edit-quiz/course/${this.courseId}/concept/${this.conceptId}/quiz/${quizId}`);
-        this.fire('location-changed', {}, {node: window});
-        await Actions.loadViewConceptQuizzes(this, this.conceptId);
     }
 
     mapStateToThis(e: StatechangeEvent) {

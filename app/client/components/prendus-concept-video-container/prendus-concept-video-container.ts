@@ -6,11 +6,14 @@ class PrendusConceptVideoContainer {
     public is: string;
     public properties: any;
     public observers: string[];
+		public courseId: string;
     public conceptId: string;
     public videos: Video[];
     public currentVideoId: string;
     public currentVideoTitle: string;
     public currentVideoUrl: string;
+		public $: any;
+		public fire: any;
 
     beforeRegister() {
         this.is = 'prendus-concept-video-container';
@@ -56,9 +59,9 @@ class PrendusConceptVideoContainer {
         const state = e.detail.state;
 
         this.videos = state.viewConceptVideos[this.conceptId];
-        this.currentVideoId = state.currentConceptVideoId;
-        this.currentVideoTitle = state.currentConceptVideoTitle;
-        this.currentVideoUrl = state.currentConceptVideoUrl;
+				this.currentVideoId = state.currentVideo.id;
+        this.currentVideoTitle = state.currentVideo.title;
+        this.currentVideoUrl = state.currentVideo.url;
     }
 }
 

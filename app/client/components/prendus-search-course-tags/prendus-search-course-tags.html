@@ -1,12 +1,13 @@
 <link rel="import" href="../../bower_components/polymer/polymer.html">
-<link rel="import" href="../../bower_components/prendus-paper-tags-input/prendus-paper-tags-input.html">
+<!-- <link rel="import" href="../../bower_components/prendus-paper-tags-input/prendus-paper-tags-input.html"> -->
 <link rel="import" href="../prendus-course-preview/prendus-course-preview.html">
 <link rel="import" href="../prendus-notification/prendus-notification.html">
-<link rel="import" href="../../styles/color-styles.html">
+<link rel="import" href="../../bower_components/prendus-styles/prendus-styles.html">
+
 <dom-module id="prendus-search-course-tags">
-  <style include="color-styles">
-  </style>
-  <style>
+
+  <style include="prendus-styles">
+
     .courses-container {
       display: flex;
       flex-wrap: wrap;
@@ -29,10 +30,6 @@
       flex-grow: 1;
     }
 
-    #search-button {
-      background-color: var(--prendus-primary-color);
-      color: white;
-    }
   </style>
 
   <template>
@@ -41,7 +38,7 @@
       <div class="search">
         <!-- TODO: add functionality to match more than just one word -->
         <paper-input placeholder="Search for courses" id="tag" on-keydown="checkForEnter"> </paper-input>
-        <paper-button raised on-tap="searchTagsInDB" id="search-button">Search</paper-button>
+        <button class="prendus-button prendus-button--recommended" on-tap="searchTagsInDB">Search</button>
       </div>
     <template is="dom-if" if="[[resultingCourses.length]]">
       <h1>Search Results</h1>

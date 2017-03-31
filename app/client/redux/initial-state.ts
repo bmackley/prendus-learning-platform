@@ -3,35 +3,40 @@ import {State} from '../typings/state';
 
 export const InitialState: State = {
     mainViewToShow: 'routes',
-    concepts: {
-    },
-    currentConcept: {
-    },
+    concepts: [],
     courses: [],
-    courseViewCurrentCourse: {},
-    editCourseConcepts: {},
+    courseViewCurrentCourse: {
+			id: '',
+			uid: '',
+			title: '',
+			dueDate: 0,
+			concepts: {},
+			tags: {},
+			collaborators: {},
+			userStars: {},
+			description: '',
+			visibility: 'public'
+		},
+		courseTagNames: [],
     viewCourseConcepts: {},
     editConceptVideos: {},
     viewConceptVideos: {},
-    currentConceptVideoId: '',
-    currentConceptVideoTitle: '',
-    currentConceptVideoUrl: '',
     currentUser: {
-        authorizedQuestions: {},
-        authorizedQuizzes: {},
         metaData: {
             email: '',
             firstName: '',
             lastName: '',
             institution: '',
             uid: ''
-        },
-        starredCourses: {},
-        sharedWithMeCourses: {},
-        sharedWithMeConcepts: {},
-        sharedWithMeVideos: {},
-        sharedWithMeQuizzes: {}
+        }
     },
+		currentVideo: {
+			id: '',
+			title: '',
+			url: '',
+			uid: '',
+			collaborators: {}
+		},
     userQuestionIds: [],
     publicQuestionIds: [],
     quizQuestionIds: [],
@@ -40,6 +45,7 @@ export const InitialState: State = {
     editConceptQuizzes: {},
     viewConceptQuizzes: {},
     currentEditConceptId: '',
+		userCourses: [],
     publicCourses: [],
     starredCourses: [],
     sharedCourses: [],
