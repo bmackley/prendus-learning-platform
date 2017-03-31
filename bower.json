@@ -16,7 +16,7 @@
   "dependencies": {
     "iron-ajax": "PolymerElements/iron-ajax#^1.2.0",
     "app-route": "PolymerElements/app-route#^0.9.1",
-		"prendus-styles": "git@github.com:bmackley/prendus-styles#master",
+    "prendus-styles": "git@github.com:bmackley/prendus-styles#master",
     "prendus-question-components": "git@github.com:lastmjs/prendus-question-components.git#0.2.2",
     "prendus-quiz-viewer-component": "git@github.com:lastmjs/prendus-quiz-viewer-component.git#0.2.3",
     "prendus-video-viewer-component": "git@github.com:lastmjs/prendus-video-viewer-component.git#0.3.1",
@@ -53,5 +53,9 @@
     "iron-scroll-threshold": "PolymerElements/iron-scroll-threshold#^1.0.3",
     "redux-store-element": "^0.4.2",
     "polymer": "^1.7.1"
+  },
+  "resolutions": {
+    "paper-input": "^1.1.17",
+    "paper-icon-button": "^1.1.2"
   }
 }
