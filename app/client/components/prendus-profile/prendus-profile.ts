@@ -12,6 +12,7 @@ export class PrendusProfile {
   public email: string;
   public password: string;
   public uid: string;
+  public metaData: UserMetaData;
   public updateProfileSuccessToastText: string;
   public updateProfileErrorToastText: string;
   public errorMessage: string;
@@ -30,6 +31,7 @@ export class PrendusProfile {
     this.pastEmail = state.currentUser.metaData.email;
     this.email = state.currentUser.metaData.email;
     this.uid = state.currentUser.metaData.uid;
+		this.metaData = state.currentUser.metaData;
   }
 
   async changeProfile(e: any): Promise<void> {
@@ -37,6 +39,7 @@ export class PrendusProfile {
       this.querySelector('#enter-password').open();
     } else {
       const submitValue: UserMetaData = {
+				...this.metaData,
         uid: this.uid,
         firstName: this.querySelector('#firstName').value,
         lastName: this.querySelector('#lastName').value,

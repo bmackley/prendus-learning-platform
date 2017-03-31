@@ -5,19 +5,23 @@ import {User} from '../../node_modules/prendus-services/typings/user';
 
 class PrendusCreateAccount {
   public is: string;
+  public userType: 'student' | 'teacher';
   public email: string;
   public password: string;
   public confirmPassword: string;
   public errorMessage: string;
-  public listeners: any;
+  public properties: any;
   public readonly querySelector: any;
   public createAccountEmailMessage: string;
 
   beforeRegister(): void {
       this.is = 'prendus-create-account';
-      this.listeners =  {
-        'signup-submit.tap': 'createUser'
-      };
+			this.properties = {
+				userType: {
+					type: String,
+					value: ''
+				}
+			}
   }
 
 	// each input has a hard validation for when focus is lost and a soft validation
@@ -53,46 +57,43 @@ class PrendusCreateAccount {
 		if(this.password === this.confirmPassword) confirmPasswordElement.invalid = false;
 	}
 
-	enableSignup(email: string, password: string, confirmPassword: string): boolean {
-		return 	email.match(ConstantsService.EMAIL_REGEX) !== null
+	enableSignup(userType: string, email: string, password: string, confirmPassword: string): boolean {
+		return	userType !== ''
+				&&	email.match(ConstantsService.EMAIL_REGEX) !== null
 				&&	password !== ''
 				&&	confirmPassword !== ''
 				&&	password === confirmPassword;
 	}
 
 	createUserOnEnter(e: any): void {
-		if(e.keyCode === 13 && this.enableSignup(this.email, this.password, this.confirmPassword)) this.createUser(e);
+		if(e.keyCode === 13 && this.enableSignup(this.userType, this.email, this.password, this.confirmPassword)) this.createUser(e);
 	}
 
   async createUser(e: Event){
     try {
-        const email = this.querySelector('#email').value;
-				const password = this.querySelector('#password').value;
-        const firstName = this.querySelector('#first-name').value;
-        const lastName = this.querySelector('#last-name').value;
-        const institution = this.querySelector('#institution').value;
-
-        const userMetaData = {
+        const userMetaData: UserMetaData = {
+						userType: this.userType,
+						verified: false,
             uid: '',
-            email,
-            firstName,
-            lastName,
-            institution
+            email: this.email,
+            firstName: '',
+            lastName: '',
+            institution: ''
         };
 
-        await Actions.createUser(this, userMetaData, password);
+        await Actions.createUser(this, userMetaData, this.password);
 
         // TODO decide on way to show a confirmation
         this.querySelector('#email-confirmation-dialog').open();
         // TODO decide on confirmation message
         this.createAccountEmailMessage =
-        `Your account has been created. Please confirm your email
-         address. A confirmation email has been sent to ${email}.
-         You will now be redirected to the login page.`;
+        `Your account has been created.  A confirmation email has been sent to
+				${this.email}. Please click on the link in the email to confirm your email
+				address.`;
     }
     catch(error) {
         this.errorMessage = '';
-        this.errorMessage = error.message
+        this.errorMessage = 'An error has occurred.  Please try again later.'
     }
   }
 
