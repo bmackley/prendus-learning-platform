@@ -77,7 +77,7 @@ class PrendusConceptQuizContainer {
       this.fire('location-changed', {}, {node: window});
     }
 
-    async getLTILinks(e: { model: any }): void {
+    async getLTILinks(e: { model: any }): Promise<void> {
       //Start the server
       e.stopPropagation();
       this.ltiQuizId = e.target.parentElement.dataQuiz;
