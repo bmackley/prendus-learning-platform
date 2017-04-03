@@ -2,9 +2,11 @@ import {Actions} from '../../redux/actions';
 import {FirebaseService} from '../../node_modules/prendus-services/services/firebase-service';
 import {StatechangeEvent} from '../../typings/statechange-event';
 import {UserMetaData} from '../../node_modules/prendus-services/typings/user-meta-data';
+import {UserType} from '../../node_modules/prendus-services/typings/user-type';
 
 export class PrendusProfile {
   public is: string;
+	public userType: UserType;
   public firstName: string;
   public lastName: string;
   public institution: string;
@@ -23,23 +25,40 @@ export class PrendusProfile {
     this.is = 'prendus-profile';
   }
 
-  mapStateToThis(e: StatechangeEvent): void {
-    const state = e.detail.state;
-    this.firstName = state.currentUser.metaData.firstName;
-    this.lastName = state.currentUser.metaData.lastName;
-    this.institution = state.currentUser.metaData.institution;
-    this.pastEmail = state.currentUser.metaData.email;
-    this.email = state.currentUser.metaData.email;
-    this.uid = state.currentUser.metaData.uid;
-		this.metaData = state.currentUser.metaData;
-  }
+	ready(): void {
+		this.querySelector('#updateProfileErrorToast').fitInto = this.querySelector('#toastTarget');
+		this.querySelector('#updateProfileSuccessToast').fitInto = this.querySelector('#toastTarget');
+		Actions.defaultAction(this);
+	}
+
+	getUserTypeText(userType: UserType): string {
+		switch(userType) {
+			case 'student':
+				return 'Student';
+			case 'unverifiedTeacher':
+				return 'Unverified teacher';
+			case 'verifiedTeacher':
+				return 'Verified teacher';
+			case 'administrator':
+				return 'Administrator'
+			default:
+				return 'an unknown user type...';
+		}
+	}
+
+	showTeacherSelection(userType: UserType): boolean {
+		return userType === 'student' || userType === 'unverifiedTeacher';
+	}
+
+	showTeacherNote(userType: UserType): boolean {
+		return userType === 'unverifiedTeacher';
+	}
 
   async changeProfile(e: any): Promise<void> {
     if(this.querySelector('#updateEmail').value != this.pastEmail) {
       this.querySelector('#enter-password').open();
     } else {
       const submitValue: UserMetaData = {
-				...this.metaData,
         uid: this.uid,
         firstName: this.querySelector('#firstName').value,
         lastName: this.querySelector('#lastName').value,
@@ -47,6 +66,10 @@ export class PrendusProfile {
         email: this.email
       }
       try {
+				// only attempt to change the user type if the user is allowed to
+				if(this.userType === 'student' || this.userType === 'unverifiedTeacher') {
+					await Actions.setUserType(this, this.uid, this.userType);
+				}
         await Actions.updateUserMetaData(this, this.uid, submitValue);
         this.successMessage = '';
         this.successMessage = 'Profile Updated Successfully';
@@ -92,11 +115,17 @@ export class PrendusProfile {
     if(e.keyCode === 13) this.changeProfile(e);
   }
 
-  ready(): void {
-    this.querySelector('#updateProfileErrorToast').fitInto = this.querySelector('#toastTarget');
-    this.querySelector('#updateProfileSuccessToast').fitInto = this.querySelector('#toastTarget');
-    Actions.defaultAction(this);
-  }
+	mapStateToThis(e: StatechangeEvent): void {
+		const state = e.detail.state;
+		this.userType = state.currentUser.userType;
+		this.firstName = state.currentUser.metaData.firstName;
+		this.lastName = state.currentUser.metaData.lastName;
+		this.institution = state.currentUser.metaData.institution;
+		this.pastEmail = state.currentUser.metaData.email;
+		this.email = state.currentUser.metaData.email;
+		this.uid = state.currentUser.metaData.uid;
+		this.metaData = state.currentUser.metaData;
+	}
 }
 
 Polymer(PrendusProfile);

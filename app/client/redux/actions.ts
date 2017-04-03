@@ -15,6 +15,7 @@ import {Concept} from '../node_modules/prendus-services/typings/concept';
 import {QuestionSettings} from '../node_modules/prendus-services/typings/question-settings';
 import {CourseVisibility} from '../node_modules/prendus-services/typings/course-visibility';
 import {UserMetaData} from '../node_modules/prendus-services/typings/user-meta-data';
+import {UserType} from '../node_modules/prendus-services/typings/user-type';
 import {User} from '../node_modules/prendus-services/typings/user';
 import {EmailsToUidsModel} from '../node_modules/prendus-services/models/emails-to-uids-model';
 import {Video} from '../node_modules/prendus-services/typings/video';
@@ -626,11 +627,12 @@ const loadViewCourseConcepts = async (context: any, courseId: string): Promise<v
     }
 };
 
-const createUser = async (context: any, data: UserMetaData, password: string): Promise<void> => {
+const createUser = async (context: any, userType: string, data: UserMetaData, password: string): Promise<void> => {
     try {
         await FirebaseService.createUserWithEmailAndPassword(data.email, password);
         const loggedInUser: any = await FirebaseService.logInUserWithEmailAndPassword(data.email, password);
         await UserModel.sendConfirmationEmail(loggedInUser);
+        await UserModel.setUserType(loggedInUser.uid, userType);
         await UserModel.updateMetaData(loggedInUser.uid, data);
         await EmailsToUidsModel.setUidByEmail(data.email, loggedInUser.uid);
         await FirebaseService.logOutUser(); //logout so user can't do things
@@ -658,6 +660,14 @@ const updateUserEmail = async (context: any, pastEmail: string, password: string
   } catch(error) {
     throw error;
   }
+};
+
+const setUserType = async (context: any, uid: string, userType: UserType): Promise<void> => {
+	await UserModel.setUserType(uid, userType)
+	context.action = {
+		type: 'SET_USER_TYPE',
+		userType: userType
+	}
 };
 
 const updateUserMetaData = async (context: any, uid: string, metaData: UserMetaData): Promise<void> => {
@@ -1066,6 +1076,7 @@ export const Actions = {
     createUser,
     logOutUser,
     updateUserEmail,
+		setUserType,
     updateUserMetaData,
     loadEditConceptVideos,
     loadViewConceptVideos,

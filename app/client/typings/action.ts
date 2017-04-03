@@ -3,6 +3,7 @@ import {Quiz} from '../node_modules/prendus-services/typings/quiz';
 import {Concept} from '../node_modules/prendus-services/typings/concept';
 import {QuestionSettings} from '../node_modules/prendus-services/typings/question-settings';
 import {User} from '../node_modules/prendus-services/typings/user';
+import {UserType} from '../node_modules/prendus-services/typings/user-type';
 import {UserMetaData} from '../node_modules/prendus-services/typings/user-meta-data';
 import {Course} from '../node_modules/prendus-services/typings/course';
 import {CourseConceptData} from '../node_modules/prendus-services/typings/course-concept-data';
@@ -34,5 +35,6 @@ export interface Action {
 	quizQuestionIds: [string];
 	quizQuestionSettings: QuestionSettings;
 	visibility: string;
+	userType: UserType;
   userMetaData: UserMetaData;
 }

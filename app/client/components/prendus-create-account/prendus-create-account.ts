@@ -1,11 +1,12 @@
 import {Actions} from '../../redux/actions';
 import {ConstantsService} from '../../node_modules/prendus-services/services/constants-service';
 import {UserMetaData} from '../../node_modules/prendus-services/typings/user-meta-data';
+import {UserType} from '../../node_modules/prendus-services/typings/user-type';
 import {User} from '../../node_modules/prendus-services/typings/user';
 
 class PrendusCreateAccount {
   public is: string;
-  public userType: 'student' | 'teacher';
+  public userType: UserType;
   public email: string;
   public password: string;
   public confirmPassword: string;
@@ -23,6 +24,10 @@ class PrendusCreateAccount {
 				}
 			}
   }
+
+	showTeacherNote(userType: UserType): boolean {
+		return userType === 'unverifiedTeacher';
+	}
 
 	// each input has a hard validation for when focus is lost and a soft validation
 	// for when the user is typing (to be responsive but not obnoxious)
@@ -72,16 +77,14 @@ class PrendusCreateAccount {
   async createUser(e: Event){
     try {
         const userMetaData: UserMetaData = {
-						userType: this.userType,
-						verified: false,
             uid: '',
             email: this.email,
             firstName: '',
             lastName: '',
             institution: ''
-        };
+      	};
 
-        await Actions.createUser(this, userMetaData, this.password);
+        await Actions.createUser(this, this.userType, userMetaData, this.password);
 
         // TODO decide on way to show a confirmation
         this.querySelector('#email-confirmation-dialog').open();
@@ -92,6 +95,7 @@ class PrendusCreateAccount {
 				address.`;
     }
     catch(error) {
+				console.error(error);
         this.errorMessage = '';
         this.errorMessage = 'An error has occurred.  Please try again later.'
     }
