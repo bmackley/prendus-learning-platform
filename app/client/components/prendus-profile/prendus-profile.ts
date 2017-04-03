@@ -36,13 +36,13 @@ export class PrendusProfile {
 			case 'student':
 				return 'Student';
 			case 'unverifiedTeacher':
-				return 'Unverified teacher';
+				return 'Unverified Teacher';
 			case 'verifiedTeacher':
-				return 'Verified teacher';
+				return 'Verified Teacher';
 			case 'administrator':
 				return 'Administrator'
 			default:
-				return 'an unknown user type...';
+				return 'Unknown user type';
 		}
 	}
 
