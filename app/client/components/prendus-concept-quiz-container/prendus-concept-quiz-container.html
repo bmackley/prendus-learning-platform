@@ -7,7 +7,7 @@
 <link rel="import" href="../../bower_components/paper-dialog-behavior/paper-dialog-behavior.html">
 <link rel="import" href="../../bower_components/paper-tooltip/paper-tooltip.html">
 <link rel="import" href="../../bower_components/prendus-styles/prendus-styles.html">
-
+<link rel="import" href="../../bower_components/iron-ajax/iron-ajax.html">
 <dom-module id="prendus-concept-quiz-container">
 
   <template>
@@ -63,7 +63,7 @@
 				<span class="quiz-title">[[quiz.title]]</span>
 				<div class="quiz-icons">
 					<template is="dom-if" if="[[quiz.hasEditAccess]]">
-            <paper-icon-button id="LTI-quiz-links[[quiz.id]]" data-quiz="[[quiz.id]]" class="quiz-icon" icon="link" on-tap="getLTILinks"></paper-icon-button>
+            <paper-icon-button id="LTI-quiz-links[[quiz.id]]"  data-quiz="[[quiz.id]]" class="quiz-icon" icon="link" on-tap="getLTILinks"></paper-icon-button>
 						<paper-tooltip for="LTI-quiz-links[[quiz.id]]" offset="0" animation-delay="300">Get LTI Link</paper-tooltip>
 						<paper-icon-button id="edit-quiz[[quiz.id]]" class="prendus-icon-button" icon="create" on-tap="editQuiz"></paper-icon-button>
 						<paper-tooltip for="edit-quiz[[quiz.id]]" offset="0" animation-delay="300">Edit Quiz</paper-tooltip>
