@@ -627,7 +627,7 @@ const loadViewCourseConcepts = async (context: any, courseId: string): Promise<v
     }
 };
 
-const createUser = async (context: any, userType: string, data: UserMetaData, password: string): Promise<void> => {
+const createUser = async (context: any, userType: UserType, data: UserMetaData, password: string): Promise<void> => {
     try {
         await FirebaseService.createUserWithEmailAndPassword(data.email, password);
         const loggedInUser: any = await FirebaseService.logInUserWithEmailAndPassword(data.email, password);
