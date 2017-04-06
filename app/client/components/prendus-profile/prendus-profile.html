@@ -4,6 +4,8 @@
 <link rel="import" href="../../bower_components/paper-input/paper-input.html">
 <link rel="import" href="../../bower_components/paper-toast/paper-toast.html">
 <link rel="import" href="../../bower_components/paper-dialog/paper-dialog.html" >
+<link rel="import" href="../../bower_components/paper-radio-button/paper-radio-button.html" >
+<link rel="import" href="../../bower_components/paper-radio-group/paper-radio-group.html" >
 <link rel="import" href="../prendus-notification/prendus-notification.html">
 <link rel="import" href="../../bower_components/prendus-styles/prendus-styles.html">
 
@@ -20,12 +22,15 @@
 
     paper-card {
       width: 100%;
-      max-width: 320px;
     }
 
     #profileFormCard {
       --paper-toast-background-color: red;
     }
+
+		paper-input {
+			max-width: 300px;
+		}
 
   </style>
 
@@ -34,9 +39,21 @@
     <paper-toast id="updateProfileErrorToast" duration="5000" verticalAlign="top" text=[[updateProfileErrorToastText]]></paper-toast>
     <paper-toast id="updateProfileSuccessToast" duration="5000" verticalAlign="top" text=[[updateProfileSuccessToastText]]></paper-toast>
 
-    <paper-card id="profileFormCard" heading="Update account">
+    <paper-card id="profileFormCard">
       <form class="card-content" is="iron-form" id="form" method="post" action="/form/handler" on-keydown="submitKeydown">
+				<h1>Update Account</h1>
 				<p>View and update your account details.</p>
+				<h3>[[getUserTypeText(userType)]]</h3>
+				<hr>
+				<template is="dom-if" if="[[showTeacherSelection(userType)]]" restamp="true">
+					<p>I am a...</p>
+					<paper-radio-group id="user-type" selected="{{userType}}" required>
+						<!-- keep the name attributes as is - they will be passed into Firebase -->
+						<paper-radio-button name="student">Student</paper-radio-button>
+						<paper-radio-button name="unverifiedTeacher">Teacher</paper-radio-button>
+					</paper-radio-group>
+					<p hidden$="[[!showTeacherNote(userType)]]"><sup>Note: you will need to verify your teacher status.</sup></p>
+				</template>
         <paper-input name="firstName" id="firstName" label="First Name" value="[[firstName]]"></paper-input>
         <paper-input name="lastName" id="lastName" label="Last Name" value="[[lastName]]"></paper-input>
         <paper-input name="Intitution" id="institution" label="Institution (school)" value="[[institution]]"></paper-input>
