@@ -32,18 +32,13 @@ export class PrendusProfile {
 	}
 
 	getUserTypeText(userType: UserType): string {
-		switch(userType) {
-			case 'student':
-				return 'Student';
-			case 'unverifiedTeacher':
-				return 'Unverified Teacher';
-			case 'verifiedTeacher':
-				return 'Verified Teacher';
-			case 'administrator':
-				return 'Administrator'
-			default:
-				return 'Unknown user type';
+		const userTypes: any = {
+			student: 'Student',
+			unverifiedTeacher: 'Unverified Teacher',
+			verifiedTeacher: 'Verified Teacher',
+			administrator: 'Administrator'
 		}
+		return userTypes[userType] || 'Unknown user type';
 	}
 
 	showTeacherSelection(userType: UserType): boolean {
