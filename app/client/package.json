@@ -1,10 +1,10 @@
 {
   "name": "prendus-learning-platform",
-  "version": "0.3.0",
+  "version": "0.4.4",
   "dependencies": {
     "codemirror": "5.16.0",
     "jshint": "2.9.2",
-    "prendus-services": "git+ssh://git@github.com/lastmjs/prendus-services.git#learning-structure",
+    "prendus-services": "git+ssh://git@github.com/lastmjs/prendus-services.git#concept-to-lesson",
     "quill": "1.0.0-beta.11",
     "redux": "^3.6.0",
     "zwitterion-production": "0.0.5"

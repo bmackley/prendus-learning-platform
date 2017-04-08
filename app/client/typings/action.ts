@@ -1,7 +1,9 @@
 import {Video} from '../node_modules/prendus-services/typings/video';
 import {Quiz} from '../node_modules/prendus-services/typings/quiz';
+import {Concept} from '../node_modules/prendus-services/typings/concept';
 import {QuestionSettings} from '../node_modules/prendus-services/typings/question-settings';
 import {User} from '../node_modules/prendus-services/typings/user';
+import {UserType} from '../node_modules/prendus-services/typings/user-type';
 import {UserMetaData} from '../node_modules/prendus-services/typings/user-meta-data';
 import {Course} from '../node_modules/prendus-services/typings/course';
 import {CourseLessonData} from '../node_modules/prendus-services/typings/course-lesson-data';
@@ -17,11 +19,17 @@ export interface Action {
   lessons: CourseLessonData[];
   videos: Video[];
   quizzes: Quiz[];
+<<<<<<< HEAD
   currentLesson: {};
   currentCourse: Course;
   currentLessonVideoId: string;
   currentLessonVideoTitle: string;
   currentLessonVideoUrl: string
+=======
+	concept: Concept;
+	currentVideo: Video;
+  currentCourse: Course;
+>>>>>>> origin/develop
   user: User;
   courseLessons: CourseLessonData[];
   currentEditQuizId: string;
@@ -38,6 +46,7 @@ export interface Action {
 	quizQuestionIds: [string];
 	quizQuestionSettings: QuestionSettings;
 	visibility: string;
+	userType: UserType;
   userMetaData: UserMetaData;
 	lesson: Lesson;
 	lessonKey: string;

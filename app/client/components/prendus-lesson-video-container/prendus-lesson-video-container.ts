@@ -59,9 +59,9 @@ class PrendusLessonVideoContainer {
         const state = e.detail.state;
 
         this.videos = state.viewLessonVideos[this.lessonId];
-        this.currentVideoId = state.currentLessonVideoId;
-        this.currentVideoTitle = state.currentLessonVideoTitle;
-        this.currentVideoUrl = state.currentLessonVideoUrl;
+				this.currentVideoId = state.currentVideo.id;
+        this.currentVideoTitle = state.currentVideo.title;
+        this.currentVideoUrl = state.currentVideo.url;
     }
 }
 

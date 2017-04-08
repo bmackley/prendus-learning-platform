@@ -18,9 +18,11 @@ class PrendusQuizEditor {
 		public fire: any;
 		public properties: any;
 		public observers: string[];
-
 		public data: any;
+		public hasEditAccess: boolean;
 		public quizLoaded: boolean;
+		public newQuiz: boolean;
+		public uid: string;
 		public quizId: string;
 		public lessonId: string;
 		public courseId: string;
@@ -31,74 +33,150 @@ class PrendusQuizEditor {
 		public quizQuestionSettings: QuestionSettings;
     public jwt: string;
     public title: string;
+    public editingTitle: boolean;
     public selected: number;
 		public endpointDomain: string;
 		public successMessage: string;
 		public errorMessage: string;
-
+		public errorLink: string;
+		public errorText: string;
+		public errorLinkText: string;
 
     beforeRegister(): void {
         this.is = 'prendus-quiz-editor';
         this.properties = {
-
+					editingTitle: {
+		        type: Boolean,
+		        value: false
+		      },
+					selected: {
+						type: Number,
+						value: 0
+					}
         };
 				this.observers = [
-					'setQuizData(data)',
-					'setQuizId(quizId)'
+					'setEditorProperties(data.courseId, data.conceptId, data.quizId, route.*)',
+					'setQuizData(quizId)'
 				]
     }
 
-    async init(): Promise<void> {
-        Actions.showMainSpinner(this);
+    async init(quizId: string): Promise<any> {
+				const initData: any = {};
         this.endpointDomain = UtilitiesService.getPrendusServerEndpointDomain();
-        const user = await FirebaseService.getLoggedInUser();
-        this.jwt = await user.getToken();
-        this.title = '';
-        this.selected = 0;
+				const user = await FirebaseService.getLoggedInUser();
+				if(!user) {
+					this.errorLink = '/login';
+					this.errorText = 'Please';
+					this.errorLinkText = 'log in';
+					throw 'Not logged in';
+				}
+				const quiz: Quiz = await Actions.getQuiz(quizId);
+				if(!quiz) {
+					this.errorLink = '/';
+					this.errorText = 'This quiz may have been removed or never existed in the first place.  Try starting from the';
+					this.errorLinkText = 'home page';
+					throw 'Quiz does not exist';
+				}
+				initData.title = quiz.title;
+				initData.hasEditAccess = quiz.uid === this.uid;
+				if(!initData.hasEditAccess) {
+					this.errorText = 'You don\'t have edit access to this quiz.  Try asking the owner for access.';
+					throw 'Doesn\'t own quiz';
+				}
+				this.jwt = await user.getToken();
 
-        //TODO this is horrible and should be removed once the view problem component can be initialized without a quiz session being handed to it
-        const startQuizSessionAjax = this.querySelector('#startQuizSessionAjax');
-        startQuizSessionAjax.body = {
-            quizId: 'NO_QUIZ',
-            jwt: this.jwt
-        };
-        const request = startQuizSessionAjax.generateRequest();
-        await request.completes;
-        this.quizSession = request.response.quizSession;
-        //TODO this is horrible and should be removed once the view problem component can be initialized without a quiz session being handed to it
+				//TODO this is horrible and should be removed once the view problem component can be initialized without a quiz session being handed to it
+				const startQuizSessionAjax = this.querySelector('#startQuizSessionAjax');
+				startQuizSessionAjax.body = {
+					quizId: 'NO_QUIZ',
+					jwt: this.jwt
+				};
+				const request = startQuizSessionAjax.generateRequest();
+				await request.completes;
+				this.quizSession = request.response.quizSession;
+				//TODO this is horrible and should be removed once the view problem component can be initialized without a quiz session being handed to it
 
-        this.manuallyReloadQuestions();
+				return initData;
     }
 
-		setQuizData(data: any): void {
-			this.courseId = data.courseId;
-			this.lessonId = data.lessonId;
-			this.quizId = data.quizId;
+		async setEditorProperties(courseId: string, lessonId: string, quizId: string, route: any): Promise<void> {
+			this.courseId = courseId;
+			this.lessonId = lessonId;
+			this.quizId = quizId;
+
+			const titleDialog = this.querySelector('#title-quiz-dialog');
+
+			// watch the route - if not navigating to a new quiz, close the dialog and return
+			if(			route.path === 'route.path'
+					&&	route.value.includes
+					&&	route.value.includes('edit-quiz')
+					&&	route.value.includes('create')) {
+				this.quizLoaded = true;
+				this.newQuiz = true;
+				this.title = '';
+				this.querySelector('#new-quiz-input').invalid = false;
+				// delay opening the modal so it gets centered
+				setTimeout(() => {
+					titleDialog.open();
+				}, 0);
+			} else {
+				titleDialog.close();
+			}
 		}
 
-    async setQuizId(quizId: string): Promise<void> {
+		async setQuizData(quizId: string): Promise<void> {
+			if(quizId === 'create') return;
+
+			this.newQuiz = false;
+			Actions.showMainSpinner(this);
+
 			try {
-				await this.init();
-				Actions.hideMainSpinner(this);
-				const quiz: Quiz = await Actions.getQuiz(quizId);
-				this.title = quiz.title;
+				const initData: any = await this.init(quizId);
+				this.title = initData.title;
+				this.hasEditAccess = initData.hasEditAccess;
+
 				this.quizLoaded = true;
+
+				await Promise.all([
+					Actions.loadQuizQuestionSettings(this, quizId),
+					this.loadQuizQuestionIds(),
+					this.loadUserQuestionIds(),
+					this.loadPublicQuestionIds(),
+					this.manuallyReloadQuestions()
+				])
 			} catch(error) {
 				this.quizLoaded = false;
 				console.error(error);
 			}
 
-			try {
-				await Promise.all([
-					Actions.loadQuizQuestionSettings(this, quizId),
-					this.loadQuizQuestionIds(),
-					this.loadUserQuestionIds(),
-					this.loadPublicQuestionIds()
-				])
-			} catch(error) {
-				console.error(error);
-			}
+			Actions.hideMainSpinner(this);
     }
+
+		showBlank(quizLoaded: boolean, newQuiz: boolean) {
+			return !quizLoaded || newQuiz;
+		}
+
+		enableCreateQuizButton(title: string): boolean {
+			return !!title.length;
+		}
+
+		createQuizOnEnter(e: any): void {
+			if(e.keyCode === 13 && this.enableCreateQuizButton(this.title)) {
+				this.createQuiz();
+				this.querySelector('#title-quiz-dialog').close();
+			}
+		}
+
+		async createQuiz(): Promise<void> {
+			const quizId = await Actions.createNewQuiz(this, this.title, this.lessonId);
+			// reload by watching data
+			this.data = {
+				...this.data,
+				quizId
+			}
+			this.newQuiz = false;
+			Actions.loadViewLessonQuizzes(this, this.lessonId);
+		}
 
     async loadPublicQuestionIds(): Promise<void> {
         const getPublicQuestionIdsAjax = this.querySelector('#getPublicQuestionIdsAjax');
@@ -150,20 +228,6 @@ class PrendusQuizEditor {
 
     openSettingsModal(e: any): void {
       this.querySelector('#settings-modal').open();
-    }
-
-    //Temporary based on Jordans preferences
-    async createQuestion(e: any): Promise<void> {
-        Actions.showMainSpinner(this);
-        window.history.pushState({}, '', `courses/edit-question/question/create`);
-        this.fire('location-changed', {}, {node: window});
-    }
-
-    editQuestion(e: any): void {
-        const questionId: string = e.model.item;
-        Actions.showMainSpinner(this);
-        window.history.pushState({}, '', `courses/edit-question/question/${questionId}`);
-        this.fire('location-changed', {}, {node: window});
     }
 
     showEmptyQuizQuestionsText(quizQuestionIds: string[]): boolean {
@@ -227,7 +291,7 @@ class PrendusQuizEditor {
     }
 
     async dueDateChanged(e: any): Promise<void> {
-        const dueDate: Date = this.querySelector('#dueDate').date;
+        const dueDate: Date = this.querySelector('#due-date').date;
         const UTCDueDate: number = UtilitiesService.dateToUTCNumber(dueDate);
         const course: Course = await CourseModel.getById(this.courseId);
         if(UTCDueDate > course.dueDate) {
@@ -264,7 +328,18 @@ class PrendusQuizEditor {
         await this.applySettings('maxNumAttempts', value, 'Maximum number of attempts', true);
     }
 
-    async titleChanged(e: any): Promise<void> {
+		getEditIcon(editStatus: boolean): string {
+			return editStatus ? 'check' : 'create';
+		}
+
+	  toggleEditTitle(e: any): void {
+			if(this.querySelector('#edit-quiz-input').invalid) return;
+	    this.editingTitle = !this.editingTitle;
+			if(this.editingTitle) this.querySelector('#edit-quiz-input').focus();
+	  }
+
+    async changeTitle(e: any): Promise<void> {
+			this.editingTitle = false;
       try {
         const value: string = e.target.value;
         await QuizModel.updateTitle(this.quizId, value);
@@ -313,6 +388,7 @@ class PrendusQuizEditor {
 
     mapStateToThis(e: StatechangeEvent): void {
         const state = e.detail.state;
+				this.uid = state.currentUser.metaData.uid;
 				this.userQuestionIds = state.userQuestionIds;
 				this.publicQuestionIds = state.publicQuestionIds;
 				this.quizQuestionIds = state.quizQuestionIds;

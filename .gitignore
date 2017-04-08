@@ -1,6 +1,5 @@
-/node_modules
 /npm-debug.log*
+.vscode/*
+/node_modules
 /app/client/node_modules
 /app/client/bower_components
-/dist
-.vscode/*

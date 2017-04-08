@@ -15,6 +15,7 @@ import {Lesson} from '../node_modules/prendus-services/typings/lesson';
 import {QuestionSettings} from '../node_modules/prendus-services/typings/question-settings';
 import {CourseVisibility} from '../node_modules/prendus-services/typings/course-visibility';
 import {UserMetaData} from '../node_modules/prendus-services/typings/user-meta-data';
+import {UserType} from '../node_modules/prendus-services/typings/user-type';
 import {User} from '../node_modules/prendus-services/typings/user';
 import {EmailsToUidsModel} from '../node_modules/prendus-services/models/emails-to-uids-model';
 import {Video} from '../node_modules/prendus-services/typings/video';
@@ -338,14 +339,14 @@ const getQuiz = async (quizId: string): Promise<Quiz> => {
     return quiz;
 };
 
-const createNewQuiz = async (context: any, lessonId: string): Promise<string> => {
+const createNewQuiz = async (context: any, title: string, lessonId: string): Promise<string> => {
     const user: any = await FirebaseService.getLoggedInUser();
     const uid: string = user.uid;
     // TODO: Create public courses and enforce payment before creation of a private course
     const quizId: string = await QuizModel.createOrUpdate(null, {
         id: null,
         uid,
-        title: `Untitled Quiz`,
+        title,
         visibility: 'public',
         quizQuestionSettings: {
             answerFeedback: true,
@@ -354,7 +355,7 @@ const createNewQuiz = async (context: any, lessonId: string): Promise<string> =>
             showCode: true,
             graded: false,
             showConfidenceLevel: false,
-            allowGeneration: true
+            allowGeneration: false
         },
         questions: {},
         collaborators: {}
@@ -568,9 +569,13 @@ const saveVideo = async (context: any, lessonId: string, videoId: string, video:
 const setCurrentVideoInfo = (context: any, id: string, title: string, url: string): void => {
     context.action = {
         type: 'SET_CURRENT_VIDEO_INFO',
-        id,
-        title,
-        url
+				currentVideo: {
+					id,
+					title,
+					url,
+					uid: '',
+					collaborators: {}
+				}
     };
 };
 
@@ -645,14 +650,15 @@ const loadViewCourseLessons = async (context: any, courseId: string): Promise<vo
     }
 };
 
-const createUser = async (context: any, data: UserMetaData, password: string): Promise<void> => {
+const createUser = async (context: any, userType: UserType, data: UserMetaData, password: string): Promise<void> => {
     try {
         await FirebaseService.createUserWithEmailAndPassword(data.email, password);
         const loggedInUser: any = await FirebaseService.logInUserWithEmailAndPassword(data.email, password);
-        UserModel.sendConfirmationEmail(loggedInUser);
-        UserModel.updateMetaData(loggedInUser.uid, data);
-        EmailsToUidsModel.setUidByEmail(data.email, loggedInUser.uid);
-        FirebaseService.logOutUser(); //logout so user can't do things
+        await UserModel.sendConfirmationEmail(loggedInUser);
+        await UserModel.setUserType(loggedInUser.uid, userType);
+        await UserModel.updateMetaData(loggedInUser.uid, data);
+        await EmailsToUidsModel.setUidByEmail(data.email, loggedInUser.uid);
+        await FirebaseService.logOutUser(); //logout so user can't do things
     } catch(error){
         throw error;
     }
@@ -677,6 +683,14 @@ const updateUserEmail = async (context: any, pastEmail: string, password: string
   } catch(error) {
     throw error;
   }
+};
+
+const setUserType = async (context: any, uid: string, userType: UserType): Promise<void> => {
+	await UserModel.setUserType(uid, userType)
+	context.action = {
+		type: 'SET_USER_TYPE',
+		userType: userType
+	}
 };
 
 const updateUserMetaData = async (context: any, uid: string, metaData: UserMetaData): Promise<void> => {
@@ -720,7 +734,9 @@ const addLesson = async (context: any, courseId: string, newLesson: Lesson, less
       await CourseModel.associateLesson(courseId, lessonId, lessonPos);
 
       context.action = {
-          type: 'ADD_LESSON'  //same as get course by id
+          type: 'ADD_LESSON',  //same as get course by id
+					courseId,
+					lessonId
       };
 
       const courseCollaboratorUids: string[] = await CourseModel.getCollaboratorUids(courseId);
@@ -825,7 +841,7 @@ const addCourse = async (context: any, newCourse: Course, tags: string[]): Promi
       const tempCourses: Course[] = await CourseModel.getCoursesByUser(newCourse.uid);
       const courses: Course[] = await CourseModel.resolveCourseArrayTagIds(tempCourses);
       context.action = {
-          type: 'ADD_COURSE',
+          type: 'UPDATE_COURSES',
           courses
       };
     } catch(error) {
@@ -847,7 +863,7 @@ const deleteCourse = async (context: any, course: Course): Promise<void> => {
     const tempCourses = await CourseModel.getCoursesByUser(course.uid);
     const courses = await CourseModel.resolveCourseArrayTagIds(tempCourses);
     context.action = {
-      type: 'DELETE_COURSE',
+      type: 'UPDATE_COURSES',
       courses
     }
   } catch (error) {
@@ -863,8 +879,8 @@ const deleteTagFromCourse = async (context: any, tag: Tag, courseId: string): Pr
         const currentCourse: Course = await CourseModel.getById(courseId);
         // const courseTagNames: string[] = currentCourse.tags ? await TagModel.getTagNameArray(currentCourse.tags) : [];
         context.action = {
-            type: 'DELETE_TAG_EDIT_COURSE',
-            currentCourse
+            type: 'SET_COURSE_VIEW_CURRENT_COURSE',
+            currentCourse,
             // courseTagNames
         };
     } catch(error) {
@@ -875,61 +891,22 @@ const deleteTagFromCourse = async (context: any, tag: Tag, courseId: string): Pr
     }
 };
 
-// const addTagToCourse = async (context: any, tag: string, courseId: string): Promise<void> => {
-//     try {
-//         const tagId: string = await TagModel.createOrUpdate(tag, courseId, null, null);
-//         const currentCourse: Course = await CourseModel.addTag(tagId, courseId);
-//         const courseTagNames: string[] = currentCourse.tags ? await TagModel.getTagNameArray(currentCourse.tags) : [];
-//         if(context) {
-//             context.action = {
-//                 type: 'ADD_TAG_EDIT_COURSE',
-//                 currentCourse,
-//                 courseTagNames
-//             };
-//         }
-//     } catch(error) {
-//         throw error;
-//     }
-// };
-//
-// const lookupConceptTags = async (context: any, tags: string[]): Promise<void> => {
-//     try {
-//         const tagObjects : Tag[] = await TagModel.getByNames(tags);
-//         const conceptsArray : Concept[] = await TagModel.getConceptsInTags(tagObjects);
-//         context.action = {
-//             type: 'LOOKUP_CONCEPT_TAGS',
-//             conceptsArray
-//         }
-//         // It's better to allow the redux action to take place so that the concepts listed
-//         // in the search concepts page will be empty.
-//         if(conceptsArray === null) {
-//             throw new Error("No concepts match these tags");
-//         }
-//     } catch(error) {
-//         throw error;
-//     }
-// };
-//
-// const lookupCourseTags = async (context: any, tag: string): Promise<void> => {
-//     try {
-//         const tagObject: Tag = await TagModel.getByName(tag);
-//         // TODO: this will change with infinite scrolling.
-//         const maxAmountOfCoursesToDisplay: number = 9;
-//         const coursesArray : Course[] = tagObject ? await TagModel.getCoursesInTags([tagObject], maxAmountOfCoursesToDisplay) : null;
-//         context.action = {
-//             type: 'SET_COURSE_TAGS',
-//             coursesArray
-//         };
-//         // It's better to allow the redux action to take place so that the courses listed
-//         // in the search courses page will be empty.
-//         if(!coursesArray) {
-//             throw new Error("No courses match this tag");
-//         }
-//     } catch(error) {
-//         throw error;
-//     }
-//
-// };
+const addTagToCourse = async (context: any, tag: string, courseId: string): Promise<void> => {
+    try {
+        const tagId: string = await TagModel.createOrUpdate(tag, courseId, null, null);
+        const currentCourse: Course = await CourseModel.addTag(tagId, courseId);
+        // const courseTagNames: string[] = currentCourse.tags ? await TagModel.getTagNameArray(currentCourse.tags) : [];
+        if(context) {
+            context.action = {
+                type: 'SET_COURSE_VIEW_CURRENT_COURSE',
+                currentCourse,
+                // courseTagNames
+            };
+        }
+    } catch(error) {
+        throw error;
+    }
+};
 
 const getCoursesByUser = async (context: any): Promise<void> => {
     try {
@@ -1008,7 +985,8 @@ const deleteLesson = async (context: any, courseId: string, lessonId: string): P
         const currentCourse: Course = await CourseModel.getById(courseId);
         context.action = {
             type: 'DELETE_LESSON',
-            currentCourse
+            currentCourse,
+            lessonId
         };
       } catch(error){
         throw error;
@@ -1026,10 +1004,10 @@ const orderLessons = async (context: any, id: string, courseLessonsArray: Course
 const updateCourseField = async (context: any, id: string, field: string, value: string | number): Promise<void> => {
     try{
       await CourseModel.updateCourseField(id, field, value);
-      const course: Course = await CourseModel.getById(id);
+      const currentCourse: Course = await CourseModel.getById(id);
       context.action = {
-        type: 'GET_COURSE_BY_ID',
-        currentCourse: course
+        type: 'SET_COURSE_VIEW_CURRENT_COURSE',
+        currentCourse
       }
     } catch(error) {
       throw error;
@@ -1232,6 +1210,7 @@ export const Actions = {
     createUser,
     logOutUser,
     updateUserEmail,
+		setUserType,
     updateUserMetaData,
     loadEditLessonVideos,
     loadViewLessonVideos,

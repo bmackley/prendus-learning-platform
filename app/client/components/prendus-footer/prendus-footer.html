@@ -1,24 +1,28 @@
 <link rel="import" href="../../bower_components/polymer/polymer.html">
 <link rel="import" href="../../bower_components/paper-toolbar/paper-toolbar.html">
+<link rel="import" href="../../bower_components/prendus-styles/prendus-styles.html">
 
 <dom-module id="prendus-footer">
-  <style>
 
-		a,
-		a:visited {
-			color: white;
-		}
+	<template>
 
-    footer {
-      width: 100%;
-    }
+	  <style include="prendus-styles">
 
-    .footer-items {
-      width: 100%;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
+			a,
+			a:visited {
+				color: white;
+			}
+
+	    footer {
+	      width: 100%;
+	    }
+
+	    .footer-items {
+	      width: 100%;
+	      display: flex;
+	      justify-content: space-between;
+	      align-items: center;
+	    }
 
 		@media (max-width: 500px) {
 			.long-text {
@@ -26,13 +30,14 @@
 			}
 		}
 
-  </style>
-  <template>
+	  </style>
+
     <paper-toolbar>
       <footer class="footer-items">
         <div>&copy; [[getYear()]]&nbsp;<span class="long-text">Prendus LLC</span></div>
         <a href="/terms-of-service">Terms&nbsp;<span id="terms-of-service" class="long-text">of Service</span></a>
 				<a href="/privacy-policy">Privacy&nbsp;<span id="privacy-policy" class="long-text">Policy</span></a>
+        <a href="/open-source"><span id="open-source" class="long-text">Open Source</span></a>
       </footer>
     </paper-toolbar>
   </template>

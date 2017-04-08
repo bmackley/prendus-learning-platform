@@ -1,8 +1,7 @@
 <link rel="import" href="../../bower_components/polymer/polymer.html">
 <link rel="import" href="../../bower_components/paper-dialog/paper-dialog.html">
-<link rel="import" href="../../bower_components/paper-button/paper-button.html">
 <link rel="import" href="../../bower_components/paper-icon-button/paper-icon-button.html">
-<link rel="import" href="../../bower_components/iron-icon/iron-icon.html">
+<link rel="import" href="../../bower_components/iron-icons/iron-icons.html">
 <link rel="import" href="../../bower_components/paper-date-picker/paper-date-picker.html">
 <link rel="import" href="../../bower_components/paper-dropdown-menu/paper-dropdown-menu.html">
 <link rel="import" href="../../bower_components/paper-listbox/paper-listbox.html">
@@ -14,17 +13,17 @@
 <link rel="import" href="../../bower_components/Sortable/Sortable.html">
 <link rel="import" href="../../bower_components/app-route/app-route.html">
 <link rel="import" href="../../bower_components/paper-card/paper-card.html">
-<link rel="import" href="../../bower_components/prendus-paper-tags-input/prendus-paper-tags-input.html">
+<!-- <link rel="import" href="../../bower_components/prendus-paper-tags-input/prendus-paper-tags-input.html"> -->
 <link rel="import" href="../prendus-notification/prendus-notification.html">
 <link rel="import" href="../prendus-lesson-container/prendus-lesson-container.html">
 <link rel="import" href="../prendus-lesson-container-edit/prendus-lesson-container-edit.html">
 <link rel="import" href="../prendus-lesson-edit-modal/prendus-lesson-edit-modal.html">
 <!-- <link rel="import" href="../prendus-collaborator-modal/prendus-collaborator-modal.html"> -->
+<link rel="import" href="../../bower_components/prendus-styles/prendus-styles.html">
 
 <dom-module id="prendus-course-view">
 
-	<style include="color-styles paper-date-picker-dialog-style"></style>
-  <style>
+	<style include="prendus-styles paper-date-picker-dialog-style">
 
     * {
       margin: 0;
@@ -47,14 +46,6 @@
     #course-content > :not(#no-course) + :not(#no-course) {
       margin-top: 20px;
     }
-
-		.icon-button {
-			color: rgba(0, 0, 0, .5);
-		}
-
-		.icon-button:hover {
-			color: rgba(0, 0, 0, .8);
-		}
 
     #collaborators-button {
       align-self: flex-end;
@@ -160,7 +151,7 @@
 						<h1 hidden$="[[editingTitle]]">[[currentCourse.title]]</h1>
 						<template is="dom-if" if="[[hasEditAccess]]">
 							<paper-input id="course-title" class="edit-input" hidden$="[[!editingTitle]]" name="title" label="Course Title" value="[[currentCourse.title]]" maxlength="50" on-change="attributeChanged" required auto-validate error-message="Please enter a title."></paper-input>
-							<paper-icon-button id="edit-title" class="edit-button icon-button" icon="[[getEditIcon(editingTitle)]]" noink on-tap="toggleEditTitle"></paper-icon-button>
+							<paper-icon-button id="edit-title" class="edit-button prendus-icon-button" icon="[[getEditIcon(editingTitle)]]" noink on-tap="toggleEditTitle"></paper-icon-button>
 							<paper-tooltip for="edit-title" offset="0" animation-delay="300">Click to edit course title</paper-tooltip>
 						</template>
 					</div>
@@ -169,7 +160,7 @@
 						<h3 hidden="[[editingDescription]]">[[currentCourse.description]]</h3>
 						<template is="dom-if" if="[[hasEditAccess]]">
 							<paper-textarea id="course-description" class="edit-input" hidden="[[!editingDescription]]" name="description" label="Course Description" value="[[currentCourse.description]]" maxlength="100" on-change="attributeChanged" required auto-validate error-message="Please enter a description."></paper-textarea>
-							<paper-icon-button id="edit-description" class="edit-button icon-button" icon="[[getEditIcon(editingDescription)]]" noink on-tap="toggleEditDescription"></paper-icon-button>
+							<paper-icon-button id="edit-description" class="edit-button prendus-icon-button" icon="[[getEditIcon(editingDescription)]]" noink on-tap="toggleEditDescription"></paper-icon-button>
 							<paper-tooltip for="edit-description" offset="0" animation-delay="300">Click to edit course description</paper-tooltip>
 						</template>
 					</div>
@@ -191,7 +182,7 @@
 					</template>
 					<template is="dom-if" if="[[hasEditAccess]]">
 						<template is="dom-if" if="[[!courseLessons.length]]">
-							<p><strong>Click + ADD LESSON to begin adding lessons to the course.</strong></p>
+							<p><strong>No lessons yet... </strong></p>
 						</template>
 						<template is="dom-if" if="[[courseLessons.length]]">
 							<sortable-js id="lesson-list" animation="200" on-sort="sortableEnded">
@@ -202,20 +193,20 @@
 								</template>
 							</sortable-js>
 						</template>
-						<paper-button class="add-lesson-button" on-tap="addLesson"><iron-icon icon="add"></iron-icon> Add Lesson</paper-button>
+						<button class="prendus-button prendus-button--recommended" on-tap="addLesson"><iron-icon icon="add"></iron-icon>Add lesson</button>
 					</template>
           <!-- DUE DATE -->
 					<!-- <div class="edit-section">
 						<h3>Final due date: [[makePrettyDate(currentCourse.dueDate)]]</h3>
 						<template is="dom-if" if="[[hasEditAccess]]">
-							<paper-icon-button class="edit-button icon-button" icon="create" noink on-tap="openDueDateModal"></paper-icon-button>
+							<paper-icon-button class="edit-button prendus-icon-button" icon="create" noink on-tap="openDueDateModal"></paper-icon-button>
 						</template>
 					</div>
 					<template is="dom-if" if="[[hasEditAccess]]">
 						<paper-dialog id="due-date-modal" class="paper-date-picker-dialog" with-backdrop>
 							<paper-date-picker id="due-date" date="[[displayDate(currentCourse.dueDate)]]" on-tap="dueDateChanged"></paper-date-picker>
 							<div class="buttons">
-								<paper-button noink dialog-dismiss>Close</paper-button>
+								<button class="prendus-button prendus-button--minor" dialog-dismiss>Close</button>
 							</div>
 						</paper-dialog>
 					</template> -->
@@ -224,7 +215,7 @@
 						<template is="dom-if" if="[[hasEditAccess]]">
 							<h3>Collaborators</h3>
 							<prendus-collaborator-modal id="collaborators-modal" uid="[[uid]]" course-id="[[courseId]]" course></prendus-collaborator-modal>
-							<paper-icon-button id="edit-collaborators" class="edit-button icon-button" icon="create" noink on-tap="openCollaboratorsModal"></paper-icon-button>
+							<paper-icon-button id="edit-collaborators" class="edit-button prendus-icon-button" icon="create" noink on-tap="openCollaboratorsModal"></paper-icon-button>
 							<paper-tooltip for="edit-collaborators" offset="0" animation-delay="300">Click to add or remove collaborators</paper-tooltip>
 						</template>
 					</div> -->
