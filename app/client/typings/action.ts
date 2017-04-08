@@ -10,7 +10,6 @@ import {CourseLessonData} from '../node_modules/prendus-services/typings/course-
 import {Lesson} from '../node_modules/prendus-services/typings/lesson';
 import {Discipline} from '../node_modules/prendus-services/typings/discipline';
 import {Subject} from '../node_modules/prendus-services/typings/subject';
-import {Concept} from '../node_modules/prendus-services/typings/concept';
 export interface Action {
 	type: string;
   courses: Course[];
@@ -19,17 +18,13 @@ export interface Action {
   lessons: CourseLessonData[];
   videos: Video[];
   quizzes: Quiz[];
-<<<<<<< HEAD
   currentLesson: {};
   currentCourse: Course;
   currentLessonVideoId: string;
   currentLessonVideoTitle: string;
   currentLessonVideoUrl: string
-=======
 	concept: Concept;
 	currentVideo: Video;
-  currentCourse: Course;
->>>>>>> origin/develop
   user: User;
   courseLessons: CourseLessonData[];
   currentEditQuizId: string;
