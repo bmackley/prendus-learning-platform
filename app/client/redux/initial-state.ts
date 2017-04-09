@@ -3,13 +3,11 @@ import {State} from '../typings/state';
 
 export const InitialState: State = {
     mainViewToShow: 'routes',
-<<<<<<< HEAD
     lessons: {
     },
     currentLesson: {
     },
     courses: [],
-    courseViewCurrentCourse: {},
     editCourseLessons: {},
     viewCourseLessons: {},
     editLessonVideos: {},
@@ -17,9 +15,7 @@ export const InitialState: State = {
     currentLessonVideoId: '',
     currentLessonVideoTitle: '',
     currentLessonVideoUrl: '',
-=======
     concepts: [],
-    courses: [],
     courseViewCurrentCourse: {
 			id: '',
 			uid: '',
@@ -36,7 +32,6 @@ export const InitialState: State = {
     viewCourseConcepts: {},
     editConceptVideos: {},
     viewConceptVideos: {},
->>>>>>> origin/develop
     currentUser: {
         metaData: {
             email: '',
@@ -44,16 +39,12 @@ export const InitialState: State = {
             lastName: '',
             institution: '',
             uid: ''
-<<<<<<< HEAD
         },
         starredCourses: {},
         sharedWithMeCourses: {},
         sharedWithMeLessons: {},
         sharedWithMeVideos: {},
         sharedWithMeQuizzes: {}
-=======
-        }
->>>>>>> origin/develop
     },
 		currentVideo: {
 			id: '',
@@ -67,16 +58,13 @@ export const InitialState: State = {
     quizQuestionIds: [],
     quizQuestionSettings: {},
     currentEditQuizId: '',
-<<<<<<< HEAD
     editLessonQuizzes: {},
     viewLessonQuizzes: {},
     currentEditLessonId: '',
-=======
     editConceptQuizzes: {},
     viewConceptQuizzes: {},
     currentEditConceptId: '',
 		userCourses: [],
->>>>>>> origin/develop
     publicCourses: [],
     starredCourses: [],
     sharedCourses: [],

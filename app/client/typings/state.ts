@@ -9,19 +9,13 @@ import {CourseLessonData} from '../node_modules/prendus-services/typings/course-
 import {Lesson} from '../node_modules/prendus-services/typings/lesson';
 import {Discipline} from '../node_modules/prendus-services/typings/discipline';
 import {Subject} from '../node_modules/prendus-services/typings/subject';
-import {Concept} from '../node_modules/prendus-services/typings/concept';
 
 export interface State {
-<<<<<<< HEAD
     editCourseLessons: {
         [courseId: string]: CourseLessonData[]
     };
     editLessonVideos: {
         [lessonId: string]: Video[]
-=======
-    editConceptVideos: {
-        [conceptId: string]: Video[]
->>>>>>> origin/develop
     };
     editLessonQuizzes: {
         [lessonId: string]: Quiz[]
@@ -40,9 +34,8 @@ export interface State {
     sharedCourses: Course[];
     starredCourses: Course[];
     publicCourses: Course[];
-<<<<<<< HEAD
     currentLesson: Lesson;
-    lessons: {};
+    lessons: Lesson[];
     courseTagNames: string[];
     courseViewCurrentCourse: Course;
     currentLessonVideoId: string;
@@ -51,13 +44,7 @@ export interface State {
     currentUser: {
       metaData: UserMetaData
     };
-=======
 		currentVideo: Video
-    concepts: Concept[];
-    courseTagNames: string[];
-    courseViewCurrentCourse: Course;
-    currentUser: User;
->>>>>>> origin/develop
     currentEditQuizId: string;
     currentEditLessonId: string;
     jwt: string;

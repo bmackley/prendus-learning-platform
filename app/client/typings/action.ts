@@ -56,4 +56,5 @@ export interface Action {
 	subjects: Subject[];
 	chosenSubject: Subject;
 	chosenConcept: Concept;
+	chosenLesson: Lesson;
 }

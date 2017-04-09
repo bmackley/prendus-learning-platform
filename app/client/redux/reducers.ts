@@ -3,8 +3,8 @@ import {Actions} from './actions';
 import {State} from '../typings/state';
 import {Action} from '../typings/action';
 import {Quiz} from '../node_modules/prendus-services/typings/quiz';
-import {Concept} from '../node_modules/prendus-services/typings/concept';
-import {CourseConceptData} from '../node_modules/prendus-services/typings/course-concept-data';
+import {Lesson} from '../node_modules/prendus-services/typings/lesson';
+import {CourseLessonData} from '../node_modules/prendus-services/typings/course-lesson-data';
 
 export function rootReducer(state: State = InitialState, action: Action): State {
     switch(action.type) {
@@ -36,7 +36,7 @@ export function rootReducer(state: State = InitialState, action: Action): State 
         }
 
         case 'SET_LESSON_COLLABORATOR_EMAILS': {
-					const lessonCollaboratorEmails: { [courseId: string]: { [lessonId: string]: string[] } } = { ...state.conceptCollaboratorEmails };
+					const lessonCollaboratorEmails: { [courseId: string]: { [lessonId: string]: string[] } } = { ...state.lessonCollaboratorEmails };
 					if (state.lessonCollaboratorEmails[action.courseId]) {
 						lessonCollaboratorEmails[action.courseId][action.lessonId] = action.emails;
 					} else {
@@ -51,11 +51,11 @@ export function rootReducer(state: State = InitialState, action: Action): State 
         }
 
         case 'SET_VIDEO_COLLABORATOR_EMAILS': {
-					const videoCollaboratorEmails: { [conceptId: string]: { [videoId: string]: string[] } } = { ...state.videoCollaboratorEmails };
-					if (state.videoCollaboratorEmails[action.conceptId]) {
-						videoCollaboratorEmails[action.conceptId][action.videoId] = action.emails;
+					const videoCollaboratorEmails: { [lessonId: string]: { [videoId: string]: string[] } } = { ...state.videoCollaboratorEmails };
+					if (state.videoCollaboratorEmails[action.lessonId]) {
+						videoCollaboratorEmails[action.lessonId][action.videoId] = action.emails;
 					} else {
-						videoCollaboratorEmails[action.conceptId] = {
+						videoCollaboratorEmails[action.lessonId] = {
 								[action.videoId]: action.emails
 						};
 					}
@@ -65,11 +65,11 @@ export function rootReducer(state: State = InitialState, action: Action): State 
 					}
         }
         case 'SET_QUIZ_COLLABORATOR_EMAILS': {
-					const quizCollaboratorEmails: { [conceptId: string]: { [quizId: string]: string[] } } = { ...state.quizCollaboratorEmails };
-					if (state.quizCollaboratorEmails[action.conceptId]) {
-						quizCollaboratorEmails[action.conceptId][action.quizId] = action.emails;
+					const quizCollaboratorEmails: { [lessonId: string]: { [quizId: string]: string[] } } = { ...state.quizCollaboratorEmails };
+					if (state.quizCollaboratorEmails[action.lessonId]) {
+						quizCollaboratorEmails[action.lessonId][action.quizId] = action.emails;
 					} else {
-						quizCollaboratorEmails[action.conceptId] = {
+						quizCollaboratorEmails[action.lessonId] = {
 								[action.quizId]: action.emails
 						};
 					}
@@ -167,32 +167,32 @@ export function rootReducer(state: State = InitialState, action: Action): State 
           lessonId: action.lessonId
         };
       }
-			case 'ADD_CONCEPT': {
-				const currentCourseConcepts: CourseConceptData[] = [
-					...state.viewCourseConcepts[action.courseId],
+			case 'ADD_LESSON': {
+				const currentCourseLessons: CourseLessonData[] = [
+					...state.viewCourseLessons[action.courseId],
 					{
-						id: action.conceptId,
-						position: state.viewCourseConcepts[action.courseId].length
+						id: action.lessonId,
+						position: state.viewCourseLessons[action.courseId].length
 					}
 				 ]
 				return {
 					...state,
-					viewCourseConcepts: {
-						...state.viewCourseConcepts,
-						[action.courseId]: currentCourseConcepts
+					viewCourseLessons: {
+						...state.viewCourseLessons,
+						[action.courseId]: currentCourseLessons
 					}
 				}
 			}
-      case 'DELETE_CONCEPT': {
-				const currentCourseConcepts: CourseConceptData[] = [ ...state.viewCourseConcepts[action.courseId] ]
-					.filter((conceptData) => conceptData.id !== action.conceptId);
-				const viewCourseConcepts: { [courseId: string]: CourseConceptData[] } = {
-					...state.viewCourseConcepts,
-					[action.courseId]: currentCourseConcepts
+      case 'DELETE_LESSON': {
+				const currentCourseLessons: CourseLessonData[] = [ ...state.viewCourseLessons[action.courseId] ]
+					.filter((lessonData) => lessonData.id !== action.lessonId);
+				const viewCourseLessons: { [courseId: string]: CourseLessonData[] } = {
+					...state.viewCourseLessons,
+					[action.courseId]: currentCourseLessons
 				}
         return {
           ...state,
-          viewCourseConcepts
+          viewCourseLessons
         }
         // //TODO this may be broken idk
         // delete newState.lessons[action.lessonKey];
@@ -215,76 +215,30 @@ export function rootReducer(state: State = InitialState, action: Action): State 
 					}
 				}
       }
-<<<<<<< HEAD
       case 'LOAD_EDIT_LESSON_VIDEOS': {
-          const newState = Object.assign({}, state);
-          newState.editLessonVideos[action.lessonId] = action.videos;
-          return newState;
+				return {
+					...state,
+					editLessonVideos: {
+						...state.editLessonVideos,
+						[action.lessonId]: action.videos
+					}
+				}
       }
       case 'LOAD_VIEW_LESSON_VIDEOS': {
-          const newState = Object.assign({}, state);
-          newState.viewLessonVideos[action.lessonId] = action.videos;
-          return newState;
-      }
-      case 'LOAD_EDIT_COURSE_LESSONS': {
-          const newState = Object.assign({}, state);
-          newState.editCourseLessons[action.courseId] = action.lessons;
-          return newState;
+				return {
+					...state,
+					viewLessonVideos: {
+						...state.viewLessonVideos,
+						[action.lessonId]: action.videos
+					}
+				}
       }
       case 'LOAD_VIEW_COURSE_LESSONS': {
-        const newState = Object.assign({}, state);
-        newState.viewCourseLessons[action.courseId] = action.orderedLessons;
-        return newState;
-
-      }
-      case 'SET_CURRENT_VIDEO_INFO': {
-          const newState = Object.assign({}, state);
-          newState.currentLessonVideoId = action.id;
-          newState.currentLessonVideoTitle = action.title;
-          newState.currentLessonVideoUrl = action.url;
-          return newState;
-      }
-      case 'CLEAR_CURRENT_VIDEO_INFO': {
-          const newState = Object.assign({}, state);
-          newState.currentLessonVideoId = null;
-          newState.currentLessonVideoTitle = '';
-          newState.currentLessonVideoUrl = '';
-          return newState;
-      }
-      case 'SET_CURRENT_VIDEO_ID': {
-          const newState = Object.assign({}, state);
-          newState.currentLessonVideoId = action.id;
-          return newState;
-      }
-      case 'GET_COURSE_BY_ID' : {
-        const newState = Object.assign({}, state);
-        newState.courseViewCurrentCourse = action.currentCourse;
-        return newState;
-=======
-      case 'LOAD_EDIT_CONCEPT_VIDEOS': {
 				return {
 					...state,
-					editConceptVideos: {
-						...state.editConceptVideos,
-						[action.conceptId]: action.videos
-					}
-				}
-      }
-      case 'LOAD_VIEW_CONCEPT_VIDEOS': {
-				return {
-					...state,
-					viewConceptVideos: {
-						...state.viewConceptVideos,
-						[action.conceptId]: action.videos
-					}
-				}
-      }
-      case 'LOAD_VIEW_COURSE_CONCEPTS': {
-				return {
-					...state,
-					viewCourseConcepts: {
-						...state.viewCourseConcepts,
-						[action.courseId]: action.concepts
+					viewCourseLessons: {
+						...state.viewCourseLessons,
+						[action.courseId]: action.lessons
 					}
 				}
       }
@@ -318,7 +272,6 @@ export function rootReducer(state: State = InitialState, action: Action): State 
 					}
 
 				}
->>>>>>> origin/develop
       }
       case 'GET_COURSES_BY_USER': {
 				return {
@@ -326,18 +279,11 @@ export function rootReducer(state: State = InitialState, action: Action): State 
 					courses: action.courses
 				}
       }
-<<<<<<< HEAD
-      case 'LOOKUP_LESSON_TAGS': {
-        const newState = Object.assign({}, state);
-        newState.resultingLessons = action.lessonsArray;
-        return newState;
-=======
-      case 'LOOK_UP_CONCEPT_TAGS': {
+      case 'LOOK_UP_LESSON_TAGS': {
 				return {
 					...state,
-					resultingConcepts: action.concepts
+					resultingLessons: action.lessons
 				}
->>>>>>> origin/develop
       }
       case 'SET_COURSE_TAGS': {
 				return {
@@ -352,12 +298,6 @@ export function rootReducer(state: State = InitialState, action: Action): State 
 					// courseTagNames: action.courseTagNames
 				}
       }
-<<<<<<< HEAD
-      case 'ADD_LESSON': {
-        const newState = Object.assign({}, state);
-        newState.currentCourse = action.currentCourse;
-        return newState;
-=======
       case 'UPDATE_COURSES': {
 				return {
 					...state,
@@ -365,7 +305,6 @@ export function rootReducer(state: State = InitialState, action: Action): State 
 					// QUESTION: why are these being set to the same value?
 					sharedCourses: action.courses
 				}
->>>>>>> origin/develop
       }
 
       case 'RELOAD_PUBLIC_COURSES': {
@@ -396,10 +335,10 @@ export function rootReducer(state: State = InitialState, action: Action): State 
         };
       }
 
-      case 'SET_CHOSEN_CONCEPT': {
+      case 'SET_CHOSEN_LESSON': {
         return {
           ...state,
-          chosenConcept: action.chosenConcept
+          chosenLesson: action.chosenLesson
         };
       }
       default: {
