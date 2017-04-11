@@ -23,17 +23,52 @@ export class PrendusLearningStructure {
   public concepts: Concept[];
   public chosenConcept: Concept;
   public uid: string;
+  public properties: any;
 
   beforeRegister(): void {
     this.is = 'prendus-learning-structure';
+    this.properties = {
+      chosenConcept: {
+        observer: 'change'
+      },
+      chosenSubject: {
+        observer: 'change'
+      },
+      chosenDiscipline: {
+        observer: 'change'
+      }
+    };
   }
 
   async ready(): Promise<void> {
-    Actions.getAllDisciplines(this);
+    // await here so when the dom loads, the disciplines will already be loaded.
+    await Actions.getAllDisciplines(this);
   }
 
   /**
-   * Called when the user clicks the pencil
+   * This idea with this function is that if the subject is null, then nothing
+   * should be selected in the paper list box, same goes for discipline and
+   * concept. Unfortunately, paper-list-box will not deselect something
+   * when it becomes null.
+   */
+  change(): void {
+
+    if(!this.chosenConcept) {
+      this.removePaperListBoxSelection('concept-paper-listbox')
+    }
+
+    if(!this.chosenSubject) {
+      this.removePaperListBoxSelection('subject-paper-listbox');
+    }
+
+    if(!this.chosenDiscipline) {
+      this.removePaperListBoxSelection('discipline-paper-listbox');
+    }
+
+  }
+
+  /**
+   * Called when the user clicks the pencil next to the discipline list box
    */
   editDiscipline(): void {
     this.querySelector('#edit-discipline-name').value = this.chosenDiscipline.title;
@@ -45,27 +80,19 @@ export class PrendusLearningStructure {
    */
   async editDisciplineDone(): Promise<void> {
     try {
-      if(!this.chosenDiscipline) {
-        console.error('the user is somehow trying to edit a null discipline');
-      } else {
-        const title: string = this.querySelector('#edit-discipline-name').value;
-        const id: string = this.chosenDiscipline.id;
-        const newDiscipline: Discipline = {
-          ...this.chosenDiscipline,
-          title
-        };
-        await DisciplineModel.createOrUpdate(id, newDiscipline);
-        await Actions.getAllDisciplines(this);
-        Actions.setChosenDiscipline(this, newDiscipline);
+      const title: string = this.querySelector('#edit-discipline-name').value;
+      const id: string = this.chosenDiscipline.id;
+      const newDiscipline: Discipline = {
+        ...this.chosenDiscipline,
+        title
+      };
+      await DisciplineModel.createOrUpdate(id, newDiscipline);
+      await Actions.getAllDisciplines(this);
+      Actions.setChosenDiscipline(this, newDiscipline);
 
-        // This is a hack so that the selected item will be updated.
-        const paperListBox = this.getDisciplinePaperListBox();
-        paperListBox.selectPrevious();
-        paperListBox.selectNext();
-
-        this.successMessage = '';
-        this.successMessage = 'Discipline updated.';
-      }
+      this.refreshPaperListbox('discipline-paper-listbox');
+      this.successMessage = '';
+      this.successMessage = 'Discipline updated.';
 
     } catch(error) {
       console.error(error.message);
@@ -77,17 +104,12 @@ export class PrendusLearningStructure {
    */
   async deleteDiscipline(): Promise<void> {
     try {
-      if(!this.chosenDiscipline) {
-        this.errorMessage = '';
-        this.errorMessage = 'How the heck did you get here?';
-      } else {
-        await Actions.deleteDiscipline(this.chosenDiscipline);
-        await Actions.getAllDisciplines(this);
-        Actions.setChosenDiscipline(this, null);
+      await Actions.deleteDiscipline(this.chosenDiscipline);
+      await Actions.getAllDisciplines(this);
+      Actions.setChosenDiscipline(this, null);
 
-        this.successMessage = '';
-        this.successMessage = 'Discipline deleted.';
-      }
+      this.successMessage = '';
+      this.successMessage = 'Discipline deleted.';
     } catch(error) {
       console.error(error.message);
     }
@@ -124,8 +146,7 @@ export class PrendusLearningStructure {
       await Actions.setChosenResolvedDiscipline(this, id);
       Actions.setChosenSubject(this, null);
       Actions.setChosenConcept(this, null);
-      const paperListBox = this.getDisciplinePaperListBox();
-      paperListBox.select(this.disciplines.length - 1);
+      this.selectLastElementInPaperListBox('discipline-paper-listbox');
 
       this.successMessage = '';
       this.successMessage = 'Discipline added';
@@ -160,25 +181,17 @@ export class PrendusLearningStructure {
    */
   async newSubjectDone(): Promise<void> {
     try {
-      if(!this.chosenDiscipline) {
-        console.error('The user is somehow adding a subject when the chosen discipline is not defined....');
-      } else {
-        const title: string = this.querySelector('#new-subject-name').value;
-        const newSubject: Subject = {
-          title,
-          disciplineId: this.chosenDiscipline.id
-        }
-        const subjectId: string = await Actions.createSubject(this, this.chosenDiscipline.id, newSubject);
-        await Actions.getAllDisciplines(this);
-        //This will update the list of subjects
-        await Actions.setChosenResolvedDiscipline(this, this.chosenDiscipline.id);
-        await Actions.setChosenResolvedSubject(this, subjectId);
-        Actions.setChosenConcept(this, null);
-        const paperListBox = this.getSubjectPaperListBox();
-        paperListBox.select(this.subjects.length - 1);
-        this.successMessage = '';
-        this.successMessage = 'Subject set.';
-      }
+      const title: string = this.querySelector('#new-subject-name').value;
+      const newSubject: Subject = {
+        title,
+        disciplineId: this.chosenDiscipline.id
+      };
+      await Actions.createSubject(this, this.chosenDiscipline.id, newSubject);
+
+      this.selectLastElementInPaperListBox('subject-paper-listbox');
+
+      this.successMessage = '';
+      this.successMessage = 'Subject set.';
 
     } catch(error) {
       console.error(error.message);
@@ -268,7 +281,6 @@ export class PrendusLearningStructure {
     } else {
 
       const subject: Subject = e.model.item;
-      console.log('subject ', subject);
       Actions.setChosenSubject(this, subject);
       Actions.setChosenConcept(this, null);
     }
@@ -294,29 +306,21 @@ export class PrendusLearningStructure {
    */
   async newConceptDone(): Promise<void> {
     try {
-      if(!(this.chosenDiscipline || this.chosenSubject)) {
-        console.error('The user is somehow adding a concept when the chosen discipline is not defined....');
-      } else {
-        const title: string = this.querySelector('#new-concept-name').value;
-        const newConcept: Concept = {
-          title,
-          subjectId: this.chosenSubject.id,
-          uid: this.uid //TODO this is temporary!!!!!!!!!!!! Delete this once concepts are fully moved over to lessons!!!!
-        };
-        const conceptId: string = await Actions.createConcept(this, newConcept);
-        Actions.getAllDisciplines(this);
-        //This will update the list of concepts
-        await Actions.setChosenResolvedDiscipline(this, this.chosenDiscipline.id);
-        await Actions.setChosenResolvedSubject(this, this.chosenSubject.id);
-        await Actions.setChosenResolvedConcept(this, conceptId);
-        const paperListBox = this.getConceptPaperListBox();
-        paperListBox.select(this.concepts.length - 1);
-        this.successMessage = '';
-        this.successMessage = 'Concept set.';
-      }
+      const title: string = this.querySelector('#new-concept-name').value;
+      const newConcept: Concept = {
+        title,
+        subjectId: this.chosenSubject.id,
+        uid: this.uid //TODO this is temporary!!!!!!!!!!!! Delete this once concepts are fully moved over to lessons!!!!
+      };
+      await Actions.createConcept(this, this.chosenDiscipline, this.chosenSubject, newConcept);
+
+      this.selectLastElementInPaperListBox('concept-paper-listbox');
+
+      this.successMessage = '';
+      this.successMessage = 'Concept set.';
 
     } catch(error) {
-      console.error(error.message);
+      console.error(error);
     }
   }
 
@@ -327,29 +331,16 @@ export class PrendusLearningStructure {
    */
   async editConceptDone(): Promise<void> {
     try {
-      if(!(this.chosenSubject || this.chosenConcept)) {
-        console.error('somehow the user is trying to edit an undefined concept');
-      } else {
-        const title: string = this.querySelector('#edit-concept-name').value;
-        const newConcept: Concept = {
-          ...this.chosenConcept,
-          title
-        };
+      const title: string = this.querySelector('#edit-concept-name').value;
+      const newConcept: Concept = {
+        ...this.chosenConcept,
+        title
+      };
 
-        await ConceptModel.createOrUpdate(newConcept.id, newConcept);
-        await Actions.getAllDisciplines(this);
-        await Actions.setChosenResolvedDiscipline(this, this.chosenDiscipline.id);
-        await Actions.setChosenResolvedSubject(this, this.chosenSubject.id);
-        await Actions.setChosenResolvedConcept(this, newConcept.id);
-
-        // This is a hack so that the selected item will be updated.
-        const paperListBox = this.getConceptPaperListBox();
-        paperListBox.selectPrevious();
-        paperListBox.selectNext();
-
-        this.successMessage = '';
-        this.successMessage = 'Concept updated';
-      }
+      await Actions.updateConcept(this, this.chosenDiscipline, this.chosenSubject, newConcept);
+      this.refreshPaperListbox('concept-paper-listbox');
+      this.successMessage = '';
+      this.successMessage = 'Concept updated';
 
     } catch(error) {
       console.error(error.message);
@@ -361,12 +352,8 @@ export class PrendusLearningStructure {
    * right next to a chosen concept.
    */
   editConcept(): void {
-    if(!(this.chosenSubject || this.chosenConcept)) {
-      console.error('The user is somehow editing a concept when it isn\'t defined..');
-    } else {
-      this.querySelector('#edit-concept-name').value = this.chosenConcept.title;
-      this.querySelector('#edit-concept').open();
-    }
+    this.querySelector('#edit-concept-name').value = this.chosenConcept.title;
+    this.querySelector('#edit-concept').open();
   }
 
   /**
@@ -375,20 +362,9 @@ export class PrendusLearningStructure {
    */
   async deleteConcept(): Promise<void> {
     try {
-      if(!(this.chosenSubject || this.chosenDiscipline)) {
-        console.error('the user is somehow deleting a concept they don\'t have access to');
-      } else {
-
-        await Actions.deleteConcept(this.chosenConcept);
-        // This will update the select list of concepts
-        Actions.getAllDisciplines(this);
-        await Actions.setChosenResolvedDiscipline(this, this.chosenDiscipline.id);
-        await Actions.setChosenResolvedSubject(this, this.chosenSubject.id);
-
-        Actions.setChosenConcept(this, null);
-        this.successMessage = '';
-        this.successMessage = 'Concept deleted';
-      }
+      await Actions.deleteConcept(this, this.chosenDiscipline, this.chosenSubject, this.chosenConcept);
+      this.successMessage = '';
+      this.successMessage = 'Concept deleted';
     } catch(error) {
       console.error(error.message);
     }
@@ -398,19 +374,56 @@ export class PrendusLearningStructure {
    * Called when the user chooses a concept in the dom.
    */
   conceptChange(e: any): void {
-    if(!(this.chosenDiscipline)) {
-      console.error('the user is somehow choosing a subject when there is no discipline');
-    } else {
+    try {
       const concept: Concept = e.model.item;
       Actions.setChosenConcept(this, concept);
+    } catch(error) {
+      console.error(error);
+    }
+
+  }
+
+  removePaperListBoxSelection(id: string): void {
+    try {
+      const paperListBox = this.querySelector(`#${id}`);
+      if(paperListBox) {
+        paperListBox.select(-1);
+      }
+
+    } catch(error) {
+      throw error;
     }
   }
 
-  private getConceptPaperListBox() {
-    const conceptListBox = this.querySelector('#concept-paper-listbox');
-    return conceptListBox;
+  selectLastElementInPaperListBox(id: string): void {
+    const paperListBox = this.querySelector(`#${id}`);
+    paperListBox.select(paperListBox.items.length - 1);
   }
 
+  refreshPaperListbox(id: string): void {
+    try {
+      const paperListBox = this.querySelector(`#${id}`);
+      if(paperListBox) {
+        // only do things if the paperListBox is rendered in the dom.
+          if(paperListBox.items.length === 1) {
+            // checks to see if there is only one thing in the paper listbox,
+            // if there is then select -1 then 0 because selectPrevious then
+            // selectNext won't do the trick
+            paperListBox.select(-1);
+            paperListBox.select(0);
+          } else {
+            paperListBox.selectPrevious();
+            paperListBox.selectNext();
+          }
+      }
+    } catch(error) {
+      console.error(error);
+    }
+  }
+
+  /**
+   * Called when the discipline-paper-listbox is clicked
+   */
   checkIfNoDisciplines(): void {
     if(!this.disciplines || this.disciplines.length === 0) {
       this.errorMessage = '';
@@ -418,6 +431,9 @@ export class PrendusLearningStructure {
     }
   }
 
+  /**
+   * Called when the subject-paper-listbox is clicked
+   */
   checkIfNoSubjects(): void {
     if(!this.subjects || this.subjects.length === 0) {
       this.errorMessage = '';
@@ -425,45 +441,25 @@ export class PrendusLearningStructure {
     }
   }
 
+  /**
+   * Called when the concept-paper-listbox is clicked
+   */
   checkIfNoConcepts(): void {
     if(!this.concepts || this.concepts.length === 0) {
       this.errorMessage = '';
       this.errorMessage = 'There are no concepts on the selected subject yet!';
     }
   }
+
   mapStateToThis(e: StatechangeEvent): void {
     const state: State = e.detail.state;
     this.disciplines = state.disciplines;
     this.chosenDiscipline = state.chosenDiscipline;
-    if(!this.chosenDiscipline) {
-      const disciplinePaperListBox = this.getDisciplinePaperListBox();
-      disciplinePaperListBox.select(-1);
-    }
-    this.subjects = !!(state.chosenDiscipline && state.chosenDiscipline.resolvedSubjects) ? state.chosenDiscipline.resolvedSubjects : null;
-    this.chosenSubject = !!(state.chosenDiscipline && state.chosenSubject) ? state.chosenSubject : null;
-    if(!!this.chosenDiscipline && !this.chosenSubject && !!this.getSubjectPaperListBox()) {
-      // if discipline is defined and subject is not, then remove selection.
-      // this usually happens after a subject has been deleted
-
-      const subjectPaperListBox = this.getSubjectPaperListBox();
-      subjectPaperListBox.select(-1);
-    }
-    this.concepts = !!(state.chosenDiscipline
-                    && state.chosenSubject
-                    && state.chosenSubject.resolvedConcepts)
-                  ? state.chosenSubject.resolvedConcepts : null;
-    this.chosenConcept = !!(state.chosenDiscipline
-                         && state.chosenSubject
-                         && state.chosenConcept)
-                          ? state.chosenConcept : null;
-    if(!this.chosenConcept && this.getConceptPaperListBox()) {
-      // if discipline,subject is defined and concept is not, then remove selection.
-      // this usually happens after a concept has been deleted
-      const conceptPaperListBox = this.getConceptPaperListBox();
-      conceptPaperListBox.select(-1);
-    }
-    this.uid = !!(state.currentUser && state.currentUser.metaData)
-                ? state.currentUser.metaData.uid : null;
+    this.subjects = state.chosenDiscipline ? state.chosenDiscipline.resolvedSubjects : null;
+    this.chosenSubject = state.chosenDiscipline ? state.chosenSubject : null;
+    this.concepts = state.chosenSubject ? state.chosenSubject.resolvedConcepts : null;
+    this.chosenConcept = state.chosenSubject ? state.chosenConcept : null;
+    this.uid = state.currentUser && state.currentUser.metaData ? state.currentUser.metaData.uid : null;
   }
 
 

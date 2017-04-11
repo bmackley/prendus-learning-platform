@@ -1117,12 +1117,14 @@ const deleteDiscipline = async (discipline: Discipline): Promise<void> => {
  * Creates subject.
  * Adds subject Id to the discipline.
  */
-const createSubject = async (context: any, disciplineId: string, subject: Subject): Promise<string> => {
+const createSubject = async (context: any, disciplineId: string, subject: Subject): Promise<void> => {
   try {
     const subjectId: string = await SubjectModel.createOrUpdate(null, subject);
     await DisciplineModel.addSubject(disciplineId, subjectId);
-
-    return subjectId;
+    await getAllDisciplines(context);
+    await setChosenResolvedDiscipline(context, disciplineId);
+    await setChosenResolvedSubject(context, subjectId);
+    Actions.setChosenConcept(this, null);
   } catch(error) {
     throw error;
   }
@@ -1164,27 +1166,31 @@ const deleteSubject = async (subject: Subject): Promise<void> => {
  * Creates concept.
  * Adds concept Id to the subject.
  */
-const createConcept = async (context: any, concept: Concept): Promise<string> => {
-  try {
-    const conceptId: string = await ConceptModel.createOrUpdate(null, concept);
-    await SubjectModel.addConcept(concept.subjectId, conceptId);
-    return conceptId;
-  } catch(error) {
-    throw error;
-  }
+const createConcept = async (context: any, discipline: Discipline, subject: Subject, concept: Concept): Promise<void> => {
+  const conceptId: string = await ConceptModel.createOrUpdate(null, concept);
+  await SubjectModel.addConcept(concept.subjectId, conceptId);
+  await getAllDisciplines(context);
+  await setChosenResolvedDiscipline(context, discipline.id);
+  await setChosenResolvedSubject(context, subject.id);
+  await setChosenResolvedConcept(context, conceptId);
+}
+
+const updateConcept = async (context: any, discipline: Discipline, subject: Subject, newConcept: Concept): Promise<void> => {
+  await ConceptModel.createOrUpdate(newConcept.id, newConcept);
+  await getAllDisciplines(context);
+  await setChosenResolvedDiscipline(context, discipline.id);
+  await setChosenResolvedSubject(context, subject.id);
+  await setChosenResolvedConcept(context, newConcept.id);
 };
 
 /**
  * Just named it resolved to be consistent. Use this to query firebase.
  */
 const setChosenResolvedConcept = async (context: any, conceptId: string): Promise<void> => {
-  try {
-    const concept: Concept = await ConceptModel.getById(conceptId);
-    setChosenConcept(context, concept);
-  } catch(error) {
-    throw error;
-  }
+  const concept: Concept = await ConceptModel.getById(conceptId);
+  setChosenConcept(context, concept);
 }
+
 const setChosenConcept = (context: any, chosenConcept: Concept): void => {
   context.action = {
     type: 'SET_CHOSEN_CONCEPT',
@@ -1192,10 +1198,14 @@ const setChosenConcept = (context: any, chosenConcept: Concept): void => {
   };
 };
 
-const deleteConcept = async (concept: Concept): Promise<void> => {
+const deleteConcept = async (context: any, discipline: Discipline, subject: Subject, concept: Concept): Promise<void> => {
   try {
-    ConceptModel.deleteConcept(concept.id);
-    SubjectModel.deleteConcept(concept.subjectId, concept.id);
+    await ConceptModel.deleteConcept(concept.id);
+    await SubjectModel.deleteConcept(concept.subjectId, concept.id);
+    await getAllDisciplines(context);
+    await setChosenResolvedDiscipline(context, discipline.id);
+    await setChosenResolvedSubject(context, subject.id);
+    setChosenConcept(context, null);
   } catch(error) {
     throw error;
   }
@@ -1276,6 +1286,7 @@ export const Actions = {
     setChosenResolvedSubject,
     setChosenSubject,
     deleteSubject,
+    updateConcept,
     createConcept,
     setChosenResolvedConcept,
     setChosenConcept,
