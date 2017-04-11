@@ -279,12 +279,6 @@ export function rootReducer(state: State = InitialState, action: Action): State 
 					courses: action.courses
 				}
       }
-      case 'LOOK_UP_LESSON_TAGS': {
-				return {
-					...state,
-					resultingLessons: action.lessons
-				}
-      }
       case 'SET_COURSE_TAGS': {
 				return {
 					...state,
@@ -339,6 +333,13 @@ export function rootReducer(state: State = InitialState, action: Action): State 
         return {
           ...state,
           chosenLesson: action.chosenLesson
+        };
+      }
+
+      case 'SET_CHOSEN_CONCEPT': {
+        return {
+          ...state,
+          chosenConcept: action.chosenConcept
         };
       }
       default: {

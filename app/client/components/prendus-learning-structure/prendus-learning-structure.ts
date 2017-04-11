@@ -335,18 +335,20 @@ export class PrendusLearningStructure {
           ...this.chosenConcept,
           title
         };
-        Actions.getAllDisciplines(this);
+
         await ConceptModel.createOrUpdate(newConcept.id, newConcept);
+        await Actions.getAllDisciplines(this);
         await Actions.setChosenResolvedDiscipline(this, this.chosenDiscipline.id);
         await Actions.setChosenResolvedSubject(this, this.chosenSubject.id);
         await Actions.setChosenResolvedConcept(this, newConcept.id);
+
         // This is a hack so that the selected item will be updated.
         const paperListBox = this.getConceptPaperListBox();
         paperListBox.selectPrevious();
         paperListBox.selectNext();
 
         this.successMessage = '';
-        this.successMessage = 'Subject updated';
+        this.successMessage = 'Concept updated';
       }
 
     } catch(error) {
