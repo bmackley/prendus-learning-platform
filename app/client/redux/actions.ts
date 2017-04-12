@@ -1099,13 +1099,12 @@ const setChosenDiscipline = async (context: any, chosenDiscipline: Discipline): 
 
 const deleteDiscipline = async (context: any, discipline: Discipline): Promise<void> => {
   await DisciplineModel.deleteDiscipline(discipline.id);
-  if(discipline.subjects) {
-    await UtilitiesService.asyncForEach(Object.keys(discipline.subjects || {}), async (subjectId: string) => {
-      const subject: Subject = await SubjectModel.getById(subjectId);
-      await deleteSubject(context, discipline, subject);
-    });
-  }
-
+  await UtilitiesService.asyncForEach(Object.keys(discipline.subjects || {}), async (subjectId: string) => {
+    const subject: Subject = await SubjectModel.getById(subjectId);
+    await deleteSubject(context, discipline, subject);
+  });
+  await getAllDisciplines(context);
+  setChosenDiscipline(this, null);
 };
 
 /**
@@ -1119,7 +1118,7 @@ const createSubject = async (context: any, disciplineId: string, subject: Subjec
     await getAllDisciplines(context);
     await setChosenResolvedDiscipline(context, disciplineId);
     await setChosenResolvedSubject(context, subjectId);
-    Actions.setChosenConcept(this, null);
+    setChosenConcept(context, null);
   } catch(error) {
     throw error;
   }
@@ -1193,16 +1192,12 @@ const setChosenConcept = (context: any, chosenConcept: Concept): void => {
 };
 
 const deleteConcept = async (context: any, discipline: Discipline, subject: Subject, concept: Concept): Promise<void> => {
-  try {
-    await ConceptModel.deleteConcept(concept.id);
-    await SubjectModel.deleteConcept(concept.subjectId, concept.id);
-    await getAllDisciplines(context);
-    await setChosenResolvedDiscipline(context, discipline.id);
-    await setChosenResolvedSubject(context, subject.id);
-    setChosenConcept(context, null);
-  } catch(error) {
-    throw error;
-  }
+  await ConceptModel.deleteConcept(concept.id);
+  await SubjectModel.deleteConcept(concept.subjectId, concept.id);
+  await getAllDisciplines(context);
+  await setChosenResolvedDiscipline(context, discipline.id);
+  await setChosenResolvedSubject(context, subject.id);
+  setChosenConcept(context, null);
 };
 export const Actions = {
     defaultAction,

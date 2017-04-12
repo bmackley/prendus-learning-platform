@@ -105,13 +105,10 @@ export class PrendusLearningStructure {
   async deleteDiscipline(): Promise<void> {
     try {
       await Actions.deleteDiscipline(this, this.chosenDiscipline);
-      await Actions.getAllDisciplines(this);
-      Actions.setChosenDiscipline(this, null);
-
       this.successMessage = '';
       this.successMessage = 'Discipline deleted.';
     } catch(error) {
-      console.error(error.message);
+      console.error('error while deleting discipline ', error);
     }
   }
   /**
