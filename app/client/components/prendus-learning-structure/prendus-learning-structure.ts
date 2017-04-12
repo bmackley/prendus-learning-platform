@@ -104,7 +104,7 @@ export class PrendusLearningStructure {
    */
   async deleteDiscipline(): Promise<void> {
     try {
-      await Actions.deleteDiscipline(this.chosenDiscipline);
+      await Actions.deleteDiscipline(this, this.chosenDiscipline);
       await Actions.getAllDisciplines(this);
       Actions.setChosenDiscipline(this, null);
 
@@ -253,20 +253,10 @@ export class PrendusLearningStructure {
    */
   async deleteSubject(): Promise<void> {
     try {
-      if(!(this.chosenSubject || this.chosenDiscipline)) {
-        console.error('the user is somehow deleting a subject they don\'t have access to');
-      } else {
 
-        await Actions.deleteSubject(this.chosenSubject);
-        Actions.getAllDisciplines(this);
-        // This will update the select list of subjects
-
-        await Actions.setChosenResolvedDiscipline(this, this.chosenDiscipline.id);
-        Actions.setChosenSubject(this, null);
-
-        this.successMessage = '';
-        this.successMessage = 'Subject deleted';
-      }
+      await Actions.deleteSubject(this, this.chosenDiscipline, this.chosenSubject);
+      this.successMessage = '';
+      this.successMessage = 'Subject deleted';
     } catch(error) {
       console.error(error.message);
     }
@@ -276,15 +266,13 @@ export class PrendusLearningStructure {
    * Called when the user chooses a subject in the dom.
    */
   subjectChange(e: any): void {
-    if(!this.chosenDiscipline) {
-      console.error('the user is somehow choosing a subject when there is no discipline');
-    } else {
-
+    try {
       const subject: Subject = e.model.item;
       Actions.setChosenSubject(this, subject);
       Actions.setChosenConcept(this, null);
+    } catch(error) {
+      console.error(error);
     }
-
   }
 
   private getSubjectPaperListBox() {

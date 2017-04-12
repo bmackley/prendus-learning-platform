@@ -1097,20 +1097,15 @@ const setChosenDiscipline = async (context: any, chosenDiscipline: Discipline): 
   }
 };
 
-const deleteDiscipline = async (discipline: Discipline): Promise<void> => {
-  try {
-    await DisciplineModel.deleteDiscipline(discipline.id);
-    if(discipline.subjects) {
-      await UtilitiesService.asyncForEach(Object.keys(discipline.subjects), async (subjectId: string) => {
-        await SubjectModel.deleteSubject(subjectId);
-        //TODO delete concepts.
-      });
-    }
-
-
-  } catch(error) {
-    throw error;
+const deleteDiscipline = async (context: any, discipline: Discipline): Promise<void> => {
+  await DisciplineModel.deleteDiscipline(discipline.id);
+  if(discipline.subjects) {
+    await UtilitiesService.asyncForEach(Object.keys(discipline.subjects || {}), async (subjectId: string) => {
+      const subject: Subject = await SubjectModel.getById(subjectId);
+      await deleteSubject(context, discipline, subject);
+    });
   }
+
 };
 
 /**
@@ -1151,15 +1146,14 @@ const setChosenSubject = (context: any, chosenSubject: Subject): void => {
   }
 };
 
-const deleteSubject = async (subject: Subject): Promise<void> => {
-  try {
-    await SubjectModel.deleteSubject(subject.id);
-    await UtilitiesService.asyncForEach(Object.keys(subject.concepts), async (conceptId: string) => {
-      await ConceptModel.deleteConcept(conceptId);
-    });
-  } catch(error) {
-    throw error;
-  }
+const deleteSubject = async (context: any, discipline: Discipline, subject: Subject): Promise<void> => {
+  await SubjectModel.deleteSubject(subject.id);
+  await UtilitiesService.asyncForEach(Object.keys(subject.concepts || {}), async (conceptId: string) => {
+    await ConceptModel.deleteConcept(conceptId);
+  });
+  await getAllDisciplines(context);
+  await setChosenResolvedDiscipline(context, discipline.id);
+  setChosenSubject(context, null);
 };
 
 /**
