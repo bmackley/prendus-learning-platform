@@ -7,6 +7,7 @@
 <link rel="import" href="../../bower_components/iron-dropdown/iron-dropdown.html">
 <link rel="import" href="../../bower_components/iron-icons/iron-icons.html">
 <link rel="import" href="../../bower_components/prendus-styles/prendus-styles.html">
+<link rel="import" href="../../bower_components/prendus-styles/components/prendus-drop-down.html">
 
 <dom-module id="prendus-navbar">
 
@@ -24,10 +25,6 @@
 			color: currentColor;
 		}
 
-    paper-item:hover {
-      background-color: var(--paper-grey-300);
-    }
-
 		#logo {
 			height: 50px;
 		}
@@ -35,39 +32,6 @@
     #home-link {
       margin-right: auto;
     }
-
-    #menu-name-button {
-      cursor: pointer;
-			user-select: none;
-    }
-
-		#menu-icon-button {
-			cursor: pointer;
-			display: none;
-		}
-
-    #menu-holder {
-      align-self: flex-end;
-			color: initial;
-    }
-
-		#user-menu-listbox {
-			min-width: 200px;
-		}
-
-		.menu-item {
-			cursor: pointer;
-			user-select: none;
-		}
-
-		@media (max-width: 768px) {
-			#menu-name-button {
-				display: none;
-			}
-			#menu-icon-button {
-				display: block;
-			}
-		}
 
   </style>
 
@@ -78,24 +42,11 @@
         <paper-toolbar>
           <a id="home-link" href="/"><img id="logo" src="../../images/navbar-logo.png" alt="Prendus"></a>
           <template is="dom-if" if="[[username]]">
-						<!-- NOTE: use on-up here in order to maintain menu functionality -->
-            <button id="menu-name-button" class="prendus-button prendus-button--recommended navbar-text" on-keydown="toggleMenuWithKeyboard" on-up="toggleMenu">
-              [[username]] <iron-icon icon="arrow-drop-down"></iron-icon>
-            </button>
-						<!-- NOTE: use on-up here in order to maintain menu functionality -->
-						<iron-icon id="menu-icon-button" class="navbar-text" icon="menu" on-up="toggleMenu"></iron-icon>
-
-            <div id="menu-holder">
-              <iron-dropdown id="menu-items" horizontal-align="right" no-auto-focus allow-outside-scroll>
-                <paper-card class="dropdown-content">
-                  <paper-listbox id="user-menu-listbox" on-tap="toggleMenu">
-                    <a class="menu-item" href="/profile"><paper-item>Your account</paper-item></a>
-                    <a class="menu-item" href="/courses/home"><paper-item>Your courses</paper-item></a>
-                    <paper-item class="menu-item" on-tap="logOutUser" tabindex="0">Log out</paper-item>
-                  </paper-listbox>
-                </paper-card>
-              </iron-dropdown>
-            </div>
+						<prendus-drop-down button-text="[[username]]" button-type="recommended" button-title="Your account and courses" horizontal-align="right">
+							<a href="/profile">Your account</a>
+							<a href="/courses/home">Your courses</a>
+							<button on-tap="logOutUser">Log out</button>
+						</prendus-drop-down>
           </template>
           <template is="dom-if" if="[[!username]]">
             <a class="prendus-button prendus-button--recommended navbar-text" href="/login">Log In</a>

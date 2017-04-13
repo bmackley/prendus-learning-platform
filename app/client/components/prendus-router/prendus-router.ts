@@ -9,6 +9,7 @@ class PrendusRouter {
   public mainViewToShow: 'routes' | 'spinner';
   public observers: string[];
   public querySelector: any;
+  public fire: any;
 
   beforeRegister() {
     this.is =  "prendus-router";
@@ -40,12 +41,24 @@ class PrendusRouter {
       }
 
       case '/login': {
-        UtilitiesService.importElement(this, 'components/prendus-login/prendus-login.html', 'login');
+				if(this.loggedIn === 'true') {
+					// user doesn't need to log in again so redirect
+					window.history.pushState({}, '', '/courses/home');
+					this.fire('location-changed', {}, {node: window});
+				} else {
+					UtilitiesService.importElement(this, 'components/prendus-login/prendus-login.html', 'login');
+				}
         break;
       }
 
       case '/signup': {
-        UtilitiesService.importElement(this, 'components/prendus-create-account/prendus-create-account.html', 'create-account');
+				if(this.loggedIn === 'true') {
+					// user doesn't need to sign up again so redirect
+					window.history.pushState({}, '', '/courses/home');
+					this.fire('location-changed', {}, {node: window});
+				} else {
+					UtilitiesService.importElement(this, 'components/prendus-create-account/prendus-create-account.html', 'create-account');
+				}
         break;
       }
 
