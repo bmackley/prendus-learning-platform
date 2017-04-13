@@ -19,7 +19,6 @@
     "prendus-question-components": "git@github.com:lastmjs/prendus-question-components.git#develop",
     "prendus-quiz-viewer-component": "git@github.com:lastmjs/prendus-quiz-viewer-component.git#lti-new",
 		"prendus-styles": "git@github.com:bmackley/prendus-styles#master",
-    "prendus-question-components": "git@github.com:lastmjs/prendus-question-components.git#0.2.2",
     "prendus-video-viewer-component": "git@github.com:lastmjs/prendus-video-viewer-component.git#0.3.1",
     "paper-tabs": "^1.6.2",
     "paper-menu-button": "^1.5.1",
