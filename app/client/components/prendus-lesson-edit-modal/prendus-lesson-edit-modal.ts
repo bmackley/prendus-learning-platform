@@ -87,7 +87,7 @@ class PrendusLessonNewLesson {
         title: this.lessonFormName
       };
       try {
-        await Actions.addLesson(this, this.courseId, newLesson, this.courseLessons.length, null);
+        await Actions.addLesson(this, this.courseId, newLesson, this.courseLessons ? this.courseLessons.length : 0, null);
         await Actions.loadViewCourseLessons(this, this.courseId);
         this.successMessage = '';
         this.successMessage = 'Lesson added successfully';
