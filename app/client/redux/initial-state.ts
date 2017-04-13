@@ -68,8 +68,5 @@ export const InitialState: State = {
     resultingCourses: [],
     currentCourse: {},
     disciplines: [],
-    chosenDiscipline: {},
-    chosenSubject: {},
-    chosenConcept: {},
     subjects: []
 };
