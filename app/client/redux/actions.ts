@@ -1057,39 +1057,35 @@ const reloadPublicCourses = async (context: any, courses: Course[]): Promise<voi
  * Calls redux
  */
 const getAllDisciplines = async (context: any): Promise<void> => {
-  try {
-    const disciplines: Discipline[] = await DisciplineModel.getAll();
-    await UtilitiesService.asyncForEach(disciplines, async (discipline: Discipline) => {
-      discipline.resolvedSubjects = await SubjectModel.getAllByDisciplineId(discipline.id);
-      await UtilitiesService.asyncForEach(discipline.resolvedSubjects, async (subject: Subject) => {
-        subject.resolvedConcepts = await ConceptModel.getAllBySubjectId(subject.id);
-      });
+  const disciplines: Discipline[] = await DisciplineModel.getAll();
+  await UtilitiesService.asyncForEach(disciplines, async (discipline: Discipline) => {
+    discipline.resolvedSubjects = await SubjectModel.getAllByDisciplineId(discipline.id);
+    await UtilitiesService.asyncForEach(discipline.resolvedSubjects, async (subject: Subject) => {
+      subject.resolvedConcepts = await ConceptModel.getAllBySubjectId(subject.id);
     });
+  });
 
-    context.action = {
-      type: 'SET_DISCIPLINES',
-      disciplines
-    };
-  } catch(error) {
-    throw error;
-  }
+  context.action = {
+    type: 'SET_DISCIPLINES',
+    disciplines
+  };
 };
 
 /**
  * This sets the chosen discipline but will resolve everything inside of it.
  */
 const setChosenResolvedDiscipline = async (context: any, disciplineId: string): Promise<void> => {
-  try {
-    const discipline: Discipline = await DisciplineModel.getById(disciplineId);
+  const discipline: Discipline = await DisciplineModel.getById(disciplineId);
+  if(discipline) {
     discipline.resolvedSubjects = await SubjectModel.getAllByDisciplineId(disciplineId);
-    await UtilitiesService.asyncForEach(discipline.resolvedSubjects, async (subject: Subject) => {
+    await UtilitiesService.asyncForEach(discipline.resolvedSubjects || [], async (subject: Subject) => {
       subject.resolvedConcepts = await ConceptModel.getAllBySubjectId(subject.id);
     });
-    setChosenDiscipline(context, discipline);
-  } catch(error) {
-    throw error;
   }
+
+  setChosenDiscipline(context, discipline);
 };
+
 const setChosenDiscipline = async (context: any, chosenDiscipline: Discipline): Promise<void> => {
   context.action = {
     type: 'SET_CHOSEN_DISCIPLINE',
