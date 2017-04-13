@@ -22,10 +22,10 @@
     <paper-dialog id="dialog" with-backdrop>
       <h2>[[lessonHeader]]</h2>
       <paper-input id="lesson-name" label="Lesson Name" value="{{lessonFormName}}" maxlength="50" required auto-validate on-keydown="updateLessonIfEnter" error-message="Please enter a title"></paper-input>
-      <!-- <prendus-paper-tags-input id="concept-tags" placeholder="Delete tags or add new ones" tags="[[conceptTagNames]]" on-add="onAdd" on-remove="onRemove" duplicate-error-message="Tag cannot be a duplicate" required></prendus-paper-tags-input> -->
+      <!-- <prendus-paper-tags-input id="lesson-tags" placeholder="Delete tags or add new ones" tags="[[lessonTagName]]" on-add="onAdd" on-remove="onRemove" duplicate-error-message="Tag cannot be a duplicate" required></prendus-paper-tags-input> -->
 			<div class="buttons">
 				<button class="prendus-button prendus-button--minor" dialog-dismiss on-tap="clearValues">Cancel</button>
-				<button class="prendus-button prendus-button--recommended" disabled$=[[!enableConceptSubmission(newConceptName)]] on-tap="updateConcept">Add</button>
+				<button class="prendus-button prendus-button--recommended" disabled$=[[!enableLessonSubmission(newLessonName)]] on-tap="updateLesson">Add</button>
 			</div>
     </paper-dialog>
     <prendus-notification success-message="[[successMessage]]" error-message="[[errorMessage]]"></prendus-notification>

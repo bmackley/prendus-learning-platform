@@ -1,12 +1,10 @@
-import {QuestionSettings} from '../node_modules/prendus-services/typings/question-settings';
 import {State} from '../typings/state';
 
 export const InitialState: State = {
     mainViewToShow: 'routes',
     lessons: {
     },
-    currentLesson: {
-    },
+    currentLesson: {},
     courses: [],
     editCourseLessons: {},
     viewCourseLessons: {},
@@ -29,9 +27,6 @@ export const InitialState: State = {
 			visibility: 'public'
 		},
 		courseTagNames: [],
-    viewCourseConcepts: {},
-    editConceptVideos: {},
-    viewConceptVideos: {},
     currentUser: {
         metaData: {
             email: '',
@@ -61,9 +56,6 @@ export const InitialState: State = {
     editLessonQuizzes: {},
     viewLessonQuizzes: {},
     currentEditLessonId: '',
-    editConceptQuizzes: {},
-    viewConceptQuizzes: {},
-    currentEditConceptId: '',
 		userCourses: [],
     publicCourses: [],
     starredCourses: [],
@@ -71,5 +63,13 @@ export const InitialState: State = {
     courseCollaboratorEmails: {},
     lessonCollaboratorEmails: {},
     videoCollaboratorEmails: {},
-    quizCollaboratorEmails: {}
+    quizCollaboratorEmails: {},
+    resultingLessons: [],
+    resultingCourses: [],
+    currentCourse: {},
+    disciplines: [],
+    chosenDiscipline: {},
+    chosenSubject: {},
+    chosenConcept: {},
+    subjects: []
 };

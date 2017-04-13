@@ -55,7 +55,7 @@ class PrendusQuizEditor {
 					}
         };
 				this.observers = [
-					'setEditorProperties(data.courseId, data.conceptId, data.quizId, route.*)',
+					'setEditorProperties(data.courseId, data.lessonId, data.quizId, route.*)',
 					'setQuizData(quizId)'
 				]
     }

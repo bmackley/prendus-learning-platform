@@ -71,7 +71,7 @@
 
     <h4 class="quiz-blankslate" hidden$="[[hasQuizzes(quizzes)]]">This lesson doesn't have any quizzes yet.</h4>
     <template is="dom-if" if="[[courseEditAccess]]">
-      <a class="prendus-button prendus-button--recommended" href="courses/edit-quiz/course/[[courseId]]/concept/[[conceptId]]/quiz/create"><iron-icon icon="add"></iron-icon>Add Quiz</a>
+      <a class="prendus-button prendus-button--recommended" href="courses/edit-quiz/course/[[courseId]]/lesson/[[lessonId]]/quiz/create"><iron-icon icon="add"></iron-icon>Add Quiz</a>
     </template>
 
     <paper-dialog id="confirm-delete-modal" with-backdrop>
