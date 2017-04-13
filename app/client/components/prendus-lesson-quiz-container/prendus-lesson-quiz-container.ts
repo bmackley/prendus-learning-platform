@@ -6,11 +6,11 @@ import {StatechangeEvent} from '../../typings/statechange-event';
 import {FirebaseService} from '../../node_modules/prendus-services/services/firebase-service';
 import {UtilitiesService} from '../../node_modules/prendus-services/services/utilities-service';
 
-class PrendusConceptQuizContainer {
+class PrendusLessonQuizContainer {
     public is: string;
     public properties: any;
     public observers: string[];
-    public conceptId: string;
+    public lessonId: string;
     public courseId: string;
     public quizzes: Quiz[];
 		public quizToDelete: Quiz;
@@ -28,9 +28,9 @@ class PrendusConceptQuizContainer {
     public courseEditAccess: boolean
 
     beforeRegister() {
-        this.is = 'prendus-concept-quiz-container';
+        this.is = 'prendus-lesson-quiz-container';
         this.properties = {
-            conceptId: {
+            lessonId: {
                 type: String
             },
             courseId: {
@@ -43,13 +43,13 @@ class PrendusConceptQuizContainer {
             // },
         };
         this.observers = [
-            'init(conceptId)'
+            'init(lessonId)'
         ];
     }
 
     async init() {
-      if(this.conceptId) {
-        await Actions.loadViewConceptQuizzes(this, this.conceptId);
+      if(this.lessonId) {
+        await Actions.loadViewLessonQuizzes(this, this.lessonId);
       }
       await Actions.checkUserAuth(this);
     }
@@ -66,14 +66,14 @@ class PrendusConceptQuizContainer {
 		viewQuiz(e: any) {
 
       const quizId: string = e.model.quiz.id;
-      window.history.pushState({}, '', `courses/view-quiz/course/${this.courseId}/concept/${this.conceptId}/quiz/${quizId}`);
+      window.history.pushState({}, '', `courses/view-quiz/course/${this.courseId}/lesson/${this.lessonId}/quiz/${quizId}`);
 			this.fire('location-changed', {}, {node: window});
 		}
 
     editQuiz(e: any) {
       e.stopPropagation();
       const quizId: string = e.model.quiz.id;
-  		window.history.pushState({}, '', `courses/edit-quiz/course/${this.courseId}/concept/${this.conceptId}/quiz/`);
+  		window.history.pushState({}, '', `courses/edit-quiz/course/${this.courseId}/lesson/${this.lessonId}/quiz/${quizId}`);
       this.fire('location-changed', {}, {node: window});
     }
 
@@ -113,8 +113,8 @@ class PrendusConceptQuizContainer {
     async deleteQuiz(e: any) {
       this.querySelector('#confirm-delete-modal').close();
       try {
-        await Actions.deleteQuiz(this, this.conceptId, this.quizToDelete);
-        await Actions.loadViewConceptQuizzes(this, this.conceptId);
+        await Actions.deleteQuiz(this, this.lessonId, this.quizToDelete);
+        await Actions.loadViewLessonQuizzes(this, this.lessonId);
         this.successMessage = '';
         this.successMessage = 'Quiz deleted.';
       } catch (error) {
@@ -130,7 +130,7 @@ class PrendusConceptQuizContainer {
       //TODO take this out once collaborators are back
       this.courseEditAccess = this.currentCourse && this.currentCourse.uid === this.uid;
       // determine user's edit access for each quiz
-    	this.quizzes = (state.viewConceptQuizzes[this.conceptId] || []).map((quiz: Quiz) => {
+    	this.quizzes = (state.viewLessonQuizzes[this.lessonId] || []).map((quiz: Quiz) => {
     		if(quiz.uid === this.uid
     			||  quiz.collaborators
     			&&  quiz.collaborators[this.uid]) {
@@ -144,4 +144,4 @@ class PrendusConceptQuizContainer {
     }
 }
 
-Polymer(PrendusConceptQuizContainer);
+Polymer(PrendusLessonQuizContainer);

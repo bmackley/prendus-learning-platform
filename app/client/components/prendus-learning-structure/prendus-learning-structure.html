@@ -1,0 +1,174 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/paper-card/paper-card.html">
+<link rel="import" href="../../bower_components/paper-dropdown-menu/paper-dropdown-menu.html">
+<link rel="import" href="../../bower_components/paper-listbox/paper-listbox.html">
+<link rel="import" href="../../bower_components/paper-item/paper-item.html">
+<link rel="import" href="../../bower_components/paper-button/paper-button.html">
+<link rel="import" href="../../bower_components/paper-dialog/paper-dialog.html">
+<link rel="import" href="../../bower_components/paper-icon-button/paper-icon-button.html">
+<link rel="import" href="../../bower_components/iron-icons/iron-icons.html">
+<link rel="import" href="../../bower_components/paper-icon-button/paper-icon-button.html">
+<link rel="import" href="../prendus-notification/prendus-notification.html">
+<link rel="import" href="../../bower_components/prendus-styles/prendus-styles.html">
+
+<dom-module id="prendus-learning-structure">
+
+  <style include="prendus-styles">
+  </style>
+  <style>
+  /* TODO brandon i have no idea how to make this pretty, help me out? */
+    :host {
+      width: 100%;
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+    }
+
+    .icon {
+      color: rgba(0, 0, 0, .5);
+    }
+
+    paper-card {
+      width: 100%;
+      max-width: 800px;
+    }
+    #rightWrapper {
+      margin: 0px;
+      display: inline-block;
+    }
+
+    #leftWrapper {
+      margin: 0px;
+      display: inline-block;
+      float: left;
+    }
+
+    paper-button {
+      background-color: var(--prendus-primary-color);
+      color: white;
+    }
+
+  </style>
+  <template>
+    <prendus-notification success-message="[[successMessage]]" error-message="[[errorMessage]]"></prendus-notification>
+    <redux-store on-statechange="mapStateToThis" action="[[action]]"></redux-store>
+    <paper-card heading="Learning structure">
+      <!-- DISCIPLINES -->
+
+      <span id="leftWrapper">
+        <div>
+          <paper-dropdown-menu label="Disciplines" on-tap="checkIfNoDisciplines">
+            <paper-listbox id="discipline-paper-listbox" class="dropdown-content">
+              <template is="dom-repeat" items="[[disciplines]]">
+                <paper-item on-tap="disciplineChange">[[item.title]]</paper-item>
+              </template>
+            </paper-listbox>
+          </paper-dropdown-menu>
+          <template is="dom-if" if="[[chosenDiscipline]]">
+            <paper-icon-button class="edit-button icon-button" icon="create" noink on-tap="editDiscipline"></paper-icon-button>
+            <paper-icon-button class="edit-button icon-button" icon="delete" noink on-tap="deleteDiscipline"></paper-icon-button>
+          </template>
+        </div>
+        <div>
+          <paper-button on-tap="newDiscipline">Add discipline</paper-button>
+        </div>
+      </span>
+
+      <!-- SUBJECTS -->
+      <template is="dom-if" if="[[chosenDiscipline]]">
+        <span id="leftWrapper">
+          <div>
+            <paper-dropdown-menu label="Subjects" on-tap="checkIfNoSubjects">
+              <paper-listbox id="subject-paper-listbox" class="dropdown-content">
+                <template is="dom-repeat" items="[[subjects]]">
+                  <paper-item on-tap="subjectChange">[[item.title]]</paper-item>
+                </template>
+              </paper-listbox>
+            </paper-dropdown-menu>
+            <template is="dom-if" if="[[chosenSubject]]">
+              <paper-icon-button class="edit-button icon-button" icon="create" noink on-tap="editSubject"></paper-icon-button>
+              <paper-icon-button class="edit-button icon-button" icon="delete" noink on-tap="deleteSubject"></paper-icon-button>
+            </template>
+          </div>
+
+          <div>
+            <paper-button on-tap="newSubject">Add subject</paper-button>
+          </div>
+        </span>
+      </template>
+
+      <!-- CONCEPTS -->
+
+      <template is="dom-if" if="[[chosenSubject]]">
+        <span id="leftWrapper">
+          <div>
+            <paper-dropdown-menu label="Concepts" on-tap="checkIfNoConcepts">
+              <paper-listbox id="concept-paper-listbox" class="dropdown-content">
+                <template is="dom-repeat" items="[[concepts]]">
+                  <paper-item on-tap="conceptChange">[[item.title]]</paper-item>
+                </template>
+              </paper-listbox>
+            </paper-dropdown-menu>
+            <template is="dom-if" if="[[chosenConcept]]">
+              <paper-icon-button class="edit-button icon-button" icon="create" noink on-tap="editConcept"></paper-icon-button>
+              <paper-icon-button class="edit-button icon-button" icon="delete" noink on-tap="deleteConcept"></paper-icon-button>
+            </template>
+          </div>
+
+          <div>
+            <paper-button on-tap="newConcept">Add concept</paper-button>
+          </div>
+        </span>
+      </template>
+    </paper-card>
+
+
+    <paper-dialog id="new-discipline" modal>
+      <paper-input id="new-discipline-name" label="Discipline name" required></paper-input>
+      <div class="buttons">
+        <paper-button dialog-dismiss>Cancel</paper-button>
+        <paper-button on-tap="newDisciplineDone" dialog-dismiss>Done</paper-button>
+      </div>
+    </paper-dialog>
+    <paper-dialog id="edit-discipline" modal>
+      <paper-input id="edit-discipline-name" label="Discipline name" required></paper-input>
+      <div class="buttons">
+        <paper-button dialog-dismiss>Cancel</paper-button>
+        <paper-button on-tap="editDisciplineDone" dialog-dismiss>Done</paper-button>
+      </div>
+    </paper-dialog>
+
+    <paper-dialog id="new-subject" modal>
+      <paper-input id="new-subject-name" label="Subject name" required></paper-input>
+      <div class="buttons">
+        <paper-button dialog-dismiss>Cancel</paper-button>
+        <paper-button on-tap="newSubjectDone" dialog-dismiss>Done</paper-button>
+      </div>
+    </paper-dialog>
+    <paper-dialog id="edit-subject" modal>
+      <paper-input id="edit-subject-name" label="Subject name" required></paper-input>
+      <div class="buttons">
+        <paper-button dialog-dismiss>Cancel</paper-button>
+        <paper-button on-tap="editSubjectDone" dialog-dismiss>Done</paper-button>
+      </div>
+    </paper-dialog>
+
+    <paper-dialog id="new-concept" modal>
+      <paper-input id="new-concept-name" label="Concept name" required></paper-input>
+      <div class="buttons">
+        <paper-button dialog-dismiss>Cancel</paper-button>
+        <paper-button on-tap="newConceptDone" dialog-dismiss>Done</paper-button>
+      </div>
+    </paper-dialog>
+
+    <paper-dialog id="edit-concept" modal>
+      <paper-input id="edit-concept-name" label="Concept name" required></paper-input>
+      <div class="buttons">
+        <paper-button dialog-dismiss>Cancel</paper-button>
+        <paper-button on-tap="editConceptDone" dialog-dismiss>Done</paper-button>
+      </div>
+    </paper-dialog>
+  </template>
+
+  <script src="prendus-learning-structure.ts"></script>
+</dom-module>

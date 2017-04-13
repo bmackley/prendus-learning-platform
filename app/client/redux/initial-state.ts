@@ -1,10 +1,19 @@
-import {QuestionSettings} from '../node_modules/prendus-services/typings/question-settings';
 import {State} from '../typings/state';
 
 export const InitialState: State = {
     mainViewToShow: 'routes',
-    concepts: [],
+    lessons: {
+    },
+    currentLesson: {},
     courses: [],
+    editCourseLessons: {},
+    viewCourseLessons: {},
+    editLessonVideos: {},
+    viewLessonVideos: {},
+    currentLessonVideoId: '',
+    currentLessonVideoTitle: '',
+    currentLessonVideoUrl: '',
+    concepts: [],
     courseViewCurrentCourse: {
 			id: '',
 			uid: '',
@@ -18,9 +27,6 @@ export const InitialState: State = {
 			visibility: 'public'
 		},
 		courseTagNames: [],
-    viewCourseConcepts: {},
-    editConceptVideos: {},
-    viewConceptVideos: {},
     currentUser: {
         metaData: {
             email: '',
@@ -28,7 +34,12 @@ export const InitialState: State = {
             lastName: '',
             institution: '',
             uid: ''
-        }
+        },
+        starredCourses: {},
+        sharedWithMeCourses: {},
+        sharedWithMeLessons: {},
+        sharedWithMeVideos: {},
+        sharedWithMeQuizzes: {}
     },
 		currentVideo: {
 			id: '',
@@ -42,15 +53,20 @@ export const InitialState: State = {
     quizQuestionIds: [],
     quizQuestionSettings: {},
     currentEditQuizId: '',
-    editConceptQuizzes: {},
-    viewConceptQuizzes: {},
-    currentEditConceptId: '',
+    editLessonQuizzes: {},
+    viewLessonQuizzes: {},
+    currentEditLessonId: '',
 		userCourses: [],
     publicCourses: [],
     starredCourses: [],
     sharedCourses: [],
     courseCollaboratorEmails: {},
-    conceptCollaboratorEmails: {},
+    lessonCollaboratorEmails: {},
     videoCollaboratorEmails: {},
-    quizCollaboratorEmails: {}
+    quizCollaboratorEmails: {},
+    resultingLessons: [],
+    resultingCourses: [],
+    currentCourse: {},
+    disciplines: [],
+    subjects: []
 };

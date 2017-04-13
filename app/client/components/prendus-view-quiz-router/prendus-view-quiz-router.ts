@@ -8,7 +8,7 @@ class PrendusViewQuizRouter {
     public is: string;
 		public uid: string;
 		public courseId: string;
-		public conceptId: string;
+		public lessonId: string;
 		public quizId: string;
 		public observers: any;
 		public hasEditAccess: boolean;

@@ -6,13 +6,13 @@
 <link rel="import" href="../../bower_components/paper-icon-button/paper-icon-button.html">
 <link rel="import" href="../../bower_components/paper-dialog/paper-dialog.html">
 <link rel="import" href="../../bower_components/paper-tooltip/paper-tooltip.html">
-<link rel="import" href="../prendus-concept-video-container-edit/prendus-concept-video-container-edit.html">
-<link rel="import" href="../prendus-concept-quiz-container/prendus-concept-quiz-container.html">
+<link rel="import" href="../prendus-lesson-video-container-edit/prendus-lesson-video-container-edit.html">
+<link rel="import" href="../prendus-lesson-quiz-container/prendus-lesson-quiz-container.html">
 <link rel="import" href="../prendus-notification/prendus-notification.html">
 
 <link rel="import" href="../../bower_components/prendus-styles/prendus-styles.html">
 
-<dom-module id="prendus-concept-container-edit">
+<dom-module id="prendus-lesson-container-edit">
   <template>
 
 
@@ -48,7 +48,16 @@
 			flex-shrink: 0;
 		}
 
-    .concept-title {
+		.icon-button {
+			color: rgba(0, 0, 0, .5);
+			flex-shrink: 0;
+		}
+
+		.icon-button:hover {
+			color: rgba(0, 0, 0, .8);
+		}
+
+    .lesson-title {
 			min-width: 0;
 			padding: 0 8px;
 			flex-grow: 1;
@@ -68,20 +77,21 @@
 
     <redux-store on-statechange="mapStateToThis" action="[[action]]"></redux-store>
 
-		<!-- <prendus-collaborator-modal id="collaborators-modal" course-id="[[courseId]]" concept-id="[[conceptId]]" concept></prendus-collaborator-modal> -->
+		<!-- <prendus-collaborator-modal id="collaborators-modal" course-id="[[courseId]]" lesson-id="[[lessonId]]" lesson></prendus-collaborator-modal> -->
     <prendus-notification id="notification" success-message="[[successMessage]]" error-message="[[errorMessage]]"></prendus-notification>
     <div class="title-buttons" on-tap="toggle">
+
       <iron-icon id="drag-handle" class="prendus-icon-button" icon="editor:drag-handle"></iron-icon>
-			<paper-tooltip for="drag-handle" offset="0" animation-delay="300">Drag to change concept order</paper-tooltip>
+      <paper-tooltip for="drag-handle" offset="0" animation-delay="300">Drag to change lesson order</paper-tooltip>
 			<div class="title-action-buttons">
-				<h3 class="concept-title">[[title]]</h3>
+				<h3 class="lesson-title">[[title]]</h3>
 				<div class="action-buttons">
-					<paper-icon-button id="edit-button" class="prendus-icon-button" icon="create" on-tap="editConcept"></paper-icon-button>
-					<paper-tooltip for="edit-button" offset="0" animation-delay="300">Edit concept</paper-tooltip>
-					<!-- <paper-icon-button id="collaborator-button" class="prendus-icon-button" icon="social:group-add" on-tap="openCollaboratorsModal"></paper-icon-button>
+					<paper-icon-button id="edit-button" class="icon-button" icon="create" on-tap="editLesson"></paper-icon-button>
+					<paper-tooltip for="edit-button" offset="0" animation-delay="300">Edit lesson</paper-tooltip>
+					<!-- <paper-icon-button id="collaborator-button" class="icon-button" icon="social:group-add" on-tap="openCollaboratorsModal"></paper-icon-button>
 					<paper-tooltip for="collaborator-button" offset="0" animation-delay="300">Edit collaborators</paper-tooltip> -->
-					<paper-icon-button id="delete-button" class="prendus-icon-button" icon="delete" on-tap="openDeleteModal"></paper-icon-button>
-					<paper-tooltip for="delete-button" offset="0" animation-delay="300">Delete concept</paper-tooltip>
+					<paper-icon-button id="delete-button" class="icon-button" icon="delete" on-tap="openDeleteModal"></paper-icon-button>
+					<paper-tooltip for="delete-button" offset="0" animation-delay="300">Delete lesson</paper-tooltip>
 				</div>
 			</div>
     </div>
@@ -92,15 +102,15 @@
             <paper-tab>Videos</paper-tab>
         </paper-tabs>
         <iron-pages selected="[[selected]]">
-          <prendus-concept-quiz-container course-id="[[courseId]]" concept-id="[[conceptId]]"></prendus-concept-quiz-container>
-          <prendus-concept-video-container-edit concept-id="[[conceptId]]"></prendus-concept-video-container-edit>
+          <prendus-lesson-quiz-container course-id="[[courseId]]" lesson-id="[[lessonId]]"></prendus-lesson-quiz-container>
+          <prendus-lesson-video-container-edit lesson-id="[[lessonId]]"></prendus-lesson-video-container-edit>
         </iron-pages>
       </div>
     </iron-collapse>
 
     <paper-dialog id="delete-confirm-modal" with-backdrop>
-      <h2>Delete Concept</h2>
-      <p>Are you sure that you want to delete this concept?</p>
+      <h2>Delete Lesson</h2>
+      <p>Are you sure that you want to delete this lesson?</p>
 			<div class="buttons">
 				<button class="prendus-button prendus-button--minor" dialog-dismiss>Cancel</button>
 				<button class="prendus-button prendus-button--destructive" on-tap="completeDelete">Delete</button>
@@ -108,5 +118,5 @@
     </paper-dialog>
 
   </template>
-  <script src="prendus-concept-container-edit.ts"></script>
+  <script src="prendus-lesson-container-edit.ts"></script>
 </dom-module>
