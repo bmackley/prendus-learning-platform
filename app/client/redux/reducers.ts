@@ -238,7 +238,7 @@ export function rootReducer(state: State = InitialState, action: Action): State 
 					...state,
 					viewCourseLessons: {
 						...state.viewCourseLessons,
-						[action.courseId]: action.lessons
+						[action.courseId]: action.orderedLessons
 					}
 				}
       }

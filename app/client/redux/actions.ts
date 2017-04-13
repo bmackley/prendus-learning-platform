@@ -618,36 +618,27 @@ const loadViewLessonVideos = async (context: any, lessonId: string): Promise<voi
 };
 
 const loadEditCourseLessons = async (context: any, courseId: string): Promise<void> => {
-    try {
-        const user: any = await FirebaseService.getLoggedInUser();
-        const course: Course = await CourseModel.getById(courseId);
-        const lessonDatasObject: { [lessonId: string]: CourseLessonData } = course.lessons;
-        const lessons: CourseLessonData[] = await LessonModel.filterLessonDatasByCollaborator(lessonDatasObject, course.uid, user.uid);
+  const user: any = await FirebaseService.getLoggedInUser();
+  const course: Course = await CourseModel.getById(courseId);
+  const lessonDatasObject: { [lessonId: string]: CourseLessonData } = course.lessons;
+  const lessons: CourseLessonData[] = await LessonModel.filterLessonDatasByCollaborator(lessonDatasObject, course.uid, user.uid);
 
-        context.action = {
-            type: 'LOAD_EDIT_COURSE_LESSONS',
-            lessons,
-            courseId
-        };
-    } catch(error) {
-        throw error;
-    }
+  context.action = {
+      type: 'LOAD_EDIT_COURSE_LESSONS',
+      lessons,
+      courseId
+  };
 };
 
 const loadViewCourseLessons = async (context: any, courseId: string): Promise<void> => {
-    try {
-        const course: Course = await CourseModel.getById(courseId);
-        const lessonsArray: CourseLessonData[] = await CourseModel.courseLessonsToArray(course);
-        const orderedLessons: CourseLessonData[] = await CourseModel.orderCourseLessons(lessonsArray);
-
-        context.action = {
-            type: 'LOAD_VIEW_COURSE_LESSONS',
-            orderedLessons,
-            courseId
-        };
-    } catch(error) {
-        throw error;
-    }
+  const course: Course = await CourseModel.getById(courseId);
+  const lessonsArray: CourseLessonData[] = await CourseModel.courseLessonsToArray(course);
+  const orderedLessons: CourseLessonData[] = await CourseModel.orderCourseLessons(lessonsArray);
+  context.action = {
+      type: 'LOAD_VIEW_COURSE_LESSONS',
+      orderedLessons,
+      courseId
+  };
 };
 
 const createUser = async (context: any, userType: UserType, data: UserMetaData, password: string): Promise<void> => {
@@ -726,18 +717,14 @@ const checkUserAuth = async (context: any): Promise<void> => {
 const addLesson = async (context: any, courseId: string, newLesson: Lesson, lessonPos: number, tags: string[]): Promise<void> => {
     try {
       const lessonId: string = await LessonModel.createOrUpdate(null, newLesson);
-      if(tags) {
-        await UtilitiesService.asyncForEach(tags, async (tag: string) => {
-            await addTagToLesson(null, tag, lessonId);
-        });
-      }
       await CourseModel.associateLesson(courseId, lessonId, lessonPos);
 
-      context.action = {
-          type: 'ADD_LESSON',  //same as get course by id
-					courseId,
-					lessonId
-      };
+      // I don't think this needs to be here
+      // context.action = {
+      //     type: 'ADD_LESSON',  //same as get course by id
+			// 		courseId,
+			// 		lessonId
+      // };
 
       const courseCollaboratorUids: string[] = await CourseModel.getCollaboratorUids(courseId);
       await LessonModel.associateCollaborators(lessonId, courseCollaboratorUids);
