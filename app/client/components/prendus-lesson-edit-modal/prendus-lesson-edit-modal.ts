@@ -92,8 +92,9 @@ class PrendusLessonNewLesson {
         this.successMessage = '';
         this.successMessage = 'Lesson added successfully';
       } catch(error) {
+        console.error('error during adding a lesson ', error);
         this.errorMessage = '';
-        this.errorMessage = error.message;
+        this.errorMessage = 'Something went wrong while adding the lesson';
       }
     }
   }
