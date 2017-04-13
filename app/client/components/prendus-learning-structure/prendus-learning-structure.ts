@@ -22,7 +22,6 @@ export class PrendusLearningStructure {
   public chosenSubject: Subject;
   public concepts: Concept[];
   public chosenConcept: Concept;
-  public uid: string;
   public properties: any;
 
   beforeRegister(): void {
@@ -86,9 +85,7 @@ export class PrendusLearningStructure {
         ...this.chosenDiscipline,
         title
       };
-      await DisciplineModel.createOrUpdate(id, newDiscipline);
-      await Actions.getAllDisciplines(this);
-      Actions.setChosenDiscipline(this, newDiscipline);
+      await Actions.updateDiscipline(this, newDiscipline);
 
       this.refreshPaperListbox('discipline-paper-listbox');
       this.successMessage = '';
@@ -136,13 +133,7 @@ export class PrendusLearningStructure {
   async newDisciplineDone(): Promise<void> {
     try {
       const title: string = this.querySelector('#new-discipline-name').value;
-      const id: string = await DisciplineModel.createOrUpdate(null, {
-        title
-      });
-      await Actions.getAllDisciplines(this);
-      await Actions.setChosenResolvedDiscipline(this, id);
-      Actions.setChosenSubject(this, null);
-      Actions.setChosenConcept(this, null);
+      await Actions.addDiscipline(this, title);
       this.selectLastElementInPaperListBox('discipline-paper-listbox');
 
       this.successMessage = '';
@@ -203,27 +194,16 @@ export class PrendusLearningStructure {
    */
   async editSubjectDone(): Promise<void> {
     try {
-      if(!this.chosenSubject) {
-        console.error('somehow the user is trying to edit an undefined subject');
-      } else {
-        const title: string = this.querySelector('#edit-subject-name').value;
-        const newSubject: Subject = {
-          ...this.chosenSubject,
-          title
-        }
-
-        await SubjectModel.createOrUpdate(newSubject.id, newSubject);
-        Actions.getAllDisciplines(this);
-        await Actions.setChosenResolvedDiscipline(this, this.chosenDiscipline.id);
-        Actions.setChosenResolvedSubject(this, newSubject.id);
-        // This is a hack so that the selected item will be updated.
-        const paperListBox = this.getSubjectPaperListBox();
-        paperListBox.selectPrevious();
-        paperListBox.selectNext();
-
-        this.successMessage = '';
-        this.successMessage = 'Subject updated';
+      const title: string = this.querySelector('#edit-subject-name').value;
+      const newSubject: Subject = {
+        ...this.chosenSubject,
+        title
       }
+
+      await Actions.updateSubject(this, this.chosenDiscipline, this.chosenSubject);
+      this.refreshPaperListbox('subject-paper-listbox');
+      this.successMessage = '';
+      this.successMessage = 'Subject updated';
 
     } catch(error) {
       console.error(error.message);
@@ -235,12 +215,8 @@ export class PrendusLearningStructure {
    * right next to a chosen subject.
    */
   editSubject(): void {
-    if(!this.chosenSubject) {
-      console.error('The user is somehow editing a subject when it isn\'t defined..');
-    } else {
-      this.querySelector('#edit-subject-name').value = this.chosenSubject.title;
-      this.querySelector('#edit-subject').open();
-    }
+    this.querySelector('#edit-subject-name').value = this.chosenSubject.title;
+    this.querySelector('#edit-subject').open();
 
   }
 
@@ -250,7 +226,6 @@ export class PrendusLearningStructure {
    */
   async deleteSubject(): Promise<void> {
     try {
-
       await Actions.deleteSubject(this, this.chosenDiscipline, this.chosenSubject);
       this.successMessage = '';
       this.successMessage = 'Subject deleted';
@@ -294,8 +269,7 @@ export class PrendusLearningStructure {
       const title: string = this.querySelector('#new-concept-name').value;
       const newConcept: Concept = {
         title,
-        subjectId: this.chosenSubject.id,
-        uid: this.uid //TODO this is temporary!!!!!!!!!!!! Delete this once concepts are fully moved over to lessons!!!!
+        subjectId: this.chosenSubject.id
       };
       await Actions.createConcept(this, this.chosenDiscipline, this.chosenSubject, newConcept);
 
@@ -444,9 +418,7 @@ export class PrendusLearningStructure {
     this.chosenSubject = state.chosenDiscipline ? state.chosenSubject : null;
     this.concepts = state.chosenSubject ? state.chosenSubject.resolvedConcepts : null;
     this.chosenConcept = state.chosenSubject ? state.chosenConcept : null;
-    this.uid = state.currentUser && state.currentUser.metaData ? state.currentUser.metaData.uid : null;
   }
-
 
 }
 
