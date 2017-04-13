@@ -5,54 +5,66 @@ import {QuestionSettings} from '../node_modules/prendus-services/typings/questio
 import {User} from '../node_modules/prendus-services/typings/user';
 import {UserMetaData} from '../node_modules/prendus-services/typings/user-meta-data';
 import {Course} from '../node_modules/prendus-services/typings/course';
-import {CourseConceptData} from '../node_modules/prendus-services/typings/course-concept-data';
+import {CourseLessonData} from '../node_modules/prendus-services/typings/course-lesson-data';
+import {Lesson} from '../node_modules/prendus-services/typings/lesson';
+import {Discipline} from '../node_modules/prendus-services/typings/discipline';
+import {Subject} from '../node_modules/prendus-services/typings/subject';
 
 export interface State {
-    editConceptVideos: {
-        [conceptId: string]: Video[]
+    editCourseLessons: {
+        [courseId: string]: CourseLessonData[]
     };
-    editConceptQuizzes: {
-        [conceptId: string]: Quiz[]
+    editLessonVideos: {
+        [lessonId: string]: Video[]
     };
-    viewCourseConcepts: {
-        [courseId: string]: CourseConceptData[]
+    editLessonQuizzes: {
+        [lessonId: string]: Quiz[]
     };
-    viewConceptVideos: {
-        [conceptId: string]: Video[]
+    viewCourseLessons: {
+        [courseId: string]: CourseLessonData[]
     };
-    viewConceptQuizzes: {
-        [conceptId: string]: Quiz[]
+    viewLessonVideos: {
+        [lessonId: string]: Video[]
+    };
+    viewLessonQuizzes: {
+        [lessonId: string]: Quiz[]
     };
     courses: Course[];
     userCourses: Course[];
     sharedCourses: Course[];
     starredCourses: Course[];
     publicCourses: Course[];
-		currentVideo: Video
-    concepts: Concept[];
+    currentLesson: Lesson;
+    lessons: Lesson[];
     courseTagNames: string[];
     courseViewCurrentCourse: Course;
-    currentUser: User;
+    currentLessonVideoId: string;
+    currentLessonVideoTitle: string;
+    currentLessonVideoUrl: string
+    currentUser: {
+      metaData: UserMetaData
+    };
+		currentVideo: Video
     currentEditQuizId: string;
-    currentEditConceptId: string;
+    currentEditLessonId: string;
     jwt: string;
     courseCollaboratorEmails: {
         [uid: string]: {
             [courseId: string]: string[];
         };
     };
-    conceptCollaboratorEmails: {
+    lessonCollaboratorEmails: {
         [courseId: string]: {
-            [conceptId: string]: string[];
+            [lessonId: string]: string[];
         };
     };
     videoCollaboratorEmails: {
-        [conceptId: string]: {
+        [lessonId: string]: {
             [videoId: string]: string[];
         };
     };
     quizCollaboratorEmails: {
-        [conceptId: string]: {
+        [lessonId: string]: {
             [quizId: string]: string[];
         };
     };
@@ -61,4 +73,13 @@ export interface State {
 		quizQuestionIds: [string];
 		quizQuestionSettings: QuestionSettings;
     mainViewToShow: 'routes' | 'spinner';
+    resultingLessons: Lesson[];
+    resultingCourses: Course[];
+    currentCourse: Course;
+    disciplines: Discipline[];
+    chosenDiscipline: Discipline;
+    chosenSubject: Subject;
+    chosenConcept: Concept;
+    subjects: Subject[];
+    concepts: Concept[];
 }

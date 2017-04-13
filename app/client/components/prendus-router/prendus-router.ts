@@ -77,6 +77,9 @@ class PrendusRouter {
         break;
       }
 
+      case '/learning-structure': {
+        UtilitiesService.importElement(this, 'components/prendus-learning-structure/prendus-learning-structure.html', 'learning-structure');
+      }
       default: break;
     }
 

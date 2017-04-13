@@ -24,7 +24,7 @@ class PrendusQuizEditor {
 		public newQuiz: boolean;
 		public uid: string;
 		public quizId: string;
-		public conceptId: string;
+		public lessonId: string;
 		public courseId: string;
     public userQuestionIds: string[];
     public publicQuestionIds: string[];
@@ -55,7 +55,7 @@ class PrendusQuizEditor {
 					}
         };
 				this.observers = [
-					'setEditorProperties(data.courseId, data.conceptId, data.quizId, route.*)',
+					'setEditorProperties(data.courseId, data.lessonId, data.quizId, route.*)',
 					'setQuizData(quizId)'
 				]
     }
@@ -99,9 +99,9 @@ class PrendusQuizEditor {
 				return initData;
     }
 
-		async setEditorProperties(courseId: string, conceptId: string, quizId: string, route: any): Promise<void> {
+		async setEditorProperties(courseId: string, lessonId: string, quizId: string, route: any): Promise<void> {
 			this.courseId = courseId;
-			this.conceptId = conceptId;
+			this.lessonId = lessonId;
 			this.quizId = quizId;
 
 			const titleDialog = this.querySelector('#title-quiz-dialog');
@@ -168,14 +168,14 @@ class PrendusQuizEditor {
 		}
 
 		async createQuiz(): Promise<void> {
-			const quizId = await Actions.createNewQuiz(this, this.title, this.conceptId);
+			const quizId = await Actions.createNewQuiz(this, this.title, this.lessonId);
 			// reload by watching data
 			this.data = {
 				...this.data,
 				quizId
 			}
 			this.newQuiz = false;
-			Actions.loadViewConceptQuizzes(this, this.conceptId);
+			Actions.loadViewLessonQuizzes(this, this.lessonId);
 		}
 
     async loadPublicQuestionIds(): Promise<void> {
@@ -350,8 +350,8 @@ class PrendusQuizEditor {
         this.errorMessage = error.message;
       }
 			// load these in the background so they're updated when the user returns to that page
-      Actions.loadEditConceptQuizzes(this, this.conceptId);
-      Actions.loadViewConceptQuizzes(this, this.conceptId);
+      Actions.loadEditLessonQuizzes(this, this.lessonId);
+      Actions.loadViewLessonQuizzes(this, this.lessonId);
     }
 
     async privateToggled(e: any): Promise<void> {

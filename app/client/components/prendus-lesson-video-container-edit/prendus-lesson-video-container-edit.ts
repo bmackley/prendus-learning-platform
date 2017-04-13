@@ -3,11 +3,11 @@ import {Actions} from '../../redux/actions';
 import {StatechangeEvent} from '../../typings/statechange-event';
 import {FirebaseService} from '../../node_modules/prendus-services/services/firebase-service';
 
-class PrendusConceptVideoContainerEdit {
+class PrendusLessonVideoContainerEdit {
     public is: string;
     public properties: any;
     public observers: string[];
-    public conceptId: string;
+    public lessonId: string;
     public videos: Video[];
     public currentVideoId: string;
     public currentVideoTitle: string;
@@ -15,20 +15,20 @@ class PrendusConceptVideoContainerEdit {
 		public $: any;
 
     beforeRegister() {
-        this.is = 'prendus-concept-video-container-edit';
+        this.is = 'prendus-lesson-video-container-edit';
         this.properties = {
-            conceptId: {
+            lessonId: {
                 type: String
             }
         };
         this.observers = [
-            'init(conceptId)'
+            'init(lessonId)'
         ];
     }
 
     async init() {
-        if (this.conceptId) {
-            await Actions.loadEditConceptVideos(this, this.conceptId);
+        if (this.lessonId) {
+            await Actions.loadEditLessonVideos(this, this.lessonId);
         }
     }
 
@@ -69,27 +69,27 @@ class PrendusConceptVideoContainerEdit {
             collaborators: {}
         };
 
-        await Actions.saveVideo(this, this.conceptId, this.currentVideoId, video);
+        await Actions.saveVideo(this, this.lessonId, this.currentVideoId, video);
         this.$.videoEditor.indicateSaved();
         Actions.setCurrentVideoInfo(this, this.currentVideoId, title, url);
-        await Actions.loadEditConceptVideos(this, this.conceptId);
+        await Actions.loadEditLessonVideos(this, this.lessonId);
     }
 
     async deleteVideo(e: Event) {
         this.$.editVideoDialog.close();
-        await Actions.deleteVideo(this, this.conceptId, this.currentVideoId);
-        await Actions.loadEditConceptVideos(this, this.conceptId);
+        await Actions.deleteVideo(this, this.lessonId, this.currentVideoId);
+        await Actions.loadEditLessonVideos(this, this.lessonId);
         Actions.clearCurrentVideoInfo(this);
     }
 
     mapStateToThis(e: StatechangeEvent) {
         const state = e.detail.state;
 
-        this.videos = state.editConceptVideos[this.conceptId];
+        this.videos = state.editLessonVideos[this.lessonId];
         this.currentVideoId = state.currentVideo.id;
         this.currentVideoTitle = state.currentVideo.title;
         this.currentVideoUrl = state.currentVideo.url;
     }
 }
 
-Polymer(PrendusConceptVideoContainerEdit);
+Polymer(PrendusLessonVideoContainerEdit);
