@@ -1142,7 +1142,7 @@ const setChosenSubject = (context: any, chosenSubject: Subject): void => {
 };
 
 const deleteSubject = async (context: any, discipline: Discipline, subject: Subject): Promise<void> => {
-  await SubjectModel.deleteSubject(subject.id);
+  await SubjectModel.deleteSubject(subject.id || '');
   await UtilitiesService.asyncForEach(Object.keys(subject.concepts || {}), async (conceptId: string) => {
     await ConceptModel.deleteConcept(conceptId);
   });
