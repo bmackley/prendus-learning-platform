@@ -1087,7 +1087,7 @@ const deleteDiscipline = async (context: any, discipline: Discipline): Promise<v
     await deleteSubject(context, discipline, subject);
   });
   await getAllDisciplines(context);
-  setChosenDiscipline(this, null);
+  setChosenDiscipline(context, null);
 };
 
 /**
@@ -1182,6 +1182,31 @@ const deleteConcept = async (context: any, discipline: Discipline, subject: Subj
   await setChosenResolvedSubject(context, subject.id);
   setChosenConcept(context, null);
 };
+
+const updateSubject = async (context: any, discipline: Discipline, subject: Subject): Promise<void> => {
+  await SubjectModel.createOrUpdate(subject.id, subject);
+  await getAllDisciplines(context);
+  await setChosenResolvedDiscipline(context, discipline.id);
+  await setChosenResolvedSubject(context, subject.id);
+
+};
+
+const updateDiscipline = async (context: any, discipline: Discipline): Promise<void> => {
+  await DisciplineModel.createOrUpdate(discipline.id, discipline);
+  await getAllDisciplines(context);
+  setChosenDiscipline(context, discipline);
+};
+
+const addDiscipline = async (context: any, title: string): Promise<void> => {
+  const id: string = await DisciplineModel.createOrUpdate(null, {
+    title
+  });
+  await getAllDisciplines(context);
+  await setChosenResolvedDiscipline(context, id);
+  setChosenSubject(context, null);
+  setChosenConcept(context, null);
+};
+
 export const Actions = {
     defaultAction,
     loginUser,
@@ -1262,5 +1287,8 @@ export const Actions = {
     createConcept,
     setChosenResolvedConcept,
     setChosenConcept,
-    deleteConcept
+    deleteConcept,
+    updateSubject,
+    updateDiscipline,
+    addDiscipline
   };
