@@ -20,9 +20,11 @@
     <redux-store action="[[action]]" on-statechange="mapStateToThis"></redux-store>
 
     <paper-dialog id="dialog" with-backdrop>
-      <h2>[[conceptHeader]]</h2>
-      <paper-input id="concept-name" label="Concept Name" value="{{newConceptName}}" maxlength="50" required auto-validate on-keydown="updateConceptIfEnter" error-message="Please enter a title"></paper-input>
-      <!-- <prendus-paper-tags-input id="concept-tags" placeholder="Delete tags or add new ones" tags="[[conceptTagNames]]" on-add="onAdd" on-remove="onRemove" duplicate-error-message="Tag cannot be a duplicate" required></prendus-paper-tags-input> -->
+			<div class="content">				
+				<h2>[[conceptHeader]]</h2>
+				<paper-input id="concept-name" label="Concept Name" value="{{newConceptName}}" maxlength="50" required auto-validate on-keydown="updateConceptIfEnter" error-message="Please enter a title"></paper-input>
+				<!-- <prendus-paper-tags-input id="concept-tags" placeholder="Delete tags or add new ones" tags="[[conceptTagNames]]" on-add="onAdd" on-remove="onRemove" duplicate-error-message="Tag cannot be a duplicate" required></prendus-paper-tags-input> -->
+			</div>
 			<div class="buttons">
 				<button class="prendus-button prendus-button--minor" dialog-dismiss on-tap="clearValues">Cancel</button>
 				<button class="prendus-button prendus-button--recommended" disabled$=[[!enableConceptSubmission(newConceptName)]] on-tap="updateConcept">Add</button>
