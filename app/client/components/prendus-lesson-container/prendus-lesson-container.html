@@ -1,14 +1,14 @@
 <link rel="import" href="../../bower_components/polymer/polymer.html">
 <link rel="import" href="../../bower_components/iron-collapse/iron-collapse.html">
 <link rel="import" href="../../bower_components/redux-store-element/redux-store.html">
-<link rel="import" href="../prendus-concept-video-container/prendus-concept-video-container.html">
-<link rel="import" href="../prendus-concept-quiz-container/prendus-concept-quiz-container.html">
+<link rel="import" href="../prendus-lesson-video-container/prendus-lesson-video-container.html">
+<link rel="import" href="../prendus-lesson-quiz-container/prendus-lesson-quiz-container.html">
 <link rel="import" href="../../bower_components/paper-tabs/paper-tabs.html">
 <link rel="import" href="../../bower_components/iron-pages/iron-pages.html">
 <link rel="import" href="../../bower_components/prendus-styles/prendus-styles.html">
 <link rel="import" href="../prendus-notification/prendus-notification.html">
 
-<dom-module id="prendus-concept-container">
+<dom-module id="prendus-lesson-container">
   <template>
     
     <style include="prendus-styles">
@@ -28,18 +28,18 @@
 
     <redux-store on-statechange="mapStateToThis" action="[[action]]"></redux-store>
     <h3 id="title-toggle" on-tap="toggle">[[title]]</h3>
-    <iron-collapse class="conceptToggle" id="concept-[[item.pos]]">
+    <iron-collapse class="lessonToggle" id="lesson-[[item.pos]]">
         <paper-tabs id="resource-tabs" selected="{{selected}}">
           <paper-tab>Quizzes</paper-tab>
           <paper-tab>Videos</paper-tab>
         </paper-tabs>
         <iron-pages selected="[[selected]]">
-          <prendus-concept-quiz-container course-id="[[courseId]]" concept-id="[[conceptId]]"></prendus-concept-quiz-container>
-          <prendus-concept-video-container concept-id="[[conceptId]]"></prendus-concept-video-container>
+          <prendus-lesson-quiz-container course-id="[[courseId]]" lesson-id="[[lessonId]]"></prendus-lesson-quiz-container>
+          <prendus-lesson-video-container lesson-id="[[lessonId]]"></prendus-lesson-video-container>
         </iron-pages>
     </iron-collapse>
     <prendus-notification success-message="[[successMessage]]" error-message="[[errorMessage]]"></prendus-notification>
   </template>
 
-  <script src="prendus-concept-container.ts"></script>
+  <script src="prendus-lesson-container.ts"></script>
 </dom-module>

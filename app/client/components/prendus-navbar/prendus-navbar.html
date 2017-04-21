@@ -42,9 +42,10 @@
         <paper-toolbar>
           <a id="home-link" href="/"><img id="logo" src="../../images/navbar-logo.png" alt="Prendus"></a>
           <template is="dom-if" if="[[username]]">
-						<prendus-drop-down button-text="[[username]]" button-type="recommended" button-title="Your account and courses" horizontal-align="right">
+						<prendus-drop-down button-text="[[username]]" button-type="recommended" button-title="Your account and courses" horizontal-align="right" responsive>
 							<a href="/profile">Your account</a>
 							<a href="/courses/home">Your courses</a>
+              <a href="/learning-structure">Learning structure</a>
 							<button on-tap="logOutUser">Log out</button>
 						</prendus-drop-down>
           </template>

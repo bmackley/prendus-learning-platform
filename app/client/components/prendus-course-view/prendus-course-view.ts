@@ -1,16 +1,18 @@
 import {Actions} from '../../redux/actions';
 import {Course} from '../../node_modules/prendus-services/typings/course';
-import {Concept} from '../../node_modules/prendus-services/typings/concept';
-import {CourseConceptData} from '../../node_modules/prendus-services/typings/course-concept-data';
+import {Lesson} from '../../node_modules/prendus-services/typings/lesson';
+import {CourseLessonData} from '../../node_modules/prendus-services/typings/course-lesson-data';
 import {StatechangeEvent} from '../../typings/statechange-event';
 import {Tag} from '../../node_modules/prendus-services/typings/tag';
 import {Quiz} from '../../node_modules/prendus-services/typings/quiz';
 import {CourseModel} from '../../node_modules/prendus-services/models/course-model';
 import {UtilitiesService} from '../../node_modules/prendus-services/services/utilities-service';
+import {LessonModel} from '../../node_modules/prendus-services/models/lesson-model';
+import {State} from '../../typings/state';
 
 export class PrendusCourseView {
   public is: string;
-  public courseConcepts: CourseConceptData[];
+  public courseLessons: CourseLessonData[];
   public currentCourse: Course;
 	public collaboratorEmails: string[];
   public courseTagNames: string[];
@@ -63,18 +65,17 @@ export class PrendusCourseView {
       'viewCourse(data)'
     ];
     this.listeners = {
-      'edit-concept': 'openEditConceptDialog',
-			'finish-edit-concept': 'reloadConcept'
+      'edit-lesson': 'openEditLessonDialog',
+			'finish-edit-lesson': 'reloadLesson'
     };
   }
-
-	reloadConcept(e: any): void {
-		this.querySelector(`#concept${e.detail.conceptId}`).init();
+	reloadLesson(e: any): void {
+		this.querySelector(`#lesson${e.detail.lessonId}`).init();
 	}
 
-  openEditConceptDialog(e: any): void {
-    const conceptId: string = e.detail.conceptId;
-    this.querySelector('#add-concept-dialog').edit(conceptId);
+  openEditLessonDialog(e: any): void {
+    const lessonId: string = e.detail.lessonId;
+    this.querySelector('#add-lesson-dialog').edit(lessonId);
   }
 
 	openDueDateModal(e: any): void {
@@ -174,11 +175,13 @@ export class PrendusCourseView {
 
   }
 
-  // For showTagsTitle and showTagsView you have to pass in the course
-  // object instead of course.tags.length, if course.tags is null or
-  // undefined, then you are trying to call length on a null object.
-  // Also, in the HTML it will not execute these functions if one of
-  // the parameters is null.
+  /**
+   * For showTagsTitle and showTagsView you have to pass in the course
+   * object instead of course.tags.length, if course.tags is null or
+   * undefined, then you are trying to call length on a null object.
+   * Also, in the HTML it will not execute these functions if one of
+   * the parameters is null.
+   */
   showTagsTitle(course: Course, hasEditAccess: boolean): boolean {
     // Since this is an or, it will try to return the course.tags
     // object instead of a boolean that is checking if it's undefined.
@@ -189,38 +192,9 @@ export class PrendusCourseView {
     return course.tags && !hasEditAccess;
   }
 
-  async onAdd(e: any): Promise<void> {
-    try {
-      const tag: string = e.detail.tag;
-      await Actions.addTagToCourse(this, tag, this.courseId);
-      this.successMessage = '';
-      this.successMessage = `${tag} added successfully.`;
-      Actions.getCoursesByUser(this);
-    } catch(error) {
-      this.errorMessage = '';
-      this.errorMessage = error.message;
-    }
-  }
-
-  async onRemove(e: any): Promise<void> {
-    try {
-      const tag: Tag = this.courseTags[e.detail.index];
-      if(tag) {
-        await Actions.deleteTagFromCourse(this, tag, this.courseId);
-        this.successMessage = '';
-        this.successMessage = `${tag.name} removed successfully.`;
-        Actions.getCoursesByUser(this);
-      }
-
-    } catch(error) {
-      this.errorMessage = '';
-      this.errorMessage = error.message;
-    }
-  }
-
   toggle(e: any): void {
     const collapseTarget = (e.target.id);
-    this.querySelector('#Concept' + collapseTarget).toggle();
+    this.querySelector('#lesson' + collapseTarget).toggle();
   }
 
   async viewCourse(): Promise<void> {
@@ -228,7 +202,8 @@ export class PrendusCourseView {
       if (this.data && this.data.courseId) {
           Actions.showMainSpinner(this);
           await Actions.getCourseViewCourseById(this, this.data.courseId);
-          await Actions.loadViewCourseConcepts(this, this.data.courseId);
+          Actions.hideMainSpinner(this);
+          await Actions.loadViewCourseLessons(this, this.data.courseId);
 					this.courseLoaded = true;
       }
     } catch(error) {
@@ -244,23 +219,23 @@ export class PrendusCourseView {
     console.log('LTI Links3')
   }
 
-  addConcept(e: any): void {
-    this.querySelector('#add-concept-dialog').open();
+  addLesson(e: any): void {
+    this.querySelector('#add-lesson-dialog').open();
   }
 
   async sortableEnded(e: any): Promise<void> { //This isn't the most elegant solution. I'm open to better ways of doing things.
     if(typeof e.newIndex !== 'undefined') {
-      let updateConceptPositionArray: CourseConceptData[] = [];
-      for(let i:number = 0, len: number = this.courseConcepts.length; i< len; i++) {
-        updateConceptPositionArray.push(this.courseConcepts[i]);
-        if(this.courseConcepts[i].position != i) {
-          updateConceptPositionArray[i].position = i;
+      let updateLessonPositionArray: CourseLessonData[] = [];
+      for(let i:number = 0, len: number = this.courseLessons.length; i< len; i++) {
+        updateLessonPositionArray.push(this.courseLessons[i]);
+        if(this.courseLessons[i].position != i) {
+          updateLessonPositionArray[i].position = i;
         }
       }
       try {
-        await Actions.orderConcepts(this, this.courseId, updateConceptPositionArray);
+        await Actions.orderLessons(this, this.courseId, updateLessonPositionArray);
         this.successMessage = '';
-        this.successMessage = 'Concept ordered successfully';
+        this.successMessage = 'Lesson ordered successfully';
       } catch(error) {
         console.error(error.message);
         this.errorMessage = '';
@@ -308,7 +283,7 @@ export class PrendusCourseView {
     this.hasEditAccess = this.currentCourse && this.currentCourse.uid === this.uid;
     // this.courseTags = state.courseViewCurrentCourse.tags;
     this.courseTagNames = state.courseTagNames;
-    this.courseConcepts = state.viewCourseConcepts[this.courseId];
+    this.courseLessons = state.viewCourseLessons[this.courseId];
 		this.collaboratorEmails = state.courseCollaboratorEmails[this.uid] && state.courseCollaboratorEmails[this.uid][this.courseId];
     this.numberOfPublicCoursesLoaded = state.publicCourses ? state.publicCourses.length : this.numberOfPublicCoursesLoaded;
   }

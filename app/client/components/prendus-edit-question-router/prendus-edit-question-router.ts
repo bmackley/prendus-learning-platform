@@ -7,6 +7,8 @@ import {QuizSession} from '../../node_modules/prendus-services/typings/quiz-sess
 class PrendusEditQuestionRouter {
     public is: string;
     public jwt: string;
+    public lessonId: string;
+    public quizId: string;
     public properties: any;
     public errorMessage: string;
     public successMessage: string;
@@ -54,6 +56,29 @@ class PrendusEditQuestionRouter {
     }
 
     _routeChanged(routeObject: any): void {
+      const route: string = routeObject.value.path;
+      if(!route) {
+        return;
+      }
+      const baseRoute: string = route.split('/')[1];
+      switch(baseRoute) {
+        case 'edit-question': {
+          break;
+        }
+
+        default:  {
+          //TODO this is bad and horrible, we need to change this and hope that polymer 2 will fire change events when we set something...
+          this.data = null;
+          break;
+        }
+      }
+
+    }
+    setData(): void {
+      if(this.data) {
+        this.lessonId = this.data.lessonId;
+        this.quizId = this.data.quizId;
+      }
 			// QUESTION: do we still need this function?
 
       // const route: string = routeObject.value.path;

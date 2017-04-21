@@ -81,7 +81,7 @@ class PrendusCourseHomepage {
     const visibility: CourseVisibility = 'public';
     const newCourse: Course = {
       id: '',
-      concepts: null,
+      lessons: null,
       tags: null,
       collaborators: null,
 			dueDate: 0,
