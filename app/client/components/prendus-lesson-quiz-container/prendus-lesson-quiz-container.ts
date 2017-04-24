@@ -77,14 +77,13 @@ class PrendusLessonQuizContainer {
       this.fire('location-changed', {}, {node: window});
     }
 
-    async getLTILinks(e: { model: any }): Promise<void> {
+    async getLTILinks(e: any): Promise<void> {
       // Start the server
       e.stopPropagation();
       this.ltiQuizId = e.target.parentElement.dataQuiz;
       this.endpointDomain = UtilitiesService.getPrendusServerEndpointDomain();
       const courseId = this.courseId;
-      const jwt = this.jwt;
-      console.log('jwt ', jwt);
+      const jwt: string = this.jwt;
       const LTIRequest = this.querySelector("#getLTIajax");
       LTIRequest.body = {
         courseId,
@@ -94,7 +93,7 @@ class PrendusLessonQuizContainer {
       await request.completes;
       this.secret = request.response.secret;
       //const LTIlink = `http://prendus.com/course/${courseId}/quiz `
-      const env = window.PRENDUS_ENV;
+      const env = window['PRENDUS_ENV'];
       if(env === 'development') {
         this.ltiLink = `http://localhost:5000/api/lti/course/${this.courseId}/quiz/${this.ltiQuizId}`;
       } else {
