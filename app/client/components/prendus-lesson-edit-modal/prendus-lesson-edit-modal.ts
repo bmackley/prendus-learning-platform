@@ -87,13 +87,14 @@ class PrendusLessonNewLesson {
         title: this.lessonFormName
       };
       try {
-        await Actions.addLesson(this, this.courseId, newLesson, this.courseLessons.length, null);
+        await Actions.addLesson(this, this.courseId, newLesson, this.courseLessons ? this.courseLessons.length : 0, null);
         await Actions.loadViewCourseLessons(this, this.courseId);
         this.successMessage = '';
         this.successMessage = 'Lesson added successfully';
       } catch(error) {
+        console.error('error during adding a lesson ', error);
         this.errorMessage = '';
-        this.errorMessage = error.message;
+        this.errorMessage = 'Something went wrong while adding the lesson';
       }
     }
   }

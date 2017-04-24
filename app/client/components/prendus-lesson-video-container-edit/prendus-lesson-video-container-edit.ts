@@ -12,7 +12,7 @@ class PrendusLessonVideoContainerEdit {
     public currentVideoId: string;
     public currentVideoTitle: string;
     public currentVideoUrl: string;
-    public $: any;
+		public $: any;
 
     beforeRegister() {
         this.is = 'prendus-lesson-video-container-edit';
@@ -86,9 +86,9 @@ class PrendusLessonVideoContainerEdit {
         const state = e.detail.state;
 
         this.videos = state.editLessonVideos[this.lessonId];
-        this.currentVideoId = state.currentLessonVideoId;
-        this.currentVideoTitle = state.currentLessonVideoTitle;
-        this.currentVideoUrl = state.currentLessonVideoUrl;
+        this.currentVideoId = state.currentVideo.id;
+        this.currentVideoTitle = state.currentVideo.title;
+        this.currentVideoUrl = state.currentVideo.url;
     }
 }
 

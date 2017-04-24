@@ -15,6 +15,7 @@ import {Lesson} from '../node_modules/prendus-services/typings/lesson';
 import {QuestionSettings} from '../node_modules/prendus-services/typings/question-settings';
 import {CourseVisibility} from '../node_modules/prendus-services/typings/course-visibility';
 import {UserMetaData} from '../node_modules/prendus-services/typings/user-meta-data';
+import {UserType} from '../node_modules/prendus-services/typings/user-type';
 import {User} from '../node_modules/prendus-services/typings/user';
 import {EmailsToUidsModel} from '../node_modules/prendus-services/models/emails-to-uids-model';
 import {Video} from '../node_modules/prendus-services/typings/video';
@@ -338,14 +339,14 @@ const getQuiz = async (quizId: string): Promise<Quiz> => {
     return quiz;
 };
 
-const createNewQuiz = async (context: any, lessonId: string): Promise<string> => {
+const createNewQuiz = async (context: any, title: string, lessonId: string): Promise<string> => {
     const user: any = await FirebaseService.getLoggedInUser();
     const uid: string = user.uid;
     // TODO: Create public courses and enforce payment before creation of a private course
     const quizId: string = await QuizModel.createOrUpdate(null, {
         id: null,
         uid,
-        title: `Untitled Quiz`,
+        title,
         visibility: 'public',
         quizQuestionSettings: {
             answerFeedback: true,
@@ -354,7 +355,7 @@ const createNewQuiz = async (context: any, lessonId: string): Promise<string> =>
             showCode: true,
             graded: false,
             showConfidenceLevel: false,
-            allowGeneration: true
+            allowGeneration: false
         },
         questions: {},
         collaborators: {}
@@ -568,9 +569,13 @@ const saveVideo = async (context: any, lessonId: string, videoId: string, video:
 const setCurrentVideoInfo = (context: any, id: string, title: string, url: string): void => {
     context.action = {
         type: 'SET_CURRENT_VIDEO_INFO',
-        id,
-        title,
-        url
+				currentVideo: {
+					id,
+					title,
+					url,
+					uid: '',
+					collaborators: {}
+				}
     };
 };
 
@@ -613,46 +618,38 @@ const loadViewLessonVideos = async (context: any, lessonId: string): Promise<voi
 };
 
 const loadEditCourseLessons = async (context: any, courseId: string): Promise<void> => {
-    try {
-        const user: any = await FirebaseService.getLoggedInUser();
-        const course: Course = await CourseModel.getById(courseId);
-        const lessonDatasObject: { [lessonId: string]: CourseLessonData } = course.lessons;
-        const lessons: CourseLessonData[] = await LessonModel.filterLessonDatasByCollaborator(lessonDatasObject, course.uid, user.uid);
+  const user: any = await FirebaseService.getLoggedInUser();
+  const course: Course = await CourseModel.getById(courseId);
+  const lessonDatasObject: { [lessonId: string]: CourseLessonData } = course.lessons;
+  const lessons: CourseLessonData[] = await LessonModel.filterLessonDatasByCollaborator(lessonDatasObject, course.uid, user.uid);
 
-        context.action = {
-            type: 'LOAD_EDIT_COURSE_LESSONS',
-            lessons,
-            courseId
-        };
-    } catch(error) {
-        throw error;
-    }
+  context.action = {
+      type: 'LOAD_EDIT_COURSE_LESSONS',
+      lessons,
+      courseId
+  };
 };
 
 const loadViewCourseLessons = async (context: any, courseId: string): Promise<void> => {
-    try {
-        const course: Course = await CourseModel.getById(courseId);
-        const lessonsArray: CourseLessonData[] = await CourseModel.courseLessonsToArray(course);
-        const orderedLessons: CourseLessonData[] = await CourseModel.orderCourseLessons(lessonsArray);
-
-        context.action = {
-            type: 'LOAD_VIEW_COURSE_LESSONS',
-            orderedLessons,
-            courseId
-        };
-    } catch(error) {
-        throw error;
-    }
+  const course: Course = await CourseModel.getById(courseId);
+  const lessonsArray: CourseLessonData[] = await CourseModel.courseLessonsToArray(course);
+  const orderedLessons: CourseLessonData[] = await CourseModel.orderCourseLessons(lessonsArray);
+  context.action = {
+      type: 'LOAD_VIEW_COURSE_LESSONS',
+      orderedLessons,
+      courseId
+  };
 };
 
-const createUser = async (context: any, data: UserMetaData, password: string): Promise<void> => {
+const createUser = async (context: any, userType: UserType, data: UserMetaData, password: string): Promise<void> => {
     try {
         await FirebaseService.createUserWithEmailAndPassword(data.email, password);
         const loggedInUser: any = await FirebaseService.logInUserWithEmailAndPassword(data.email, password);
-        UserModel.sendConfirmationEmail(loggedInUser);
-        UserModel.updateMetaData(loggedInUser.uid, data);
-        EmailsToUidsModel.setUidByEmail(data.email, loggedInUser.uid);
-        FirebaseService.logOutUser(); //logout so user can't do things
+        await UserModel.sendConfirmationEmail(loggedInUser);
+        await UserModel.setUserType(loggedInUser.uid, userType);
+        await UserModel.updateMetaData(loggedInUser.uid, data);
+        await EmailsToUidsModel.setUidByEmail(data.email, loggedInUser.uid);
+        await FirebaseService.logOutUser(); //logout so user can't do things
     } catch(error){
         throw error;
     }
@@ -677,6 +674,14 @@ const updateUserEmail = async (context: any, pastEmail: string, password: string
   } catch(error) {
     throw error;
   }
+};
+
+const setUserType = async (context: any, uid: string, userType: UserType): Promise<void> => {
+	await UserModel.setUserType(uid, userType)
+	context.action = {
+		type: 'SET_USER_TYPE',
+		userType: userType
+	}
 };
 
 const updateUserMetaData = async (context: any, uid: string, metaData: UserMetaData): Promise<void> => {
@@ -712,16 +717,14 @@ const checkUserAuth = async (context: any): Promise<void> => {
 const addLesson = async (context: any, courseId: string, newLesson: Lesson, lessonPos: number, tags: string[]): Promise<void> => {
     try {
       const lessonId: string = await LessonModel.createOrUpdate(null, newLesson);
-      if(tags) {
-        await UtilitiesService.asyncForEach(tags, async (tag: string) => {
-            await addTagToLesson(null, tag, lessonId);
-        });
-      }
       await CourseModel.associateLesson(courseId, lessonId, lessonPos);
 
-      context.action = {
-          type: 'ADD_LESSON'  //same as get course by id
-      };
+      // I don't think this needs to be here
+      // context.action = {
+      //     type: 'ADD_LESSON',  //same as get course by id
+			// 		courseId,
+			// 		lessonId
+      // };
 
       const courseCollaboratorUids: string[] = await CourseModel.getCollaboratorUids(courseId);
       await LessonModel.associateCollaborators(lessonId, courseCollaboratorUids);
@@ -825,7 +828,7 @@ const addCourse = async (context: any, newCourse: Course, tags: string[]): Promi
       const tempCourses: Course[] = await CourseModel.getCoursesByUser(newCourse.uid);
       const courses: Course[] = await CourseModel.resolveCourseArrayTagIds(tempCourses);
       context.action = {
-          type: 'ADD_COURSE',
+          type: 'UPDATE_COURSES',
           courses
       };
     } catch(error) {
@@ -847,7 +850,7 @@ const deleteCourse = async (context: any, course: Course): Promise<void> => {
     const tempCourses = await CourseModel.getCoursesByUser(course.uid);
     const courses = await CourseModel.resolveCourseArrayTagIds(tempCourses);
     context.action = {
-      type: 'DELETE_COURSE',
+      type: 'UPDATE_COURSES',
       courses
     }
   } catch (error) {
@@ -863,8 +866,8 @@ const deleteTagFromCourse = async (context: any, tag: Tag, courseId: string): Pr
         const currentCourse: Course = await CourseModel.getById(courseId);
         // const courseTagNames: string[] = currentCourse.tags ? await TagModel.getTagNameArray(currentCourse.tags) : [];
         context.action = {
-            type: 'DELETE_TAG_EDIT_COURSE',
-            currentCourse
+            type: 'SET_COURSE_VIEW_CURRENT_COURSE',
+            currentCourse,
             // courseTagNames
         };
     } catch(error) {
@@ -875,61 +878,22 @@ const deleteTagFromCourse = async (context: any, tag: Tag, courseId: string): Pr
     }
 };
 
-// const addTagToCourse = async (context: any, tag: string, courseId: string): Promise<void> => {
-//     try {
-//         const tagId: string = await TagModel.createOrUpdate(tag, courseId, null, null);
-//         const currentCourse: Course = await CourseModel.addTag(tagId, courseId);
-//         const courseTagNames: string[] = currentCourse.tags ? await TagModel.getTagNameArray(currentCourse.tags) : [];
-//         if(context) {
-//             context.action = {
-//                 type: 'ADD_TAG_EDIT_COURSE',
-//                 currentCourse,
-//                 courseTagNames
-//             };
-//         }
-//     } catch(error) {
-//         throw error;
-//     }
-// };
-//
-// const lookupConceptTags = async (context: any, tags: string[]): Promise<void> => {
-//     try {
-//         const tagObjects : Tag[] = await TagModel.getByNames(tags);
-//         const conceptsArray : Concept[] = await TagModel.getConceptsInTags(tagObjects);
-//         context.action = {
-//             type: 'LOOKUP_CONCEPT_TAGS',
-//             conceptsArray
-//         }
-//         // It's better to allow the redux action to take place so that the concepts listed
-//         // in the search concepts page will be empty.
-//         if(conceptsArray === null) {
-//             throw new Error("No concepts match these tags");
-//         }
-//     } catch(error) {
-//         throw error;
-//     }
-// };
-//
-// const lookupCourseTags = async (context: any, tag: string): Promise<void> => {
-//     try {
-//         const tagObject: Tag = await TagModel.getByName(tag);
-//         // TODO: this will change with infinite scrolling.
-//         const maxAmountOfCoursesToDisplay: number = 9;
-//         const coursesArray : Course[] = tagObject ? await TagModel.getCoursesInTags([tagObject], maxAmountOfCoursesToDisplay) : null;
-//         context.action = {
-//             type: 'SET_COURSE_TAGS',
-//             coursesArray
-//         };
-//         // It's better to allow the redux action to take place so that the courses listed
-//         // in the search courses page will be empty.
-//         if(!coursesArray) {
-//             throw new Error("No courses match this tag");
-//         }
-//     } catch(error) {
-//         throw error;
-//     }
-//
-// };
+const addTagToCourse = async (context: any, tag: string, courseId: string): Promise<void> => {
+    try {
+        const tagId: string = await TagModel.createOrUpdate(tag, courseId, null, null);
+        const currentCourse: Course = await CourseModel.addTag(tagId, courseId);
+        // const courseTagNames: string[] = currentCourse.tags ? await TagModel.getTagNameArray(currentCourse.tags) : [];
+        if(context) {
+            context.action = {
+                type: 'SET_COURSE_VIEW_CURRENT_COURSE',
+                currentCourse,
+                // courseTagNames
+            };
+        }
+    } catch(error) {
+        throw error;
+    }
+};
 
 const getCoursesByUser = async (context: any): Promise<void> => {
     try {
@@ -1008,7 +972,8 @@ const deleteLesson = async (context: any, courseId: string, lessonId: string): P
         const currentCourse: Course = await CourseModel.getById(courseId);
         context.action = {
             type: 'DELETE_LESSON',
-            currentCourse
+            currentCourse,
+            lessonId
         };
       } catch(error){
         throw error;
@@ -1026,10 +991,10 @@ const orderLessons = async (context: any, id: string, courseLessonsArray: Course
 const updateCourseField = async (context: any, id: string, field: string, value: string | number): Promise<void> => {
     try{
       await CourseModel.updateCourseField(id, field, value);
-      const course: Course = await CourseModel.getById(id);
+      const currentCourse: Course = await CourseModel.getById(id);
       context.action = {
-        type: 'GET_COURSE_BY_ID',
-        currentCourse: course
+        type: 'SET_COURSE_VIEW_CURRENT_COURSE',
+        currentCourse
       }
     } catch(error) {
       throw error;
@@ -1079,39 +1044,35 @@ const reloadPublicCourses = async (context: any, courses: Course[]): Promise<voi
  * Calls redux
  */
 const getAllDisciplines = async (context: any): Promise<void> => {
-  try {
-    const disciplines: Discipline[] = await DisciplineModel.getAll();
-    await UtilitiesService.asyncForEach(disciplines, async (discipline: Discipline) => {
-      discipline.resolvedSubjects = await SubjectModel.getAllByDisciplineId(discipline.id);
-      await UtilitiesService.asyncForEach(discipline.resolvedSubjects, async (subject: Subject) => {
-        subject.resolvedConcepts = await ConceptModel.getAllBySubjectId(subject.id);
-      });
+  const disciplines: Discipline[] = await DisciplineModel.getAll();
+  await UtilitiesService.asyncForEach(disciplines, async (discipline: Discipline) => {
+    discipline.resolvedSubjects = await SubjectModel.getAllByDisciplineId(discipline.id);
+    await UtilitiesService.asyncForEach(discipline.resolvedSubjects, async (subject: Subject) => {
+      subject.resolvedConcepts = await ConceptModel.getAllBySubjectId(subject.id);
     });
+  });
 
-    context.action = {
-      type: 'SET_DISCIPLINES',
-      disciplines
-    };
-  } catch(error) {
-    throw error;
-  }
+  context.action = {
+    type: 'SET_DISCIPLINES',
+    disciplines
+  };
 };
 
 /**
  * This sets the chosen discipline but will resolve everything inside of it.
  */
 const setChosenResolvedDiscipline = async (context: any, disciplineId: string): Promise<void> => {
-  try {
-    const discipline: Discipline = await DisciplineModel.getById(disciplineId);
+  const discipline: Discipline = await DisciplineModel.getById(disciplineId);
+  if(discipline) {
     discipline.resolvedSubjects = await SubjectModel.getAllByDisciplineId(disciplineId);
-    await UtilitiesService.asyncForEach(discipline.resolvedSubjects, async (subject: Subject) => {
+    await UtilitiesService.asyncForEach(discipline.resolvedSubjects || [], async (subject: Subject) => {
       subject.resolvedConcepts = await ConceptModel.getAllBySubjectId(subject.id);
     });
-    setChosenDiscipline(context, discipline);
-  } catch(error) {
-    throw error;
   }
+
+  setChosenDiscipline(context, discipline);
 };
+
 const setChosenDiscipline = async (context: any, chosenDiscipline: Discipline): Promise<void> => {
   context.action = {
     type: 'SET_CHOSEN_DISCIPLINE',
@@ -1119,32 +1080,28 @@ const setChosenDiscipline = async (context: any, chosenDiscipline: Discipline): 
   }
 };
 
-const deleteDiscipline = async (discipline: Discipline): Promise<void> => {
-  try {
-    await DisciplineModel.deleteDiscipline(discipline.id);
-    if(discipline.subjects) {
-      await UtilitiesService.asyncForEach(Object.keys(discipline.subjects), async (subjectId: string) => {
-        await SubjectModel.deleteSubject(subjectId);
-        //TODO delete concepts.
-      });
-    }
-
-
-  } catch(error) {
-    throw error;
-  }
+const deleteDiscipline = async (context: any, discipline: Discipline): Promise<void> => {
+  await DisciplineModel.deleteDiscipline(discipline.id);
+  await UtilitiesService.asyncForEach(Object.keys(discipline.subjects || {}), async (subjectId: string) => {
+    const subject: Subject = await SubjectModel.getById(subjectId);
+    await deleteSubject(context, discipline, subject);
+  });
+  await getAllDisciplines(context);
+  setChosenDiscipline(context, null);
 };
 
 /**
  * Creates subject.
  * Adds subject Id to the discipline.
  */
-const createSubject = async (context: any, disciplineId: string, subject: Subject): Promise<string> => {
+const createSubject = async (context: any, disciplineId: string, subject: Subject): Promise<void> => {
   try {
     const subjectId: string = await SubjectModel.createOrUpdate(null, subject);
     await DisciplineModel.addSubject(disciplineId, subjectId);
-
-    return subjectId;
+    await getAllDisciplines(context);
+    await setChosenResolvedDiscipline(context, disciplineId);
+    await setChosenResolvedSubject(context, subjectId);
+    setChosenConcept(context, null);
   } catch(error) {
     throw error;
   }
@@ -1171,42 +1128,45 @@ const setChosenSubject = (context: any, chosenSubject: Subject): void => {
   }
 };
 
-const deleteSubject = async (subject: Subject): Promise<void> => {
-  try {
-    await SubjectModel.deleteSubject(subject.id);
-    await UtilitiesService.asyncForEach(Object.keys(subject.concepts), async (conceptId: string) => {
-      await ConceptModel.deleteConcept(conceptId);
-    });
-  } catch(error) {
-    throw error;
-  }
+const deleteSubject = async (context: any, discipline: Discipline, subject: Subject): Promise<void> => {
+  await SubjectModel.deleteSubject(subject.id || '');
+  await UtilitiesService.asyncForEach(Object.keys(subject.concepts || {}), async (conceptId: string) => {
+    await ConceptModel.deleteConcept(conceptId);
+  });
+  await getAllDisciplines(context);
+  await setChosenResolvedDiscipline(context, discipline.id);
+  setChosenSubject(context, null);
 };
 
 /**
  * Creates concept.
  * Adds concept Id to the subject.
  */
-const createConcept = async (context: any, concept: Concept): Promise<string> => {
-  try {
-    const conceptId: string = await ConceptModel.createOrUpdate(null, concept);
-    await SubjectModel.addConcept(concept.subjectId, conceptId);
-    return conceptId;
-  } catch(error) {
-    throw error;
-  }
+const createConcept = async (context: any, discipline: Discipline, subject: Subject, concept: Concept): Promise<void> => {
+  const conceptId: string = await ConceptModel.createOrUpdate(null, concept);
+  await SubjectModel.addConcept(concept.subjectId, conceptId);
+  await getAllDisciplines(context);
+  await setChosenResolvedDiscipline(context, discipline.id);
+  await setChosenResolvedSubject(context, subject.id);
+  await setChosenResolvedConcept(context, conceptId);
+}
+
+const updateConcept = async (context: any, discipline: Discipline, subject: Subject, newConcept: Concept): Promise<void> => {
+  await ConceptModel.createOrUpdate(newConcept.id, newConcept);
+  await getAllDisciplines(context);
+  await setChosenResolvedDiscipline(context, discipline.id);
+  await setChosenResolvedSubject(context, subject.id);
+  await setChosenResolvedConcept(context, newConcept.id);
 };
 
 /**
  * Just named it resolved to be consistent. Use this to query firebase.
  */
 const setChosenResolvedConcept = async (context: any, conceptId: string): Promise<void> => {
-  try {
-    const concept: Concept = await ConceptModel.getById(conceptId);
-    setChosenConcept(context, concept);
-  } catch(error) {
-    throw error;
-  }
+  const concept: Concept = await ConceptModel.getById(conceptId);
+  setChosenConcept(context, concept);
 }
+
 const setChosenConcept = (context: any, chosenConcept: Concept): void => {
   context.action = {
     type: 'SET_CHOSEN_CONCEPT',
@@ -1214,14 +1174,39 @@ const setChosenConcept = (context: any, chosenConcept: Concept): void => {
   };
 };
 
-const deleteConcept = async (concept: Concept): Promise<void> => {
-  try {
-    ConceptModel.deleteConcept(concept.id);
-    SubjectModel.deleteConcept(concept.subjectId, concept.id);
-  } catch(error) {
-    throw error;
-  }
+const deleteConcept = async (context: any, discipline: Discipline, subject: Subject, concept: Concept): Promise<void> => {
+  await ConceptModel.deleteConcept(concept.id);
+  await SubjectModel.deleteConcept(concept.subjectId, concept.id);
+  await getAllDisciplines(context);
+  await setChosenResolvedDiscipline(context, discipline.id);
+  await setChosenResolvedSubject(context, subject.id);
+  setChosenConcept(context, null);
 };
+
+const updateSubject = async (context: any, discipline: Discipline, subject: Subject): Promise<void> => {
+  await SubjectModel.createOrUpdate(subject.id, subject);
+  await getAllDisciplines(context);
+  await setChosenResolvedDiscipline(context, discipline.id);
+  await setChosenResolvedSubject(context, subject.id);
+
+};
+
+const updateDiscipline = async (context: any, discipline: Discipline): Promise<void> => {
+  await DisciplineModel.createOrUpdate(discipline.id, discipline);
+  await getAllDisciplines(context);
+  setChosenDiscipline(context, discipline);
+};
+
+const addDiscipline = async (context: any, title: string): Promise<void> => {
+  const id: string = await DisciplineModel.createOrUpdate(null, {
+    title
+  });
+  await getAllDisciplines(context);
+  await setChosenResolvedDiscipline(context, id);
+  setChosenSubject(context, null);
+  setChosenConcept(context, null);
+};
+
 export const Actions = {
     defaultAction,
     loginUser,
@@ -1232,6 +1217,7 @@ export const Actions = {
     createUser,
     logOutUser,
     updateUserEmail,
+		setUserType,
     updateUserMetaData,
     loadEditLessonVideos,
     loadViewLessonVideos,
@@ -1297,8 +1283,12 @@ export const Actions = {
     setChosenResolvedSubject,
     setChosenSubject,
     deleteSubject,
+    updateConcept,
     createConcept,
     setChosenResolvedConcept,
     setChosenConcept,
-    deleteConcept
+    deleteConcept,
+    updateSubject,
+    updateDiscipline,
+    addDiscipline
   };

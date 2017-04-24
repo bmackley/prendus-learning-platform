@@ -1,14 +1,15 @@
 import {Video} from '../node_modules/prendus-services/typings/video';
 import {Quiz} from '../node_modules/prendus-services/typings/quiz';
+import {Concept} from '../node_modules/prendus-services/typings/concept';
 import {QuestionSettings} from '../node_modules/prendus-services/typings/question-settings';
 import {User} from '../node_modules/prendus-services/typings/user';
+import {UserType} from '../node_modules/prendus-services/typings/user-type';
 import {UserMetaData} from '../node_modules/prendus-services/typings/user-meta-data';
 import {Course} from '../node_modules/prendus-services/typings/course';
 import {CourseLessonData} from '../node_modules/prendus-services/typings/course-lesson-data';
 import {Lesson} from '../node_modules/prendus-services/typings/lesson';
 import {Discipline} from '../node_modules/prendus-services/typings/discipline';
 import {Subject} from '../node_modules/prendus-services/typings/subject';
-import {Concept} from '../node_modules/prendus-services/typings/concept';
 export interface Action {
 	type: string;
   courses: Course[];
@@ -22,6 +23,8 @@ export interface Action {
   currentLessonVideoId: string;
   currentLessonVideoTitle: string;
   currentLessonVideoUrl: string
+	concept: Concept;
+	currentVideo: Video;
   user: User;
   courseLessons: CourseLessonData[];
   currentEditQuizId: string;
@@ -38,6 +41,7 @@ export interface Action {
 	quizQuestionIds: [string];
 	quizQuestionSettings: QuestionSettings;
 	visibility: string;
+	userType: UserType;
   userMetaData: UserMetaData;
 	lesson: Lesson;
 	lessonKey: string;
@@ -52,4 +56,5 @@ export interface Action {
 	subjects: Subject[];
 	chosenSubject: Subject;
 	chosenConcept: Concept;
+	chosenLesson: Lesson;
 }

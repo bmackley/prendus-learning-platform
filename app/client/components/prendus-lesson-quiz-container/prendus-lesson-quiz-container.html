@@ -1,16 +1,16 @@
 <link rel="import" href="../../bower_components/polymer/polymer.html">
 <link rel="import" href="../../bower_components/redux-store-element/redux-store.html">
-<link rel="import" href="../../bower_components/paper-button/paper-button.html">
 <link rel="import" href="../../bower_components/paper-icon-button/paper-icon-button.html">
 <link rel="import" href="../../bower_components/iron-icons/iron-icons.html">
 <link rel="import" href="../../bower_components/paper-dialog/paper-dialog.html">
 <link rel="import" href="../../bower_components/paper-tooltip/paper-tooltip.html">
-<link rel="import" href="../../styles/color-styles.html">
+<link rel="import" href="../../bower_components/prendus-styles/prendus-styles.html">
+
 <dom-module id="prendus-lesson-quiz-container">
+
   <template>
 
-		<style include="color-styles"></style>
-    <style>
+    <style include="prendus-styles">
 
       :host {
         display: block;
@@ -32,14 +32,6 @@
 				padding: 10px;
 			}
 
-      .quiz-icon {
-        color: rgba(0, 0, 0, .5);
-      }
-
-      .quiz-icon:hover {
-        color: rgba(0, 0, 0, .8);
-      }
-
 			.quiz-title {
 				/* keeps text from overflowing a flexbox container */
 				min-width: 0;
@@ -49,16 +41,6 @@
 			.quiz-icons {
 				flex-shrink: 0;
 			}
-
-      .delete-button {
-        color: white;
-        background: red;
-      }
-
-      .add-quiz-button {
-        background-color: var(--prendus-primary-color);
-        color: white;
-      }
 
 			@media (max-width: 500px) {
 
@@ -78,9 +60,9 @@
 				<span class="quiz-title">[[quiz.title]]</span>
 				<div class="quiz-icons">
 					<template is="dom-if" if="[[quiz.hasEditAccess]]">
-						<paper-icon-button id="edit-quiz[[quiz.id]]" class="quiz-icon" icon="create" on-tap="editQuiz"></paper-icon-button>
+						<paper-icon-button id="edit-quiz[[quiz.id]]" class="prendus-icon-button" icon="create" on-tap="editQuiz"></paper-icon-button>
 						<paper-tooltip for="edit-quiz[[quiz.id]]" offset="0" animation-delay="300">Edit Quiz</paper-tooltip>
-						<paper-icon-button id="delete-quiz[[quiz.id]]" class="quiz-icon" icon="delete" on-tap="openDeleteModal" delete="[[quiz.id]]"></paper-icon-button>
+						<paper-icon-button id="delete-quiz[[quiz.id]]" class="prendus-icon-button" icon="delete" on-tap="openDeleteModal" delete="[[quiz.id]]"></paper-icon-button>
 						<paper-tooltip for="delete-quiz[[quiz.id]]" offset="0" animation-delay="300">Delete Quiz</paper-tooltip>
 					</template>
 				</div>
@@ -89,15 +71,17 @@
 
     <h4 class="quiz-blankslate" hidden$="[[hasQuizzes(quizzes)]]">This lesson doesn't have any quizzes yet.</h4>
     <template is="dom-if" if="[[courseEditAccess]]">
-      <paper-button class="add-quiz-button" on-tap="addQuiz" noink><iron-icon icon="add"></iron-icon>Add Quiz</paper-button>
+      <a class="prendus-button prendus-button--recommended" href="courses/edit-quiz/course/[[courseId]]/lesson/[[lessonId]]/quiz/create"><iron-icon icon="add"></iron-icon>Add Quiz</a>
     </template>
 
     <paper-dialog id="confirm-delete-modal" with-backdrop>
-      <h2>Confirm Delete</h2>
-      <p>Are you sure you want to delete this quiz?  If you delete it, collaborators will lose access.</p>
+			<div class="content">
+				<h2>Confirm Delete</h2>
+				<p>Are you sure you want to delete this quiz?  If you delete it, collaborators will lose access.</p>
+			</div>
       <div class="buttons">
-        <paper-button dialog-dismiss>Cancel</paper-button>
-        <paper-button class="delete-button" on-tap="deleteQuiz">Delete</paper-button>
+        <button class="prendus-button prendus-button--minor" dialog-dismiss>Cancel</button>
+        <button class="prendus-button prendus-button--destructive" on-tap="deleteQuiz">Delete</button>
       </div>
     </paper-dialog>
 

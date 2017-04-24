@@ -1,29 +1,40 @@
 import {FirebaseService} from '../../node_modules/prendus-services/services/firebase-service';
 import {UserModel} from '../../node_modules/prendus-services/models/user-model';
+import {Quiz} from '../../node_modules/prendus-services/typings/quiz';
 import {Actions} from '../../redux/actions';
 import {StatechangeEvent} from '../../typings/statechange-event';
 
 class PrendusViewQuizRouter {
     public is: string;
+		public uid: string;
+		public courseId: string;
+		public lessonId: string;
+		public quizId: string;
+		public observers: any;
+		public hasEditAccess: boolean;
     public userFullName: string;
     public userEmail: string;
     public jwt: string;
     public fire: any;
+    public data: any;
 
     ready(): void {
       Actions.defaultAction(this);
     }
 
     beforeRegister(): void {
-        this.is = 'prendus-view-quiz-router';
+      this.is = 'prendus-view-quiz-router';
+			this.observers = [
+				'updateEditAccess(data)'
+			]
     }
 
-    changeRoute(e: any): void {
-      console.log('e', e)
-      let location: string = 'courses/home'
-      window.history.pushState({}, '', location);
-      this.fire('location-changed', {}, {node: window});
-    }
+		async updateEditAccess(data: any) {
+			const quiz: Quiz = await Actions.getQuiz(data.quizId);
+			this.hasEditAccess = this.uid === quiz.uid;
+			// put this back once collaborators work again
+			// this.hasEditAccess = this.uid in quiz.collaborators;
+		}
 
     quizSubmissionStarted(): void {
         Actions.showMainSpinner(this);
@@ -35,6 +46,7 @@ class PrendusViewQuizRouter {
 
     mapStateToThis(e: StatechangeEvent): void {
       const state = e.detail.state;
+			this.uid = state.currentUser.metaData.uid;
       this.userFullName = `${state.currentUser.metaData.firstName} ${state.currentUser.metaData.lastName}`;
       this.userEmail = state.currentUser.metaData.email;
       this.jwt = state.jwt;

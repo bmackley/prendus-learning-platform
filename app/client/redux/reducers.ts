@@ -2,259 +2,303 @@ import {InitialState} from './initial-state';
 import {Actions} from './actions';
 import {State} from '../typings/state';
 import {Action} from '../typings/action';
+import {Quiz} from '../node_modules/prendus-services/typings/quiz';
+import {Lesson} from '../node_modules/prendus-services/typings/lesson';
+import {CourseLessonData} from '../node_modules/prendus-services/typings/course-lesson-data';
 
 export function rootReducer(state: State = InitialState, action: Action): State {
     switch(action.type) {
         case 'SHOW_MAIN_SPINNER': {
-            return {
-              ...state,
-              mainViewToShow: 'spinner'
-            };
+          return {
+            ...state,
+            mainViewToShow: 'spinner'
+          };
         }
         case 'HIDE_MAIN_SPINNER': {
-            const newState = Object.assign({}, state);
-
-            newState.mainViewToShow = 'routes';
-
-            return newState;
+					return {
+						...state,
+						mainViewToShow: 'routes'
+					}
         }
         case 'SET_COURSE_COLLABORATOR_EMAILS': {
-            const newState = Object.assign({}, state);
-
-            if (newState.courseCollaboratorEmails[action.uid]) {
-                newState.courseCollaboratorEmails[action.uid][action.courseId] = action.emails;
-            }
-            else {
-                newState.courseCollaboratorEmails[action.uid] = {
-                    [action.courseId]: action.emails
-                };
-            }
-
-            return newState;
+					const courseCollaboratorEmails: { [uid: string]: { [courseId: string]: string[] } } = { ...state.courseCollaboratorEmails };
+					if (state.courseCollaboratorEmails[action.uid]) {
+						courseCollaboratorEmails[action.uid][action.courseId] = action.emails;
+					} else {
+						courseCollaboratorEmails[action.uid] = {
+								[action.courseId]: action.emails
+						};
+					}
+					return {
+						...state,
+						courseCollaboratorEmails
+					}
         }
+
         case 'SET_LESSON_COLLABORATOR_EMAILS': {
-            const newState = Object.assign({}, state);
-
-            if (newState.lessonCollaboratorEmails[action.courseId]) {
-                newState.lessonCollaboratorEmails[action.courseId][action.lessonId] = action.emails;
-            }
-            else {
-                newState.lessonCollaboratorEmails[action.courseId] = {
-                    [action.lessonId]: action.emails
-                };
-            }
-
-            return newState;
+					const lessonCollaboratorEmails: { [courseId: string]: { [lessonId: string]: string[] } } = { ...state.lessonCollaboratorEmails };
+					if (state.lessonCollaboratorEmails[action.courseId]) {
+						lessonCollaboratorEmails[action.courseId][action.lessonId] = action.emails;
+					} else {
+						lessonCollaboratorEmails[action.courseId] = {
+								[action.lessonId]: action.emails
+						};
+					}
+					return {
+						...state,
+						lessonCollaboratorEmails
+					}
         }
 
         case 'SET_VIDEO_COLLABORATOR_EMAILS': {
-            const newState = Object.assign({}, state);
-
-            if (newState.videoCollaboratorEmails[action.lessonId]) {
-                newState.videoCollaboratorEmails[action.lessonId][action.videoId] = action.emails;
-            }
-            else {
-                newState.videoCollaboratorEmails[action.lessonId] = {
-                    [action.videoId]: action.emails
-                };
-            }
-
-            return newState;
+					const videoCollaboratorEmails: { [lessonId: string]: { [videoId: string]: string[] } } = { ...state.videoCollaboratorEmails };
+					if (state.videoCollaboratorEmails[action.lessonId]) {
+						videoCollaboratorEmails[action.lessonId][action.videoId] = action.emails;
+					} else {
+						videoCollaboratorEmails[action.lessonId] = {
+								[action.videoId]: action.emails
+						};
+					}
+					return {
+						...state,
+						videoCollaboratorEmails
+					}
         }
         case 'SET_QUIZ_COLLABORATOR_EMAILS': {
-            const newState = Object.assign({}, state);
-
-            if (newState.quizCollaboratorEmails[action.lessonId]) {
-                newState.quizCollaboratorEmails[action.lessonId][action.quizId] = action.emails;
-            }
-            else {
-                newState.quizCollaboratorEmails[action.lessonId] = {
-                    [action.quizId]: action.emails
-                };
-            }
-
-            return newState;
+					const quizCollaboratorEmails: { [lessonId: string]: { [quizId: string]: string[] } } = { ...state.quizCollaboratorEmails };
+					if (state.quizCollaboratorEmails[action.lessonId]) {
+						quizCollaboratorEmails[action.lessonId][action.quizId] = action.emails;
+					} else {
+						quizCollaboratorEmails[action.lessonId] = {
+								[action.quizId]: action.emails
+						};
+					}
+					return {
+						...state,
+						quizCollaboratorEmails
+					}
         }
         case 'SET_SHARED_COURSES': {
-            const newState = Object.assign({}, state);
-
-            newState.sharedCourses = action.courses;
-
-            return newState;
+					return {
+						...state,
+						sharedCourses: action.courses
+					}
         }
         case 'SET_STARRED_COURSES': {
-            const newState = Object.assign({}, state);
-
-            newState.starredCourses = action.courses;
-
-            return newState;
+					return {
+						...state,
+						starredCourses: action.courses
+					}
         }
         case 'SET_COURSES_BY_VISIBILITY': {
-            const newState = Object.assign({}, state);
-
-            if (action.visibility === 'public') {
-                newState.publicCourses = action.courses;
-            }
-
-            return newState;
+					if(action.visibility === 'public') {
+						return {
+							...state,
+							publicCourses: action.courses
+						}
+					} else {
+						return state;
+					}
         }
+
         case 'LOAD_EDIT_LESSON_QUIZZES': {
-            const newState = Object.assign({}, state);
-            newState.editLessonQuizzes[action.lessonId] = action.quizzes;
-            return newState;
+					const editLessonQuizzes: { [lessonId: string]: Quiz[] } = { ...state.editLessonQuizzes };
+					editLessonQuizzes[action.lessonId] = action.quizzes;
+					return {
+						...state,
+						editLessonQuizzes
+					};
         }
         case 'LOAD_VIEW_LESSON_QUIZZES': {
-            const newState = Object.assign({}, state);
-            newState.viewLessonQuizzes[action.lessonId] = action.quizzes;
-            return newState;
+					const viewLessonQuizzes: { [lessonId: string]: Quiz[] } = { ...state.viewLessonQuizzes };
+					viewLessonQuizzes[action.lessonId] = action.quizzes;
+					return {
+						...state,
+						viewLessonQuizzes
+					};
         }
         case 'SET_CURRENT_EDIT_QUIZ_ID': {
-            const newState = Object.assign({}, state);
-            newState.currentEditQuizId = action.quizId;
-            return newState;
+					return {
+						...state,
+						currentEditQuizId: action.quizId
+					};
         }
         case 'LOAD_QUIZ_SETTINGS': {
-            const newState = Object.assign({}, state);
-            newState.quizQuestionSettings = action.quizQuestionSettings;
-            return newState;
+					return {
+						...state,
+						quizQuestionSettings: action.quizQuestionSettings
+					};
         }
         case 'LOAD_QUIZ_QUESTION_IDS': {
-            return {
-              ...state,
-              quizQuestionIds: action.quizQuestionIds
-            };
+					return {
+						...state,
+						quizQuestionIds: action.quizQuestionIds
+					}
         }
         case 'LOAD_USER_QUESTION_IDS': {
-            return {
-              ...state,
-              userQuestionIds: action.userQuestionIds
-            };
+					return {
+						...state,
+						userQuestionIds: action.userQuestionIds
+					}
         }
         case 'LOAD_PUBLIC_QUESTION_IDS': {
-            return {
-              ...state,
-              publicQuestionIds: action.publicQuestionIds
-            };
+					return {
+						...state,
+						publicQuestionIds: action.publicQuestionIds
+					}
         }
       case 'CHECK_USER_AUTH': {
-        const newState = Object.assign({}, state);
-        newState.currentUser = action.user;
-        newState.jwt = action.jwt;
-        return newState;
+				return {
+					...state,
+					currentUser: action.user,
+					jwt: action.jwt
+				}
       }
       case 'GET_LESSON_BY_ID': {
-        const newState = Object.assign({}, state);
-        newState.currentLesson = action.lesson;
-        return newState;
+        return {
+					...state,
+					currentLesson: action.lesson
+				};
       }
       case 'DELETE_LESSON': {
-        const newState = {
+        return {
           ...state,
-          currentCourseViewCourse: action.currentCourse
-        }
-        //TODO this may be broken idk
-        delete newState.lessons[action.lessonKey];
-        return newState;
+          currentCourse: action.currentCourse,
+          lessonId: action.lessonId
+        };
       }
+			case 'ADD_LESSON': {
+				const currentCourseLessons: CourseLessonData[] = [
+					...state.viewCourseLessons[action.courseId],
+					{
+						id: action.lessonId,
+						position: state.viewCourseLessons[action.courseId].length
+					}
+				 ]
+				return {
+					...state,
+					viewCourseLessons: {
+						...state.viewCourseLessons,
+						[action.courseId]: currentCourseLessons
+					}
+				}
+			}
+      case 'DELETE_LESSON': {
+				const currentCourseLessons: CourseLessonData[] = [ ...state.viewCourseLessons[action.courseId] ]
+					.filter((lessonData) => lessonData.id !== action.lessonId);
+				const viewCourseLessons: { [courseId: string]: CourseLessonData[] } = {
+					...state.viewCourseLessons,
+					[action.courseId]: currentCourseLessons
+				}
+        return {
+          ...state,
+          viewCourseLessons
+        }
+        // //TODO this may be broken idk
+        // delete newState.lessons[action.lessonKey];
+        // return newState;
+      }
+			case 'SET_USER_TYPE':
+				return {
+					...state,
+					currentUser: {
+						...state.currentUser,
+						userType: action.userType
+					}
+				}
       case 'UPDATE_USER_META_DATA': {
-        const newState = Object.assign({}, state);
-        newState.currentUser.metaData = action.userMetaData;
-        return newState;
+				return  {
+					...state,
+					currentUser: {
+						...state.currentUser,
+						metaData: action.userMetaData
+					}
+				}
       }
       case 'LOAD_EDIT_LESSON_VIDEOS': {
-          const newState = Object.assign({}, state);
-          newState.editLessonVideos[action.lessonId] = action.videos;
-          return newState;
+				return {
+					...state,
+					editLessonVideos: {
+						...state.editLessonVideos,
+						[action.lessonId]: action.videos
+					}
+				}
       }
       case 'LOAD_VIEW_LESSON_VIDEOS': {
-          const newState = Object.assign({}, state);
-          newState.viewLessonVideos[action.lessonId] = action.videos;
-          return newState;
-      }
-      case 'LOAD_EDIT_COURSE_LESSONS': {
-          const newState = Object.assign({}, state);
-          newState.editCourseLessons[action.courseId] = action.lessons;
-          return newState;
+				return {
+					...state,
+					viewLessonVideos: {
+						...state.viewLessonVideos,
+						[action.lessonId]: action.videos
+					}
+				}
       }
       case 'LOAD_VIEW_COURSE_LESSONS': {
-        const newState = Object.assign({}, state);
-        newState.viewCourseLessons[action.courseId] = action.orderedLessons;
-        return newState;
-
+				return {
+					...state,
+					viewCourseLessons: {
+						...state.viewCourseLessons,
+						[action.courseId]: action.orderedLessons
+					}
+				}
       }
       case 'SET_CURRENT_VIDEO_INFO': {
-          const newState = Object.assign({}, state);
-          newState.currentLessonVideoId = action.id;
-          newState.currentLessonVideoTitle = action.title;
-          newState.currentLessonVideoUrl = action.url;
-          return newState;
+				return {
+					...state,
+					currentVideo: action.currentVideo
+				}
       }
       case 'CLEAR_CURRENT_VIDEO_INFO': {
-          const newState = Object.assign({}, state);
-          newState.currentLessonVideoId = null;
-          newState.currentLessonVideoTitle = '';
-          newState.currentLessonVideoUrl = '';
-          return newState;
+				return {
+					...state,
+					currentVideo: {
+						id: '',
+						title: '',
+						url: '',
+						uid: '',
+						collaborators: {}
+					}
+				}
       }
       case 'SET_CURRENT_VIDEO_ID': {
-          const newState = Object.assign({}, state);
-          newState.currentLessonVideoId = action.id;
-          return newState;
-      }
-      case 'GET_COURSE_BY_ID' : {
-        const newState = Object.assign({}, state);
-        newState.courseViewCurrentCourse = action.currentCourse;
-        return newState;
+				return {
+					...state,
+					currentVideo: {
+						id: action.videoId,
+						title: '',
+						url: '',
+						uid: '',
+						collaborators: {}
+					}
+
+				}
       }
       case 'GET_COURSES_BY_USER': {
-        const newState = Object.assign({}, state);
-        newState.courses = action.courses;
-        return newState;
-      }
-      case 'LOOKUP_LESSON_TAGS': {
-        const newState = Object.assign({}, state);
-        newState.resultingLessons = action.lessonsArray;
-        return newState;
+				return {
+					...state,
+					courses: action.courses
+				}
       }
       case 'SET_COURSE_TAGS': {
-        const newState = Object.assign({}, state);
-        newState.resultingCourses = action.coursesArray;
-        return newState;
+				return {
+					...state,
+					resultingCourses: action.courses
+				}
       }
       case 'SET_COURSE_VIEW_CURRENT_COURSE': {
-        const newState = Object.assign({}, state);
-        newState.courseViewCurrentCourse = action.currentCourse;
-        // newState.courseTagNames = action.courseTagNames;
-        return newState;
+				return {
+					...state,
+					courseViewCurrentCourse: action.currentCourse,
+					// courseTagNames: action.courseTagNames
+				}
       }
-      case 'ADD_TAG_EDIT_COURSE': {
-        const newState = Object.assign({}, state);
-        newState.courseViewCurrentCourse = action.currentCourse;
-        // newState.courseTagNames = action.courseTagNames;
-        return newState;
-      }
-      case 'DELETE_TAG_EDIT_COURSE': {
-        const newState = Object.assign({}, state);
-        newState.courseViewCurrentCourse = action.currentCourse;
-        // newState.courseTagNames = action.courseTagNames;
-        return newState;
-      }
-      case 'ADD_COURSE': {
-        const newState = Object.assign({}, state);
-        newState.courses = action.courses;
-        newState.sharedCourses = action.courses;
-        return newState;
-      }
-      case 'DELETE_COURSE': {
-        const newState = Object.assign({}, state);
-        newState.courses = action.courses;
-        newState.sharedCourses = action.courses;
-        return newState;
-      }
-      case 'ADD_LESSON': {
-        const newState = Object.assign({}, state);
-        newState.currentCourse = action.currentCourse;
-        return newState;
+      case 'UPDATE_COURSES': {
+				return {
+					...state,
+					courses: action.courses,
+					// QUESTION: why are these being set to the same value?
+					sharedCourses: action.courses
+				}
       }
 
       case 'RELOAD_PUBLIC_COURSES': {
@@ -282,6 +326,13 @@ export function rootReducer(state: State = InitialState, action: Action): State 
         return {
           ...state,
           chosenSubject: action.chosenSubject
+        };
+      }
+
+      case 'SET_CHOSEN_LESSON': {
+        return {
+          ...state,
+          chosenLesson: action.chosenLesson
         };
       }
 

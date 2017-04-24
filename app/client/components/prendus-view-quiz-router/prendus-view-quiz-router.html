@@ -2,44 +2,41 @@
 <link rel="import" href="../../bower_components/app-route/app-route.html">
 <link rel="import" href="../../bower_components/iron-icons/iron-icons.html">
 <link rel="import" href="../../bower_components/paper-card/paper-card.html">
-<link rel="import" href="../../bower_components/paper-button/paper-button.html">
 <link rel="import" href="../../bower_components/prendus-quiz-viewer-component/prendus-quiz-viewer.html">
-<link href="../../bower_components/redux-store-element/redux-store.html" rel="import">
+<link rel="import" href="../../bower_components/redux-store-element/redux-store.html">
+<link rel="import" href="../../bower_components/prendus-styles/prendus-styles.html">
 
 <dom-module id="prendus-view-quiz-router">
-  <style>
-    :host {
-      display: block;
-    }
 
-    #quiz-container {
-      width: 100%;
-    }
+	<template>
 
-		iron-icon {
-			padding: 5px;
-		}
+	  <style include="prendus-styles">
 
-  </style>
-    <template>
+	    :host {
+	      display: block;
+	    }
+
+	    #quiz-container {
+	      width: 100%;
+	    }
+
+			iron-icon {
+				padding: 5px;
+			}
+
+	  </style>
+
         <redux-store on-statechange="mapStateToThis" action="[[action]]"></redux-store>
         <app-route route="[[route]]" pattern="/view-quiz/course/:courseId/lesson/:lessonId/quiz/:quizId" data="{{data}}"></app-route>
-        <template is="dom-if" if="[[!userEmail]]">
-          <paper-card id="signInMessageCard" heading ="Log in to view quizzes">
-            <div class= "card-content">
-              <p>Sorry! We are working on getting access to the content without signing up. For now if you would like to view specific quiz questions, please log in or create an account to get started.  It's free, and it's worth it!</p>
-            </div>
-            <paper-button id="courses/home" on-click="changeRoute">Back to Browse</paper-button>
-            <div class="card-actions">
-              <paper-button id="login" on-click="changeRoute">Log In</paper-button>
-              <paper-button id="signup" on-click="changeRoute">Create Account</paper-button>
-            </div>
-          </paper-card>
-        </template>
         <paper-card id="quiz-container">
           <div class="card-content">
-						<a href="/courses/view/[[data.courseId]]"><paper-button><iron-icon icon="undo"></iron-icon> Back to course</paper-button></a>
-            <prendus-quiz-viewer jwt="[[jwt]]" course-id="[[data.courseId]]" quiz-id="[[data.quizId]]" user-full-name="[[userFullName]]" user-email="[[userEmail]]" on-quizsubmissionstarted="quizSubmissionStarted" on-quizsubmissionfinished="quizSubmissionFinished"></prendus-quiz-viewer>
+						<template is="dom-if" if="[[!userEmail]]">
+							<p>We are working on getting access to the content without signing up. For now if you would like to view specific quiz questions, please <a href="/login">log in</a> or <a href="/sign up">create an account</a> to get started.</p>
+						</template>
+						<template is="dom-if" if="[[userEmail]]">
+							<a class="prendus-button prendus-button--minor" href="/courses/view/[[data.courseId]]"><iron-icon icon="undo"></iron-icon><span>Back to course</span></a>
+							<prendus-quiz-viewer has-edit-access="[[hasEditAccess]]" jwt="[[jwt]]" course-id="[[data.courseId]]" lesson-id="[[data.lessonId]]" quiz-id="[[data.quizId]]" user-full-name="[[userFullName]]" user-email="[[userEmail]]" on-quizsubmissionstarted="quizSubmissionStarted" on-quizsubmissionfinished="quizSubmissionFinished"></prendus-quiz-viewer>
+						</template>
           </div>
         </paper-card>
 
