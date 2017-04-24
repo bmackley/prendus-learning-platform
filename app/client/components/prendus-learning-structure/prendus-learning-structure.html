@@ -15,7 +15,43 @@
 
   <style include="prendus-styles">
 
+		#columns {
+			display: flex;
+		}
 
+		.column {
+			border: solid grey 1px;
+			/*flex-grow: 1;*/
+			flex-basis: 33%;
+			display: flex;
+			flex-direction: column;
+		}
+
+		.column-item {
+			display: flex;
+			background-color: white;
+			width: 100%;
+		}
+
+		.column-item:hover {
+			background-color: var(--prendus-grey);
+		}
+
+		.column-button {
+			background: none;
+			color: black;
+			border: none;
+			font-size: 1em;
+			text-align: left;
+			cursor: pointer;
+			padding: 10px 15px;
+			flex-grow: 1;
+		}
+
+		.column-button:focus {
+			outline: none;
+			font-weight: bold;
+		}
 
   </style>
 
@@ -24,18 +60,54 @@
     <prendus-notification success-message="[[successMessage]]" error-message="[[errorMessage]]"></prendus-notification>
     <redux-store on-statechange="mapStateToThis" action="[[action]]"></redux-store>
 
-		<div id="container">
+		<div id="container" class="prendus-card prendus-vertical-container">
 			<h1>Learning Structure</h1>
 			<div id="columns">
-				<div id="disciplines">
+				<div id="disciplines" class="column">
+					<h3>Discipline</h3>
 					<template is="dom-repeat" items="[[disciplines]]" as="discipline">
-					  <button class="prendus-button" on-tap="disciplineChange">[[discipline.title]]</button>
+						<div class="column-item">
+							<button class="column-button" hidden$="[[editing(discipline.id, editingIds)]]" on-tap="changeDiscipline">[[discipline.title]]</button>
+							<paper-input hidden$="[[!editing(discipline.id, editingIds)]]" label="Discipline Name" value="{{discipline.title}}"></paper-input>
+							<paper-icon-button class="prendus-icon-button" icon="create" on-tap="toggleEdit"></paper-icon-button>
+							<paper-icon-button class="prendus-icon-button" icon="delete" on-tap="deleteDiscipline"></paper-icon-button>
+						</div>
 					</template>
+					<div class="column-item">
+						<button class="column-button" on-tap="newDiscipline"><iron-icon icon="add"></iron-icon>Add Discipline</button>
+					</div>
+				</div>
+				<div id="subjects" class="column" >
+					<h3>Subjects</h3>
+					<template is="dom-repeat" items="[[subjects]]" as="subject">
+						<div class="column-item">
+							<button class="column-button" hidden$="[[editing(subject.id, editingIds)]]" on-tap="changeSubject">[[subject.title]]</button>
+							<paper-input hidden$="[[!editing(subject.id, editingIds)]]" label="Subject Name" value="{{subject.title}}"></paper-input>
+							<paper-icon-button class="prendus-icon-button" icon="create" on-tap="toggleEdit"></paper-icon-button>
+							<paper-icon-button class="prendus-icon-button" icon="delete" on-tap="deleteSubject"></paper-icon-button>
+						</div>
+					</template>
+					<div class="column-item" hidden$="[[!subjects]]">
+						<button class="column-button" on-tap="newSubject"><iron-icon icon="add"></iron-icon>Add Subject</button>
+					</div>
+				</div>
+				<div id="concepts" class="column">
+					<h3>Concept</h3>
+					<template is="dom-repeat" items="[[concepts]]" as="concept">
+						<div class="column-item">
+							<button class="column-button" on-tap="changeConcept">[[concept.title]]</button>
+							<paper-icon-button class="prendus-icon-button" icon="create" on-tap="editConcept"></paper-icon-button>
+							<paper-icon-button class="prendus-icon-button" icon="delete" on-tap="deleteConcept"></paper-icon-button>
+						</div>
+					</template>
+					<div class="column-item" hidden$="[[!concepts]]">
+						<button class="column-button" on-tap="newConcept"><iron-icon icon="add"></iron-icon>Add Concept</button>
+					</div>
 				</div>
 			</div>
 		</div>
 
-    <paper-card heading="Learning structure">
+    <paper-card heading="Learning structure" style="width:600px;">
       <!-- DISCIPLINES -->
 
       <span id="leftWrapper">
@@ -43,7 +115,7 @@
           <paper-dropdown-menu label="Disciplines" on-tap="checkIfNoDisciplines">
             <paper-listbox id="discipline-paper-listbox" class="dropdown-content">
               <template is="dom-repeat" items="[[disciplines]]">
-                <paper-item on-tap="disciplineChange">[[item.title]]</paper-item>
+                <paper-item on-tap="changeDiscipline">[[item.title]]</paper-item>
               </template>
             </paper-listbox>
           </paper-dropdown-menu>
@@ -64,7 +136,7 @@
             <paper-dropdown-menu label="Subjects" on-tap="checkIfNoSubjects">
               <paper-listbox id="subject-paper-listbox" class="dropdown-content">
                 <template is="dom-repeat" items="[[subjects]]">
-                  <paper-item on-tap="subjectChange">[[item.title]]</paper-item>
+                  <paper-item on-tap="changeSubject">[[item.title]]</paper-item>
                 </template>
               </paper-listbox>
             </paper-dropdown-menu>
@@ -88,7 +160,7 @@
             <paper-dropdown-menu label="Concepts" on-tap="checkIfNoConcepts">
               <paper-listbox id="concept-paper-listbox" class="dropdown-content">
                 <template is="dom-repeat" items="[[concepts]]">
-                  <paper-item on-tap="conceptChange">[[item.title]]</paper-item>
+                  <paper-item on-tap="changeConcept">[[item.title]]</paper-item>
                 </template>
               </paper-listbox>
             </paper-dropdown-menu>

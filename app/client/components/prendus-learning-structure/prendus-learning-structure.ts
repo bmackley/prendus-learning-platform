@@ -22,56 +22,111 @@ export class PrendusLearningStructure {
   public chosenSubject: Subject;
   public concepts: Concept[];
   public chosenConcept: Concept;
+	public editingIds: string[];
   public properties: any;
 
   beforeRegister(): void {
     this.is = 'prendus-learning-structure';
-    this.properties = {
-      chosenConcept: {
-        observer: 'change'
-      },
-      chosenSubject: {
-        observer: 'change'
-      },
-      chosenDiscipline: {
-        observer: 'change'
-      }
-    };
+    // this.properties = {
+    //   chosenConcept: {
+    //     observer: 'change'
+    //   },
+    //   chosenSubject: {
+    //     observer: 'change'
+    //   },
+    //   chosenDiscipline: {
+    //     observer: 'change'
+    //   }
+    // };
   }
 
   async ready(): Promise<void> {
+		this.editingIds = [];
     // await here so when the dom loads, the disciplines will already be loaded.
     await Actions.getAllDisciplines(this);
   }
 
-  /**
-   * This idea with this function is that if the subject is null, then nothing
-   * should be selected in the paper list box, same goes for discipline and
-   * concept. Unfortunately, paper-list-box will not deselect something
-   * when it becomes null.
-   */
-  change(): void {
-
-    if(!this.chosenConcept) {
-      this.removePaperListBoxSelection('concept-paper-listbox')
-    }
-
-    if(!this.chosenSubject) {
-      this.removePaperListBoxSelection('subject-paper-listbox');
-    }
-
-    if(!this.chosenDiscipline) {
-      this.removePaperListBoxSelection('discipline-paper-listbox');
-    }
-
-  }
+	/**
+	 * Tells an item whether or not it is being edited
+	 */
+	editing(id: string): boolean {
+		if(!this.editingIds) return false;
+		return this.editingIds.indexOf(id) !== -1;
+	}
 
   /**
-   * Called when the user clicks the pencil next to the discipline list box
+   * Toggles editing an item
    */
-  editDiscipline(): void {
-    this.querySelector('#edit-discipline-name').value = this.chosenDiscipline.title;
-    this.querySelector('#edit-discipline').open();
+  async toggleEdit(e: any): Promise<void> {
+		this.successMessage = '';
+		// discipline
+		if(e.model.discipline) {
+			if(!this.chosenDiscipline) this.changeDiscipline(e);
+			const id: string = e.model.discipline.id;
+			// if editing
+			if(this.editingIds.indexOf(id) !== -1) {
+				// update in database
+				const title = e.model.discipline.title;
+				const updatedDiscipline: Discipline = {
+					...this.chosenDiscipline,
+					title
+				}
+				await Actions.updateDiscipline(this, updatedDiscipline);
+				this.successMessage = `Discipline ${title} updated.`;
+				removeFromEditing(this, id);
+			}
+			else addToEditing(this, id);
+			// subject
+		} else if(e.model.subject) {
+			if(!this.chosenSubject) this.changeSubject(e);
+			const id: string = e.model.subject.id;
+			// if editing
+			if(this.editingIds.indexOf(id) !== -1) {
+				// update in database
+				const title = e.model.subject.title;
+				const updatedSubject: Subject = {
+					...this.chosenSubject,
+					title
+				}
+				await Actions.updateSubject(this, this.chosenDiscipline, updatedSubject);
+				this.successMessage = `Subject ${title} updated.`;
+				removeFromEditing(this, id);
+			}
+			else addToEditing(this, id);
+			// concept
+		} else if(e.model.concept) {
+			if(!this.chosenConcept) this.changeConcept(e);
+			const id: string = e.model.concept.id;
+			// if editing
+			if(this.editingIds.indexOf(id) !== -1) {
+				// update in database
+				const title = e.model.concept.title;
+				const updatedConcept: Concept = {
+					...e.model.concept,
+					title
+				}
+				this.successMessage = `Concept ${title} updated.`;
+				removeFromEditing(this, id);
+			}
+			else addToEditing(this, id);
+		}
+
+		/**
+		 * Add the ID to the array of IDs being edited
+		 */
+		function addToEditing(context: PrendusLearningStructure, id: string) {
+			context.editingIds = [
+				...context.editingIds,
+				id
+			];
+		}
+
+		/**
+		 * Remove the ID from the array of IDs being edited
+		 */
+		function removeFromEditing(context: PrendusLearningStructure, id: string) {
+			context.editingIds = context.editingIds.filter((element: string) => element !== id);
+		}
   }
 
   /**
@@ -108,11 +163,12 @@ export class PrendusLearningStructure {
       console.error('error while deleting discipline ', error);
     }
   }
+
   /**
    * Called when the user changes a discipline in the select list of disciplines.
    */
-  disciplineChange(e: any): void {
-    const discipline: Discipline = e.model.item;
+  changeDiscipline(e: any): void {
+    const discipline: Discipline = e.model.discipline;
     // The discipine subjects should already be resolved so we gucci
     Actions.setChosenDiscipline(this, discipline);
     Actions.setChosenSubject(this, null);
@@ -237,9 +293,9 @@ export class PrendusLearningStructure {
   /**
    * Called when the user chooses a subject in the dom.
    */
-  subjectChange(e: any): void {
+  changeSubject(e: any): void {
     try {
-      const subject: Subject = e.model.item;
+      const subject: Subject = e.model.subject;
       Actions.setChosenSubject(this, subject);
       Actions.setChosenConcept(this, null);
     } catch(error) {
@@ -332,9 +388,9 @@ export class PrendusLearningStructure {
   /**
    * Called when the user chooses a concept in the dom.
    */
-  conceptChange(e: any): void {
+  changeConcept(e: any): void {
     try {
-      const concept: Concept = e.model.item;
+      const concept: Concept = e.model.concept;
       Actions.setChosenConcept(this, concept);
     } catch(error) {
       console.error(error);
