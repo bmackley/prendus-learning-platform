@@ -1,9 +1,9 @@
 <link rel="import" href="../../bower_components/polymer/polymer.html">
 <link rel="import" href="../../bower_components/paper-card/paper-card.html">
 <link rel="import" href="../../bower_components/paper-dialog/paper-dialog.html">
+<link rel="import" href="../../bower_components/iron-icons/iron-icons.html">
 <link rel="import" href="../../bower_components/paper-icon-button/paper-icon-button.html">
 <link rel="import" href="../../bower_components/paper-tooltip/paper-tooltip.html">
-<link rel="import" href="../../bower_components/iron-icon/iron-icon.html">
 <link rel="import" href="../../bower_components/redux-store-element/redux-store.html">
 <link rel="import" href="../../bower_components/paper-toolbar/paper-toolbar.html">
 <link rel="import" href="../../bower_components/prendus-styles/prendus-styles.html">
@@ -76,7 +76,7 @@
 	        <paper-icon-button id="star-course" class="prendus-icon-button" icon="[[starIcon]]" on-tap="starClick"></paper-icon-button>[[numStars]]
 	        <paper-tooltip for="star-course" offset="0" animation-delay="300">Star Course</paper-tooltip>
 	        <template is="dom-if" if="[[hasEditAccess]]">
-	          <a href="/courses/view/[[course.id]]"><paper-icon-button id="edit-course" class="prendus-icon-button" icon="create"></paper-icon-button></a>
+	          <a href="/courses/view/[[course.id]]"><iron-icon id="edit-course" class="prendus-icon-button" icon="create"></iron-icon></a>
 	          <paper-tooltip for="edit-course" offset="0" animation-delay="300">Edit Course</paper-tooltip>
 	          <paper-icon-button id="delete-course" class="prendus-icon-button" icon="delete" on-tap="openDeleteModal"></paper-icon-button>
 	          <paper-tooltip for="delete-course" offset="0" animation-delay="300">Delete Course</paper-tooltip>
@@ -86,8 +86,10 @@
 		</a>
 
     <paper-dialog id="confirm-delete-modal">
-      <h2>Confirm Delete</h2>
-      <p>Are you sure you want to delete this course?  If you delete it, collaborators will lose access.</p>
+			<div class="content">
+				<h2>Confirm Delete</h2>
+				<p>Are you sure you want to delete this course?  If you delete it, collaborators will lose access.</p>
+			</div>
       <div class="buttons">
         <button class="prendus-button prendus-button--minor" dialog-dismiss on-tap="closeDeleteModal">Cancel</button>
         <button class="prendus-button prendus-button--destructive" on-tap="deleteCourse">Delete</button>

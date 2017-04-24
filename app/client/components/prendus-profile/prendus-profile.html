@@ -69,9 +69,11 @@
     <prendus-notification success-message="[[successMessage]]"></prendus-notification>
 
     <paper-dialog id="enter-password" with-backdrop>
-      <h2>Confirm change of email address</h2>
-        <p>Enter your password to confirm changing your email address.</p>
-        <paper-input id="password" type="password" label="Password" value="{{password}}" on-keydown="confirmIfEnter"></paper-input>
+			<div class="content">				
+				<h2>Confirm change of email address</h2>
+				<p>Enter your password to confirm changing your email address.</p>
+				<paper-input id="password" type="password" label="Password" value="{{password}}" on-keydown="confirmIfEnter"></paper-input>
+			</div>
       <div class="buttons">
         <button class="prendus-button prendus-button--minor" dialog-dismiss>Cancel</button>
         <button class="prendus-button prendus-button--recommended" disabled$="[[!enableConfirmEmail(password)]]" on-tap="changeEmail">Continue</button>
