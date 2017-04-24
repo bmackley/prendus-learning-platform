@@ -119,7 +119,7 @@
     </style>
 
     <redux-store on-statechange="mapStateToThis" action="[[action]]"></redux-store>
-		<app-route route="{{route}}" pattern="/edit-quiz/course/:courseId/concept/:conceptId/quiz/:quizId" data="{{data}}" tail="{{tail}}"></app-route>
+		<app-route route="{{route}}" pattern="/edit-quiz/course/:courseId/lesson/:lessonId/quiz/:quizId" data="{{data}}" tail="{{tail}}"></app-route>
 
     <iron-ajax id="getUserQuestionIdsAjax" method="get" url="[[endpointDomain]]/api/jwt/[[jwt]]/question-ids" handle-as="json"></iron-ajax>
     <iron-ajax id="getPublicQuestionIdsAjax" method="get" url="[[endpointDomain]]/api/public/question-ids" handle-as="json"></iron-ajax>
@@ -132,7 +132,7 @@
     <paper-dialog id="share-quiz-dialog" with-backdrop>
 			<div class="content">
 				<h2>Share this quiz</h2>
-				<paper-input id="share-quiz-link" noink value="https://prendus.com/courses/view-quiz/course/[[courseId]]/concept/[[conceptId]]/quiz/[[quizId]]" readonly on-tap="selectText"></paper-input>
+				<paper-input id="share-quiz-link" noink value="https://prendus.com/courses/view-quiz/course/[[courseId]]/lesson/[[lessonId]]/quiz/[[quizId]]" readonly on-tap="selectText"></paper-input>
 			</div>
 			<div class="buttons">
 				<button class="prendus-button prendus-button--recommended" dialog-dismiss>Done</button>
@@ -169,13 +169,14 @@
 						<paper-icon-button id="edit-title" class="prendus-icon-button" icon="[[getEditIcon(editingTitle)]]" noink on-tap="toggleEditTitle"></paper-icon-button>
 						<paper-tooltip for="edit-title" offset="0" animation-delay="300">Edit quiz title</paper-tooltip>
 					</div>
+
 					<!-- OPTIONS -->
 					<paper-icon-button id="share-button" class="prendus-icon-button" icon="social:share" on-tap="shareQuiz"></paper-icon-button>
 					<paper-tooltip for="share-button" offset="0" animation-delay="300">Get Share Link</paper-tooltip>
           <!--TODO this is the collaborators feature - taking out for now for this quick release to production. -->
 					<!-- <paper-icon-button id="collaborators-button" icon="social:group-add" on-tap="openCollaboratorsModal"></paper-icon-button>
 					<paper-tooltip for="collaborators-button" offset="0" animation-delay="300">Edit Collaborators</paper-tooltip> -->
-					<!-- <prendus-collaborator-modal id="collaborators-modal" concept-id="[[conceptId]]" quiz-id="[[quizId]]" quiz></prendus-collaborator-modal> -->
+					<!-- <prendus-collaborator-modal id="collaborators-modal" lesson-id="[[lessonId]]" quiz-id="[[quizId]]" quiz></prendus-collaborator-modal> -->
 					<paper-icon-button id="settings-button" class="prendus-icon-button" icon="settings" on-tap="openSettingsModal"></paper-icon-button>
 					<paper-tooltip for="settings-button" offset="0" animation-delay="300">Quiz Settings</paper-tooltip>
 
