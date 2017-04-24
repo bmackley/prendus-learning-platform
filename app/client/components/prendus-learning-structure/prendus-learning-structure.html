@@ -9,49 +9,32 @@
 <link rel="import" href="../../bower_components/iron-icons/iron-icons.html">
 <link rel="import" href="../../bower_components/paper-icon-button/paper-icon-button.html">
 <link rel="import" href="../prendus-notification/prendus-notification.html">
-<link rel="import" href="../../styles/color-styles.html">
+<link rel="import" href="../../bower_components/prendus-styles/prendus-styles.html">
 
 <dom-module id="prendus-learning-structure">
 
-  <style include="color-styles">
-  </style>
-  <style>
-  /* TODO brandon i have no idea how to make this pretty, help me out? */
-    :host {
-      width: 100%;
-      display: flex;
-      flex-direction: row;
-      align-items: center;
-    }
+  <style include="prendus-styles">
 
-    .icon {
-      color: rgba(0, 0, 0, .5);
-    }
 
-    paper-card {
-      width: 100%;
-      max-width: 800px;
-    }
-    #rightWrapper {
-      margin: 0px;
-      display: inline-block;
-    }
-
-    #leftWrapper {
-      margin: 0px;
-      display: inline-block;
-      float: left;
-    }
-
-    paper-button {
-      background-color: var(--prendus-primary-color);
-      color: white;
-    }
 
   </style>
+
   <template>
+
     <prendus-notification success-message="[[successMessage]]" error-message="[[errorMessage]]"></prendus-notification>
     <redux-store on-statechange="mapStateToThis" action="[[action]]"></redux-store>
+
+		<div id="container">
+			<h1>Learning Structure</h1>
+			<div id="columns">
+				<div id="disciplines">
+					<template is="dom-repeat" items="[[disciplines]]" as="discipline">
+					  <button class="prendus-button" on-tap="disciplineChange">[[discipline.title]]</button>
+					</template>
+				</div>
+			</div>
+		</div>
+
     <paper-card heading="Learning structure">
       <!-- DISCIPLINES -->
 
