@@ -3,17 +3,13 @@
 <link rel="import" href="../../bower_components/paper-input/paper-input.html">
 <link rel="import" href="../../bower_components/paper-dialog/paper-dialog.html">
 <link rel="import" href="../../bower_components/paper-dialog-scrollable/paper-dialog-scrollable.html">
-<link rel="import" href="../../bower_components/iron-icon/iron-icon.html">
+<link rel="import" href="../../bower_components/paper-icon-button/paper-icon-button.html">
 <link rel="import" href="../../bower_components/prendus-styles/prendus-styles.html">
 
 <dom-module id="prendus-collaborator-modal">
     <template>
 
         <style include="prendus-styles">
-
-          .remove-collaborator {
-            cursor: pointer;
-          }
 
 					#add-container {
 						display: flex;
@@ -29,7 +25,7 @@
           <h2>Collaborators</h2>
           <paper-dialog-scrollable>
             <template is="dom-repeat" items="[[collaboratorEmails]]">
-                <p>[[item]] <iron-icon class="remove-collaborator" icon="icons:clear" on-tap="removeCollaborator">remove</iron-icon></p>
+                <p>[[item]] <paper-icon-button icon="icons:clear" on-tap="removeCollaborator"></paper-icon-button></p>
             </template>
 						<div id="add-container">
 							<paper-input id="add-input" label="Enter email address" tabindex="0" value="{{newCollaboratorEmail}}" on-keydown="addCollaboratorIfEnter"></paper-input>
