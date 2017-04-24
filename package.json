@@ -14,9 +14,7 @@
     "url": "git+ssh://git@github.com:bmackley/prendus-learning-platform.git"
   },
   "homepage": "https://github.com/bmackley/prendus-learning-platform",
-  "dependencies": {
-    "zwitterion": "^0.7.0"
-  },
+  "dependencies": {},
   "devDependencies": {
     "@types/polymer": "^1.1.30"
   }
