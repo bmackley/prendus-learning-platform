@@ -14,6 +14,7 @@ import {ConceptModel} from '../../node_modules/prendus-services/models/concept-m
 export class PrendusLearningStructure {
   public is: string;
   public querySelector: any;
+  public querySelectorAll: any;
   public disciplines: Discipline[];
   public chosenDiscipline: Discipline;
   public successMessage: string;
@@ -23,21 +24,14 @@ export class PrendusLearningStructure {
   public concepts: Concept[];
   public chosenConcept: Concept;
 	public editingIds: string[];
+	public deleteEvent: any;
+	public itemType: string;
+	public itemName: string;
   public properties: any;
+  public updateStyles: any;
 
   beforeRegister(): void {
     this.is = 'prendus-learning-structure';
-    // this.properties = {
-    //   chosenConcept: {
-    //     observer: 'change'
-    //   },
-    //   chosenSubject: {
-    //     observer: 'change'
-    //   },
-    //   chosenDiscipline: {
-    //     observer: 'change'
-    //   }
-    // };
   }
 
   async ready(): Promise<void> {
@@ -45,6 +39,90 @@ export class PrendusLearningStructure {
     // await here so when the dom loads, the disciplines will already be loaded.
     await Actions.getAllDisciplines(this);
   }
+
+	// TODO: optimize the adding so the user sees the new item box right away
+
+	/**
+	 * Add a blank discipline in edit mode to the discipline column
+	 */
+	async addDiscipline(e: any): Promise<void> {
+		await Actions.createDiscipline(this, '');
+		// new discipline will be set to chosenDiscipline
+		this.addToEditing(this, this.chosenDiscipline.id);
+	}
+
+	/**
+	 * Add a blank discipline in edit mode to the discipline column
+	 */
+	async addSubject(e: any): Promise<void> {
+		const newSubject: Subject = {
+			title: '',
+			disciplineId: this.chosenDiscipline.id
+		};
+		await Actions.createSubject(this, this.chosenDiscipline.id, newSubject);
+		// new subject will be set to chosenSubject
+		this.addToEditing(this, this.chosenSubject.id);
+	}
+
+	/**
+	 * Add a blank discipline in edit mode to the discipline column
+	 */
+	async addConcept(e: any): Promise<void> {
+		const newConcept: Concept = {
+			title: '',
+			subjectId: this.chosenSubject.id
+		};
+		await Actions.createConcept(this, this.chosenDiscipline, this.chosenSubject, newConcept);
+		// new subject will be set to chosenConcept
+		this.addToEditing(this, this.chosenConcept.id);
+	}
+
+	/**
+	 * Change the currently selected item
+	 */
+	changeItem(e: any): void {
+		// discipline
+		if(e.model.discipline) {
+			const discipline: Discipline = e.model.discipline;
+			// clear all disciplines of selections
+			for(let item of this.querySelectorAll('#disciplines .column-item')) {
+				item.removeAttribute('selected');
+			}
+			// clear all subjects of selections
+			for(let item of this.querySelectorAll('#subjects .column-item')) {
+				item.removeAttribute('selected');
+			}
+			this.querySelector(`#discipline${discipline.id}`).setAttribute('selected', '');
+	    Actions.setChosenDiscipline(this, discipline);
+	    Actions.setChosenSubject(this, null);
+	    Actions.setChosenConcept(this, null);
+		// subject
+		} else if (e.model.subject) {
+			const subject: Subject = e.model.subject;
+			// clear all subjects of selections
+			for(let item of this.querySelectorAll('#subjects .column-item')) {
+				item.removeAttribute('selected');
+			}
+			// clear all concepts of selections
+			for(let item of this.querySelectorAll('#concepts .column-item')) {
+				item.removeAttribute('selected');
+			}
+			this.querySelector(`#subject${subject.id}`).setAttribute('selected', '');
+	    Actions.setChosenSubject(this, subject);
+	    Actions.setChosenConcept(this, null);
+		// concept
+		} else if (e.model.concept) {
+			const concept: Concept = e.model.concept;
+			// clear all concepts of selections
+			for(let item of this.querySelectorAll('#concepts .column-item')) {
+				item.removeAttribute('selected');
+			}
+			this.querySelector(`#concept${concept.id}`).setAttribute('selected', '');
+	    Actions.setChosenConcept(this, concept);
+		}
+		// update the custom property styles used for paper-input
+		this.updateStyles();
+	}
 
 	/**
 	 * Tells an item whether or not it is being edited
@@ -54,6 +132,13 @@ export class PrendusLearningStructure {
 		return this.editingIds.indexOf(id) !== -1;
 	}
 
+	/**
+	 * Gets the correct icon for the edit button
+	 */
+	 getEditIcon(id: string): string {
+		 return this.editing(id) ? 'check' : 'create';
+	 }
+
   /**
    * Toggles editing an item
    */
@@ -61,410 +146,118 @@ export class PrendusLearningStructure {
 		this.successMessage = '';
 		// discipline
 		if(e.model.discipline) {
-			if(!this.chosenDiscipline) this.changeDiscipline(e);
 			const id: string = e.model.discipline.id;
 			// if editing
 			if(this.editingIds.indexOf(id) !== -1) {
 				// update in database
 				const title = e.model.discipline.title;
+				// use model for the discipline because it may not be selected
 				const updatedDiscipline: Discipline = {
-					...this.chosenDiscipline,
+					...e.model.discipline,
 					title
 				}
 				await Actions.updateDiscipline(this, updatedDiscipline);
 				this.successMessage = `Discipline ${title} updated.`;
-				removeFromEditing(this, id);
+				this.removeFromEditing(this, id);
 			}
-			else addToEditing(this, id);
+			else this.addToEditing(this, id);
 			// subject
 		} else if(e.model.subject) {
-			if(!this.chosenSubject) this.changeSubject(e);
 			const id: string = e.model.subject.id;
 			// if editing
 			if(this.editingIds.indexOf(id) !== -1) {
 				// update in database
 				const title = e.model.subject.title;
+				// use model for the subject because it may not be selected
 				const updatedSubject: Subject = {
-					...this.chosenSubject,
+					...e.model.subject,
 					title
 				}
 				await Actions.updateSubject(this, this.chosenDiscipline, updatedSubject);
 				this.successMessage = `Subject ${title} updated.`;
-				removeFromEditing(this, id);
+				this.removeFromEditing(this, id);
 			}
-			else addToEditing(this, id);
+			else this.addToEditing(this, id);
 			// concept
 		} else if(e.model.concept) {
-			if(!this.chosenConcept) this.changeConcept(e);
 			const id: string = e.model.concept.id;
 			// if editing
 			if(this.editingIds.indexOf(id) !== -1) {
 				// update in database
 				const title = e.model.concept.title;
+				// use model for the concept because it may not be selected
 				const updatedConcept: Concept = {
 					...e.model.concept,
 					title
 				}
+				await Actions.updateConcept(this, this.chosenDiscipline, this.chosenSubject, updatedConcept);
 				this.successMessage = `Concept ${title} updated.`;
-				removeFromEditing(this, id);
+				this.removeFromEditing(this, id);
 			}
-			else addToEditing(this, id);
+			else this.addToEditing(this, id);
 		}
+		this.changeItem(e);
+  }
 
-		/**
-		 * Add the ID to the array of IDs being edited
-		 */
-		function addToEditing(context: PrendusLearningStructure, id: string) {
-			context.editingIds = [
-				...context.editingIds,
-				id
-			];
+	/**
+	* Add the ID to the array of IDs being edited
+	*/
+	addToEditing(context: PrendusLearningStructure, id: string) {
+		context.editingIds = [
+			...context.editingIds,
+			id
+		];
+	}
+
+	/**
+	* Remove the ID from the array of IDs being edited
+	*/
+	removeFromEditing(context: PrendusLearningStructure, id: string) {
+		context.editingIds = context.editingIds.filter((element: string) => element !== id);
+	}
+
+	/**
+	 * Open the delete dialog so the user can confirm deletion
+	 */
+	openDeleteDialog(e: any): void {
+		// save the delete event so we can get to the model later
+		this.deleteEvent = e;
+		// discipline
+		if(e.model.discipline) {
+			this.itemType = 'discipline';
+			this.itemName = e.model.discipline.title;
+		// subject
+		} else if (e.model.subject) {
+			this.itemType = 'subject';
+			this.itemName = e.model.subject.title;
+		// concept
+		} else if (e.model.concept) {
+			this.itemType = 'concept';
+			this.itemName = e.model.concept.title;
 		}
+		this.querySelector('#delete-dialog').open();
+	}
 
-		/**
-		 * Remove the ID from the array of IDs being edited
-		 */
-		function removeFromEditing(context: PrendusLearningStructure, id: string) {
-			context.editingIds = context.editingIds.filter((element: string) => element !== id);
+	/**
+	 * Delete an item from the learning structure
+	 */
+	async deleteItem(): Promise<void> {
+		this.successMessage = '';
+		const e = this.deleteEvent;
+		// discipline
+		if(e.model.discipline) {
+			await Actions.deleteDiscipline(this, e.model.discipline);
+			this.successMessage = `Discipline ${e.model.discipline.title} deleted.`;
+		// subject
+		} else if (e.model.subject) {
+			await Actions.deleteSubject(this, this.chosenDiscipline, e.model.subject);
+			this.successMessage = `Subject ${e.model.subject.title} deleted.`;
+		// concept
+		} else if (e.model.concept) {
+			await Actions.deleteConcept(this, this.chosenDiscipline, this.chosenSubject, e.model.concept);
+			this.successMessage = `Concept ${e.model.concept.title} deleted.`;
 		}
-  }
-
-  /**
-   * Called when the user clicks DONE in the edit-discipline-modal
-   */
-  async editDisciplineDone(): Promise<void> {
-    try {
-      const title: string = this.querySelector('#edit-discipline-name').value;
-      const id: string = this.chosenDiscipline.id;
-      const newDiscipline: Discipline = {
-        ...this.chosenDiscipline,
-        title
-      };
-      await Actions.updateDiscipline(this, newDiscipline);
-
-      this.refreshPaperListbox('discipline-paper-listbox');
-      this.successMessage = '';
-      this.successMessage = 'Discipline updated.';
-
-    } catch(error) {
-      console.error(error.message);
-    }
-  }
-
-  /**
-   * Called when the user clicks the trashcan next to the discipline.
-   */
-  async deleteDiscipline(): Promise<void> {
-    try {
-      await Actions.deleteDiscipline(this, this.chosenDiscipline);
-      this.successMessage = '';
-      this.successMessage = 'Discipline deleted.';
-    } catch(error) {
-      console.error('error while deleting discipline ', error);
-    }
-  }
-
-  /**
-   * Called when the user changes a discipline in the select list of disciplines.
-   */
-  changeDiscipline(e: any): void {
-    const discipline: Discipline = e.model.discipline;
-    // The discipine subjects should already be resolved so we gucci
-    Actions.setChosenDiscipline(this, discipline);
-    Actions.setChosenSubject(this, null);
-    Actions.setChosenConcept(this, null);
-  }
-
-  /**
-   * Called when the user clicks the button ADD DISCIPLINE
-   */
-  newDiscipline(): void {
-    this.querySelector('#new-discipline-name').value = '';
-    this.querySelector('#new-discipline').open();
-  }
-
-  /**
-   * Called when the user clicks done in the new-discipline modal.
-   */
-  async newDisciplineDone(): Promise<void> {
-    try {
-      const title: string = this.querySelector('#new-discipline-name').value;
-      await Actions.addDiscipline(this, title);
-      this.selectLastElementInPaperListBox('discipline-paper-listbox');
-
-      this.successMessage = '';
-      this.successMessage = 'Discipline added';
-    } catch(error) {
-      console.error(error);
-    }
-  }
-
-  /**
-   * Since paperListBox is called multiple times, I decided
-   * to create a getter function so that if we change the id,
-   * you only have to change it in one spot in the TS.
-   * I specifically chose not to put a type because there is no
-   * paper-listbox type.
-   */
-  private getDisciplinePaperListBox() {
-    const paperListBox = this.querySelector('#discipline-paper-listbox');
-    return paperListBox;
-  }
-
-  /**
-   * Called when the user clicks ADD SUBJECT
-   */
-  newSubject(): void {
-    this.querySelector('#new-subject-name').value = '';
-    this.querySelector('#new-subject').open();
-  }
-
-  /**
-   * Called when the user clicks DONE in the
-   * new subject modal.
-   */
-  async newSubjectDone(): Promise<void> {
-    try {
-      const title: string = this.querySelector('#new-subject-name').value;
-      const newSubject: Subject = {
-        title,
-        disciplineId: this.chosenDiscipline.id
-      };
-      await Actions.createSubject(this, this.chosenDiscipline.id, newSubject);
-
-      this.selectLastElementInPaperListBox('subject-paper-listbox');
-
-      this.successMessage = '';
-      this.successMessage = 'Subject set.';
-
-    } catch(error) {
-      console.error(error.message);
-    }
-
-
-  }
-
-  /**
-   * Called when the user clicks DONE in the
-   * edit subject modal
-   */
-  async editSubjectDone(): Promise<void> {
-    try {
-      const title: string = this.querySelector('#edit-subject-name').value;
-      const newSubject: Subject = {
-        ...this.chosenSubject,
-        title
-      }
-
-      await Actions.updateSubject(this, this.chosenDiscipline, this.chosenSubject);
-      this.refreshPaperListbox('subject-paper-listbox');
-      this.successMessage = '';
-      this.successMessage = 'Subject updated';
-
-    } catch(error) {
-      console.error(error.message);
-    }
-  }
-
-  /**
-   * Called when the user clicks the pencil
-   * right next to a chosen subject.
-   */
-  editSubject(): void {
-    this.querySelector('#edit-subject-name').value = this.chosenSubject.title;
-    this.querySelector('#edit-subject').open();
-
-  }
-
-  /**
-   * Called when the user clicks the trashcan
-   * right next to a chosen subject
-   */
-  async deleteSubject(): Promise<void> {
-    try {
-      await Actions.deleteSubject(this, this.chosenDiscipline, this.chosenSubject);
-      this.successMessage = '';
-      this.successMessage = 'Subject deleted';
-    } catch(error) {
-      console.error(error.message);
-    }
-  }
-
-  /**
-   * Called when the user chooses a subject in the dom.
-   */
-  changeSubject(e: any): void {
-    try {
-      const subject: Subject = e.model.subject;
-      Actions.setChosenSubject(this, subject);
-      Actions.setChosenConcept(this, null);
-    } catch(error) {
-      console.error(error);
-    }
-  }
-
-  private getSubjectPaperListBox() {
-    const subjectListBox = this.querySelector('#subject-paper-listbox');
-    return subjectListBox;
-  }
-
-  /**
-   * Called when the user clicks ADD CONCEPT
-   */
-  newConcept(): void {
-    this.querySelector('#new-concept-name').value = '';
-    this.querySelector('#new-concept').open();
-  }
-
-  /**
-   * Called when the user clicks DONE in the
-   * new concept modal.
-   */
-  async newConceptDone(): Promise<void> {
-    try {
-      const title: string = this.querySelector('#new-concept-name').value;
-      const newConcept: Concept = {
-        title,
-        subjectId: this.chosenSubject.id
-      };
-      await Actions.createConcept(this, this.chosenDiscipline, this.chosenSubject, newConcept);
-
-      this.selectLastElementInPaperListBox('concept-paper-listbox');
-
-      this.successMessage = '';
-      this.successMessage = 'Concept set.';
-
-    } catch(error) {
-      console.error(error);
-    }
-  }
-
-
-  /**
-   * Called when the user clicks DONE in the
-   * edit concept modal
-   */
-  async editConceptDone(): Promise<void> {
-    try {
-      const title: string = this.querySelector('#edit-concept-name').value;
-      const newConcept: Concept = {
-        ...this.chosenConcept,
-        title
-      };
-
-      await Actions.updateConcept(this, this.chosenDiscipline, this.chosenSubject, newConcept);
-      this.refreshPaperListbox('concept-paper-listbox');
-      this.successMessage = '';
-      this.successMessage = 'Concept updated';
-
-    } catch(error) {
-      console.error(error.message);
-    }
-  }
-
-  /**
-   * Called when the user clicks the pencil
-   * right next to a chosen concept.
-   */
-  editConcept(): void {
-    this.querySelector('#edit-concept-name').value = this.chosenConcept.title;
-    this.querySelector('#edit-concept').open();
-  }
-
-  /**
-   * Called when the user clicks the trashcan
-   * right next to a chosen concept
-   */
-  async deleteConcept(): Promise<void> {
-    try {
-      await Actions.deleteConcept(this, this.chosenDiscipline, this.chosenSubject, this.chosenConcept);
-      this.successMessage = '';
-      this.successMessage = 'Concept deleted';
-    } catch(error) {
-      console.error(error.message);
-    }
-  }
-
-  /**
-   * Called when the user chooses a concept in the dom.
-   */
-  changeConcept(e: any): void {
-    try {
-      const concept: Concept = e.model.concept;
-      Actions.setChosenConcept(this, concept);
-    } catch(error) {
-      console.error(error);
-    }
-
-  }
-
-  removePaperListBoxSelection(id: string): void {
-    try {
-      const paperListBox = this.querySelector(`#${id}`);
-      if(paperListBox) {
-        paperListBox.select(-1);
-      }
-
-    } catch(error) {
-      throw error;
-    }
-  }
-
-  selectLastElementInPaperListBox(id: string): void {
-    const paperListBox = this.querySelector(`#${id}`);
-    paperListBox.select(paperListBox.items.length - 1);
-  }
-
-  refreshPaperListbox(id: string): void {
-    try {
-      const paperListBox = this.querySelector(`#${id}`);
-      if(paperListBox) {
-        // only do things if the paperListBox is rendered in the dom.
-          if(paperListBox.items.length === 1) {
-            // checks to see if there is only one thing in the paper listbox,
-            // if there is then select -1 then 0 because selectPrevious then
-            // selectNext won't do the trick
-            paperListBox.select(-1);
-            paperListBox.select(0);
-          } else {
-            paperListBox.selectPrevious();
-            paperListBox.selectNext();
-          }
-      }
-    } catch(error) {
-      console.error(error);
-    }
-  }
-
-  /**
-   * Called when the discipline-paper-listbox is clicked
-   */
-  checkIfNoDisciplines(): void {
-    if(!this.disciplines || this.disciplines.length === 0) {
-      this.errorMessage = '';
-      this.errorMessage = 'There are no disciplines yet!';
-    }
-  }
-
-  /**
-   * Called when the subject-paper-listbox is clicked
-   */
-  checkIfNoSubjects(): void {
-    if(!this.subjects || this.subjects.length === 0) {
-      this.errorMessage = '';
-      this.errorMessage = 'There are no subjects on the selected discipline yet!';
-    }
-  }
-
-  /**
-   * Called when the concept-paper-listbox is clicked
-   */
-  checkIfNoConcepts(): void {
-    if(!this.concepts || this.concepts.length === 0) {
-      this.errorMessage = '';
-      this.errorMessage = 'There are no concepts on the selected subject yet!';
-    }
-  }
+	}
 
   mapStateToThis(e: StatechangeEvent): void {
     const state: State = e.detail.state;

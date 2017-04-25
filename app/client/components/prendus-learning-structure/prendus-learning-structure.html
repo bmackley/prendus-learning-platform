@@ -20,11 +20,17 @@
 		}
 
 		.column {
-			border: solid grey 1px;
-			/*flex-grow: 1;*/
 			flex-basis: 33%;
 			display: flex;
 			flex-direction: column;
+		}
+
+		.column + .column {
+			border-left: solid lightgrey 1px;
+		}
+
+		.column > :not(.column-item) {
+			margin: 5px;
 		}
 
 		.column-item {
@@ -37,9 +43,19 @@
 			background-color: var(--prendus-grey);
 		}
 
+		.column-item[selected] {
+			background-color: var(--prendus-primary-color);
+		}
+
+		.column-item[selected] * {
+			color: white;
+			--paper-input-container-input-color: white;
+			--paper-input-container-color: lightgrey;
+		}
+
+		.column-input,
 		.column-button {
 			background: none;
-			color: black;
 			border: none;
 			font-size: 1em;
 			text-align: left;
@@ -64,165 +80,61 @@
 			<h1>Learning Structure</h1>
 			<div id="columns">
 				<div id="disciplines" class="column">
-					<h3>Discipline</h3>
+					<h3>Disciplines</h3>
 					<template is="dom-repeat" items="[[disciplines]]" as="discipline">
-						<div class="column-item">
-							<button class="column-button" hidden$="[[editing(discipline.id, editingIds)]]" on-tap="changeDiscipline">[[discipline.title]]</button>
-							<paper-input hidden$="[[!editing(discipline.id, editingIds)]]" label="Discipline Name" value="{{discipline.title}}"></paper-input>
-							<paper-icon-button class="prendus-icon-button" icon="create" on-tap="toggleEdit"></paper-icon-button>
-							<paper-icon-button class="prendus-icon-button" icon="delete" on-tap="deleteDiscipline"></paper-icon-button>
+						<div id="discipline[[discipline.id]]" class="column-item">
+							<button class="column-button" hidden$="[[editing(discipline.id, editingIds)]]" on-tap="changeItem">[[discipline.title]]</button>
+							<paper-input class="column-input" hidden$="[[!editing(discipline.id, editingIds)]]" label="Discipline Name" value="{{discipline.title}}" maxlength="30"></paper-input>
+							<paper-icon-button class="prendus-icon-button" icon="[[getEditIcon(discipline.id, editingIds)]]" on-tap="toggleEdit"></paper-icon-button>
+							<paper-icon-button class="prendus-icon-button" icon="delete" on-tap="openDeleteDialog"></paper-icon-button>
 						</div>
 					</template>
 					<div class="column-item">
-						<button class="column-button" on-tap="newDiscipline"><iron-icon icon="add"></iron-icon>Add Discipline</button>
+						<button class="column-button" on-tap="addDiscipline"><iron-icon icon="add"></iron-icon>Add Discipline</button>
 					</div>
 				</div>
 				<div id="subjects" class="column" >
 					<h3>Subjects</h3>
 					<template is="dom-repeat" items="[[subjects]]" as="subject">
-						<div class="column-item">
-							<button class="column-button" hidden$="[[editing(subject.id, editingIds)]]" on-tap="changeSubject">[[subject.title]]</button>
-							<paper-input hidden$="[[!editing(subject.id, editingIds)]]" label="Subject Name" value="{{subject.title}}"></paper-input>
-							<paper-icon-button class="prendus-icon-button" icon="create" on-tap="toggleEdit"></paper-icon-button>
-							<paper-icon-button class="prendus-icon-button" icon="delete" on-tap="deleteSubject"></paper-icon-button>
+						<div id="subject[[subject.id]]" class="column-item">
+							<button class="column-button" hidden$="[[editing(subject.id, editingIds)]]" on-tap="changeItem">[[subject.title]]</button>
+							<paper-input hidden$="[[!editing(subject.id, editingIds)]]" label="Subject Name" value="{{subject.title}}" maxlength="30"></paper-input>
+							<paper-icon-button class="prendus-icon-button" icon="[[getEditIcon(subject.id, editingIds)]]" on-tap="toggleEdit"></paper-icon-button>
+							<paper-icon-button class="prendus-icon-button" icon="delete" on-tap="openDeleteDialog"></paper-icon-button>
 						</div>
 					</template>
 					<div class="column-item" hidden$="[[!subjects]]">
-						<button class="column-button" on-tap="newSubject"><iron-icon icon="add"></iron-icon>Add Subject</button>
+						<button class="column-button" on-tap="addSubject"><iron-icon icon="add"></iron-icon>Add Subject</button>
 					</div>
 				</div>
 				<div id="concepts" class="column">
-					<h3>Concept</h3>
+					<h3>Concepts</h3>
 					<template is="dom-repeat" items="[[concepts]]" as="concept">
-						<div class="column-item">
-							<button class="column-button" on-tap="changeConcept">[[concept.title]]</button>
-							<paper-icon-button class="prendus-icon-button" icon="create" on-tap="editConcept"></paper-icon-button>
-							<paper-icon-button class="prendus-icon-button" icon="delete" on-tap="deleteConcept"></paper-icon-button>
+						<div id="concept[[concept.id]]" class="column-item">
+							<button class="column-button" hidden$="[[editing(concept.id, editingIds)]]" on-tap="changeItem">[[concept.title]]</button>
+							<paper-input hidden$="[[!editing(concept.id, editingIds)]]" label="Concept Name" value="{{concept.title}}" maxlength="30"></paper-input>
+							<paper-icon-button class="prendus-icon-button" icon="[[getEditIcon(concept.id, editingIds)]]" on-tap="toggleEdit"></paper-icon-button>
+							<paper-icon-button class="prendus-icon-button" icon="delete" on-tap="openDeleteDialog"></paper-icon-button>
 						</div>
 					</template>
 					<div class="column-item" hidden$="[[!concepts]]">
-						<button class="column-button" on-tap="newConcept"><iron-icon icon="add"></iron-icon>Add Concept</button>
+						<button class="column-button" on-tap="addConcept"><iron-icon icon="add"></iron-icon>Add Concept</button>
 					</div>
 				</div>
 			</div>
 		</div>
 
-    <paper-card heading="Learning structure" style="width:600px;">
-      <!-- DISCIPLINES -->
+		<paper-dialog id="delete-dialog" with-backdrop>
+			<div class="content">
+				<h2>Confirm Delete</h2>
+				<p>Do you really want to delete the "[[itemName]]" [[itemType]]?</p>
+			</div>
+		  <div class="buttons">
+		  	<button class="prendus-button" dialog-dismiss>Cancel</button>
+		  	<button class="prendus-button prendus-button--destructive" on-tap="deleteItem" dialog-dismiss>Delete</button>
+		  </div>
+		</paper-dialog>
 
-      <span id="leftWrapper">
-        <div>
-          <paper-dropdown-menu label="Disciplines" on-tap="checkIfNoDisciplines">
-            <paper-listbox id="discipline-paper-listbox" class="dropdown-content">
-              <template is="dom-repeat" items="[[disciplines]]">
-                <paper-item on-tap="changeDiscipline">[[item.title]]</paper-item>
-              </template>
-            </paper-listbox>
-          </paper-dropdown-menu>
-          <template is="dom-if" if="[[chosenDiscipline]]">
-            <paper-icon-button class="edit-button icon-button" icon="create" noink on-tap="editDiscipline"></paper-icon-button>
-            <paper-icon-button class="edit-button icon-button" icon="delete" noink on-tap="deleteDiscipline"></paper-icon-button>
-          </template>
-        </div>
-        <div>
-          <paper-button on-tap="newDiscipline">Add discipline</paper-button>
-        </div>
-      </span>
-
-      <!-- SUBJECTS -->
-      <template is="dom-if" if="[[chosenDiscipline]]">
-        <span id="leftWrapper">
-          <div>
-            <paper-dropdown-menu label="Subjects" on-tap="checkIfNoSubjects">
-              <paper-listbox id="subject-paper-listbox" class="dropdown-content">
-                <template is="dom-repeat" items="[[subjects]]">
-                  <paper-item on-tap="changeSubject">[[item.title]]</paper-item>
-                </template>
-              </paper-listbox>
-            </paper-dropdown-menu>
-            <template is="dom-if" if="[[chosenSubject]]">
-              <paper-icon-button class="edit-button icon-button" icon="create" noink on-tap="editSubject"></paper-icon-button>
-              <paper-icon-button class="edit-button icon-button" icon="delete" noink on-tap="deleteSubject"></paper-icon-button>
-            </template>
-          </div>
-
-          <div>
-            <paper-button on-tap="newSubject">Add subject</paper-button>
-          </div>
-        </span>
-      </template>
-
-      <!-- CONCEPTS -->
-
-      <template is="dom-if" if="[[chosenSubject]]">
-        <span id="leftWrapper">
-          <div>
-            <paper-dropdown-menu label="Concepts" on-tap="checkIfNoConcepts">
-              <paper-listbox id="concept-paper-listbox" class="dropdown-content">
-                <template is="dom-repeat" items="[[concepts]]">
-                  <paper-item on-tap="changeConcept">[[item.title]]</paper-item>
-                </template>
-              </paper-listbox>
-            </paper-dropdown-menu>
-            <template is="dom-if" if="[[chosenConcept]]">
-              <paper-icon-button class="edit-button icon-button" icon="create" noink on-tap="editConcept"></paper-icon-button>
-              <paper-icon-button class="edit-button icon-button" icon="delete" noink on-tap="deleteConcept"></paper-icon-button>
-            </template>
-          </div>
-
-          <div>
-            <paper-button on-tap="newConcept">Add concept</paper-button>
-          </div>
-        </span>
-      </template>
-    </paper-card>
-
-
-    <paper-dialog id="new-discipline" modal>
-      <paper-input id="new-discipline-name" label="Discipline name" required></paper-input>
-      <div class="buttons">
-        <paper-button dialog-dismiss>Cancel</paper-button>
-        <paper-button on-tap="newDisciplineDone" dialog-dismiss>Done</paper-button>
-      </div>
-    </paper-dialog>
-    <paper-dialog id="edit-discipline" modal>
-      <paper-input id="edit-discipline-name" label="Discipline name" required></paper-input>
-      <div class="buttons">
-        <paper-button dialog-dismiss>Cancel</paper-button>
-        <paper-button on-tap="editDisciplineDone" dialog-dismiss>Done</paper-button>
-      </div>
-    </paper-dialog>
-
-    <paper-dialog id="new-subject" modal>
-      <paper-input id="new-subject-name" label="Subject name" required></paper-input>
-      <div class="buttons">
-        <paper-button dialog-dismiss>Cancel</paper-button>
-        <paper-button on-tap="newSubjectDone" dialog-dismiss>Done</paper-button>
-      </div>
-    </paper-dialog>
-    <paper-dialog id="edit-subject" modal>
-      <paper-input id="edit-subject-name" label="Subject name" required></paper-input>
-      <div class="buttons">
-        <paper-button dialog-dismiss>Cancel</paper-button>
-        <paper-button on-tap="editSubjectDone" dialog-dismiss>Done</paper-button>
-      </div>
-    </paper-dialog>
-
-    <paper-dialog id="new-concept" modal>
-      <paper-input id="new-concept-name" label="Concept name" required></paper-input>
-      <div class="buttons">
-        <paper-button dialog-dismiss>Cancel</paper-button>
-        <paper-button on-tap="newConceptDone" dialog-dismiss>Done</paper-button>
-      </div>
-    </paper-dialog>
-
-    <paper-dialog id="edit-concept" modal>
-      <paper-input id="edit-concept-name" label="Concept name" required></paper-input>
-      <div class="buttons">
-        <paper-button dialog-dismiss>Cancel</paper-button>
-        <paper-button on-tap="editConceptDone" dialog-dismiss>Done</paper-button>
-      </div>
-    </paper-dialog>
   </template>
 
   <script src="prendus-learning-structure.ts"></script>

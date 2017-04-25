@@ -1197,7 +1197,7 @@ const updateDiscipline = async (context: any, discipline: Discipline): Promise<v
   setChosenDiscipline(context, discipline);
 };
 
-const addDiscipline = async (context: any, title: string): Promise<void> => {
+const createDiscipline = async (context: any, title: string): Promise<void> => {
   const id: string = await DisciplineModel.createOrUpdate(null, {
     title
   });
@@ -1290,5 +1290,5 @@ export const Actions = {
     deleteConcept,
     updateSubject,
     updateDiscipline,
-    addDiscipline
+    createDiscipline
   };
