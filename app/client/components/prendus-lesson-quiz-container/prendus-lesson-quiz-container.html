@@ -33,7 +33,7 @@
 			}
 
 			.quiz-title {
-				/* keeps text from overflowing a flexbox container */
+				/* min-width: 0; keeps text from overflowing a flexbox container */
 				min-width: 0;
 				flex-grow: 1;
 			}
@@ -45,8 +45,7 @@
 			@media (max-width: 500px) {
 
 				.quiz-row {
-					flex-direction: column;
-					align-items: flex-start;
+					display: block;
 				}
 
 			}
