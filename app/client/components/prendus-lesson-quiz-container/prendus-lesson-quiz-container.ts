@@ -82,7 +82,7 @@ class PrendusLessonQuizContainer {
       e.stopPropagation();
       this.ltiQuizId = e.target.parentElement.dataQuiz;
       this.endpointDomain = UtilitiesService.getPrendusServerEndpointDomain();
-      const courseId = this.courseId;
+      const courseId: string = this.courseId;
       const jwt: string = this.jwt;
       const LTIRequest = this.querySelector("#getLTIajax");
       LTIRequest.body = {
@@ -92,7 +92,6 @@ class PrendusLessonQuizContainer {
       const request = LTIRequest.generateRequest();
       await request.completes;
       this.secret = request.response.secret;
-      //const LTIlink = `http://prendus.com/course/${courseId}/quiz `
       const env = window['PRENDUS_ENV'];
       if(env === 'development') {
         this.ltiLink = `http://localhost:5000/api/lti/course/${this.courseId}/quiz/${this.ltiQuizId}`;
@@ -100,7 +99,6 @@ class PrendusLessonQuizContainer {
         this.ltiLink = `http://prenduslearning.com/api/lti/course/${this.courseId}/quiz/${this.ltiQuizId}`;
       }
       this.querySelector('#get-quiz-lti-link').open()
-     /// /course/:courseId/quiz/:quizId
     }
 
     openDeleteModal(e: any) {
