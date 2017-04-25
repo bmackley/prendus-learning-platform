@@ -80,6 +80,10 @@ class PrendusRouter {
       case '/learning-structure': {
         UtilitiesService.importElement(this, 'components/prendus-learning-structure/prendus-learning-structure.html', 'learning-structure');
       }
+
+      case '/payment': {
+        UtilitiesService.importElement(this, 'components/prendus-payment/prendus-payment.html', 'payment');
+      }
       default: break;
     }
 
