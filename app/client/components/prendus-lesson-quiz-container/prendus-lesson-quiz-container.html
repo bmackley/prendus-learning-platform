@@ -90,13 +90,16 @@
       </div>
     </paper-dialog>
     <paper-dialog id="get-quiz-lti-link" with-backdrop>
-      <h2>LTI links for</h2>
-      <h3>Key</h3>
-      <paper-textarea value="[[courseId]]"></paper-textarea>
-      <h3>Secret</h3>
-      <paper-textarea value="[[secret]]"></paper-textarea>
-      <h3>Copy this link to put in your course.</h3>
-      <paper-textarea value="[[ltiLink]]"></paper-textarea>
+      <div class="content">
+        <h2>LTI links for</h2>
+        <h3>Key</h3>
+        <paper-textarea value="[[courseId]]"></paper-textarea>
+        <h3>Secret</h3>
+        <paper-textarea value="[[secret]]"></paper-textarea>
+        <h3>Copy this link to put in your course.</h3>
+        <paper-textarea value="[[ltiLink]]"></paper-textarea>
+      </div>
+
     </paper-dialog>
     <prendus-notification error-message="[[errorMessage]]" success-message="[[successMessage]]"></prendus-notification>
   </template>
