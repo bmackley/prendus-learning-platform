@@ -1040,6 +1040,14 @@ const reloadPublicCourses = async (context: any, courses: Course[]): Promise<voi
   }
 };
 
+
+
+
+// START LEARNING STRUCTURE STUFF
+
+
+
+
 /**
  * Calls redux
  */

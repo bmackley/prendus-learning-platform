@@ -79,7 +79,13 @@ class PrendusRouter {
       }
 
       case '/learning-structure': {
-        UtilitiesService.importElement(this, 'components/prendus-learning-structure/prendus-learning-structure.html', 'learning-structure');
+				if(this.isAdmin) {
+					UtilitiesService.importElement(this, 'bower_components/prendus-question-components/components/prendus-learning-structure/prendus-learning-structure.html', 'learning-structure');
+				} else {
+					// don't allow non-admins to see this page
+					window.history.pushState({}, '', '/404');
+					this.fire('location-changed', {}, {node: window});
+				}
       }
       default: break;
     }
