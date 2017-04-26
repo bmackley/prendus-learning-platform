@@ -41,9 +41,7 @@ export interface State {
     currentLessonVideoId: string;
     currentLessonVideoTitle: string;
     currentLessonVideoUrl: string
-    currentUser: {
-      metaData: UserMetaData
-    };
+    currentUser: User
 		currentVideo: Video
     currentEditQuizId: string;
     currentEditLessonId: string;

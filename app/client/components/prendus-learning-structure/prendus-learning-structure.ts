@@ -1,7 +1,7 @@
 import {Actions} from '../../redux/actions';
 import {FirebaseService} from '../../node_modules/prendus-services/services/firebase-service';
 import {StatechangeEvent} from '../../typings/statechange-event';
-import {UserMetaData} from '../../node_modules/prendus-services/typings/user-meta-data';
+import {User} from '../../node_modules/prendus-services/typings/user';
 import {State} from '../../typings/state';
 import {SubjectModel} from '../../node_modules/prendus-services/models/subject-model';
 import {DisciplineModel} from '../../node_modules/prendus-services/models/discipline-model';
@@ -27,6 +27,7 @@ export class PrendusLearningStructure {
 	public deleteEvent: any;
 	public itemType: string;
 	public itemName: string;
+	public isAdmin: boolean;
   public properties: any;
   public updateStyles: any;
 
@@ -36,9 +37,24 @@ export class PrendusLearningStructure {
 
   async ready(): Promise<void> {
 		this.editingIds = [];
+		this.disciplines = null;
+		this.subjects = null;
+		this.concepts = null;
     // await here so when the dom loads, the disciplines will already be loaded.
     await Actions.getAllDisciplines(this);
   }
+
+	showNoDisciplines(disciplines: Discipline[]): boolean {
+		return disciplines && disciplines.length === 0;
+	}
+
+	showNoSubjects(subjects: Subject[]): boolean {
+		return subjects && subjects.length === 0;
+	}
+
+	showNoConcepts(concepts: Concept[]): boolean {
+		return concepts && concepts.length === 0;
+	}
 
 	// TODO: optimize the adding so the user sees the new item box right away
 
@@ -261,6 +277,7 @@ export class PrendusLearningStructure {
 
   mapStateToThis(e: StatechangeEvent): void {
     const state: State = e.detail.state;
+		this.isAdmin = state.currentUser.userType === 'administrator';
     this.disciplines = state.disciplines;
     this.chosenDiscipline = state.chosenDiscipline;
     this.subjects = state.chosenDiscipline ? state.chosenDiscipline.resolvedSubjects : null;

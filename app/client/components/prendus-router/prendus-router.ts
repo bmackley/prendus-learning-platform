@@ -6,6 +6,7 @@ class PrendusRouter {
   public is: string;
   public username: string;
   public loggedIn: 'true' | 'false';
+	public isAdmin: boolean;
   public mainViewToShow: 'routes' | 'spinner';
   public observers: string[];
   public querySelector: any;
@@ -89,6 +90,7 @@ class PrendusRouter {
       const state = e.detail.state;
       this.username = state.currentUser.metaData.email;
       this.loggedIn = this.username ? 'true' : 'false';
+			this.isAdmin = state.currentUser.userType === 'administrator';
       this.mainViewToShow = state.mainViewToShow;
   }
 }

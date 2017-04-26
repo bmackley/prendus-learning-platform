@@ -84,42 +84,57 @@
 					<template is="dom-repeat" items="[[disciplines]]" as="discipline">
 						<div id="discipline[[discipline.id]]" class="column-item">
 							<button class="column-button" hidden$="[[editing(discipline.id, editingIds)]]" on-tap="changeItem">[[discipline.title]]</button>
-							<paper-input class="column-input" hidden$="[[!editing(discipline.id, editingIds)]]" label="Discipline Name" value="{{discipline.title}}" maxlength="30"></paper-input>
-							<paper-icon-button class="prendus-icon-button" icon="[[getEditIcon(discipline.id, editingIds)]]" on-tap="toggleEdit"></paper-icon-button>
-							<paper-icon-button class="prendus-icon-button" icon="delete" on-tap="openDeleteDialog"></paper-icon-button>
+							<template is="dom-if" if="[[isAdmin]]">
+								<paper-input class="column-input" hidden$="[[!editing(discipline.id, editingIds)]]" label="Discipline Name" value="{{discipline.title}}" maxlength="30"></paper-input>
+								<paper-icon-button class="prendus-icon-button" icon="[[getEditIcon(discipline.id, editingIds)]]" on-tap="toggleEdit"></paper-icon-button>
+								<paper-icon-button class="prendus-icon-button" icon="delete" on-tap="openDeleteDialog"></paper-icon-button>
+							</template>
 						</div>
 					</template>
-					<div class="column-item">
-						<button class="column-button" on-tap="addDiscipline"><iron-icon icon="add"></iron-icon>Add Discipline</button>
-					</div>
+					<p hidden$="[[!showNoDisciplines(disciplines)]]">No disciplines yet...</p>
+					<template is="dom-if" if="[[isAdmin]]">
+						<div class="column-item">
+							<button class="column-button" on-tap="addDiscipline"><iron-icon icon="add"></iron-icon>Add Discipline</button>
+						</div>
+					</template>
 				</div>
 				<div id="subjects" class="column" >
 					<h3>Subjects</h3>
 					<template is="dom-repeat" items="[[subjects]]" as="subject">
 						<div id="subject[[subject.id]]" class="column-item">
 							<button class="column-button" hidden$="[[editing(subject.id, editingIds)]]" on-tap="changeItem">[[subject.title]]</button>
-							<paper-input hidden$="[[!editing(subject.id, editingIds)]]" label="Subject Name" value="{{subject.title}}" maxlength="30"></paper-input>
-							<paper-icon-button class="prendus-icon-button" icon="[[getEditIcon(subject.id, editingIds)]]" on-tap="toggleEdit"></paper-icon-button>
-							<paper-icon-button class="prendus-icon-button" icon="delete" on-tap="openDeleteDialog"></paper-icon-button>
+							<template is="dom-if" if="[[isAdmin]]">
+								<paper-input hidden$="[[!editing(subject.id, editingIds)]]" label="Subject Name" value="{{subject.title}}" maxlength="30"></paper-input>
+								<paper-icon-button class="prendus-icon-button" icon="[[getEditIcon(subject.id, editingIds)]]" on-tap="toggleEdit"></paper-icon-button>
+								<paper-icon-button class="prendus-icon-button" icon="delete" on-tap="openDeleteDialog"></paper-icon-button>
+							</template>
 						</div>
 					</template>
-					<div class="column-item" hidden$="[[!subjects]]">
-						<button class="column-button" on-tap="addSubject"><iron-icon icon="add"></iron-icon>Add Subject</button>
-					</div>
+					<p hidden$="[[!showNoSubjects(subjects)]]">No subjects yet...</p>
+					<template is="dom-if" if="[[isAdmin]]">
+						<div class="column-item" hidden$="[[!subjects]]">
+							<button class="column-button" on-tap="addSubject"><iron-icon icon="add"></iron-icon>Add Subject</button>
+						</div>
+					</template>
 				</div>
 				<div id="concepts" class="column">
 					<h3>Concepts</h3>
 					<template is="dom-repeat" items="[[concepts]]" as="concept">
 						<div id="concept[[concept.id]]" class="column-item">
 							<button class="column-button" hidden$="[[editing(concept.id, editingIds)]]" on-tap="changeItem">[[concept.title]]</button>
-							<paper-input hidden$="[[!editing(concept.id, editingIds)]]" label="Concept Name" value="{{concept.title}}" maxlength="30"></paper-input>
-							<paper-icon-button class="prendus-icon-button" icon="[[getEditIcon(concept.id, editingIds)]]" on-tap="toggleEdit"></paper-icon-button>
-							<paper-icon-button class="prendus-icon-button" icon="delete" on-tap="openDeleteDialog"></paper-icon-button>
+							<template is="dom-if" if="[[isAdmin]]">
+								<paper-input hidden$="[[!editing(concept.id, editingIds)]]" label="Concept Name" value="{{concept.title}}" maxlength="30"></paper-input>
+								<paper-icon-button class="prendus-icon-button" icon="[[getEditIcon(concept.id, editingIds)]]" on-tap="toggleEdit"></paper-icon-button>
+								<paper-icon-button class="prendus-icon-button" icon="delete" on-tap="openDeleteDialog"></paper-icon-button>
+							</template>
 						</div>
 					</template>
-					<div class="column-item" hidden$="[[!concepts]]">
-						<button class="column-button" on-tap="addConcept"><iron-icon icon="add"></iron-icon>Add Concept</button>
-					</div>
+					<p hidden$="[[!showNoConcepts(concepts)]]">No concepts yet...</p>
+					<template is="dom-if" if="[[isAdmin]]">
+						<div class="column-item" hidden$="[[!concepts]]">
+							<button class="column-button" on-tap="addConcept"><iron-icon icon="add"></iron-icon>Add Concept</button>
+						</div>
+					</template>
 				</div>
 			</div>
 		</div>
