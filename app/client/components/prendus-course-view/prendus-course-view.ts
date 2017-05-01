@@ -274,7 +274,7 @@ export class PrendusCourseView {
   }
 
   mapStateToThis(e: StatechangeEvent): void {
-    const state = e.detail.state;
+    const state: State = e.detail.state;
     this.courseId = state.courseViewCurrentCourse.id;
     this.username = state.currentUser.metaData.email;
     this.currentCourse = state.courseViewCurrentCourse;
