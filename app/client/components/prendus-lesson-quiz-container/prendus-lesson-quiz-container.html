@@ -4,6 +4,7 @@
 <link rel="import" href="../../bower_components/iron-icons/iron-icons.html">
 <link rel="import" href="../../bower_components/paper-input/paper-textarea.html">
 <link rel="import" href="../../bower_components/paper-dialog/paper-dialog.html">
+<link rel="import" href="../../bower_components/paper-dialog-scrollable/paper-dialog-scrollable.html">
 <link rel="import" href="../../bower_components/paper-dialog-behavior/paper-dialog-behavior.html">
 <link rel="import" href="../../bower_components/paper-tooltip/paper-tooltip.html">
 <link rel="import" href="../../bower_components/prendus-styles/prendus-styles.html">
@@ -89,17 +90,19 @@
         <button class="prendus-button prendus-button--destructive" on-tap="deleteQuiz">Delete</button>
       </div>
     </paper-dialog>
-    <paper-dialog id="get-quiz-lti-link" with-backdrop>
-      <div class="content">
-        <h2>LTI links for</h2>
-        <h3>Key</h3>
-        <paper-textarea value="[[courseId]]"></paper-textarea>
-        <h3>Secret</h3>
-        <paper-textarea value="[[secret]]"></paper-textarea>
-        <h3>Copy this link to put in your course.</h3>
-        <paper-textarea value="[[ltiLink]]"></paper-textarea>
-      </div>
 
+    <paper-dialog id="get-quiz-lti-link" with-backdrop>
+      <paper-dialog-scrollable>
+        <div class="content">
+          <h2>LTI links for</h2>
+          <h3>Key</h3>
+          <paper-textarea value="[[courseId]]"></paper-textarea>
+          <h3>Secret</h3>
+          <paper-textarea value="[[secret]]"></paper-textarea>
+          <h3>Copy this link to put in your course.</h3>
+          <paper-textarea value="[[ltiLink]]"></paper-textarea>
+        </div>
+      </paper-dialog-scrollable>
     </paper-dialog>
     <prendus-notification error-message="[[errorMessage]]" success-message="[[successMessage]]"></prendus-notification>
   </template>
