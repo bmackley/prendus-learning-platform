@@ -54,19 +54,19 @@ export class PrendusPayment {
           'Content-type': 'application/x-www-form-urlencoded; charset=UTF-8'
         },
         body: UtilitiesService.prepareUrl(paymentInfo, false)
-      })
-      .then((response) => {
+      }).then((response) => {
         return response.json();
-      })
-      .then( (data) => {
-        console.log('data ', data)
-        this.successMessage = '';
-        this.successMessage = 'Payment complete.';
-      })
-      .catch( (error) => {
+      }).then((data: any) => {
+        if(200 <= data.status && data.status < 300) {
+          this.successMessage = '';
+          this.successMessage = 'Payment complete.';
+        } else {
+          throw new Error(data.errorMessage);
+        }
+      }).catch((error: string) => {
         console.error('request failed ', error)
         this.errorMessage = '';
-        this.errorMessage = 'Payment failed!';
+        this.errorMessage = 'Payment failed';
       });
     }
   }
