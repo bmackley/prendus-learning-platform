@@ -41,7 +41,7 @@
 
     <paper-card id="profileFormCard">
       <form class="card-content" is="iron-form" id="form" method="post" action="/form/handler" on-keydown="submitKeydown">
-				<h1>Update Account</h1>
+				<h1>Your Account</h1>
 				<p>View and update your account details.</p>
 				<h3>[[getUserTypeText(userType)]]</h3>
 				<hr>
@@ -69,7 +69,7 @@
     <prendus-notification success-message="[[successMessage]]"></prendus-notification>
 
     <paper-dialog id="enter-password" with-backdrop>
-			<div class="content">				
+			<div class="content">
 				<h2>Confirm change of email address</h2>
 				<p>Enter your password to confirm changing your email address.</p>
 				<paper-input id="password" type="password" label="Password" value="{{password}}" on-keydown="confirmIfEnter"></paper-input>
