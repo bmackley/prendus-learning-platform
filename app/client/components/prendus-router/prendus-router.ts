@@ -82,7 +82,7 @@ class PrendusRouter {
       }
 
       case '/payment': {
-        UtilitiesService.importElement(this, 'components/prendus-payment/prendus-payment.html', 'payment');
+        UtilitiesService.importElement(this, 'bower_components/prendus-payment/prendus-payment.html', 'payment');
       }
       default: break;
     }
