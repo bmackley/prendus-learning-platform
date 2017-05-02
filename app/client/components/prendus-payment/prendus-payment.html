@@ -7,10 +7,11 @@
 <link rel="import" href="../../bower_components/paper-styles/color.html">
 <link rel="import" href="../../bower_components/paper-input/paper-input.html">
 <link rel="import" href="../../bower_components/paper-button/paper-button.html">
+<link rel="import" href="../../bower_components/paper-dialog/paper-dialog.html">
 <link rel="import" href="../../bower_components/gold-cc-input/gold-cc-input.html">
 <link rel="import" href="../../bower_components/gold-cc-cvc-input/gold-cc-cvc-input.html">
+<link rel="import" href="../../bower_components/paper-dialog-scrollable/paper-dialog-scrollable.html">
 <link rel="import" href="../prendus-notification/prendus-notification.html">
-<script src="https://checkout.stripe.com/checkout.js"></script>
 <dom-module id="prendus-payment">
 
   <style include="prendus-styles">
@@ -64,54 +65,62 @@
   <template>
     <redux-store on-statechange="mapStateToThis" action="[[action]]"></redux-store>
     <prendus-notification success-message="[[successMessage]]" error-message="[[errorMessage]]"></prendus-notification>
-    <!-- <form is="iron-form" id="form">
-      <paper-input name="email" label="Email address" required value="{{email}}"></paper-input>
-      <paper-input name="name" label="Name on card" required autocomplete="cc-name" value="{{name}}"></paper-input>
+    <paper-dialog id="dialog">
+      <paper-dialog-scrollable>
+        <form is="iron-form" id="form">
+          <paper-input label="Email address" value="{{email}}"></paper-input>
+          <paper-input name="name" label="Name on card" required autocomplete="cc-name" value="{{name}}"></paper-input>
 
-      <gold-cc-input name="cc-number" required
-          auto-validate card-type="{{cardType}}" value="{{cardNumber}}"></gold-cc-input>
+          <gold-cc-input name="cc-number" required
+              auto-validate card-type="{{cardType}}" value="{{cardNumber}}"></gold-cc-input>
 
-      <div class="horizontal layout">
-        <gold-cc-expiration-input name="cc-expiration" required label="Expiration" auto-validate value="{{expiration}}"></gold-cc-expiration-input>
-        <gold-cc-cvc-input name="cc-cvc" required card-type="[[cardType]]" auto-validate value="{{cvc}}"></gold-cc-cvc-input>
-      </div>
-
-      <br><br>
-      <div class="horizontal layout">
-        <div class="filler"></div>
-        <div class="footer">
-          <div class="total-item horizontal layout">
-            <div class="flex">Sub total </div>
-            <div class="price">[[subTotal]]</div>
+          <div class="horizontal layout">
+            <gold-cc-expiration-input name="cc-expiration" required label="Expiration" auto-validate value="{{expiration}}"></gold-cc-expiration-input>
+            <gold-cc-cvc-input name="cc-cvc" required card-type="[[cardType]]" auto-validate value="{{cvc}}"></gold-cc-cvc-input>
           </div>
 
-          <div class="total-item horizontal layout">
-            <div class="flex">Tax </div>
-            <div class="price">[[tax]]</div>
+          <br><br>
+          <div class="horizontal layout">
+            <div class="filler"></div>
+            <div class="footer">
+              <div class="total-item horizontal layout">
+                <div class="flex">Sub total </div>
+                <div class="price">[[subTotal]]</div>
+              </div>
+
+              <div class="total-item horizontal layout">
+                <div class="flex">Tax </div>
+                <div class="price">[[tax]]</div>
+              </div>
+
+              <div class="total-item horizontal layout">
+                <div class="flex">Your total </div>
+                <div class="price">[[total]]</div>
+              </div>
+
+              <div class="horizontal layout end-justified">
+                <paper-button on-click="submit">Pay [[total]]</paper-button>
+              </div>
+            </div>
           </div>
 
-          <div class="total-item horizontal layout">
-            <div class="flex">Your total </div>
-            <div class="price">[[total]]</div>
-          </div>
+        </form>
+      </paper-dialog-scrollable>
+    </paper-dialog>
+    <!-- <form is="iron-form" id="form" type="post">
 
-          <div class="horizontal layout end-justified">
-            <paper-button on-click="submit">Pay [[total]]</paper-button>
-          </div>
-        </div>
-      </div>
-
+      <script
+        src="https://checkout.stripe.com/checkout.js" class="stripe-button"
+        data-key="pk_test_BTQ9tb2N26NBXpe58bl3k4UX"
+        data-amount="2000"
+        data-name="Prendus"
+        data-description="2 widgets"
+        data-image="https://stripe.com/img/documentation/checkout/marketplace.png"
+        data-locale="auto">
+      </script>
     </form> -->
-
     <button id="customButton" on-tap="open">Purchase</button>
 
-    <script>
-
-    // Close Checkout on page navigation:
-    window.addEventListener('popstate', function() {
-
-      handler.close();
-    });
     </script>
   </template>
 

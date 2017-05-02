@@ -2,6 +2,7 @@ import {StatechangeEvent} from '../../typings/statechange-event';
 import {State} from '../../typings/state';
 import {UtilitiesService} from '../../node_modules/prendus-services/services/utilities-service';
 import {PaymentInfo} from '../../node_modules/prendus-services/typings/payment-info';
+import {ConstantsService} from '../../node_modules/prendus-services/services/constants-service';
 
 export class PrendusPayment {
   public is: string;
@@ -15,14 +16,11 @@ export class PrendusPayment {
   public email: string;
   public successMessage: string;
   public errorMessage: string;
-  public handler: StripeCheckoutHandler;
-
+  public querySelector: any;
   beforeRegister(): void {
     this.is = 'prendus-payment';
   }
-  random(min: number, max: number): number {
-    return Math.round(((Math.random() * (max - min)) + min) * 100) / 100;
-  }
+
   ready(): void {
     this.subTotal = this.random(1, 100);
     this.email = 'mcrowder65@gmail.com';
@@ -32,22 +30,16 @@ export class PrendusPayment {
     this.cardNumber = '4242424242424242';
     this.expiration = '4/18';
     this.cvc = '082';
-    console.log(UtilitiesService.dollarsToCents(this.total));
-    this.handler = StripeCheckout.configure({
-      key: 'pk_test_BTQ9tb2N26NBXpe58bl3k4UX',
-      image: '../../images/favicon.png',
-      locale: 'auto',
-      token: function(token) {
-        // You can access the token ID with token.id.
-        // Get the token ID to your server-side code for use.
-      }
-    });
   }
-
+  random(min: number, max: number): number {
+    return Math.round(((Math.random() * (max - min)) + min) * 100) / 100;
+  }
   submit(): void {
     //TODO check if valid
-    if(this.email && this.name && this.cardNumber && this.expiration && this.cvc) {
-
+    if(!this.email.match(ConstantsService.EMAIL_REGEX)) {
+      this.errorMessage = '';
+      this.errorMessage = 'Please enter a valid email';
+    } else if(this.email && this.name && this.cardNumber && this.expiration && this.cvc) {
       const paymentInfo: PaymentInfo = {
         name: this.name,
         cardNumber: this.cardNumber,
@@ -58,7 +50,6 @@ export class PrendusPayment {
         total: this.total,
         email: this.email
       };
-      console.log('paymentInfo ', paymentInfo);
       fetch('http://localhost:5000/api/payment', {
         method: 'post',
         headers: {
@@ -81,14 +72,11 @@ export class PrendusPayment {
       });
     }
   }
+
   open(): void {
-    // Open Checkout with further options:
-    this.handler.open({
-      name: 'Prendus',
-      description: 'Pay for this course',
-      amount: this.total
-    });
+    this.querySelector('#dialog').open();
   }
+
 	mapStateToThis(e: StatechangeEvent): void {
 		const state: State = e.detail.state;
 	}
