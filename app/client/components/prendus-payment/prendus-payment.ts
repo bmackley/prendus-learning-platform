@@ -35,42 +35,66 @@ export class PrendusPayment {
     return Math.round(((Math.random() * (max - min)) + min) * 100) / 100;
   }
   submit(): void {
-    //TODO check if valid
-    if(!this.email.match(ConstantsService.EMAIL_REGEX)) {
-      this.errorMessage = '';
-      this.errorMessage = 'Please enter a valid email';
-    } else if(this.email && this.name && this.cardNumber && this.expiration && this.cvc) {
-      const paymentInfo: PaymentInfo = {
-        name: this.name,
-        cardNumber: this.cardNumber,
-        expiration: this.expiration,
-        cvc: this.cvc,
-        subTotal: this.subTotal,
-        tax: this.tax,
-        total: this.total,
-        email: this.email
-      };
-      fetch('http://localhost:5000/api/payment', {
-        method: 'post',
-        headers: {
-          'Content-type': 'application/x-www-form-urlencoded; charset=UTF-8'
-        },
-        body: UtilitiesService.prepareUrl(paymentInfo, false)
-      }).then((response) => {
-        return response.json();
-      }).then((data: any) => {
-        if(200 <= data.status && data.status < 300) {
-          this.successMessage = '';
-          this.successMessage = 'Payment complete.';
-        } else {
-          throw new Error(data.errorMessage);
-        }
-      }).catch((error: string) => {
-        console.error('request failed ', error)
+    try {
+      const expirationMonth: number = parseInt(this.expiration.split('/')[0]);
+      const expirationYear: number = parseInt(this.expiration.split('/')[1]);
+
+      const currentDate: Date = new Date();
+
+      if(this.querySelector('#expiration').invalid) {
         this.errorMessage = '';
-        this.errorMessage = 'Payment failed';
-      });
+        this.errorMessage = 'Please enter a valid expiration';
+      } else if(this.querySelector('#cvc').invalid) {
+        // TODO this will work when this PR is merged.
+        // https://github.com/PolymerElements/gold-cc-cvc-input/pull/53
+        this.errorMessage = '';
+        this.errorMessage = 'Please enter a valid cvc';
+      } else if(this.querySelector('#card').invalid) {
+        // TODO this will work when this PR is merged
+        // https://github.com/PolymerElements/gold-cc-input/pull/57
+        this.errorMessage = '';
+        this.errorMessage = 'Please enter a valid card number.';
+      } else if(!this.email.match(ConstantsService.EMAIL_REGEX)) {
+        this.errorMessage = '';
+        this.errorMessage = 'Please enter a valid email';
+      } else if(this.email && this.name && this.cardNumber && this.expiration && this.cvc) {
+        const paymentInfo: PaymentInfo = {
+          name: this.name,
+          cardNumber: this.cardNumber,
+          expiration: this.expiration,
+          cvc: this.cvc,
+          subTotal: this.subTotal,
+          tax: this.tax,
+          total: this.total,
+          email: this.email
+        };
+        fetch('http://localhost:5000/api/payment', {
+          method: 'post',
+          headers: {
+            'Content-type': 'application/x-www-form-urlencoded; charset=UTF-8'
+          },
+          body: UtilitiesService.prepareUrl(paymentInfo, false)
+        }).then((response) => {
+          return response.json();
+        }).then((data: any) => {
+          if(200 <= data.status && data.status < 300) {
+            this.successMessage = '';
+            this.successMessage = 'Payment complete.';
+          } else {
+            throw new Error(data.errorMessage);
+          }
+        }).catch((error: string) => {
+          console.error('request failed ', error)
+          this.errorMessage = '';
+          this.errorMessage = 'Payment failed';
+        });
+      }
+    } catch(error) {
+      console.error('error while processing payment ', error);
+      this.errorMessage = '';
+      this.errorMessage = 'Something went wrong while processing your payment..';
     }
+
   }
 
   open(): void {
