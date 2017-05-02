@@ -4,6 +4,7 @@ import {Course} from '../../node_modules/prendus-services/typings/course';
 import {Actions} from '../../redux/actions';
 import {StatechangeEvent} from '../../typings/statechange-event';
 import {FirebaseService} from '../../node_modules/prendus-services/services/firebase-service';
+import {UtilitiesService} from '../../node_modules/prendus-services/services/utilities-service';
 
 class PrendusLessonQuizContainer {
     public is: string;
@@ -17,6 +18,11 @@ class PrendusLessonQuizContainer {
     public currentCourse: Course;
     public successMessage: string;
     public errorMessage: string;
+    public jwt: string;
+    public endpointDomain: string;
+    public ltiLink: string;
+    public ltiQuizId: string;
+    public secret: string; //need to place this somewhere more secure. Course settings perhaps? We need to finish course settings first if we're gonig to put it there.
 		public fire: any;
 		public querySelector: any;
     public courseEditAccess: boolean
@@ -71,6 +77,30 @@ class PrendusLessonQuizContainer {
       this.fire('location-changed', {}, {node: window});
     }
 
+    async getLTILinks(e: any): Promise<void> {
+      // Start the server
+      e.stopPropagation();
+      this.ltiQuizId = e.target.parentElement.dataQuiz;
+      this.endpointDomain = UtilitiesService.getPrendusServerEndpointDomain();
+      const courseId: string = this.courseId;
+      const jwt: string = this.jwt;
+      const LTIRequest = this.querySelector("#getLTIajax");
+      LTIRequest.body = {
+        courseId,
+        jwt
+      }
+      const request = LTIRequest.generateRequest();
+      await request.completes;
+      this.secret = request.response.secret;
+      const env = window['PRENDUS_ENV'];
+      if(env === 'development') {
+        this.ltiLink = `http://localhost:5000/api/lti/course/${this.courseId}/quiz/${this.ltiQuizId}`;
+      } else {
+        this.ltiLink = `http://prenduslearning.com/api/lti/course/${this.courseId}/quiz/${this.ltiQuizId}`;
+      }
+      this.querySelector('#get-quiz-lti-link').open()
+    }
+
     openDeleteModal(e: any) {
       e.stopPropagation();
       this.querySelector('#confirm-delete-modal').open();
@@ -90,13 +120,6 @@ class PrendusLessonQuizContainer {
       }
     }
 
-    async addQuiz(e: Event) {
-        const quizId: string = await Actions.createNewQuiz(this, this.lessonId);
-        window.history.pushState({}, '', `courses/edit-quiz/course/${this.courseId}/lesson/${this.lessonId}/quiz/${quizId}`);
-        this.fire('location-changed', {}, {node: window});
-        await Actions.loadViewLessonQuizzes(this, this.lessonId);
-    }
-
     mapStateToThis(e: StatechangeEvent) {
       const state = e.detail.state;
       this.uid = state.currentUser.metaData.uid;
@@ -114,6 +137,7 @@ class PrendusLessonQuizContainer {
     			}
                 return quiz;
     	});
+      this.jwt = state.jwt;
     }
 }
 

@@ -2,9 +2,13 @@
 <link rel="import" href="../../bower_components/redux-store-element/redux-store.html">
 <link rel="import" href="../../bower_components/paper-icon-button/paper-icon-button.html">
 <link rel="import" href="../../bower_components/iron-icons/iron-icons.html">
+<link rel="import" href="../../bower_components/paper-input/paper-textarea.html">
 <link rel="import" href="../../bower_components/paper-dialog/paper-dialog.html">
+<link rel="import" href="../../bower_components/paper-dialog-scrollable/paper-dialog-scrollable.html">
+<link rel="import" href="../../bower_components/paper-dialog-behavior/paper-dialog-behavior.html">
 <link rel="import" href="../../bower_components/paper-tooltip/paper-tooltip.html">
 <link rel="import" href="../../bower_components/prendus-styles/prendus-styles.html">
+<link rel="import" href="../../bower_components/iron-ajax/iron-ajax.html">
 
 <dom-module id="prendus-lesson-quiz-container">
 
@@ -33,7 +37,7 @@
 			}
 
 			.quiz-title {
-				/* keeps text from overflowing a flexbox container */
+				/* min-width: 0; keeps text from overflowing a flexbox container */
 				min-width: 0;
 				flex-grow: 1;
 			}
@@ -45,8 +49,7 @@
 			@media (max-width: 500px) {
 
 				.quiz-row {
-					flex-direction: column;
-					align-items: flex-start;
+					display: block;
 				}
 
 			}
@@ -56,10 +59,13 @@
     <redux-store on-statechange="mapStateToThis" action="[[action]]"></redux-store>
 
     <template is="dom-repeat" items="[[quizzes]]" as="quiz">
+      <iron-ajax method="get" id="getLTIajax" url="[[endpointDomain]]/api/lti/jwt/[[jwt]]/course/[[courseId]]/secret" content-type="application/json" handle-as="json"></iron-ajax>
       <div class="quiz-row" on-tap="viewQuiz">
 				<span class="quiz-title">[[quiz.title]]</span>
 				<div class="quiz-icons">
 					<template is="dom-if" if="[[quiz.hasEditAccess]]">
+            <paper-icon-button id="LTI-quiz-links[[quiz.id]]"  data-quiz="[[quiz.id]]" class="quiz-icon" icon="link" on-tap="getLTILinks"></paper-icon-button>
+						<paper-tooltip for="LTI-quiz-links[[quiz.id]]" offset="0" animation-delay="300">Get LTI Link</paper-tooltip>
 						<paper-icon-button id="edit-quiz[[quiz.id]]" class="prendus-icon-button" icon="create" on-tap="editQuiz"></paper-icon-button>
 						<paper-tooltip for="edit-quiz[[quiz.id]]" offset="0" animation-delay="300">Edit Quiz</paper-tooltip>
 						<paper-icon-button id="delete-quiz[[quiz.id]]" class="prendus-icon-button" icon="delete" on-tap="openDeleteModal" delete="[[quiz.id]]"></paper-icon-button>
@@ -85,6 +91,19 @@
       </div>
     </paper-dialog>
 
+    <paper-dialog id="get-quiz-lti-link" with-backdrop>
+      <paper-dialog-scrollable>
+        <div class="content">
+          <h2>LTI links for</h2>
+          <h3>Key</h3>
+          <paper-textarea value="[[courseId]]"></paper-textarea>
+          <h3>Secret</h3>
+          <paper-textarea value="[[secret]]"></paper-textarea>
+          <h3>Copy this link to put in your course.</h3>
+          <paper-textarea value="[[ltiLink]]"></paper-textarea>
+        </div>
+      </paper-dialog-scrollable>
+    </paper-dialog>
     <prendus-notification error-message="[[errorMessage]]" success-message="[[successMessage]]"></prendus-notification>
   </template>
 
