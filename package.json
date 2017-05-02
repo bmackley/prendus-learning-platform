@@ -14,7 +14,9 @@
     "url": "git+ssh://git@github.com:bmackley/prendus-learning-platform.git"
   },
   "homepage": "https://github.com/bmackley/prendus-learning-platform",
-  "dependencies": {},
+  "dependencies": {
+    "@types/stripe-checkout": "0.0.28"
+  },
   "devDependencies": {
     "@types/polymer": "^1.1.30"
   }

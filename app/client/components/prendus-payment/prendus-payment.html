@@ -10,6 +10,7 @@
 <link rel="import" href="../../bower_components/gold-cc-input/gold-cc-input.html">
 <link rel="import" href="../../bower_components/gold-cc-cvc-input/gold-cc-cvc-input.html">
 <link rel="import" href="../prendus-notification/prendus-notification.html">
+<script src="https://checkout.stripe.com/checkout.js"></script>
 <dom-module id="prendus-payment">
 
   <style include="prendus-styles">
@@ -63,7 +64,7 @@
   <template>
     <redux-store on-statechange="mapStateToThis" action="[[action]]"></redux-store>
     <prendus-notification success-message="[[successMessage]]" error-message="[[errorMessage]]"></prendus-notification>
-    <form is="iron-form" id="form">
+    <!-- <form is="iron-form" id="form">
       <paper-input name="email" label="Email address" required value="{{email}}"></paper-input>
       <paper-input name="name" label="Name on card" required autocomplete="cc-name" value="{{name}}"></paper-input>
 
@@ -100,8 +101,18 @@
         </div>
       </div>
 
-    </form>
-  </template>
+    </form> -->
+
+    <button id="customButton" on-tap="open">Purchase</button>
+
+    <script>
+
+    // Close Checkout on page navigation:
+    window.addEventListener('popstate', function() {
+
+      handler.close();
+    });
+    </script>
   </template>
 
   <script src="prendus-payment.ts"></script>

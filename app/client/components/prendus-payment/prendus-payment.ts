@@ -2,6 +2,7 @@ import {StatechangeEvent} from '../../typings/statechange-event';
 import {State} from '../../typings/state';
 import {UtilitiesService} from '../../node_modules/prendus-services/services/utilities-service';
 import {PaymentInfo} from '../../node_modules/prendus-services/typings/payment-info';
+
 export class PrendusPayment {
   public is: string;
   public subTotal: number;
@@ -14,10 +15,10 @@ export class PrendusPayment {
   public email: string;
   public successMessage: string;
   public errorMessage: string;
+  public handler: StripeCheckoutHandler;
 
   beforeRegister(): void {
     this.is = 'prendus-payment';
-
   }
   random(min: number, max: number): number {
     return Math.round(((Math.random() * (max - min)) + min) * 100) / 100;
@@ -31,6 +32,16 @@ export class PrendusPayment {
     this.cardNumber = '4242424242424242';
     this.expiration = '4/18';
     this.cvc = '082';
+    console.log(UtilitiesService.dollarsToCents(this.total));
+    this.handler = StripeCheckout.configure({
+      key: 'pk_test_BTQ9tb2N26NBXpe58bl3k4UX',
+      image: '../../images/favicon.png',
+      locale: 'auto',
+      token: function(token) {
+        // You can access the token ID with token.id.
+        // Get the token ID to your server-side code for use.
+      }
+    });
   }
 
   submit(): void {
@@ -69,6 +80,14 @@ export class PrendusPayment {
         this.errorMessage = 'Payment failed';
       });
     }
+  }
+  open(): void {
+    // Open Checkout with further options:
+    this.handler.open({
+      name: 'Prendus',
+      description: 'Pay for this course',
+      amount: this.total
+    });
   }
 	mapStateToThis(e: StatechangeEvent): void {
 		const state: State = e.detail.state;
