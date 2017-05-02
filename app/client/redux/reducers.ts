@@ -308,27 +308,6 @@ export function rootReducer(state: State = InitialState, action: Action): State 
         };
       }
 
-      case 'SET_DISCIPLINES': {
-          return {
-            ...state,
-            disciplines: action.disciplines
-          };
-      }
-
-      case 'SET_CHOSEN_DISCIPLINE': {
-        return {
-          ...state,
-          chosenDiscipline: action.chosenDiscipline
-        };
-      }
-
-      case 'SET_CHOSEN_SUBJECT': {
-        return {
-          ...state,
-          chosenSubject: action.chosenSubject
-        };
-      }
-
       case 'SET_CHOSEN_LESSON': {
         return {
           ...state,
@@ -336,12 +315,6 @@ export function rootReducer(state: State = InitialState, action: Action): State 
         };
       }
 
-      case 'SET_CHOSEN_CONCEPT': {
-        return {
-          ...state,
-          chosenConcept: action.chosenConcept
-        };
-      }
       default: {
           return state;
       }
