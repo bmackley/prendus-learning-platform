@@ -40,9 +40,9 @@ export interface State {
     courseViewCurrentCourse: Course;
     currentLessonVideoId: string;
     currentLessonVideoTitle: string;
-    currentLessonVideoUrl: string
-    currentUser: User
-		currentVideo: Video
+    currentLessonVideoUrl: string;
+    currentUser: User;
+		currentVideo: Video;
     currentEditQuizId: string;
     currentEditLessonId: string;
     jwt: string;
