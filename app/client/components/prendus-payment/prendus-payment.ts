@@ -68,7 +68,7 @@ export class PrendusPayment {
           total: this.total,
           email: this.email
         };
-        fetch('http://localhost:5000/api/payment', {
+        fetch(`${UtilitiesService.getPrendusServerEndpointDomain()}/api/payment`, {
           method: 'post',
           headers: {
             'Content-type': 'application/x-www-form-urlencoded; charset=UTF-8'
