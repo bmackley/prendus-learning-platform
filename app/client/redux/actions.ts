@@ -707,7 +707,7 @@ const loadTeachers = async (context: any): Promise<void> => {
 		type: 'LOAD_TEACHERS',
 		unverifiedTeachers,
 		verifiedTeachers
-	}
+	};
 }
 
 const setUserType = async (context: any, uid: string, userType: UserType): Promise<void> => {
@@ -792,7 +792,7 @@ const getLessonById = async (context: any, id: string): Promise<Lesson> => {
           context.action = {
             type: 'GET_LESSON_BY_ID',
             lesson
-          }
+          };
       }
 
       return lesson;
@@ -852,7 +852,7 @@ const deleteCourse = async (context: any, course: Course): Promise<void> => {
     context.action = {
       type: 'UPDATE_COURSES',
       courses
-    }
+    };
   } catch (error) {
     throw error;
   }
@@ -995,7 +995,7 @@ const updateCourseField = async (context: any, id: string, field: string, value:
       context.action = {
         type: 'SET_COURSE_VIEW_CURRENT_COURSE',
         currentCourse
-      }
+      };
     } catch(error) {
       throw error;
     }
@@ -1034,7 +1034,7 @@ const reloadPublicCourses = async (context: any, courses: Course[]): Promise<voi
     context.action = {
       type: 'RELOAD_PUBLIC_COURSES',
       courses
-    }
+    };
   } catch(error) {
 
   }
