@@ -25,12 +25,12 @@ class PrendusTeacherApproval {
 	}
 
 	async approveTeacher(e: any): Promise<void> {
-		await Actions.setUserType(this, e.model.unverifiedTeacher.id, 'verifiedTeacher');
+		await Actions.setUserType(e.model.unverifiedTeacher.id, 'verifiedTeacher');
 		Actions.loadTeachers(this);
 	}
 
 	async revokeTeacher(e: any): Promise<void> {
-		await Actions.setUserType(this, e.model.verifiedTeacher.id, 'unverifiedTeacher');
+		await Actions.setUserType(e.model.verifiedTeacher.id, 'unverifiedTeacher');
 		Actions.loadTeachers(this);
 	}
 

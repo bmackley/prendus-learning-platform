@@ -710,7 +710,7 @@ const loadTeachers = async (context: any): Promise<void> => {
 	};
 };
 
-const setUserType = async (context: any, uid: string, userType: UserType): Promise<void> => {
+const setUserType = async (uid: string, userType: UserType): Promise<void> => {
 	await UserModel.setUserType(uid, userType);
 };
 
