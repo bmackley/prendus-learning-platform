@@ -71,16 +71,16 @@
     <prendus-notification id="notification" success-message="[[successMessage]]" error-message="[[errorMessage]]"></prendus-notification>
     <div class="title-buttons" on-tap="toggle">
 
-      <iron-icon id="drag-handle" class="prendus-icon-button" icon="editor:drag-handle"></iron-icon>
+      <paper-icon-button id="drag-handle" class="prendus-icon-button" icon="editor:drag-handle"></paper-icon-button>
       <paper-tooltip for="drag-handle" offset="0" animation-delay="300">Drag to change lesson order</paper-tooltip>
 			<div class="title-action-buttons">
 				<h3 class="lesson-title">[[title]]</h3>
 				<div class="action-buttons">
-					<paper-icon-button id="edit-button" class="icon-button" icon="create" on-tap="editLesson"></paper-icon-button>
+					<paper-icon-button id="edit-button" class="prendus-icon-button" icon="create" on-tap="editLesson"></paper-icon-button>
 					<paper-tooltip for="edit-button" offset="0" animation-delay="300">Edit lesson</paper-tooltip>
 					<!-- <paper-icon-button id="collaborator-button" class="icon-button" icon="social:group-add" on-tap="openCollaboratorsModal"></paper-icon-button>
 					<paper-tooltip for="collaborator-button" offset="0" animation-delay="300">Edit collaborators</paper-tooltip> -->
-					<paper-icon-button id="delete-button" class="icon-button" icon="delete" on-tap="openDeleteModal"></paper-icon-button>
+					<paper-icon-button id="delete-button" class="prendus-icon-button" icon="delete" on-tap="openDeleteModal"></paper-icon-button>
 					<paper-tooltip for="delete-button" offset="0" animation-delay="300">Delete lesson</paper-tooltip>
 				</div>
 			</div>

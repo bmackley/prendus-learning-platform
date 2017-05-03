@@ -467,6 +467,18 @@ const loadQuizQuestionIds = async (context: any, quizId: string): Promise<void> 
 		// }
 };
 
+const loadQuizQuestionsData = async (context: any, quizId: string): Promise<void> => {
+	const quizQuestionsData: { settings: QuestionSettings, position?: number, questionId: string }[] = await QuizModel.getQuestionsData(quizId);
+	context.action =  {
+		type: 'LOAD_QUIZ_QUESTIONS_DATA',
+		quizQuestionsData
+	};
+};
+
+const setQuizQuestionsData = async (quizId: string, quizQuestionsData: { settings: QuestionSettings, position?: number, questionId: string }[]): Promise<void> => {
+	await QuizModel.setQuestionsData(quizId, quizQuestionsData);
+}
+
 const addQuestionToQuiz = async (context: any, quizId: string, questionId: string): Promise<void> => {
     await QuizModel.associateQuestion(quizId, questionId);
 };
@@ -1061,6 +1073,8 @@ export const Actions = {
     loadUserQuestionIds,
     addQuestionToQuiz,
     loadQuizQuestionIds,
+		loadQuizQuestionsData,
+		setQuizQuestionsData,
     removeQuestionFromQuiz,
     setQuizQuestionSetting,
     setQuestionSetting,

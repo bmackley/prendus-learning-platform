@@ -69,6 +69,7 @@ export interface State {
 		userQuestionIds: [string];
 		publicQuestionIds: [string];
 		quizQuestionIds: [string];
+		quizQuestionsData: { settings: QuestionSettings, position?: number, questionId: string }[];
 		quizQuestionSettings: QuestionSettings;
     mainViewToShow: 'routes' | 'spinner';
     resultingLessons: Lesson[];

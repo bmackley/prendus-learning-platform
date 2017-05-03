@@ -39,6 +39,7 @@ export interface Action {
 	userQuestionIds: [string];
 	publicQuestionIds: [string];
 	quizQuestionIds: [string];
+	quizQuestionsData: { settings: QuestionSettings, position?: number, questionId: string }[];
 	quizQuestionSettings: QuestionSettings;
 	visibility: string;
 	userType: UserType;
