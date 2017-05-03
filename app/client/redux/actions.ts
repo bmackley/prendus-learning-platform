@@ -700,6 +700,14 @@ const checkUserAuth = async (context: any): Promise<void> => {
   }
 };
 
+const loadCurrentUser = async(context: any, currentUserId: string): Promise<void> => {
+	const user = await UserModel.getById(currentUserId);
+	context.action = {
+		type: 'LOAD_CURRENT_USER',
+		user
+	};
+}
+
 const loadTeachers = async (context: any): Promise<void> => {
 	const unverifiedTeachers: User[] = await UserModel.getAllByUserType('unverifiedTeacher');
 	const verifiedTeachers: User[] = await UserModel.getAllByUserType('verifiedTeacher');
@@ -1045,6 +1053,7 @@ export const Actions = {
     defaultAction,
     loginUser,
     checkUserAuth,
+		loadCurrentUser,
 		loadTeachers,
     deleteLesson,
     orderLessons,
