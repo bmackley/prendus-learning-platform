@@ -154,6 +154,13 @@ export function rootReducer(state: State = InitialState, action: Action): State 
 					jwt: action.jwt
 				}
       }
+			case 'LOAD_TEACHERS': {
+				return {
+					...state,
+					unverifiedTeachers: action.unverifiedTeachers,
+					verifiedTeachers: action.verifiedTeachers
+				}
+			}
       case 'GET_LESSON_BY_ID': {
         return {
 					...state,

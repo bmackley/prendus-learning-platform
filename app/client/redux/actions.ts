@@ -708,6 +708,24 @@ const checkUserAuth = async (context: any): Promise<void> => {
   }
 };
 
+const loadTeachers = async (context: any): Promise<void> => {
+	const unverifiedTeachers: User[] = await UserModel.getAllByUserType('unverifiedTeacher');
+	const verifiedTeachers: User[] = await UserModel.getAllByUserType('verifiedTeacher');
+	context.action = {
+		type: 'LOAD_TEACHERS',
+		unverifiedTeachers,
+		verifiedTeachers
+	}
+}
+
+const approveTeacher = async (context: any, id: string): Promise<void> => {
+	await UserModel.setUserType(id, 'verifiedTeacher');
+}
+
+const revokeTeacher = async (context: any, id: string): Promise<void> => {
+	await UserModel.setUserType(id, 'unverifiedTeacher');
+}
+
 const addLesson = async (context: any, courseId: string, newLesson: Lesson, lessonPos: number, tags: string[]): Promise<void> => {
     try {
       const lessonId: string = await LessonModel.createOrUpdate(null, newLesson);
@@ -1038,6 +1056,9 @@ export const Actions = {
     defaultAction,
     loginUser,
     checkUserAuth,
+		loadTeachers,
+		approveTeacher,
+		revokeTeacher,
     deleteLesson,
     orderLessons,
     addLesson,
