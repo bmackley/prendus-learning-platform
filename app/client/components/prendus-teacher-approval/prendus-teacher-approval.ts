@@ -16,13 +16,21 @@ class PrendusTeacherApproval {
 		Actions.loadTeachers(this);
 	}
 
+	showUnverifiedTeachers(unverifiedTeachers: User[]): boolean {
+		return !!unverifiedTeachers.length;
+	}
+
+	showVerifiedTeachers(verifiedTeachers: User[]): boolean {
+		return !!verifiedTeachers.length;
+	}
+
 	async approveTeacher(e: any): Promise<void> {
-		await Actions.approveTeacher(this, e.model.unverifiedTeacher.id);
+		await Actions.setUserType(this, e.model.unverifiedTeacher.id, 'verifiedTeacher');
 		Actions.loadTeachers(this);
 	}
 
 	async revokeTeacher(e: any): Promise<void> {
-		await Actions.revokeTeacher(this, e.model.verifiedTeacher.id);
+		await Actions.setUserType(this, e.model.verifiedTeacher.id, 'unverifiedTeacher');
 		Actions.loadTeachers(this);
 	}
 

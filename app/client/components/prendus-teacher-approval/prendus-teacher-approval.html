@@ -30,6 +30,7 @@
 
 			<h2>Unverified Teachers</h2>
 			<div class="container">
+				<p hidden$=[[showUnverifiedTeachers(unverifiedTeachers)]]><strong>There are no more teachers to verify.</strong></p>
 				<template is="dom-repeat" items="[[unverifiedTeachers]]" as="unverifiedTeacher">
 					<div class="teacher prendus-horizontal-container">
 						<span>[[unverifiedTeacher.metaData.email]]</span>
@@ -40,6 +41,7 @@
 
 			<h2>Verified Teachers</h2>
 			<div class="container">
+				<p hidden$=[[showVerifiedTeachers(verifiedTeachers)]]><strong>No teachers have been verified yet.</strong></p>
 				<template is="dom-repeat" items="[[verifiedTeachers]]" as="verifiedTeacher">
 					<div class="teacher prendus-horizontal-container">
 						<span>[[verifiedTeacher.metaData.email]]</span>

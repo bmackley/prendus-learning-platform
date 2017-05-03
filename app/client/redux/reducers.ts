@@ -159,7 +159,7 @@ export function rootReducer(state: State = InitialState, action: Action): State 
 					...state,
 					unverifiedTeachers: action.unverifiedTeachers,
 					verifiedTeachers: action.verifiedTeachers
-				}
+				};
 			}
       case 'GET_LESSON_BY_ID': {
         return {
@@ -205,14 +205,6 @@ export function rootReducer(state: State = InitialState, action: Action): State 
         // delete newState.lessons[action.lessonKey];
         // return newState;
       }
-			case 'SET_USER_TYPE':
-				return {
-					...state,
-					currentUser: {
-						...state.currentUser,
-						userType: action.userType
-					}
-				}
       case 'UPDATE_USER_META_DATA': {
 				return  {
 					...state,
