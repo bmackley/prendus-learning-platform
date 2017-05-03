@@ -375,7 +375,7 @@ const deleteQuiz = async (context: any, lessonId: string, quiz: Quiz): Promise<v
     }
     // delete from database
     await QuizModel.deleteQuiz(quiz.id);
-}
+};
 
 const loadEditLessonQuizzes = async (context: any, lessonId: string): Promise<void> => {
     const user: any = await FirebaseService.getLoggedInUser();
@@ -708,11 +708,11 @@ const loadTeachers = async (context: any): Promise<void> => {
 		unverifiedTeachers,
 		verifiedTeachers
 	};
-}
+};
 
 const setUserType = async (context: any, uid: string, userType: UserType): Promise<void> => {
 	await UserModel.setUserType(uid, userType);
-}
+};
 
 const addLesson = async (context: any, courseId: string, newLesson: Lesson, lessonPos: number, tags: string[]): Promise<void> => {
     try {
@@ -810,7 +810,7 @@ const resolveTagIdObject = async (tags: {[tagId: string]: string}): Promise<Tag[
   } catch(error) {
     throw error;
   }
-}
+};
 
 const addCourse = async (context: any, newCourse: Course, tags: string[]): Promise<void> => {
     try {
@@ -856,7 +856,7 @@ const deleteCourse = async (context: any, course: Course): Promise<void> => {
   } catch (error) {
     throw error;
   }
-}
+};
 
 const deleteTagFromCourse = async (context: any, tag: Tag, courseId: string): Promise<void> => {
     try {
@@ -1028,7 +1028,8 @@ const updateQuizDueDates = async (courseId: string): Promise<void> => {
   } catch(error) {
     throw error;
   }
-}
+};
+
 const reloadPublicCourses = async (context: any, courses: Course[]): Promise<void> => {
   try {
     context.action = {
