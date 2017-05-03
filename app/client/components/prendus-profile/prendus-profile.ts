@@ -63,7 +63,8 @@ export class PrendusProfile {
       try {
 				// only attempt to change the user type if the user is allowed to
 				if(this.userType === 'student' || this.userType === 'unverifiedTeacher') {
-					await Actions.setUserType(this, this.uid, this.userType);
+					await Actions.setUserType(this.uid, this.userType);
+					await Actions.loadCurrentUser(this, this.uid);
 				}
         await Actions.updateUserMetaData(this, this.uid, submitValue);
         this.successMessage = '';

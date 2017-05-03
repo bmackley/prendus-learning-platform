@@ -26,6 +26,8 @@ export interface Action {
 	concept: Concept;
 	currentVideo: Video;
   user: User;
+	unverifiedTeachers: User[];
+	verifiedTeachers: User[];
   courseLessons: CourseLessonData[];
   currentEditQuizId: string;
   currentEditLessonId: string;

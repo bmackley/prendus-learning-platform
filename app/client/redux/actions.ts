@@ -375,7 +375,7 @@ const deleteQuiz = async (context: any, lessonId: string, quiz: Quiz): Promise<v
     }
     // delete from database
     await QuizModel.deleteQuiz(quiz.id);
-}
+};
 
 const loadEditLessonQuizzes = async (context: any, lessonId: string): Promise<void> => {
     const user: any = await FirebaseService.getLoggedInUser();
@@ -670,14 +670,6 @@ const updateUserEmail = async (context: any, pastEmail: string, password: string
   }
 };
 
-const setUserType = async (context: any, uid: string, userType: UserType): Promise<void> => {
-	await UserModel.setUserType(uid, userType)
-	context.action = {
-		type: 'SET_USER_TYPE',
-		userType: userType
-	}
-};
-
 const updateUserMetaData = async (context: any, uid: string, metaData: UserMetaData): Promise<void> => {
   try{
     await UserModel.updateMetaData(uid, metaData);
@@ -706,6 +698,28 @@ const checkUserAuth = async (context: any): Promise<void> => {
   } catch(error) {
     throw error;
   }
+};
+
+const loadCurrentUser = async(context: any, currentUserId: string): Promise<void> => {
+	const user = await UserModel.getById(currentUserId);
+	context.action = {
+		type: 'LOAD_CURRENT_USER',
+		user
+	};
+}
+
+const loadTeachers = async (context: any): Promise<void> => {
+	const unverifiedTeachers: User[] = await UserModel.getAllByUserType('unverifiedTeacher');
+	const verifiedTeachers: User[] = await UserModel.getAllByUserType('verifiedTeacher');
+	context.action = {
+		type: 'LOAD_TEACHERS',
+		unverifiedTeachers,
+		verifiedTeachers
+	};
+};
+
+const setUserType = async (uid: string, userType: UserType): Promise<void> => {
+	await UserModel.setUserType(uid, userType);
 };
 
 const addLesson = async (context: any, courseId: string, newLesson: Lesson, lessonPos: number, tags: string[]): Promise<void> => {
@@ -786,7 +800,7 @@ const getLessonById = async (context: any, id: string): Promise<Lesson> => {
           context.action = {
             type: 'GET_LESSON_BY_ID',
             lesson
-          }
+          };
       }
 
       return lesson;
@@ -804,7 +818,7 @@ const resolveTagIdObject = async (tags: {[tagId: string]: string}): Promise<Tag[
   } catch(error) {
     throw error;
   }
-}
+};
 
 const addCourse = async (context: any, newCourse: Course, tags: string[]): Promise<void> => {
     try {
@@ -846,11 +860,11 @@ const deleteCourse = async (context: any, course: Course): Promise<void> => {
     context.action = {
       type: 'UPDATE_COURSES',
       courses
-    }
+    };
   } catch (error) {
     throw error;
   }
-}
+};
 
 const deleteTagFromCourse = async (context: any, tag: Tag, courseId: string): Promise<void> => {
     try {
@@ -989,7 +1003,7 @@ const updateCourseField = async (context: any, id: string, field: string, value:
       context.action = {
         type: 'SET_COURSE_VIEW_CURRENT_COURSE',
         currentCourse
-      }
+      };
     } catch(error) {
       throw error;
     }
@@ -1022,13 +1036,14 @@ const updateQuizDueDates = async (courseId: string): Promise<void> => {
   } catch(error) {
     throw error;
   }
-}
+};
+
 const reloadPublicCourses = async (context: any, courses: Course[]): Promise<void> => {
   try {
     context.action = {
       type: 'RELOAD_PUBLIC_COURSES',
       courses
-    }
+    };
   } catch(error) {
 
   }
@@ -1038,6 +1053,8 @@ export const Actions = {
     defaultAction,
     loginUser,
     checkUserAuth,
+		loadCurrentUser,
+		loadTeachers,
     deleteLesson,
     orderLessons,
     addLesson,
