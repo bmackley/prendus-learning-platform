@@ -18,34 +18,34 @@ export class PrendusQuestionScaffoldComments {
     this.properties = {
       commentOne: {
         type: String,
-        observer: 'displayNext',
+        observer: 'disableNext',
         value: 'Correct'
       },
       commentTwo: {
         type: String,
-        observer: 'displayNext'
+        observer: 'disableNext'
       },
       commentThree: {
         type: String,
-        observer: 'displayNext'
+        observer: 'disableNext'
       },
       commentFour: {
         type: String,
-        observer: 'displayNext'
+        observer: 'disableNext'
       },
       myIndex: {
         type: Number
       },
       selectedIndex: {
         type: Number,
-        observer: 'displayNext'
+        observer: 'disableNext'
       }
     }
   }
 
-  displayNext(): void {
+  disableNext(): void {
     if(this.myIndex === this.selectedIndex) {
-      Actions.setDisplayNext(this, UtilitiesService.isDefinedAndNotEmpty([this.commentOne, this.commentTwo, this.commentThree, this.commentFour]));
+      Actions.setDisabledNext(this, !UtilitiesService.isDefinedAndNotEmpty([this.commentOne, this.commentTwo, this.commentThree, this.commentFour]));
     }
 
   }

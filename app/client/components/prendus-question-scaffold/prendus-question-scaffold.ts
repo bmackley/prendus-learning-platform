@@ -16,7 +16,7 @@ class PrendusQuestionScaffold {
   public is: string;
   public selectedIndex: number;
   public querySelector: any;
-  public displayNext: boolean;
+  public disableNext: boolean;
   public properties: any;
 
   beforeRegister(): void {
@@ -25,7 +25,7 @@ class PrendusQuestionScaffold {
 
   async ready(): Promise<void> {
     this.selectedIndex = 0;
-    Actions.setDisplayNext(this, true);
+    Actions.setDisabledNext(this, false);
   }
 
   /**
@@ -33,7 +33,6 @@ class PrendusQuestionScaffold {
    */
   back(): void {
     --this.selectedIndex;
-
   }
 
   /**
@@ -42,13 +41,17 @@ class PrendusQuestionScaffold {
   next(): void {
     ++this.selectedIndex;
     if(this.selectedIndex === this.querySelector('#iron-pages').items.length - 1) {
-      Actions.setDisplayNext(this, false);
+      Actions.setDisabledNext(this, true);
     }
   }
 
 	mapStateToThis(e: StatechangeEvent): void {
 		const state: State = e.detail.state;
-    this.displayNext = state.displayNext;
+    this.disableNext = state.disableNext;
+    if(this.querySelector('#next-button')) {
+      this.querySelector('#next-button').disabled = this.disableNext;
+    }
+
 	}
 }
 

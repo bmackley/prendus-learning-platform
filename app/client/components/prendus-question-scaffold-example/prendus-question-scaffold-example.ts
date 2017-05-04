@@ -15,7 +15,7 @@ export class PrendusQuestionScaffoldExample {
     this.is = 'prendus-question-scaffold-example';
     this.properties = {
       selectedIndex: {
-        observer: 'displayNext'
+        observer: 'disableNext'
       },
       myIndex: {
         type: Number
@@ -30,12 +30,10 @@ export class PrendusQuestionScaffoldExample {
     this.comments = ['comment 1', 'comment 2', 'comment 3', 'comment 4'];
   }
 
-  displayNext(): void {
-    console.log('selectedIndex ', this.selectedIndex);
+  disableNext(): void {
     if(this.myIndex === this.selectedIndex) {
-        Actions.setDisplayNext(this, true);
+      Actions.setDisabledNext(this, false);
     }
-
   }
 
 	mapStateToThis(e: StatechangeEvent): void {

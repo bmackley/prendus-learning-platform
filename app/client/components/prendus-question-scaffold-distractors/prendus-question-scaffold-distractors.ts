@@ -17,19 +17,19 @@ export class PrendusQuestionScaffoldDistractors {
     this.properties = {
       one: {
         type: String,
-        observer: 'displayNext'
+        observer: 'disableNext'
       },
       two: {
         type: String,
-        observer: 'displayNext'
+        observer: 'disableNext'
       },
       three: {
         type: String,
-        observer: 'displayNext'
+        observer: 'disableNext'
       },
       selectedIndex: {
         type: Number,
-        observer: 'displayNext'
+        observer: 'disableNext'
       },
       myIndex: {
         type: Number
@@ -37,9 +37,9 @@ export class PrendusQuestionScaffoldDistractors {
     };
   }
 
-  displayNext(): void {
+  disableNext(): void {
     if(this.selectedIndex === this.myIndex) {
-      Actions.setDisplayNext(this, UtilitiesService.isDefinedAndNotEmpty([this.one, this.two, this.three]));
+      Actions.setDisabledNext(this, !UtilitiesService.isDefinedAndNotEmpty([this.one, this.two, this.three]));
     }
 
   }

@@ -319,10 +319,10 @@ export function rootReducer(state: State = InitialState, action: Action): State 
         };
       }
 
-      case 'SET_DISPLAY_NEXT': {
+      case 'SET_DISABLED_NEXT': {
         return {
           ...state,
-          displayNext: action.displayNext
+          disableNext: action.disableNext
         };
       }
 

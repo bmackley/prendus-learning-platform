@@ -10,21 +10,21 @@ export class PrendusQuestionScaffoldNewQuestion {
   public answer: string;
   public selectedIndex: number;
   public myIndex: number;
-  
+
   beforeRegister(): void {
     this.is = 'prendus-question-scaffold-new-question';
     this.properties = {
       question: {
         type: String,
-        observer: 'displayNext'
+        observer: 'disableNext'
       },
       answer: {
         type: String,
-        observer: 'displayNext'
+        observer: 'disableNext'
       },
       selectedIndex: {
         type: Number,
-        observer: 'displayNext'
+        observer: 'disableNext'
       },
       myIndex: {
         type: Number
@@ -36,9 +36,9 @@ export class PrendusQuestionScaffoldNewQuestion {
    * Checks if the question and answer have been entered and aren't empty and if
    * the inputs aren't empty.
    */
-  displayNext(): void {
+  disableNext(): void {
     if(this.selectedIndex === this.myIndex) {
-      Actions.setDisplayNext(this, UtilitiesService.isDefinedAndNotEmpty([this.question, this.answer]));
+      Actions.setDisabledNext(this, !UtilitiesService.isDefinedAndNotEmpty([this.question, this.answer]));
     }
 
   }

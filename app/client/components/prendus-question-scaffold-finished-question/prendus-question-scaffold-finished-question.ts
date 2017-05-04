@@ -17,14 +17,14 @@ export class PrendusQuestionScaffoldFinishedQuestion {
       },
       selectedIndex: {
         type: Number,
-        observer: 'displayNext'
+        observer: 'disableNext'
       }
     };
   }
 
-  displayNext(): void {
+  disableNext(): void {
     if(this.myIndex === this.selectedIndex) {
-      Actions.setDisplayNext(this, true);
+      Actions.setDisabledNext(this, false);
     }
   }
 

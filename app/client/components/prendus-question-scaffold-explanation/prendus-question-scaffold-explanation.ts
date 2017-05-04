@@ -15,21 +15,21 @@ export class PrendusQuestionScaffoldExplanation {
     this.properties = {
       explanation: {
         type: String,
-        observer: 'displayNext'
+        observer: 'disableNext'
       },
       myIndex: {
         type: Number
       },
       selectedIndex: {
         type: Number,
-        observer: 'displayNext'
+        observer: 'disableNext'
       }
     };
   }
 
-  displayNext(): void {
+  disableNext(): void {
     if(this.myIndex === this.selectedIndex) {
-      Actions.setDisplayNext(this, UtilitiesService.isDefinedAndNotEmpty(this.explanation));
+      Actions.setDisabledNext(this, !UtilitiesService.isDefinedAndNotEmpty(this.explanation));
     }
   }
 

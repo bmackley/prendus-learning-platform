@@ -1049,10 +1049,10 @@ const reloadPublicCourses = async (context: any, courses: Course[]): Promise<voi
   }
 };
 
-const setDisplayNext = (context: any, displayNext: boolean): void => {
+const setDisabledNext = (context: any, disableNext: boolean): void => {
   context.action = {
-    type: 'SET_DISPLAY_NEXT',
-    displayNext
+    type: 'SET_DISABLED_NEXT',
+    disableNext
   };
 };
 
@@ -1126,5 +1126,5 @@ export const Actions = {
     hideMainSpinner,
     updateQuizDueDates,
     reloadPublicCourses,
-    setDisplayNext
+    setDisabledNext
   };
