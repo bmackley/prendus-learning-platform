@@ -3,71 +3,78 @@ import {State} from '../../typings/state';
 import {Actions} from '../../redux/actions';
 import {FirebaseService} from '../../node_modules/prendus-services/services/firebase-service';
 import {QuizSession} from '../../node_modules/prendus-services/typings/quiz-session';
+import {UtilitiesService} from '../../node_modules/prendus-services/services/utilities-service';
+import {Action} from '../../typings/action';
+import {PrendusQuestionScaffoldNewQuestion} from '../prendus-question-scaffold-new-question/prendus-question-scaffold-new-question';
+import {PrendusQuestionScaffoldDistractors} from '../prendus-question-scaffold-distractors/prendus-question-scaffold-distractors';
+import {PrendusQuestionScaffoldComments} from '../prendus-question-scaffold-comments/prendus-question-scaffold-comments';
+import {PrendusQuestionScaffoldExplanation} from '../prendus-question-scaffold-explanation/prendus-question-scaffold-explanation';
+import {PrendusQuestionScaffoldFinishedQuestion} from '../prendus-question-scaffold-finished-question/prendus-question-scaffold-finished-question';
+
 class PrendusQuestionScaffold {
   public is: string;
   public selectedIndex: number;
   public querySelector: any;
   public displayNext: boolean;
   public properties: any;
-  public jwt: string;
-  public quizSession: QuizSession;
 
   beforeRegister(): void {
     this.is = 'prendus-question-scaffold';
-    this.properties = {
-      selectedIndex: {
-        type: Number,
-        observer: 'shouldDisplayNext'
-      }
-    };
   }
 
   async ready(): Promise<void> {
     this.selectedIndex = 0;
-    const user = await FirebaseService.getLoggedInUser();
-    const jwt = await user.getToken();
-    console.log('jwt ', jwt);
-    this.jwt = jwt;
-    //TODO this is horrible and should be removed once the view problem component can be initialized without a quiz session being handed to it
-    const startQuizSessionAjax = this.querySelector(`#startQuizSessionAjax`)
-    startQuizSessionAjax.body = {
-        quizId: 'NO_QUIZ',
-        jwt
-    };
-
-    const request = startQuizSessionAjax.generateRequest();
-    await request.completes;
-
-    const quizSession: QuizSession = request.response.quizSession;
-    this.quizSession = quizSession;
-    console.log('this.quizSession ', this.quizSession);
-    //TODO this is horrible and should be removed once the view problem component can be initialized without a quiz session being handed to it
+    Actions.setDisplayNext(this, true);
   }
 
   /**
    * Called when you press back on the dom
    */
   back(): void {
-    --this.selectedIndex;
+    try {
+      --this.selectedIndex;
+      const element: PrendusQuestionScaffoldNewQuestion
+                   | PrendusQuestionScaffoldDistractors
+                   | PrendusQuestionScaffoldComments
+                   | PrendusQuestionScaffoldExplanation
+                   | PrendusQuestionScaffoldFinishedQuestion  = this.querySelector('#iron-pages').items[this.selectedIndex];
+      element.displayNext();
+    } catch(error) {
+      console.error('This element should\'ve implemented display next!');
+      console.error(this.querySelector('#iron-pages').items[this.selectedIndex]);
+      console.error(error);
+      Actions.setDisplayNext(this, true);
+    }
   }
 
   /**
    * Called when you press next on the dom
    */
   next(): void {
-    ++this.selectedIndex;
-  }
+    try {
+      ++this.selectedIndex;
 
-  /**
-   * Called everytime this.selectedIndex changes.
-   */
-  shouldDisplayNext(): void {
-    this.displayNext = (this.selectedIndex || 0) < this.querySelector('#iron-pages').items.length - 1;
+      const element: PrendusQuestionScaffoldNewQuestion
+                   | PrendusQuestionScaffoldDistractors
+                   | PrendusQuestionScaffoldComments
+                   | PrendusQuestionScaffoldExplanation
+                   | PrendusQuestionScaffoldFinishedQuestion  = this.querySelector('#iron-pages').items[this.selectedIndex];
+      element.displayNext();
+
+    } catch(error) {
+      console.error('This element should\'ve implemented display next!');
+      console.error(this.querySelector('#iron-pages').items[this.selectedIndex]);
+      console.error(error);
+      Actions.setDisplayNext(this, true);
+    }
+    if(this.selectedIndex === this.querySelector('#iron-pages').items.length - 1) {
+      Actions.setDisplayNext(this, false);
+    }
   }
 
 	mapStateToThis(e: StatechangeEvent): void {
 		const state: State = e.detail.state;
-    this.jwt = state.jwt;
+    this.displayNext = state.displayNext;
 	}
 }
 

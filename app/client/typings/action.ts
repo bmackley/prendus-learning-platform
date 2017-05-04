@@ -59,4 +59,5 @@ export interface Action {
 	chosenSubject: Subject;
 	chosenConcept: Concept;
 	chosenLesson: Lesson;
+	displayNext: boolean;
 }

@@ -319,6 +319,13 @@ export function rootReducer(state: State = InitialState, action: Action): State 
         };
       }
 
+      case 'SET_DISPLAY_NEXT': {
+        return {
+          ...state,
+          displayNext: action.displayNext
+        };
+      }
+
       default: {
           return state;
       }

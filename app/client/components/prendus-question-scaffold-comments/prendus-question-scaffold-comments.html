@@ -1,0 +1,26 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/prendus-styles/prendus-styles.html">
+<link rel="import" href="../../bower_components/paper-input/paper-input.html">
+
+<dom-module id="prendus-question-scaffold-comments">
+
+  <style include="prendus-styles">
+    :host {
+      display: block;
+    }
+  </style>
+
+  <template>
+    <redux-store on-statechange="mapStateToThis" action="[[action]]"></redux-store>
+    <!--TODO make this one way data binding -->
+    <paper-input label="Comment one" value="{{commentOne}}"></paper-input>
+    <!--TODO make this one way data binding -->
+    <paper-input label="Comment two" value="{{commentTwo}}"></paper-input>
+    <!--TODO make this one way data binding -->
+    <paper-input label="Comment three" value="{{commentThree}}"></paper-input>
+    <!--TODO make this one way data binding -->
+    <paper-input label="Comment four" value="{{commentFour}}"></paper-input>
+  </template>
+
+  <script src="prendus-question-scaffold-comments.ts"></script>
+</dom-module>

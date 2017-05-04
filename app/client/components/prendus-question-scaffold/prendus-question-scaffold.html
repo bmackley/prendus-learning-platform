@@ -2,9 +2,12 @@
 <link rel="import" href="../../bower_components/prendus-styles/prendus-styles.html">
 <link rel="import" href="../../bower_components/iron-pages/iron-pages.html">
 <link rel="import" href="../../bower_components/prendus-question-components/components/prendus-edit-question/prendus-edit-question.html">
-<link rel="import" href="../../bower_components/iron-ajax/iron-ajax.html">
 <link rel="import" href="../prendus-question-scaffold-example/prendus-question-scaffold-example.html">
-
+<link rel="import" href="../prendus-question-scaffold-new-question/prendus-question-scaffold-new-question.html">
+<link rel="import" href="../prendus-question-scaffold-distractors/prendus-question-scaffold-distractors.html">
+<link rel="import" href="../prendus-question-scaffold-comments/prendus-question-scaffold-comments.html">
+<link rel="import" href="../prendus-question-scaffold-explanation/prendus-question-scaffold-explanation.html">
+<link rel="import" href="../prendus-question-scaffold-finished-question/prendus-question-scaffold-finished-question.html">
 <dom-module id="prendus-question-scaffold">
 
   <style include="prendus-styles">
@@ -23,10 +26,7 @@
   </style>
 
   <template>
-    <iron-ajax id="startQuizSessionAjax" url="[[endpointDomain]]/api/quiz/start-session" method="post" content-type="application/json" handle-as="json"></iron-ajax>
     <redux-store on-statechange="mapStateToThis" action="[[action]]"></redux-store>
-    selectedIndex [[selectedIndex]]
-    <!--TODO move to bottom once all components are done -->
     <template is="dom-if" if="[[selectedIndex]]">
       <div id="back">
         <button class="prendus-button prendus-button--recommended" on-tap="back">Back</button>
@@ -37,27 +37,16 @@
         <button class="prendus-button prendus-button--recommended" on-tap="next">Next</button>
       </div>
     </template>
+    selectedIndex [[selectedIndex]]
+    <!--TODO move to bottom once all components are done -->
+
     <iron-pages id="iron-pages" selected="[[selectedIndex]]">
       <prendus-question-scaffold-example></prendus-question-scaffold-example>
-      <div>
-        jwt [[jwt]]<br>
-
-        <prendus-edit-question id="editProblemComponent" jwt="[[jwt]]" external-question-id="create" quiz-session="[[quizSession]]"></prendus-edit-question>
-      </div>
-
-      <!-- create question -->
-      <div>
-        distractors
-      </div>
-      <div>
-        comments
-      </div>
-      <div>
-        explanation
-      </div>
-      <div>
-        finished question
-      </div>
+      <prendus-question-scaffold-new-question></prendus-question-scaffold-new-question>
+      <prendus-question-scaffold-distractors></prendus-question-scaffold-distractors>
+      <prendus-question-scaffold-comments></prendus-question-scaffold-comments>
+      <prendus-question-scaffold-explanation></prendus-question-scaffold-explanation>
+      <prendus-question-scaffold-finished-question></prendus-question-scaffold-finished-question>
       <div>
         Rate question 1
       </div>

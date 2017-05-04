@@ -1,0 +1,23 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/prendus-styles/prendus-styles.html">
+<link rel="import" href="../../bower_components/paper-input/paper-input.html">
+<dom-module id="prendus-question-scaffold-distractors">
+
+  <style include="prendus-styles">
+    :host {
+      display: block;
+    }
+  </style>
+
+  <template>
+    <redux-store on-statechange="mapStateToThis" action="[[action]]"></redux-store>
+    <!--TODO change to one-way data binding.-->
+    <paper-input label="Distraction one" value="{{one}}"></paper-input>
+    <!--TODO change to one-way data binding.-->
+    <paper-input label="Distraction two" value="{{two}}"></paper-input>
+    <!--TODO change to one-way data binding.-->
+    <paper-input label="Distraction three" value="{{three}}"></paper-input>
+  </template>
+
+  <script src="prendus-question-scaffold-distractors.ts"></script>
+</dom-module>

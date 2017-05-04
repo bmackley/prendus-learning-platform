@@ -82,4 +82,5 @@ export interface State {
     chosenConcept: Concept;
     subjects: Subject[];
     concepts: Concept[];
+    displayNext: boolean;
 }
