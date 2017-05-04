@@ -4,88 +4,89 @@
 <dom-module id="prendus-question-scaffold-example">
 
   <style include="prendus-styles">
-    :host {
-      display: block;
-    }
-    #explanation {
-      margin-top: 25px;
-      float: right;
-      max-width: 300px;
+    .wrapper {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      grid-gap: 10px;
+      grid-auto-rows: minmax(100px, auto);
     }
 
-    #question-stem {
-      margin-top: 25px;
-      max-width: 300px;
-      float: left;
-
-    }
-
-    #answer {
+    .wrapper > div {
       margin-top: 10px;
     }
 
-    #comment {
+    .wrapper > paper-card {
       margin-top: 10px;
     }
-
-    #answers {
-      margin-top: 20px;
+    .question {
+      grid-row: 1;
+      grid-column: 1;
     }
 
-    #comments {
-      margin-top: 20px;
-      width: 80%;
+    .explanation {
+      grid-row: 1;
+      grid-column: 2/4;
     }
 
-    #answers-questions {
-      float: left;
+    .answers > div {
+      margin-top: 5px;
+    }
+
+    .comments {
+      /*margin-left: 20px;*/
+    }
+
+    .comments > div {
+      margin-top: 5px;
+    }
+
+    .container {
+      display: flex;
+      grid-row: 2;
+      /*grid-column: 1/4;*/
     }
   </style>
 
   <template>
     <redux-store on-statechange="mapStateToThis" action="[[action]]"></redux-store>
+    <div class="wrapper">
 
 
-
-
-    <paper-card id="question-stem">
-      <div class="prendus-card">
+      <div class="prendus-card question">
         <h3>Question</h3>
         [[questionStem]]
       </div>
-    </paper-card>
-    <paper-card id="explanation">
-      <div class="prendus-card">
+      <div class="prendus-card explanation">
         <h3>Explanation</h3>
         [[explanation]]
       </div>
-    </paper-card>
-    <div id="answers-questions">
-      <div id="answers">
-        <h3>Answers</h3>
-        <template is="dom-repeat" items="[[answers]]">
-          <div>
-            <paper-card id="answer">
-              <div class="prendus-card">
-                [[item]]
-              </div>
-            </paper-card>
-          </div>
-        </template>
+
+
+
+      <div class="container">
+        <div class="answers">
+          <h3>Answers</h3>
+          <template is="dom-repeat" items="[[answers]]">
+            <div class="prendus-card">
+              [[item]]
+            </div>
+          </template>
+        </div>
+        <!-- TODO flex box -->
+        <div class="comments">
+          <h3>Comments</h3>
+          <template is="dom-repeat" items="[[comments]]">
+            <div class="prendus-card">
+              [[item]]
+            </div>
+          </template>
+        </div>
       </div>
-      <div id="comments">
-        <h3>Comments</h3>
-        <template is="dom-repeat" items="[[comments]]">
-          <div>
-            <paper-card id="comment">
-              <div class="prendus-card">
-                [[item]]
-              </div>
-            </paper-card>
-          </div>
-        </template>
-      </div>
+
     </div>
+
+
+
 
 
   </template>
