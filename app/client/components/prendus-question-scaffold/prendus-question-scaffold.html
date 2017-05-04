@@ -14,14 +14,21 @@
     :host {
       display: block;
     }
-
-    #back {
-      margin-top: 10px;
-      float: left;
+    .button-container {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
     }
-    #next {
+
+    .back {
       margin-top: 10px;
-      float: right;
+      grid-row: 1;
+      grid-column: 1;
+    }
+
+    .next {
+      margin-top: 10px;
+      grid-row: 1;
+      grid-column: 3;
     }
   </style>
 
@@ -30,14 +37,12 @@
 
     <iron-pages id="iron-pages" selected="[[selectedIndex]]">
       <div>
-        <paper-card id="assignment-description">
-          <div class="prendus-card">
-            For this assignment you will create an exam level
-            question for you and your class to practice for the
-            upcoming exam. Here is an exam question
-            to guide your thinking.
-          </div>
-        </paper-card>
+        <div class="prendus-card">
+          For this assignment you will create an exam level
+          question for you and your class to practice for the
+          upcoming exam. Here is an exam question
+          to guide your thinking.
+        </div>
         <prendus-question-scaffold-example selected-index="[[selectedIndex]]" my-index="0"></prendus-question-scaffold-example>
       </div>
       <prendus-question-scaffold-new-question selected-index="[[selectedIndex]]" my-index="1"></prendus-question-scaffold-new-question>
@@ -70,16 +75,17 @@
         Take question 5
       </div>
     </iron-pages>
-    <template is="dom-if" if="[[selectedIndex]]">
-      <div id="back">
-        <button class="prendus-button prendus-button--recommended" on-tap="back">Back</button>
-      </div>
-    </template>
-    <!-- <template is="dom-if" if="[[displayNext]]"> -->
-      <div id="next">
+    <div class="button-container">
+
+      <template is="dom-if" if="[[selectedIndex]]">
+        <div class="back">
+          <button class="prendus-button prendus-button--recommended" on-tap="back">Back</button>
+        </div>
+      </template>
+      <div class="next">
         <button id="next-button" class="prendus-button prendus-button--recommended" on-tap="next">Next</button>
       </div>
-    <!-- </template> -->
+    </div>
 
 
   </template>
