@@ -34,10 +34,14 @@
     }
 
 
-    .text-card {
+    .answer-card, .comment-card {
       margin-top: 5px;
+      text-align: center;
     }
 
+    .comment-card {
+      text-align: left;
+    }
     .comments {
       grid-row: 2;
       grid-column: 2;
@@ -62,7 +66,7 @@
       <div class="answers">
         <h3>Answers</h3>
         <template is="dom-repeat" items="[[answers]]">
-          <div class="prendus-card text-card">
+          <div class="prendus-card answer-card">
             [[item]]
           </div>
         </template>
@@ -71,7 +75,7 @@
       <div class="comments">
         <h3>Comments</h3>
         <template is="dom-repeat" items="[[comments]]">
-          <div class="prendus-card text-card">
+          <div class="prendus-card comment-card">
             [[item]]
           </div>
         </template>
