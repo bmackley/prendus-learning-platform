@@ -32,34 +32,15 @@ class PrendusQuestionScaffold {
    * Called when you press back on the dom
    */
   back(): void {
-    this.iterate(-1);
+    --this.selectedIndex;
+
   }
 
   /**
    * Called when you press next on the dom
    */
   next(): void {
-    this.iterate(1);
-  }
-
-  iterate(direction: number): void {
-    try {
-      this.selectedIndex += direction;
-      const element: PrendusQuestionScaffoldExample |
-                     PrendusQuestionScaffoldNewQuestion |
-                     PrendusQuestionScaffoldDistractors |
-                     PrendusQuestionScaffoldComments |
-                     PrendusQuestionScaffoldExplanation |
-                     PrendusQuestionScaffoldFinishedQuestion
-                     = this.querySelector('#iron-pages').items[this.selectedIndex];
-
-      element.displayNext();
-    } catch(error) {
-      console.error('This element should\'ve implemented display next!');
-      console.error(this.querySelector('#iron-pages').items[this.selectedIndex]);
-      console.error(error);
-      Actions.setDisplayNext(this, true);
-    }
+    ++this.selectedIndex;
     if(this.selectedIndex === this.querySelector('#iron-pages').items.length - 1) {
       Actions.setDisplayNext(this, false);
     }

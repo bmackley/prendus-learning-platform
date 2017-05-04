@@ -7,18 +7,30 @@ export class PrendusQuestionScaffoldExplanation {
   public is: string;
   public explanation: string;
   public properties: any;
+  public myIndex: number;
+  public selectedIndex: number;
 
   beforeRegister(): void {
     this.is = 'prendus-question-scaffold-explanation';
     this.properties = {
       explanation: {
+        type: String,
+        observer: 'displayNext'
+      },
+      myIndex: {
+        type: Number
+      },
+      selectedIndex: {
+        type: Number,
         observer: 'displayNext'
       }
     };
   }
 
   displayNext(): void {
-    Actions.setDisplayNext(this, UtilitiesService.isDefinedAndNotEmpty(this.explanation));
+    if(this.myIndex === this.selectedIndex) {
+      Actions.setDisplayNext(this, UtilitiesService.isDefinedAndNotEmpty(this.explanation));
+    }
   }
 
 	mapStateToThis(e: StatechangeEvent): void {

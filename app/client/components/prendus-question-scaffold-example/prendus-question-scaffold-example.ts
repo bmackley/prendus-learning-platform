@@ -8,9 +8,19 @@ export class PrendusQuestionScaffoldExample {
   public answers: string[];
   public comments: string[];
   public explanation: string;
-
+  public properties: any;
+  public myIndex: number;
+  public selectedIndex: number;
   beforeRegister(): void {
     this.is = 'prendus-question-scaffold-example';
+    this.properties = {
+      selectedIndex: {
+        observer: 'displayNext'
+      },
+      myIndex: {
+        type: Number
+      }
+    };
   }
 
   ready(): void {
@@ -21,7 +31,11 @@ export class PrendusQuestionScaffoldExample {
   }
 
   displayNext(): void {
-    Actions.setDisplayNext(this, true);
+    console.log('selectedIndex ', this.selectedIndex);
+    if(this.myIndex === this.selectedIndex) {
+        Actions.setDisplayNext(this, true);
+    }
+
   }
 
 	mapStateToThis(e: StatechangeEvent): void {

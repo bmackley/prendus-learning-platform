@@ -9,6 +9,8 @@ export class PrendusQuestionScaffoldDistractors {
   public two: string;
   public three: string;
   public properties: any;
+  public selectedIndex: number;
+  public myIndex: number;
 
   beforeRegister(): void {
     this.is = 'prendus-question-scaffold-distractors';
@@ -24,12 +26,22 @@ export class PrendusQuestionScaffoldDistractors {
       three: {
         type: String,
         observer: 'displayNext'
+      },
+      selectedIndex: {
+        type: Number,
+        observer: 'displayNext'
+      },
+      myIndex: {
+        type: Number
       }
     };
   }
 
   displayNext(): void {
-   Actions.setDisplayNext(this, UtilitiesService.isDefinedAndNotEmpty([this.one, this.two, this.three]));
+    if(this.selectedIndex === this.myIndex) {
+      Actions.setDisplayNext(this, UtilitiesService.isDefinedAndNotEmpty([this.one, this.two, this.three]));
+    }
+
   }
 
 	mapStateToThis(e: StatechangeEvent): void {

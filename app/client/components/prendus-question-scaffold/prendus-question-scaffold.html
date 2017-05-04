@@ -29,12 +29,22 @@
     <redux-store on-statechange="mapStateToThis" action="[[action]]"></redux-store>
 
     <iron-pages id="iron-pages" selected="[[selectedIndex]]">
-      <prendus-question-scaffold-example></prendus-question-scaffold-example>
-      <prendus-question-scaffold-new-question></prendus-question-scaffold-new-question>
-      <prendus-question-scaffold-distractors></prendus-question-scaffold-distractors>
-      <prendus-question-scaffold-comments></prendus-question-scaffold-comments>
-      <prendus-question-scaffold-explanation></prendus-question-scaffold-explanation>
-      <prendus-question-scaffold-finished-question></prendus-question-scaffold-finished-question>
+      <div>
+        <paper-card id="assignment-description">
+          <div class="prendus-card">
+            For this assignment you will create an exam level
+            question for you and your class to practice for the
+            upcoming exam. Here is an exam question
+            to guide your thinking.
+          </div>
+        </paper-card>
+        <prendus-question-scaffold-example selected-index="[[selectedIndex]]" my-index="0"></prendus-question-scaffold-example>
+      </div>
+      <prendus-question-scaffold-new-question selected-index="[[selectedIndex]]" my-index="1"></prendus-question-scaffold-new-question>
+      <prendus-question-scaffold-distractors selected-index="[[selectedIndex]]" my-index="2"></prendus-question-scaffold-distractors>
+      <prendus-question-scaffold-comments selected-index="[[selectedIndex]]" my-index="3"></prendus-question-scaffold-comments>
+      <prendus-question-scaffold-explanation selected-index="[[selectedIndex]]" my-index="4"></prendus-question-scaffold-explanation>
+      <prendus-question-scaffold-finished-question selected-index="[[selectedIndex]]" my-index="5"></prendus-question-scaffold-finished-question>
       <div>
         Rate question 1
       </div>

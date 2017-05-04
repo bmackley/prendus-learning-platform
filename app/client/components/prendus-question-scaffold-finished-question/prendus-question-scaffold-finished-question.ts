@@ -5,13 +5,27 @@ import {UtilitiesService} from '../../node_modules/prendus-services/services/uti
 
 export class PrendusQuestionScaffoldFinishedQuestion {
   public is: string;
+  public myIndex: number;
+  public selectedIndex: number;
+  public properties: any;
+
   beforeRegister(): void {
     this.is = 'prendus-question-scaffold-finished-question';
-
+    this.properties = {
+      myIndex: {
+        type: Number
+      },
+      selectedIndex: {
+        type: Number,
+        observer: 'displayNext'
+      }
+    };
   }
 
   displayNext(): void {
-    Actions.setDisplayNext(this, true);
+    if(this.myIndex === this.selectedIndex) {
+      Actions.setDisplayNext(this, true);
+    }
   }
 
 	mapStateToThis(e: StatechangeEvent): void {
