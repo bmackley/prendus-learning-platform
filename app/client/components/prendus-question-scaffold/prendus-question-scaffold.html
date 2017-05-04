@@ -1,6 +1,9 @@
 <link rel="import" href="../../bower_components/polymer/polymer.html">
 <link rel="import" href="../../bower_components/prendus-styles/prendus-styles.html">
-<link rel="import" href="../../bower_components/paper-card/paper-card.html">
+<link rel="import" href="../../bower_components/iron-pages/iron-pages.html">
+<link rel="import" href="../../bower_components/prendus-question-components/components/prendus-edit-question/prendus-edit-question.html">
+<link rel="import" href="../../bower_components/iron-ajax/iron-ajax.html">
+<link rel="import" href="../prendus-question-scaffold-example/prendus-question-scaffold-example.html">
 
 <dom-module id="prendus-question-scaffold">
 
@@ -8,88 +11,80 @@
     :host {
       display: block;
     }
-    #assignment-description {
-      max-width: 300px;
-    }
-    #explanation {
-      max-width: 300px;
-    }
-    #question-stem {
-      margin-top: 25px;
-      display: block;
-      max-width: 300px;
-    }
 
-    #answer {
+    #back {
       margin-top: 10px;
-    }
-
-    #comment {
-      margin-top: 10px;
-    }
-
-    #answers {
-      margin-top: 20px;
       float: left;
     }
-
-    #comments {
-      margin-top: 20px;
+    #next {
+      margin-top: 10px;
       float: right;
-      width: 80%;
     }
   </style>
 
   <template>
+    <iron-ajax id="startQuizSessionAjax" url="[[endpointDomain]]/api/quiz/start-session" method="post" content-type="application/json" handle-as="json"></iron-ajax>
     <redux-store on-statechange="mapStateToThis" action="[[action]]"></redux-store>
+    selectedIndex [[selectedIndex]]
+    <!--TODO move to bottom once all components are done -->
+    <template is="dom-if" if="[[selectedIndex]]">
+      <div id="back">
+        <button class="prendus-button prendus-button--recommended" on-tap="back">Back</button>
+      </div>
+    </template>
+    <template is="dom-if" if="[[displayNext]]">
+      <div id="next">
+        <button class="prendus-button prendus-button--recommended" on-tap="next">Next</button>
+      </div>
+    </template>
+    <iron-pages id="iron-pages" selected="[[selectedIndex]]">
+      <prendus-question-scaffold-example></prendus-question-scaffold-example>
+      <div>
+        jwt [[jwt]]<br>
 
-
-    <paper-card id="assignment-description">
-      <div class="prendus-card">
-        For this assignment you will create an exam level
-        question for you and your class to practice for the
-        upcoming exam. Here is an exam question
-        to guide your thinking.
+        <prendus-edit-question id="editProblemComponent" jwt="[[jwt]]" external-question-id="pickles" quiz-session="[[quizSession]]"></prendus-edit-question>
       </div>
 
-    </paper-card>
-    <paper-card id="explanation">
-      <div class="prendus-card">
-        <h3>Explanation</h3>
-        [[explanation]]
+      <!-- create question -->
+      <div>
+        distractors
       </div>
-    </paper-card>
-    <paper-card id="question-stem">
-      <div class="prendus-card">
-        <h3>Question</h3>
-        [[questionStem]]
+      <div>
+        comments
       </div>
-    </paper-card>
+      <div>
+        explanation
+      </div>
+      <div>
+        finished question
+      </div>
+      <div>
+        Rate question 1
+      </div>
+      <div>
+        Rate question 2
+      </div>
+      <div>
+        Rate question 3
+      </div>
+      <div>
+        Take question 1
+      </div>
+      <div>
+        Take question 2
+      </div>
+      <div>
+        Take question 3
+      </div>
+      <div>
+        Take question 4
+      </div>
+      <div>
+        Take question 5
+      </div>
+    </iron-pages>
 
-    <div id="answers">
-      <h3>Answers</h3>
-      <template is="dom-repeat" items="[[answers]]">
-        <div>
-          <paper-card id="answer">
-            <div class="prendus-card">
-              [[item]]
-            </div>
-          </paper-card>
-        </div>
-      </template>
-    </div>
-    <div id="comments">
-      <h3>Comments</h3>
-      <template is="dom-repeat" items="[[comments]]">
-        <div>
-          <paper-card id="comment">
-            <div class="prendus-card">
-              [[item]]
-            </div>
-          </paper-card>
-        </div>
-      </template>
-    </div>
+
   </template>
 
   <script src="prendus-question-scaffold.ts"></script>

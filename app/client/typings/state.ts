@@ -42,6 +42,8 @@ export interface State {
     currentLessonVideoTitle: string;
     currentLessonVideoUrl: string;
     currentUser: User;
+		unverifiedTeachers: User[];
+		verifiedTeachers: User[];
 		currentVideo: Video;
     currentEditQuizId: string;
     currentEditLessonId: string;

@@ -1,26 +1,73 @@
 import {StatechangeEvent} from '../../typings/statechange-event';
 import {State} from '../../typings/state';
-
-export class PrendusQuestionScaffold {
+import {Actions} from '../../redux/actions';
+import {FirebaseService} from '../../node_modules/prendus-services/services/firebase-service';
+import {QuizSession} from '../../node_modules/prendus-services/typings/quiz-session';
+class PrendusQuestionScaffold {
   public is: string;
-  public questionStem: string;
-  public answers: string[];
-  public comments: string[];
-  public explanation: string;
+  public selectedIndex: number;
+  public querySelector: any;
+  public displayNext: boolean;
+  public properties: any;
+  public jwt: string;
+  public quizSession: QuizSession;
 
   beforeRegister(): void {
     this.is = 'prendus-question-scaffold';
+    this.properties = {
+      selectedIndex: {
+        type: Number,
+        observer: 'shouldDisplayNext'
+      }
+    };
   }
 
-  ready(): void {
-    this.questionStem = 'How many neutrons are in 45 grams of Oxygen gas?';
-    this.explanation = 'To solve this problem, remember that Oxygen is diatomic as a gas, meaning it is found as O2, not O. This means we need to use 32 grams/mol to convert grams to moles. Then, multiply by the number of neutrons in an oxygen atom and multiply by 2 to get the number of neutrons in 45 grams of oxygen gas.';
-    this.answers = ['answer 1', 'answer 2', 'answer 3', 'answer 4'];
-    this.comments = ['comment 1', 'comment 2', 'comment 3', 'comment 4'];
+  async ready(): Promise<void> {
+    this.selectedIndex = 0;
+    const user = await FirebaseService.getLoggedInUser();
+    const jwt = await user.getToken();
+    console.log('jwt ', jwt);
+    this.jwt = jwt;
+    //TODO this is horrible and should be removed once the view problem component can be initialized without a quiz session being handed to it
+    const startQuizSessionAjax = this.querySelector(`#startQuizSessionAjax`)
+    startQuizSessionAjax.body = {
+        quizId: 'NO_QUIZ',
+        jwt
+    };
+
+    const request = startQuizSessionAjax.generateRequest();
+    await request.completes;
+
+    const quizSession: QuizSession = request.response.quizSession;
+    this.quizSession = quizSession;
+    console.log('this.quizSession ', this.quizSession);
+    //TODO this is horrible and should be removed once the view problem component can be initialized without a quiz session being handed to it
   }
+
+  /**
+   * Called when you press back on the dom
+   */
+  back(): void {
+    --this.selectedIndex;
+  }
+
+  /**
+   * Called when you press next on the dom
+   */
+  next(): void {
+    ++this.selectedIndex;
+  }
+
+  /**
+   * Called everytime this.selectedIndex changes.
+   */
+  shouldDisplayNext(): void {
+    this.displayNext = (this.selectedIndex || 0) < this.querySelector('#iron-pages').items.length - 1;
+  }
+
 	mapStateToThis(e: StatechangeEvent): void {
 		const state: State = e.detail.state;
-
+    this.jwt = state.jwt;
 	}
 }
 

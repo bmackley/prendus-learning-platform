@@ -1,0 +1,97 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/prendus-styles/prendus-styles.html">
+<link rel="import" href="../../bower_components/paper-card/paper-card.html">
+<dom-module id="prendus-question-scaffold-example">
+
+  <style include="prendus-styles">
+    :host {
+      display: block;
+    }
+    #assignment-description {
+      max-width: 300px;
+    }
+    #explanation {
+      max-width: 300px;
+    }
+    #question-stem {
+      margin-top: 25px;
+      display: block;
+      max-width: 300px;
+    }
+
+    #answer {
+      margin-top: 10px;
+    }
+
+    #comment {
+      margin-top: 10px;
+    }
+
+    #answers {
+      margin-top: 20px;
+      float: left;
+    }
+
+    #comments {
+      margin-top: 20px;
+      float: right;
+      width: 80%;
+    }
+
+  </style>
+
+  <template>
+    <redux-store on-statechange="mapStateToThis" action="[[action]]"></redux-store>
+
+
+    <paper-card id="assignment-description">
+      <div class="prendus-card">
+        For this assignment you will create an exam level
+        question for you and your class to practice for the
+        upcoming exam. Here is an exam question
+        to guide your thinking.
+      </div>
+
+    </paper-card>
+    <paper-card id="explanation">
+      <div class="prendus-card">
+        <h3>Explanation</h3>
+        [[explanation]]
+      </div>
+    </paper-card>
+    <paper-card id="question-stem">
+      <div class="prendus-card">
+        <h3>Question</h3>
+        [[questionStem]]
+      </div>
+    </paper-card>
+
+    <div id="answers">
+      <h3>Answers</h3>
+      <template is="dom-repeat" items="[[answers]]">
+        <div>
+          <paper-card id="answer">
+            <div class="prendus-card">
+              [[item]]
+            </div>
+          </paper-card>
+        </div>
+      </template>
+    </div>
+    <div id="comments">
+      <h3>Comments</h3>
+      <template is="dom-repeat" items="[[comments]]">
+        <div>
+          <paper-card id="comment">
+            <div class="prendus-card">
+              [[item]]
+            </div>
+          </paper-card>
+        </div>
+      </template>
+    </div>
+
+  </template>
+
+  <script src="prendus-question-scaffold-example.ts"></script>
+</dom-module>

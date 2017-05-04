@@ -92,6 +92,15 @@ class PrendusRouter {
       case '/question-scaffold': {
         UtilitiesService.importElement(this, 'components/prendus-question-scaffold/prendus-question-scaffold.html', 'question-scaffold');
       }
+			case '/teacher-approval': {
+				if(this.isAdmin) {
+					UtilitiesService.importElement(this, 'components/prendus-teacher-approval/prendus-teacher-approval.html', 'teacher-approval');
+				} else {
+					// don't allow non-admins to see this page
+					window.history.pushState({}, '', '/404');
+					this.fire('location-changed', {}, {node: window});
+				}
+			}
 
       default: break;
     }
