@@ -636,17 +636,13 @@ const loadViewCourseLessons = async (context: any, courseId: string): Promise<vo
 };
 
 const createUser = async (context: any, userType: UserType, data: UserMetaData, password: string): Promise<void> => {
-    try {
-        await FirebaseService.createUserWithEmailAndPassword(data.email, password);
-        const loggedInUser: any = await FirebaseService.logInUserWithEmailAndPassword(data.email, password);
-        await UserModel.sendConfirmationEmail(loggedInUser);
-        await UserModel.setUserType(loggedInUser.uid, userType);
-        await UserModel.updateMetaData(loggedInUser.uid, data);
-        await EmailsToUidsModel.setUidByEmail(data.email, loggedInUser.uid);
-        await FirebaseService.logOutUser(); //logout so user can't do things
-    } catch(error){
-        throw error;
-    }
+	await FirebaseService.createUserWithEmailAndPassword(data.email, password);
+	const loggedInUser: any = await FirebaseService.logInUserWithEmailAndPassword(data.email, password);
+	if(userType !== 'student') await UserModel.sendConfirmationEmail(loggedInUser);
+	await UserModel.setUserType(loggedInUser.uid, userType);
+	await UserModel.updateMetaData(loggedInUser.uid, data);
+	await EmailsToUidsModel.setUidByEmail(data.email, loggedInUser.uid);
+	await FirebaseService.logOutUser(); // log out so user has to log in
 };
 
 const loginUser = async (context: any, email: string, password: string): Promise<void> => {

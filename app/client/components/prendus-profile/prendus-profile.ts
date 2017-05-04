@@ -72,6 +72,7 @@ export class PrendusProfile {
       } catch(error) {
         this.errorMessage = '';
         this.errorMessage = error.message;
+				console.log(error);
       }
     }
   }

@@ -56,6 +56,7 @@ class PrendusLogin {
     } catch(error) {
       this.errorMessage = '';
       this.errorMessage = error.message;
+			console.error(error);
     }
   }
 
