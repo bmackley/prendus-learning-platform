@@ -27,18 +27,6 @@
 
   <template>
     <redux-store on-statechange="mapStateToThis" action="[[action]]"></redux-store>
-    <template is="dom-if" if="[[selectedIndex]]">
-      <div id="back">
-        <button class="prendus-button prendus-button--recommended" on-tap="back">Back</button>
-      </div>
-    </template>
-    <template is="dom-if" if="[[displayNext]]">
-      <div id="next">
-        <button class="prendus-button prendus-button--recommended" on-tap="next">Next</button>
-      </div>
-    </template>
-    selectedIndex [[selectedIndex]]
-    <!--TODO move to bottom once all components are done -->
 
     <iron-pages id="iron-pages" selected="[[selectedIndex]]">
       <prendus-question-scaffold-example></prendus-question-scaffold-example>
@@ -72,6 +60,16 @@
         Take question 5
       </div>
     </iron-pages>
+    <template is="dom-if" if="[[selectedIndex]]">
+      <div id="back">
+        <button class="prendus-button prendus-button--recommended" on-tap="back">Back</button>
+      </div>
+    </template>
+    <template is="dom-if" if="[[displayNext]]">
+      <div id="next">
+        <button class="prendus-button prendus-button--recommended" on-tap="next">Next</button>
+      </div>
+    </template>
 
 
   </template>

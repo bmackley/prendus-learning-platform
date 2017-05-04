@@ -10,6 +10,7 @@ import {PrendusQuestionScaffoldDistractors} from '../prendus-question-scaffold-d
 import {PrendusQuestionScaffoldComments} from '../prendus-question-scaffold-comments/prendus-question-scaffold-comments';
 import {PrendusQuestionScaffoldExplanation} from '../prendus-question-scaffold-explanation/prendus-question-scaffold-explanation';
 import {PrendusQuestionScaffoldFinishedQuestion} from '../prendus-question-scaffold-finished-question/prendus-question-scaffold-finished-question';
+import {PrendusQuestionScaffoldExample} from '../prendus-question-scaffold-example/prendus-question-scaffold-example';
 
 class PrendusQuestionScaffold {
   public is: string;
@@ -31,36 +32,28 @@ class PrendusQuestionScaffold {
    * Called when you press back on the dom
    */
   back(): void {
-    try {
-      --this.selectedIndex;
-      const element: PrendusQuestionScaffoldNewQuestion
-                   | PrendusQuestionScaffoldDistractors
-                   | PrendusQuestionScaffoldComments
-                   | PrendusQuestionScaffoldExplanation
-                   | PrendusQuestionScaffoldFinishedQuestion  = this.querySelector('#iron-pages').items[this.selectedIndex];
-      element.displayNext();
-    } catch(error) {
-      console.error('This element should\'ve implemented display next!');
-      console.error(this.querySelector('#iron-pages').items[this.selectedIndex]);
-      console.error(error);
-      Actions.setDisplayNext(this, true);
-    }
+    this.iterate(-1);
   }
 
   /**
    * Called when you press next on the dom
    */
   next(): void {
+    this.iterate(1);
+  }
+
+  iterate(direction: number): void {
     try {
-      ++this.selectedIndex;
+      this.selectedIndex += direction;
+      const element: PrendusQuestionScaffoldExample |
+                     PrendusQuestionScaffoldNewQuestion |
+                     PrendusQuestionScaffoldDistractors |
+                     PrendusQuestionScaffoldComments |
+                     PrendusQuestionScaffoldExplanation |
+                     PrendusQuestionScaffoldFinishedQuestion
+                     = this.querySelector('#iron-pages').items[this.selectedIndex];
 
-      const element: PrendusQuestionScaffoldNewQuestion
-                   | PrendusQuestionScaffoldDistractors
-                   | PrendusQuestionScaffoldComments
-                   | PrendusQuestionScaffoldExplanation
-                   | PrendusQuestionScaffoldFinishedQuestion  = this.querySelector('#iron-pages').items[this.selectedIndex];
       element.displayNext();
-
     } catch(error) {
       console.error('This element should\'ve implemented display next!');
       console.error(this.querySelector('#iron-pages').items[this.selectedIndex]);

@@ -1,7 +1,8 @@
 import {StatechangeEvent} from '../../typings/statechange-event';
 import {State} from '../../typings/state';
+import {Actions} from '../../redux/actions';
 
-class PrendusQuestionScaffoldExample {
+export class PrendusQuestionScaffoldExample {
   public is: string;
   public questionStem: string;
   public answers: string[];
@@ -18,7 +19,11 @@ class PrendusQuestionScaffoldExample {
     this.answers = ['answer 1', 'answer 2', 'answer 3', 'answer 4'];
     this.comments = ['comment 1', 'comment 2', 'comment 3', 'comment 4'];
   }
-  
+
+  displayNext(): void {
+    Actions.setDisplayNext(this, true);
+  }
+
 	mapStateToThis(e: StatechangeEvent): void {
 		const state: State = e.detail.state;
 
