@@ -228,8 +228,8 @@ class PrendusQuizEditor {
 					return {
 						...value,
 						position: index
-					}
-				})
+					};
+				});
 				await Actions.setQuizQuestionsData(this.quizId, sortedQuizQuestionsData);
 			}
 		}
