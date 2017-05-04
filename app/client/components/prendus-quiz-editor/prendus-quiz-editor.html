@@ -259,15 +259,18 @@
 
 					<!-- PUBLIC QUESTIONS -->
 					<div id="public-questions" class="tab-content">
-						<template is="dom-repeat" items="[[publicQuestionIds]]">
-							<prendus-view-question id="public-question-id-[[item]]" question-id="[[item]]" quiz-id="NO_QUIZ" jwt="[[jwt]]" quiz-session="[[quizSession]]" concise></prendus-view-question>
-							<paper-icon-button id="add[[item]]" class="prendus-icon-button" icon="av:playlist-add" on-click="addQuestionToQuiz"></paper-icon-button>
-							<paper-tooltip for="add[[item]]">Add to quiz</paper-tooltip>
-              <!-- TODO took out the ability to edit a public question for now.-->
-              <!-- <paper-icon-button id="edit[[item]]" class="prendus-icon-button" icon="create" on-click="editQuestion"></paper-icon-button>
-							<paper-tooltip for="edit[[item]]">Edit question</paper-tooltip> -->
-							<hr>
-						</template>
+						<div class="questions-container">
+							<template is="dom-repeat" items="[[publicQuestionIds]]">
+								<div class="question-container">									
+									<prendus-view-question id="public-question-id-[[item]]" question-id="[[item]]" quiz-id="NO_QUIZ" jwt="[[jwt]]" quiz-session="[[quizSession]]" concise></prendus-view-question>
+									<paper-icon-button id="add[[item]]" class="prendus-icon-button" icon="av:playlist-add" on-click="addQuestionToQuiz"></paper-icon-button>
+									<paper-tooltip for="add[[item]]">Add to quiz</paper-tooltip>
+									<!-- TODO took out the ability to edit a public question for now.-->
+									<!-- <paper-icon-button id="edit[[item]]" class="prendus-icon-button" icon="create" on-click="editQuestion"></paper-icon-button>
+									<paper-tooltip for="edit[[item]]">Edit question</paper-tooltip> -->
+								</div>
+							</template>
+						</div>
 					</div>
 				</iron-pages>
       </div>

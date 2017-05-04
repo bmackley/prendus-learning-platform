@@ -169,7 +169,7 @@ class PrendusQuizEditor {
 		}
 
 		async createQuiz(): Promise<void> {
-			const quizId = await Actions.createNewQuiz(this, this.title, this.lessonId);
+			const quizId: string = await Actions.createNewQuiz(this, this.title, this.lessonId);
 			// reload by watching data
 			this.data = {
 				...this.data,
@@ -189,18 +189,28 @@ class PrendusQuizEditor {
         await Actions.loadUserQuestionIds(this, getUserQuestionIdsAjax);
     }
 
+		/**
+		 * Loads the settings and position for all questions in the quiz
+		 */
     async loadQuizQuestionsData(): Promise<void> {
         await Actions.loadQuizQuestionsData(this, this.quizId);
     }
 
+		/**
+		 * Adds question to the end of the quiz
+		 */
     async addQuestionToQuiz(e: any): Promise<void> {
         const questionId: string = e.model.item || e.model.question.questionId;
 				e.newIndex = this.quizQuestionsData.length;
+				// use the length so the questions is added to the end
         await Actions.addQuestionToQuiz(this, this.quizId, questionId, this.quizQuestionsData.length);
         await this.loadQuizQuestionsData();
 				this.sortQuizQuestions(e);
     }
 
+		/**
+		 * Removes the question from the quiz
+		 */
     async removeQuestionFromQuiz(e: any): Promise<void> {
         const questionId: string = e.model.item || e.model.question.questionId;
         await Actions.removeQuestionFromQuiz(this, this.quizId, questionId);
@@ -209,6 +219,9 @@ class PrendusQuizEditor {
 				this.sortQuizQuestions(e);
     }
 
+		/**
+		 * Updates the sorted questions in the database
+		 */
 		async sortQuizQuestions(e: any): Promise<void> {
 			if(typeof e.newIndex !== 'undefined') {
 				const sortedQuizQuestionsData: QuestionMetaData[] = this.quizQuestionsData.map((value, index, array) => {
@@ -249,22 +262,25 @@ class PrendusQuizEditor {
 
     async manuallyReloadQuestions(): Promise<void> {
         // TODO optimize this code
+
+				await this.loadQuizQuestionsData();
+
+				this.quizQuestionsData.forEach((question) => {
+					const viewQuestionElement = this.querySelector(`#quiz-question-id-${question.questionId}`);
+					viewQuestionElement.loadNextProblem(true);
+				});
+
         await this.loadUserQuestionIds();
-        await this.loadPublicQuestionIds();
-        await this.loadQuizQuestionsData();
 
         this.userQuestionIds.forEach((questionId) => {
             const viewQuestionElement = this.querySelector(`#user-question-id-${questionId}`);
             viewQuestionElement.loadNextProblem(true);
         });
 
+				await this.loadPublicQuestionIds();
+
         this.publicQuestionIds.forEach((questionId) => {
             const viewQuestionElement = this.querySelector(`#public-question-id-${questionId}`);
-            viewQuestionElement.loadNextProblem(true);
-        });
-
-        this.quizQuestionsData.forEach((question) => {
-            const viewQuestionElement = this.querySelector(`#quiz-question-id-${question.questionId}`);
             viewQuestionElement.loadNextProblem(true);
         });
     }
@@ -405,7 +421,6 @@ class PrendusQuizEditor {
 				this.userQuestionIds = state.userQuestionIds;
 				this.publicQuestionIds = state.publicQuestionIds;
 				this.quizQuestionsData = state.quizQuestionsData;
-				// console.log(this.quizQuestionsData);
         this.quizQuestionSettings = state.quizQuestionSettings;
     }
 }
