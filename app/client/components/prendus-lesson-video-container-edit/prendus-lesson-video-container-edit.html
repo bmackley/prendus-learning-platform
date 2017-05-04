@@ -40,7 +40,7 @@
 
         <redux-store on-statechange="mapStateToThis" action="[[action]]"></redux-store>
 
-        <paper-dialog id="editVideoDialog" with-backdrop>
+        <paper-dialog id="editVideoDialog" with-backdrop on-iron-overlay-closed="pauseVideo">
           <paper-dialog-scrollable>
             <prendus-video-editor id="videoEditor" lesson-id="[[lessonId]]" video-id="[[currentVideoId]]" title="{{currentVideoTitle}}" url="{{currentVideoUrl}}" on-save="saveVideo" on-delete="deleteVideo"></prendus-video-editor>
           </paper-dialog-scrollable>

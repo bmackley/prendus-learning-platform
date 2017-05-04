@@ -80,6 +80,10 @@ export class PrendusVideoEditor {
     indicateSaved(): void {
         this.$.savedToast.open();
     }
+
+		pause(): void {
+			this.querySelector('prendus-video-viewer').pause();
+		}
 }
 
 Polymer(PrendusVideoEditor);
