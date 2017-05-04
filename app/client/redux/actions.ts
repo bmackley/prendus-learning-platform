@@ -13,6 +13,7 @@ import {Course} from '../node_modules/prendus-services/typings/course';
 import {Tag} from '../node_modules/prendus-services/typings/tag';
 import {Lesson} from '../node_modules/prendus-services/typings/lesson';
 import {QuestionSettings} from '../node_modules/prendus-services/typings/question-settings';
+import {QuestionMetaData} from '../node_modules/prendus-services/typings/question-meta-data';
 import {CourseVisibility} from '../node_modules/prendus-services/typings/course-visibility';
 import {UserMetaData} from '../node_modules/prendus-services/typings/user-meta-data';
 import {UserType} from '../node_modules/prendus-services/typings/user-type';
@@ -468,19 +469,19 @@ const loadQuizQuestionIds = async (context: any, quizId: string): Promise<void> 
 };
 
 const loadQuizQuestionsData = async (context: any, quizId: string): Promise<void> => {
-	const quizQuestionsData: { settings: QuestionSettings, position?: number, questionId: string }[] = await QuizModel.getQuestionsData(quizId);
+	const quizQuestionsData: QuestionMetaData[] = await QuizModel.getQuestionsData(quizId);
 	context.action =  {
 		type: 'LOAD_QUIZ_QUESTIONS_DATA',
 		quizQuestionsData
 	};
 };
 
-const setQuizQuestionsData = async (quizId: string, quizQuestionsData: { settings: QuestionSettings, position?: number, questionId: string }[]): Promise<void> => {
+const setQuizQuestionsData = async (quizId: string, quizQuestionsData: QuestionMetaData[]): Promise<void> => {
 	await QuizModel.setQuestionsData(quizId, quizQuestionsData);
 }
 
-const addQuestionToQuiz = async (context: any, quizId: string, questionId: string): Promise<void> => {
-    await QuizModel.associateQuestion(quizId, questionId);
+const addQuestionToQuiz = async (context: any, quizId: string, questionId: string, position: number): Promise<void> => {
+    await QuizModel.associateQuestion(quizId, questionId, position);
 };
 
 const removeQuestionFromQuiz = async (context: any, quizId: string, questionId: string): Promise<void> => {

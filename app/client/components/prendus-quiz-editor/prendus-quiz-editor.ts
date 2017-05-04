@@ -1,5 +1,6 @@
 import {Question} from '../../node_modules/prendus-services/typings/question';
 import {QuestionVisibility} from '../../node_modules/prendus-services/typings/question-visibility';
+import {QuestionMetaData} from '../../node_modules/prendus-services/typings/question-meta-data';
 import {Actions} from '../../redux/actions';
 import {UtilitiesService} from '../../node_modules/prendus-services/services/utilities-service';
 import {FirebaseService} from '../../node_modules/prendus-services/services/firebase-service';
@@ -28,7 +29,7 @@ class PrendusQuizEditor {
 		public courseId: string;
     public userQuestionIds: string[];
     public publicQuestionIds: string[];
-		public quizQuestionsData: { settings: QuestionSettings, position?: number, questionId: string }[];
+		public quizQuestionsData: QuestionMetaData[];
 		public quizSession: QuizSession;
 		public quizQuestionSettings: QuestionSettings;
     public jwt: string;
@@ -194,9 +195,9 @@ class PrendusQuizEditor {
 
     async addQuestionToQuiz(e: any): Promise<void> {
         const questionId: string = e.model.item || e.model.question.questionId;
-        await Actions.addQuestionToQuiz(this, this.quizId, questionId);
+				e.newIndex = this.quizQuestionsData.length;
+        await Actions.addQuestionToQuiz(this, this.quizId, questionId, this.quizQuestionsData.length);
         await this.loadQuizQuestionsData();
-				e.newIndex = this.quizQuestionsData.length - 1;
 				this.sortQuizQuestions(e);
     }
 
@@ -210,14 +211,12 @@ class PrendusQuizEditor {
 
 		async sortQuizQuestions(e: any): Promise<void> {
 			if(typeof e.newIndex !== 'undefined') {
-				console.log(e.newIndex)
-				const sortedQuizQuestionsData = this.quizQuestionsData.map((value, index, array) => {
+				const sortedQuizQuestionsData: QuestionMetaData[] = this.quizQuestionsData.map((value, index, array) => {
 					return {
 						...value,
 						position: index
 					}
 				})
-				console.log(sortedQuizQuestionsData);
 				await Actions.setQuizQuestionsData(this.quizId, sortedQuizQuestionsData);
 			}
 		}
@@ -406,6 +405,7 @@ class PrendusQuizEditor {
 				this.userQuestionIds = state.userQuestionIds;
 				this.publicQuestionIds = state.publicQuestionIds;
 				this.quizQuestionsData = state.quizQuestionsData;
+				// console.log(this.quizQuestionsData);
         this.quizQuestionSettings = state.quizQuestionSettings;
     }
 }
