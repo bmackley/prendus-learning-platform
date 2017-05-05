@@ -45,8 +45,13 @@ const showNotification = (context: any, notificationType: Notification, notifica
 	context.action = {
 		type: 'SHOW_NOTIFICATION',
 		notificationType,
+		notificationText: ''
+	};
+	context.action = {
+		type: 'SHOW_NOTIFICATION',
+		notificationType,
 		notificationText
-	}
+	};
 }
 
 const loadCourseCollaboratorEmails = async (context: any, uid: string, courseId: string): Promise<void> => {
