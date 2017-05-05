@@ -15,8 +15,6 @@ export class PrendusProfile {
   public password: string;
   public uid: string;
   public metaData: UserMetaData;
-  public updateProfileSuccessToastText: string;
-  public updateProfileErrorToastText: string;
   public querySelector: any;
 
   beforeRegister(): void {

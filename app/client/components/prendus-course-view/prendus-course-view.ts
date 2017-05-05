@@ -231,7 +231,7 @@ export class PrendusCourseView {
         await Actions.orderLessons(this, this.courseId, updateLessonPositionArray);
 				Actions.showNotification(this, 'success', 'Lesson ordered successfully.');
       } catch(error) {
-				Actions.showNotification(this, 'error', 'Error sorting lessons.');
+				Actions.showNotification(this, 'error', 'Error ordering lessons.');
         console.error(error);
       }
     }

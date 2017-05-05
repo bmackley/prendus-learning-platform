@@ -113,7 +113,7 @@ class PrendusLessonQuizContainer {
       try {
         await Actions.deleteQuiz(this, this.lessonId, this.quizToDelete);
         await Actions.loadViewLessonQuizzes(this, this.lessonId);
-				Actions.showNotification(this, 'success', 'Quiz successfully deleted.');
+				Actions.showNotification(this, 'success', 'Quiz deleted successfully.');
       } catch (error) {
 				Actions.showNotification(this, 'error', 'Error deleting quiz.');
 				console.error(error);

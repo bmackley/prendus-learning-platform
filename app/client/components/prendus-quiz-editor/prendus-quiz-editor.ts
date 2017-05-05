@@ -375,7 +375,7 @@ class PrendusQuizEditor {
         }
 
       } catch(error) {
-				Actions.showNotification(this, 'success', `Error updating ${successMessageName}.`);
+				Actions.showNotification(this, 'error', `Error updating ${successMessageName}.`);
 				console.error(error);
       }
 

@@ -110,7 +110,7 @@ class PrendusRouter {
 	_showNotification(notificationType: Notification, notificationText: string): void {
 		let _this = this;
 		setTimeout(() => {
-			this.querySelector('paper-toast').show();
+			this.querySelector('.prendus-notification').show();
 		})
 	}
 
