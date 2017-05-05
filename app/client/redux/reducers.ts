@@ -135,6 +135,12 @@ export function rootReducer(state: State = InitialState, action: Action): State 
 						quizQuestionIds: action.quizQuestionIds
 					};
         }
+				case 'LOAD_QUIZ_QUESTIONS_DATA': {
+					return {
+						...state,
+						quizQuestionsData: action.quizQuestionsData
+					};
+				}
         case 'LOAD_USER_QUESTION_IDS': {
 					return {
 						...state,

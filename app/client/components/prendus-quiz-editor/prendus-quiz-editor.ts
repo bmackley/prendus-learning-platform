@@ -1,5 +1,6 @@
 import {Question} from '../../node_modules/prendus-services/typings/question';
 import {QuestionVisibility} from '../../node_modules/prendus-services/typings/question-visibility';
+import {QuestionMetaData} from '../../node_modules/prendus-services/typings/question-meta-data';
 import {Actions} from '../../redux/actions';
 import {UtilitiesService} from '../../node_modules/prendus-services/services/utilities-service';
 import {FirebaseService} from '../../node_modules/prendus-services/services/firebase-service';
@@ -28,7 +29,7 @@ class PrendusQuizEditor {
 		public courseId: string;
     public userQuestionIds: string[];
     public publicQuestionIds: string[];
-		public quizQuestionIds: string[];
+		public quizQuestionsData: QuestionMetaData[];
 		public quizSession: QuizSession;
 		public quizQuestionSettings: QuestionSettings;
     public jwt: string;
@@ -139,7 +140,7 @@ class PrendusQuizEditor {
 
 				await Promise.all([
 					Actions.loadQuizQuestionSettings(this, quizId),
-					this.loadQuizQuestionIds(),
+					this.loadQuizQuestionsData(),
 					this.loadUserQuestionIds(),
 					this.loadPublicQuestionIds(),
 					this.manuallyReloadQuestions()
@@ -168,7 +169,7 @@ class PrendusQuizEditor {
 		}
 
 		async createQuiz(): Promise<void> {
-			const quizId = await Actions.createNewQuiz(this, this.title, this.lessonId);
+			const quizId: string = await Actions.createNewQuiz(this, this.title, this.lessonId);
 			// reload by watching data
 			this.data = {
 				...this.data,
@@ -188,25 +189,50 @@ class PrendusQuizEditor {
         await Actions.loadUserQuestionIds(this, getUserQuestionIdsAjax);
     }
 
-    async loadQuizQuestionIds(): Promise<void> {
-        await Actions.loadQuizQuestionIds(this, this.quizId);
+		/**
+		 * Loads the settings and position for all questions in the quiz
+		 */
+    async loadQuizQuestionsData(): Promise<void> {
+        await Actions.loadQuizQuestionsData(this, this.quizId);
     }
 
+		/**
+		 * Adds question to the end of the quiz
+		 */
     async addQuestionToQuiz(e: any): Promise<void> {
-        const questionId: string = e.model.item;
-        await Actions.addQuestionToQuiz(this, this.quizId, questionId);
-        await this.loadQuizQuestionIds();
-        this.quizQuestionIds.forEach((questionId) => {
-            const viewQuestionElement = this.querySelector(`#quiz-question-id-${questionId}`);
-            viewQuestionElement.loadNextProblem(true);
-        });
+        const questionId: string = e.model.item || e.model.question.questionId;
+				e.newIndex = this.quizQuestionsData.length;
+				// use the length so the questions is added to the end
+        await Actions.addQuestionToQuiz(this, this.quizId, questionId, this.quizQuestionsData.length);
+        await this.loadQuizQuestionsData();
+				this.sortQuizQuestions(e);
     }
 
+		/**
+		 * Removes the question from the quiz
+		 */
     async removeQuestionFromQuiz(e: any): Promise<void> {
-        const questionId: string = e.model.item;
+        const questionId: string = e.model.item || e.model.question.questionId;
         await Actions.removeQuestionFromQuiz(this, this.quizId, questionId);
-        await this.loadQuizQuestionIds();
+        await this.loadQuizQuestionsData();
+				e.newIndex = -1;
+				this.sortQuizQuestions(e);
     }
+
+		/**
+		 * Updates the sorted questions in the database
+		 */
+		async sortQuizQuestions(e: any): Promise<void> {
+			if(typeof e.newIndex !== 'undefined') {
+				const sortedQuizQuestionsData: QuestionMetaData[] = this.quizQuestionsData.map((value, index, array) => {
+					return {
+						...value,
+						position: index
+					};
+				});
+				await Actions.setQuizQuestionsData(this.quizId, sortedQuizQuestionsData);
+			}
+		}
 
     displayDate(date: string): Date {
       // Return the current date if there is no course due date set yet.
@@ -230,28 +256,31 @@ class PrendusQuizEditor {
       this.querySelector('#settings-modal').open();
     }
 
-    showEmptyQuizQuestionsText(quizQuestionIds: string[]): boolean {
-        return !quizQuestionIds || quizQuestionIds.length === 0;
+    showEmptyQuizQuestionsText(quizQuestionsData: string[]): boolean {
+        return !quizQuestionsData || quizQuestionsData.length === 0;
     }
 
     async manuallyReloadQuestions(): Promise<void> {
         // TODO optimize this code
+
+				await this.loadQuizQuestionsData();
+
+				this.quizQuestionsData.forEach((question) => {
+					const viewQuestionElement = this.querySelector(`#quiz-question-id-${question.questionId}`);
+					viewQuestionElement.loadNextProblem(true);
+				});
+
         await this.loadUserQuestionIds();
-        await this.loadPublicQuestionIds();
-        await this.loadQuizQuestionIds();
 
         this.userQuestionIds.forEach((questionId) => {
             const viewQuestionElement = this.querySelector(`#user-question-id-${questionId}`);
             viewQuestionElement.loadNextProblem(true);
         });
 
+				await this.loadPublicQuestionIds();
+
         this.publicQuestionIds.forEach((questionId) => {
             const viewQuestionElement = this.querySelector(`#public-question-id-${questionId}`);
-            viewQuestionElement.loadNextProblem(true);
-        });
-
-        this.quizQuestionIds.forEach((questionId) => {
-            const viewQuestionElement = this.querySelector(`#quiz-question-id-${questionId}`);
             viewQuestionElement.loadNextProblem(true);
         });
     }
@@ -369,8 +398,8 @@ class PrendusQuizEditor {
       try {
         await Actions.setQuizQuestionSetting(this, quizId, settingName, value);
         if(updateQuestionSetting) {
-          this.quizQuestionIds.forEach(async (questionId) => {
-              await Actions.setQuestionSetting(this, quizId, questionId, settingName, value);
+          this.quizQuestionsData.forEach(async (question) => {
+              await Actions.setQuestionSetting(this, quizId, question.questionId, settingName, value);
           });
         }
 
@@ -391,7 +420,7 @@ class PrendusQuizEditor {
 				this.uid = state.currentUser.metaData.uid;
 				this.userQuestionIds = state.userQuestionIds;
 				this.publicQuestionIds = state.publicQuestionIds;
-				this.quizQuestionIds = state.quizQuestionIds;
+				this.quizQuestionsData = state.quizQuestionsData;
         this.quizQuestionSettings = state.quizQuestionSettings;
     }
 }

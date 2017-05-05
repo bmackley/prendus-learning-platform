@@ -2,6 +2,7 @@ import {Video} from '../node_modules/prendus-services/typings/video';
 import {Quiz} from '../node_modules/prendus-services/typings/quiz';
 import {Concept} from '../node_modules/prendus-services/typings/concept';
 import {QuestionSettings} from '../node_modules/prendus-services/typings/question-settings';
+import {QuestionMetaData} from '../node_modules/prendus-services/typings/question-meta-data';
 import {User} from '../node_modules/prendus-services/typings/user';
 import {UserMetaData} from '../node_modules/prendus-services/typings/user-meta-data';
 import {Course} from '../node_modules/prendus-services/typings/course';
@@ -71,6 +72,7 @@ export interface State {
 		userQuestionIds: [string];
 		publicQuestionIds: [string];
 		quizQuestionIds: [string];
+		quizQuestionsData: QuestionMetaData[];
 		quizQuestionSettings: QuestionSettings;
     mainViewToShow: 'routes' | 'spinner';
     resultingLessons: Lesson[];
