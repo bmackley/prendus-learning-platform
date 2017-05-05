@@ -2,7 +2,7 @@
   "name": "prendus-learning-platform",
   "version": "0.4.4",
   "dependencies": {
-    "codemirror": "5.16.0",
+    "codemirror": "5.25.2",
     "jshint": "2.9.2",
     "prendus-services": "git+ssh://git@github.com/lastmjs/prendus-services.git#develop",
     "quill": "1.2.4",
