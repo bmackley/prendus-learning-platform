@@ -4,18 +4,45 @@
 <dom-module id="prendus-question-scaffold-new-question">
 
   <style include="prendus-styles">
-    :host {
-      display: block;
+    .bold {
+      font-weight: bold;
     }
 
+    .wrapper {
+      display: flex;
+      flex-direction: column;
+    }
 
+    .question {
+      margin-top: 20px;
+    }
+
+    .answer {
+      margin-top: 20px;
+    }
   </style>
 
   <template>
     <redux-store on-statechange="mapStateToThis" action="[[action]]"></redux-store>
-      <paper-input id="question" label="Question" value="[[question]]"></paper-input>
+    <div class="wrapper prendus-card">
+      <div>
+        Please follow the question creation guidelines below:<br>
+        1. Remember these will be used as <span class="bold">exam practice questions</span> for the class,
+        so try to create a question that could be on the exam.<br>
+        2. Create a question in a <span class="bold">topic area that you are struggling with.</span>
 
-      <paper-input id="answer" label="Answer" value="[[answer]]"></paper-input>
+      </div>
+      <div class="prendus-card question">
+        <h3>Question</h3>
+        <paper-input id="question" value="[[question]]" on-value-changed="disableNext"></paper-input>
+      </div>
+      <div class="prendus-card answer">
+        <h3>Answer</h3>
+        <paper-input id="answer" value="[[answer]]" on-value-changed="disableNext"></paper-input>
+      </div>
+    </div>
+
+
   </template>
 
   <script src="prendus-question-scaffold-new-question.ts"></script>

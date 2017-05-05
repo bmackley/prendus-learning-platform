@@ -9,6 +9,7 @@ import {CourseLessonData} from '../node_modules/prendus-services/typings/course-
 import {Lesson} from '../node_modules/prendus-services/typings/lesson';
 import {Discipline} from '../node_modules/prendus-services/typings/discipline';
 import {Subject} from '../node_modules/prendus-services/typings/subject';
+import {QuestionScaffold} from '../node_modules/prendus-services/typings/question-scaffold';
 
 export interface State {
     editCourseLessons: {
@@ -83,4 +84,6 @@ export interface State {
     subjects: Subject[];
     concepts: Concept[];
     disableNext: boolean;
+    currentQuestionScaffold: QuestionScaffold;
+    currentQuestionScaffoldExample: QuestionScaffold;
 }

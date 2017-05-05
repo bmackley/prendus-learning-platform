@@ -21,6 +21,7 @@ import {EmailsToUidsModel} from '../node_modules/prendus-services/models/emails-
 import {Video} from '../node_modules/prendus-services/typings/video';
 import {ExecuteAsyncInOrderService} from '../node_modules/prendus-services/services/execute-async-in-order-service';
 import {UtilitiesService} from '../node_modules/prendus-services/services/utilities-service';
+import {QuestionScaffold} from '../node_modules/prendus-services/typings/question-scaffold';
 
 const defaultAction = (context: any): void => {
     context.action = {
@@ -1056,6 +1057,19 @@ const setDisabledNext = (context: any, disableNext: boolean): void => {
   };
 };
 
+const setQuestionScaffold = (context: any, currentQuestionScaffold: QuestionScaffold): void => {
+  context.action = {
+    type: 'SET_CURRENT_QUESTION_SCAFFOLD',
+    currentQuestionScaffold
+  };
+};
+
+const setQuestionScaffoldExample = (context: any, currentQuestionScaffoldExample: QuestionScaffold): void => {
+  context.action = {
+    type: 'SET_CURRENT_QUESTION_SCAFFOLD_EXAMPLE',
+    currentQuestionScaffoldExample
+  }
+};
 export const Actions = {
     defaultAction,
     loginUser,
@@ -1126,5 +1140,7 @@ export const Actions = {
     hideMainSpinner,
     updateQuizDueDates,
     reloadPublicCourses,
-    setDisabledNext
+    setDisabledNext,
+    setQuestionScaffold,
+    setQuestionScaffoldExample
   };

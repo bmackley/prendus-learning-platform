@@ -10,6 +10,8 @@ import {CourseLessonData} from '../node_modules/prendus-services/typings/course-
 import {Lesson} from '../node_modules/prendus-services/typings/lesson';
 import {Discipline} from '../node_modules/prendus-services/typings/discipline';
 import {Subject} from '../node_modules/prendus-services/typings/subject';
+import {QuestionScaffold} from '../node_modules/prendus-services/typings/question-scaffold';
+
 export interface Action {
 	type: string;
   courses: Course[];
@@ -60,4 +62,6 @@ export interface Action {
 	chosenConcept: Concept;
 	chosenLesson: Lesson;
 	disableNext: boolean;
-}
+	currentQuestionScaffold: QuestionScaffold;
+	currentQuestionScaffoldExample: QuestionScaffold;
+};
