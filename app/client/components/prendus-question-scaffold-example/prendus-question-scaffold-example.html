@@ -7,70 +7,62 @@
 
   <style include="prendus-styles">
     .wrapper {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      grid-template-rows: repeat(6, 0fr);
-      grid-column-gap: 15px;
-      grid-row-gap: 10px;
+      display: flex;
+      flex-direction: column;
     }
 
-    .question, .explanation {
+    .row {
+      display: flex;
       margin-top: 10px;
-    }
-    .question {
-      grid-row: 1;
-      grid-column: 1;
+      justify-content: space-between;
     }
 
-    .explanation {
-      grid-row: 1;
-      grid-column: 2/4;
+    .left-column {
+      width: 45%;
+      margin-right: 10px;
     }
-
-    .answer-card, .comment-card {
-      margin-top: 5px;
+    .answers-comments-header {
+      padding: 15px;
+      margin-bottom: 0px;
     }
-
-
-    .answers-header {
-      grid-column: 1;
-      grid-row: 2;
+    .right-column {
+      width: 45%;
     }
-
-    .comments-header {
-      grid-column: 2;
-      grid-row: 2;
-    }
-
   </style>
 
   <template>
     <redux-store on-statechange="mapStateToThis" action="[[action]]"></redux-store>
     <div class="wrapper">
+      <div class="row">
+        <div class="prendus-card left-column">
+          <h3>Question</h3>
+          [[questionStem]]
+        </div>
+        <div class="prendus-card right-column">
+          <h3>Explanation</h3>
+          [[explanation]]
+        </div>
+      </div>
 
-      <div class="prendus-card question">
-        <h3>Question</h3>
-        [[questionStem]]
-      </div>
-      <div class="prendus-card explanation">
-        <h3>Explanation</h3>
-        [[explanation]]
-      </div>
-      <div class="answers-header">
-        <h3>Answers</h3>
-
-      </div>
-      <div class="comments-header">
-        <h3>Comments</h3>
+      <div class="row">
+        <div class="left-column answers-comments-header">
+          <h3>Answers</h3>
+        </div>
+        <div class="right-column answers-comments-header">
+          <h3>Comments</h3>
+        </div>
       </div>
 
       <template is="dom-repeat" items="[[answers]]">
-        <div class="prendus-card answer-card" style$="grid-column: 1; grid-row: [[calculateIndex(index)]];">
-          [[item.answer]]
+        <div class="row">
+          <div class="prendus-card left-column">
+            [[item.answer]]
+          </div>
+          <div class="prendus-card right-column">
+            [[item.comment]]
+          </div>
         </div>
-        <div class="prendus-card comment-card" style$="grid-column: 2/4; grid-row: [[calculateIndex(index)]];">
-          [[item.comment]]
-        </div>
+
       </template>
     </div>
 
