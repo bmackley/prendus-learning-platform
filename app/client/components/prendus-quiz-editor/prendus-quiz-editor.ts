@@ -37,8 +37,6 @@ class PrendusQuizEditor {
     public editingTitle: boolean;
     public selected: number;
 		public endpointDomain: string;
-		public successMessage: string;
-		public errorMessage: string;
 		public errorLink: string;
 		public errorText: string;
 		public errorLinkText: string;
@@ -325,8 +323,7 @@ class PrendusQuizEditor {
         const course: Course = await CourseModel.getById(this.courseId);
         if(UTCDueDate > course.dueDate) {
           const courseDueDateAsString: string = UtilitiesService.UTCDateToLocalMMddyyyy(course.dueDate);
-          this.errorMessage = '';
-          this.errorMessage = `Quiz due date cannot be after the last day of the course. Which is currently ${courseDueDateAsString}. Quiz due date set back to original.`;
+					Actions.showNotification(this, 'error', `Quiz due date cannot be after the last day of the course (currently ${courseDueDateAsString}).`);
           // if the quiz didn't have a due date then set the quiz due date to the current date.
           // this assumes the last day of the course is after the current date.
           const date: number = !this.quizQuestionSettings.dueDate ? UtilitiesService.dateToUTCNumber(new Date()) : this.quizQuestionSettings.dueDate;
@@ -372,11 +369,10 @@ class PrendusQuizEditor {
       try {
         const value: string = e.target.value;
         await QuizModel.updateTitle(this.quizId, value);
-        this.successMessage = '';
-        this.successMessage = `${value} updated.`;
+				Actions.showNotification(this, 'success', `${value} updated successfully.`);
       } catch(error) {
-        this.errorMessage = '';
-        this.errorMessage = error.message;
+        Actions.showNotification(this, 'error', 'Error updating title');
+				console.error(error);
       }
 			// load these in the background so they're updated when the user returns to that page
       Actions.loadEditLessonQuizzes(this, this.lessonId);
@@ -404,13 +400,12 @@ class PrendusQuizEditor {
         }
 
         if(successMessageName) {
-          this.successMessage = '';
-          this.successMessage = `${successMessageName} updated.`;
+					Actions.showNotification(this, 'success', `${successMessageName} updated successfully.`);
         }
 
       } catch(error) {
-        this.errorMessage = '';
-        this.errorMessage = error.message;
+				Actions.showNotification(this, 'error', `Error updating ${successMessageName}.`);
+				console.error(error);
       }
 
     }

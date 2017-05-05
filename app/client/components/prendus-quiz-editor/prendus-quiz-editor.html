@@ -16,7 +16,6 @@
 <link rel="import" href="../../bower_components/paper-date-picker/paper-date-picker.html">
 <link rel="import" href="../../bower_components/prendus-question-components/components/prendus-view-question/prendus-view-question.html">
 <!-- <link rel="import" href="../prendus-collaborator-modal/prendus-collaborator-modal.html"> -->
-<link rel="import" href="../prendus-notification/prendus-notification.html">
 <link rel="import" href="../../bower_components/prendus-styles/prendus-styles.html">
 <link rel="import" href="../../bower_components/Sortable/Sortable.html">
 
@@ -137,8 +136,6 @@
     <iron-ajax id="getEmailsByIdsAjax" method="get" handle-as="json"></iron-ajax>
     <iron-ajax id="getUidByEmailAjax" method="get" handle-as="json"></iron-ajax>
     <iron-ajax id="startQuizSessionAjax" url="[[endpointDomain]]/api/quiz/start-session" method="post" content-type="application/json" handle-as="json"></iron-ajax>
-
-    <prendus-notification success-message="[[successMessage]]" error-message="[[errorMessage]]"></prendus-notification>
 
     <paper-dialog id="share-quiz-dialog" with-backdrop>
 			<div class="prendus-vertical-container">

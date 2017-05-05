@@ -1,3 +1,4 @@
+import {Notification} from '../node_modules/prendus-services/typings/notification';
 import {Video} from '../node_modules/prendus-services/typings/video';
 import {Quiz} from '../node_modules/prendus-services/typings/quiz';
 import {Concept} from '../node_modules/prendus-services/typings/concept';
@@ -14,6 +15,8 @@ import {Subject} from '../node_modules/prendus-services/typings/subject';
 
 export interface Action {
 	type: string;
+	notificationType: Notification;
+	notificationText: string;
   courses: Course[];
   starredCourses: Course[];
   sharedCourses: Course[];

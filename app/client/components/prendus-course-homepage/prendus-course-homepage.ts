@@ -43,8 +43,9 @@ class PrendusCourseHomepage {
 					Actions.getCoursesByVisibility(this, 'public', 6);
           Actions.hideMainSpinner(this);
       } catch(error) {
-          this.errorMessage = '';
-          this.errorMessage = error.message;
+				Actions.hideMainSpinner(this);
+				Actions.showNotification(this, 'error', 'Error loading courses.');
+				console.error(error);
       }
   }
 
@@ -97,8 +98,8 @@ class PrendusCourseHomepage {
       // +1 because we added a course!
       await Actions.getCoursesByVisibility(this, 'public', this.numberOfPublicCoursesLoaded + 1);
     } catch(error) {
-      this.errorMessage = '';
-      this.errorMessage = error.message;
+			Actions.showNotification(this, 'error', 'Could not create course.');
+			console.error(error);
     }
     this.courseTitle = '';
     this.courseDescription = '';

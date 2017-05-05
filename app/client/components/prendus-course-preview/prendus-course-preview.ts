@@ -13,8 +13,6 @@ class PrendusCoursePreview {
     public numStars: number;
     public uid: string;
     public hasEditAccess: boolean;
-    public successMessage: string;
-    public errorMessage: string;
 		public querySelector: any;
 		public style: any;
     public numberOfPublicCoursesLoaded: number;
@@ -61,12 +59,11 @@ class PrendusCoursePreview {
             Actions.getSharedCoursesByUser(this, this.user.metaData.uid);
             Actions.getStarredCoursesByUser(this, this.user.metaData.uid);
         } else {
-          this.errorMessage = '';
-          this.errorMessage = 'You must be logged in to star a course';
+					Actions.showNotification(this, 'error', 'You must be logged in to star a course.');
         }
       } catch(error) {
-        this.errorMessage = '';
-        this.errorMessage = error.message;
+				Actions.showNotification(this, 'error', 'Error starring course.');
+				console.error(error);
       }
     }
 
