@@ -13,6 +13,7 @@ class PrendusLessonVideoContainerEdit {
     public currentVideoTitle: string;
     public currentVideoUrl: string;
 		public $: any;
+		public querySelector: any;
 
     beforeRegister() {
         this.is = 'prendus-lesson-video-container-edit';
@@ -81,6 +82,10 @@ class PrendusLessonVideoContainerEdit {
         await Actions.loadEditLessonVideos(this, this.lessonId);
         Actions.clearCurrentVideoInfo(this);
     }
+
+		pauseVideo(): void {
+			this.querySelector('prendus-video-editor').pause();
+		}
 
     mapStateToThis(e: StatechangeEvent) {
         const state = e.detail.state;
