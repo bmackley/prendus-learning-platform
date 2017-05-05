@@ -4,19 +4,87 @@
 <dom-module id="prendus-question-scaffold-distractors">
 
   <style include="prendus-styles">
-    :host {
-      display: block;
+    .wrapper {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      grid-template-rows: repeat(5, 0fr);
+      grid-gap: 10px;
+      margin-top: 10px;
+    }
+
+    .question {
+      grid-column: 1;
+      grid-row: 1;
+    }
+
+    .distractors-container {
+      grid-column: 2;
+      grid-row: 2;
+    }
+
+    .answer-header, .distractors-header {
+      padding: 15px;
+    }
+
+    .answer-header {
+      grid-column: 1;
+      grid-row: 2;
+    }
+
+    .answer-card {
+      grid-column: 1;
+      grid-row: 3;
+    }
+
+    .distractors-header {
+      grid-column: 2;
+      grid-row: 2;
+    }
+
+    .distractor-card-one {
+      grid-column: 2;
+      grid-row: 3;
+    }
+
+    .distractor-card-two {
+      grid-column: 2;
+      grid-row: 4;
+    }
+
+    .distractor-card-three {
+      grid-column: 2;
+      grid-row: 5;
     }
   </style>
 
   <template>
     <redux-store on-statechange="mapStateToThis" action="[[action]]"></redux-store>
-    <!--TODO change to one-way data binding.-->
-    <paper-input label="Distraction one" value="{{one}}"></paper-input>
-    <!--TODO change to one-way data binding.-->
-    <paper-input label="Distraction two" value="{{two}}"></paper-input>
-    <!--TODO change to one-way data binding.-->
-    <paper-input label="Distraction three" value="{{three}}"></paper-input>
+    <div class="wrapper">
+      <div class="prendus-card question">
+        <h3>Question</h3>
+        [[question]]
+      </div>
+      <div class="answer-header">
+        <h3>Answer</h3>
+      </div>
+      <div class="prendus-card answer-card">
+        [[answer]]
+      </div>
+      <div class="distractors-header">
+        <h3>Distractors</h3>
+      </div>
+      <div class="prendus-card distractor-card-one">
+        <paper-input id="one" label="Distractor one" value="[[one]]" on-value-changed="disableNext"></paper-input>
+      </div>
+      <div class="prendus-card distractor-card-two">
+        <paper-input id="two" label="Distractor two" value="[[two]]" on-value-changed="disableNext"></paper-input>
+      </div>
+      <div class="prendus-card distractor-card-three">
+        <paper-input id="three" label="Distractor three" value="[[three]]" on-value-changed="disableNext"></paper-input>
+      </div>
+
+    </div>
+
   </template>
 
   <script src="prendus-question-scaffold-distractors.ts"></script>

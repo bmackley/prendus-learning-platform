@@ -24,21 +24,15 @@
 
   <template>
     <redux-store on-statechange="mapStateToThis" action="[[action]]"></redux-store>
-    <div class="wrapper prendus-card">
-      <div>
-        Please follow the question creation guidelines below:<br>
-        1. Remember these will be used as <span class="bold">exam practice questions</span> for the class,
-        so try to create a question that could be on the exam.<br>
-        2. Create a question in a <span class="bold">topic area that you are struggling with.</span>
+    <div class="wrapper">
 
-      </div>
       <div class="prendus-card question">
         <h3>Question</h3>
-        <paper-input id="question" value="[[question]]" on-value-changed="disableNext"></paper-input>
+        <paper-input id="question" value="[[question]]" on-value-changed="disableNext">24x</paper-input>
       </div>
       <div class="prendus-card answer">
         <h3>Answer</h3>
-        <paper-input id="answer" value="[[answer]]" on-value-changed="disableNext"></paper-input>
+        <paper-input id="answer" value="[[answer]]" on-value-changed="disableNext">24</paper-input>
       </div>
     </div>
 

@@ -56,8 +56,24 @@
             </div>
             <prendus-question-scaffold-example selected-index="[[selectedIndex]]" my-index="0"></prendus-question-scaffold-example>
           </div>
-          <prendus-question-scaffold-new-question selected-index="[[selectedIndex]]" my-index="1"></prendus-question-scaffold-new-question>
-          <prendus-question-scaffold-distractors selected-index="[[selectedIndex]]" my-index="2"></prendus-question-scaffold-distractors>
+          <div>
+            <div class="prendus-card">
+              Please follow the question creation guidelines below:<br>
+              1. Remember these will be used as <span class="bold">exam practice questions</span> for the class,
+              so try to create a question that could be on the exam.<br>
+              2. Create a question in a <span class="bold">topic area that you are struggling with.</span>
+            </div>
+            <prendus-question-scaffold-new-question selected-index="[[selectedIndex]]" my-index="1"></prendus-question-scaffold-new-question>
+          </div>
+          <div>
+            <div class="prendus-card">
+              Now, create distractors for your multiple-choice-question by
+              thinking about common misconceptions students may have
+              about the content area of your question
+            </div>
+            <prendus-question-scaffold-distractors selected-index="[[selectedIndex]]" my-index="2"></prendus-question-scaffold-distractors>
+          </div>
+
           <prendus-question-scaffold-comments selected-index="[[selectedIndex]]" my-index="3"></prendus-question-scaffold-comments>
           <prendus-question-scaffold-explanation selected-index="[[selectedIndex]]" my-index="4"></prendus-question-scaffold-explanation>
           <prendus-question-scaffold-finished-question selected-index="[[selectedIndex]]" my-index="5"></prendus-question-scaffold-finished-question>

@@ -54,7 +54,7 @@ class PrendusQuestionScaffold {
     if(height > this.minHeight) {
       this.minHeight = height;
     }
-    this.querySelector('.page').style.minHeight = this.minHeight + 'px';
+    // this.querySelector('.page').style.minHeight = this.minHeight + 'px';
   }
 	mapStateToThis(e: StatechangeEvent): void {
 		const state: State = e.detail.state;
