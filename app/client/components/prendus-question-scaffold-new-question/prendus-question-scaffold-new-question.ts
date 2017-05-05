@@ -10,35 +10,36 @@ export class PrendusQuestionScaffoldNewQuestion {
   public answer: string;
   public selectedIndex: number;
   public myIndex: number;
-
+  public querySelector: any;
+  public observers: string[];
   beforeRegister(): void {
     this.is = 'prendus-question-scaffold-new-question';
     this.properties = {
-      question: {
-        type: String,
-        observer: 'disableNext'
-      },
-      answer: {
-        type: String,
-        observer: 'disableNext'
-      },
+
       selectedIndex: {
-        type: Number,
-        observer: 'disableNext'
+        type: Number
       },
       myIndex: {
         type: Number
       }
     };
+    this.observers = [
+      'disableNext(question, answer, selectedIndex, myIndex)'
+    ];
   }
 
   /**
    * Checks if the question and answer have been entered and aren't empty and if
    * the inputs aren't empty.
    */
-  disableNext(): void {
+  disableNext(question: string, answer: string, selectedIndex: number, myIndex: number): void {
+    console.log('change');
     if(this.selectedIndex === this.myIndex) {
-      Actions.setDisabledNext(this, !UtilitiesService.isDefinedAndNotEmpty([this.question, this.answer]));
+      const question: string = this.querySelector('#question').value;
+
+      const answer: string = this.querySelector('#answer').value;
+      console.log('question ', question, ' answer ', answer);
+      Actions.setDisabledNext(this, !UtilitiesService.isDefinedAndNotEmpty([this.querySelector('#question').value, this.querySelector('#answer').value]));
     }
 
   }

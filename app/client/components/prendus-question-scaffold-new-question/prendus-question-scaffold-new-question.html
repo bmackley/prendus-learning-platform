@@ -13,11 +13,9 @@
 
   <template>
     <redux-store on-statechange="mapStateToThis" action="[[action]]"></redux-store>
-      <!--TODO change to one-way data binding.-->
-      <paper-input label="Question" value="{{question}}"></paper-input>
+      <paper-input id="question" label="Question" value="[[question]]"></paper-input>
 
-      <!--TODO change to one-way data binding.-->
-      <paper-input label="Answer" value="{{answer}}"></paper-input>
+      <paper-input id="answer" label="Answer" value="[[answer]]"></paper-input>
   </template>
 
   <script src="prendus-question-scaffold-new-question.ts"></script>

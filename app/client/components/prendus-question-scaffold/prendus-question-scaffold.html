@@ -1,6 +1,7 @@
 <link rel="import" href="../../bower_components/polymer/polymer.html">
 <link rel="import" href="../../bower_components/prendus-styles/prendus-styles.html">
 <link rel="import" href="../../bower_components/iron-pages/iron-pages.html">
+<link rel="import" href="../../bower_components/redux-store-element/redux-store.html">
 <link rel="import" href="../../bower_components/prendus-question-components/components/prendus-edit-question/prendus-edit-question.html">
 <link rel="import" href="../prendus-question-scaffold-example/prendus-question-scaffold-example.html">
 <link rel="import" href="../prendus-question-scaffold-new-question/prendus-question-scaffold-new-question.html">
@@ -14,7 +15,7 @@
     .content {
       display: grid;
       grid-template-columns: 50% 50%;
-      grid-template-rows: 70% 30%;
+      grid-template-rows: 50% 50%;
     }
 
     .page {
@@ -23,7 +24,7 @@
     }
 
     .back, .next {
-      margin-top: 5px;
+      margin-top: 10px;
     }
 
     .back {
@@ -47,7 +48,7 @@
       <div class="page">
         <iron-pages id="iron-pages" selected="[[selectedIndex]]">
           <div>
-            <div class="prendus-card assignment-description">
+            <div class="prendus-card">
               For this assignment you will create an exam level
               question for you and your class to practice for the
               upcoming exam. Here is an exam question
