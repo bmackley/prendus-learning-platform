@@ -41,6 +41,11 @@ const hideMainSpinner = (context: any): void => {
     };
 };
 
+/**
+ * Shows a notification using Redux
+ * @param {Notification} notificationType - the type of notification needed
+ * @param {string} notificationText - the text of the notification
+ */
 const showNotification = (context: any, notificationType: Notification, notificationText: string): void => {
 	context.action = {
 		type: 'SHOW_NOTIFICATION',
