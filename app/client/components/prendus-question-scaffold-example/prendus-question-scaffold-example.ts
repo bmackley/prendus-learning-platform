@@ -29,13 +29,7 @@ export class PrendusQuestionScaffoldExample {
       }
     };
   }
-  /**
-   * Called from dom
-   */
-  calculateIndex(index: number): number {
-    console.log('index ', index);
-    return index + 3;
-  }
+
   ready(): void {
     this.questionStem = 'How many neutrons are in 45 grams of Oxygen gas?';
     this.explanation = 'To solve this problem, remember that Oxygen is diatomic as a gas, meaning it is found as O2, not O. This means we need to use 32 grams/mol to convert grams to moles. Then, multiply by the number of neutrons in an oxygen atom and multiply by 2 to get the number of neutrons in 45 grams of oxygen gas.';
