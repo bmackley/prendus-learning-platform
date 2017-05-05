@@ -12,8 +12,6 @@ export class PrendusLessonContainerEdit {
   public courseId: string;
   public observers: string[];
   public selected: number;
-  public successMessage: string;
-  public errorMessage: string;
   public querySelector: any;
   public tags: Tag[];
   public fire: any;
@@ -40,8 +38,8 @@ export class PrendusLessonContainerEdit {
         }
 
       } catch(error) {
-        this.errorMessage = '';
-        this.errorMessage = error.message;
+				Actions.showNotification(this, 'error', 'Error loading lesson');
+				console.error(error);
       }
 
     }
@@ -76,11 +74,10 @@ export class PrendusLessonContainerEdit {
     try {
       await Actions.deleteLesson(this, this.courseId, this.lessonId);
       await Actions.loadViewCourseLessons(this, this.courseId);
-      this.successMessage = '';
-      this.successMessage = 'Lesson deleted successfully';
+			Actions.showNotification(this, 'success', 'Lesson deleted successfully');
     } catch(error) {
-      this.errorMessage = '';
-      this.errorMessage = error.message;
+			Actions.showNotification(this, 'error', 'Error deleting lesson');
+			console.error(error);
     }
 
   }

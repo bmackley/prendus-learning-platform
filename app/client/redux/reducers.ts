@@ -20,6 +20,13 @@ export function rootReducer(state: State = InitialState, action: Action): State 
 						mainViewToShow: 'routes'
 					};
         }
+				case 'SHOW_NOTIFICATION': {
+					return {
+						...state,
+						notificationType: action.notificationType,
+						notificationText: action.notificationText
+					}
+				}
         case 'SET_COURSE_COLLABORATOR_EMAILS': {
 					const courseCollaboratorEmails: { [uid: string]: { [courseId: string]: string[] } } = { ...state.courseCollaboratorEmails };
 					if (state.courseCollaboratorEmails[action.uid]) {

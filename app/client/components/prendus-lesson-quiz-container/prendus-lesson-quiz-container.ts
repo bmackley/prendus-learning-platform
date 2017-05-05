@@ -6,6 +6,9 @@ import {StatechangeEvent} from '../../typings/statechange-event';
 import {FirebaseService} from '../../node_modules/prendus-services/services/firebase-service';
 import {UtilitiesService} from '../../node_modules/prendus-services/services/utilities-service';
 
+// squish TypeScript errors
+declare let window: any;
+
 class PrendusLessonQuizContainer {
     public is: string;
     public properties: any;
@@ -16,8 +19,6 @@ class PrendusLessonQuizContainer {
 		public quizToDelete: Quiz;
     public uid: string;
     public currentCourse: Course;
-    public successMessage: string;
-    public errorMessage: string;
     public jwt: string;
     public endpointDomain: string;
     public ltiLink: string;
@@ -112,11 +113,10 @@ class PrendusLessonQuizContainer {
       try {
         await Actions.deleteQuiz(this, this.lessonId, this.quizToDelete);
         await Actions.loadViewLessonQuizzes(this, this.lessonId);
-        this.successMessage = '';
-        this.successMessage = 'Quiz deleted.';
+				Actions.showNotification(this, 'success', 'Quiz successfully deleted.');
       } catch (error) {
-        this.errorMessage = '';
-        this.errorMessage = error.message;
+				Actions.showNotification(this, 'error', 'Error deleting quiz.');
+				console.error(error);
       }
     }
 

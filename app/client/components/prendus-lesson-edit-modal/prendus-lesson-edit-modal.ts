@@ -12,8 +12,6 @@ class PrendusLessonNewLesson {
   private lessonId: string;
   private lessonHeader: string;
   public querySelector: any;
-  public errorMessage: string;
-  public successMessage: string;
   public uid: string;
   public courseId: string;
   public courseLessons: Lesson[];
@@ -46,8 +44,8 @@ class PrendusLessonNewLesson {
       this.lessonFormName = lesson.title;
       // this.lessonTagNames = tagNames ? tagNames : [];
     } catch(error) {
-      this.errorMessage = '';
-      this.errorMessage = error.message;
+			Actions.showNotification(this, 'error', 'Error loading lesson');
+			console.error(error);
     }
     this.querySelector('#dialog').open();
   }
@@ -57,14 +55,13 @@ class PrendusLessonNewLesson {
       // await Actions.updateLessonTag   s(this.lessonId, this.lessonTagNames);
 			this.fire('finish-edit-lesson', { lessonId: this.lessonId });
       this.querySelector('#dialog').close();
-      this.successMessage = '';
-      this.successMessage = `${this.lessonFormName} successfully edited.`;
+			Actions.showNotification(this, 'success', `${this.lessonFormName} successfully edited.`);
       // this.querySelector('#lesson-tags').tags = [];
       this.lessonFormName = '';
       this.lessonId = '';
     } catch(error) {
-      this.errorMessage = '';
-      this.errorMessage = error.message;
+			Actions.showNotification(this, 'error', 'Error editing lesson');
+			console.error(error);
     }
 
   }

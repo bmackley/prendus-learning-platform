@@ -3,11 +3,13 @@ import {Actions} from '../../redux/actions';
 import {StatechangeEvent} from '../../typings/statechange-event';
 import {CourseModel} from '../../node_modules/prendus-services/models/course-model';
 
+// squish TypeScript errors
+declare let Firebase: any;
+declare let window: any;
+
 class PrendusHomepage {
     public is: string;
     public publicCourses: Course[];
-    public errorMessage: string;
-    public successMessage: string;
     public fire: any;
     public scrollRef: any;
     public baseRef: any;
@@ -40,8 +42,8 @@ class PrendusHomepage {
         this.scrollRef = new Firebase.util.Scroll(this.baseRef, 'public');
         await this.loadMoreData(null);
       } catch(error) {
-        this.errorMessage = '';
-        this.errorMessage = error.message;
+				Actions.showNotification(this, 'error', 'Error loading courses');
+				console.error(error);
       }
 
     }
@@ -78,8 +80,8 @@ class PrendusHomepage {
           }
         }
       } catch(error) {
-        this.errorMessage = '';
-        this.errorMessage = error.message;
+				Actions.showNotification(this, 'error', 'Error loading courses');
+				console.error(error);
       }
       this.$.threshold.clearTriggers();
     }

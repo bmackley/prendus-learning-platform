@@ -17,8 +17,6 @@ export class PrendusProfile {
   public metaData: UserMetaData;
   public updateProfileSuccessToastText: string;
   public updateProfileErrorToastText: string;
-  public errorMessage: string;
-  public successMessage: string;
   public querySelector: any;
 
   beforeRegister(): void {
@@ -26,8 +24,6 @@ export class PrendusProfile {
   }
 
 	ready(): void {
-		this.querySelector('#updateProfileErrorToast').fitInto = this.querySelector('#toastTarget');
-		this.querySelector('#updateProfileSuccessToast').fitInto = this.querySelector('#toastTarget');
 		Actions.defaultAction(this);
 	}
 
@@ -67,11 +63,10 @@ export class PrendusProfile {
 					await Actions.loadCurrentUser(this, this.uid);
 				}
         await Actions.updateUserMetaData(this, this.uid, submitValue);
-        this.successMessage = '';
-        this.successMessage = 'Profile Updated Successfully';
+				Actions.showNotification(this, 'success', 'Profile updated successfully.');
       } catch(error) {
-        this.errorMessage = '';
-        this.errorMessage = error.message;
+				Actions.showNotification(this, 'error', 'Could not update profile.');
+				console.error(error);
       }
     }
   }
@@ -96,11 +91,9 @@ export class PrendusProfile {
 			};
 			await Actions.updateUserEmail(this, this.pastEmail, this.querySelector('#password').value, submitValue.email);
 			await Actions.updateUserMetaData(this, this.uid, submitValue);
-			this.successMessage = '';
-			this.successMessage = 'Account updated successfully.';
+			Actions.showNotification(this, 'success', 'Email updated successfully.');
 		} catch(error) {
-			this.errorMessage = '';
-			this.errorMessage = 'Could not update account.  Please try again later.';
+			Actions.showNotification(this, 'error', 'Could not update email.');
 			console.error(error);
 		}
 		// clear password form

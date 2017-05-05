@@ -10,7 +10,6 @@ class PrendusCreateAccount {
   public email: string;
   public password: string;
   public confirmPassword: string;
-  public errorMessage: string;
   public properties: any;
   public readonly querySelector: any;
   public createAccountEmailMessage: string;
@@ -95,9 +94,8 @@ class PrendusCreateAccount {
 				address.`;
     }
     catch(error) {
-				console.error(error);
-        this.errorMessage = '';
-        this.errorMessage = 'An error has occurred.  Please try again later.'
+			Actions.showNotification(this, 'error', 'Error creating user.');
+			console.error(error);
     }
   }
 
