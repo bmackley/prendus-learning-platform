@@ -4,13 +4,8 @@ import {Actions} from '../../redux/actions';
 import {FirebaseService} from '../../node_modules/prendus-services/services/firebase-service';
 import {QuizSession} from '../../node_modules/prendus-services/typings/quiz-session';
 import {UtilitiesService} from '../../node_modules/prendus-services/services/utilities-service';
+import {QuestionScaffold} from '../../node_modules/prendus-services/typings/question-scaffold';
 import {Action} from '../../typings/action';
-import {PrendusQuestionScaffoldNewQuestion} from '../prendus-question-scaffold-new-question/prendus-question-scaffold-new-question';
-import {PrendusQuestionScaffoldDistractors} from '../prendus-question-scaffold-distractors/prendus-question-scaffold-distractors';
-import {PrendusQuestionScaffoldComments} from '../prendus-question-scaffold-comments/prendus-question-scaffold-comments';
-import {PrendusQuestionScaffoldExplanation} from '../prendus-question-scaffold-explanation/prendus-question-scaffold-explanation';
-import {PrendusQuestionScaffoldFinishedQuestion} from '../prendus-question-scaffold-finished-question/prendus-question-scaffold-finished-question';
-import {PrendusQuestionScaffoldExample} from '../prendus-question-scaffold-example/prendus-question-scaffold-example';
 
 class PrendusQuestionScaffold {
   public is: string;
@@ -19,7 +14,7 @@ class PrendusQuestionScaffold {
   public disableNext: boolean;
   public properties: any;
   public minHeight: number;
-
+  public questionScaffold: QuestionScaffold;
   beforeRegister(): void {
     this.is = 'prendus-question-scaffold';
   }
@@ -59,6 +54,7 @@ class PrendusQuestionScaffold {
 	mapStateToThis(e: StatechangeEvent): void {
 		const state: State = e.detail.state;
     this.disableNext = state.disableNext;
+    this.questionScaffold = state.currentQuestionScaffold;
     if(this.querySelector('#next-button')) {
       this.querySelector('#next-button').disabled = this.disableNext;
     }

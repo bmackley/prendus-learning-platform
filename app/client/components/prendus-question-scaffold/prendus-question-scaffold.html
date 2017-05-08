@@ -37,7 +37,9 @@
       grid-column: 2;
       justify-self: end;
     }
-
+    .centered {
+      text-align: center;
+    }
   </style>
 
   <template>
@@ -80,8 +82,20 @@
             </div>
             <prendus-question-scaffold-comments selected-index="[[selectedIndex]]" my-index="3"></prendus-question-scaffold-comments>
           </div>
-          <prendus-question-scaffold-explanation selected-index="[[selectedIndex]]" my-index="4"></prendus-question-scaffold-explanation>
-          <prendus-question-scaffold-finished-question selected-index="[[selectedIndex]]" my-index="5"></prendus-question-scaffold-finished-question>
+          <div>
+            <div class="prendus-card">
+              Finally, add an explanation <!--TODO bold --> that explains how to solve <!--TODO done bold --> the problem.  Remember to
+              <!-- TODO bold --> highlight common misconceptions <!-- TODO done bold --> with the problem in your explanation.
+            </div>
+            <prendus-question-scaffold-explanation selected-index="[[selectedIndex]]" my-index="4"></prendus-question-scaffold-explanation>
+          </div>
+          <div>
+            <div class="prendus-card centered">
+              Here is your final question.
+            </div>
+            <prendus-question-scaffold-example question-scaffold="[[questionScaffold]]" selected-index="[[selectedIndex]]" my-index="5"></prendus-question-scaffold-example>
+          </div>
+          <!-- <prendus-question-scaffold-finished-question selected-index="[[selectedIndex]]" my-index="5"></prendus-question-scaffold-finished-question> -->
           <div>
             Rate question 1
           </div>

@@ -11,14 +11,11 @@ export class PrendusQuestionScaffoldExplanation {
   public myIndex: number;
   public selectedIndex: number;
   public currentQuestionScaffold: QuestionScaffold;
+  public querySelector: any;
 
   beforeRegister(): void {
     this.is = 'prendus-question-scaffold-explanation';
     this.properties = {
-      explanation: {
-        type: String,
-        observer: 'disableNext'
-      },
       myIndex: {
         type: Number
       },
@@ -29,9 +26,21 @@ export class PrendusQuestionScaffoldExplanation {
     };
   }
 
+  ready(): void {
+    //TODO delete me
+    this.explanation = 'ExplanationExplanationExplanationExplanationExplanationExplanationExplanationExplanationExplanationExplanationExplanationExplanationExplanationExplanationExplanationExplanationExplanationExplanationExplanationExplanationExplanationExplanationExplanationExplanationExplanationExplanationExplanationExplanationExplanationExplanationExplanationExplanationExplanationExplanationExplanationExplanationExplanationExplanationExplanationExplanationExplanation';
+  }
+
   disableNext(): void {
-    if(this.myIndex === this.selectedIndex) {
-      Actions.setDisabledNext(this, !UtilitiesService.isDefinedAndNotEmpty(this.explanation));
+    if(!!(this.myIndex && this.selectedIndex) && this.myIndex === this.selectedIndex) {
+      //TODO decide on calling this twice
+      Actions.setDisabledNext(this, !UtilitiesService.isDefinedAndNotEmpty(this.querySelector('#explanation').value));
+      if(UtilitiesService.isDefinedAndNotEmpty(this.querySelector('#explanation').value)) {
+        Actions.setQuestionScaffold(this, {
+          ...this.currentQuestionScaffold,
+          explanation: this.querySelector('#explanation').value
+        });
+      }
     }
   }
 

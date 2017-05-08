@@ -25,7 +25,7 @@
       padding: 15px;
       margin-bottom: 0px;
     }
-    
+
     .right-column {
       width: 45%;
     }
@@ -37,11 +37,11 @@
       <div class="row">
         <div class="prendus-card left-column">
           <h3>Question</h3>
-          [[questionStem]]
+          [[questionScaffold.question]]
         </div>
         <div class="prendus-card right-column">
           <h3>Explanation</h3>
-          [[explanation]]
+          [[questionScaffold.explanation]]
         </div>
       </div>
 
@@ -54,7 +54,7 @@
         </div>
       </div>
 
-      <template is="dom-repeat" items="[[answers]]">
+      <template is="dom-repeat" items="[[questionScaffold.answers]]">
         <div class="row">
           <div class="prendus-card left-column">
             [[item.answer]]
