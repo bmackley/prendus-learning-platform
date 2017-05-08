@@ -13,6 +13,7 @@ class PrendusLessonVideoContainer {
     public currentVideoUrl: string;
     public $: any;
     public fire: any;
+    public querySelector: any;
     public courseId: string;
 
     beforeRegister() {
@@ -54,6 +55,10 @@ class PrendusLessonVideoContainer {
         window.history.pushState({}, '', `courses/view-video/course/${this.courseId}/video/${id}`);
         this.fire('location-changed', {}, {node: window});
     }
+
+		pauseVideo(): void {
+			this.querySelector('prendus-video-editor').pause();
+		}
 
     mapStateToThis(e: StatechangeEvent) {
         const state = e.detail.state;

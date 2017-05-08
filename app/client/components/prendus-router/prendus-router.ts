@@ -2,6 +2,7 @@ import {StatechangeEvent} from '../../typings/statechange-event';
 import {Actions} from '../../redux/actions';
 import {UtilitiesService} from '../../node_modules/prendus-services/services/utilities-service';
 import {State} from '../../typings/state';
+import {Notification} from '../../node_modules/prendus-services/typings/notification';
 
 class PrendusRouter {
   public is: string;
@@ -9,6 +10,8 @@ class PrendusRouter {
   public loggedIn: 'true' | 'false';
 	public isAdmin: boolean;
   public mainViewToShow: 'routes' | 'spinner';
+  public notificationText: string;
+  public notificationType: Notification;
   public observers: string[];
   public querySelector: any;
   public fire: any;
@@ -17,7 +20,8 @@ class PrendusRouter {
     this.is =  "prendus-router";
 
     this.observers = [
-      '_routeChanged(route.*)'
+      '_routeChanged(route.*)',
+			'_showNotification(notificationText, notificationType)'
     ];
 
   }
@@ -87,6 +91,7 @@ class PrendusRouter {
 					window.history.pushState({}, '', '/404');
 					this.fire('location-changed', {}, {node: window});
 				}
+        break;
       }
 
       case '/question-scaffold': {
@@ -109,12 +114,21 @@ class PrendusRouter {
 
   }
 
+	_showNotification(notificationType: Notification, notificationText: string): void {
+		let _this = this;
+		setTimeout(() => {
+			this.querySelector('.prendus-notification').show();
+		})
+	}
+
   mapStateToThis(e: StatechangeEvent): void {
       const state: State = e.detail.state;
       this.username = state.currentUser.metaData.email;
       this.loggedIn = this.username ? 'true' : 'false';
 			this.isAdmin = state.currentUser.userType === 'administrator';
       this.mainViewToShow = state.mainViewToShow;
+			this.notificationType = state.notificationType;
+			this.notificationText = state.notificationText;
   }
 }
 

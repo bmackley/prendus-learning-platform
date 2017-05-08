@@ -10,8 +10,6 @@ class PrendusLogin {
   public password: string;
 	public resetPasswordEmail: string;
   public listeners: any;
-  public errorMessage: string;
-  public successMessage: string;
   public querySelector: any;
   public fire: any;
 
@@ -54,8 +52,8 @@ class PrendusLogin {
       window.history.pushState({}, '', location);
       this.fire('location-changed', {}, {node: window});
     } catch(error) {
-      this.errorMessage = '';
-      this.errorMessage = error.message;
+			Actions.showNotification(this, 'error', 'Error logging in.');
+			console.error(error);
     }
   }
 
@@ -79,12 +77,10 @@ class PrendusLogin {
 		this.querySelector('#reset-password-dialog').close();
     try {
       await FirebaseService.sendPasswordResetEmail(this.resetPasswordEmail);
-      this.successMessage = '';
-      this.successMessage = 'Password reset link sent';
+			Actions.showNotification(this, 'success', 'Password reset link sent.');
     } catch(error) {
+			Actions.showNotification(this, 'error', 'Could not send password reset email.  Check to make sure the email address you entered is correct.');
 			console.error(error);
-      this.errorMessage = '';
-      this.errorMessage = 'Could not send password reset email.  Check to make sure the email address you entered is correct.';
     }
 		this.resetPasswordEmail = '';
 		this.querySelector('#reset-password-email').invalid = false;

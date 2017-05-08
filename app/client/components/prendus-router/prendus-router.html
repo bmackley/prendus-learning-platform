@@ -1,55 +1,61 @@
 <link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/paper-toast/paper-toast.html">
 <link rel="import" href="../../bower_components/app-route/app-route.html">
 <link rel="import" href="../../bower_components/app-route/app-location.html">
 <link rel="import" href="../../bower_components/paper-spinner/paper-spinner.html">
 <link rel="import" href="../../bower_components/iron-pages/iron-pages.html">
+<link rel="import" href="../../bower_components/prendus-styles/prendus-styles.html">
 
 <!--For now, do not lazy load prendus-open-source-->
 <link rel="import" href="../prendus-open-source/prendus-open-source.html">
 
 <!-- Import course router so the quiz-edit and course-edit can be loaded independently. -->
 <link rel="import" href="../prendus-course-router/prendus-course-router.html">
-<link rel="import" href="../../bower_components/prendus-styles/prendus-styles.html">
 
 <dom-module id="prendus-router">
-  <style include="prendus-styles">
 
-    #app-container {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      position: relative;
-    }
-
-		#home-container {
-			display: block;
-			width: 100%;
-		}
-
-    .app-window {
-			box-sizing: border-box;
-			margin: auto;
-      margin: 20px 50px;
-      max-width: 800px;
-      width: 100%;
-    }
-
-    .loading-spinner {
-      position: fixed;
-      left: calc(50% - 30px);
-      bottom: calc(50% - 30px);
-      width: 60px;
-      height: 60px;
-    }
-
-		@media (max-width: 768px) {
-			.app-window {
-				padding: 10px 20px;
-			}
-		}
-
-  </style>
   <template>
+
+		<style include="prendus-styles">
+
+			#app-container {
+				display: flex;
+				flex-direction: column;
+				align-items: center;
+				position: relative;
+			}
+
+			#home-container {
+				display: block;
+				width: 100%;
+			}
+
+			.app-window {
+				box-sizing: border-box;
+				margin: auto;
+				margin: 20px 50px;
+				max-width: 800px;
+				width: 100%;
+			}
+
+			.loading-spinner {
+				position: fixed;
+				left: calc(50% - 30px);
+				bottom: calc(50% - 30px);
+				width: 60px;
+				height: 60px;
+			}
+
+			@media (max-width: 768px) {
+				.app-window {
+					padding: 10px 20px;
+				}
+			}
+
+		</style>
+
+		<paper-toast class$="prendus-notification prendus-notification--[[notificationType]]" text="[[notificationText]]"></paper-toast>
+
     <redux-store on-statechange="mapStateToThis" action="[[action]]"></redux-store>
 
     <app-location route="{{route}}"></app-location>
@@ -78,6 +84,7 @@
 				</div>
       </iron-pages>
     </iron-pages>
+
   </template>
 
   <script src="prendus-router.ts"></script>

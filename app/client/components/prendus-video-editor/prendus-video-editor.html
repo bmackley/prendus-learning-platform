@@ -1,6 +1,5 @@
 <link rel="import" href="../../bower_components/polymer/polymer.html">
 <link rel="import" href="../../bower_components/paper-input/paper-input.html">
-<link rel="import" href="../../bower_components/paper-toast/paper-toast.html">
 <link rel="import" href="../../bower_components/paper-menu/paper-submenu.html">
 <link rel="import" href="../../bower_components/paper-menu-button/paper-menu-button.html">
 <link rel="import" href="../../bower_components/paper-icon-button/paper-icon-button.html">
@@ -35,7 +34,6 @@
       <paper-input id="urlInput" label="Video URL" on-input="updateUrl" value="[[url]]"></paper-input>
       <button class="prendus-button prendus-button--recommended" on-tap="saveVideo">Save</button>
       <prendus-video-viewer url="[[url]]" no-xapi></prendus-video-viewer>
-      <paper-toast id="savedToast" text="Video saved"></paper-toast>
     </template>
 
     <script src="prendus-video-editor.ts"></script>

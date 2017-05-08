@@ -20,6 +20,13 @@ export function rootReducer(state: State = InitialState, action: Action): State 
 						mainViewToShow: 'routes'
 					};
         }
+				case 'SHOW_NOTIFICATION': {
+					return {
+						...state,
+						notificationType: action.notificationType,
+						notificationText: action.notificationText
+					}
+				}
         case 'SET_COURSE_COLLABORATOR_EMAILS': {
 					const courseCollaboratorEmails: { [uid: string]: { [courseId: string]: string[] } } = { ...state.courseCollaboratorEmails };
 					if (state.courseCollaboratorEmails[action.uid]) {
@@ -135,6 +142,12 @@ export function rootReducer(state: State = InitialState, action: Action): State 
 						quizQuestionIds: action.quizQuestionIds
 					};
         }
+				case 'LOAD_QUIZ_QUESTIONS_DATA': {
+					return {
+						...state,
+						quizQuestionsData: action.quizQuestionsData
+					};
+				}
         case 'LOAD_USER_QUESTION_IDS': {
 					return {
 						...state,

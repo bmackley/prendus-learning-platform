@@ -8,8 +8,6 @@ class PrendusCollaboratorModal {
     public is: string;
     public collaboratorEmails: string[];
     public newCollaboratorEmail: string;
-		public successMessage: string;
-		public errorMessage: string;
     public querySelector: any;
     public course: boolean;
     public observers: string[];
@@ -127,14 +125,12 @@ class PrendusCollaboratorModal {
                 await Actions.loadQuizCollaboratorEmails(this, this.lessonId, this.quizId);
             }
         } catch(error) {
+						Actions.showNotification(this, 'error', 'Could not add collaborator.');
             console.error(error);
-						this.errorMessage = '';
-						this.errorMessage = 'Could not add collaborator.';
 						return;
         }
 				this.newCollaboratorEmail = '';
-				this.successMessage = '';
-				this.successMessage = 'Collaborator added successfully.'
+				Actions.showNotification(this, 'success', 'Collaborator added successfully.');
     }
 
     async removeCollaborator(e: DOMRepeatEvent): Promise<void> {

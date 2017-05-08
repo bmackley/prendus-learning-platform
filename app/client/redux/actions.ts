@@ -13,7 +13,9 @@ import {Course} from '../node_modules/prendus-services/typings/course';
 import {Tag} from '../node_modules/prendus-services/typings/tag';
 import {Lesson} from '../node_modules/prendus-services/typings/lesson';
 import {QuestionSettings} from '../node_modules/prendus-services/typings/question-settings';
+import {QuestionMetaData} from '../node_modules/prendus-services/typings/question-meta-data';
 import {CourseVisibility} from '../node_modules/prendus-services/typings/course-visibility';
+import {Notification} from '../node_modules/prendus-services/typings/notification';
 import {UserMetaData} from '../node_modules/prendus-services/typings/user-meta-data';
 import {UserType} from '../node_modules/prendus-services/typings/user-type';
 import {User} from '../node_modules/prendus-services/typings/user';
@@ -40,6 +42,24 @@ const hideMainSpinner = (context: any): void => {
         type: 'HIDE_MAIN_SPINNER'
     };
 };
+
+/**
+ * Shows a notification using Redux
+ * @param {Notification} notificationType - the type of notification needed
+ * @param {string} notificationText - the text of the notification
+ */
+const showNotification = (context: any, notificationType: Notification, notificationText: string): void => {
+	context.action = {
+		type: 'SHOW_NOTIFICATION',
+		notificationType,
+		notificationText: ''
+	};
+	context.action = {
+		type: 'SHOW_NOTIFICATION',
+		notificationType,
+		notificationText
+	};
+}
 
 const loadCourseCollaboratorEmails = async (context: any, uid: string, courseId: string): Promise<void> => {
 
@@ -468,8 +488,20 @@ const loadQuizQuestionIds = async (context: any, quizId: string): Promise<void> 
 		// }
 };
 
-const addQuestionToQuiz = async (context: any, quizId: string, questionId: string): Promise<void> => {
-    await QuizModel.associateQuestion(quizId, questionId);
+const loadQuizQuestionsData = async (context: any, quizId: string): Promise<void> => {
+	const quizQuestionsData: QuestionMetaData[] = await QuizModel.getQuestionsData(quizId);
+	context.action =  {
+		type: 'LOAD_QUIZ_QUESTIONS_DATA',
+		quizQuestionsData
+	};
+};
+
+const setQuizQuestionsData = async (quizId: string, quizQuestionsData: QuestionMetaData[]): Promise<void> => {
+	await QuizModel.setQuestionsData(quizId, quizQuestionsData);
+}
+
+const addQuestionToQuiz = async (context: any, quizId: string, questionId: string, position: number): Promise<void> => {
+    await QuizModel.associateQuestion(quizId, questionId, position);
 };
 
 const removeQuestionFromQuiz = async (context: any, quizId: string, questionId: string): Promise<void> => {
@@ -1072,6 +1104,9 @@ const setQuestionScaffoldExample = (context: any, currentQuestionScaffoldExample
 };
 export const Actions = {
     defaultAction,
+		showMainSpinner,
+		hideMainSpinner,
+		showNotification,
     loginUser,
     checkUserAuth,
 		loadCurrentUser,
@@ -1099,6 +1134,8 @@ export const Actions = {
     loadUserQuestionIds,
     addQuestionToQuiz,
     loadQuizQuestionIds,
+		loadQuizQuestionsData,
+		setQuizQuestionsData,
     removeQuestionFromQuiz,
     setQuizQuestionSetting,
     setQuestionSetting,
@@ -1136,8 +1173,6 @@ export const Actions = {
     updateCourseField,
     loadEditCourseLessons,
     loadViewCourseLessons,
-    showMainSpinner,
-    hideMainSpinner,
     updateQuizDueDates,
     reloadPublicCourses,
     setDisabledNext,
