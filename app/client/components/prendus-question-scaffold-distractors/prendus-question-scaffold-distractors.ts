@@ -39,7 +39,7 @@ export class PrendusQuestionScaffoldDistractors {
           answers: [
             this.currentQuestionScaffold.answers[0], { answer: one, comment: ''}, { answer: two, comment: ''}, { answer: three, comment: ''}
           ]
-        })
+        });
       }
 
       //TODO decide on calling this one twice
