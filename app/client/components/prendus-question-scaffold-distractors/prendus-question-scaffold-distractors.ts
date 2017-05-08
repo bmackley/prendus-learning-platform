@@ -52,12 +52,11 @@ export class PrendusQuestionScaffoldDistractors {
 
       //TODO decide on calling this one twice
       const disable: boolean = !UtilitiesService.isDefinedAndNotEmpty([this.querySelector('#one').value, this.querySelector('#two').value, this.querySelector('#three').value]);
-      console.log('disable ', disable);
       Actions.setDisabledNext(this, disable);
     }
 
   }
-
+  
 	mapStateToThis(e: StatechangeEvent): void {
 		const state: State = e.detail.state;
     this.question = state.currentQuestionScaffold ? state.currentQuestionScaffold.question : this.question;

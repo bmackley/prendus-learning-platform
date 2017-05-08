@@ -5,21 +5,68 @@
 <dom-module id="prendus-question-scaffold-comments">
 
   <style include="prendus-styles">
-    :host {
-      display: block;
+    .wrapper {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .row {
+      display: flex;
+      margin-top: 10px;
+      justify-content: space-between;
+    }
+
+    .left-column {
+      width: 45%;
+    }
+
+    .answers-comments-header {
+      padding: 15px;
+      margin-bottom: 0px;
+    }
+
+    .right-column {
+      width: 45%;
+    }
+
+    .answer-comment-card {
+      margin-right: 10px;
     }
   </style>
 
   <template>
     <redux-store on-statechange="mapStateToThis" action="[[action]]"></redux-store>
-    <!--TODO make this one way data binding -->
-    <paper-input label="Comment one" value="{{commentOne}}" disabled></paper-input>
-    <!--TODO make this one way data binding -->
-    <paper-input label="Comment two" value="{{commentTwo}}"></paper-input>
-    <!--TODO make this one way data binding -->
-    <paper-input label="Comment three" value="{{commentThree}}"></paper-input>
-    <!--TODO make this one way data binding -->
-    <paper-input label="Comment four" value="{{commentFour}}"></paper-input>
+    <div class="wrapper">
+      <div class="row">
+        <div class="prendus-card left-column">
+          <h3>Question</h3>
+          [[questionStem]]
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="left-column answers-comments-header">
+          <h3>Answers</h3>
+        </div>
+        <div class="right-column answers-comments-header">
+          <h3>Comments</h3>
+        </div>
+      </div>
+
+      <template is="dom-repeat" items="[[answers]]">
+        <div class="row">
+          <div class="prendus-card left-column answer-comment-card">
+            [[item.answer]]
+          </div>
+          <div class="prendus-card right-column">
+            <paper-input id$="[[computeId(index)]]" label="Comment" on-value-changed="disableNext"></paper-input>
+          </div>
+        </div>
+      </template>
+
+
+    </div>
+
   </template>
 
   <script src="prendus-question-scaffold-comments.ts"></script>

@@ -2,6 +2,7 @@ import {StatechangeEvent} from '../../typings/statechange-event';
 import {State} from '../../typings/state';
 import {Actions} from '../../redux/actions';
 import {UtilitiesService} from '../../node_modules/prendus-services/services/utilities-service';
+import {QuestionScaffold} from '../../node_modules/prendus-services/typings/question-scaffold';
 
 export class PrendusQuestionScaffoldExplanation {
   public is: string;
@@ -9,6 +10,7 @@ export class PrendusQuestionScaffoldExplanation {
   public properties: any;
   public myIndex: number;
   public selectedIndex: number;
+  public currentQuestionScaffold: QuestionScaffold;
 
   beforeRegister(): void {
     this.is = 'prendus-question-scaffold-explanation';
@@ -35,7 +37,7 @@ export class PrendusQuestionScaffoldExplanation {
 
 	mapStateToThis(e: StatechangeEvent): void {
 		const state: State = e.detail.state;
-
+    this.currentQuestionScaffold = state.currentQuestionScaffold;
 	}
 }
 
