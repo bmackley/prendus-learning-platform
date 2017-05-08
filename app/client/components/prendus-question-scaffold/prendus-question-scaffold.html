@@ -8,7 +8,7 @@
 <link rel="import" href="../prendus-question-scaffold-distractors/prendus-question-scaffold-distractors.html">
 <link rel="import" href="../prendus-question-scaffold-comments/prendus-question-scaffold-comments.html">
 <link rel="import" href="../prendus-question-scaffold-explanation/prendus-question-scaffold-explanation.html">
-<link rel="import" href="../prendus-question-scaffold-finished-question/prendus-question-scaffold-finished-question.html">
+
 <dom-module id="prendus-question-scaffold">
 
   <style include="prendus-styles">
@@ -91,11 +91,10 @@
           </div>
           <div>
             <div class="prendus-card centered">
-              Here is your final question.
+              <h3>Final Question</h3>
             </div>
             <prendus-question-scaffold-example question-scaffold="[[questionScaffold]]" selected-index="[[selectedIndex]]" my-index="5"></prendus-question-scaffold-example>
           </div>
-          <!-- <prendus-question-scaffold-finished-question selected-index="[[selectedIndex]]" my-index="5"></prendus-question-scaffold-finished-question> -->
           <div>
             Rate question 1
           </div>

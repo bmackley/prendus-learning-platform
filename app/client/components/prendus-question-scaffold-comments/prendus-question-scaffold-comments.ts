@@ -10,11 +10,9 @@ export class PrendusQuestionScaffoldComments {
   public myIndex: number;
   public selectedIndex: number;
   public questionStem: string;
-  public answers: QuestionScaffoldAnswer[];
   public currentQuestionScaffold: QuestionScaffold;
   public querySelector: any;
-  //TODO delete me
-  public isSet: boolean;
+
   beforeRegister(): void {
     this.is = 'prendus-question-scaffold-comments';
     this.properties = {
@@ -25,31 +23,15 @@ export class PrendusQuestionScaffoldComments {
         type: Number,
         observer: 'disableNext'
       }
-    }
+    };
   }
-  ready(): void {
-    //TODO delete me
-    this.isSet = false;
 
-  }
   disableNext(): void {
     try {
       if(!!(this.myIndex && this.selectedIndex) && this.myIndex === this.selectedIndex) {
-        //TODO delete me
-        if(this.isSet === false && !!this.querySelector('#comment-zero') && !!this.querySelector('#comment-one') && !!this.querySelector('#comment-two') && !!this.querySelector('#comment-three')) {
-          //TODO delete me
-          console.log('entered hard coded stuff');
-          this.isSet = true;
-          this.querySelector('#comment-zero').value = 'correct';
-          this.querySelector('#comment-one').value = 'Not sure why you would put this one';
-          this.querySelector('#comment-two').value = 'Maybe you didn\'t see the x';
-          this.querySelector('#comment-three').value = 'Maybe you read it as 36x and not 24x?';
-        }
-
-
-        Actions.setDisabledNext(this, !UtilitiesService.isDefinedAndNotEmpty([this.querySelector('#comment-zero').value, this.querySelector('#comment-one').value, this.querySelector('#comment-two').value, this.querySelector('#comment-three').value]));
-        //TODO decide on calling this twice
-        if(UtilitiesService.isDefinedAndNotEmpty([this.querySelector('#comment-zero').value, this.querySelector('#comment-one').value, this.querySelector('#comment-two').value, this.querySelector('#comment-three').value])) {
+        const isDefined: boolean = UtilitiesService.isDefinedAndNotEmpty([this.querySelector('#comment-zero').value, this.querySelector('#comment-one').value, this.querySelector('#comment-two').value, this.querySelector('#comment-three').value]);
+        Actions.setDisabledNext(this, !isDefined);
+        if(isDefined) {
           Actions.setQuestionScaffold(this, {
             ...this.currentQuestionScaffold,
             answers: [{
@@ -99,8 +81,6 @@ export class PrendusQuestionScaffoldComments {
 	mapStateToThis(e: StatechangeEvent): void {
 		const state: State = e.detail.state;
     this.currentQuestionScaffold = state.currentQuestionScaffold;
-    this.questionStem = state.currentQuestionScaffold ? state.currentQuestionScaffold.question : this.questionStem;
-    this.answers = state.currentQuestionScaffold ? state.currentQuestionScaffold.answers : this.answers;
 	}
 }
 

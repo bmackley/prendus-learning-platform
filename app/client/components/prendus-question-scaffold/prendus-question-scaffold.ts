@@ -26,7 +26,7 @@ class PrendusQuestionScaffold {
   }
 
   /**
-   * Called when you press back on the dom
+   * Called when you press back
    */
   back(): void {
     this.setHeight();
@@ -34,7 +34,7 @@ class PrendusQuestionScaffold {
   }
 
   /**
-   * Called when you press next on the dom
+   * Called when you press next
    */
   next(): void {
     this.setHeight();
@@ -44,6 +44,7 @@ class PrendusQuestionScaffold {
     }
   }
 
+  //TODO decide on whether or not to keep height the same and how we should do it..
   setHeight(): void {
     const height: number = this.querySelector('.page').clientHeight;
     if(height > this.minHeight) {
@@ -56,6 +57,7 @@ class PrendusQuestionScaffold {
     this.disableNext = state.disableNext;
     this.questionScaffold = state.currentQuestionScaffold;
     if(this.querySelector('#next-button')) {
+      //TODO is this the best way to do this?
       this.querySelector('#next-button').disabled = this.disableNext;
     }
 

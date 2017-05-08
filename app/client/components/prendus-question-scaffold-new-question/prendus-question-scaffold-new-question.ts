@@ -7,8 +7,6 @@ import {QuestionScaffold} from '../../node_modules/prendus-services/typings/ques
 export class PrendusQuestionScaffoldNewQuestion {
   public is: string;
   public properties: any;
-  public question: string;
-  public answer: string;
   public selectedIndex: number;
   public myIndex: number;
   public querySelector: any;
@@ -27,11 +25,7 @@ export class PrendusQuestionScaffoldNewQuestion {
       }
     };
   }
-  ready(): void {
-    //TODO take this out and let user make a question obviously..
-    this.question = 'What is the derivative of 24x?';
-    this.answer = '24';
-  }
+
   /**
    * Checks if the question and answer have been entered and aren't empty and if
    * the inputs aren't empty.
@@ -40,26 +34,20 @@ export class PrendusQuestionScaffoldNewQuestion {
     if(!!(this.selectedIndex && this.myIndex) && this.selectedIndex === this.myIndex) {
       const question: string = this.querySelector('#question').value;
       const answer: string = this.querySelector('#answer').value;
-      if(UtilitiesService.isDefinedAndNotEmpty([question, answer])) {
-        //TODO decide on hard coded 4...
+      const isDefined: boolean = UtilitiesService.isDefinedAndNotEmpty([question, answer]);
+      if(isDefined) {
         Actions.setQuestionScaffold(this, {
           ...this.currentQuestionScaffold,
-          answers: !!this.currentQuestionScaffold && !!this.currentQuestionScaffold.answers && this.currentQuestionScaffold.answers.length > 0 ? [{
-              answer,
-              comment: this.currentQuestionScaffold.answers[0].comment
-            },
-            this.currentQuestionScaffold.answers[1],
-            this.currentQuestionScaffold.answers[2],
-            this.currentQuestionScaffold.answers[3]
-          ] : [{
+          answers: [{
             answer,
             comment: ''
-          }],
+          }, ...(!!this.currentQuestionScaffold && !!this.currentQuestionScaffold.answers && this.currentQuestionScaffold.answers.length > 1 ? this.currentQuestionScaffold.answers.splice(1) : [])
+          ],
           question
         });
       }
-      //TODO decide on calling this twice...
-      Actions.setDisabledNext(this, !UtilitiesService.isDefinedAndNotEmpty([this.querySelector('#question').value, this.querySelector('#answer').value]));
+
+      Actions.setDisabledNext(this, !isDefined);
     }
 
   }
