@@ -28,7 +28,7 @@ export class PrendusQuestionScaffoldNewQuestion {
     };
   }
   ready(): void {
-    //TODO take this out and let user make a question obviously.. 
+    //TODO take this out and let user make a question obviously..
     this.question = 'What is the derivative of 24x?';
     this.answer = '24';
   }
@@ -41,13 +41,20 @@ export class PrendusQuestionScaffoldNewQuestion {
       const question: string = this.querySelector('#question').value;
       const answer: string = this.querySelector('#answer').value;
       if(UtilitiesService.isDefinedAndNotEmpty([question, answer])) {
+        //TODO decide on hard coded 4...
         Actions.setQuestionScaffold(this, {
           ...this.currentQuestionScaffold,
-          answers: [{ // only do first answer
+          answers: !!this.currentQuestionScaffold && !!this.currentQuestionScaffold.answers && this.currentQuestionScaffold.answers.length > 0 ? [{
               answer,
-              comment: 'correct' // the first answer will always be correct
-            }
-          ],
+              comment: this.currentQuestionScaffold.answers[0].comment
+            },
+            this.currentQuestionScaffold.answers[1],
+            this.currentQuestionScaffold.answers[2],
+            this.currentQuestionScaffold.answers[3]
+          ] : [{
+            answer,
+            comment: ''
+          }],
           question
         });
       }

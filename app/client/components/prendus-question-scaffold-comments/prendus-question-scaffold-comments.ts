@@ -13,8 +13,8 @@ export class PrendusQuestionScaffoldComments {
   public answers: QuestionScaffoldAnswer[];
   public currentQuestionScaffold: QuestionScaffold;
   public querySelector: any;
-  //TODO delete m
-  public set: boolean;
+  //TODO delete me
+  public isSet: boolean;
   beforeRegister(): void {
     this.is = 'prendus-question-scaffold-comments';
     this.properties = {
@@ -29,16 +29,17 @@ export class PrendusQuestionScaffoldComments {
   }
   ready(): void {
     //TODO delete me
-    this.set = false;
+    this.isSet = false;
 
   }
   disableNext(): void {
     try {
       if(!!(this.myIndex && this.selectedIndex) && this.myIndex === this.selectedIndex) {
         //TODO delete me
-        if(this.set === false && !!this.querySelector('#comment-zero') && !!this.querySelector('#comment-one') && !!this.querySelector('#comment-two') && !!this.querySelector('#comment-three')) {
+        if(this.isSet === false && !!this.querySelector('#comment-zero') && !!this.querySelector('#comment-one') && !!this.querySelector('#comment-two') && !!this.querySelector('#comment-three')) {
           //TODO delete me
-          this.set = true;
+          console.log('entered hard coded stuff');
+          this.isSet = true;
           this.querySelector('#comment-zero').value = 'correct';
           this.querySelector('#comment-one').value = 'Not sure why you would put this one';
           this.querySelector('#comment-two').value = 'Maybe you didn\'t see the x';
