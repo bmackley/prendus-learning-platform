@@ -54,7 +54,7 @@ export class PrendusQuestionScaffoldComments {
 	mapStateToThis(e: StatechangeEvent): void {
 		const state: State = e.detail.state;
     this.currentQuestionScaffold = state.currentQuestionScaffold;
-    console.log(this.currentQuestionScaffold);
+    // console.log(this.currentQuestionScaffold);
 	}
 }
 

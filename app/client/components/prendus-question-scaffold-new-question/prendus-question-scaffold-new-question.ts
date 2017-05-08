@@ -28,6 +28,7 @@ export class PrendusQuestionScaffoldNewQuestion {
     };
   }
   ready(): void {
+    //TODO take this out and let user make a question obviously.. 
     this.question = 'What is the derivative of 24x?';
     this.answer = '24';
   }

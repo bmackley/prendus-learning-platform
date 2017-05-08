@@ -21,6 +21,7 @@ export class PrendusQuestionScaffoldDistractors {
     this.properties = {
       selectedIndex: {
         type: Number,
+        observer: 'disableNext'
       },
       myIndex: {
         type: Number
@@ -28,8 +29,15 @@ export class PrendusQuestionScaffoldDistractors {
     };
   }
 
+  ready(): void {
+    //TODO take these out and let the user enter them
+    this.one = '12';
+    this.two = '0';
+    this.three = '36';
+  }
   disableNext(): void {
     if(!!(this.selectedIndex && this.myIndex) && this.selectedIndex === this.myIndex) {
+      //TODO decide on calling this one twice
       if(UtilitiesService.isDefinedAndNotEmpty([this.querySelector('#one').value, this.querySelector('#two').value, this.querySelector('#three').value])) {
         const one: string = this.querySelector('#one').value;
         const two: string = this.querySelector('#two').value;
@@ -43,7 +51,9 @@ export class PrendusQuestionScaffoldDistractors {
       }
 
       //TODO decide on calling this one twice
-      Actions.setDisabledNext(this, !UtilitiesService.isDefinedAndNotEmpty([this.querySelector('#one').value, this.querySelector('#two').value, this.querySelector('#three').value]));
+      const disable: boolean = !UtilitiesService.isDefinedAndNotEmpty([this.querySelector('#one').value, this.querySelector('#two').value, this.querySelector('#three').value]);
+      console.log('disable ', disable);
+      Actions.setDisabledNext(this, disable);
     }
 
   }
