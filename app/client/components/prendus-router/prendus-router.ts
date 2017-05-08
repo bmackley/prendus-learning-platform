@@ -90,6 +90,7 @@ class PrendusRouter {
 					window.history.pushState({}, '', '/404');
 					this.fire('location-changed', {}, {node: window});
 				}
+	      break;
       }
 
 			case '/teacher-approval': {
