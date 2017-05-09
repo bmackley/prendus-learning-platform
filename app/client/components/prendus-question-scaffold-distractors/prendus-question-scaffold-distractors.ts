@@ -45,7 +45,7 @@ export class PrendusQuestionScaffoldDistractors {
   disableNext(): void {
     try {
       if(this.selectedIndex && this.myIndex && this.selectedIndex === this.myIndex) {
-        const arr: string[] = Object.keys(this.currentQuestionScaffold.answers || {}).map((key, index) => {
+        const arr: string[] = Object.keys(this.currentQuestionScaffold.answers || {}).map((key: string, index: number) => {
           return this.querySelector(`#distractor${index}`).value;
         });
         const isDefined: boolean = UtilitiesService.isDefinedAndNotEmpty(arr);
@@ -53,15 +53,14 @@ export class PrendusQuestionScaffoldDistractors {
         if(isDefined) {
           const answers: { [questionScaffoldId: string]: QuestionScaffoldAnswer } = Object.keys(this.currentQuestionScaffold.answers || {})
             // update the text value for each distractor
-            .map((key, index) => {
+            .map((key: string, index: number) => {
               return {
                 ...this.currentQuestionScaffold.answers[key],
                 text: this.querySelector(`#distractor${index}`).value
               };
             })
             // convert back to object
-            .reduce((result, current, index) => {
-              //TODO why is this red?
+            .reduce((result: { [questionScaffoldAnswerId: string]: QuestionScaffoldAnswer }, current: QuestionScaffoldAnswer, index: number) => {
               result[`question${index}`] = current;
               return result;
             }, {});

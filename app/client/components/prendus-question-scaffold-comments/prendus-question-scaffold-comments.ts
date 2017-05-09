@@ -42,20 +42,18 @@ export class PrendusQuestionScaffoldComments {
   disableNext(): void {
     try {
       if((this.myIndex && this.selectedIndex) && this.myIndex === this.selectedIndex) {
-        // these should be defined by now.
-        const arr: string[] = Object.keys(this.currentQuestionScaffold.answers || {}).map((key, index) => {
+        const arr: string[] = Object.keys(this.currentQuestionScaffold.answers || {}).map((key: string, index: number) => {
           return this.querySelector(`#comment${index}`).value;
         });
         const isDefined: boolean = UtilitiesService.isDefinedAndNotEmpty(arr);
         Actions.setDisabledNext(this, !isDefined);
         if(isDefined) {
-          const answers: { [questionScaffoldId: string]: QuestionScaffoldAnswer } = Object.keys(this.currentQuestionScaffold.answers || {}).map((key, index) => {
+          const answers: { [questionScaffoldAnswerId: string]: QuestionScaffoldAnswer } = Object.keys(this.currentQuestionScaffold.answers || {}).map((key: string, index: number) => {
             return {
               ...this.currentQuestionScaffold.answers[key],
               comment: this.querySelector(`#comment${index}`).value
             };
-          }).reduce((result, current, index) => {
-            //TODO why is this red?
+          }).reduce((result: { [questionScaffoldAnswerId: string]: QuestionScaffoldAnswer } , current: QuestionScaffoldAnswer, index: number) => {
             result[`question${index}`] = current;
             return result;
           }, {});
