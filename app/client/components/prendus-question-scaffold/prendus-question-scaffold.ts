@@ -43,6 +43,7 @@ class PrendusQuestionScaffold {
     this.setHeight();
     ++this.selectedIndex;
     if(this.selectedIndex === this.querySelector('#iron-pages').items.length - 1) {
+      // Reached the limit.
       Actions.setDisabledNext(this, true);
     }
   }
@@ -60,11 +61,6 @@ class PrendusQuestionScaffold {
 		const state: State = e.detail.state;
     this.disableNext = state.disableNext;
     this.questionScaffold = state.currentQuestionScaffold;
-    if(this.querySelector('#next-button')) {
-      //TODO is this the best way to do this?
-      this.querySelector('#next-button').disabled = this.disableNext;
-    }
-
 	}
 }
 
