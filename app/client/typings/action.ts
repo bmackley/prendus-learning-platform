@@ -13,6 +13,7 @@ import {Lesson} from '../node_modules/prendus-services/typings/lesson';
 import {Discipline} from '../node_modules/prendus-services/typings/discipline';
 import {Subject} from '../node_modules/prendus-services/typings/subject';
 import {QuestionScaffold} from '../node_modules/prendus-services/typings/question-scaffold';
+import {QuestionScaffoldAnswer} from '../node_modules/prendus-services/typings/question-scaffold-answer';
 
 export interface Action {
 	type: string;
@@ -69,4 +70,6 @@ export interface Action {
 	disableNext: boolean;
 	currentQuestionScaffold: QuestionScaffold;
 	currentQuestionScaffoldExample: QuestionScaffold;
+	questionScaffoldAnswers: QuestionScaffoldAnswer[];
+	exampleQuestionScaffoldAnswers: QuestionScaffoldAnswer[];
 };

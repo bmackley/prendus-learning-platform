@@ -14,7 +14,6 @@ export class PrendusQuestionScaffoldExample {
   public selectedIndex: number;
   public querySelector: any;
   public questionScaffold: QuestionScaffold;
-
   beforeRegister(): void {
     this.is = 'prendus-question-scaffold-example' ;
     this.properties = {
@@ -23,6 +22,12 @@ export class PrendusQuestionScaffoldExample {
       },
       myIndex: {
         type: Number
+      },
+      questionScaffold: {
+        type: Object
+      },
+      answers: {
+        type: Object
       }
     };
   }
@@ -35,7 +40,6 @@ export class PrendusQuestionScaffoldExample {
 
 	mapStateToThis(e: StatechangeEvent): void {
 		const state: State = e.detail.state;
-
 	}
 }
 

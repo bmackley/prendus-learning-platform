@@ -342,14 +342,16 @@ export function rootReducer(state: State = InitialState, action: Action): State 
       case 'SET_CURRENT_QUESTION_SCAFFOLD': {
         return {
           ...state,
-          currentQuestionScaffold: action.currentQuestionScaffold
+          currentQuestionScaffold: action.currentQuestionScaffold,
+          questionScaffoldAnswers: action.questionScaffoldAnswers
         };
       }
 
       case 'SET_CURRENT_QUESTION_SCAFFOLD_EXAMPLE': {
         return {
           ...state,
-          currentQuestionScaffoldExample: action.currentQuestionScaffoldExample
+          currentQuestionScaffoldExample: action.currentQuestionScaffoldExample,
+          exampleQuestionScaffoldAnswers: action.exampleQuestionScaffoldAnswers
         };
       }
       default: {

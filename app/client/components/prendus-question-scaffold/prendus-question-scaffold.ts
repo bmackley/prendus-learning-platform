@@ -18,6 +18,9 @@ class PrendusQuestionScaffold {
   public questionScaffold: QuestionScaffold;
   public numberOfAnswers: number;
   public exampleQuestionScaffold: QuestionScaffold;
+  public questionScaffoldAnswers: QuestionScaffoldAnswer[];
+  public exampleQuestionScaffoldAnswers: QuestionScaffoldAnswer[];
+
   beforeRegister(): void {
     this.is = 'prendus-question-scaffold';
   }
@@ -94,7 +97,9 @@ class PrendusQuestionScaffold {
 		const state: State = e.detail.state;
     this.disableNext = state.disableNext;
     this.questionScaffold = state.currentQuestionScaffold;
+    this.questionScaffoldAnswers = state.questionScaffoldAnswers;
     this.exampleQuestionScaffold = state.currentQuestionScaffoldExample;
+    this.exampleQuestionScaffoldAnswers = state.exampleQuestionScaffoldAnswers;
 	}
 }
 

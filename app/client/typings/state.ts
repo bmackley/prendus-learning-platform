@@ -12,6 +12,7 @@ import {Lesson} from '../node_modules/prendus-services/typings/lesson';
 import {Discipline} from '../node_modules/prendus-services/typings/discipline';
 import {Subject} from '../node_modules/prendus-services/typings/subject';
 import {QuestionScaffold} from '../node_modules/prendus-services/typings/question-scaffold';
+import {QuestionScaffoldAnswer} from '../node_modules/prendus-services/typings/question-scaffold-answer';
 
 export interface State {
 	notificationType: Notification;
@@ -91,4 +92,6 @@ export interface State {
     disableNext: boolean;
     currentQuestionScaffold: QuestionScaffold;
     currentQuestionScaffoldExample: QuestionScaffold;
+		readonly questionScaffoldAnswers: QuestionScaffoldAnswer[];
+		readonly exampleQuestionScaffoldAnswers: QuestionScaffoldAnswer[];
 }

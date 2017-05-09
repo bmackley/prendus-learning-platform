@@ -23,20 +23,8 @@ export class PrendusQuestionScaffoldComments {
       selectedIndex: {
         type: Number,
         observer: 'disableNext'
-      },
-      currentQuestionScaffold: {
-        type: Object,
-        observer: 'change'
       }
     };
-  }
-
-  change(): void {
-    this.answers = Object.keys(this.currentQuestionScaffold.answers || {}).map((key) => {
-      return Object.assign({}, this.currentQuestionScaffold.answers[key], {
-          id: key
-      });
-    });
   }
 
   disableNext(): void {
@@ -82,6 +70,7 @@ export class PrendusQuestionScaffoldComments {
 	mapStateToThis(e: StatechangeEvent): void {
 		const state: State = e.detail.state;
     this.currentQuestionScaffold = state.currentQuestionScaffold;
+    this.answers = state.questionScaffoldAnswers;
 	}
 }
 

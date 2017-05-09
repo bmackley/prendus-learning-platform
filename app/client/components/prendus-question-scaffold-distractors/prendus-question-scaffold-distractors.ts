@@ -86,8 +86,7 @@ export class PrendusQuestionScaffoldDistractors {
 	mapStateToThis(e: StatechangeEvent): void {
 		const state: State = e.detail.state;
     this.currentQuestionScaffold = state.currentQuestionScaffold;
-    this.answer = state.currentQuestionScaffold && state.currentQuestionScaffold.answers && state.currentQuestionScaffold.answers['question0'] ? state.currentQuestionScaffold.answers['question0'].text : this.answer;
-
+    this.answer = state.currentQuestionScaffold && state.currentQuestionScaffold.answers  ? state.currentQuestionScaffold.answers['question0'].text : this.answer;
   }
 }
 

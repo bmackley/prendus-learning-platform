@@ -1091,16 +1091,30 @@ const setDisabledNext = (context: any, disableNext: boolean): void => {
 };
 
 const setQuestionScaffold = (context: any, currentQuestionScaffold: QuestionScaffold): void => {
+  const questionScaffoldAnswers: QuestionScaffoldAnswer[] = Object.keys(currentQuestionScaffold.answers || {}).map((key) => {
+      return Object.assign({}, currentQuestionScaffold.answers[key], {
+          id: key
+      });
+  });
+  
   context.action = {
     type: 'SET_CURRENT_QUESTION_SCAFFOLD',
-    currentQuestionScaffold
+    currentQuestionScaffold,
+    questionScaffoldAnswers
   };
 };
 
 const setQuestionScaffoldExample = (context: any, currentQuestionScaffoldExample: QuestionScaffold): void => {
+  const exampleQuestionScaffoldAnswers: QuestionScaffoldAnswer[] = Object.keys(currentQuestionScaffoldExample.answers || {}).map((key) => {
+      return Object.assign({}, currentQuestionScaffoldExample.answers[key], {
+          id: key
+      });
+  });
+
   context.action = {
     type: 'SET_CURRENT_QUESTION_SCAFFOLD_EXAMPLE',
-    currentQuestionScaffoldExample
+    currentQuestionScaffoldExample,
+    exampleQuestionScaffoldAnswers
   }
 };
 
