@@ -30,6 +30,9 @@ export class PrendusQuestionScaffoldExplanation {
     };
   }
 
+  /**
+   * Called everytime the currentQuestionScaffold changes
+   */
   change(): void {
     this.answers = Object.keys(this.currentQuestionScaffold.answers || {}).map((key) => {
         return Object.assign({}, this.currentQuestionScaffold.answers[key], {
@@ -39,7 +42,7 @@ export class PrendusQuestionScaffoldExplanation {
   }
 
   disableNext(): void {
-    if(!!(this.myIndex && this.selectedIndex) && this.myIndex === this.selectedIndex) {
+    if(this.myIndex && this.selectedIndex && this.myIndex === this.selectedIndex) {
       const explanation: string = this.querySelector('#explanation').value;
       const isDefined: boolean = UtilitiesService.isDefinedAndNotEmpty(explanation);
       Actions.setDisabledNext(this, !isDefined);

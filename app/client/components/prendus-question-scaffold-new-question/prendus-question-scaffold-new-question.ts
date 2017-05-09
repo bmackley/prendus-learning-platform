@@ -11,6 +11,7 @@ export class PrendusQuestionScaffoldNewQuestion {
   public myIndex: number;
   public querySelector: any;
   public currentQuestionScaffold: QuestionScaffold;
+  public numberOfAnswers: number;
 
   beforeRegister(): void {
     this.is = 'prendus-question-scaffold-new-question';
@@ -22,10 +23,20 @@ export class PrendusQuestionScaffoldNewQuestion {
       myIndex: {
         type: Number,
         observer: 'disableNext'
+      },
+      numberOfAnswers: {
+        type: Number,
+        observer: 'initCurrentQuestionScaffold'
       }
     };
   }
 
+  /**
+   * Called when numberOfAnswers is set
+   */
+  initCurrentQuestionScaffold(): void {
+    Actions.initCurrentQuestionScaffold(this, this.numberOfAnswers);
+  }
   /**
    * Checks if the question and answer have been entered and aren't empty and if
    * the inputs aren't empty.
@@ -39,9 +50,9 @@ export class PrendusQuestionScaffoldNewQuestion {
         Actions.setQuestionScaffold(this, {
           ...this.currentQuestionScaffold,
           answers: {
-            ...(this.currentQuestionScaffold ? this.currentQuestionScaffold.answers : undefined),
+            ...this.currentQuestionScaffold.answers,
             'question0': {
-              ...(this.currentQuestionScaffold && this.currentQuestionScaffold.answers ? this.currentQuestionScaffold.answers['question0'] : undefined),
+              ...this.currentQuestionScaffold.answers['question0'],
               text,
               correct: true,
               variableName: 'true'

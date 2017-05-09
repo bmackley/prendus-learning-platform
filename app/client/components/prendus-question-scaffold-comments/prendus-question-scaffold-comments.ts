@@ -13,7 +13,6 @@ export class PrendusQuestionScaffoldComments {
   public currentQuestionScaffold: QuestionScaffold;
   public querySelector: any;
   public answers: QuestionScaffoldAnswer[];
-  public numberOfAnswers: number;
 
   beforeRegister(): void {
     this.is = 'prendus-question-scaffold-comments';
@@ -28,9 +27,6 @@ export class PrendusQuestionScaffoldComments {
       currentQuestionScaffold: {
         type: Object,
         observer: 'change'
-      },
-      numberOfAnswers: {
-        type: Number
       }
     };
   }

@@ -59,14 +59,16 @@
             <h3>Answer</h3>
           </div>
           <div class="prendus-card">
-            [[answer]]
+            <paper-item id="distractor0" value="[[answer]]">
+              [[answer]]
+            </paper-item>
           </div>
         </div>
         <div class="right-column">
           <div class="distractors-header">
             <h3>Distractors</h3>
           </div>
-          <template is="dom-repeat" items="[[answersFiller]]">
+          <template is="dom-repeat" items="[[distractors]]">
             <div class="prendus-card distractor-card">
               <paper-input id$="distractor[[plusOne(index)]]" label$="Distractor [[plusOne(index)]]" on-value-changed="disableNext"></paper-input>
             </div>

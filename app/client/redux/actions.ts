@@ -24,6 +24,7 @@ import {Video} from '../node_modules/prendus-services/typings/video';
 import {ExecuteAsyncInOrderService} from '../node_modules/prendus-services/services/execute-async-in-order-service';
 import {UtilitiesService} from '../node_modules/prendus-services/services/utilities-service';
 import {QuestionScaffold} from '../node_modules/prendus-services/typings/question-scaffold';
+import {QuestionScaffoldAnswer} from '../node_modules/prendus-services/typings/question-scaffold-answer';
 
 const defaultAction = (context: any): void => {
     context.action = {
@@ -1102,6 +1103,32 @@ const setQuestionScaffoldExample = (context: any, currentQuestionScaffoldExample
     currentQuestionScaffoldExample
   }
 };
+
+const initCurrentQuestionScaffold = (context: any, numberOfAnswers: number): void => {
+  const answers: { [currentQuestionScaffoldId: string]: QuestionScaffoldAnswer} = {};
+  //TODO is there another way to do this?
+  // This is nice because it lets you avoid null checking everywhere
+  answers['question0'] = {
+    text: '',
+    comment: '',
+    correct: true,
+    variableName: 'true'
+  };
+  for(let i: number = 1; i < numberOfAnswers; i++) {
+    answers[`question${i}`] = {
+      text: '',
+      comment: '',
+      correct: false,
+      variableName: ''
+    };
+  }
+  const temp: QuestionScaffold = {
+    answers,
+    explanation: '',
+    question: ''
+  };
+  setQuestionScaffold(context, temp);
+}
 export const Actions = {
     defaultAction,
 		showMainSpinner,
@@ -1177,5 +1204,6 @@ export const Actions = {
     reloadPublicCourses,
     setDisabledNext,
     setQuestionScaffold,
-    setQuestionScaffoldExample
+    setQuestionScaffoldExample,
+    initCurrentQuestionScaffold
   };

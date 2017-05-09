@@ -14,7 +14,7 @@ export class PrendusQuestionScaffoldDistractors {
   public currentQuestionScaffold: QuestionScaffold;
   public answer: string;
   public numberOfAnswers: number;
-  public answersFiller: number[];
+  public distractors: any[];
 
   beforeRegister(): void {
     this.is = 'prendus-question-scaffold-distractors';
@@ -33,52 +33,54 @@ export class PrendusQuestionScaffoldDistractors {
     };
   }
 
+  /**
+   * Called when numberOfAnswers is set.
+   */
   numberOfAnswersSet(): void {
     // - 1 because there are numberOfAnswers - 1 amount of distractors.
-    this.answersFiller = Array(this.numberOfAnswers - 1);
+    // This array determines how many distractors will be in the html
+    this.distractors = Array(this.numberOfAnswers - 1);
   }
+
   disableNext(): void {
     try {
       if(this.selectedIndex && this.myIndex && this.selectedIndex === this.myIndex) {
-        let arr: string[];
-        for(let i: number = 1; i < this.numberOfAnswers; i++) {
-          arr = [...(arr || []), this.querySelector(`#distractor${i}`).value];
-        }
+        const arr: string[] = Object.keys(this.currentQuestionScaffold.answers || {}).map((key, index) => {
+          return this.querySelector(`#distractor${index}`).value;
+        });
         const isDefined: boolean = UtilitiesService.isDefinedAndNotEmpty(arr);
-        let answers: {
-          [questionScaffoldAnswerId: string]: QuestionScaffoldAnswer;
-        } = {
-          ...( this.currentQuestionScaffold ?
-               this.currentQuestionScaffold.answers :
-               undefined)
-        };
-
-        for(let i: number = 1; i < this.numberOfAnswers; i++) {
-          const key: string = `question${i}`;
-          answers[key] = {
-            ...answers[key],
-            text: this.querySelector(`#distractor${i}`).value,
-            correct: false,
-            variableName: 'false'
-          };
-        }
 
         if(isDefined) {
+          const answers: { [questionScaffoldId: string]: QuestionScaffoldAnswer } = Object.keys(this.currentQuestionScaffold.answers || {})
+            // update the text value for each distractor
+            .map((key, index) => {
+              return {
+                ...this.currentQuestionScaffold.answers[key],
+                text: this.querySelector(`#distractor${index}`).value
+              };
+            })
+            // convert back to object
+            .reduce((result, current, index) => {
+              //TODO why is this red?
+              result[`question${index}`] = current;
+              return result;
+            }, {});
           Actions.setQuestionScaffold(this, {
             ...this.currentQuestionScaffold,
             answers
           });
 
         }
-
         Actions.setDisabledNext(this, !isDefined);
       }
     } catch(error) {
       console.error(error);
     }
-
-
   }
+
+  /**
+   * Called from the dom so that the distractors are indexed correctly after 0
+   */
   plusOne(index: number): number {
     return index + 1;
   }
