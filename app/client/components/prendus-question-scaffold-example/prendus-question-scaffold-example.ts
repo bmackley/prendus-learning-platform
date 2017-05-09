@@ -23,23 +23,12 @@ export class PrendusQuestionScaffoldExample {
       },
       myIndex: {
         type: Number
-      },
-      questionScaffold: {
-        type: Object,
-        observer: 'change'
       }
     };
   }
-  change(): void {
-    this.answers = Object.keys(this.questionScaffold.answers || {}).map((key) => {
-        return Object.assign({}, this.questionScaffold.answers[key], {
-            id: key
-        });
-    });
-  }
 
   disableNext(): void {
-    if(this.myIndex === this.selectedIndex) {
+    if(this.myIndex && this.selectedIndex && this.myIndex === this.selectedIndex) {
       Actions.setDisabledNext(this, false);
     }
   }

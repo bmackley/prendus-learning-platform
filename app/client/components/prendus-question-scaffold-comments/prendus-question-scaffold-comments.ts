@@ -42,18 +42,23 @@ export class PrendusQuestionScaffoldComments {
   disableNext(): void {
     try {
       if(this.myIndex && this.selectedIndex && this.myIndex === this.selectedIndex) {
+        // Get all the inputs
         const arr: string[] = Object.keys(this.currentQuestionScaffold.answers || {}).map((key: string, index: number) => {
           return this.querySelector(`#comment${index}`).value;
         });
         const isDefined: boolean = UtilitiesService.isDefinedAndNotEmpty(arr);
         Actions.setDisabledNext(this, !isDefined);
         if(isDefined) {
-          const answers: { [questionScaffoldAnswerId: string]: QuestionScaffoldAnswer } = Object.keys(this.currentQuestionScaffold.answers || {}).map((key: string, index: number) => {
+          const answers: { [questionScaffoldAnswerId: string]: QuestionScaffoldAnswer } = Object.keys(this.currentQuestionScaffold.answers || {})
+          // update comments
+          .map((key: string, index: number) => {
             return {
               ...this.currentQuestionScaffold.answers[key],
               comment: this.querySelector(`#comment${index}`).value
             };
-          }).reduce((result: { [questionScaffoldAnswerId: string]: QuestionScaffoldAnswer } , current: QuestionScaffoldAnswer, index: number) => {
+          })
+          // convert back to object
+          .reduce((result: { [questionScaffoldAnswerId: string]: QuestionScaffoldAnswer } , current: QuestionScaffoldAnswer, index: number) => {
             result[`question${index}`] = current;
             return result;
           }, {});
