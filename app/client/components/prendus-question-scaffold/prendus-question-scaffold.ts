@@ -15,6 +15,8 @@ class PrendusQuestionScaffold {
   public properties: any;
   public minHeight: number;
   public questionScaffold: QuestionScaffold;
+  public numberOfAnswers: number;
+
   beforeRegister(): void {
     this.is = 'prendus-question-scaffold';
   }
@@ -22,6 +24,7 @@ class PrendusQuestionScaffold {
   async ready(): Promise<void> {
     this.selectedIndex = 0;
     this.minHeight = 0;
+    this.numberOfAnswers = 4;
     Actions.setDisabledNext(this, false);
   }
 
@@ -52,6 +55,7 @@ class PrendusQuestionScaffold {
     }
     // this.querySelector('.page').style.minHeight = this.minHeight + 'px';
   }
+
 	mapStateToThis(e: StatechangeEvent): void {
 		const state: State = e.detail.state;
     this.disableNext = state.disableNext;

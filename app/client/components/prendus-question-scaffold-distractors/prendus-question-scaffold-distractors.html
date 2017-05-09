@@ -5,83 +5,76 @@
 
   <style include="prendus-styles">
     .wrapper {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      grid-template-rows: repeat(5, 0fr);
-      grid-gap: 10px;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .row {
+      display: flex;
       margin-top: 10px;
+      justify-content: space-between;
     }
 
-    .question {
-      grid-column: 1;
-      grid-row: 1;
+    .left-column {
+      width: 45%;
+      margin-right: 10px;
     }
 
-    .distractors-container {
-      grid-column: 2;
-      grid-row: 2;
-    }
-
-    .answer-header, .distractors-header {
+    .answers-header {
       padding: 15px;
-    }
-
-    .answer-header {
-      grid-column: 1;
-      grid-row: 2;
-    }
-
-    .answer-card {
-      grid-column: 1;
-      grid-row: 3;
+      margin-bottom: 0px;
     }
 
     .distractors-header {
-      grid-column: 2;
-      grid-row: 2;
+      padding: 15px;
+      margin-bottom: 0px;
     }
 
-    .distractor-card-one {
-      grid-column: 2;
-      grid-row: 3;
+    .right-column {
+      width: 45%;
     }
 
-    .distractor-card-two {
-      grid-column: 2;
-      grid-row: 4;
+    .distractor-card {
+      margin-bottom: 10px;
     }
 
-    .distractor-card-three {
-      grid-column: 2;
-      grid-row: 5;
-    }
   </style>
 
   <template>
     <redux-store on-statechange="mapStateToThis" action="[[action]]"></redux-store>
     <div class="wrapper">
-      <div class="prendus-card question">
-        <h3>Question</h3>
-        [[currentQuestionScaffold.question]]
+      <div class="row">
+
+        <div class="left-column">
+          <div class="prendus-card">
+            <h3>Question</h3>
+            [[currentQuestionScaffold.question]]
+          </div>
+        </div>
       </div>
-      <div class="answer-header">
-        <h3>Answer</h3>
+
+      <div class="row">
+        <div class="left-column">
+          <div class="answers-header">
+            <h3>Answer</h3>
+          </div>
+          <div class="prendus-card">
+            [[answer]]
+          </div>
+        </div>
+        <div class="right-column">
+          <div class="distractors-header">
+            <h3>Distractors</h3>
+          </div>
+          <template is="dom-repeat" items="[[answersFiller]]">
+            <div class="prendus-card distractor-card">
+              <paper-input id$="distractor[[plusOne(index)]]" label$="Distractor [[plusOne(index)]]" on-value-changed="disableNext"></paper-input>
+            </div>
+          </template>
+        </div>
       </div>
-      <div class="prendus-card answer-card">
-        [[answer]]
-      </div>
-      <div class="distractors-header">
-        <h3>Distractors</h3>
-      </div>
-      <div class="prendus-card distractor-card-one">
-        <paper-input id="one" label="Distractor one" value="[[one]]" on-value-changed="disableNext"></paper-input>
-      </div>
-      <div class="prendus-card distractor-card-two">
-        <paper-input id="two" label="Distractor two" value="[[two]]" on-value-changed="disableNext"></paper-input>
-      </div>
-      <div class="prendus-card distractor-card-three">
-        <paper-input id="three" label="Distractor three" value="[[three]]" on-value-changed="disableNext"></paper-input>
-      </div>
+
+
 
     </div>
 

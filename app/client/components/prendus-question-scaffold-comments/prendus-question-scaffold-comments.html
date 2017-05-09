@@ -52,14 +52,13 @@
         </div>
       </div>
 
-      <template is="dom-repeat" items="[[currentQuestionScaffold.answers]]">
+      <template is="dom-repeat" items="[[answers]]">
         <div class="row">
           <div class="prendus-card left-column answer-card">
-            [[item.answer]]
+            [[item.text]]
           </div>
           <div class="prendus-card right-column">
-            <!--TODO decide on how to get these id's or bind them...-->
-            <paper-input id$="[[computeId(index)]]" label="Comment" value="[[computeValue]]" on-value-changed="disableNext"></paper-input>
+            <paper-input id$="comment[[index]]" label$="Comment [[plusOne(index)]]" on-value-changed="disableNext"></paper-input>
           </div>
         </div>
       </template>

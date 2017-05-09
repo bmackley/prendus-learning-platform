@@ -12,6 +12,8 @@ export class PrendusQuestionScaffoldComments {
   public questionStem: string;
   public currentQuestionScaffold: QuestionScaffold;
   public querySelector: any;
+  public answers: QuestionScaffoldAnswer[];
+  public numberOfAnswers: number;
 
   beforeRegister(): void {
     this.is = 'prendus-question-scaffold-comments';
@@ -22,31 +24,54 @@ export class PrendusQuestionScaffoldComments {
       selectedIndex: {
         type: Number,
         observer: 'disableNext'
+      },
+      currentQuestionScaffold: {
+        type: Object,
+        observer: 'change'
+      },
+      numberOfAnswers: {
+        type: Number
       }
     };
   }
 
+  change(): void {
+    this.answers = Object.keys(this.currentQuestionScaffold.answers || {}).map((key) => {
+      return Object.assign({}, this.currentQuestionScaffold.answers[key], {
+          id: key
+      });
+    });
+  }
+
   disableNext(): void {
     try {
-      if(!!(this.myIndex && this.selectedIndex) && this.myIndex === this.selectedIndex) {
-        const isDefined: boolean = UtilitiesService.isDefinedAndNotEmpty([this.querySelector('#comment-zero').value, this.querySelector('#comment-one').value, this.querySelector('#comment-two').value, this.querySelector('#comment-three').value]);
+      if((this.myIndex && this.selectedIndex) && this.myIndex === this.selectedIndex) {
+        let arr: string[];
+        for(let i: number = 0; i < this.numberOfAnswers; i++) {
+          arr = [...(arr || []), this.querySelector(`#comment${i}`).value];
+        }
+        const isDefined: boolean = UtilitiesService.isDefinedAndNotEmpty(arr);
         Actions.setDisabledNext(this, !isDefined);
         if(isDefined) {
+          let answers: {
+            [questionScaffoldAnswerId: string]: QuestionScaffoldAnswer;
+          } = {
+            ...( this.currentQuestionScaffold ?
+                 this.currentQuestionScaffold.answers :
+                 undefined)
+          };
+
+          for(let i: number = 0; i < this.numberOfAnswers; i++) {
+            const key: string = `question${i}`;
+            answers[key] = {
+              ...answers[key],
+              comment: this.querySelector(`#comment${i}`).value
+            };
+          }
+
           Actions.setQuestionScaffold(this, {
             ...this.currentQuestionScaffold,
-            answers: [{
-              ...this.currentQuestionScaffold.answers[0],
-              comment: this.querySelector('#comment-zero').value
-            }, {
-              ...this.currentQuestionScaffold.answers[1],
-              comment: this.querySelector('#comment-one').value
-            }, {
-              ...this.currentQuestionScaffold.answers[2],
-              comment: this.querySelector('#comment-two').value
-            }, {
-              ...this.currentQuestionScaffold.answers[3],
-              comment: this.querySelector('#comment-three').value
-            }]
+            answers
           });
         }
       }
@@ -56,28 +81,10 @@ export class PrendusQuestionScaffoldComments {
 
   }
 
-
-  /**
-   * http://stackoverflow.com/questions/14766951/convert-digits-into-words-with-javascript
-   */
-  number2words(n: number): string {
-    var num = "zero one two three four five six seven eight nine ten eleven twelve thirteen fourteen fifteen sixteen seventeen eighteen nineteen".split(" ");
-    var tens = "twenty thirty forty fifty sixty seventy eighty ninety".split(" ");
-    if (n < 20) return num[n];
-    var digit = n%10;
-    if (n < 100) return tens[~~(n/10)-2] + (digit? "-" + num[digit]: "");
-    if (n < 1000) return num[~~(n/100)] +" hundred" + (n%100 == 0? "": " " + this.number2words(n%100));
-    return this.number2words(~~(n/1000)) + " thousand" + (n%1000 != 0? " " + this.number2words(n%1000): "");
+  plusOne(index: number): number {
+    return index + 1;
   }
-
-  /**
-   * Called for every comment in the dom
-   */
-  computeId(index: number): string {
-    // TODO decide on this one
-    const id: string = 'comment-' + this.number2words(index);
-    return id;
-  }
+  
 	mapStateToThis(e: StatechangeEvent): void {
 		const state: State = e.detail.state;
     this.currentQuestionScaffold = state.currentQuestionScaffold;

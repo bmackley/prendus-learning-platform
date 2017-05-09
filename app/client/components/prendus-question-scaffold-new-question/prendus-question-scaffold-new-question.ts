@@ -31,18 +31,22 @@ export class PrendusQuestionScaffoldNewQuestion {
    * the inputs aren't empty.
    */
   disableNext(e: any): void {
-    if(!!(this.selectedIndex && this.myIndex) && this.selectedIndex === this.myIndex) {
+    if(this.selectedIndex && this.myIndex && this.selectedIndex === this.myIndex) {
       const question: string = this.querySelector('#question').value;
-      const answer: string = this.querySelector('#answer').value;
-      const isDefined: boolean = UtilitiesService.isDefinedAndNotEmpty([question, answer]);
+      const text: string = this.querySelector('#answer').value;
+      const isDefined: boolean = UtilitiesService.isDefinedAndNotEmpty([question, text]);
       if(isDefined) {
         Actions.setQuestionScaffold(this, {
           ...this.currentQuestionScaffold,
-          answers: [{
-            answer,
-            comment: ''
-          }, ...(!!this.currentQuestionScaffold && !!this.currentQuestionScaffold.answers && this.currentQuestionScaffold.answers.length > 1 ? this.currentQuestionScaffold.answers.splice(1) : [])
-          ],
+          answers: {
+            ...(this.currentQuestionScaffold ? this.currentQuestionScaffold.answers : undefined),
+            'question0': {
+              ...(this.currentQuestionScaffold && this.currentQuestionScaffold.answers ? this.currentQuestionScaffold.answers['question0'] : undefined),
+              text,
+              correct: true,
+              variableName: 'true'
+            }
+          },
           question
         });
       }
