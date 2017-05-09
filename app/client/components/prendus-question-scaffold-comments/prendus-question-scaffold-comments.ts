@@ -46,28 +46,23 @@ export class PrendusQuestionScaffoldComments {
   disableNext(): void {
     try {
       if((this.myIndex && this.selectedIndex) && this.myIndex === this.selectedIndex) {
-        let arr: string[];
-        for(let i: number = 0; i < this.numberOfAnswers; i++) {
-          arr = [...(arr || []), this.querySelector(`#comment${i}`).value];
-        }
+        // these should be defined by now.
+        const arr: string[] = Object.keys(this.currentQuestionScaffold.answers || {}).map((key, index) => {
+          return this.querySelector(`#comment${index}`).value;
+        });
         const isDefined: boolean = UtilitiesService.isDefinedAndNotEmpty(arr);
         Actions.setDisabledNext(this, !isDefined);
         if(isDefined) {
-          let answers: {
-            [questionScaffoldAnswerId: string]: QuestionScaffoldAnswer;
-          } = {
-            ...( this.currentQuestionScaffold ?
-                 this.currentQuestionScaffold.answers :
-                 undefined)
-          };
-
-          for(let i: number = 0; i < this.numberOfAnswers; i++) {
-            const key: string = `question${i}`;
-            answers[key] = {
-              ...answers[key],
-              comment: this.querySelector(`#comment${i}`).value
+          const answers: { [questionScaffoldId: string]: QuestionScaffoldAnswer } = Object.keys(this.currentQuestionScaffold.answers || {}).map((key, index) => {
+            return {
+              ...this.currentQuestionScaffold.answers[key],
+              comment: this.querySelector(`#comment${index}`).value
             };
-          }
+          }).reduce((result, current, index) => {
+            //TODO why is this red?
+            result[`question${index}`] = current;
+            return result;
+          }, {});
 
           Actions.setQuestionScaffold(this, {
             ...this.currentQuestionScaffold,
@@ -84,7 +79,7 @@ export class PrendusQuestionScaffoldComments {
   plusOne(index: number): number {
     return index + 1;
   }
-  
+
 	mapStateToThis(e: StatechangeEvent): void {
 		const state: State = e.detail.state;
     this.currentQuestionScaffold = state.currentQuestionScaffold;
