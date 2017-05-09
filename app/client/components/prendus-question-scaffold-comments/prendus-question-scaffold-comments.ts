@@ -41,7 +41,7 @@ export class PrendusQuestionScaffoldComments {
 
   disableNext(): void {
     try {
-      if((this.myIndex && this.selectedIndex) && this.myIndex === this.selectedIndex) {
+      if(this.myIndex && this.selectedIndex && this.myIndex === this.selectedIndex) {
         const arr: string[] = Object.keys(this.currentQuestionScaffold.answers || {}).map((key: string, index: number) => {
           return this.querySelector(`#comment${index}`).value;
         });
