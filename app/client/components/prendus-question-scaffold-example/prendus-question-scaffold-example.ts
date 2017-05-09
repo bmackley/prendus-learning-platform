@@ -18,6 +18,7 @@ export class PrendusQuestionScaffoldExample {
     this.is = 'prendus-question-scaffold-example' ;
     this.properties = {
       selectedIndex: {
+        type: Number,
         observer: 'disableNext'
       },
       myIndex: {
@@ -33,7 +34,7 @@ export class PrendusQuestionScaffoldExample {
   }
 
   disableNext(): void {
-    if(this.myIndex && this.selectedIndex && this.myIndex === this.selectedIndex) {
+    if(this.myIndex != null && this.selectedIndex != null && this.myIndex === this.selectedIndex) {
       Actions.setDisabledNext(this, false);
     }
   }

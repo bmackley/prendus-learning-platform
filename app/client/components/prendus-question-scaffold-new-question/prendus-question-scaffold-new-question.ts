@@ -21,8 +21,7 @@ export class PrendusQuestionScaffoldNewQuestion {
         observer: 'disableNext'
       },
       myIndex: {
-        type: Number,
-        observer: 'disableNext'
+        type: Number
       },
       numberOfAnswers: {
         type: Number,
@@ -42,7 +41,7 @@ export class PrendusQuestionScaffoldNewQuestion {
    * the inputs aren't empty.
    */
   disableNext(e: any): void {
-    if(this.selectedIndex && this.myIndex && this.selectedIndex === this.myIndex) {
+    if(this.myIndex != null && this.selectedIndex != null && this.selectedIndex === this.myIndex) {
       const question: string = this.querySelector('#question').value;
       const text: string = this.querySelector('#answer').value;
       const isDefined: boolean = UtilitiesService.isDefinedAndNotEmpty([question, text]);

@@ -27,7 +27,7 @@ export class PrendusQuestionScaffoldExplanation {
   }
 
   disableNext(): void {
-    if(this.myIndex && this.selectedIndex && this.myIndex === this.selectedIndex) {
+    if(this.myIndex != null && this.selectedIndex != null && this.myIndex === this.selectedIndex) {
       const explanation: string = this.querySelector('#explanation').value;
       const isDefined: boolean = UtilitiesService.isDefinedAndNotEmpty(explanation);
       Actions.setDisabledNext(this, !isDefined);
