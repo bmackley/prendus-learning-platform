@@ -1,6 +1,7 @@
 <link rel="import" href="../../bower_components/polymer/polymer.html">
 <link rel="import" href="../../bower_components/prendus-styles/prendus-styles.html">
 <link rel="import" href="../../bower_components/paper-input/paper-input.html">
+<link rel="import" href="../../bower_components/paper-item/paper-item.html">
 <dom-module id="prendus-question-scaffold-distractors">
 
   <style include="prendus-styles">
@@ -59,6 +60,7 @@
             <h3>Answer</h3>
           </div>
           <div class="prendus-card">
+            <!-- This here so that when the controller is looking through all values, distractor0 will always have a value.-->
             <paper-item id="distractor0" value="[[answer]]">
               [[answer]]
             </paper-item>
