@@ -1,25 +1,20 @@
 import {StatechangeEvent} from '../../typings/statechange-event';
 import {State} from '../../typings/state';
 import {Actions} from '../../redux/actions';
-import {FirebaseService} from '../../node_modules/prendus-services/services/firebase-service';
-import {QuizSession} from '../../node_modules/prendus-services/typings/quiz-session';
-import {UtilitiesService} from '../../node_modules/prendus-services/services/utilities-service';
 import {QuestionScaffold} from '../../node_modules/prendus-services/typings/question-scaffold';
 import {QuestionScaffoldAnswer} from '../../node_modules/prendus-services/typings/question-scaffold-answer';
-import {Action} from '../../typings/action';
 
 class PrendusQuestionScaffold {
   public is: string;
   public selectedIndex: number;
   public querySelector: any;
   public disableNext: boolean;
-  public properties: any;
   public minHeight: number;
-  public questionScaffold: QuestionScaffold;
   public numberOfAnswers: number;
   public exampleQuestionScaffold: QuestionScaffold;
-  public questionScaffoldAnswers: QuestionScaffoldAnswer[];
   public exampleQuestionScaffoldAnswers: QuestionScaffoldAnswer[];
+  public questionScaffold: QuestionScaffold;
+  public questionScaffoldAnswers: QuestionScaffoldAnswer[];
 
   beforeRegister(): void {
     this.is = 'prendus-question-scaffold';
@@ -96,10 +91,10 @@ class PrendusQuestionScaffold {
 	mapStateToThis(e: StatechangeEvent): void {
 		const state: State = e.detail.state;
     this.disableNext = state.disableNext;
-    this.questionScaffold = state.currentQuestionScaffold;
-    this.questionScaffoldAnswers = state.questionScaffoldAnswers;
     this.exampleQuestionScaffold = state.currentQuestionScaffoldExample;
     this.exampleQuestionScaffoldAnswers = state.exampleQuestionScaffoldAnswers;
+    this.questionScaffold = state.currentQuestionScaffold;
+    this.questionScaffoldAnswers = state.questionScaffoldAnswers;
 	}
 }
 
