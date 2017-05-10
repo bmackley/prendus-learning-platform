@@ -5,14 +5,16 @@ import {QuestionScaffoldAnswer} from '../../node_modules/prendus-services/typing
 import {QuestionScaffold} from '../../node_modules/prendus-services/typings/question-scaffold';
 export class PrendusQuestionScaffoldExample {
   public is: string;
-  public questionStem: string;
+  /**
+   * Passed in as a property
+   */
   public answers: QuestionScaffoldAnswer[];
-  public comments: string[];
-  public explanation: string;
   public properties: any;
   public myIndex: number;
   public selectedIndex: number;
-  public querySelector: any;
+  /**
+   * Passed in as a property
+   */
   public questionScaffold: QuestionScaffold;
   beforeRegister(): void {
     this.is = 'prendus-question-scaffold-example' ;
