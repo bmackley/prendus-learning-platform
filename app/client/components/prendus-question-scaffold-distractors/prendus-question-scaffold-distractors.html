@@ -4,7 +4,9 @@
 <link rel="import" href="../../bower_components/paper-item/paper-item.html">
 <dom-module id="prendus-question-scaffold-distractors">
 
-  <style include="prendus-styles">
+
+  <template>
+    <style include="prendus-styles">
     .wrapper {
       display: flex;
       flex-direction: column;
@@ -39,9 +41,7 @@
       margin-bottom: 10px;
     }
 
-  </style>
-
-  <template>
+    </style>
     <redux-store on-statechange="mapStateToThis" action="[[action]]"></redux-store>
     <div class="wrapper">
       <div class="row">

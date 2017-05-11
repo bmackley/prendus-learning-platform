@@ -3,7 +3,9 @@
 <link rel="import" href="../../bower_components/paper-input/paper-input.html">
 <dom-module id="prendus-question-scaffold-new-question">
 
-  <style include="prendus-styles">
+
+  <template>
+    <style include="prendus-styles">
     .bold {
       font-weight: bold;
     }
@@ -20,9 +22,7 @@
     .answer {
       margin-top: 20px;
     }
-  </style>
-
-  <template>
+    </style>
     <redux-store on-statechange="mapStateToThis" action="[[action]]"></redux-store>
     <div class="wrapper">
 

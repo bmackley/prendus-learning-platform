@@ -11,7 +11,9 @@
 
 <dom-module id="prendus-question-scaffold">
 
-  <style include="prendus-styles">
+
+  <template>
+    <style include="prendus-styles">
     .content {
       display: grid;
       grid-template-columns: 50% 50%;
@@ -45,9 +47,7 @@
       font-size: 22px;
     }
 
-  </style>
-
-  <template>
+    </style>
     <redux-store on-statechange="mapStateToThis" action="[[action]]"></redux-store>
     <div class="content">
 

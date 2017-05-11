@@ -5,7 +5,9 @@
 
 <dom-module id="prendus-question-scaffold-example">
 
-  <style include="prendus-styles">
+
+  <template>
+    <style include="prendus-styles">
     .wrapper {
       display: flex;
       flex-direction: column;
@@ -29,9 +31,7 @@
     .right-column {
       width: 45%;
     }
-  </style>
-
-  <template>
+    </style>
     <redux-store on-statechange="mapStateToThis" action="[[action]]"></redux-store>
     <div class="wrapper">
       <div class="row">

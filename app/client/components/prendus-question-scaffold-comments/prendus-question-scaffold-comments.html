@@ -4,7 +4,9 @@
 
 <dom-module id="prendus-question-scaffold-comments">
 
-  <style include="prendus-styles">
+
+  <template>
+    <style include="prendus-styles">
     .wrapper {
       display: flex;
       flex-direction: column;
@@ -31,9 +33,7 @@
     .answer-card {
       margin-right: 10px;
     }
-  </style>
-
-  <template>
+    </style>
     <redux-store on-statechange="mapStateToThis" action="[[action]]"></redux-store>
     <div class="wrapper">
       <div class="row">
