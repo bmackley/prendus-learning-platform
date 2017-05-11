@@ -1096,7 +1096,7 @@ const setQuestionScaffold = (context: any, currentQuestionScaffold: QuestionScaf
           id: key
       });
   });
-  
+
   context.action = {
     type: 'SET_CURRENT_QUESTION_SCAFFOLD',
     currentQuestionScaffold,
@@ -1143,6 +1143,28 @@ const initCurrentQuestionScaffold = (context: any, numberOfAnswers: number): voi
   };
   setQuestionScaffold(context, temp);
 }
+
+const updateCurrentQuestionScaffoldComments = (context: any, comments: string[], questionScaffold: QuestionScaffold): void => {
+  const answers: { [questionScaffoldAnswerId: string]: QuestionScaffoldAnswer } = Object.keys(questionScaffold.answers || {})
+  // update comments
+  .map((key: string, index: number) => {
+    return {
+      ...questionScaffold.answers[key],
+      comment: comments[index]
+    };
+  })
+  // convert back to object
+  .reduce((result: { [questionScaffoldAnswerId: string]: QuestionScaffoldAnswer } , current: QuestionScaffoldAnswer, index: number) => {
+    result[`question${index}`] = current;
+    return result;
+  }, {});
+  
+  setQuestionScaffold(context, {
+    ...questionScaffold,
+    answers
+  });
+}
+
 export const Actions = {
     defaultAction,
 		showMainSpinner,
@@ -1219,5 +1241,6 @@ export const Actions = {
     setDisabledNext,
     setQuestionScaffold,
     setQuestionScaffoldExample,
-    initCurrentQuestionScaffold
+    initCurrentQuestionScaffold,
+    updateCurrentQuestionScaffoldComments
   };

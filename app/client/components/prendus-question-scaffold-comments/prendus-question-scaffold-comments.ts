@@ -31,30 +31,13 @@ class PrendusQuestionScaffoldComments {
     try {
       if(this.myIndex !== undefined && this.selectedIndex !== undefined && this.myIndex === this.selectedIndex) {
         // Get all the inputs
-        const arr: string[] = Object.keys(this.currentQuestionScaffold.answers || {}).map((key: string, index: number) => {
+        const comments: string[] = Object.keys(this.currentQuestionScaffold.answers || {}).map((key: string, index: number) => {
           return this.querySelector(`#comment${index}`).value;
         });
-        const isDefined: boolean = UtilitiesService.isDefinedAndNotEmpty(arr);
+        const isDefined: boolean = UtilitiesService.isDefinedAndNotEmpty(comments);
         Actions.setDisabledNext(this, !isDefined);
         if(isDefined) {
-          const answers: { [questionScaffoldAnswerId: string]: QuestionScaffoldAnswer } = Object.keys(this.currentQuestionScaffold.answers || {})
-          // update comments
-          .map((key: string, index: number) => {
-            return {
-              ...this.currentQuestionScaffold.answers[key],
-              comment: this.querySelector(`#comment${index}`).value
-            };
-          })
-          // convert back to object
-          .reduce((result: { [questionScaffoldAnswerId: string]: QuestionScaffoldAnswer } , current: QuestionScaffoldAnswer, index: number) => {
-            result[`question${index}`] = current;
-            return result;
-          }, {});
-
-          Actions.setQuestionScaffold(this, {
-            ...this.currentQuestionScaffold,
-            answers
-          });
+          Actions.updateCurrentQuestionScaffoldComments(this, comments, this.currentQuestionScaffold);
         }
       }
     } catch(error) {
