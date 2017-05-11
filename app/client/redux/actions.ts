@@ -25,6 +25,7 @@ import {ExecuteAsyncInOrderService} from '../node_modules/prendus-services/servi
 import {UtilitiesService} from '../node_modules/prendus-services/services/utilities-service';
 import {QuestionScaffold} from '../node_modules/prendus-services/typings/question-scaffold';
 import {QuestionScaffoldAnswer} from '../node_modules/prendus-services/typings/question-scaffold-answer';
+import {Action} from '../typings/action';
 
 const defaultAction = (context: any): void => {
     context.action = {
@@ -1092,9 +1093,10 @@ const setDisabledNext = (context: any, disableNext: boolean): void => {
 
 const setQuestionScaffold = (context: any, currentQuestionScaffold: QuestionScaffold): void => {
   const questionScaffoldAnswers: QuestionScaffoldAnswer[] = Object.keys(currentQuestionScaffold.answers || {}).map((key) => {
-      return Object.assign({}, currentQuestionScaffold.answers[key], {
-          id: key
-      });
+      return {
+        ...currentQuestionScaffold.answers[key],
+        id: key
+      };
   });
 
   context.action = {
@@ -1106,9 +1108,10 @@ const setQuestionScaffold = (context: any, currentQuestionScaffold: QuestionScaf
 
 const setQuestionScaffoldExample = (context: any, currentQuestionScaffoldExample: QuestionScaffold): void => {
   const exampleQuestionScaffoldAnswers: QuestionScaffoldAnswer[] = Object.keys(currentQuestionScaffoldExample.answers || {}).map((key) => {
-      return Object.assign({}, currentQuestionScaffoldExample.answers[key], {
-          id: key
-      });
+      return {
+        ...currentQuestionScaffoldExample.answers[key],
+        id: key
+      };
   });
 
   context.action = {
@@ -1144,25 +1147,14 @@ const initCurrentQuestionScaffold = (context: any, numberOfAnswers: number): voi
   setQuestionScaffold(context, temp);
 }
 
-const updateCurrentQuestionScaffoldComments = (context: any, comments: string[], questionScaffold: QuestionScaffold): void => {
-  const answers: { [questionScaffoldAnswerId: string]: QuestionScaffoldAnswer } = Object.keys(questionScaffold.answers || {})
-  // update comments
-  .map((key: string, index: number) => {
+const updateCurrentQuestionScaffoldComments = (comments: string[], currentQuestionScaffold: QuestionScaffold, myIndex: number, selectedIndex: number): Action => {
     return {
-      ...questionScaffold.answers[key],
-      comment: comments[index]
-    };
-  })
-  // convert back to object
-  .reduce((result: { [questionScaffoldAnswerId: string]: QuestionScaffoldAnswer } , current: QuestionScaffoldAnswer, index: number) => {
-    result[`question${index}`] = current;
-    return result;
-  }, {});
-
-  setQuestionScaffold(context, {
-    ...questionScaffold,
-    answers
-  });
+    type: 'UPDATE_CURRENT_QUESTION_SCAFFOLD_COMMENTS',
+    currentQuestionScaffold,
+    comments,
+    myIndex,
+    selectedIndex
+  };
 }
 
 const updateCurrentQuestionScaffoldAnswers = (context: any, answersArr: string[], questionScaffold: QuestionScaffold): void => {

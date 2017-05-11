@@ -4,6 +4,8 @@ import {Actions} from '../../redux/actions';
 import {UtilitiesService} from '../../node_modules/prendus-services/services/utilities-service';
 import {QuestionScaffold} from '../../node_modules/prendus-services/typings/question-scaffold';
 import {QuestionScaffoldAnswer} from '../../node_modules/prendus-services/typings/question-scaffold-answer';
+import {Action} from '../../typings/action';
+
 class PrendusQuestionScaffoldComments {
   public is: string;
   public properties: any;
@@ -13,6 +15,7 @@ class PrendusQuestionScaffoldComments {
   public currentQuestionScaffold: QuestionScaffold;
   public querySelector: any;
   public answers: QuestionScaffoldAnswer[];
+  public action: Action;
 
   beforeRegister(): void {
     this.is = 'prendus-question-scaffold-comments';
@@ -29,21 +32,17 @@ class PrendusQuestionScaffoldComments {
 
   disableNext(): void {
     try {
-      if(this.myIndex !== undefined && this.selectedIndex !== undefined && this.myIndex === this.selectedIndex) {
-        // Get all the inputs
-        const comments: string[] = Object.keys(this.currentQuestionScaffold.answers || {}).map((key: string, index: number) => {
-          return this.querySelector(`#comment${index}`).value;
-        });
-        const isDefined: boolean = UtilitiesService.isDefinedAndNotEmpty(comments);
-        Actions.setDisabledNext(this, !isDefined);
-        if(isDefined) {
-          Actions.updateCurrentQuestionScaffoldComments(this, comments, this.currentQuestionScaffold);
-        }
-      }
+      const comments: string[] = getComments();
+      this.action = Actions.updateCurrentQuestionScaffoldComments(comments, this.currentQuestionScaffold, this.myIndex, this.selectedIndex);
     } catch(error) {
       console.error(error);
     }
 
+    function getComments(): string[] {
+      return Object.keys(this.currentQuestionScaffold ? this.currentQuestionScaffold.answers : {}).map((key: string, index: number) => {
+        return this.querySelector(`#comment${index}`) ? this.querySelector(`#comment${index}`).value : null;
+      });
+    }
   }
 
   plusOne(index: number): number {

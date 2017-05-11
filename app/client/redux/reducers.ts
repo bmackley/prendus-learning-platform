@@ -5,6 +5,9 @@ import {Action} from '../typings/action';
 import {Quiz} from '../node_modules/prendus-services/typings/quiz';
 import {Lesson} from '../node_modules/prendus-services/typings/lesson';
 import {CourseLessonData} from '../node_modules/prendus-services/typings/course-lesson-data';
+import {QuestionScaffold} from '../node_modules/prendus-services/typings/question-scaffold';
+import {QuestionScaffoldAnswer} from '../node_modules/prendus-services/typings/question-scaffold-answer';
+import {UtilitiesService} from '../node_modules/prendus-services/services/utilities-service';
 
 export function rootReducer(state: State = InitialState, action: Action): State {
     switch(action.type) {
@@ -353,6 +356,49 @@ export function rootReducer(state: State = InitialState, action: Action): State 
           currentQuestionScaffoldExample: action.currentQuestionScaffoldExample,
           exampleQuestionScaffoldAnswers: action.exampleQuestionScaffoldAnswers
         };
+      }
+
+      case 'UPDATE_CURRENT_QUESTION_SCAFFOLD_COMMENTS': {
+        const questionScaffold: QuestionScaffold = action.currentQuestionScaffold;
+        const comments: string[] = action.comments;
+        const selectedIndex: number = action.selectedIndex;
+        const myIndex: number = action.myIndex;
+        if(selectedIndex !== undefined && myIndex !== undefined && selectedIndex === myIndex) {
+          const isDefined: boolean = UtilitiesService.isDefinedAndNotEmpty(comments);
+          const answers: { [questionScaffoldAnswerId: string]: QuestionScaffoldAnswer } = Object.keys(questionScaffold.answers || {})
+          // update comments
+          .map((key: string, index: number) => {
+            return {
+              ...questionScaffold.answers[key],
+              comment: comments[index]
+            };
+          })
+          // convert back to object
+          .reduce((result: { [questionScaffoldAnswerId: string]: QuestionScaffoldAnswer }, current: QuestionScaffoldAnswer, index: number) => {
+            result[`question${index}`] = current;
+            return result;
+          }, {});
+
+          const disableNext: boolean = !isDefined;
+          const questionScaffoldAnswers: QuestionScaffoldAnswer[] = Object.keys(questionScaffold.answers || {}).map((key) => {
+              return {
+                ...questionScaffold.answers[key],
+                id: key
+              };
+          });
+
+          return {
+            ...state,
+            currentQuestionScaffold: {
+              ...questionScaffold,
+              answers
+            },
+            questionScaffoldAnswers,
+            disableNext
+          };
+        } else {
+          return state;
+        }
       }
       default: {
           return state;
