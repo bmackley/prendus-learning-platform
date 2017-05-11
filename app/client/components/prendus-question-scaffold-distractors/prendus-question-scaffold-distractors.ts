@@ -44,7 +44,7 @@ class PrendusQuestionScaffoldDistractors {
 
   disableNext(): void {
     try {
-      if(this.myIndex != null && this.selectedIndex != null && this.selectedIndex === this.myIndex) {
+      if(this.myIndex !== undefined && this.selectedIndex !== undefined && this.selectedIndex === this.myIndex) {
         const arr: string[] = Object.keys(this.currentQuestionScaffold.answers || {}).map((key: string, index: number) => {
           return this.querySelector(`#distractor${index}`).value;
         });

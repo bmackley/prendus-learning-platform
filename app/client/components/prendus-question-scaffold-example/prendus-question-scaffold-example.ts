@@ -36,7 +36,7 @@ export class PrendusQuestionScaffoldExample {
   }
 
   disableNext(): void {
-    if(this.myIndex != null && this.selectedIndex != null && this.myIndex === this.selectedIndex) {
+    if(this.myIndex !== undefined && this.selectedIndex !== undefined && this.myIndex === this.selectedIndex) {
       Actions.setDisabledNext(this, false);
     }
   }

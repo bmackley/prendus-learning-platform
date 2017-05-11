@@ -29,7 +29,7 @@ class PrendusQuestionScaffoldComments {
 
   disableNext(): void {
     try {
-      if(this.myIndex != null && this.selectedIndex != null && this.myIndex === this.selectedIndex) {
+      if(this.myIndex !== undefined && this.selectedIndex !== undefined && this.myIndex === this.selectedIndex) {
         // Get all the inputs
         const arr: string[] = Object.keys(this.currentQuestionScaffold.answers || {}).map((key: string, index: number) => {
           return this.querySelector(`#comment${index}`).value;

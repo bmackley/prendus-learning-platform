@@ -41,7 +41,7 @@ class PrendusQuestionScaffoldNewQuestion {
    * the inputs aren't empty.
    */
   disableNext(e: any): void {
-    if(this.myIndex != null && this.selectedIndex != null && this.selectedIndex === this.myIndex) {
+    if(this.myIndex !== undefined && this.selectedIndex !== undefined && this.selectedIndex === this.myIndex) {
       const question: string = this.querySelector('#question').value;
       const text: string = this.querySelector('#answer').value;
       const isDefined: boolean = UtilitiesService.isDefinedAndNotEmpty([question, text]);
