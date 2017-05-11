@@ -1158,12 +1158,33 @@ const updateCurrentQuestionScaffoldComments = (context: any, comments: string[],
     result[`question${index}`] = current;
     return result;
   }, {});
-  
+
   setQuestionScaffold(context, {
     ...questionScaffold,
     answers
   });
 }
+
+const updateCurrentQuestionScaffoldAnswers = (context: any, answersArr: string[], questionScaffold: QuestionScaffold): void => {
+  const answers: { [questionScaffoldId: string]: QuestionScaffoldAnswer } = Object.keys(questionScaffold.answers || {})
+    // update the text value for each distractor
+    .map((key: string, index: number) => {
+      return {
+        ...questionScaffold.answers[key],
+        text: answersArr[index]
+      };
+    })
+    // convert back to object
+    .reduce((result: { [questionScaffoldAnswerId: string]: QuestionScaffoldAnswer }, current: QuestionScaffoldAnswer, index: number) => {
+      result[`question${index}`] = current;
+      return result;
+    }, {});
+
+    setQuestionScaffold(context, {
+      ...questionScaffold,
+      answers
+    });
+};
 
 export const Actions = {
     defaultAction,
@@ -1242,5 +1263,6 @@ export const Actions = {
     setQuestionScaffold,
     setQuestionScaffoldExample,
     initCurrentQuestionScaffold,
-    updateCurrentQuestionScaffoldComments
+    updateCurrentQuestionScaffoldComments,
+    updateCurrentQuestionScaffoldAnswers
   };

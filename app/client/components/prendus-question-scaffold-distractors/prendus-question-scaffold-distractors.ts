@@ -45,29 +45,13 @@ class PrendusQuestionScaffoldDistractors {
   disableNext(): void {
     try {
       if(this.myIndex !== undefined && this.selectedIndex !== undefined && this.selectedIndex === this.myIndex) {
-        const arr: string[] = Object.keys(this.currentQuestionScaffold.answers || {}).map((key: string, index: number) => {
+        const distractors: string[] = Object.keys(this.currentQuestionScaffold.answers || {}).map((key: string, index: number) => {
           return this.querySelector(`#distractor${index}`).value;
         });
-        const isDefined: boolean = UtilitiesService.isDefinedAndNotEmpty(arr);
+        const isDefined: boolean = UtilitiesService.isDefinedAndNotEmpty(distractors);
 
         if(isDefined) {
-          const answers: { [questionScaffoldId: string]: QuestionScaffoldAnswer } = Object.keys(this.currentQuestionScaffold.answers || {})
-            // update the text value for each distractor
-            .map((key: string, index: number) => {
-              return {
-                ...this.currentQuestionScaffold.answers[key],
-                text: this.querySelector(`#distractor${index}`).value
-              };
-            })
-            // convert back to object
-            .reduce((result: { [questionScaffoldAnswerId: string]: QuestionScaffoldAnswer }, current: QuestionScaffoldAnswer, index: number) => {
-              result[`question${index}`] = current;
-              return result;
-            }, {});
-          Actions.setQuestionScaffold(this, {
-            ...this.currentQuestionScaffold,
-            answers
-          });
+          Actions.updateCurrentQuestionScaffoldAnswers(this, distractors, this.currentQuestionScaffold);
         }
         Actions.setDisabledNext(this, !isDefined);
       }
