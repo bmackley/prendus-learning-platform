@@ -16,7 +16,7 @@
   "dependencies": {
     "iron-ajax": "PolymerElements/iron-ajax#^1.2.0",
     "app-route": "PolymerElements/app-route#^0.9.1",
-    "prendus-question-components": "git@github.com:lastmjs/prendus-question-components.git#prendus-notification",
+    "prendus-question-components": "git@github.com:lastmjs/prendus-question-components.git#develop",
     "prendus-quiz-viewer-component": "git@github.com:lastmjs/prendus-quiz-viewer-component.git#develop",
 		"prendus-styles": "git@github.com:bmackley/prendus-styles#master",
     "prendus-video-viewer-component": "git@github.com:lastmjs/prendus-video-viewer-component.git#0.3.1",
