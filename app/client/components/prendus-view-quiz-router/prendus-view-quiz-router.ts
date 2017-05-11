@@ -3,6 +3,7 @@ import {UserModel} from '../../node_modules/prendus-services/models/user-model';
 import {Quiz} from '../../node_modules/prendus-services/typings/quiz';
 import {Actions} from '../../redux/actions';
 import {StatechangeEvent} from '../../typings/statechange-event';
+import {LTIState} from '../../node_modules/prendus-services/typings/lti-state';
 
 class PrendusViewQuizRouter {
     public is: string;
@@ -17,6 +18,8 @@ class PrendusViewQuizRouter {
     public jwt: string;
     public fire: any;
     public data: any;
+    public querySelector: any;
+    public ltiState: LTIState;
 
     ready(): void {
       Actions.defaultAction(this);
@@ -30,14 +33,34 @@ class PrendusViewQuizRouter {
     }
 
 		async updateEditAccess(data: any) {
+      this.querySelector('#sign-up-dialog').open();
       console.log('data ', data)
+      const ltiState: LTIState = {
+        consumerKey: data.consumerKey,
+        courseId: data.courseId,
+        lessonId: data.lessonId,
+        quizId: data.quizId,
+        quizOrigin: data.quizOrigin,
+        userEmail: data.userEmail,
+        userFullName: data.userFullName,
+        userId: data.userId
+      };
+
+      Actions.setLtiState(this, ltiState);
       const quiz: Quiz = await Actions.getQuiz(data.quizId);
 			this.hasEditAccess = this.uid === quiz.uid;
-
+      this.userEmail = data.userEmail;
 			// put this back once collaborators work again
 			// this.hasEditAccess = this.uid in quiz.collaborators;
 		}
 
+    signup(): void {
+      console.log(this.ltiState);
+    }
+
+    login(): void {
+
+    }
     quizSubmissionStarted(): void {
         Actions.showMainSpinner(this);
     }
@@ -52,6 +75,7 @@ class PrendusViewQuizRouter {
       this.userFullName = `${state.currentUser.metaData.firstName} ${state.currentUser.metaData.lastName}`;
       this.userEmail = state.currentUser.metaData.email;
       this.jwt = state.jwt;
+      this.ltiState = state.ltiState;
     }
 }
 

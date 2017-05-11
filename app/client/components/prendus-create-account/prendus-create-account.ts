@@ -3,6 +3,9 @@ import {ConstantsService} from '../../node_modules/prendus-services/services/con
 import {UserMetaData} from '../../node_modules/prendus-services/typings/user-meta-data';
 import {UserType} from '../../node_modules/prendus-services/typings/user-type';
 import {User} from '../../node_modules/prendus-services/typings/user';
+import {StatechangeEvent} from '../../typings/statechange-event';
+import {State} from '../../typings/state';
+import {LTIState} from '../../node_modules/prendus-services/typings/lti-state';
 
 class PrendusCreateAccount {
   public is: string;
@@ -13,6 +16,7 @@ class PrendusCreateAccount {
   public properties: any;
   public readonly querySelector: any;
   public createAccountEmailMessage: string;
+  public ltiState: LTIState;
 
   beforeRegister(): void {
       this.is = 'prendus-create-account';
@@ -99,6 +103,10 @@ class PrendusCreateAccount {
     }
   }
 
+  mapStateToThis(e: StatechangeEvent): void {
+    const state: State = e.detail.state;
+    this.ltiState = state.ltiState;
+  }
 }
 
 

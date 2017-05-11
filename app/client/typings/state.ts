@@ -11,6 +11,7 @@ import {CourseLessonData} from '../node_modules/prendus-services/typings/course-
 import {Lesson} from '../node_modules/prendus-services/typings/lesson';
 import {Discipline} from '../node_modules/prendus-services/typings/discipline';
 import {Subject} from '../node_modules/prendus-services/typings/subject';
+import {LTIState} from '../node_modules/prendus-services/typings/lti-state';
 
 export interface State {
 	notificationType: Notification;
@@ -87,4 +88,5 @@ export interface State {
     chosenConcept: Concept;
     subjects: Subject[];
     concepts: Concept[];
+		ltiState: LTIState;
 }

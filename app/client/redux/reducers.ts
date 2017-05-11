@@ -332,6 +332,13 @@ export function rootReducer(state: State = InitialState, action: Action): State 
         };
       }
 
+      case 'SET_LTI_STATE': {
+        return {
+          ...state,
+          ltiState: action.ltiState
+        };
+      }
+
       default: {
           return state;
       }

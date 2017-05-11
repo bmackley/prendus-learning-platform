@@ -23,6 +23,7 @@ import {EmailsToUidsModel} from '../node_modules/prendus-services/models/emails-
 import {Video} from '../node_modules/prendus-services/typings/video';
 import {ExecuteAsyncInOrderService} from '../node_modules/prendus-services/services/execute-async-in-order-service';
 import {UtilitiesService} from '../node_modules/prendus-services/services/utilities-service';
+import {LTIState} from '../node_modules/prendus-services/typings/lti-state';
 
 const defaultAction = (context: any): void => {
     context.action = {
@@ -1081,6 +1082,13 @@ const reloadPublicCourses = async (context: any, courses: Course[]): Promise<voi
   }
 };
 
+const setLtiState = async (context: any, ltiState: LTIState): Promise<void> => {
+  context.action = {
+    type: 'SET_LTI_STATE',
+    ltiState
+  };
+};
+
 export const Actions = {
     defaultAction,
 		showMainSpinner,
@@ -1153,5 +1161,6 @@ export const Actions = {
     loadEditCourseLessons,
     loadViewCourseLessons,
     updateQuizDueDates,
-    reloadPublicCourses
+    reloadPublicCourses,
+    setLtiState
   };

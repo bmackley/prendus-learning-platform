@@ -12,6 +12,7 @@ import {CourseLessonData} from '../node_modules/prendus-services/typings/course-
 import {Lesson} from '../node_modules/prendus-services/typings/lesson';
 import {Discipline} from '../node_modules/prendus-services/typings/discipline';
 import {Subject} from '../node_modules/prendus-services/typings/subject';
+import {LTIState} from '../node_modules/prendus-services/typings/lti-state';
 
 export interface Action {
 	type: string;
@@ -65,4 +66,5 @@ export interface Action {
 	chosenSubject: Subject;
 	chosenConcept: Concept;
 	chosenLesson: Lesson;
+	ltiState: LTIState;
 }

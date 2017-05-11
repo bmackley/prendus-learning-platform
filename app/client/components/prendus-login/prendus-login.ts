@@ -3,6 +3,8 @@ import {rootReducer} from '../../redux/reducers';
 import {StatechangeEvent} from '../../typings/statechange-event';
 import {ConstantsService} from '../../node_modules/prendus-services/services/constants-service';
 import {FirebaseService} from '../../node_modules/prendus-services/services/firebase-service';
+import {State} from '../../typings/state';
+import {LTIState} from '../../node_modules/prendus-services/typings/lti-state';
 
 class PrendusLogin {
   public is: string;
@@ -12,6 +14,7 @@ class PrendusLogin {
   public listeners: any;
   public querySelector: any;
   public fire: any;
+  public ltiState: LTIState;
 
   beforeRegister(): void {
     this.is = 'prendus-login'
@@ -84,6 +87,11 @@ class PrendusLogin {
     }
 		this.resetPasswordEmail = '';
 		this.querySelector('#reset-password-email').invalid = false;
+  }
+
+  mapStateToThis(e: StatechangeEvent): void {
+    const state: State = e.detail.state;
+    this.ltiState = state.ltiState;
   }
 }
 
