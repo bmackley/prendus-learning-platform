@@ -5,7 +5,7 @@ import {UtilitiesService} from '../../node_modules/prendus-services/services/uti
 import {QuestionScaffold} from '../../node_modules/prendus-services/typings/question-scaffold';
 import {QuestionScaffoldAnswer} from '../../node_modules/prendus-services/typings/question-scaffold-answer';
 
-export class PrendusQuestionScaffoldExplanation {
+class PrendusQuestionScaffoldExplanation {
   public is: string;
   public properties: any;
   public myIndex: number;

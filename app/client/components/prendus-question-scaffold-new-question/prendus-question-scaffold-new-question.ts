@@ -4,7 +4,7 @@ import {Actions} from '../../redux/actions';
 import {UtilitiesService} from '../../node_modules/prendus-services/services/utilities-service';
 import {QuestionScaffold} from '../../node_modules/prendus-services/typings/question-scaffold';
 
-export class PrendusQuestionScaffoldNewQuestion {
+class PrendusQuestionScaffoldNewQuestion {
   public is: string;
   public properties: any;
   public selectedIndex: number;
