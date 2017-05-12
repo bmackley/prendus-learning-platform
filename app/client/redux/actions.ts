@@ -1107,30 +1107,10 @@ const setQuestionScaffoldExample = (currentQuestionScaffoldExample: QuestionScaf
 };
 
 const initCurrentQuestionScaffold = (numberOfAnswers: number): Action => {
-  const answers: { [currentQuestionScaffoldId: string]: QuestionScaffoldAnswer} = {};
-  //TODO is there another way to do this?
-  // This is nice because it lets you avoid null checking everywhere
-  answers['question0'] = {
-    text: '',
-    comment: '',
-    correct: true,
-    variableName: 'true'
+  return {
+    type: 'INIT_CURRENT_QUESTION_SCAFFOLD',
+    numberOfAnswers
   };
-  for(let i: number = 1; i < numberOfAnswers; i++) {
-    answers[`question${i}`] = {
-      text: '',
-      comment: '',
-      correct: false,
-      variableName: ''
-    };
-  }
-  const temp: QuestionScaffold = {
-    answers,
-    explanation: '',
-    question: ''
-  };
-
-  return setQuestionScaffold(temp);
 }
 
 const updateCurrentQuestionScaffoldComments = (comments: string[], currentQuestionScaffold: QuestionScaffold, myIndex: number, selectedIndex: number): Action => {

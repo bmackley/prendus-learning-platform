@@ -10,7 +10,6 @@ class PrendusQuestionScaffold {
   public selectedIndex: number;
   public querySelector: any;
   public disableNext: boolean;
-  public minHeight: number;
   public numberOfAnswers: number;
   public exampleQuestionScaffold: QuestionScaffold;
   public exampleQuestionScaffoldAnswers: QuestionScaffoldAnswer[];
@@ -24,7 +23,6 @@ class PrendusQuestionScaffold {
 
   async ready(): Promise<void> {
     this.selectedIndex = 0;
-    this.minHeight = 0;
     this.numberOfAnswers = 4;
 
     //TODO take this out and have one from db

@@ -79,4 +79,5 @@ export interface Action {
 	explanation?: string;
 	questionStem?: string;
 	answerText?: string;
+	numberOfAnswers?: number;
 };

@@ -558,6 +558,45 @@ export function rootReducer(state: State = InitialState, action: Action): State 
           });
         }
       }
+
+      case 'INIT_CURRENT_QUESTION_SCAFFOLD': {
+        const numberOfAnswers: number = action.numberOfAnswers;
+        
+        // Define answersArr with empty strings because Array.map won't work
+        // on an array with only undefineds
+        const answersArr: string[] = initArray([], Array(numberOfAnswers));
+        const answers: { [currentQuestionScaffoldId: string]: QuestionScaffoldAnswer} = answersArr
+        .map( (key: string, index: number): QuestionScaffoldAnswer => {
+          return {
+            text: '',
+            comment: '',
+            correct: index === 0,
+            variableName: (index === 0).toString()
+          };
+        })
+        .reduce((result: { [currentQuestionScaffoldId: string]: QuestionScaffoldAnswer}, current: QuestionScaffoldAnswer, index: number) => {
+          result[`question${index}`] = current;
+          return result;
+        }, {});
+
+        const currentQuestionScaffold: QuestionScaffold = {
+          answers,
+          explanation: '',
+          question: ''
+        };
+
+        return {
+          ...state,
+          currentQuestionScaffold
+        };
+
+        function initArray(arr: string[], arr2: string[]): string[] {
+          if (arr2.length === 0) {
+              return arr;
+          }
+          return initArray([...arr, ''], arr2.slice(1));
+        }
+      }
       default: {
           return state;
       }
