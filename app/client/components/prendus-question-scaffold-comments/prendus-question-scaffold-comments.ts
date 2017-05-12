@@ -11,7 +11,6 @@ class PrendusQuestionScaffoldComments {
   public properties: any;
   public myIndex: number;
   public selectedIndex: number;
-  public questionStem: string;
   public currentQuestionScaffold: QuestionScaffold;
   public querySelector: any;
   public answers: QuestionScaffoldAnswer[];
