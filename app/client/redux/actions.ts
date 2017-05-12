@@ -1195,6 +1195,16 @@ const setDisableNextOnExamplePage = (myIndex: number, selectedIndex: number): Ac
     selectedIndex
   };
 };
+
+const updateQuestionScaffoldExplanation = (myIndex: number, selectedIndex: number, currentQuestionScaffold: QuestionScaffold, explanation: string): Action => {
+  return {
+    type: 'UPDATE_CURRENT_QUESTION_SCAFFOLD_EXPLANATION',
+    myIndex,
+    selectedIndex,
+    currentQuestionScaffold,
+    explanation
+  };
+};
 export const Actions = {
     defaultAction,
 		showMainSpinner,
@@ -1275,5 +1285,6 @@ export const Actions = {
     updateCurrentQuestionScaffoldComments,
     updateCurrentQuestionScaffoldDistractors,
     updateCurrentQuestionScaffoldAnswers,
-    setDisableNextOnExamplePage
+    setDisableNextOnExamplePage,
+    updateQuestionScaffoldExplanation
   };

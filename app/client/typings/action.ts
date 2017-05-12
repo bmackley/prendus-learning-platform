@@ -76,4 +76,5 @@ export interface Action {
 	selectedIndex?: number;
 	myIndex?: number;
 	answers?: string[];
+	explanation?: string;
 };

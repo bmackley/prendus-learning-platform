@@ -4,6 +4,7 @@ import {Actions} from '../../redux/actions';
 import {UtilitiesService} from '../../node_modules/prendus-services/services/utilities-service';
 import {QuestionScaffold} from '../../node_modules/prendus-services/typings/question-scaffold';
 import {QuestionScaffoldAnswer} from '../../node_modules/prendus-services/typings/question-scaffold-answer';
+import {Action} from '../../typings/action';
 
 class PrendusQuestionScaffoldExplanation {
   public is: string;
@@ -13,6 +14,8 @@ class PrendusQuestionScaffoldExplanation {
   public querySelector: any;
   public currentQuestionScaffold: QuestionScaffold;
   public answers: QuestionScaffoldAnswer[];
+  public action: Action;
+
   beforeRegister(): void {
     this.is = 'prendus-question-scaffold-explanation';
     this.properties = {
@@ -27,17 +30,7 @@ class PrendusQuestionScaffoldExplanation {
   }
 
   disableNext(): void {
-    if(this.myIndex !== undefined && this.selectedIndex !== undefined && this.myIndex === this.selectedIndex) {
-      const explanation: string = this.querySelector('#explanation').value;
-      const isDefined: boolean = UtilitiesService.isDefinedAndNotEmpty(explanation);
-      Actions.setDisabledNext(this, !isDefined);
-      if(isDefined) {
-        Actions.setQuestionScaffold(this, {
-          ...this.currentQuestionScaffold,
-          explanation
-        });
-      }
-    }
+    this.action = Actions.updateQuestionScaffoldExplanation(this.myIndex, this.selectedIndex, this.currentQuestionScaffold, this.querySelector('#explanation') ? this.querySelector('#explanation').value : undefined);
   }
 
 	mapStateToThis(e: StatechangeEvent): void {

@@ -359,33 +359,16 @@ export function rootReducer(state: State = InitialState, action: Action): State 
       }
 
       case 'UPDATE_CURRENT_QUESTION_SCAFFOLD_COMMENTS': {
-        const questionScaffold: QuestionScaffold = action.currentQuestionScaffold;
-        const comments: string[] = action.comments;
         const selectedIndex: number = action.selectedIndex;
         const myIndex: number = action.myIndex;
         if(selectedIndex !== undefined && myIndex !== undefined && selectedIndex === myIndex) {
+          const questionScaffold: QuestionScaffold = action.currentQuestionScaffold;
+          const comments: string[] = action.comments;
           const isDefined: boolean = UtilitiesService.isDefinedAndNotEmpty(comments);
-          const answers: { [questionScaffoldAnswerId: string]: QuestionScaffoldAnswer } = Object.keys(questionScaffold.answers || {})
-          // update comments
-          .map((key: string, index: number) => {
-            return {
-              ...questionScaffold.answers[key],
-              comment: comments[index]
-            };
-          })
-          // convert back to object
-          .reduce((result: { [questionScaffoldAnswerId: string]: QuestionScaffoldAnswer }, current: QuestionScaffoldAnswer, index: number) => {
-            result[`question${index}`] = current;
-            return result;
-          }, {});
+          const answers: { [questionScaffoldAnswerId: string]: QuestionScaffoldAnswer } = getAnswers(questionScaffold, comments);
 
           const disableNext: boolean = !isDefined;
-          const questionScaffoldAnswers: QuestionScaffoldAnswer[] = Object.keys(questionScaffold.answers || {}).map((key) => {
-              return {
-                ...questionScaffold.answers[key],
-                id: key
-              };
-          });
+          const questionScaffoldAnswers: QuestionScaffoldAnswer[] = getQuestionScaffoldAnswers(questionScaffold);
 
           return {
             ...state,
@@ -398,6 +381,31 @@ export function rootReducer(state: State = InitialState, action: Action): State 
           };
         } else {
           return state;
+        }
+
+        function getAnswers(questionScaffold: QuestionScaffold, comments: string[]): { [questionScaffoldAnswerId: string]: QuestionScaffoldAnswer } {
+          return Object.keys(questionScaffold.answers || {})
+          // update comments
+          .map((key: string, index: number) => {
+            return {
+              ...questionScaffold.answers[key],
+              comment: comments[index]
+            };
+          })
+          // convert back to object
+          .reduce((result: { [questionScaffoldAnswerId: string]: QuestionScaffoldAnswer }, current: QuestionScaffoldAnswer, index: number) => {
+            result[`question${index}`] = current;
+            return result;
+          }, {});
+        }
+
+        function getQuestionScaffoldAnswers(questionScaffold: QuestionScaffold): QuestionScaffoldAnswer[] {
+          return Object.keys(questionScaffold.answers || {}).map((key) => {
+              return {
+                ...questionScaffold.answers[key],
+                id: key
+              };
+          });
         }
       }
 
@@ -462,6 +470,26 @@ export function rootReducer(state: State = InitialState, action: Action): State 
         }
       }
 
+      case 'UPDATE_CURRENT_QUESTION_SCAFFOLD_EXPLANATION': {
+        const myIndex: number = action.myIndex;
+        const selectedIndex: number = action.selectedIndex;
+        if(myIndex !== undefined && selectedIndex !== undefined && myIndex === selectedIndex) {
+          const currentQuestionScaffold: QuestionScaffold = action.currentQuestionScaffold;
+          const explanation: string = action.explanation;
+          const isDefined: boolean = UtilitiesService.isDefinedAndNotEmpty(explanation);
+          return {
+            ...state,
+            currentQuestionScaffold: {
+              ...currentQuestionScaffold,
+              explanation
+            },
+            disableNext: !isDefined
+          }
+        } else {
+          return state;
+        }
+
+      }
       default: {
           return state;
       }
