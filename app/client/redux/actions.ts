@@ -1167,27 +1167,6 @@ const updateCurrentQuestionScaffoldDistractors = (answers: string[], currentQues
   };
 };
 
-const updateCurrentQuestionScaffoldAnswers = (context: any, answersArr: string[], questionScaffold: QuestionScaffold): void => {
-  const answers: { [questionScaffoldId: string]: QuestionScaffoldAnswer } = Object.keys(questionScaffold.answers || {})
-    // update the text value for each distractor
-    .map((key: string, index: number) => {
-      return {
-        ...questionScaffold.answers[key],
-        text: answersArr[index]
-      };
-    })
-    // convert back to object
-    .reduce((result: { [questionScaffoldAnswerId: string]: QuestionScaffoldAnswer }, current: QuestionScaffoldAnswer, index: number) => {
-      result[`question${index}`] = current;
-      return result;
-    }, {});
-
-    setQuestionScaffold(context, {
-      ...questionScaffold,
-      answers
-    });
-};
-
 const setDisableNextOnExamplePage = (myIndex: number, selectedIndex: number): Action => {
   return {
     type: 'SET_DISABLED_NEXT_ON_EXAMPLE_PAGE',
@@ -1196,7 +1175,7 @@ const setDisableNextOnExamplePage = (myIndex: number, selectedIndex: number): Ac
   };
 };
 
-const updateQuestionScaffoldExplanation = (myIndex: number, selectedIndex: number, currentQuestionScaffold: QuestionScaffold, explanation: string): Action => {
+const updateCurrentQuestionScaffoldExplanation = (myIndex: number, selectedIndex: number, currentQuestionScaffold: QuestionScaffold, explanation: string): Action => {
   return {
     type: 'UPDATE_CURRENT_QUESTION_SCAFFOLD_EXPLANATION',
     myIndex,
@@ -1205,86 +1184,98 @@ const updateQuestionScaffoldExplanation = (myIndex: number, selectedIndex: numbe
     explanation
   };
 };
-export const Actions = {
-    defaultAction,
-		showMainSpinner,
-		hideMainSpinner,
-		showNotification,
-    loginUser,
-    checkUserAuth,
-		loadCurrentUser,
-		loadTeachers,
-    deleteLesson,
-    orderLessons,
-    addLesson,
-    createUser,
-    logOutUser,
-    updateUserEmail,
-		setUserType,
-    updateUserMetaData,
-    loadEditLessonVideos,
-    loadViewLessonVideos,
-    setCurrentVideoInfo,
-    saveVideo,
-    clearCurrentVideoInfo,
-    deleteVideo,
-    addCourse,
-    deleteCourse,
-    deleteTagFromCourse,
-    // addTagToCourse,
-    getCoursesByUser,
-    getCoursesByVisibility,
-    loadUserQuestionIds,
-    addQuestionToQuiz,
-    loadQuizQuestionIds,
-		loadQuizQuestionsData,
-		setQuizQuestionsData,
-    removeQuestionFromQuiz,
-    setQuizQuestionSetting,
-    setQuestionSetting,
-    loadQuizQuestionSettings,
-    setCurrentEditQuizId,
-    loadEditLessonQuizzes,
-    loadViewLessonQuizzes,
-    createNewQuiz,
-    deleteQuiz,
-    getQuiz,
-    getCourseViewCourseById,
-    updateLessonTags,
-    updateLessonTitle,
-    getLessonAndTagNamesById,
-    getLessonById,
-    resolveTagIdObject,
-    loadPublicQuestionIds,
-    starCourse,
-    unstarCourse,
-    getStarredCoursesByUser,
-    addQuizCollaborator,
-    loadQuizCollaboratorEmails,
-    removeQuizCollaborator,
-    getSharedCoursesByUser,
-    loadCourseCollaboratorEmails,
-    loadLessonCollaboratorEmails,
-    loadVideoCollaboratorEmails,
-    addCourseCollaborator,
-    // lookupLessonTags,
-    addLessonCollaborator,
-    addVideoCollaborator,
-    removeCourseCollaborator,
-    removeLessonCollaborator,
-    removeVideoCollaborator,
-    updateCourseField,
-    loadEditCourseLessons,
-    loadViewCourseLessons,
-    updateQuizDueDates,
-    reloadPublicCourses,
-    setDisabledNext,
-    setQuestionScaffold,
-    setQuestionScaffoldExample,
-    initCurrentQuestionScaffold,
-    updateCurrentQuestionScaffoldComments,
-    updateCurrentQuestionScaffoldDistractors,
-    updateCurrentQuestionScaffoldAnswers,
-    setDisableNextOnExamplePage,
-    updateQuestionScaffoldExplanation
+
+const newCurrentQuestionScaffold = (myIndex: number, selectedIndex: number, questionStem: string, answerText: string, currentQuestionScaffold: QuestionScaffold): Action => {
+  return {
+    type: 'SET_NEW_CURRENT_QUESTION_SCAFFOLD',
+    myIndex,
+    selectedIndex,
+    questionStem,
+    answerText,
+    currentQuestionScaffold
   };
+};
+
+export const Actions = {
+  defaultAction,
+	showMainSpinner,
+	hideMainSpinner,
+	showNotification,
+  loginUser,
+  checkUserAuth,
+	loadCurrentUser,
+	loadTeachers,
+  deleteLesson,
+  orderLessons,
+  addLesson,
+  createUser,
+  logOutUser,
+  updateUserEmail,
+	setUserType,
+  updateUserMetaData,
+  loadEditLessonVideos,
+  loadViewLessonVideos,
+  setCurrentVideoInfo,
+  saveVideo,
+  clearCurrentVideoInfo,
+  deleteVideo,
+  addCourse,
+  deleteCourse,
+  deleteTagFromCourse,
+  // addTagToCourse,
+  getCoursesByUser,
+  getCoursesByVisibility,
+  loadUserQuestionIds,
+  addQuestionToQuiz,
+  loadQuizQuestionIds,
+	loadQuizQuestionsData,
+	setQuizQuestionsData,
+  removeQuestionFromQuiz,
+  setQuizQuestionSetting,
+  setQuestionSetting,
+  loadQuizQuestionSettings,
+  setCurrentEditQuizId,
+  loadEditLessonQuizzes,
+  loadViewLessonQuizzes,
+  createNewQuiz,
+  deleteQuiz,
+  getQuiz,
+  getCourseViewCourseById,
+  updateLessonTags,
+  updateLessonTitle,
+  getLessonAndTagNamesById,
+  getLessonById,
+  resolveTagIdObject,
+  loadPublicQuestionIds,
+  starCourse,
+  unstarCourse,
+  getStarredCoursesByUser,
+  addQuizCollaborator,
+  loadQuizCollaboratorEmails,
+  removeQuizCollaborator,
+  getSharedCoursesByUser,
+  loadCourseCollaboratorEmails,
+  loadLessonCollaboratorEmails,
+  loadVideoCollaboratorEmails,
+  addCourseCollaborator,
+  // lookupLessonTags,
+  addLessonCollaborator,
+  addVideoCollaborator,
+  removeCourseCollaborator,
+  removeLessonCollaborator,
+  removeVideoCollaborator,
+  updateCourseField,
+  loadEditCourseLessons,
+  loadViewCourseLessons,
+  updateQuizDueDates,
+  reloadPublicCourses,
+  setDisabledNext,
+  setQuestionScaffold,
+  setQuestionScaffoldExample,
+  initCurrentQuestionScaffold,
+  updateCurrentQuestionScaffoldComments,
+  updateCurrentQuestionScaffoldDistractors,
+  setDisableNextOnExamplePage,
+  updateCurrentQuestionScaffoldExplanation,
+  newCurrentQuestionScaffold
+};

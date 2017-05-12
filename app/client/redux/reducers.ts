@@ -1,5 +1,4 @@
 import {InitialState} from './initial-state';
-import {Actions} from './actions';
 import {State} from '../typings/state';
 import {Action} from '../typings/action';
 import {Quiz} from '../node_modules/prendus-services/typings/quiz';
@@ -489,6 +488,51 @@ export function rootReducer(state: State = InitialState, action: Action): State 
           return state;
         }
 
+      }
+
+      case 'SET_NEW_CURRENT_QUESTION_SCAFFOLD': {
+        const myIndex: number = action.myIndex;
+        const selectedIndex: number = action.selectedIndex;
+        if(myIndex !== undefined && selectedIndex !== undefined && myIndex === selectedIndex) {
+          const questionStem: string = action.questionStem;
+          const answerText: string = action.answerText;
+          const isDefined: boolean = UtilitiesService.isDefinedAndNotEmpty([questionStem, answerText]);
+          const currentQuestionScaffold: QuestionScaffold = getCurrentQuestionScaffold(action, answerText, questionStem);
+          const questionScaffoldAnswers: QuestionScaffoldAnswer[] = getQuestionScaffoldAnswers(currentQuestionScaffold);
+          return {
+            ...state,
+            currentQuestionScaffold,
+            questionScaffoldAnswers,
+            disableNext: !isDefined
+          };
+        } else {
+          return state;
+        }
+
+        function getCurrentQuestionScaffold(action: Action, text: string, question: string): QuestionScaffold {
+          return {
+            ...action.currentQuestionScaffold,
+            answers: {
+              ...action.currentQuestionScaffold.answers,
+              'question0': {
+                ...action.currentQuestionScaffold.answers['question0'],
+                text,
+                correct: true,
+                variableName: 'true'
+              }
+            },
+            question
+          };
+        }
+
+        function getQuestionScaffoldAnswers(questionScaffold: QuestionScaffold): QuestionScaffoldAnswer[] {
+          return Object.keys(questionScaffold.answers || {}).map((key) => {
+              return {
+                ...questionScaffold.answers[key],
+                id: key
+              };
+          });
+        }
       }
       default: {
           return state;
