@@ -30,7 +30,7 @@ class PrendusQuestionScaffoldExplanation {
   }
 
   disableNext(): void {
-    this.action = Actions.updateQuestionScaffoldExplanation(this.myIndex, this.selectedIndex, this.currentQuestionScaffold, this.querySelector('#explanation') ? this.querySelector('#explanation').value : undefined);
+    this.action = Actions.updateQuestionScaffoldExplanation(this.myIndex, this.selectedIndex, this.currentQuestionScaffold, this.querySelector('#explanation') ? this.querySelector('#explanation').value : null);
   }
 
 	mapStateToThis(e: StatechangeEvent): void {
