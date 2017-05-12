@@ -1155,7 +1155,8 @@ const updateCurrentQuestionScaffoldComments = (comments: string[], currentQuesti
     myIndex,
     selectedIndex
   };
-}
+};
+
 const updateCurrentQuestionScaffoldDistractors = (answers: string[], currentQuestionScaffold: QuestionScaffold, myIndex: number, selectedIndex: number): Action => {
   return {
     type: 'UPDATE_CURRENT_QUESTION_SCAFFOLD_DISTRACTORS',
@@ -1165,6 +1166,7 @@ const updateCurrentQuestionScaffoldDistractors = (answers: string[], currentQues
     selectedIndex
   };
 };
+
 const updateCurrentQuestionScaffoldAnswers = (context: any, answersArr: string[], questionScaffold: QuestionScaffold): void => {
   const answers: { [questionScaffoldId: string]: QuestionScaffoldAnswer } = Object.keys(questionScaffold.answers || {})
     // update the text value for each distractor
@@ -1186,6 +1188,13 @@ const updateCurrentQuestionScaffoldAnswers = (context: any, answersArr: string[]
     });
 };
 
+const setDisableNextOnExamplePage = (myIndex: number, selectedIndex: number): Action => {
+  return {
+    type: 'SET_DISABLED_NEXT_ON_EXAMPLE_PAGE',
+    myIndex,
+    selectedIndex
+  };
+};
 export const Actions = {
     defaultAction,
 		showMainSpinner,
@@ -1265,5 +1274,6 @@ export const Actions = {
     initCurrentQuestionScaffold,
     updateCurrentQuestionScaffoldComments,
     updateCurrentQuestionScaffoldDistractors,
-    updateCurrentQuestionScaffoldAnswers
+    updateCurrentQuestionScaffoldAnswers,
+    setDisableNextOnExamplePage
   };

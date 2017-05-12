@@ -448,6 +448,20 @@ export function rootReducer(state: State = InitialState, action: Action): State 
           });
         }
       }
+
+      case 'SET_DISABLED_NEXT_ON_EXAMPLE_PAGE': {
+        const myIndex: number = action.myIndex;
+        const selectedIndex: number = action.selectedIndex;
+        if(myIndex !== undefined && selectedIndex !== undefined && myIndex === selectedIndex) {
+          return {
+            ...state,
+            disableNext: false
+          };
+        } else {
+          return state;
+        }
+      }
+
       default: {
           return state;
       }

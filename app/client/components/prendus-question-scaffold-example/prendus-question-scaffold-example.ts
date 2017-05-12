@@ -3,6 +3,8 @@ import {State} from '../../typings/state';
 import {Actions} from '../../redux/actions';
 import {QuestionScaffoldAnswer} from '../../node_modules/prendus-services/typings/question-scaffold-answer';
 import {QuestionScaffold} from '../../node_modules/prendus-services/typings/question-scaffold';
+import {Action} from '../../typings/action';
+
 export class PrendusQuestionScaffoldExample {
   public is: string;
   /**
@@ -16,6 +18,8 @@ export class PrendusQuestionScaffoldExample {
    * Passed in as a property
    */
   public questionScaffold: QuestionScaffold;
+  public action: Action;
+
   beforeRegister(): void {
     this.is = 'prendus-question-scaffold-example' ;
     this.properties = {
@@ -36,9 +40,7 @@ export class PrendusQuestionScaffoldExample {
   }
 
   disableNext(): void {
-    if(this.myIndex !== undefined && this.selectedIndex !== undefined && this.myIndex === this.selectedIndex) {
-      Actions.setDisabledNext(this, false);
-    }
+    this.action = Actions.setDisableNextOnExamplePage(this.myIndex, this.selectedIndex);
   }
 
 	mapStateToThis(e: StatechangeEvent): void {
