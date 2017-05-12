@@ -1148,7 +1148,7 @@ const initCurrentQuestionScaffold = (context: any, numberOfAnswers: number): voi
 }
 
 const updateCurrentQuestionScaffoldComments = (comments: string[], currentQuestionScaffold: QuestionScaffold, myIndex: number, selectedIndex: number): Action => {
-    return {
+  return {
     type: 'UPDATE_CURRENT_QUESTION_SCAFFOLD_COMMENTS',
     currentQuestionScaffold,
     comments,
@@ -1156,7 +1156,15 @@ const updateCurrentQuestionScaffoldComments = (comments: string[], currentQuesti
     selectedIndex
   };
 }
-
+const updateCurrentQuestionScaffoldDistractors = (answers: string[], currentQuestionScaffold: QuestionScaffold, myIndex: number, selectedIndex: number): Action => {
+  return {
+    type: 'UPDATE_CURRENT_QUESTION_SCAFFOLD_DISTRACTORS',
+    answers,
+    currentQuestionScaffold,
+    myIndex,
+    selectedIndex
+  };
+};
 const updateCurrentQuestionScaffoldAnswers = (context: any, answersArr: string[], questionScaffold: QuestionScaffold): void => {
   const answers: { [questionScaffoldId: string]: QuestionScaffoldAnswer } = Object.keys(questionScaffold.answers || {})
     // update the text value for each distractor
@@ -1256,5 +1264,6 @@ export const Actions = {
     setQuestionScaffoldExample,
     initCurrentQuestionScaffold,
     updateCurrentQuestionScaffoldComments,
+    updateCurrentQuestionScaffoldDistractors,
     updateCurrentQuestionScaffoldAnswers
   };

@@ -75,4 +75,5 @@ export interface Action {
 	comments?: string[];
 	selectedIndex?: number;
 	myIndex?: number;
+	answers?: string[];
 };

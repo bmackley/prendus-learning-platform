@@ -4,6 +4,7 @@ import {Actions} from '../../redux/actions';
 import {UtilitiesService} from '../../node_modules/prendus-services/services/utilities-service';
 import {QuestionScaffold} from '../../node_modules/prendus-services/typings/question-scaffold';
 import {QuestionScaffoldAnswer} from '../../node_modules/prendus-services/typings/question-scaffold-answer';
+import {Action} from '../../typings/action';
 
 class PrendusQuestionScaffoldDistractors {
   public is: string;
@@ -15,6 +16,7 @@ class PrendusQuestionScaffoldDistractors {
   public answer: string;
   public numberOfAnswers: number;
   public distractors: any[];
+  public action: Action;
 
   beforeRegister(): void {
     this.is = 'prendus-question-scaffold-distractors';
@@ -44,19 +46,17 @@ class PrendusQuestionScaffoldDistractors {
 
   disableNext(): void {
     try {
-      if(this.myIndex !== undefined && this.selectedIndex !== undefined && this.selectedIndex === this.myIndex) {
-        const distractors: string[] = Object.keys(this.currentQuestionScaffold.answers || {}).map((key: string, index: number) => {
-          return this.querySelector(`#distractor${index}`).value;
-        });
-        const isDefined: boolean = UtilitiesService.isDefinedAndNotEmpty(distractors);
-
-        if(isDefined) {
-          Actions.updateCurrentQuestionScaffoldAnswers(this, distractors, this.currentQuestionScaffold);
-        }
-        Actions.setDisabledNext(this, !isDefined);
-      }
+      const distractors: string[] = getDistractors.bind(this)();
+      this.action = Actions.updateCurrentQuestionScaffoldDistractors(distractors, this.currentQuestionScaffold, this.myIndex, this.selectedIndex);
     } catch(error) {
       console.error(error);
+    }
+
+    function getDistractors(): string[] {
+      return Object.keys(this.currentQuestionScaffold ? this.currentQuestionScaffold.answers : {}).map((key: string, index: number) => {
+        const id: string = `#distractor${index}`;
+        return this.querySelector(id) ? this.querySelector(id).value : null;
+      });
     }
   }
 

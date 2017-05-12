@@ -400,6 +400,46 @@ export function rootReducer(state: State = InitialState, action: Action): State 
           return state;
         }
       }
+
+      case 'UPDATE_CURRENT_QUESTION_SCAFFOLD_DISTRACTORS': {
+        const questionScaffold: QuestionScaffold = action.currentQuestionScaffold;
+        const myIndex: number = action.myIndex;
+        const selectedIndex: number = action.selectedIndex;
+        if(myIndex !== undefined && selectedIndex !== undefined && myIndex === selectedIndex) {
+          const isDefined: boolean = UtilitiesService.isDefinedAndNotEmpty(action.answers);
+          const answers: { [questionScaffoldId: string]: QuestionScaffoldAnswer } = (action.answers || [])
+          // update the text value for each distractor
+          .map((key: string, index: number) => {
+            return {
+              ...questionScaffold.answers[key],
+              text: action.answers[index]
+            };
+          })
+          // convert back to object
+          .reduce((result: { [questionScaffoldAnswerId: string]: QuestionScaffoldAnswer }, current: QuestionScaffoldAnswer, index: number) => {
+            result[`question${index}`] = current;
+            return result;
+          }, {});
+          const questionScaffoldAnswers: QuestionScaffoldAnswer[] = Object.keys(questionScaffold.answers || {}).map((key) => {
+              return {
+                ...questionScaffold.answers[key],
+                id: key
+              };
+          });
+
+          return {
+            ...state,
+            currentQuestionScaffold: {
+              ...questionScaffold,
+              answers
+            },
+            questionScaffoldAnswers,
+            disableNext: !isDefined
+          };
+        } else {
+          return state;
+        }
+      }
       default: {
           return state;
       }
