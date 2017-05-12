@@ -1084,44 +1084,29 @@ const reloadPublicCourses = async (context: any, courses: Course[]): Promise<voi
   }
 };
 
-const setDisabledNext = (context: any, disableNext: boolean): void => {
-  context.action = {
+const setDisabledNext = (disableNext: boolean): Action => {
+  return {
     type: 'SET_DISABLED_NEXT',
     disableNext
   };
 };
 
-const setQuestionScaffold = (context: any, currentQuestionScaffold: QuestionScaffold): void => {
-  const questionScaffoldAnswers: QuestionScaffoldAnswer[] = Object.keys(currentQuestionScaffold.answers || {}).map((key) => {
-      return {
-        ...currentQuestionScaffold.answers[key],
-        id: key
-      };
-  });
-
-  context.action = {
+const setQuestionScaffold = (currentQuestionScaffold: QuestionScaffold): Action => {
+  return {
     type: 'SET_CURRENT_QUESTION_SCAFFOLD',
-    currentQuestionScaffold,
-    questionScaffoldAnswers
+    currentQuestionScaffold
   };
 };
 
-const setQuestionScaffoldExample = (context: any, currentQuestionScaffoldExample: QuestionScaffold): void => {
-  const exampleQuestionScaffoldAnswers: QuestionScaffoldAnswer[] = Object.keys(currentQuestionScaffoldExample.answers || {}).map((key) => {
-      return {
-        ...currentQuestionScaffoldExample.answers[key],
-        id: key
-      };
-  });
-
-  context.action = {
+const setQuestionScaffoldExample = (currentQuestionScaffoldExample: QuestionScaffold): Action => {
+  return {
     type: 'SET_CURRENT_QUESTION_SCAFFOLD_EXAMPLE',
     currentQuestionScaffoldExample,
-    exampleQuestionScaffoldAnswers
-  }
+    disableNext: false
+  };
 };
 
-const initCurrentQuestionScaffold = (context: any, numberOfAnswers: number): void => {
+const initCurrentQuestionScaffold = (numberOfAnswers: number): Action => {
   const answers: { [currentQuestionScaffoldId: string]: QuestionScaffoldAnswer} = {};
   //TODO is there another way to do this?
   // This is nice because it lets you avoid null checking everywhere
@@ -1144,7 +1129,8 @@ const initCurrentQuestionScaffold = (context: any, numberOfAnswers: number): voi
     explanation: '',
     question: ''
   };
-  setQuestionScaffold(context, temp);
+
+  return setQuestionScaffold(temp);
 }
 
 const updateCurrentQuestionScaffoldComments = (comments: string[], currentQuestionScaffold: QuestionScaffold, myIndex: number, selectedIndex: number): Action => {

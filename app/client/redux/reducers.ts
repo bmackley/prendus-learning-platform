@@ -342,19 +342,43 @@ export function rootReducer(state: State = InitialState, action: Action): State 
       }
 
       case 'SET_CURRENT_QUESTION_SCAFFOLD': {
+        const currentQuestionScaffold: QuestionScaffold = action.currentQuestionScaffold;
+        const questionScaffoldAnswers: QuestionScaffoldAnswer[] = getQuestionScaffoldAnswers(currentQuestionScaffold);
         return {
           ...state,
-          currentQuestionScaffold: action.currentQuestionScaffold,
-          questionScaffoldAnswers: action.questionScaffoldAnswers
+          currentQuestionScaffold,
+          questionScaffoldAnswers
         };
+
+        function getQuestionScaffoldAnswers(questionScaffold: QuestionScaffold): QuestionScaffoldAnswer[] {
+          return Object.keys(questionScaffold.answers || {}).map((key) => {
+              return {
+                ...questionScaffold.answers[key],
+                id: key
+              };
+          });
+        }
       }
 
       case 'SET_CURRENT_QUESTION_SCAFFOLD_EXAMPLE': {
+        const currentQuestionScaffoldExample: QuestionScaffold = action.currentQuestionScaffoldExample;
+        const exampleQuestionScaffoldAnswers: QuestionScaffoldAnswer[] = getExampleQuestionScaffoldAnswers(currentQuestionScaffoldExample);
+        const disableNext: boolean = action.disableNext;
         return {
           ...state,
-          currentQuestionScaffoldExample: action.currentQuestionScaffoldExample,
-          exampleQuestionScaffoldAnswers: action.exampleQuestionScaffoldAnswers
+          currentQuestionScaffoldExample,
+          exampleQuestionScaffoldAnswers,
+          disableNext
         };
+
+        function getExampleQuestionScaffoldAnswers(questionScaffold: QuestionScaffold): QuestionScaffoldAnswer[] {
+          return Object.keys(currentQuestionScaffoldExample.answers || {}).map((key) => {
+              return {
+                ...currentQuestionScaffoldExample.answers[key],
+                id: key
+              };
+          });
+        }
       }
 
       case 'UPDATE_CURRENT_QUESTION_SCAFFOLD_COMMENTS': {

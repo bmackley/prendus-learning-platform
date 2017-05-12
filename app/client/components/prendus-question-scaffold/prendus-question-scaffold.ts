@@ -3,6 +3,7 @@ import {State} from '../../typings/state';
 import {Actions} from '../../redux/actions';
 import {QuestionScaffold} from '../../node_modules/prendus-services/typings/question-scaffold';
 import {QuestionScaffoldAnswer} from '../../node_modules/prendus-services/typings/question-scaffold-answer';
+import {Action} from '../../typings/action';
 
 class PrendusQuestionScaffold {
   public is: string;
@@ -15,6 +16,7 @@ class PrendusQuestionScaffold {
   public exampleQuestionScaffoldAnswers: QuestionScaffoldAnswer[];
   public questionScaffold: QuestionScaffold;
   public questionScaffoldAnswers: QuestionScaffoldAnswer[];
+  public action: Action;
 
   beforeRegister(): void {
     this.is = 'prendus-question-scaffold';
@@ -24,7 +26,6 @@ class PrendusQuestionScaffold {
     this.selectedIndex = 0;
     this.minHeight = 0;
     this.numberOfAnswers = 4;
-    Actions.setDisabledNext(this, false);
 
     //TODO take this out and have one from db
     const answers: { [questionScaffoldAnswerId: string]: QuestionScaffoldAnswer; } = {
@@ -56,14 +57,13 @@ class PrendusQuestionScaffold {
       question: 'How many neutrons are in 45 grams of Oxygen gas?'
     };
 
-    Actions.setQuestionScaffoldExample(this, temp);
+    this.action = Actions.setQuestionScaffoldExample(temp);
   }
 
   /**
    * Called when you press back
    */
   back(): void {
-    this.setHeight();
     --this.selectedIndex;
   }
 
@@ -71,21 +71,11 @@ class PrendusQuestionScaffold {
    * Called when you press next
    */
   next(): void {
-    this.setHeight();
     ++this.selectedIndex;
     if(this.selectedIndex === this.querySelector('#iron-pages').items.length - 1) {
       // Reached the limit.
-      Actions.setDisabledNext(this, true);
+      this.action = Actions.setDisabledNext(true);
     }
-  }
-
-  //TODO decide on whether or not to keep height the same and how we should do it..
-  setHeight(): void {
-    const height: number = this.querySelector('.page').clientHeight;
-    if(height > this.minHeight) {
-      this.minHeight = height;
-    }
-    // this.querySelector('.page').style.minHeight = this.minHeight + 'px';
   }
 
 	mapStateToThis(e: StatechangeEvent): void {

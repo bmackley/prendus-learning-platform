@@ -35,7 +35,7 @@ class PrendusQuestionScaffoldNewQuestion {
    * Called when numberOfAnswers is set
    */
   initCurrentQuestionScaffold(): void {
-    Actions.initCurrentQuestionScaffold(this, this.numberOfAnswers);
+    this.action = Actions.initCurrentQuestionScaffold(this.numberOfAnswers);
   }
   /**
    * Checks if the question and answer have been entered and aren't empty and if
@@ -43,29 +43,6 @@ class PrendusQuestionScaffoldNewQuestion {
    */
   disableNext(e: any): void {
     this.action = Actions.newCurrentQuestionScaffold(this.myIndex, this.selectedIndex, this.querySelector('#question') ? this.querySelector('#question').value : null, this.querySelector('#answer') ? this.querySelector('#answer').value : null, this.currentQuestionScaffold);
-    // if(this.myIndex !== undefined && this.selectedIndex !== undefined && this.selectedIndex === this.myIndex) {
-    //   const question: string = this.querySelector('#question').value;
-    //   const text: string = this.querySelector('#answer').value;
-    //   const isDefined: boolean = UtilitiesService.isDefinedAndNotEmpty([question, text]);
-    //   if(isDefined) {
-    //     Actions.setQuestionScaffold(this, {
-    //       ...this.currentQuestionScaffold,
-    //       answers: {
-    //         ...this.currentQuestionScaffold.answers,
-    //         'question0': {
-    //           ...this.currentQuestionScaffold.answers['question0'],
-    //           text,
-    //           correct: true,
-    //           variableName: 'true'
-    //         }
-    //       },
-    //       question
-    //     });
-    //   }
-    //
-    //   Actions.setDisabledNext(this, !isDefined);
-    // }
-
   }
 
 
