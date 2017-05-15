@@ -6,6 +6,7 @@ import {StatechangeEvent} from '../../typings/statechange-event';
 import {LTIState} from '../../node_modules/prendus-services/typings/lti-state';
 import {Action} from '../../typings/action';
 import {QuizOrigin} from '../../node_modules/prendus-services/typings/quiz-origin';
+import {UtilitiesService} from '../../node_modules/prendus-services/services/utilities-service';
 
 class PrendusViewQuizRouter {
     public is: string;
@@ -52,8 +53,6 @@ class PrendusViewQuizRouter {
 
 		async updateEditAccess(data: any) {
       this.querySelector('#sign-up-dialog').open();
-      console.log('data ', data)
-
       this.quizOrigin = data.quizOrigin;
       if(this.quizOrigin === 'LTI') {
         const ltiState: LTIState = {
@@ -66,11 +65,24 @@ class PrendusViewQuizRouter {
           userFullName: data.userFullName,
           userId: data.userId
         };
+        fetch(`${UtilitiesService.getPrendusServerEndpointDomain()}/api/user/getByLtiId`, {
+          method: 'post',
+          headers: {
+            'Content-type': 'application/x-www-form-urlencoded; charset=UTF-8'
+          },
+          body: UtilitiesService.prepareUrl({ltiId: ltiState.userId}, false)
+        }).then((response) => {
+          return response.json();
+        }).then((data: any) => {
+          console.log('success ', data)
+        }).catch((error: string) => {
+          console.error('request failed ', error)
+
+        });
         this.userId = data.userId;
         this.consumerKey = data.consumerKey;
         this.action = Actions.setLtiState(ltiState);
       }
-      console.log('this.quizOrigin ', this.quizOrigin);
       const quiz: Quiz = await Actions.getQuiz(data.quizId);
 			this.hasEditAccess = this.uid === quiz.uid;
       this.userEmail = data.userEmail;

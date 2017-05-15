@@ -89,10 +89,9 @@ class PrendusCreateAccount {
             email: this.email,
             firstName: '',
             lastName: '',
-            institution: '',
-            ltiId: this.ltiState ? this.ltiState.userId : null
+            institution: ''
       	};
-        await Actions.createUser(this, this.userType, userMetaData, this.password);
+        await Actions.createUser(this.userType, userMetaData, this.password, this.ltiState ? this.ltiState.userId : null);
 
         // TODO decide on way to show a confirmation
         this.querySelector('#email-confirmation-dialog').open();
