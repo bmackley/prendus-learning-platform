@@ -1,0 +1,144 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/prendus-styles/prendus-styles.html">
+<link rel="import" href="../../bower_components/iron-pages/iron-pages.html">
+<link rel="import" href="../../bower_components/redux-store-element/redux-store.html">
+<link rel="import" href="../prendus-question-scaffold-example/prendus-question-scaffold-example.html">
+<link rel="import" href="../prendus-question-scaffold-new-question/prendus-question-scaffold-new-question.html">
+<link rel="import" href="../prendus-question-scaffold-distractors/prendus-question-scaffold-distractors.html">
+<link rel="import" href="../prendus-question-scaffold-comments/prendus-question-scaffold-comments.html">
+<link rel="import" href="../prendus-question-scaffold-explanation/prendus-question-scaffold-explanation.html">
+
+<dom-module id="prendus-question-scaffold">
+
+
+  <template>
+    <style include="prendus-styles">
+    .content {
+      display: grid;
+      grid-template-columns: 50% 50%;
+      grid-template-rows: 50% 50%;
+    }
+
+    .page {
+      grid-row: 1;
+      grid-column: 1/3;
+    }
+
+    .back, .next {
+      margin-top: 10px;
+    }
+
+    .back {
+      grid-row: 2;
+      grid-column: 1;
+    }
+
+    .next {
+      grid-row: 2;
+      grid-column: 2;
+      justify-self: end;
+    }
+    .centered {
+      text-align: center;
+    }
+
+    .big {
+      font-size: 22px;
+    }
+
+    </style>
+    <redux-store on-statechange="mapStateToThis" action="[[action]]"></redux-store>
+    <div class="content">
+
+
+      <div class="page">
+        <iron-pages id="iron-pages" selected="[[selectedIndex]]">
+          <div>
+            <div class="prendus-card big">
+              For this assignment you will create an exam level
+              question for you and your class to practice for the
+              upcoming exam. Here is an exam question
+              to guide your thinking.
+            </div>
+            <prendus-question-scaffold-example question-scaffold="[[exampleQuestionScaffold]]" answers="[[exampleQuestionScaffoldAnswers]]" my-index="0" selected-index="[[selectedIndex]]"></prendus-question-scaffold-example>
+          </div>
+          <div>
+            <div class="prendus-card big">
+              Please follow the question creation guidelines below:<br>
+              1. Remember these will be used as <span class="bold">exam practice questions</span> for the class,
+              so try to create a question that could be on the exam.<br>
+              2. Create a question in a <span class="bold">topic area that you are struggling with.</span>
+            </div>
+            <prendus-question-scaffold-new-question my-index="1" selected-index="[[selectedIndex]]" number-of-answers="[[numberOfAnswers]]"></prendus-question-scaffold-new-question>
+          </div>
+          <div>
+            <div class="prendus-card big">
+              Now, create distractors for your multiple-choice-question by
+              thinking about common misconceptions students may have
+              about the content area of your question
+            </div>
+            <prendus-question-scaffold-distractors my-index="2" selected-index="[[selectedIndex]]" number-of-answers="[[numberOfAnswers]]"></prendus-question-scaffold-distractors>
+          </div>
+          <div>
+            <div class="prendus-card big">
+              Now, add in correct and incorrect answer comments based on the <b>misconceptions you identified</b>
+              in the previous problem.
+            </div>
+            <prendus-question-scaffold-comments my-index="3" selected-index="[[selectedIndex]]"></prendus-question-scaffold-comments>
+          </div>
+          <div>
+            <div class="prendus-card big">
+              Finally, add an explanation <b>that explains how to solve </b>the problem.  Remember to
+              <b> highlight common misconceptions</b> with the problem in your explanation.
+            </div>
+            <prendus-question-scaffold-explanation my-index="4" selected-index="[[selectedIndex]]"></prendus-question-scaffold-explanation>
+          </div>
+          <div>
+            <div class="prendus-card centered">
+              <h3>Final Question</h3>
+            </div>
+            <prendus-question-scaffold-example question-scaffold="[[questionScaffold]]" answers="[[questionScaffoldAnswers]]"  my-index="5" selected-index="[[selectedIndex]]"></prendus-question-scaffold-example>
+          </div>
+          <div>
+            Rate question 1
+          </div>
+          <div>
+            Rate question 2
+          </div>
+          <div>
+            Rate question 3
+          </div>
+          <div>
+            Take question 1
+          </div>
+          <div>
+            Take question 2
+          </div>
+          <div>
+            Take question 3
+          </div>
+          <div>
+            Take question 4
+          </div>
+          <div>
+            Take question 5
+          </div>
+        </iron-pages>
+      </div>
+
+
+
+      <template is="dom-if" if="[[selectedIndex]]">
+        <div class="back">
+          <button class="prendus-button prendus-button--recommended" on-tap="back">Back</button>
+        </div>
+      </template>
+      <div class="next">
+        <button id="next-button" class="prendus-button prendus-button--recommended" on-tap="next" disabled="[[disableNext]]">Next</button>
+      </div>
+    </div>
+
+  </template>
+
+  <script src="prendus-question-scaffold.ts"></script>
+</dom-module>

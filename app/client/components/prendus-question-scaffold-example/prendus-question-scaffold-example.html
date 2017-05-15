@@ -1,0 +1,73 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/prendus-styles/prendus-styles.html">
+<link rel="import" href="../../bower_components/redux-store-element/redux-store.html">
+<link rel="import" href="../../bower_components/iron-resizable-behavior/iron-resizable-behavior.html">
+
+<dom-module id="prendus-question-scaffold-example">
+
+
+  <template>
+    <style include="prendus-styles">
+    .wrapper {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .row {
+      display: flex;
+      margin-top: 10px;
+      justify-content: space-between;
+    }
+
+    .left-column {
+      width: 45%;
+      margin-right: 10px;
+    }
+    .answers-comments-header {
+      padding: 15px;
+      margin-bottom: 0px;
+    }
+
+    .right-column {
+      width: 45%;
+    }
+    </style>
+    <redux-store on-statechange="mapStateToThis" action="[[action]]"></redux-store>
+    <div class="wrapper">
+      <div class="row">
+        <div class="prendus-card left-column">
+          <h3>Question</h3>
+          [[questionScaffold.question]]
+        </div>
+        <div class="prendus-card right-column">
+          <h3>Explanation</h3>
+          [[questionScaffold.explanation]]
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="left-column answers-comments-header">
+          <h3>Answers</h3>
+        </div>
+        <div class="right-column answers-comments-header">
+          <h3>Comments</h3>
+        </div>
+      </div>
+
+      <template is="dom-repeat" items="[[answers]]">
+        <div class="row">
+          <div class="prendus-card left-column">
+            [[item.text]]
+          </div>
+          <div class="prendus-card right-column">
+            [[item.comment]]
+          </div>
+        </div>
+
+      </template>
+    </div>
+
+  </template>
+
+  <script src="prendus-question-scaffold-example.ts"></script>
+</dom-module>

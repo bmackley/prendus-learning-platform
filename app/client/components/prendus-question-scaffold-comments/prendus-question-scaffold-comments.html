@@ -1,0 +1,72 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/prendus-styles/prendus-styles.html">
+<link rel="import" href="../../bower_components/paper-input/paper-input.html">
+
+<dom-module id="prendus-question-scaffold-comments">
+
+
+  <template>
+    <style include="prendus-styles">
+    .wrapper {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .row {
+      display: flex;
+      margin-top: 10px;
+      justify-content: space-between;
+    }
+
+    .left-column {
+      width: 45%;
+    }
+
+    .answers-comments-header {
+      padding: 15px;
+      margin-bottom: 0px;
+    }
+
+    .right-column {
+      width: 45%;
+    }
+    .answer-card {
+      margin-right: 10px;
+    }
+    </style>
+    <redux-store on-statechange="mapStateToThis" action="[[action]]"></redux-store>
+    <div class="wrapper">
+      <div class="row">
+        <div class="prendus-card left-column">
+          <h3>Question</h3>
+          [[currentQuestionScaffold.question]]
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="left-column answers-comments-header">
+          <h3>Answers</h3>
+        </div>
+        <div class="right-column answers-comments-header">
+          <h3>Comments</h3>
+        </div>
+      </div>
+
+      <template is="dom-repeat" items="[[answers]]">
+        <div class="row">
+          <div class="prendus-card left-column answer-card">
+            [[item.text]]
+          </div>
+          <div class="prendus-card right-column">
+            <paper-input id="comment[[index]]" label="Comment [[plusOne(index)]]" on-value-changed="disableNext"></paper-input>
+          </div>
+        </div>
+      </template>
+
+
+    </div>
+
+  </template>
+
+  <script src="prendus-question-scaffold-comments.ts"></script>
+</dom-module>

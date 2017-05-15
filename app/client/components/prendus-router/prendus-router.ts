@@ -1,6 +1,7 @@
 import {StatechangeEvent} from '../../typings/statechange-event';
 import {Actions} from '../../redux/actions';
 import {UtilitiesService} from '../../node_modules/prendus-services/services/utilities-service';
+import {State} from '../../typings/state';
 import {Notification} from '../../node_modules/prendus-services/typings/notification';
 
 class PrendusRouter {
@@ -90,9 +91,13 @@ class PrendusRouter {
 					window.history.pushState({}, '', '/404');
 					this.fire('location-changed', {}, {node: window});
 				}
-	      break;
+        break;
       }
 
+      case '/question-scaffold': {
+        UtilitiesService.importElement(this, 'components/prendus-question-scaffold/prendus-question-scaffold.html', 'question-scaffold');
+        break;
+      }
 			case '/teacher-approval': {
 				if(this.isAdmin) {
 					UtilitiesService.importElement(this, 'components/prendus-teacher-approval/prendus-teacher-approval.html', 'teacher-approval');
@@ -101,6 +106,7 @@ class PrendusRouter {
 					window.history.pushState({}, '', '/404');
 					this.fire('location-changed', {}, {node: window});
 				}
+        break;
 			}
 
       default: break;
@@ -116,7 +122,7 @@ class PrendusRouter {
 	}
 
   mapStateToThis(e: StatechangeEvent): void {
-      const state = e.detail.state;
+      const state: State = e.detail.state;
       this.username = state.currentUser.metaData.email;
       this.loggedIn = this.username ? 'true' : 'false';
 			this.isAdmin = state.currentUser.userType === 'administrator';

@@ -1,10 +1,12 @@
 import {InitialState} from './initial-state';
-import {Actions} from './actions';
 import {State} from '../typings/state';
 import {Action} from '../typings/action';
 import {Quiz} from '../node_modules/prendus-services/typings/quiz';
 import {Lesson} from '../node_modules/prendus-services/typings/lesson';
 import {CourseLessonData} from '../node_modules/prendus-services/typings/course-lesson-data';
+import {QuestionScaffold} from '../node_modules/prendus-services/typings/question-scaffold';
+import {QuestionScaffoldAnswer} from '../node_modules/prendus-services/typings/question-scaffold-answer';
+import {UtilitiesService} from '../node_modules/prendus-services/services/utilities-service';
 
 export function rootReducer(state: State = InitialState, action: Action): State {
     switch(action.type) {
@@ -337,6 +339,112 @@ export function rootReducer(state: State = InitialState, action: Action): State 
           ...state,
           ltiState: action.ltiState
         };
+      }
+      case 'SET_DISABLED_NEXT': {
+        return {
+          ...state,
+          disableNext: action.disableNext
+        };
+
+      }
+
+      case 'SET_CURRENT_QUESTION_SCAFFOLD': {
+        const currentQuestionScaffold: QuestionScaffold = action.currentQuestionScaffold;
+        const questionScaffoldAnswers: QuestionScaffoldAnswer[] = UtilitiesService.getQuestionScaffoldAnswers(currentQuestionScaffold);
+        return {
+          ...state,
+          currentQuestionScaffold,
+          questionScaffoldAnswers
+        };
+      }
+
+      case 'UPDATE_CURRENT_QUESTION_SCAFFOLD': {
+        const comments: string[] = action.comments;
+        const answers: string[] = action.answers;
+        const explanation: string = action.explanation;
+        const answersObj: { [questionScaffoldAnswerId: string]: QuestionScaffoldAnswer } = getAnswers(state.currentQuestionScaffold, answers, comments);
+        const questionScaffoldAnswers: QuestionScaffoldAnswer[] = UtilitiesService.getQuestionScaffoldAnswers(state.currentQuestionScaffold);
+        const question: string = action.questionStem;
+        return {
+          ...state,
+          currentQuestionScaffold: {
+            ...state.currentQuestionScaffold,
+            answers: answersObj,
+            // only take new explanation if given
+            explanation: explanation || state.currentQuestionScaffold.explanation,
+            // only take new question if given
+            question: question || state.currentQuestionScaffold.question
+          },
+          questionScaffoldAnswers,
+        };
+
+        function getAnswers(questionScaffold: QuestionScaffold, answers: string[], comments: string[]): { [questionScaffoldAnswerId: string]: QuestionScaffoldAnswer } {
+          return Object.keys(questionScaffold.answers || {})
+          .map((key: string, index: number) => {
+            return {
+              ...questionScaffold.answers[key],
+              // only take new answers or comments if passed in
+              text: answers ? answers[index] : questionScaffold.answers[key].text,
+              comment: comments ? comments[index] : questionScaffold.answers[key].comment
+            };
+          })
+          // convert back to object
+          .reduce((result: { [questionScaffoldAnswerId: string]: QuestionScaffoldAnswer }, current: QuestionScaffoldAnswer, index: number) => {
+            result[`question${index}`] = current;
+            return result;
+          }, {});
+        };
+      }
+
+      case 'SET_CURRENT_QUESTION_SCAFFOLD_EXAMPLE': {
+        const currentQuestionScaffoldExample: QuestionScaffold = action.currentQuestionScaffoldExample;
+        const exampleQuestionScaffoldAnswers: QuestionScaffoldAnswer[] = UtilitiesService.getQuestionScaffoldAnswers(currentQuestionScaffoldExample);
+        const disableNext: boolean = action.disableNext;
+        return {
+          ...state,
+          currentQuestionScaffoldExample,
+          exampleQuestionScaffoldAnswers,
+          disableNext
+        };
+      }
+
+      case 'INIT_CURRENT_QUESTION_SCAFFOLD': {
+        const numberOfAnswers: number = action.numberOfAnswers;
+
+        // Define answersArr with empty strings because Array.map won't work
+        // on an array with only undefineds
+        const answersArr: string[] = initArray([], Array(numberOfAnswers));
+        const answers: { [currentQuestionScaffoldId: string]: QuestionScaffoldAnswer} = answersArr
+        .map( (currentValue: string, index: number): QuestionScaffoldAnswer => {
+          return {
+            text: '',
+            comment: '',
+            correct: index === 0,
+            id: `question${index}`
+          };
+        })
+        .reduce((result: { [currentQuestionScaffoldId: string]: QuestionScaffoldAnswer}, current: QuestionScaffoldAnswer, index: number) => {
+          result[`question${index}`] = current;
+          return result;
+        }, {});
+
+        const currentQuestionScaffold: QuestionScaffold = {
+          answers,
+          explanation: '',
+          question: ''
+        };
+
+        return {
+          ...state,
+          currentQuestionScaffold
+        };
+
+        function initArray(arr: string[], arr2: string[]): string[] {
+          if (arr2.length === 0) {
+              return arr;
+          }
+          return initArray([...arr, ''], arr2.slice(1));
+        }
       }
 
       default: {
