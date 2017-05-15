@@ -99,7 +99,6 @@ class PrendusLogin {
     const state: State = e.detail.state;
     this.ltiState = state.ltiState;
     this.email = this.ltiState ? this.ltiState.userEmail : this.email;
-    console.log('this.ltiState ', this.ltiState);
   }
 }
 
