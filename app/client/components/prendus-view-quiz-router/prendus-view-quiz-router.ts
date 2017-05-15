@@ -26,6 +26,8 @@ class PrendusViewQuizRouter {
     public quizOrigin: QuizOrigin;
     public userId: string;
     public consumerKey: string;
+    public displayLink: boolean;
+    public properties: any;
 
     ready(): void {
       Actions.defaultAction(this);
@@ -35,7 +37,17 @@ class PrendusViewQuizRouter {
       this.is = 'prendus-view-quiz-router';
 			this.observers = [
 				'updateEditAccess(data)'
-			]
+			];
+      this.properties = {
+        quizOrigin: {
+          type: Object,
+          observer: 'quizOriginChange'
+        }
+      };
+    }
+
+    quizOriginChange(): void {
+      this.displayLink = this.quizOrigin === 'LEARNING_PLATFORM';
     }
 
 		async updateEditAccess(data: any) {

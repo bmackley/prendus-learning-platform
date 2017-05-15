@@ -32,7 +32,9 @@
 					<p>We are working on getting access to the content without signing up. For now if you would like to view specific quiz questions, please <a href="/login">log in</a> or <a href="/sign up">create an account</a> to get started.</p>
 				</template>
 				<template is="dom-if" if="[[userEmail]]">
-					<a class="prendus-button prendus-button--minor" href="/courses/view/[[data.courseId]]"><iron-icon icon="undo"></iron-icon><span>Back to course</span></a>
+					<template is="dom-if" if="[[displayLink]]">
+						<a class="prendus-button prendus-button--minor" href="/courses/view/[[data.courseId]]"><iron-icon icon="undo"></iron-icon><span>Back to course</span></a>
+					</template>
 						<prendus-quiz-viewer has-edit-access="[[hasEditAccess]]" quiz-origin="[[quizOrigin]]" jwt="[[jwt]]" course-id="[[data.courseId]]" lesson-id="[[data.lessonId]]" quiz-id="[[data.quizId]]" user-full-name="[[userFullName]]" user-email="[[userEmail]]" user-id="[[userId]]" consumer-key="[[consumerKey]]" on-quizsubmissionstarted="quizSubmissionStarted" on-quizsubmissionfinished="quizSubmissionFinished"></prendus-quiz-viewer>
 				</template>
       </div>
