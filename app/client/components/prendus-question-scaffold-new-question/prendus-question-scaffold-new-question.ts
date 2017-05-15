@@ -4,6 +4,7 @@ import {Actions} from '../../redux/actions';
 import {UtilitiesService} from '../../node_modules/prendus-services/services/utilities-service';
 import {QuestionScaffold} from '../../node_modules/prendus-services/typings/question-scaffold';
 import {Action} from '../../typings/action';
+import {QuestionScaffoldAnswer} from '../../node_modules/prendus-services/typings/question-scaffold-answer';
 
 class PrendusQuestionScaffoldNewQuestion {
   public is: string;
@@ -46,7 +47,7 @@ class PrendusQuestionScaffoldNewQuestion {
       if(this.myIndex !== undefined && this.selectedIndex !== undefined && this.myIndex === this.selectedIndex) {
         const question: string = this.querySelector('#question') ? this.querySelector('#question').value : null;
         const answer: string = this.querySelector('#answer') ? this.querySelector('#answer').value : null;
-        const answers: string[] = [...[answer], ...getAnswers(this).splice(1)]; //always update first element ... may not be the best
+        const answers: string[] = getAnswers(this, answer);
 
         this.action = Actions.setDisabledNext(!UtilitiesService.isDefinedAndNotEmpty([question, answer]));
         this.action = Actions.updateCurrentQuestionScaffold(question, null, answers, this.currentQuestionScaffold, null);
@@ -55,9 +56,19 @@ class PrendusQuestionScaffoldNewQuestion {
       console.error(error);
     }
 
-    function getAnswers(context: PrendusQuestionScaffoldNewQuestion): string[] {
-      return Object.keys(context.currentQuestionScaffold ? context.currentQuestionScaffold.answers : {}).map((key: string, index: number) => {
-        return context.currentQuestionScaffold.answers[key].text;
+    function getAnswers(context: PrendusQuestionScaffoldNewQuestion, text: string): string[] {
+      const newAnswers: { [questionScaffoldAnswerId: string]: QuestionScaffoldAnswer } = {
+        ...(context.currentQuestionScaffold ? context.currentQuestionScaffold.answers : {}),
+        'question0': {
+          ...context.currentQuestionScaffold.answers['question0'],
+          text,
+          correct: true,
+          id: 'true'
+        }
+      };
+
+      return Object.keys(newAnswers || {}).map((key: string, index: number) => {
+        return newAnswers[key].text;
       });
     }
   }
