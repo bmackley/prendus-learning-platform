@@ -375,7 +375,6 @@ export function rootReducer(state: State = InitialState, action: Action): State 
 
         function getAnswers(questionScaffold: QuestionScaffold, answers: string[], comments: string[]): { [questionScaffoldAnswerId: string]: QuestionScaffoldAnswer } {
           return Object.keys(questionScaffold.answers || {})
-          // update comments
           .map((key: string, index: number) => {
             return {
               ...questionScaffold.answers[key],
@@ -442,6 +441,7 @@ export function rootReducer(state: State = InitialState, action: Action): State 
           return initArray([...arr, ''], arr2.slice(1));
         }
       }
+      
       default: {
           return state;
       }
