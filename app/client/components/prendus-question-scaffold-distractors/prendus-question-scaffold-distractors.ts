@@ -50,7 +50,7 @@ class PrendusQuestionScaffoldDistractors {
         const comments: string[] = getComments(this);
         const distractors: string[] = getDistractors(this);
         this.action = Actions.setDisabledNext(!UtilitiesService.isDefinedAndNotEmpty(distractors));
-        this.action = Actions.updateCurrentQuestionScaffold(comments, distractors, this.currentQuestionScaffold, this.myIndex, this.selectedIndex);
+        this.action = Actions.updateCurrentQuestionScaffold(comments, distractors, this.currentQuestionScaffold, this.currentQuestionScaffold.explanation);
       }
 
     } catch(error) {

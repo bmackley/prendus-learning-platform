@@ -355,6 +355,7 @@ export function rootReducer(state: State = InitialState, action: Action): State 
         const questionScaffold: QuestionScaffold = action.currentQuestionScaffold;
         const comments: string[] = action.comments;
         const answers: string[] = action.answers;
+        const explanation: string = action.explanation;
         const answersObj: { [questionScaffoldAnswerId: string]: QuestionScaffoldAnswer } = getAnswers(questionScaffold, answers, comments);
         const questionScaffoldAnswers: QuestionScaffoldAnswer[] = getQuestionScaffoldAnswers(questionScaffold);
 
@@ -362,7 +363,8 @@ export function rootReducer(state: State = InitialState, action: Action): State 
           ...state,
           currentQuestionScaffold: {
             ...questionScaffold,
-            answers: answersObj
+            answers: answersObj,
+            explanation
           },
           questionScaffoldAnswers,
         };
@@ -403,40 +405,6 @@ export function rootReducer(state: State = InitialState, action: Action): State 
           exampleQuestionScaffoldAnswers,
           disableNext
         };
-      }
-
-      case 'SET_DISABLED_NEXT_ON_EXAMPLE_PAGE': {
-        const myIndex: number = action.myIndex;
-        const selectedIndex: number = action.selectedIndex;
-        if(myIndex !== undefined && selectedIndex !== undefined && myIndex === selectedIndex) {
-          return {
-            ...state,
-            disableNext: false
-          };
-        } else {
-          return state;
-        }
-      }
-
-      case 'UPDATE_CURRENT_QUESTION_SCAFFOLD_EXPLANATION': {
-        const myIndex: number = action.myIndex;
-        const selectedIndex: number = action.selectedIndex;
-        if(myIndex !== undefined && selectedIndex !== undefined && myIndex === selectedIndex) {
-          const currentQuestionScaffold: QuestionScaffold = action.currentQuestionScaffold;
-          const explanation: string = action.explanation;
-          const isDefined: boolean = UtilitiesService.isDefinedAndNotEmpty(explanation);
-          return {
-            ...state,
-            currentQuestionScaffold: {
-              ...currentQuestionScaffold,
-              explanation
-            },
-            disableNext: !isDefined
-          }
-        } else {
-          return state;
-        }
-
       }
 
       case 'SET_NEW_CURRENT_QUESTION_SCAFFOLD': {

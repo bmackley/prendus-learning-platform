@@ -36,7 +36,7 @@ class PrendusQuestionScaffoldComments {
         const answers: string[] = getAnswers(this);
 
         this.action = Actions.setDisabledNext(!UtilitiesService.isDefinedAndNotEmpty(comments));
-        this.action = Actions.updateCurrentQuestionScaffold(comments, answers, this.currentQuestionScaffold, this.myIndex, this.selectedIndex);
+        this.action = Actions.updateCurrentQuestionScaffold(comments, answers, this.currentQuestionScaffold, this.currentQuestionScaffold.explanation);
       }
     } catch(error) {
       console.error(error);
