@@ -52,7 +52,7 @@ class PrendusViewQuizRouter {
     }
 
 		async updateEditAccess(data: any) {
-      this.querySelector('#sign-up-dialog').open();
+
       this.quizOrigin = data.quizOrigin;
       if(this.quizOrigin === 'LTI') {
         const ltiState: LTIState = {
@@ -65,7 +65,7 @@ class PrendusViewQuizRouter {
           userFullName: data.userFullName,
           userId: data.userId
         };
-        fetch(`${UtilitiesService.getPrendusServerEndpointDomain()}/api/user/getByLtiId`, {
+        const response = await fetch(`${UtilitiesService.getPrendusServerEndpointDomain()}/api/user/getByLtiId`, {
           method: 'post',
           headers: {
             'Content-type': 'application/x-www-form-urlencoded; charset=UTF-8'
@@ -74,11 +74,19 @@ class PrendusViewQuizRouter {
         }).then((response) => {
           return response.json();
         }).then((data: any) => {
-          console.log('success ', data)
+          return data;
         }).catch((error: string) => {
           console.error('request failed ', error)
-
         });
+        console.log('response ', response);
+        const loggedInUser = await FirebaseService.getLoggedInUser();
+        if(!loggedInUser && response.user) {
+          console.log('you need to sign in')
+          this.querySelector('#sign-up-dialog').open();
+        } else if(!loggedInUser && !response.user) {
+          console.log('you need to sign up or link your account to lti');
+          this.querySelector('#sign-up-dialog').open();
+        }
         this.userId = data.userId;
         this.consumerKey = data.consumerKey;
         this.action = Actions.setLtiState(ltiState);
