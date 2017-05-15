@@ -28,6 +28,11 @@ class PrendusCreateAccount {
 			}
   }
 
+  ready(): void {
+    // fire default action since it's lazy loaded
+    Actions.defaultAction(this);
+  }
+  
 	showTeacherNote(userType: UserType): boolean {
 		return userType === 'unverifiedTeacher';
 	}
@@ -77,7 +82,7 @@ class PrendusCreateAccount {
 		if(e.keyCode === 13 && this.enableSignup(this.userType, this.email, this.password, this.confirmPassword)) this.createUser(e);
 	}
 
-  async createUser(e: Event){
+  async createUser(e: Event) {
     try {
         const userMetaData: UserMetaData = {
             uid: '',
@@ -106,6 +111,7 @@ class PrendusCreateAccount {
   mapStateToThis(e: StatechangeEvent): void {
     const state: State = e.detail.state;
     this.ltiState = state.ltiState;
+    this.email = this.ltiState ? this.ltiState.userEmail : this.email;
   }
 }
 

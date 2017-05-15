@@ -24,6 +24,7 @@ import {Video} from '../node_modules/prendus-services/typings/video';
 import {ExecuteAsyncInOrderService} from '../node_modules/prendus-services/services/execute-async-in-order-service';
 import {UtilitiesService} from '../node_modules/prendus-services/services/utilities-service';
 import {LTIState} from '../node_modules/prendus-services/typings/lti-state';
+import {Action} from '../typings/action';
 
 const defaultAction = (context: any): void => {
     context.action = {
@@ -1082,8 +1083,8 @@ const reloadPublicCourses = async (context: any, courses: Course[]): Promise<voi
   }
 };
 
-const setLtiState = async (context: any, ltiState: LTIState): Promise<void> => {
-  context.action = {
+const setLtiState = (ltiState: LTIState): Action => {
+  return {
     type: 'SET_LTI_STATE',
     ltiState
   };

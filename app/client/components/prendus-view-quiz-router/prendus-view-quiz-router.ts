@@ -4,6 +4,7 @@ import {Quiz} from '../../node_modules/prendus-services/typings/quiz';
 import {Actions} from '../../redux/actions';
 import {StatechangeEvent} from '../../typings/statechange-event';
 import {LTIState} from '../../node_modules/prendus-services/typings/lti-state';
+import {Action} from '../../typings/action';
 
 class PrendusViewQuizRouter {
     public is: string;
@@ -20,6 +21,7 @@ class PrendusViewQuizRouter {
     public data: any;
     public querySelector: any;
     public ltiState: LTIState;
+    public action: Action;
 
     ready(): void {
       Actions.defaultAction(this);
@@ -46,7 +48,7 @@ class PrendusViewQuizRouter {
         userId: data.userId
       };
 
-      Actions.setLtiState(this, ltiState);
+      this.action = Actions.setLtiState(ltiState);
       const quiz: Quiz = await Actions.getQuiz(data.quizId);
 			this.hasEditAccess = this.uid === quiz.uid;
       this.userEmail = data.userEmail;
@@ -54,13 +56,6 @@ class PrendusViewQuizRouter {
 			// this.hasEditAccess = this.uid in quiz.collaborators;
 		}
 
-    signup(): void {
-      console.log(this.ltiState);
-    }
-
-    login(): void {
-
-    }
     quizSubmissionStarted(): void {
         Actions.showMainSpinner(this);
     }
