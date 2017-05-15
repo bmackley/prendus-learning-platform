@@ -20,6 +20,11 @@ class PrendusLogin {
     this.is = 'prendus-login'
   }
 
+  ready(): void {
+    // Call default action since this is lazy loaded
+    Actions.defaultAction(this);
+  }
+
 	// each input has a hard validation for when focus is lost and a soft validation
 	// for when the user is typing (to be responsive but not obnoxious)
 
@@ -51,7 +56,8 @@ class PrendusLogin {
       Actions.getCoursesByUser(this);
       Actions.getStarredCoursesByUser(this, uid);
       Actions.getSharedCoursesByUser(this, uid);
-      const location: string = 'courses/home'
+
+      const location: string = this.ltiState ? `courses/view-quiz/course/${this.ltiState.courseId}/lesson/${this.ltiState.lessonId}/quiz/${this.ltiState.quizId}/quiz-origin/${this.ltiState.quizOrigin}/user-full-name/${this.ltiState.userFullName}/user-id/${this.ltiState.userId}/consumer-key/${this.ltiState.consumerKey}/user-email/${this.ltiState.userEmail}` : 'courses/home';
       window.history.pushState({}, '', location);
       this.fire('location-changed', {}, {node: window});
     } catch(error) {
@@ -92,6 +98,8 @@ class PrendusLogin {
   mapStateToThis(e: StatechangeEvent): void {
     const state: State = e.detail.state;
     this.ltiState = state.ltiState;
+    this.email = this.ltiState ? this.ltiState.userEmail : this.email;
+    console.log('this.ltiState ', this.ltiState);
   }
 }
 

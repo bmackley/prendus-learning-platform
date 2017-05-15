@@ -32,7 +32,7 @@ class PrendusCreateAccount {
     // fire default action since it's lazy loaded
     Actions.defaultAction(this);
   }
-  
+
 	showTeacherNote(userType: UserType): boolean {
 		return userType === 'unverifiedTeacher';
 	}
@@ -89,9 +89,9 @@ class PrendusCreateAccount {
             email: this.email,
             firstName: '',
             lastName: '',
-            institution: ''
+            institution: '',
+            ltiId: this.ltiState ? this.ltiState.userId : null
       	};
-
         await Actions.createUser(this, this.userType, userMetaData, this.password);
 
         // TODO decide on way to show a confirmation
