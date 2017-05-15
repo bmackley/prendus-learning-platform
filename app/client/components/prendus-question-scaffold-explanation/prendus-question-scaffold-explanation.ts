@@ -33,7 +33,7 @@ class PrendusQuestionScaffoldExplanation {
     try {
       if(this.myIndex !== undefined && this.selectedIndex !== undefined && this.myIndex === this.selectedIndex) {
         this.action = Actions.setDisabledNext(!UtilitiesService.isDefinedAndNotEmpty(this.querySelector('#explanation') ? this.querySelector('#explanation').value : null));
-        this.action = Actions.updateCurrentQuestionScaffold(null, null, null, this.currentQuestionScaffold, this.querySelector('#explanation') ? this.querySelector('#explanation').value : null);
+        this.action = Actions.updateCurrentQuestionScaffold(null, null, null, this.querySelector('#explanation') ? this.querySelector('#explanation').value : null);
       }
     } catch(error) {
       console.error(error);

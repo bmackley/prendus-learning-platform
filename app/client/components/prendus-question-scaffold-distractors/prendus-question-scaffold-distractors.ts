@@ -49,7 +49,7 @@ class PrendusQuestionScaffoldDistractors {
       if(this.myIndex !== undefined && this.selectedIndex !== undefined && this.myIndex === this.selectedIndex) {
         const distractors: string[] = getDistractors(this);
         this.action = Actions.setDisabledNext(!UtilitiesService.isDefinedAndNotEmpty(distractors));
-        this.action = Actions.updateCurrentQuestionScaffold(null, null, distractors, this.currentQuestionScaffold, null);
+        this.action = Actions.updateCurrentQuestionScaffold(null, null, distractors, null);
       }
 
     } catch(error) {

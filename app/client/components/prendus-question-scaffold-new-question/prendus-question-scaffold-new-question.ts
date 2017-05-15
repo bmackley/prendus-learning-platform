@@ -50,7 +50,7 @@ class PrendusQuestionScaffoldNewQuestion {
         const answers: string[] = getAnswers(this, answer);
 
         this.action = Actions.setDisabledNext(!UtilitiesService.isDefinedAndNotEmpty([question, answer]));
-        this.action = Actions.updateCurrentQuestionScaffold(question, null, answers, this.currentQuestionScaffold, null);
+        this.action = Actions.updateCurrentQuestionScaffold(question, null, answers, null);
       }
     } catch(error) {
       console.error(error);

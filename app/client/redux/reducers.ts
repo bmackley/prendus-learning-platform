@@ -353,22 +353,21 @@ export function rootReducer(state: State = InitialState, action: Action): State 
       }
 
       case 'UPDATE_CURRENT_QUESTION_SCAFFOLD': {
-        const questionScaffold: QuestionScaffold = action.currentQuestionScaffold;
         const comments: string[] = action.comments;
         const answers: string[] = action.answers;
         const explanation: string = action.explanation;
-        const answersObj: { [questionScaffoldAnswerId: string]: QuestionScaffoldAnswer } = getAnswers(questionScaffold, answers, comments);
-        const questionScaffoldAnswers: QuestionScaffoldAnswer[] = UtilitiesService.getQuestionScaffoldAnswers(questionScaffold);
+        const answersObj: { [questionScaffoldAnswerId: string]: QuestionScaffoldAnswer } = getAnswers(state.currentQuestionScaffold, answers, comments);
+        const questionScaffoldAnswers: QuestionScaffoldAnswer[] = UtilitiesService.getQuestionScaffoldAnswers(state.currentQuestionScaffold);
         const question: string = action.questionStem;
         return {
           ...state,
           currentQuestionScaffold: {
-            ...questionScaffold,
+            ...state.currentQuestionScaffold,
             answers: answersObj,
             // only take new explanation if given
-            explanation: explanation || questionScaffold.explanation,
+            explanation: explanation || state.currentQuestionScaffold.explanation,
             // only take new question if given
-            question: question || questionScaffold.question
+            question: question || state.currentQuestionScaffold.question
           },
           questionScaffoldAnswers,
         };

@@ -1112,10 +1112,9 @@ const initCurrentQuestionScaffold = (numberOfAnswers: number): Action => {
     numberOfAnswers
   };
 }
-const updateCurrentQuestionScaffold = (questionStem: string, comments: string[], answers: string[], currentQuestionScaffold: QuestionScaffold, explanation: string): Action => {
+const updateCurrentQuestionScaffold = (questionStem: string, comments: string[], answers: string[], explanation: string): Action => {
   return {
     type: 'UPDATE_CURRENT_QUESTION_SCAFFOLD',
-    currentQuestionScaffold,
     comments,
     questionStem,
     answers,
