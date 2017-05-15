@@ -31,22 +31,22 @@ class PrendusQuestionScaffold {
       text: '2.7 * 10 ^ 6 electrons',
       comment: 'Correct',
       correct: true,
-      variableName: 'true'
+      id: 'true'
     }, 'question1': {
       text: '3.6 * 10 ^ 6 electrons',
       comment: 'You forgot to divide by 32 grams/mol because...You forgot to divide by 32 grams/mol because...You forgot to divide by 32 grams/mol because...You forgot to divide by 32 grams/mol because...',
       correct: false,
-      variableName: 'false'
+      id: 'false'
     }, 'question2': {
       text: '4.5 * 10 ^ 6 electrons',
       comment: 'You forgot to multiply by 2 to get the number of...',
       correct: false,
-      variableName: 'false'
+      id: 'false'
     }, 'question3': {
       text: '9 * 10 ^ 6 electrons',
       comment: 'You used protons instead of neutrons You used protons instead of neutronsYou used protons instead of neutronsYou used protons instead of neutronsYou used protons instead of neutrons',
       correct: false,
-      variableName: 'false'
+      id: 'false'
     }};
 
     const temp: QuestionScaffold = {

@@ -506,7 +506,7 @@ export function rootReducer(state: State = InitialState, action: Action): State 
                 ...action.currentQuestionScaffold.answers['question0'],
                 text,
                 correct: true,
-                variableName: 'true'
+                id: 'true'
               }
             },
             question
@@ -526,7 +526,7 @@ export function rootReducer(state: State = InitialState, action: Action): State 
             text: '',
             comment: '',
             correct: index === 0,
-            variableName: (index === 0).toString()
+            id: (index === 0).toString()
           };
         })
         .reduce((result: { [currentQuestionScaffoldId: string]: QuestionScaffoldAnswer}, current: QuestionScaffoldAnswer, index: number) => {
