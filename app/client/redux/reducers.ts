@@ -410,12 +410,12 @@ export function rootReducer(state: State = InitialState, action: Action): State 
         // on an array with only undefineds
         const answersArr: string[] = initArray([], Array(numberOfAnswers));
         const answers: { [currentQuestionScaffoldId: string]: QuestionScaffoldAnswer} = answersArr
-        .map( (key: string, index: number): QuestionScaffoldAnswer => {
+        .map( (currentValue: string, index: number): QuestionScaffoldAnswer => {
           return {
             text: '',
             comment: '',
             correct: index === 0,
-            id: (index === 0).toString()
+            id: `question${index}`
           };
         })
         .reduce((result: { [currentQuestionScaffoldId: string]: QuestionScaffoldAnswer}, current: QuestionScaffoldAnswer, index: number) => {
@@ -441,7 +441,7 @@ export function rootReducer(state: State = InitialState, action: Action): State 
           return initArray([...arr, ''], arr2.slice(1));
         }
       }
-      
+
       default: {
           return state;
       }
