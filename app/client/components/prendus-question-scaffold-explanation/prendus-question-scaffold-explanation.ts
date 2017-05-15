@@ -35,7 +35,7 @@ class PrendusQuestionScaffoldExplanation {
         const comments: string[] = getComments(this);
         const answers: string[] = getAnswers(this);
         this.action = Actions.setDisabledNext(!UtilitiesService.isDefinedAndNotEmpty(this.querySelector('#explanation') ? this.querySelector('#explanation').value : null));
-        this.action = Actions.updateCurrentQuestionScaffold(comments, answers, this.currentQuestionScaffold, this.querySelector('#explanation') ? this.querySelector('#explanation').value : null);
+        this.action = Actions.updateCurrentQuestionScaffold(this.currentQuestionScaffold.question, comments, answers, this.currentQuestionScaffold, this.querySelector('#explanation') ? this.querySelector('#explanation').value : null);
       }
     } catch(error) {
       console.error(error);

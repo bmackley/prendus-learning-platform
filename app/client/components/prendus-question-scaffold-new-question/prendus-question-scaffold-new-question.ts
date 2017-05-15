@@ -42,7 +42,31 @@ class PrendusQuestionScaffoldNewQuestion {
    * the inputs aren't empty.
    */
   disableNext(e: any): void {
-    this.action = Actions.newCurrentQuestionScaffold(this.myIndex, this.selectedIndex, this.querySelector('#question') ? this.querySelector('#question').value : null, this.querySelector('#answer') ? this.querySelector('#answer').value : null, this.currentQuestionScaffold);
+    try {
+      if(this.myIndex !== undefined && this.selectedIndex !== undefined && this.myIndex === this.selectedIndex) {
+        const question: string = this.querySelector('#question') ? this.querySelector('#question').value : null;
+        const answer: string = this.querySelector('#answer') ? this.querySelector('#answer').value : null;
+        const comments: string[] = getComments(this);
+        const answers: string[] = [...[answer], ...getAnswers(this).splice(1)]; //always update first element ... may not be the best
+
+        this.action = Actions.setDisabledNext(!UtilitiesService.isDefinedAndNotEmpty([question, answer]));
+        this.action = Actions.updateCurrentQuestionScaffold(question, comments, answers, this.currentQuestionScaffold, this.currentQuestionScaffold.explanation);
+      }
+    } catch(error) {
+      console.error(error);
+    }
+
+    function getComments(context: PrendusQuestionScaffoldNewQuestion): string[] {
+      return Object.keys(context.currentQuestionScaffold ? context.currentQuestionScaffold.answers : {}).map((key: string, index: number) => {
+        return context.currentQuestionScaffold.answers[key].comment;
+      });
+    }
+
+    function getAnswers(context: PrendusQuestionScaffoldNewQuestion): string[] {
+      return Object.keys(context.currentQuestionScaffold ? context.currentQuestionScaffold.answers : {}).map((key: string, index: number) => {
+        return context.currentQuestionScaffold.answers[key].text;
+      });
+    }
   }
 
 

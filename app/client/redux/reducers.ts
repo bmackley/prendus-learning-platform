@@ -358,13 +358,14 @@ export function rootReducer(state: State = InitialState, action: Action): State 
         const explanation: string = action.explanation;
         const answersObj: { [questionScaffoldAnswerId: string]: QuestionScaffoldAnswer } = getAnswers(questionScaffold, answers, comments);
         const questionScaffoldAnswers: QuestionScaffoldAnswer[] = getQuestionScaffoldAnswers(questionScaffold);
-
+        const question: string = action.questionStem;
         return {
           ...state,
           currentQuestionScaffold: {
             ...questionScaffold,
             answers: answersObj,
-            explanation
+            explanation,
+            question
           },
           questionScaffoldAnswers,
         };
@@ -395,6 +396,7 @@ export function rootReducer(state: State = InitialState, action: Action): State 
           });
         }
       }
+      
       case 'SET_CURRENT_QUESTION_SCAFFOLD_EXAMPLE': {
         const currentQuestionScaffoldExample: QuestionScaffold = action.currentQuestionScaffoldExample;
         const exampleQuestionScaffoldAnswers: QuestionScaffoldAnswer[] = UtilitiesService.getQuestionScaffoldAnswers(currentQuestionScaffoldExample);
@@ -405,42 +407,6 @@ export function rootReducer(state: State = InitialState, action: Action): State 
           exampleQuestionScaffoldAnswers,
           disableNext
         };
-      }
-
-      case 'SET_NEW_CURRENT_QUESTION_SCAFFOLD': {
-        const myIndex: number = action.myIndex;
-        const selectedIndex: number = action.selectedIndex;
-        if(myIndex !== undefined && selectedIndex !== undefined && myIndex === selectedIndex) {
-          const questionStem: string = action.questionStem;
-          const answerText: string = action.answerText;
-          const isDefined: boolean = UtilitiesService.isDefinedAndNotEmpty([questionStem, answerText]);
-          const currentQuestionScaffold: QuestionScaffold = getCurrentQuestionScaffold(action, answerText, questionStem);
-          const questionScaffoldAnswers: QuestionScaffoldAnswer[] = UtilitiesService.getQuestionScaffoldAnswers(currentQuestionScaffold);
-          return {
-            ...state,
-            currentQuestionScaffold,
-            questionScaffoldAnswers,
-            disableNext: !isDefined
-          };
-        } else {
-          return state;
-        }
-
-        function getCurrentQuestionScaffold(action: Action, text: string, question: string): QuestionScaffold {
-          return {
-            ...action.currentQuestionScaffold,
-            answers: {
-              ...action.currentQuestionScaffold.answers,
-              'question0': {
-                ...action.currentQuestionScaffold.answers['question0'],
-                text,
-                correct: true,
-                id: 'true'
-              }
-            },
-            question
-          };
-        }
       }
 
       case 'INIT_CURRENT_QUESTION_SCAFFOLD': {

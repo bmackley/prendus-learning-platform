@@ -1112,26 +1112,16 @@ const initCurrentQuestionScaffold = (numberOfAnswers: number): Action => {
     numberOfAnswers
   };
 }
-const updateCurrentQuestionScaffold = (comments: string[], answers: string[], currentQuestionScaffold: QuestionScaffold, explanation: string): Action => {
+const updateCurrentQuestionScaffold = (questionStem: string, comments: string[], answers: string[], currentQuestionScaffold: QuestionScaffold, explanation: string): Action => {
   return {
     type: 'UPDATE_CURRENT_QUESTION_SCAFFOLD',
     currentQuestionScaffold,
     comments,
+    questionStem,
     answers,
     explanation
   };
 }
-
-const newCurrentQuestionScaffold = (myIndex: number, selectedIndex: number, questionStem: string, answerText: string, currentQuestionScaffold: QuestionScaffold): Action => {
-  return {
-    type: 'SET_NEW_CURRENT_QUESTION_SCAFFOLD',
-    myIndex,
-    selectedIndex,
-    questionStem,
-    answerText,
-    currentQuestionScaffold
-  };
-};
 
 export const Actions = {
   defaultAction,
@@ -1210,6 +1200,5 @@ export const Actions = {
   setQuestionScaffold,
   setQuestionScaffoldExample,
   updateCurrentQuestionScaffold,
-  initCurrentQuestionScaffold,
-  newCurrentQuestionScaffold
+  initCurrentQuestionScaffold
 };
