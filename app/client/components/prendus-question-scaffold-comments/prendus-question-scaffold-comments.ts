@@ -31,15 +31,15 @@ class PrendusQuestionScaffoldComments {
 
   disableNext(): void {
     try {
-      const comments: string[] = getComments.bind(this)();
+      const comments: string[] = getComments(this);
       this.action = Actions.updateCurrentQuestionScaffoldComments(comments, this.currentQuestionScaffold, this.myIndex, this.selectedIndex);
     } catch(error) {
       console.error(error);
     }
 
-    function getComments(): string[] {
-      return Object.keys(this.currentQuestionScaffold ? this.currentQuestionScaffold.answers : {}).map((key: string, index: number) => {
-        return this.querySelector(`#comment${index}`) ? this.querySelector(`#comment${index}`).value : null;
+    function getComments(context: PrendusQuestionScaffoldComments): string[] {
+      return Object.keys(context.currentQuestionScaffold ? context.currentQuestionScaffold.answers : {}).map((key: string, index: number) => {
+        return context.querySelector(`#comment${index}`) ? context.querySelector(`#comment${index}`).value : null;
       });
     }
   }

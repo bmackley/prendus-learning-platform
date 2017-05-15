@@ -46,16 +46,16 @@ class PrendusQuestionScaffoldDistractors {
 
   disableNext(): void {
     try {
-      const distractors: string[] = getDistractors.bind(this)();
+      const distractors: string[] = getDistractors(this);
       this.action = Actions.updateCurrentQuestionScaffoldDistractors(distractors, this.currentQuestionScaffold, this.myIndex, this.selectedIndex);
     } catch(error) {
       console.error(error);
     }
 
-    function getDistractors(): string[] {
-      return Object.keys(this.currentQuestionScaffold ? this.currentQuestionScaffold.answers : {}).map((key: string, index: number) => {
+    function getDistractors(context: PrendusQuestionScaffoldDistractors): string[] {
+      return Object.keys(context.currentQuestionScaffold ? context.currentQuestionScaffold.answers : {}).map((key: string, index: number) => {
         const id: string = `#distractor${index}`;
-        return this.querySelector(id) ? this.querySelector(id).value : null;
+        return context.querySelector(id) ? context.querySelector(id).value : null;
       });
     }
   }
