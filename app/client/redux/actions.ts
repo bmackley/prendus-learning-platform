@@ -23,6 +23,9 @@ import {EmailsToUidsModel} from '../node_modules/prendus-services/models/emails-
 import {Video} from '../node_modules/prendus-services/typings/video';
 import {ExecuteAsyncInOrderService} from '../node_modules/prendus-services/services/execute-async-in-order-service';
 import {UtilitiesService} from '../node_modules/prendus-services/services/utilities-service';
+import {QuestionScaffold} from '../node_modules/prendus-services/typings/question-scaffold';
+import {QuestionScaffoldAnswer} from '../node_modules/prendus-services/typings/question-scaffold-answer';
+import {Action} from '../typings/action';
 
 const defaultAction = (context: any): void => {
     context.action = {
@@ -1081,77 +1084,120 @@ const reloadPublicCourses = async (context: any, courses: Course[]): Promise<voi
   }
 };
 
-export const Actions = {
-    defaultAction,
-		showMainSpinner,
-		hideMainSpinner,
-		showNotification,
-    loginUser,
-    checkUserAuth,
-		loadCurrentUser,
-		loadTeachers,
-    deleteLesson,
-    orderLessons,
-    addLesson,
-    createUser,
-    logOutUser,
-    updateUserEmail,
-		setUserType,
-    updateUserMetaData,
-    loadEditLessonVideos,
-    loadViewLessonVideos,
-    setCurrentVideoInfo,
-    saveVideo,
-    clearCurrentVideoInfo,
-    deleteVideo,
-    addCourse,
-    deleteCourse,
-    deleteTagFromCourse,
-    // addTagToCourse,
-    getCoursesByUser,
-    getCoursesByVisibility,
-    loadUserQuestionIds,
-    addQuestionToQuiz,
-    loadQuizQuestionIds,
-		loadQuizQuestionsData,
-		setQuizQuestionsData,
-    removeQuestionFromQuiz,
-    setQuizQuestionSetting,
-    setQuestionSetting,
-    loadQuizQuestionSettings,
-    setCurrentEditQuizId,
-    loadEditLessonQuizzes,
-    loadViewLessonQuizzes,
-    createNewQuiz,
-    deleteQuiz,
-    getQuiz,
-    getCourseViewCourseById,
-    updateLessonTags,
-    updateLessonTitle,
-    getLessonAndTagNamesById,
-    getLessonById,
-    resolveTagIdObject,
-    loadPublicQuestionIds,
-    starCourse,
-    unstarCourse,
-    getStarredCoursesByUser,
-    addQuizCollaborator,
-    loadQuizCollaboratorEmails,
-    removeQuizCollaborator,
-    getSharedCoursesByUser,
-    loadCourseCollaboratorEmails,
-    loadLessonCollaboratorEmails,
-    loadVideoCollaboratorEmails,
-    addCourseCollaborator,
-    // lookupLessonTags,
-    addLessonCollaborator,
-    addVideoCollaborator,
-    removeCourseCollaborator,
-    removeLessonCollaborator,
-    removeVideoCollaborator,
-    updateCourseField,
-    loadEditCourseLessons,
-    loadViewCourseLessons,
-    updateQuizDueDates,
-    reloadPublicCourses
+const setDisabledNext = (disableNext: boolean): Action => {
+  return {
+    type: 'SET_DISABLED_NEXT',
+    disableNext
   };
+};
+
+const setQuestionScaffold = (currentQuestionScaffold: QuestionScaffold): Action => {
+  return {
+    type: 'SET_CURRENT_QUESTION_SCAFFOLD',
+    currentQuestionScaffold
+  };
+};
+
+const setQuestionScaffoldExample = (currentQuestionScaffoldExample: QuestionScaffold): Action => {
+  return {
+    type: 'SET_CURRENT_QUESTION_SCAFFOLD_EXAMPLE',
+    currentQuestionScaffoldExample,
+    disableNext: false
+  };
+};
+
+const initCurrentQuestionScaffold = (numberOfAnswers: number): Action => {
+  return {
+    type: 'INIT_CURRENT_QUESTION_SCAFFOLD',
+    numberOfAnswers
+  };
+}
+const updateCurrentQuestionScaffold = (questionStem: string, comments: string[], answers: string[], explanation: string): Action => {
+  return {
+    type: 'UPDATE_CURRENT_QUESTION_SCAFFOLD',
+    comments,
+    questionStem,
+    answers,
+    explanation
+  };
+}
+
+export const Actions = {
+  defaultAction,
+	showMainSpinner,
+	hideMainSpinner,
+	showNotification,
+  loginUser,
+  checkUserAuth,
+	loadCurrentUser,
+	loadTeachers,
+  deleteLesson,
+  orderLessons,
+  addLesson,
+  createUser,
+  logOutUser,
+  updateUserEmail,
+	setUserType,
+  updateUserMetaData,
+  loadEditLessonVideos,
+  loadViewLessonVideos,
+  setCurrentVideoInfo,
+  saveVideo,
+  clearCurrentVideoInfo,
+  deleteVideo,
+  addCourse,
+  deleteCourse,
+  deleteTagFromCourse,
+  // addTagToCourse,
+  getCoursesByUser,
+  getCoursesByVisibility,
+  loadUserQuestionIds,
+  addQuestionToQuiz,
+  loadQuizQuestionIds,
+	loadQuizQuestionsData,
+	setQuizQuestionsData,
+  removeQuestionFromQuiz,
+  setQuizQuestionSetting,
+  setQuestionSetting,
+  loadQuizQuestionSettings,
+  setCurrentEditQuizId,
+  loadEditLessonQuizzes,
+  loadViewLessonQuizzes,
+  createNewQuiz,
+  deleteQuiz,
+  getQuiz,
+  getCourseViewCourseById,
+  updateLessonTags,
+  updateLessonTitle,
+  getLessonAndTagNamesById,
+  getLessonById,
+  resolveTagIdObject,
+  loadPublicQuestionIds,
+  starCourse,
+  unstarCourse,
+  getStarredCoursesByUser,
+  addQuizCollaborator,
+  loadQuizCollaboratorEmails,
+  removeQuizCollaborator,
+  getSharedCoursesByUser,
+  loadCourseCollaboratorEmails,
+  loadLessonCollaboratorEmails,
+  loadVideoCollaboratorEmails,
+  addCourseCollaborator,
+  // lookupLessonTags,
+  addLessonCollaborator,
+  addVideoCollaborator,
+  removeCourseCollaborator,
+  removeLessonCollaborator,
+  removeVideoCollaborator,
+  updateCourseField,
+  loadEditCourseLessons,
+  loadViewCourseLessons,
+  updateQuizDueDates,
+  reloadPublicCourses,
+  setDisabledNext,
+  setQuestionScaffold,
+  setQuestionScaffoldExample,
+  updateCurrentQuestionScaffold,
+  initCurrentQuestionScaffold
+};
