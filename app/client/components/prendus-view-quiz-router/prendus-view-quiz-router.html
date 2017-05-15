@@ -33,7 +33,7 @@
 				</template>
 				<template is="dom-if" if="[[userEmail]]">
 					<a class="prendus-button prendus-button--minor" href="/courses/view/[[data.courseId]]"><iron-icon icon="undo"></iron-icon><span>Back to course</span></a>
-						<prendus-quiz-viewer has-edit-access="[[hasEditAccess]]" quiz-origin="[[quizOrigin]]" jwt="[[jwt]]" course-id="[[data.courseId]]" lesson-id="[[data.lessonId]]" quiz-id="[[data.quizId]]" user-full-name="[[userFullName]]" user-email="[[userEmail]]" on-quizsubmissionstarted="quizSubmissionStarted" on-quizsubmissionfinished="quizSubmissionFinished"></prendus-quiz-viewer>
+						<prendus-quiz-viewer has-edit-access="[[hasEditAccess]]" quiz-origin="[[quizOrigin]]" jwt="[[jwt]]" course-id="[[data.courseId]]" lesson-id="[[data.lessonId]]" quiz-id="[[data.quizId]]" user-full-name="[[userFullName]]" user-email="[[userEmail]]" user-id="[[userId]]" consumer-key="[[consumerKey]]" on-quizsubmissionstarted="quizSubmissionStarted" on-quizsubmissionfinished="quizSubmissionFinished"></prendus-quiz-viewer>
 				</template>
       </div>
 

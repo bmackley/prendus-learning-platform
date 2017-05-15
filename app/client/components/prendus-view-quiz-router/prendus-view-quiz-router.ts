@@ -24,6 +24,8 @@ class PrendusViewQuizRouter {
     public ltiState: LTIState;
     public action: Action;
     public quizOrigin: QuizOrigin;
+    public userId: string;
+    public consumerKey: string;
 
     ready(): void {
       Actions.defaultAction(this);
@@ -52,6 +54,8 @@ class PrendusViewQuizRouter {
           userFullName: data.userFullName,
           userId: data.userId
         };
+        this.userId = data.userId;
+        this.consumerKey = data.consumerKey;
         this.action = Actions.setLtiState(ltiState);
       }
       console.log('this.quizOrigin ', this.quizOrigin);
