@@ -351,13 +351,14 @@ export function rootReducer(state: State = InitialState, action: Action): State 
           questionScaffoldAnswers
         };
       }
+
       case 'UPDATE_CURRENT_QUESTION_SCAFFOLD': {
         const questionScaffold: QuestionScaffold = action.currentQuestionScaffold;
         const comments: string[] = action.comments;
         const answers: string[] = action.answers;
         const explanation: string = action.explanation;
         const answersObj: { [questionScaffoldAnswerId: string]: QuestionScaffoldAnswer } = getAnswers(questionScaffold, answers, comments);
-        const questionScaffoldAnswers: QuestionScaffoldAnswer[] = getQuestionScaffoldAnswers(questionScaffold);
+        const questionScaffoldAnswers: QuestionScaffoldAnswer[] = UtilitiesService.getQuestionScaffoldAnswers(questionScaffold);
         const question: string = action.questionStem;
         return {
           ...state,
@@ -385,18 +386,9 @@ export function rootReducer(state: State = InitialState, action: Action): State 
             result[`question${index}`] = current;
             return result;
           }, {});
-        }
-
-        function getQuestionScaffoldAnswers(questionScaffold: QuestionScaffold): QuestionScaffoldAnswer[] {
-          return Object.keys(questionScaffold.answers || {}).map((key) => {
-              return {
-                ...questionScaffold.answers[key],
-                id: key
-              };
-          });
-        }
+        };
       }
-      
+
       case 'SET_CURRENT_QUESTION_SCAFFOLD_EXAMPLE': {
         const currentQuestionScaffoldExample: QuestionScaffold = action.currentQuestionScaffoldExample;
         const exampleQuestionScaffoldAnswers: QuestionScaffoldAnswer[] = UtilitiesService.getQuestionScaffoldAnswers(currentQuestionScaffoldExample);
