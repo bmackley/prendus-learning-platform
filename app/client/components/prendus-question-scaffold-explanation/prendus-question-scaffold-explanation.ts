@@ -32,24 +32,11 @@ class PrendusQuestionScaffoldExplanation {
   disableNext(): void {
     try {
       if(this.myIndex !== undefined && this.selectedIndex !== undefined && this.myIndex === this.selectedIndex) {
-        const comments: string[] = getComments(this);
-        const answers: string[] = getAnswers(this);
         this.action = Actions.setDisabledNext(!UtilitiesService.isDefinedAndNotEmpty(this.querySelector('#explanation') ? this.querySelector('#explanation').value : null));
-        this.action = Actions.updateCurrentQuestionScaffold(this.currentQuestionScaffold.question, comments, answers, this.currentQuestionScaffold, this.querySelector('#explanation') ? this.querySelector('#explanation').value : null);
+        this.action = Actions.updateCurrentQuestionScaffold(null, null, null, this.currentQuestionScaffold, this.querySelector('#explanation') ? this.querySelector('#explanation').value : null);
       }
     } catch(error) {
       console.error(error);
-    }
-
-    function getComments(context: PrendusQuestionScaffoldExplanation): string[] {
-      return Object.keys(context.currentQuestionScaffold ? context.currentQuestionScaffold.answers : {}).map((key: string, index: number) => {
-        return context.currentQuestionScaffold.answers[key].comment;
-      });
-    }
-    function getAnswers(context: PrendusQuestionScaffoldExplanation): string[] {
-      return Object.keys(context.currentQuestionScaffold ? context.currentQuestionScaffold.answers : {}).map((key: string, index: number) => {
-        return context.currentQuestionScaffold.answers[key].text;
-      });
     }
   }
 

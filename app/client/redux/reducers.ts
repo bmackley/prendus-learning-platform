@@ -365,8 +365,10 @@ export function rootReducer(state: State = InitialState, action: Action): State 
           currentQuestionScaffold: {
             ...questionScaffold,
             answers: answersObj,
-            explanation,
-            question
+            // only take new explanation if given
+            explanation: explanation || questionScaffold.explanation,
+            // only take new question if given
+            question: question || questionScaffold.question
           },
           questionScaffoldAnswers,
         };
@@ -377,8 +379,9 @@ export function rootReducer(state: State = InitialState, action: Action): State 
           .map((key: string, index: number) => {
             return {
               ...questionScaffold.answers[key],
-              text: answers[index],
-              comment: comments[index]
+              // only take new answers or comments if passed in
+              text: answers ? answers[index] : questionScaffold.answers[key].text,
+              comment: comments ? comments[index] : questionScaffold.answers[key].comment
             };
           })
           // convert back to object

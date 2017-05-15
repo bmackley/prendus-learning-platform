@@ -33,10 +33,9 @@ class PrendusQuestionScaffoldComments {
     try {
       if(this.myIndex !== undefined && this.selectedIndex !== undefined && this.myIndex === this.selectedIndex) {
         const comments: string[] = getComments(this);
-        const answers: string[] = getAnswers(this);
 
         this.action = Actions.setDisabledNext(!UtilitiesService.isDefinedAndNotEmpty(comments));
-        this.action = Actions.updateCurrentQuestionScaffold(this.currentQuestionScaffold.question, comments, answers, this.currentQuestionScaffold, this.currentQuestionScaffold.explanation);
+        this.action = Actions.updateCurrentQuestionScaffold(null, comments, null, this.currentQuestionScaffold, null);
       }
     } catch(error) {
       console.error(error);
@@ -45,12 +44,6 @@ class PrendusQuestionScaffoldComments {
     function getComments(context: PrendusQuestionScaffoldComments): string[] {
       return Object.keys(context.currentQuestionScaffold ? context.currentQuestionScaffold.answers : {}).map((key: string, index: number) => {
         return context.querySelector(`#comment${index}`) ? context.querySelector(`#comment${index}`).value : null;
-      });
-    }
-
-    function getAnswers(context: PrendusQuestionScaffoldComments): string[] {
-      return Object.keys(context.currentQuestionScaffold ? context.currentQuestionScaffold.answers : {}).map((key: string, index: number) => {
-        return context.currentQuestionScaffold.answers[key].text;
       });
     }
   }
