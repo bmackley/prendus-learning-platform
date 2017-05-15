@@ -350,7 +350,44 @@ export function rootReducer(state: State = InitialState, action: Action): State 
           questionScaffoldAnswers
         };
       }
+      case 'UPDATE_CURRENT_QUESTION_SCAFFOLD': {
+        const selectedIndex: number = action.selectedIndex;
+        const myIndex: number = action.myIndex;
+        if(selectedIndex !== undefined && myIndex !== undefined && selectedIndex === myIndex) {
+          const questionScaffold: QuestionScaffold = action.currentQuestionScaffold;
+          const comments: string[] = action.comments;
+          const isDefined: boolean = UtilitiesService.isDefinedAndNotEmpty(comments);
+          const answers: { [questionScaffoldAnswerId: string]: QuestionScaffoldAnswer } = getAnswers(questionScaffold, comments);
+          const questionScaffoldAnswers: QuestionScaffoldAnswer[] = UtilitiesService.getQuestionScaffoldAnswers(questionScaffold);
 
+          return {
+            ...state,
+            currentQuestionScaffold: {
+              ...questionScaffold,
+              answers
+            },
+            questionScaffoldAnswers,
+          };
+        } else {
+          return state;
+        }
+
+        function getAnswers(questionScaffold: QuestionScaffold, comments: string[]): { [questionScaffoldAnswerId: string]: QuestionScaffoldAnswer } {
+          return Object.keys(questionScaffold.answers || {})
+          // update comments
+          .map((key: string, index: number) => {
+            return {
+              ...questionScaffold.answers[key],
+              comment: comments[index]
+            };
+          })
+          // convert back to object
+          .reduce((result: { [questionScaffoldAnswerId: string]: QuestionScaffoldAnswer }, current: QuestionScaffoldAnswer, index: number) => {
+            result[`question${index}`] = current;
+            return result;
+          }, {});
+        }
+      }
       case 'SET_CURRENT_QUESTION_SCAFFOLD_EXAMPLE': {
         const currentQuestionScaffoldExample: QuestionScaffold = action.currentQuestionScaffoldExample;
         const exampleQuestionScaffoldAnswers: QuestionScaffoldAnswer[] = UtilitiesService.getQuestionScaffoldAnswers(currentQuestionScaffoldExample);

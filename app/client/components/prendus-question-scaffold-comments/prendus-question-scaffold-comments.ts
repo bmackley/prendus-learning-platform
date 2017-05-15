@@ -32,7 +32,8 @@ class PrendusQuestionScaffoldComments {
   disableNext(): void {
     try {
       const comments: string[] = getComments(this);
-      this.action = Actions.updateCurrentQuestionScaffoldComments(comments, this.currentQuestionScaffold, this.myIndex, this.selectedIndex);
+      this.action = Actions.setDisabledNext(!UtilitiesService.isDefinedAndNotEmpty(comments));
+      this.action = Actions.updateCurrentQuestionScaffold(comments, this.currentQuestionScaffold, this.myIndex, this.selectedIndex);
     } catch(error) {
       console.error(error);
     }

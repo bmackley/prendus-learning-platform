@@ -1112,16 +1112,15 @@ const initCurrentQuestionScaffold = (numberOfAnswers: number): Action => {
     numberOfAnswers
   };
 }
-
-const updateCurrentQuestionScaffoldComments = (comments: string[], currentQuestionScaffold: QuestionScaffold, myIndex: number, selectedIndex: number): Action => {
+const updateCurrentQuestionScaffold = (comments: string[], currentQuestionScaffold: QuestionScaffold, myIndex: number, selectedIndex: number): Action => {
   return {
-    type: 'UPDATE_CURRENT_QUESTION_SCAFFOLD_COMMENTS',
+    type: 'UPDATE_CURRENT_QUESTION_SCAFFOLD',
     currentQuestionScaffold,
     comments,
     myIndex,
     selectedIndex
   };
-};
+}
 
 const updateCurrentQuestionScaffoldDistractors = (answers: string[], currentQuestionScaffold: QuestionScaffold, myIndex: number, selectedIndex: number): Action => {
   return {
@@ -1238,8 +1237,8 @@ export const Actions = {
   setDisabledNext,
   setQuestionScaffold,
   setQuestionScaffoldExample,
+  updateCurrentQuestionScaffold,
   initCurrentQuestionScaffold,
-  updateCurrentQuestionScaffoldComments,
   updateCurrentQuestionScaffoldDistractors,
   setDisableNextOnExamplePage,
   updateCurrentQuestionScaffoldExplanation,
