@@ -1112,13 +1112,14 @@ const initCurrentQuestionScaffold = (numberOfAnswers: number): Action => {
     numberOfAnswers
   };
 }
-const updateCurrentQuestionScaffold = (comments: string[], currentQuestionScaffold: QuestionScaffold, myIndex: number, selectedIndex: number): Action => {
+const updateCurrentQuestionScaffold = (comments: string[], answers: string[], currentQuestionScaffold: QuestionScaffold, myIndex: number, selectedIndex: number): Action => {
   return {
     type: 'UPDATE_CURRENT_QUESTION_SCAFFOLD',
     currentQuestionScaffold,
     comments,
     myIndex,
-    selectedIndex
+    selectedIndex,
+    answers
   };
 }
 

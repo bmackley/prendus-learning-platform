@@ -46,12 +46,22 @@ class PrendusQuestionScaffoldDistractors {
 
   disableNext(): void {
     try {
-      const distractors: string[] = getDistractors(this);
-      this.action = Actions.updateCurrentQuestionScaffoldDistractors(distractors, this.currentQuestionScaffold, this.myIndex, this.selectedIndex);
+      if(this.myIndex !== undefined && this.selectedIndex !== undefined && this.myIndex === this.selectedIndex) {
+        const comments: string[] = getComments(this);
+        const distractors: string[] = getDistractors(this);
+        this.action = Actions.setDisabledNext(!UtilitiesService.isDefinedAndNotEmpty(distractors));
+        this.action = Actions.updateCurrentQuestionScaffold(comments, distractors, this.currentQuestionScaffold, this.myIndex, this.selectedIndex);
+      }
+
     } catch(error) {
       console.error(error);
     }
 
+    function getComments(context: PrendusQuestionScaffoldDistractors): string[] {
+      return Object.keys(context.currentQuestionScaffold ? context.currentQuestionScaffold.answers : {}).map((key: string, index: number) => {
+        return context.currentQuestionScaffold.answers[key].comment;
+      });
+    }
     function getDistractors(context: PrendusQuestionScaffoldDistractors): string[] {
       return Object.keys(context.currentQuestionScaffold ? context.currentQuestionScaffold.answers : {}).map((key: string, index: number) => {
         const id: string = `#distractor${index}`;

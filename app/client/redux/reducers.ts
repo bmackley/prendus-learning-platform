@@ -339,6 +339,7 @@ export function rootReducer(state: State = InitialState, action: Action): State 
           ...state,
           disableNext: action.disableNext
         };
+
       }
 
       case 'SET_CURRENT_QUESTION_SCAFFOLD': {
@@ -351,33 +352,28 @@ export function rootReducer(state: State = InitialState, action: Action): State 
         };
       }
       case 'UPDATE_CURRENT_QUESTION_SCAFFOLD': {
-        const selectedIndex: number = action.selectedIndex;
-        const myIndex: number = action.myIndex;
-        if(selectedIndex !== undefined && myIndex !== undefined && selectedIndex === myIndex) {
-          const questionScaffold: QuestionScaffold = action.currentQuestionScaffold;
-          const comments: string[] = action.comments;
-          const isDefined: boolean = UtilitiesService.isDefinedAndNotEmpty(comments);
-          const answers: { [questionScaffoldAnswerId: string]: QuestionScaffoldAnswer } = getAnswers(questionScaffold, comments);
-          const questionScaffoldAnswers: QuestionScaffoldAnswer[] = UtilitiesService.getQuestionScaffoldAnswers(questionScaffold);
+        const questionScaffold: QuestionScaffold = action.currentQuestionScaffold;
+        const comments: string[] = action.comments;
+        const answers: string[] = action.answers;
+        const answersObj: { [questionScaffoldAnswerId: string]: QuestionScaffoldAnswer } = getAnswers(questionScaffold, answers, comments);
+        const questionScaffoldAnswers: QuestionScaffoldAnswer[] = getQuestionScaffoldAnswers(questionScaffold);
 
-          return {
-            ...state,
-            currentQuestionScaffold: {
-              ...questionScaffold,
-              answers
-            },
-            questionScaffoldAnswers,
-          };
-        } else {
-          return state;
-        }
+        return {
+          ...state,
+          currentQuestionScaffold: {
+            ...questionScaffold,
+            answers: answersObj
+          },
+          questionScaffoldAnswers,
+        };
 
-        function getAnswers(questionScaffold: QuestionScaffold, comments: string[]): { [questionScaffoldAnswerId: string]: QuestionScaffoldAnswer } {
+        function getAnswers(questionScaffold: QuestionScaffold, answers: string[], comments: string[]): { [questionScaffoldAnswerId: string]: QuestionScaffoldAnswer } {
           return Object.keys(questionScaffold.answers || {})
           // update comments
           .map((key: string, index: number) => {
             return {
               ...questionScaffold.answers[key],
+              text: answers[index],
               comment: comments[index]
             };
           })
@@ -386,6 +382,15 @@ export function rootReducer(state: State = InitialState, action: Action): State 
             result[`question${index}`] = current;
             return result;
           }, {});
+        }
+
+        function getQuestionScaffoldAnswers(questionScaffold: QuestionScaffold): QuestionScaffoldAnswer[] {
+          return Object.keys(questionScaffold.answers || {}).map((key) => {
+              return {
+                ...questionScaffold.answers[key],
+                id: key
+              };
+          });
         }
       }
       case 'SET_CURRENT_QUESTION_SCAFFOLD_EXAMPLE': {
@@ -398,87 +403,6 @@ export function rootReducer(state: State = InitialState, action: Action): State 
           exampleQuestionScaffoldAnswers,
           disableNext
         };
-      }
-
-      case 'UPDATE_CURRENT_QUESTION_SCAFFOLD_COMMENTS': {
-        const selectedIndex: number = action.selectedIndex;
-        const myIndex: number = action.myIndex;
-        if(selectedIndex !== undefined && myIndex !== undefined && selectedIndex === myIndex) {
-          const questionScaffold: QuestionScaffold = action.currentQuestionScaffold;
-          const comments: string[] = action.comments;
-          const isDefined: boolean = UtilitiesService.isDefinedAndNotEmpty(comments);
-          const answers: { [questionScaffoldAnswerId: string]: QuestionScaffoldAnswer } = getAnswers(questionScaffold, comments);
-
-          const disableNext: boolean = !isDefined;
-          const questionScaffoldAnswers: QuestionScaffoldAnswer[] = UtilitiesService.getQuestionScaffoldAnswers(questionScaffold);
-
-          return {
-            ...state,
-            currentQuestionScaffold: {
-              ...questionScaffold,
-              answers
-            },
-            questionScaffoldAnswers,
-            disableNext
-          };
-        } else {
-          return state;
-        }
-
-        function getAnswers(questionScaffold: QuestionScaffold, comments: string[]): { [questionScaffoldAnswerId: string]: QuestionScaffoldAnswer } {
-          return Object.keys(questionScaffold.answers || {})
-          // update comments
-          .map((key: string, index: number) => {
-            return {
-              ...questionScaffold.answers[key],
-              comment: comments[index]
-            };
-          })
-          // convert back to object
-          .reduce((result: { [questionScaffoldAnswerId: string]: QuestionScaffoldAnswer }, current: QuestionScaffoldAnswer, index: number) => {
-            result[`question${index}`] = current;
-            return result;
-          }, {});
-        }
-      }
-
-      case 'UPDATE_CURRENT_QUESTION_SCAFFOLD_DISTRACTORS': {
-        const myIndex: number = action.myIndex;
-        const selectedIndex: number = action.selectedIndex;
-        if(myIndex !== undefined && selectedIndex !== undefined && myIndex === selectedIndex) {
-          const questionScaffold: QuestionScaffold = action.currentQuestionScaffold;
-          const isDefined: boolean = UtilitiesService.isDefinedAndNotEmpty(action.answers);
-          const answers: { [questionScaffoldId: string]: QuestionScaffoldAnswer } = getAnswers(action.answers, questionScaffold);
-          const questionScaffoldAnswers: QuestionScaffoldAnswer[] = UtilitiesService.getQuestionScaffoldAnswers(questionScaffold);
-
-          return {
-            ...state,
-            currentQuestionScaffold: {
-              ...questionScaffold,
-              answers
-            },
-            questionScaffoldAnswers,
-            disableNext: !isDefined
-          };
-        } else {
-          return state;
-        }
-
-        function getAnswers(answers: string[], questionScaffold: QuestionScaffold): { [questionScaffoldId: string]: QuestionScaffoldAnswer } {
-          return (answers || [])
-          // update the text value for each distractor
-          .map((key: string, index: number) => {
-            return {
-              ...questionScaffold.answers[key],
-              text: answers[index]
-            };
-          })
-          // convert back to object
-          .reduce((result: { [questionScaffoldAnswerId: string]: QuestionScaffoldAnswer }, current: QuestionScaffoldAnswer, index: number) => {
-            result[`question${index}`] = current;
-            return result;
-          }, {});
-        }
       }
 
       case 'SET_DISABLED_NEXT_ON_EXAMPLE_PAGE': {
