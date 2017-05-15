@@ -40,7 +40,9 @@ export class PrendusQuestionScaffoldExample {
   }
 
   disableNext(): void {
-    this.action = Actions.setDisableNextOnExamplePage(this.myIndex, this.selectedIndex);
+    if(this.myIndex !== undefined && this.selectedIndex !== undefined && this.myIndex === this.selectedIndex) {
+      this.action = Actions.setDisabledNext(false);
+    }
   }
 
 	mapStateToThis(e: StatechangeEvent): void {

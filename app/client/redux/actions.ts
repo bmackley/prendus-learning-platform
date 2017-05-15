@@ -1133,14 +1133,6 @@ const updateCurrentQuestionScaffoldDistractors = (answers: string[], currentQues
   };
 };
 
-const setDisableNextOnExamplePage = (myIndex: number, selectedIndex: number): Action => {
-  return {
-    type: 'SET_DISABLED_NEXT_ON_EXAMPLE_PAGE',
-    myIndex,
-    selectedIndex
-  };
-};
-
 const updateCurrentQuestionScaffoldExplanation = (myIndex: number, selectedIndex: number, currentQuestionScaffold: QuestionScaffold, explanation: string): Action => {
   return {
     type: 'UPDATE_CURRENT_QUESTION_SCAFFOLD_EXPLANATION',
@@ -1241,7 +1233,6 @@ export const Actions = {
   updateCurrentQuestionScaffold,
   initCurrentQuestionScaffold,
   updateCurrentQuestionScaffoldDistractors,
-  setDisableNextOnExamplePage,
   updateCurrentQuestionScaffoldExplanation,
   newCurrentQuestionScaffold
 };
