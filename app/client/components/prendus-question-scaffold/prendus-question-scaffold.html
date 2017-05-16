@@ -2,11 +2,13 @@
 <link rel="import" href="../../bower_components/prendus-styles/prendus-styles.html">
 <link rel="import" href="../../bower_components/iron-pages/iron-pages.html">
 <link rel="import" href="../../bower_components/redux-store-element/redux-store.html">
-<link rel="import" href="../prendus-question-scaffold-example/prendus-question-scaffold-example.html">
-<link rel="import" href="../prendus-question-scaffold-new-question/prendus-question-scaffold-new-question.html">
-<link rel="import" href="../prendus-question-scaffold-distractors/prendus-question-scaffold-distractors.html">
-<link rel="import" href="../prendus-question-scaffold-comments/prendus-question-scaffold-comments.html">
-<link rel="import" href="../prendus-question-scaffold-explanation/prendus-question-scaffold-explanation.html">
+<link rel="import" href="../../bower_components/iron-icon/iron-icon.html">
+<link rel="import" href="../../bower_components/iron-icons/iron-icons.html">
+<link rel="import" href="prendus-question-scaffold-example.html">
+<link rel="import" href="prendus-question-scaffold-new-question.html">
+<link rel="import" href="prendus-question-scaffold-distractors.html">
+<link rel="import" href="prendus-question-scaffold-comments.html">
+<link rel="import" href="prendus-question-scaffold-explanation.html">
 
 <dom-module id="prendus-question-scaffold">
 
@@ -45,7 +47,14 @@
     .big {
       font-size: 22px;
     }
-
+    #process {
+      display: grid;
+      grid-template-columns: 33% 33% 33%;
+    }
+    .bigIcon{
+      --iron-icon-height: 50%;
+      --iron-icon-width: 50%;
+    }
     </style>
     <redux-store on-statechange="mapStateToThis" action="[[action]]"></redux-store>
     <div class="content">
@@ -57,17 +66,52 @@
             <div class="prendus-card big">
               For this assignment you will create an exam level
               question for you and your class to practice for the
+              upcoming exam. We will guide you through the question creation process.
+              <!-- For this assignment you will create an exam level
+              question for you and your class to practice for the
               upcoming exam. Here is an exam question
-              to guide your thinking.
+              to guide your thinking. -->
             </div>
-            <prendus-question-scaffold-example question-scaffold="[[exampleQuestionScaffold]]" answers="[[exampleQuestionScaffoldAnswers]]" my-index="0" selected-index="[[selectedIndex]]"></prendus-question-scaffold-example>
+            <!-- <prendus-question-scaffold-example question-scaffold="[[exampleQuestionScaffold]]" answers="[[exampleQuestionScaffoldAnswers]]" my-index="0" selected-index="[[selectedIndex]]"></prendus-question-scaffold-example> -->
+            <div class="prendus-card" id ="process">
+              <div>
+                <center>
+                    <h2>Step 1</h2>
+                    <iron-icon class="bigIcon" icon="create"></iron-icon>
+                    <h3>Create Question</h3>
+                    <p>Write good question stems. The heart of an exam is questions that expand beyond knowledge recall. Write questions that make the respondent analyze, evaluate, and solve. </p>
+                </center>
+              </div>
+              <div>
+                <center>
+                  <h2>Step 2</h2>
+                  <iron-icon class="bigIcon" icon="question-answer"></iron-icon>
+                  <h3>Add Answers</h3>
+                  <p>Add the correct answer and then add distractors. A good assessment item has responses that seem valid and require respondents to know the material well.</p>
+                </center>
+              </div>
+              <div>
+                <center>
+                  <h2>Step 3</h2>
+                  <iron-icon class="bigIcon" icon="feedback"></iron-icon>
+                  <h3>Give Explanations</h3>
+                  <p>These questions will be used for practice, so providing an explanation of why a particular answer is incorrect provides a learning opportunity.</p>
+                </center>
+              </div>
+            </div>
           </div>
           <div>
             <div class="prendus-card big">
-              Please follow the question creation guidelines below:<br>
-              1. Remember these will be used as <span class="bold">exam practice questions</span> for the class,
-              so try to create a question that could be on the exam.<br>
-              2. Create a question in a <span class="bold">topic area that you are struggling with.</span>
+              <h3>Guidelines for Creating a Question</h3>
+              <ol>
+                <li>
+                  Remember these will be used as <span class="bold">exam practice questions</span> for the class,
+                  so try to create a question that could be on the exam.
+                </li>
+                <li>
+                  Create a question in a <span class="bold">topic area that you are struggling with.</span>
+                </li>
+              </ol>
             </div>
             <prendus-question-scaffold-new-question my-index="1" selected-index="[[selectedIndex]]" number-of-answers="[[numberOfAnswers]]"></prendus-question-scaffold-new-question>
           </div>
@@ -125,8 +169,6 @@
           </div>
         </iron-pages>
       </div>
-
-
 
       <template is="dom-if" if="[[selectedIndex]]">
         <div class="back">
