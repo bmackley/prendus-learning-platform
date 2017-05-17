@@ -54,7 +54,10 @@ class PrendusViewQuizRouter {
 		async updateEditAccess(data: any) {
 
       this.quizOrigin = data.quizOrigin;
+
+      await Actions.checkUserAuth(this);
       if(this.quizOrigin === 'LTI') {
+
         const ltiState: LTIState = {
           consumerKey: data.consumerKey,
           courseId: data.courseId,
@@ -73,6 +76,25 @@ class PrendusViewQuizRouter {
         this.userId = data.userId;
         this.consumerKey = data.consumerKey;
         this.action = Actions.setLtiState(ltiState);
+        const body: any = {
+          courseId: data.courseId,
+          jwt: this.jwt
+        };
+        console.log('this.userId' , this.userId);
+        await fetch(`${UtilitiesService.getPrendusServerEndpointDomain()}/api/payment/has-user-paid`, {
+          method: 'post',
+          headers: {
+            'Content-type': 'application/x-www-form-urlencoded; charset=UTF-8'
+          },
+          body: UtilitiesService.prepareUrl(body, false)
+        }).then((response) => {
+          return response.json();
+        }).then((data: any) => {
+          console.log('data ', data);
+        }).catch((error: any) => {
+          console.error('something went wrong with seeing if the user paid ', error);
+        })
+
       }
       const quiz: Quiz = await Actions.getQuiz(data.quizId);
 			this.hasEditAccess = this.uid === quiz.uid;

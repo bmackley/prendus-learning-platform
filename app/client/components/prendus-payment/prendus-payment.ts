@@ -78,7 +78,7 @@ class PrendusPayment {
           courseId: this.courseId,
           jwt: this.jwt
         };
-        await fetch(`${UtilitiesService.getPrendusServerEndpointDomain()}/api/payment`, {
+        await fetch(`${UtilitiesService.getPrendusServerEndpointDomain()}/api/payment/pay`, {
           method: 'post',
           headers: {
             'Content-type': 'application/x-www-form-urlencoded; charset=UTF-8'
