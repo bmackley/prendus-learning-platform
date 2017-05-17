@@ -20,7 +20,6 @@
     "prendus-quiz-viewer-component": "git@github.com:lastmjs/prendus-quiz-viewer-component.git#payment",
     "prendus-styles": "git@github.com:bmackley/prendus-styles#master",
     "prendus-video-viewer-component": "git@github.com:lastmjs/prendus-video-viewer-component.git#0.3.1",
-    "prendus-payment": "git@github.com:mcrowder65/prendus-payment.git#master",
     "paper-tabs": "^1.6.2",
     "paper-menu-button": "^1.5.1",
     "paper-menu": "^1.2.2",
@@ -56,6 +55,6 @@
     "polymer": "^1.7.1",
     "gold-cc-input": "^1.0.7",
     "gold-cc-expiration-input": "^1.1.3",
-    "gold-cc-cvc-input": "^1.0.9"
+    "gold-cc-cvc-input": "^1.0.10"
   }
 }

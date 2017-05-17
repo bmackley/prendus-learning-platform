@@ -100,7 +100,8 @@ class PrendusRouter {
       }
 
       case '/payment': {
-        UtilitiesService.importElement(this, 'bower_components/prendus-payment/prendus-payment.html', 'payment');
+        // UtilitiesService.importElement(this, 'components/prendus-payment/prendus-payment.html', 'payment');
+        this.querySelector('#payment').open();
         break;
       }
 			case '/teacher-approval': {
@@ -119,6 +120,21 @@ class PrendusRouter {
 
   }
 
+  /**
+   *  TODO Temporary
+   */
+  calculateCourseId(): string {
+    const arr: string[] = ['-Khc_DJehSxXOIf4kd45', '-KhcblGSuQ2_hXYGYCyP', '-KiCzuhO9Fx7kk3EsFLK', '-KiautPJIVIDLxvgMlU_', '-KjEwKgD6h3y8Cb-FzEA', '-KjFKBJQ7FfmrrS1IW3x', '-KjFRy0T0AKoU7EnEMPk', '-KjK9mQdSEl2GT-BaySU', '-KjPYmmUOWaKkexhMgmw'];
+
+    return arr[this.getRandomArbitrary(0, arr.length - 1)];
+  }
+
+  /**
+   * TODO temporary
+   */
+  getRandomArbitrary(min: number, max: number): number {
+  return Math.floor(Math.random() * (max - min)) + min;
+  }
 	_showNotification(notificationType: Notification, notificationText: string): void {
 		let _this = this;
 		setTimeout(() => {

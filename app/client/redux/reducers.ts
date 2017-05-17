@@ -7,6 +7,7 @@ import {CourseLessonData} from '../node_modules/prendus-services/typings/course-
 import {QuestionScaffold} from '../node_modules/prendus-services/typings/question-scaffold';
 import {QuestionScaffoldAnswer} from '../node_modules/prendus-services/typings/question-scaffold-answer';
 import {UtilitiesService} from '../node_modules/prendus-services/services/utilities-service';
+import {Course} from '../node_modules/prendus-services/typings/course';
 
 export function rootReducer(state: State = InitialState, action: Action): State {
     switch(action.type) {
@@ -448,6 +449,12 @@ export function rootReducer(state: State = InitialState, action: Action): State 
         }
       }
 
+      case 'SET_ENROLLED_COURSES': {
+        return {
+          ...state,
+          enrolledCourses: action.enrolledCourses
+        };
+      }
       default: {
           return state;
       }

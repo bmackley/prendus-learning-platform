@@ -12,6 +12,9 @@
 <!-- Import course router so the quiz-edit and course-edit can be loaded independently. -->
 <link rel="import" href="../prendus-course-router/prendus-course-router.html">
 
+<!--TODO decide on this -->
+<link rel="import" href="../prendus-payment/prendus-payment.html">
+
 <dom-module id="prendus-router">
 
   <template>
@@ -77,7 +80,7 @@
         <prendus-privacy-policy id="privacy-policy" class="app-window" data-page="privacy-policy"></prendus-privacy-policy>
         <prendus-open-source id="open-source" class="app-window" data-page="open-source"></prendus-open-source>
         <prendus-terms-of-service id="terms-of-service" class="app-window" data-page="terms-of-service"></prendus-terms-of-service>
-        <prendus-payment id="payment" class="app-window" data-page="payment"></prendus-payment>
+        <prendus-payment id="payment" course-id="[[calculateCourseId()]]" class="app-window" data-page="payment"></prendus-payment>
         <prendus-question-scaffold id="question-scaffold" class="app-window" data-page="question-scaffold"></prendus-question-scaffold>
 				<div class="app-window" data-page="404">
 					<h3>Sorry, the page you were looking for could not be found.</h3>

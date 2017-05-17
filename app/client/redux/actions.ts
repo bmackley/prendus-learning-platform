@@ -1126,6 +1126,17 @@ const updateCurrentQuestionScaffold = (questionStem: string, comments: string[],
   };
 }
 
+const setEnrolledCourses = async (): Promise<Action> => {
+  const user = await FirebaseService.getLoggedInUser();
+  const uid: string = user.uid;
+  const courseIds: string[] = await UserModel.getCoursesPaidFor(uid);
+  const enrolledCourses: Course[] = await CourseModel.resolveCourseIds(courseIds);
+  return {
+    type: 'SET_ENROLLED_COURSES',
+    enrolledCourses
+  };
+};
+
 export const Actions = {
   defaultAction,
 	showMainSpinner,
@@ -1204,5 +1215,6 @@ export const Actions = {
   setQuestionScaffoldExample,
   updateCurrentQuestionScaffold,
   initCurrentQuestionScaffold,
-  setLtiState
+  setLtiState,
+  setEnrolledCourses
 };

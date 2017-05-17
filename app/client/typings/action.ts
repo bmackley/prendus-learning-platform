@@ -82,4 +82,5 @@ export interface Action {
 	readonly answerText?: string;
 	readonly numberOfAnswers?: number;
 	readonly ltiState?: LTIState;
+	readonly enrolledCourses?: Course[];
 };
