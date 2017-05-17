@@ -2,6 +2,7 @@
 <link rel="import" href="../../bower_components/paper-dialog/paper-dialog.html">
 <link rel="import" href="../../bower_components/paper-icon-button/paper-icon-button.html">
 <link rel="import" href="../../bower_components/iron-icons/iron-icons.html">
+<link rel="import" href="../../bower_components/iron-icons/editor-icons.html">
 <link rel="import" href="../../bower_components/paper-icon-button/paper-icon-button.html">
 <link rel="import" href="../../bower_components/paper-date-picker/paper-date-picker.html">
 <link rel="import" href="../../bower_components/paper-dropdown-menu/paper-dropdown-menu.html">
@@ -14,7 +15,6 @@
 <link rel="import" href="../../bower_components/Sortable/Sortable.html">
 <link rel="import" href="../../bower_components/app-route/app-route.html">
 <link rel="import" href="../../bower_components/paper-card/paper-card.html">
-<link rel="import" href="../prendus-notification/prendus-notification.html">
 <link rel="import" href="../prendus-lesson-container/prendus-lesson-container.html">
 <link rel="import" href="../prendus-lesson-container-edit/prendus-lesson-container-edit.html">
 <link rel="import" href="../prendus-lesson-edit-modal/prendus-lesson-edit-modal.html">
@@ -24,10 +24,6 @@
 <dom-module id="prendus-course-view">
 
 	<style include="prendus-styles paper-date-picker-dialog-style">
-
-    * {
-      margin: 0;
-    }
 
     :host {
       display: block;
@@ -52,7 +48,7 @@
     }
 
     .tag {
-      background-color: var(--light-primary-color);
+      background-color: var(--prendus-primary-color-light);
       border-radius: 20px;
       padding: 10px;
       margin: 5px;
@@ -79,19 +75,12 @@
     }
 
     .lesson-edit-container {
-			/* keeps text from overflowing a flexbox container */
-			min-width: 0;
       flex-grow: 1;
     }
 
 		.edit-section {
 			display: flex;
 			align-items: center;
-		}
-
-		.edit-section * {
-			/* keeps text from overflowing a flexbox container */
-			min-width: 0;
 		}
 
 		.edit-section .edit-input {
@@ -136,7 +125,6 @@
   <template>
     <redux-store action="[[action]]" on-statechange="mapStateToThis"></redux-store>
     <app-route route="[[route]]" pattern="/view/:courseId" data="{{data}}"></app-route>
-    <prendus-notification success-message="[[successMessage]]" error-message="[[errorMessage]]"></prendus-notification>
 
     <paper-card id="course-container">
       <div id="course-content" class="card-content">
@@ -166,6 +154,7 @@
 					</div>
 					<!-- LESSONS -->
 					<h2>Lessons</h2>
+					<!-- VIEW ACCESS -->
 					<template is="dom-if" if="[[!hasEditAccess]]">
 						<template is="dom-if" if="[[!courseLessons.length]]">
 							<p><strong>This course doesn't have any lessons yet.</strong></p>
@@ -180,6 +169,7 @@
 							</div>
 						</template>
 					</template>
+					<!-- EDIT ACCESS -->
 					<template is="dom-if" if="[[hasEditAccess]]">
 						<template is="dom-if" if="[[!courseLessons.length]]">
 							<p><strong>No lessons yet... </strong></p>

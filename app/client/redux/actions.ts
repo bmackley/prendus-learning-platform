@@ -13,7 +13,9 @@ import {Course} from '../node_modules/prendus-services/typings/course';
 import {Tag} from '../node_modules/prendus-services/typings/tag';
 import {Lesson} from '../node_modules/prendus-services/typings/lesson';
 import {QuestionSettings} from '../node_modules/prendus-services/typings/question-settings';
+import {QuestionMetaData} from '../node_modules/prendus-services/typings/question-meta-data';
 import {CourseVisibility} from '../node_modules/prendus-services/typings/course-visibility';
+import {Notification} from '../node_modules/prendus-services/typings/notification';
 import {UserMetaData} from '../node_modules/prendus-services/typings/user-meta-data';
 import {UserType} from '../node_modules/prendus-services/typings/user-type';
 import {User} from '../node_modules/prendus-services/typings/user';
@@ -21,12 +23,10 @@ import {EmailsToUidsModel} from '../node_modules/prendus-services/models/emails-
 import {Video} from '../node_modules/prendus-services/typings/video';
 import {ExecuteAsyncInOrderService} from '../node_modules/prendus-services/services/execute-async-in-order-service';
 import {UtilitiesService} from '../node_modules/prendus-services/services/utilities-service';
-import {SubjectModel} from '../node_modules/prendus-services/models/subject-model';
-import {Discipline} from '../node_modules/prendus-services/typings/discipline';
-import {DisciplineModel} from '../node_modules/prendus-services/models/discipline-model';
-import {Subject} from '../node_modules/prendus-services/typings/subject';
-import {Concept} from '../node_modules/prendus-services/typings/concept';
-import {ConceptModel} from '../node_modules/prendus-services/models/concept-model';
+import {LTIState} from '../node_modules/prendus-services/typings/lti-state';
+import {QuestionScaffold} from '../node_modules/prendus-services/typings/question-scaffold';
+import {QuestionScaffoldAnswer} from '../node_modules/prendus-services/typings/question-scaffold-answer';
+import {Action} from '../typings/action';
 
 const defaultAction = (context: any): void => {
     context.action = {
@@ -45,6 +45,24 @@ const hideMainSpinner = (context: any): void => {
         type: 'HIDE_MAIN_SPINNER'
     };
 };
+
+/**
+ * Shows a notification using Redux
+ * @param {Notification} notificationType - the type of notification needed
+ * @param {string} notificationText - the text of the notification
+ */
+const showNotification = (context: any, notificationType: Notification, notificationText: string): void => {
+	context.action = {
+		type: 'SHOW_NOTIFICATION',
+		notificationType,
+		notificationText: ''
+	};
+	context.action = {
+		type: 'SHOW_NOTIFICATION',
+		notificationType,
+		notificationText
+	};
+}
 
 const loadCourseCollaboratorEmails = async (context: any, uid: string, courseId: string): Promise<void> => {
 
@@ -381,7 +399,7 @@ const deleteQuiz = async (context: any, lessonId: string, quiz: Quiz): Promise<v
     }
     // delete from database
     await QuizModel.deleteQuiz(quiz.id);
-}
+};
 
 const loadEditLessonQuizzes = async (context: any, lessonId: string): Promise<void> => {
     const user: any = await FirebaseService.getLoggedInUser();
@@ -473,8 +491,20 @@ const loadQuizQuestionIds = async (context: any, quizId: string): Promise<void> 
 		// }
 };
 
-const addQuestionToQuiz = async (context: any, quizId: string, questionId: string): Promise<void> => {
-    await QuizModel.associateQuestion(quizId, questionId);
+const loadQuizQuestionsData = async (context: any, quizId: string): Promise<void> => {
+	const quizQuestionsData: QuestionMetaData[] = await QuizModel.getQuestionsData(quizId);
+	context.action =  {
+		type: 'LOAD_QUIZ_QUESTIONS_DATA',
+		quizQuestionsData
+	};
+};
+
+const setQuizQuestionsData = async (quizId: string, quizQuestionsData: QuestionMetaData[]): Promise<void> => {
+	await QuizModel.setQuestionsData(quizId, quizQuestionsData);
+}
+
+const addQuestionToQuiz = async (context: any, quizId: string, questionId: string, position: number): Promise<void> => {
+    await QuizModel.associateQuestion(quizId, questionId, position);
 };
 
 const removeQuestionFromQuiz = async (context: any, quizId: string, questionId: string): Promise<void> => {
@@ -641,18 +671,15 @@ const loadViewCourseLessons = async (context: any, courseId: string): Promise<vo
   };
 };
 
-const createUser = async (context: any, userType: UserType, data: UserMetaData, password: string): Promise<void> => {
-    try {
-        await FirebaseService.createUserWithEmailAndPassword(data.email, password);
-        const loggedInUser: any = await FirebaseService.logInUserWithEmailAndPassword(data.email, password);
-        await UserModel.sendConfirmationEmail(loggedInUser);
-        await UserModel.setUserType(loggedInUser.uid, userType);
-        await UserModel.updateMetaData(loggedInUser.uid, data);
-        await EmailsToUidsModel.setUidByEmail(data.email, loggedInUser.uid);
-        await FirebaseService.logOutUser(); //logout so user can't do things
-    } catch(error){
-        throw error;
-    }
+const createUser = async (userType: UserType, data: UserMetaData, password: string, ltiId: string): Promise<void> => {
+  await FirebaseService.createUserWithEmailAndPassword(data.email, password);
+  const loggedInUser: any = await FirebaseService.logInUserWithEmailAndPassword(data.email, password);
+  await UserModel.sendConfirmationEmail(loggedInUser);
+  await UserModel.setUserType(loggedInUser.uid, userType);
+  await UserModel.setLtiId(loggedInUser.uid, ltiId);
+  await UserModel.updateMetaData(loggedInUser.uid, data);
+  await EmailsToUidsModel.setUidByEmail(data.email, loggedInUser.uid);
+  await FirebaseService.logOutUser(); //logout so user can't do things
 };
 
 const loginUser = async (context: any, email: string, password: string): Promise<void> => {
@@ -674,14 +701,6 @@ const updateUserEmail = async (context: any, pastEmail: string, password: string
   } catch(error) {
     throw error;
   }
-};
-
-const setUserType = async (context: any, uid: string, userType: UserType): Promise<void> => {
-	await UserModel.setUserType(uid, userType)
-	context.action = {
-		type: 'SET_USER_TYPE',
-		userType: userType
-	}
 };
 
 const updateUserMetaData = async (context: any, uid: string, metaData: UserMetaData): Promise<void> => {
@@ -712,6 +731,28 @@ const checkUserAuth = async (context: any): Promise<void> => {
   } catch(error) {
     throw error;
   }
+};
+
+const loadCurrentUser = async(context: any, currentUserId: string): Promise<void> => {
+	const user = await UserModel.getById(currentUserId);
+	context.action = {
+		type: 'LOAD_CURRENT_USER',
+		user
+	};
+}
+
+const loadTeachers = async (context: any): Promise<void> => {
+	const unverifiedTeachers: User[] = await UserModel.getAllByUserType('unverifiedTeacher');
+	const verifiedTeachers: User[] = await UserModel.getAllByUserType('verifiedTeacher');
+	context.action = {
+		type: 'LOAD_TEACHERS',
+		unverifiedTeachers,
+		verifiedTeachers
+	};
+};
+
+const setUserType = async (uid: string, userType: UserType): Promise<void> => {
+	await UserModel.setUserType(uid, userType);
 };
 
 const addLesson = async (context: any, courseId: string, newLesson: Lesson, lessonPos: number, tags: string[]): Promise<void> => {
@@ -792,7 +833,7 @@ const getLessonById = async (context: any, id: string): Promise<Lesson> => {
           context.action = {
             type: 'GET_LESSON_BY_ID',
             lesson
-          }
+          };
       }
 
       return lesson;
@@ -810,7 +851,7 @@ const resolveTagIdObject = async (tags: {[tagId: string]: string}): Promise<Tag[
   } catch(error) {
     throw error;
   }
-}
+};
 
 const addCourse = async (context: any, newCourse: Course, tags: string[]): Promise<void> => {
     try {
@@ -852,11 +893,11 @@ const deleteCourse = async (context: any, course: Course): Promise<void> => {
     context.action = {
       type: 'UPDATE_COURSES',
       courses
-    }
+    };
   } catch (error) {
     throw error;
   }
-}
+};
 
 const deleteTagFromCourse = async (context: any, tag: Tag, courseId: string): Promise<void> => {
     try {
@@ -995,7 +1036,7 @@ const updateCourseField = async (context: any, id: string, field: string, value:
       context.action = {
         type: 'SET_COURSE_VIEW_CURRENT_COURSE',
         currentCourse
-      }
+      };
     } catch(error) {
       throw error;
     }
@@ -1028,267 +1069,140 @@ const updateQuizDueDates = async (courseId: string): Promise<void> => {
   } catch(error) {
     throw error;
   }
-}
+};
+
 const reloadPublicCourses = async (context: any, courses: Course[]): Promise<void> => {
   try {
     context.action = {
       type: 'RELOAD_PUBLIC_COURSES',
       courses
-    }
+    };
   } catch(error) {
 
   }
 };
 
-/**
- * Calls redux
- */
-const getAllDisciplines = async (context: any): Promise<void> => {
-  const disciplines: Discipline[] = await DisciplineModel.getAll();
-  await UtilitiesService.asyncForEach(disciplines, async (discipline: Discipline) => {
-    discipline.resolvedSubjects = await SubjectModel.getAllByDisciplineId(discipline.id);
-    await UtilitiesService.asyncForEach(discipline.resolvedSubjects, async (subject: Subject) => {
-      subject.resolvedConcepts = await ConceptModel.getAllBySubjectId(subject.id);
-    });
-  });
-
-  context.action = {
-    type: 'SET_DISCIPLINES',
-    disciplines
+const setLtiState = (ltiState: LTIState): Action => {
+  return {
+    type: 'SET_LTI_STATE',
+    ltiState
+  };
+};
+const setDisabledNext = (disableNext: boolean): Action => {
+  return {
+    type: 'SET_DISABLED_NEXT',
+    disableNext
   };
 };
 
-/**
- * This sets the chosen discipline but will resolve everything inside of it.
- */
-const setChosenResolvedDiscipline = async (context: any, disciplineId: string): Promise<void> => {
-  const discipline: Discipline = await DisciplineModel.getById(disciplineId);
-  if(discipline) {
-    discipline.resolvedSubjects = await SubjectModel.getAllByDisciplineId(disciplineId);
-    await UtilitiesService.asyncForEach(discipline.resolvedSubjects || [], async (subject: Subject) => {
-      subject.resolvedConcepts = await ConceptModel.getAllBySubjectId(subject.id);
-    });
-  }
-
-  setChosenDiscipline(context, discipline);
-};
-
-const setChosenDiscipline = async (context: any, chosenDiscipline: Discipline): Promise<void> => {
-  context.action = {
-    type: 'SET_CHOSEN_DISCIPLINE',
-    chosenDiscipline
-  }
-};
-
-const deleteDiscipline = async (context: any, discipline: Discipline): Promise<void> => {
-  await DisciplineModel.deleteDiscipline(discipline.id);
-  await UtilitiesService.asyncForEach(Object.keys(discipline.subjects || {}), async (subjectId: string) => {
-    const subject: Subject = await SubjectModel.getById(subjectId);
-    await deleteSubject(context, discipline, subject);
-  });
-  await getAllDisciplines(context);
-  setChosenDiscipline(context, null);
-};
-
-/**
- * Creates subject.
- * Adds subject Id to the discipline.
- */
-const createSubject = async (context: any, disciplineId: string, subject: Subject): Promise<void> => {
-  try {
-    const subjectId: string = await SubjectModel.createOrUpdate(null, subject);
-    await DisciplineModel.addSubject(disciplineId, subjectId);
-    await getAllDisciplines(context);
-    await setChosenResolvedDiscipline(context, disciplineId);
-    await setChosenResolvedSubject(context, subjectId);
-    setChosenConcept(context, null);
-  } catch(error) {
-    throw error;
-  }
-};
-
-/**
- * Sets the chosen subject and resolves everything inside of it
- */
-const setChosenResolvedSubject = async (context: any, subjectId: string): Promise<void> => {
-  try {
-    const subject: Subject = await SubjectModel.getById(subjectId);
-    subject.resolvedConcepts = await ConceptModel.getAllBySubjectId(subjectId);
-
-    setChosenSubject(context, subject);
-  } catch(error) {
-    throw error;
-  }
-};
-
-const setChosenSubject = (context: any, chosenSubject: Subject): void => {
-  context.action = {
-    type: 'SET_CHOSEN_SUBJECT',
-    chosenSubject
-  }
-};
-
-const deleteSubject = async (context: any, discipline: Discipline, subject: Subject): Promise<void> => {
-  await SubjectModel.deleteSubject(subject.id || '');
-  await UtilitiesService.asyncForEach(Object.keys(subject.concepts || {}), async (conceptId: string) => {
-    await ConceptModel.deleteConcept(conceptId);
-  });
-  await getAllDisciplines(context);
-  await setChosenResolvedDiscipline(context, discipline.id);
-  setChosenSubject(context, null);
-};
-
-/**
- * Creates concept.
- * Adds concept Id to the subject.
- */
-const createConcept = async (context: any, discipline: Discipline, subject: Subject, concept: Concept): Promise<void> => {
-  const conceptId: string = await ConceptModel.createOrUpdate(null, concept);
-  await SubjectModel.addConcept(concept.subjectId, conceptId);
-  await getAllDisciplines(context);
-  await setChosenResolvedDiscipline(context, discipline.id);
-  await setChosenResolvedSubject(context, subject.id);
-  await setChosenResolvedConcept(context, conceptId);
-}
-
-const updateConcept = async (context: any, discipline: Discipline, subject: Subject, newConcept: Concept): Promise<void> => {
-  await ConceptModel.createOrUpdate(newConcept.id, newConcept);
-  await getAllDisciplines(context);
-  await setChosenResolvedDiscipline(context, discipline.id);
-  await setChosenResolvedSubject(context, subject.id);
-  await setChosenResolvedConcept(context, newConcept.id);
-};
-
-/**
- * Just named it resolved to be consistent. Use this to query firebase.
- */
-const setChosenResolvedConcept = async (context: any, conceptId: string): Promise<void> => {
-  const concept: Concept = await ConceptModel.getById(conceptId);
-  setChosenConcept(context, concept);
-}
-
-const setChosenConcept = (context: any, chosenConcept: Concept): void => {
-  context.action = {
-    type: 'SET_CHOSEN_CONCEPT',
-    chosenConcept
+const setQuestionScaffold = (currentQuestionScaffold: QuestionScaffold): Action => {
+  return {
+    type: 'SET_CURRENT_QUESTION_SCAFFOLD',
+    currentQuestionScaffold
   };
 };
 
-const deleteConcept = async (context: any, discipline: Discipline, subject: Subject, concept: Concept): Promise<void> => {
-  await ConceptModel.deleteConcept(concept.id);
-  await SubjectModel.deleteConcept(concept.subjectId, concept.id);
-  await getAllDisciplines(context);
-  await setChosenResolvedDiscipline(context, discipline.id);
-  await setChosenResolvedSubject(context, subject.id);
-  setChosenConcept(context, null);
+const setQuestionScaffoldExample = (currentQuestionScaffoldExample: QuestionScaffold): Action => {
+  return {
+    type: 'SET_CURRENT_QUESTION_SCAFFOLD_EXAMPLE',
+    currentQuestionScaffoldExample,
+    disableNext: false
+  };
 };
 
-const updateSubject = async (context: any, discipline: Discipline, subject: Subject): Promise<void> => {
-  await SubjectModel.createOrUpdate(subject.id, subject);
-  await getAllDisciplines(context);
-  await setChosenResolvedDiscipline(context, discipline.id);
-  await setChosenResolvedSubject(context, subject.id);
-
-};
-
-const updateDiscipline = async (context: any, discipline: Discipline): Promise<void> => {
-  await DisciplineModel.createOrUpdate(discipline.id, discipline);
-  await getAllDisciplines(context);
-  setChosenDiscipline(context, discipline);
-};
-
-const addDiscipline = async (context: any, title: string): Promise<void> => {
-  const id: string = await DisciplineModel.createOrUpdate(null, {
-    title
-  });
-  await getAllDisciplines(context);
-  await setChosenResolvedDiscipline(context, id);
-  setChosenSubject(context, null);
-  setChosenConcept(context, null);
-};
+const initCurrentQuestionScaffold = (numberOfAnswers: number): Action => {
+  return {
+    type: 'INIT_CURRENT_QUESTION_SCAFFOLD',
+    numberOfAnswers
+  };
+}
+const updateCurrentQuestionScaffold = (questionStem: string, comments: string[], answers: string[], explanation: string): Action => {
+  return {
+    type: 'UPDATE_CURRENT_QUESTION_SCAFFOLD',
+    comments,
+    questionStem,
+    answers,
+    explanation
+  };
+}
 
 export const Actions = {
-    defaultAction,
-    loginUser,
-    checkUserAuth,
-    deleteLesson,
-    orderLessons,
-    addLesson,
-    createUser,
-    logOutUser,
-    updateUserEmail,
-		setUserType,
-    updateUserMetaData,
-    loadEditLessonVideos,
-    loadViewLessonVideos,
-    setCurrentVideoInfo,
-    saveVideo,
-    clearCurrentVideoInfo,
-    deleteVideo,
-    addCourse,
-    deleteCourse,
-    deleteTagFromCourse,
-    // addTagToCourse,
-    getCoursesByUser,
-    getCoursesByVisibility,
-    loadUserQuestionIds,
-    addQuestionToQuiz,
-    loadQuizQuestionIds,
-    removeQuestionFromQuiz,
-    setQuizQuestionSetting,
-    setQuestionSetting,
-    loadQuizQuestionSettings,
-    setCurrentEditQuizId,
-    loadEditLessonQuizzes,
-    loadViewLessonQuizzes,
-    createNewQuiz,
-    deleteQuiz,
-    getQuiz,
-    getCourseViewCourseById,
-    updateLessonTags,
-    updateLessonTitle,
-    getLessonAndTagNamesById,
-    getLessonById,
-    resolveTagIdObject,
-    loadPublicQuestionIds,
-    starCourse,
-    unstarCourse,
-    getStarredCoursesByUser,
-    addQuizCollaborator,
-    loadQuizCollaboratorEmails,
-    removeQuizCollaborator,
-    getSharedCoursesByUser,
-    loadCourseCollaboratorEmails,
-    loadLessonCollaboratorEmails,
-    loadVideoCollaboratorEmails,
-    addCourseCollaborator,
-    // lookupLessonTags,
-    addLessonCollaborator,
-    addVideoCollaborator,
-    removeCourseCollaborator,
-    removeLessonCollaborator,
-    removeVideoCollaborator,
-    updateCourseField,
-    loadEditCourseLessons,
-    loadViewCourseLessons,
-    showMainSpinner,
-    hideMainSpinner,
-    updateQuizDueDates,
-    reloadPublicCourses,
-    getAllDisciplines,
-    setChosenResolvedDiscipline,
-    setChosenDiscipline,
-    deleteDiscipline,
-    createSubject,
-    setChosenResolvedSubject,
-    setChosenSubject,
-    deleteSubject,
-    updateConcept,
-    createConcept,
-    setChosenResolvedConcept,
-    setChosenConcept,
-    deleteConcept,
-    updateSubject,
-    updateDiscipline,
-    addDiscipline
-  };
+  defaultAction,
+	showMainSpinner,
+	hideMainSpinner,
+	showNotification,
+  loginUser,
+  checkUserAuth,
+	loadCurrentUser,
+	loadTeachers,
+  deleteLesson,
+  orderLessons,
+  addLesson,
+  createUser,
+  logOutUser,
+  updateUserEmail,
+	setUserType,
+  updateUserMetaData,
+  loadEditLessonVideos,
+  loadViewLessonVideos,
+  setCurrentVideoInfo,
+  saveVideo,
+  clearCurrentVideoInfo,
+  deleteVideo,
+  addCourse,
+  deleteCourse,
+  deleteTagFromCourse,
+  // addTagToCourse,
+  getCoursesByUser,
+  getCoursesByVisibility,
+  loadUserQuestionIds,
+  addQuestionToQuiz,
+  loadQuizQuestionIds,
+	loadQuizQuestionsData,
+	setQuizQuestionsData,
+  removeQuestionFromQuiz,
+  setQuizQuestionSetting,
+  setQuestionSetting,
+  loadQuizQuestionSettings,
+  setCurrentEditQuizId,
+  loadEditLessonQuizzes,
+  loadViewLessonQuizzes,
+  createNewQuiz,
+  deleteQuiz,
+  getQuiz,
+  getCourseViewCourseById,
+  updateLessonTags,
+  updateLessonTitle,
+  getLessonAndTagNamesById,
+  getLessonById,
+  resolveTagIdObject,
+  loadPublicQuestionIds,
+  starCourse,
+  unstarCourse,
+  getStarredCoursesByUser,
+  addQuizCollaborator,
+  loadQuizCollaboratorEmails,
+  removeQuizCollaborator,
+  getSharedCoursesByUser,
+  loadCourseCollaboratorEmails,
+  loadLessonCollaboratorEmails,
+  loadVideoCollaboratorEmails,
+  addCourseCollaborator,
+  // lookupLessonTags,
+  addLessonCollaborator,
+  addVideoCollaborator,
+  removeCourseCollaborator,
+  removeLessonCollaborator,
+  removeVideoCollaborator,
+  updateCourseField,
+  loadEditCourseLessons,
+  loadViewCourseLessons,
+  updateQuizDueDates,
+  reloadPublicCourses,
+  setDisabledNext,
+  setQuestionScaffold,
+  setQuestionScaffoldExample,
+  updateCurrentQuestionScaffold,
+  initCurrentQuestionScaffold,
+  setLtiState
+};

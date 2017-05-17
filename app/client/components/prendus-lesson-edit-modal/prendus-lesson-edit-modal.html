@@ -7,7 +7,6 @@
 <link rel="import" href="../../bower_components/app-route/app-route.html">
 <link rel="import" href="../../bower_components/paper-card/paper-card.html">
 <!-- <link rel="import" href="../../bower_components/prendus-paper-tags-input/prendus-paper-tags-input.html"> -->
-<link rel="import" href="../prendus-notification/prendus-notification.html">
 <link rel="import" href="../../bower_components/prendus-styles/prendus-styles.html">
 
 <dom-module id="prendus-lesson-edit-modal">
@@ -30,7 +29,6 @@
 				<button class="prendus-button prendus-button--recommended" disabled$=[[!enableLessonSubmission(newLessonName)]] on-tap="updateLesson">Add</button>
 			</div>
     </paper-dialog>
-    <prendus-notification success-message="[[successMessage]]" error-message="[[errorMessage]]"></prendus-notification>
   </template>
 
   <script src="prendus-lesson-edit-modal.ts"></script>

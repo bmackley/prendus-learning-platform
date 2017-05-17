@@ -3,6 +3,9 @@ import {ConstantsService} from '../../node_modules/prendus-services/services/con
 import {UserMetaData} from '../../node_modules/prendus-services/typings/user-meta-data';
 import {UserType} from '../../node_modules/prendus-services/typings/user-type';
 import {User} from '../../node_modules/prendus-services/typings/user';
+import {StatechangeEvent} from '../../typings/statechange-event';
+import {State} from '../../typings/state';
+import {LTIState} from '../../node_modules/prendus-services/typings/lti-state';
 
 class PrendusCreateAccount {
   public is: string;
@@ -10,10 +13,10 @@ class PrendusCreateAccount {
   public email: string;
   public password: string;
   public confirmPassword: string;
-  public errorMessage: string;
   public properties: any;
   public readonly querySelector: any;
   public createAccountEmailMessage: string;
+  public ltiState: LTIState;
 
   beforeRegister(): void {
       this.is = 'prendus-create-account';
@@ -23,6 +26,11 @@ class PrendusCreateAccount {
 					value: ''
 				}
 			}
+  }
+
+  ready(): void {
+    // fire default action since it's lazy loaded
+    Actions.defaultAction(this);
   }
 
 	showTeacherNote(userType: UserType): boolean {
@@ -74,7 +82,7 @@ class PrendusCreateAccount {
 		if(e.keyCode === 13 && this.enableSignup(this.userType, this.email, this.password, this.confirmPassword)) this.createUser(e);
 	}
 
-  async createUser(e: Event){
+  async createUser(e: Event) {
     try {
         const userMetaData: UserMetaData = {
             uid: '',
@@ -83,8 +91,7 @@ class PrendusCreateAccount {
             lastName: '',
             institution: ''
       	};
-
-        await Actions.createUser(this, this.userType, userMetaData, this.password);
+        await Actions.createUser(this.userType, userMetaData, this.password, this.ltiState ? this.ltiState.userId : null);
 
         // TODO decide on way to show a confirmation
         this.querySelector('#email-confirmation-dialog').open();
@@ -95,12 +102,16 @@ class PrendusCreateAccount {
 				address.`;
     }
     catch(error) {
-				console.error(error);
-        this.errorMessage = '';
-        this.errorMessage = 'An error has occurred.  Please try again later.'
+			Actions.showNotification(this, 'error', 'Error creating user.');
+			console.error(error);
     }
   }
 
+  mapStateToThis(e: StatechangeEvent): void {
+    const state: State = e.detail.state;
+    this.ltiState = state.ltiState;
+    this.email = this.ltiState ? this.ltiState.userEmail : this.email;
+  }
 }
 
 

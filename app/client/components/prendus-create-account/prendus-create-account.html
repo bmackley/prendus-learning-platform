@@ -1,12 +1,10 @@
 <link rel="import" href="../../bower_components/polymer/polymer.html">
 <link rel="import" href="../../bower_components/redux-store-element/redux-store.html">
-<link rel="import" href="../../bower_components/paper-toast/paper-toast.html">
 <link rel="import" href="../../bower_components/paper-input/paper-input.html">
 <link rel="import" href="../../bower_components/paper-card/paper-card.html">
 <link rel="import" href="../../bower_components/paper-dialog/paper-dialog.html" >
 <link rel="import" href="../../bower_components/paper-radio-button/paper-radio-button.html" >
 <link rel="import" href="../../bower_components/paper-radio-group/paper-radio-group.html" >
-<link rel="import" href="../prendus-notification/prendus-notification.html">
 <link rel="import" href="../prendus-terms-of-service/prendus-terms-of-service.html">
 <link rel="import" href="../../bower_components/prendus-styles/prendus-styles.html">
 
@@ -33,7 +31,7 @@
 
     </style>
   <template>
-    <redux-store action="[[action]]"></redux-store>
+    <redux-store on-statechange="mapStateToThis" action="[[action]]"></redux-store>
 
     <paper-card id="sign-up-container" heading="Sign Up">
       <form  id="sign-up-form" is="iron-form" class="card-content" method="get" action="/createclass" on-keydown="createUserOnEnter">
@@ -65,7 +63,6 @@
 			</div>
     </paper-dialog>
 
-    <prendus-notification error-message="[[errorMessage]]"></prendus-notification>
   </template>
 
   <script src="prendus-create-account.ts"></script>

@@ -1,10 +1,8 @@
 <link rel="import" href="../../bower_components/polymer/polymer.html">
 <link rel="import" href="../../bower_components/redux-store-element/redux-store.html">
-<link rel="import" href="../../bower_components/paper-toast/paper-toast.html">
 <link rel="import" href="../../bower_components/paper-input/paper-input.html">
 <link rel="import" href="../../bower_components/paper-card/paper-card.html">
 <link rel="import" href="../../bower_components/paper-dialog/paper-dialog.html">
-<link rel="import" href="../prendus-notification/prendus-notification.html">
 <link rel="import" href="../../bower_components/prendus-styles/prendus-styles.html">
 
 <dom-module id="prendus-login">
@@ -29,7 +27,7 @@
 
   </style>
   <template>
-    <redux-store action="[[action]]"></redux-store>
+    <redux-store action="[[action]]" on-statechange="mapStateToThis"></redux-store>
       <paper-card id="login-container" heading="Log in">
         <form id="login-form" class="card-content" is="iron-form" on-keydown="loginOnEnter">
           <paper-input id="email" name="email" label="Email" value="{{email}}" required on-change="hardValidateEmail" on-keyup="softValidateEmail" pattern="^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$" error-message="Please enter a valid email address."></paper-input>
@@ -53,8 +51,6 @@
 					</div>
         </form>
       </paper-dialog>
-
-      <prendus-notification success-message="[[successMessage]]" error-message="[[errorMessage]]"></prendus-notification>
   </template>
 
   <script src="prendus-login.ts"></script>

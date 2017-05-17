@@ -13,7 +13,6 @@ class PrendusLessonContainer {
   public observers: string[];
   public lessonData: Lesson;
   public selected: number;
-  public errorMessage: string;
   public tags: Tag[];
   public querySelector: any;
 
@@ -41,7 +40,8 @@ class PrendusLessonContainer {
           this.tags = await Actions.resolveTagIdObject(lesson.tags);
         }
       } catch(error) {
-        this.errorMessage = error.message;
+				Actions.showNotification(this, 'error', 'Error loading lesson');
+				console.error(error);
       }
     }
   }

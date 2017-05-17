@@ -1,12 +1,10 @@
+import {Actions} from '../../redux/actions';
+
 export class PrendusVideoEditor {
     public is: string;
     public properties: any;
     public videoId: string;
-    public $: {
-        savedToast: any,
-        titleInput: any,
-        urlInput: any
-    };
+    public $: any;
     public fire: any;
     public querySelector: any;
     public addEventListener: any;
@@ -34,7 +32,6 @@ export class PrendusVideoEditor {
     }
 
     ready() {
-        this.$.savedToast.fitInto = this;
         this.addEventListener('mousedown', (e: any) => {
             e.stopPropagation();
         });
@@ -78,8 +75,12 @@ export class PrendusVideoEditor {
     }
 
     indicateSaved(): void {
-        this.$.savedToast.open();
+        Actions.showNotification(this, 'success', 'Video saved successfully');
     }
+
+		pause(): void {
+			this.querySelector('prendus-video-viewer').pause();
+		}
 }
 
 Polymer(PrendusVideoEditor);

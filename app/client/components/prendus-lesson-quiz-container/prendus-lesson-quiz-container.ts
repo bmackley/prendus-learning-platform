@@ -5,6 +5,9 @@ import {Actions} from '../../redux/actions';
 import {StatechangeEvent} from '../../typings/statechange-event';
 import {FirebaseService} from '../../node_modules/prendus-services/services/firebase-service';
 import {UtilitiesService} from '../../node_modules/prendus-services/services/utilities-service';
+import {QuizOrigin} from '../../node_modules/prendus-services/typings/quiz-origin';
+// squish TypeScript errors
+declare let window: any;
 
 class PrendusLessonQuizContainer {
     public is: string;
@@ -16,8 +19,6 @@ class PrendusLessonQuizContainer {
 		public quizToDelete: Quiz;
     public uid: string;
     public currentCourse: Course;
-    public successMessage: string;
-    public errorMessage: string;
     public jwt: string;
     public endpointDomain: string;
     public ltiLink: string;
@@ -66,7 +67,9 @@ class PrendusLessonQuizContainer {
 		viewQuiz(e: any) {
 
       const quizId: string = e.model.quiz.id;
-      window.history.pushState({}, '', `courses/view-quiz/course/${this.courseId}/lesson/${this.lessonId}/quiz/${quizId}`);
+      // /view-quiz/course/:courseId/lesson/:lessonId/quiz/:quizId/quiz-origin/:quizOrigin/user-full-name/:userFullName/user-id/:userId/consumer-key/:consumerKey/user-email/:userEmail
+      const quizOrigin: QuizOrigin = 'LEARNING_PLATFORM';
+      window.history.pushState({}, '', `courses/view-quiz/course/${this.courseId}/lesson/${this.lessonId}/quiz/${quizId}/quiz-origin/${quizOrigin}/user-full-name/${null}/user-id/${null}/consumer-key/${null}/user-email/${null}`);
 			this.fire('location-changed', {}, {node: window});
 		}
 
@@ -83,6 +86,7 @@ class PrendusLessonQuizContainer {
       this.ltiQuizId = e.target.parentElement.dataQuiz;
       this.endpointDomain = UtilitiesService.getPrendusServerEndpointDomain();
       const courseId: string = this.courseId;
+      const lessonId: string = this.lessonId;
       const jwt: string = this.jwt;
       const LTIRequest = this.querySelector("#getLTIajax");
       LTIRequest.body = {
@@ -92,7 +96,12 @@ class PrendusLessonQuizContainer {
       const request = LTIRequest.generateRequest();
       await request.completes;
       this.secret = request.response.secret;
-      this.ltiLink = `${UtilitiesService.getPrendusServerEndpointDomain()}/api/lti/course/${this.courseId}/quiz/${this.ltiQuizId}`;
+      const env = window['PRENDUS_ENV'];
+      if(env === 'development') {
+        this.ltiLink = `http://localhost:5000/api/lti/course/${this.courseId}/lesson/${lessonId}/quiz/${this.ltiQuizId}`;
+      } else {
+        this.ltiLink = `http://prenduslearning.com/api/lti/course/${this.courseId}/lesson/${lessonId}/quiz/${this.ltiQuizId}`;
+      }
       this.querySelector('#get-quiz-lti-link').open()
     }
 
@@ -107,11 +116,10 @@ class PrendusLessonQuizContainer {
       try {
         await Actions.deleteQuiz(this, this.lessonId, this.quizToDelete);
         await Actions.loadViewLessonQuizzes(this, this.lessonId);
-        this.successMessage = '';
-        this.successMessage = 'Quiz deleted.';
+				Actions.showNotification(this, 'success', 'Quiz deleted successfully.');
       } catch (error) {
-        this.errorMessage = '';
-        this.errorMessage = error.message;
+				Actions.showNotification(this, 'error', 'Error deleting quiz.');
+				console.error(error);
       }
     }
 

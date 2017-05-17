@@ -3,6 +3,10 @@ import {UserModel} from '../../node_modules/prendus-services/models/user-model';
 import {Quiz} from '../../node_modules/prendus-services/typings/quiz';
 import {Actions} from '../../redux/actions';
 import {StatechangeEvent} from '../../typings/statechange-event';
+import {LTIState} from '../../node_modules/prendus-services/typings/lti-state';
+import {Action} from '../../typings/action';
+import {QuizOrigin} from '../../node_modules/prendus-services/typings/quiz-origin';
+import {UtilitiesService} from '../../node_modules/prendus-services/services/utilities-service';
 
 class PrendusViewQuizRouter {
     public is: string;
@@ -17,6 +21,14 @@ class PrendusViewQuizRouter {
     public jwt: string;
     public fire: any;
     public data: any;
+    public querySelector: any;
+    public ltiState: LTIState;
+    public action: Action;
+    public quizOrigin: QuizOrigin;
+    public userId: string;
+    public consumerKey: string;
+    public displayLink: boolean;
+    public properties: any;
 
     ready(): void {
       Actions.defaultAction(this);
@@ -26,12 +38,45 @@ class PrendusViewQuizRouter {
       this.is = 'prendus-view-quiz-router';
 			this.observers = [
 				'updateEditAccess(data)'
-			]
+			];
+      this.properties = {
+        quizOrigin: {
+          type: Object,
+          observer: 'quizOriginChange'
+        }
+      };
+    }
+
+    quizOriginChange(): void {
+      this.displayLink = this.quizOrigin === 'LEARNING_PLATFORM';
     }
 
 		async updateEditAccess(data: any) {
-			const quiz: Quiz = await Actions.getQuiz(data.quizId);
+
+      this.quizOrigin = data.quizOrigin;
+      if(this.quizOrigin === 'LTI') {
+        const ltiState: LTIState = {
+          consumerKey: data.consumerKey,
+          courseId: data.courseId,
+          lessonId: data.lessonId,
+          quizId: data.quizId,
+          quizOrigin: data.quizOrigin,
+          userEmail: data.userEmail,
+          userFullName: data.userFullName,
+          userId: data.userId
+        };
+
+        const loggedInUser = await FirebaseService.getLoggedInUser();
+        if(!loggedInUser) {
+          this.querySelector('#sign-up-sign-in-dialog').open();
+        }
+        this.userId = data.userId;
+        this.consumerKey = data.consumerKey;
+        this.action = Actions.setLtiState(ltiState);
+      }
+      const quiz: Quiz = await Actions.getQuiz(data.quizId);
 			this.hasEditAccess = this.uid === quiz.uid;
+      this.userEmail = data.userEmail;
 			// put this back once collaborators work again
 			// this.hasEditAccess = this.uid in quiz.collaborators;
 		}
@@ -50,6 +95,7 @@ class PrendusViewQuizRouter {
       this.userFullName = `${state.currentUser.metaData.firstName} ${state.currentUser.metaData.lastName}`;
       this.userEmail = state.currentUser.metaData.email;
       this.jwt = state.jwt;
+      this.ltiState = state.ltiState;
     }
 }
 

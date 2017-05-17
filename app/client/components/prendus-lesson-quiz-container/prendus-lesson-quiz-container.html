@@ -64,7 +64,7 @@
 				<span class="quiz-title">[[quiz.title]]</span>
 				<div class="quiz-icons">
 					<template is="dom-if" if="[[quiz.hasEditAccess]]">
-            <paper-icon-button id="LTI-quiz-links[[quiz.id]]"  data-quiz="[[quiz.id]]" class="quiz-icon" icon="link" on-tap="getLTILinks"></paper-icon-button>
+            <paper-icon-button id="LTI-quiz-links[[quiz.id]]" class="prendus-icon-button" data-quiz="[[quiz.id]]" class="quiz-icon" icon="link" on-tap="getLTILinks"></paper-icon-button>
 						<paper-tooltip for="LTI-quiz-links[[quiz.id]]" offset="0" animation-delay="300">Get LTI Link</paper-tooltip>
 						<paper-icon-button id="edit-quiz[[quiz.id]]" class="prendus-icon-button" icon="create" on-tap="editQuiz"></paper-icon-button>
 						<paper-tooltip for="edit-quiz[[quiz.id]]" offset="0" animation-delay="300">Edit Quiz</paper-tooltip>
@@ -104,7 +104,6 @@
         </div>
       </paper-dialog-scrollable>
     </paper-dialog>
-    <prendus-notification error-message="[[errorMessage]]" success-message="[[successMessage]]"></prendus-notification>
   </template>
 
   <script src="prendus-lesson-quiz-container.ts"></script>

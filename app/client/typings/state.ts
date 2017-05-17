@@ -1,7 +1,9 @@
+import {Notification} from '../node_modules/prendus-services/typings/notification';
 import {Video} from '../node_modules/prendus-services/typings/video';
 import {Quiz} from '../node_modules/prendus-services/typings/quiz';
 import {Concept} from '../node_modules/prendus-services/typings/concept';
 import {QuestionSettings} from '../node_modules/prendus-services/typings/question-settings';
+import {QuestionMetaData} from '../node_modules/prendus-services/typings/question-meta-data';
 import {User} from '../node_modules/prendus-services/typings/user';
 import {UserMetaData} from '../node_modules/prendus-services/typings/user-meta-data';
 import {Course} from '../node_modules/prendus-services/typings/course';
@@ -9,77 +11,89 @@ import {CourseLessonData} from '../node_modules/prendus-services/typings/course-
 import {Lesson} from '../node_modules/prendus-services/typings/lesson';
 import {Discipline} from '../node_modules/prendus-services/typings/discipline';
 import {Subject} from '../node_modules/prendus-services/typings/subject';
+import {LTIState} from '../node_modules/prendus-services/typings/lti-state';
+import {QuestionScaffold} from '../node_modules/prendus-services/typings/question-scaffold';
+import {QuestionScaffoldAnswer} from '../node_modules/prendus-services/typings/question-scaffold-answer';
 
 export interface State {
-    editCourseLessons: {
-        [courseId: string]: CourseLessonData[]
-    };
-    editLessonVideos: {
-        [lessonId: string]: Video[]
-    };
-    editLessonQuizzes: {
-        [lessonId: string]: Quiz[]
-    };
-    viewCourseLessons: {
-        [courseId: string]: CourseLessonData[]
-    };
-    viewLessonVideos: {
-        [lessonId: string]: Video[]
-    };
-    viewLessonQuizzes: {
-        [lessonId: string]: Quiz[]
-    };
-    courses: Course[];
-    userCourses: Course[];
-    sharedCourses: Course[];
-    starredCourses: Course[];
-    publicCourses: Course[];
-    currentLesson: Lesson;
-    lessons: Lesson[];
-    courseTagNames: string[];
-    courseViewCurrentCourse: Course;
-    currentLessonVideoId: string;
-    currentLessonVideoTitle: string;
-    currentLessonVideoUrl: string
-    currentUser: {
-      metaData: UserMetaData
-    };
-		currentVideo: Video
-    currentEditQuizId: string;
-    currentEditLessonId: string;
-    jwt: string;
-    courseCollaboratorEmails: {
-        [uid: string]: {
-            [courseId: string]: string[];
-        };
-    };
-    lessonCollaboratorEmails: {
-        [courseId: string]: {
-            [lessonId: string]: string[];
-        };
-    };
-    videoCollaboratorEmails: {
-        [lessonId: string]: {
-            [videoId: string]: string[];
-        };
-    };
-    quizCollaboratorEmails: {
-        [lessonId: string]: {
-            [quizId: string]: string[];
-        };
-    };
-		userQuestionIds: [string];
-		publicQuestionIds: [string];
-		quizQuestionIds: [string];
-		quizQuestionSettings: QuestionSettings;
-    mainViewToShow: 'routes' | 'spinner';
-    resultingLessons: Lesson[];
-    resultingCourses: Course[];
-    currentCourse: Course;
-    disciplines: Discipline[];
-    chosenDiscipline: Discipline;
-    chosenSubject: Subject;
-    chosenConcept: Concept;
-    subjects: Subject[];
-    concepts: Concept[];
+	readonly notificationType: Notification;
+	readonly notificationText: string;
+  readonly editCourseLessons: {
+      [courseId: string]: CourseLessonData[]
+  };
+  readonly editLessonVideos: {
+      [lessonId: string]: Video[]
+  };
+  readonly editLessonQuizzes: {
+      [lessonId: string]: Quiz[]
+  };
+  readonly viewCourseLessons: {
+      [courseId: string]: CourseLessonData[]
+  };
+  readonly viewLessonVideos: {
+      [lessonId: string]: Video[]
+  };
+  readonly viewLessonQuizzes: {
+      [lessonId: string]: Quiz[]
+  };
+  readonly courses: Course[];
+  readonly userCourses: Course[];
+  readonly sharedCourses: Course[];
+  readonly starredCourses: Course[];
+  readonly publicCourses: Course[];
+  readonly currentLesson: Lesson;
+  readonly lessons: Lesson[];
+  readonly courseTagNames: string[];
+  readonly courseViewCurrentCourse: Course;
+  readonly currentLessonVideoId: string;
+  readonly currentLessonVideoTitle: string;
+  readonly currentLessonVideoUrl: string;
+  readonly currentUser: User;
+	readonly unverifiedTeachers: User[];
+	readonly verifiedTeachers: User[];
+	readonly currentVideo: Video;
+  readonly currentEditQuizId: string;
+  readonly currentEditLessonId: string;
+  readonly jwt: string;
+  readonly courseCollaboratorEmails: {
+      [uid: string]: {
+          [courseId: string]: string[];
+      };
+  };
+  readonly lessonCollaboratorEmails: {
+      [courseId: string]: {
+          [lessonId: string]: string[];
+      };
+  };
+  readonly videoCollaboratorEmails: {
+      [lessonId: string]: {
+          [videoId: string]: string[];
+      };
+  };
+  readonly quizCollaboratorEmails: {
+      [lessonId: string]: {
+          [quizId: string]: string[];
+      };
+  };
+	readonly userQuestionIds: [string];
+	readonly publicQuestionIds: [string];
+	readonly quizQuestionIds: [string];
+	readonly quizQuestionsData: QuestionMetaData[];
+	readonly quizQuestionSettings: QuestionSettings;
+  readonly mainViewToShow: 'routes' | 'spinner';
+  readonly resultingLessons: Lesson[];
+  readonly resultingCourses: Course[];
+  readonly currentCourse: Course;
+  readonly disciplines: Discipline[];
+  readonly chosenDiscipline: Discipline;
+  readonly chosenSubject: Subject;
+  readonly chosenConcept: Concept;
+  readonly subjects: Subject[];
+  readonly concepts: Concept[];
+	readonly ltiState: LTIState;
+  readonly disableNext: boolean;
+  readonly currentQuestionScaffold: QuestionScaffold;
+  readonly currentQuestionScaffoldExample: QuestionScaffold;
+	readonly questionScaffoldAnswers: QuestionScaffoldAnswer[];
+	readonly exampleQuestionScaffoldAnswers: QuestionScaffoldAnswer[];
 }

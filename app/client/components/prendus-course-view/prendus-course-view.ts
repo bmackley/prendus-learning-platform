@@ -23,8 +23,6 @@ export class PrendusCourseView {
   public observers: string[];
   public username: string;
   public uid: string;
-  public successMessage: string;
-  public errorMessage: string;
   public querySelector: any;
   public editingTitle: boolean;
   public editingDescription: boolean;
@@ -163,14 +161,12 @@ export class PrendusCourseView {
         // Date has changed
         await Actions.updateCourseField(this, this.courseId, 'dueDate', UTCDate);
         await Actions.updateQuizDueDates(this.courseId);
-        this.successMessage = '';
-        this.successMessage = 'Last day of course has been updated';
+				Actions.showNotification(this, 'success', 'Last day of course has been updated.');
       }
 
     } catch(error) {
-      console.error(error.message);
-      this.errorMessage = '';
-      this.errorMessage = error.message;
+			Actions.showNotification(this, 'error', 'Error changing due date.');
+      console.error(error);
     }
 
   }
@@ -208,9 +204,8 @@ export class PrendusCourseView {
       }
     } catch(error) {
 			this.courseLoaded = false;
-      console.error(error.message);
-      this.errorMessage = '';
-      this.errorMessage = error.message;
+			Actions.showNotification(this, 'error', 'Error loading course.');
+      console.error(error);
     }
 		Actions.hideMainSpinner(this);
   }
@@ -234,12 +229,10 @@ export class PrendusCourseView {
       }
       try {
         await Actions.orderLessons(this, this.courseId, updateLessonPositionArray);
-        this.successMessage = '';
-        this.successMessage = 'Lesson ordered successfully';
+				Actions.showNotification(this, 'success', 'Lesson ordered successfully.');
       } catch(error) {
-        console.error(error.message);
-        this.errorMessage = '';
-        this.errorMessage = error.message;
+				Actions.showNotification(this, 'error', 'Error ordering lessons.');
+        console.error(error);
       }
     }
   }
@@ -262,14 +255,11 @@ export class PrendusCourseView {
             // Ideally we would reload the one course that got updated. But for now this will do.
             Actions.getCoursesByVisibility(this, 'public', this.numberOfPublicCoursesLoaded);
         }
-
-        this.successMessage = '';
-        this.successMessage = `Course ${attribute} has been updated`;
+				Actions.showNotification(this, 'success', `Course ${attribute} has been updated`);
       }
     } catch(error) {
-      console.error(error.message)
-      this.errorMessage = '';
-      this.errorMessage = error.message;
+			Actions.showNotification(this, 'error', 'Error updating course.');
+      console.error(error)
     }
   }
 
