@@ -1,6 +1,6 @@
 <link rel="import" href="../../bower_components/polymer/polymer.html">
 <link rel="import" href="../../bower_components/prendus-styles/prendus-styles.html">
-<link rel="import" href="../../bower_components/paper-input/paper-input.html">
+<link rel="import" href="../../bower_components/paper-input/paper-textarea.html">
 <link rel="import" href="../../bower_components/paper-item/paper-item.html">
 <dom-module id="prendus-question-scaffold-distractors">
 
@@ -70,7 +70,7 @@
           </div>
           <template is="dom-repeat" items="[[distractors]]">
             <div class="prendus-card distractor-card">
-              <paper-input id="distractor[[plusOne(index)]]" label="Distractor [[plusOne(index)]]" on-value-changed="disableNext"></paper-input>
+              <paper-textarea id="distractor[[plusOne(index)]]" label="Distractor [[plusOne(index)]]" on-value-changed="disableNext"></paper-textarea>
             </div>
           </template>
         </div>

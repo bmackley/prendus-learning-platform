@@ -73,7 +73,6 @@ class PrendusQuestionScaffold {
     ++this.selectedIndex;
     if(this.selectedIndex === this.querySelector('#iron-pages').items.length - 1) {
       // Reached the limit.
-      console.log('something is happening here')
       this.action = Actions.setDisabledNext(true);
     }
   }

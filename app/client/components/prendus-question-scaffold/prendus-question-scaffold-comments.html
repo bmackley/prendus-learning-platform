@@ -1,6 +1,6 @@
 <link rel="import" href="../../bower_components/polymer/polymer.html">
 <link rel="import" href="../../bower_components/prendus-styles/prendus-styles.html">
-<link rel="import" href="../../bower_components/paper-input/paper-input.html">
+<link rel="import" href="../../bower_components/paper-input/paper-textarea.html">
 
 <dom-module id="prendus-question-scaffold-comments">
 
@@ -58,7 +58,7 @@
             [[item.text]]
           </div>
           <div class="prendus-card right-column">
-            <paper-input id="comment[[index]]" label="Comment [[plusOne(index)]]" on-value-changed="disableNext"></paper-input>
+            <paper-textarea id="comment[[index]]" label="Comment [[plusOne(index)]]" on-value-changed="disableNext"></paper-textarea>
           </div>
         </div>
       </template>

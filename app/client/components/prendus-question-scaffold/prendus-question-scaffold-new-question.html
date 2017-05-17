@@ -28,18 +28,13 @@
     </style>
     <redux-store on-statechange="mapStateToThis" action="[[action]]"></redux-store>
     <div class="wrapper">
-
       <div class="prendus-card question">
-        <h3>Question <iron-icon id="questionDirections" icon="info-outline"></iron-icon></h3>
-        <paper-tooltip for="questionDirections" position="right">Write the question</paper-tooltip>
+        <h3>Question</h3>
         <paper-textarea id="question" value="[[question]]" on-value-changed="disableNext"></paper-textarea>
-        <!-- <paper-input id="question" value="[[question]]" on-value-changed="disableNext"></paper-input> -->
       </div>
       <div class="prendus-card answer">
-        <h3>Correct Answer<iron-icon id="answerDirections" icon="info-outline"></iron-icon></h3>
-        <paper-tooltip for="answerDirections" position="right">The correct answer to the question.</paper-tooltip>
+        <h3>Correct Answer</h3>
         <paper-textarea id="answer" value="[[answer]]" on-value-changed="disableNext"></paper-textarea>
-        <!-- <paper-input id="answer" value="[[answer]]" on-value-changed="disableNext"></paper-input> -->
       </div>
     </div>
 
