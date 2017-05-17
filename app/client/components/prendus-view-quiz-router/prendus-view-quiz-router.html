@@ -40,8 +40,7 @@
       </div>
 
     </paper-card>
-		<paper-dialog id="login-dialog"></paper-dialog>
-		<paper-dialog id="sign-up-dialog">
+		<paper-dialog id="sign-up-sign-in-dialog" modal>
 			<div class="content">
 				<!-- TODO decide on this -->
 				<!-- TODO center the dialog -->
@@ -49,8 +48,8 @@
 
 			</div>
 			<div class="buttons">
-				<a href="/signup"><button class="prendus-button">Sign up</button></a>
-				<a href="/login"><button class="prendus-button">Login</button></a>
+				<a href="/signup"><button class="prendus-button" dialog-dismiss>Sign up</button></a>
+				<a href="/login"><button class="prendus-button" dialog-dismiss>Login</button></a>
 			</div>
 		</paper-dialog>
 

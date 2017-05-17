@@ -5,7 +5,7 @@ import {ConstantsService} from '../../node_modules/prendus-services/services/con
 import {FirebaseService} from '../../node_modules/prendus-services/services/firebase-service';
 import {State} from '../../typings/state';
 import {LTIState} from '../../node_modules/prendus-services/typings/lti-state';
-
+import {Action} from '../../typings/action';
 class PrendusLogin {
   public is: string;
   public email: string;
@@ -15,6 +15,7 @@ class PrendusLogin {
   public querySelector: any;
   public fire: any;
   public ltiState: LTIState;
+  public action: Action;
 
   beforeRegister(): void {
     this.is = 'prendus-login'
@@ -56,7 +57,10 @@ class PrendusLogin {
       Actions.getCoursesByUser(this);
       Actions.getStarredCoursesByUser(this, uid);
       Actions.getSharedCoursesByUser(this, uid);
-
+      if(!this.ltiState && localStorage.getItem('ltiState')) {
+        const ltiState: LTIState = JSON.parse(localStorage.getItem('ltiState'));
+        this.action = Actions.setLtiState(ltiState);
+      }
       const location: string = this.ltiState ? `courses/view-quiz/course/${this.ltiState.courseId}/lesson/${this.ltiState.lessonId}/quiz/${this.ltiState.quizId}/quiz-origin/${this.ltiState.quizOrigin}/user-full-name/${this.ltiState.userFullName}/user-id/${this.ltiState.userId}/consumer-key/${this.ltiState.consumerKey}/user-email/${this.ltiState.userEmail}` : 'courses/home';
       window.history.pushState({}, '', location);
       this.fire('location-changed', {}, {node: window});
