@@ -3,7 +3,9 @@ import {rootReducer} from '../../redux/reducers';
 import {StatechangeEvent} from '../../typings/statechange-event';
 import {ConstantsService} from '../../node_modules/prendus-services/services/constants-service';
 import {FirebaseService} from '../../node_modules/prendus-services/services/firebase-service';
-
+import {State} from '../../typings/state';
+import {LTIState} from '../../node_modules/prendus-services/typings/lti-state';
+import {Action} from '../../typings/action';
 class PrendusLogin {
   public is: string;
   public email: string;
@@ -12,9 +14,16 @@ class PrendusLogin {
   public listeners: any;
   public querySelector: any;
   public fire: any;
+  public ltiState: LTIState;
+  public action: Action;
 
   beforeRegister(): void {
     this.is = 'prendus-login'
+  }
+
+  ready(): void {
+    // Call default action since this is lazy loaded
+    Actions.defaultAction(this);
   }
 
 	// each input has a hard validation for when focus is lost and a soft validation
@@ -48,7 +57,11 @@ class PrendusLogin {
       Actions.getCoursesByUser(this);
       Actions.getStarredCoursesByUser(this, uid);
       Actions.getSharedCoursesByUser(this, uid);
-      const location: string = 'courses/home'
+      if(!this.ltiState && localStorage.getItem('ltiState')) {
+        const ltiState: LTIState = JSON.parse(localStorage.getItem('ltiState'));
+        this.action = Actions.setLtiState(ltiState);
+      }
+      const location: string = this.ltiState ? `courses/view-quiz/course/${this.ltiState.courseId}/lesson/${this.ltiState.lessonId}/quiz/${this.ltiState.quizId}/quiz-origin/${this.ltiState.quizOrigin}/user-full-name/${this.ltiState.userFullName}/user-id/${this.ltiState.userId}/consumer-key/${this.ltiState.consumerKey}/user-email/${this.ltiState.userEmail}` : 'courses/home';
       window.history.pushState({}, '', location);
       this.fire('location-changed', {}, {node: window});
     } catch(error) {
@@ -84,6 +97,12 @@ class PrendusLogin {
     }
 		this.resetPasswordEmail = '';
 		this.querySelector('#reset-password-email').invalid = false;
+  }
+
+  mapStateToThis(e: StatechangeEvent): void {
+    const state: State = e.detail.state;
+    this.ltiState = state.ltiState;
+    this.email = this.ltiState ? this.ltiState.userEmail : this.email;
   }
 }
 

@@ -31,7 +31,7 @@
 
     </style>
   <template>
-    <redux-store action="[[action]]"></redux-store>
+    <redux-store on-statechange="mapStateToThis" action="[[action]]"></redux-store>
 
     <paper-card id="sign-up-container" heading="Sign Up">
       <form  id="sign-up-form" is="iron-form" class="card-content" method="get" action="/createclass" on-keydown="createUserOnEnter">
