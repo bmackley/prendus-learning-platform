@@ -68,8 +68,7 @@ class PrendusLessonQuizContainer {
 
       const quizId: string = e.model.quiz.id;
       const quizOrigin: QuizOrigin = 'LEARNING_PLATFORM';
-      // Set to null since this is a learning platform launch
-      window.history.pushState({}, '', `courses/view-quiz/course/${this.courseId}/lesson/${this.lessonId}/quiz/${quizId}/quiz-origin/${quizOrigin}/user-full-name/${null}/user-id/${null}/consumer-key/${null}/user-email/${null}`);
+      window.history.pushState({}, '', `courses/view-quiz/course/${this.courseId}/quiz/${quizId}/quiz-origin/${quizOrigin}`);
 			this.fire('location-changed', {}, {node: window});
 		}
 
@@ -98,9 +97,9 @@ class PrendusLessonQuizContainer {
       this.secret = request.response.secret;
       const env = window['PRENDUS_ENV'];
       if(env === 'development') {
-        this.ltiLink = `http://localhost:5000/api/lti/course/${this.courseId}/lesson/${lessonId}/quiz/${this.ltiQuizId}`;
+        this.ltiLink = `http://localhost:5000/api/lti/course/${this.courseId}/quiz/${this.ltiQuizId}`;
       } else {
-        this.ltiLink = `http://prenduslearning.com/api/lti/course/${this.courseId}/lesson/${lessonId}/quiz/${this.ltiQuizId}`;
+        this.ltiLink = `http://prenduslearning.com/api/lti/course/${this.courseId}/quiz/${this.ltiQuizId}`;
       }
       this.querySelector('#get-quiz-lti-link').open()
     }
