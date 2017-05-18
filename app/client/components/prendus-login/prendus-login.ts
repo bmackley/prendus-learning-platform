@@ -102,7 +102,6 @@ class PrendusLogin {
   mapStateToThis(e: StatechangeEvent): void {
     const state: State = e.detail.state;
     this.ltiState = state.ltiState;
-    this.email = this.ltiState ? this.ltiState.userEmail : this.email;
   }
 }
 

@@ -72,15 +72,13 @@ class PrendusViewQuizRouter {
           };
 
           const loggedInUser = await FirebaseService.getLoggedInUser();
+          this.action = Actions.setLtiState(ltiState);
           if(!loggedInUser) {
             this.querySelector('#sign-up-sign-in-dialog').open();
           } else {
 
-            // TODO make them pay here.
             this.userId = data.userId;
             this.consumerKey = data.consumerKey;
-            this.action = Actions.setLtiState(ltiState);
-
 
             const body: any = {
               courseId: data.courseId,
@@ -96,13 +94,13 @@ class PrendusViewQuizRouter {
             });
 
             const responseBody = await response.json();
-            console.log('responseBody ', responseBody)
             if(!responseBody.hasUserPaid) {
               Actions.showNotification(this, 'info', 'Please pay for this course before taking a quiz.');
               this.querySelector('#payment').open();
             }
           }
         }
+        
         const quiz: Quiz = await Actions.getQuiz(data.quizId);
         this.hasEditAccess = this.uid === quiz.uid;
         this.userEmail = data.userEmail;
