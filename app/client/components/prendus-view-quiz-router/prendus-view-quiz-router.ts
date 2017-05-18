@@ -7,6 +7,7 @@ import {LTIState} from '../../node_modules/prendus-services/typings/lti-state';
 import {Action} from '../../typings/action';
 import {QuizOrigin} from '../../node_modules/prendus-services/typings/quiz-origin';
 import {UtilitiesService} from '../../node_modules/prendus-services/services/utilities-service';
+import {State} from '../../typings/state';
 
 class PrendusViewQuizRouter {
     public is: string;
@@ -82,8 +83,7 @@ class PrendusViewQuizRouter {
 
             const body: any = {
               courseId: data.courseId,
-              jwt: this.jwt,
-              ltiJwt
+              jwt: this.jwt
             };
             const response = await fetch(`${UtilitiesService.getPrendusServerEndpointDomain()}/api/payment/has-user-paid`, {
               method: 'POST',
@@ -100,7 +100,7 @@ class PrendusViewQuizRouter {
             }
           }
         }
-        
+
         const quiz: Quiz = await Actions.getQuiz(data.quizId);
         this.hasEditAccess = this.uid === quiz.uid;
         this.userEmail = data.userEmail;
@@ -120,7 +120,7 @@ class PrendusViewQuizRouter {
     }
 
     mapStateToThis(e: StatechangeEvent): void {
-      const state = e.detail.state;
+      const state: State = e.detail.state;
 			this.uid = state.currentUser.metaData.uid;
       this.userFullName = `${state.currentUser.metaData.firstName} ${state.currentUser.metaData.lastName}`;
       this.userEmail = state.currentUser.metaData.email;

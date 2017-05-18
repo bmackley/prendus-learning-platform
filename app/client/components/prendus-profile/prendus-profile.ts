@@ -22,7 +22,7 @@ export class PrendusProfile {
     this.is = 'prendus-profile';
   }
 
-	async ready(): Promise<void> {
+	ready(): void {
 		Actions.defaultAction(this);
 	}
 
