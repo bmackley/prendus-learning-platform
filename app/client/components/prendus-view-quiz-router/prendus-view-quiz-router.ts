@@ -30,6 +30,7 @@ class PrendusViewQuizRouter {
     public consumerKey: string;
     public displayLink: boolean;
     public properties: any;
+    public ltiJwt: string;
 
     ready(): void {
       Actions.defaultAction(this);
@@ -59,6 +60,7 @@ class PrendusViewQuizRouter {
         await Actions.checkUserAuth(this);
         if(this.quizOrigin === 'LTI') {
           const ltiJwt: string = UtilitiesService.getCookie('jwt');
+
           const ltiState: LTIState = {
             consumerKey: data.consumerKey,
             courseId: data.courseId,
@@ -125,6 +127,7 @@ class PrendusViewQuizRouter {
       this.userEmail = state.currentUser.metaData.email;
       this.jwt = state.jwt;
       this.ltiState = state.ltiState;
+      this.ltiJwt = state.ltiState ? state.ltiState.ltiJwt : this.ltiJwt;
     }
 }
 
