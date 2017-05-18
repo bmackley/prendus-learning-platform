@@ -335,7 +335,6 @@ export function rootReducer(state: State = InitialState, action: Action): State 
       }
 
       case 'SET_LTI_STATE': {
-        localStorage.setItem('ltiState', JSON.stringify(action.ltiState));
         return {
           ...state,
           ltiState: action.ltiState

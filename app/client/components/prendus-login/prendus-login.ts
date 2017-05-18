@@ -57,12 +57,8 @@ class PrendusLogin {
       Actions.getCoursesByUser(this);
       Actions.getStarredCoursesByUser(this, uid);
       Actions.getSharedCoursesByUser(this, uid);
-      if(!this.ltiState && localStorage.getItem('ltiState')) {
-        // Just in case the user refreshed their browser
-        const ltiState: LTIState = JSON.parse(localStorage.getItem('ltiState'));
-        this.action = Actions.setLtiState(ltiState);
-      }
-      const location: string = this.ltiState ? `courses/view-quiz/course/${this.ltiState.courseId}/lesson/${this.ltiState.lessonId}/quiz/${this.ltiState.quizId}/quiz-origin/${this.ltiState.quizOrigin}/user-full-name/${this.ltiState.userFullName}/user-id/${this.ltiState.userId}/consumer-key/${this.ltiState.consumerKey}/user-email/${this.ltiState.userEmail}` : 'courses/home';
+      this.action = Actions.checkLtiState(this.ltiState);
+      const location: string = this.ltiState ? `courses/view-quiz/course/${this.ltiState.courseId}/quiz/${this.ltiState.quizId}/quiz-origin/${this.ltiState.quizOrigin}/user-full-name/${this.ltiState.userFullName}/user-email/${this.ltiState.userEmail}` : 'courses/home';
       window.history.pushState({}, '', location);
       this.fire('location-changed', {}, {node: window});
     } catch(error) {
