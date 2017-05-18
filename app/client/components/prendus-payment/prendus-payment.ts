@@ -96,6 +96,8 @@ class PrendusPayment {
         }).then((data: any) => {
           if(200 <= data.status && data.status < 300) {
             Actions.showNotification(this, 'success', 'Payment complete.');
+            // TODO Make it more apparent that the payment was successful
+            location.reload();
           } else {
             throw new Error(data.errorMessage);
           }
