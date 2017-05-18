@@ -62,14 +62,11 @@ class PrendusViewQuizRouter {
           const ltiJwt: string = UtilitiesService.getCookie('jwt');
 
           const ltiState: LTIState = {
-            consumerKey: data.consumerKey,
             courseId: data.courseId,
-            lessonId: data.lessonId,
             quizId: data.quizId,
             quizOrigin: data.quizOrigin,
             userEmail: data.userEmail,
             userFullName: data.userFullName,
-            userId: data.userId,
             ltiJwt
           };
 
@@ -101,7 +98,6 @@ class PrendusViewQuizRouter {
             }
           }
         }
-
         const quiz: Quiz = await Actions.getQuiz(data.quizId);
         this.hasEditAccess = this.uid === quiz.uid;
         this.userEmail = data.userEmail;
