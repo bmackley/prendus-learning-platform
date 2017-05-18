@@ -67,8 +67,8 @@ class PrendusLessonQuizContainer {
 		viewQuiz(e: any) {
 
       const quizId: string = e.model.quiz.id;
-      // /view-quiz/course/:courseId/lesson/:lessonId/quiz/:quizId/quiz-origin/:quizOrigin/user-full-name/:userFullName/user-id/:userId/consumer-key/:consumerKey/user-email/:userEmail
       const quizOrigin: QuizOrigin = 'LEARNING_PLATFORM';
+      // Set to null since this is a learning platform launch
       window.history.pushState({}, '', `courses/view-quiz/course/${this.courseId}/lesson/${this.lessonId}/quiz/${quizId}/quiz-origin/${quizOrigin}/user-full-name/${null}/user-id/${null}/consumer-key/${null}/user-email/${null}`);
 			this.fire('location-changed', {}, {node: window});
 		}

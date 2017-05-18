@@ -58,6 +58,7 @@ class PrendusLogin {
       Actions.getStarredCoursesByUser(this, uid);
       Actions.getSharedCoursesByUser(this, uid);
       if(!this.ltiState && localStorage.getItem('ltiState')) {
+        // Just in case the user refreshed their browser
         const ltiState: LTIState = JSON.parse(localStorage.getItem('ltiState'));
         this.action = Actions.setLtiState(ltiState);
       }
