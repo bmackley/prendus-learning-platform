@@ -20,7 +20,6 @@ class PrendusViewQuizRouter {
     public userFullName: string;
     public userEmail: string;
     public jwt: string;
-    public ltiJwt: string;
     public fire: any;
     public data: any;
     public querySelector: any;
@@ -125,7 +124,6 @@ class PrendusViewQuizRouter {
       this.userFullName = `${state.currentUser.metaData.firstName} ${state.currentUser.metaData.lastName}`;
       this.userEmail = state.currentUser.metaData.email;
       this.jwt = state.jwt;
-      this.ltiJwt = state.ltiState ? state.ltiState.ltiJwt : this.ltiJwt;
       this.ltiState = state.ltiState;
     }
 }
