@@ -63,6 +63,7 @@ class PrendusQuestionScaffold {
    */
   back(): void {
     --this.selectedIndex;
+    this.action = Actions.setDisabledNext(false);
   }
 
   /**
