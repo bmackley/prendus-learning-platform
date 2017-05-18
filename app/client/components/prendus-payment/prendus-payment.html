@@ -60,6 +60,8 @@
     <redux-store on-statechange="mapStateToThis" action="[[action]]"></redux-store>
     <paper-dialog id="dialog">
       <paper-dialog-scrollable>
+          <h4>You may take this quiz once you pay for the course.</h4>
+          <h3>[[course.title]]</h3>
           <paper-input label="Email address" value="{{email}}"></paper-input>
           <paper-input name="name" label="Name on card" required autocomplete="cc-name" value="{{name}}"></paper-input>
 

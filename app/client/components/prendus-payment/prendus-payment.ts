@@ -5,6 +5,7 @@ import {FirebaseService} from '../../node_modules/prendus-services/services/fire
 import {State} from '../../typings/state';
 import {StatechangeEvent} from '../../typings/statechange-event';
 import {Actions} from '../../redux/actions';
+import {Course} from '../../node_modules/prendus-services/typings/course';
 
 class PrendusPayment {
   public is: string;
@@ -22,12 +23,14 @@ class PrendusPayment {
   public properties: any;
   public courseId: string;
   public jwt: string;
+  public course: Course;
 
   beforeRegister(): void {
     this.is = 'prendus-payment';
     this.properties = {
       courseId: {
-        type: String
+        type: String,
+        observer: 'courseIdSet'
       }
     };
   }
@@ -41,6 +44,10 @@ class PrendusPayment {
     this.cardNumber = '4242424242424242';
     this.expiration = '4/18';
     this.cvc = '082';
+  }
+
+  async courseIdSet(): Promise<void> {
+    await Actions.getCourseViewCourseById(this, this.courseId);
   }
 
   random(min: number, max: number): number {
@@ -102,8 +109,7 @@ class PrendusPayment {
 
     } catch(error) {
       console.error('error while processing payment ', error);
-      this.errorMessage = '';
-      this.errorMessage = 'Something went wrong while processing your payment..';
+      Actions.showNotification(this, 'error', 'Something went wrong while processing your payment...')
     }
     this.querySelector('#pay-button').disabled = false;
   }
@@ -115,6 +121,7 @@ class PrendusPayment {
   mapStateToThis(e: StatechangeEvent): void {
     const state: State = e.detail.state;
     this.jwt = state.jwt;
+    this.course = state.courseViewCurrentCourse;
   }
 }
 

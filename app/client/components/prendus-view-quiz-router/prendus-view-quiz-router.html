@@ -6,7 +6,7 @@
 <link rel="import" href="../../bower_components/redux-store-element/redux-store.html">
 <link rel="import" href="../../bower_components/prendus-styles/prendus-styles.html">
 <link rel="import" href="../../bower_components/paper-dialog/paper-dialog.html">
-
+<link rel="import" href="../prendus-payment/prendus-payment.html">
 <dom-module id="prendus-view-quiz-router">
 
 	<template>
@@ -20,6 +20,14 @@
 	    #quiz-container {
 	      width: 100%;
 	    }
+			
+			.app-window {
+				box-sizing: border-box;
+				margin: auto;
+				margin: 20px 50px;
+				max-width: 800px;
+				width: 100%;
+			}
 
 	  </style>
 
@@ -35,7 +43,7 @@
 					<template is="dom-if" if="[[displayLink]]">
 						<a class="prendus-button prendus-button--minor" href="/courses/view/[[data.courseId]]"><iron-icon icon="undo"></iron-icon><span>Back to course</span></a>
 					</template>
-						<prendus-quiz-viewer has-edit-access="[[hasEditAccess]]" quiz-origin="[[quizOrigin]]" jwt="[[jwt]]" course-id="[[data.courseId]]" lesson-id="[[data.lessonId]]" quiz-id="[[data.quizId]]" user-full-name="[[userFullName]]" user-email="[[userEmail]]" user-id="[[userId]]" consumer-key="[[consumerKey]]" on-quizsubmissionstarted="quizSubmissionStarted" on-quizsubmissionfinished="quizSubmissionFinished"></prendus-quiz-viewer>
+						<prendus-quiz-viewer has-edit-access="[[hasEditAccess]]" quiz-origin="[[quizOrigin]]" jwt="[[jwt]]" lti-jwt="[[ltiJwt]]" course-id="[[data.courseId]]" lesson-id="[[data.lessonId]]" quiz-id="[[data.quizId]]" user-full-name="[[userFullName]]" user-email="[[userEmail]]" user-id="[[userId]]" consumer-key="[[consumerKey]]" on-quizsubmissionstarted="quizSubmissionStarted" on-quizsubmissionfinished="quizSubmissionFinished"></prendus-quiz-viewer>
 				</template>
       </div>
 
@@ -52,7 +60,7 @@
 				<a href="/login"><button class="prendus-button" dialog-dismiss>Login</button></a>
 			</div>
 		</paper-dialog>
-
+		<prendus-payment id="payment" course-id="[[data.courseId]]"></prendus-payment>
   </template>
 
     <script src="prendus-view-quiz-router.ts"></script>

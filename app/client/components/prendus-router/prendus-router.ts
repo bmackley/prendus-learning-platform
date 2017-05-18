@@ -98,12 +98,6 @@ class PrendusRouter {
         UtilitiesService.importElement(this, 'components/prendus-question-scaffold/prendus-question-scaffold.html', 'question-scaffold');
         break;
       }
-
-      case '/payment': {
-        // UtilitiesService.importElement(this, 'components/prendus-payment/prendus-payment.html', 'payment');
-        this.querySelector('#payment').open();
-        break;
-      }
 			case '/teacher-approval': {
 				if(this.isAdmin) {
 					UtilitiesService.importElement(this, 'components/prendus-teacher-approval/prendus-teacher-approval.html', 'teacher-approval');

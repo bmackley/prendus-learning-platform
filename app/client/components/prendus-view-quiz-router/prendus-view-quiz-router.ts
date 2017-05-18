@@ -19,6 +19,7 @@ class PrendusViewQuizRouter {
     public userFullName: string;
     public userEmail: string;
     public jwt: string;
+    public ltiJwt: string;
     public fire: any;
     public data: any;
     public querySelector: any;
@@ -52,55 +53,64 @@ class PrendusViewQuizRouter {
     }
 
 		async updateEditAccess(data: any) {
+      try {
+        this.quizOrigin = data.quizOrigin;
 
-      this.quizOrigin = data.quizOrigin;
+        await Actions.checkUserAuth(this);
+        if(this.quizOrigin === 'LTI') {
+          const ltiJwt: string = UtilitiesService.getCookie('jwt');
+          const ltiState: LTIState = {
+            consumerKey: data.consumerKey,
+            courseId: data.courseId,
+            lessonId: data.lessonId,
+            quizId: data.quizId,
+            quizOrigin: data.quizOrigin,
+            userEmail: data.userEmail,
+            userFullName: data.userFullName,
+            userId: data.userId,
+            ltiJwt
+          };
 
-      await Actions.checkUserAuth(this);
-      if(this.quizOrigin === 'LTI') {
+          const loggedInUser = await FirebaseService.getLoggedInUser();
+          if(!loggedInUser) {
+            this.querySelector('#sign-up-sign-in-dialog').open();
+          } else {
 
-        const ltiState: LTIState = {
-          consumerKey: data.consumerKey,
-          courseId: data.courseId,
-          lessonId: data.lessonId,
-          quizId: data.quizId,
-          quizOrigin: data.quizOrigin,
-          userEmail: data.userEmail,
-          userFullName: data.userFullName,
-          userId: data.userId
-        };
+            // TODO make them pay here.
+            this.userId = data.userId;
+            this.consumerKey = data.consumerKey;
+            this.action = Actions.setLtiState(ltiState);
 
-        const loggedInUser = await FirebaseService.getLoggedInUser();
-        if(!loggedInUser) {
-          this.querySelector('#sign-up-sign-in-dialog').open();
+
+            const body: any = {
+              courseId: data.courseId,
+              jwt: this.jwt,
+              ltiJwt
+            };
+            const response = await fetch(`${UtilitiesService.getPrendusServerEndpointDomain()}/api/payment/has-user-paid`, {
+              method: 'POST',
+              headers: {
+                'Content-type': 'application/x-www-form-urlencoded'
+              },
+              body: UtilitiesService.prepareUrl(body, false)
+            });
+
+            const responseBody = await response.json();
+            console.log('responseBody ', responseBody)
+            if(!responseBody.hasUserPaid) {
+              Actions.showNotification(this, 'info', 'Please pay for this course before taking a quiz.');
+              this.querySelector('#payment').open();
+            }
+          }
         }
-        this.userId = data.userId;
-        this.consumerKey = data.consumerKey;
-        this.action = Actions.setLtiState(ltiState);
-        const body: any = {
-          courseId: data.courseId,
-          jwt: this.jwt
-        };
-        console.log('this.userId' , this.userId);
-        await fetch(`${UtilitiesService.getPrendusServerEndpointDomain()}/api/payment/has-user-paid`, {
-          method: 'post',
-          headers: {
-            'Content-type': 'application/x-www-form-urlencoded; charset=UTF-8'
-          },
-          body: UtilitiesService.prepareUrl(body, false)
-        }).then((response) => {
-          return response.json();
-        }).then((data: any) => {
-          console.log('data ', data);
-        }).catch((error: any) => {
-          console.error('something went wrong with seeing if the user paid ', error);
-        })
-
+        const quiz: Quiz = await Actions.getQuiz(data.quizId);
+        this.hasEditAccess = this.uid === quiz.uid;
+        this.userEmail = data.userEmail;
+        // put this back once collaborators work again
+        // this.hasEditAccess = this.uid in quiz.collaborators;
+      } catch(error) {
+        console.error(error);
       }
-      const quiz: Quiz = await Actions.getQuiz(data.quizId);
-			this.hasEditAccess = this.uid === quiz.uid;
-      this.userEmail = data.userEmail;
-			// put this back once collaborators work again
-			// this.hasEditAccess = this.uid in quiz.collaborators;
 		}
 
     quizSubmissionStarted(): void {
@@ -117,6 +127,7 @@ class PrendusViewQuizRouter {
       this.userFullName = `${state.currentUser.metaData.firstName} ${state.currentUser.metaData.lastName}`;
       this.userEmail = state.currentUser.metaData.email;
       this.jwt = state.jwt;
+      this.ltiJwt = state.ltiState ? state.ltiState.ltiJwt : this.ltiJwt;
       this.ltiState = state.ltiState;
     }
 }
