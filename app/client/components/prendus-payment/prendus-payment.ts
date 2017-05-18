@@ -109,7 +109,9 @@ class PrendusPayment {
           // TODO Somehow make it more apparent that the payment was successful
           // Could we use a timeout? currently the notification doesn't display.
           this.querySelector('#dialog').close();
-          location.reload();
+
+          // This is hack! Ideally, we should reload the quiz from here without a page refresh
+          window.location.reload();
         } else {
           throw new Error(responseBody.errorMessage);
         }
