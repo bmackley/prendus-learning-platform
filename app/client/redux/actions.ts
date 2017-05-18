@@ -27,6 +27,7 @@ import {LTIState} from '../node_modules/prendus-services/typings/lti-state';
 import {QuestionScaffold} from '../node_modules/prendus-services/typings/question-scaffold';
 import {QuestionScaffoldAnswer} from '../node_modules/prendus-services/typings/question-scaffold-answer';
 import {Action} from '../typings/action';
+import {QuizOrigin} from '../node_modules/prendus-services/typings/quiz-origin';
 
 const defaultAction = (context: any): void => {
     context.action = {
@@ -1141,6 +1142,7 @@ const checkLtiState = (ltiState: LTIState): Action => {
   }
 
 };
+
 const setEnrolledCourses = async (): Promise<Action> => {
   const user = await FirebaseService.getLoggedInUser();
   const uid: string = user.uid;
@@ -1150,6 +1152,36 @@ const setEnrolledCourses = async (): Promise<Action> => {
     type: 'SET_ENROLLED_COURSES',
     enrolledCourses
   };
+};
+
+const initializeLtiState = (courseId: string, quizId: string, quizOrigin: QuizOrigin, userEmail: string, userFullName: string): Action => {
+  const ltiJwt: string = UtilitiesService.getCookie('jwt');
+  const ltiState: LTIState = {
+    courseId,
+    quizId,
+    quizOrigin,
+    userEmail,
+    userFullName,
+    ltiJwt
+  };
+  return Actions.setLtiState(ltiState);
+};
+
+const hasUserPaid = async (courseId: string, jwt: string): Promise<boolean> => {
+  const body: any = {
+    courseId,
+    jwt
+  };
+  const response = await fetch(`${UtilitiesService.getPrendusServerEndpointDomain()}/api/payment/has-user-paid`, {
+    method: 'POST',
+    headers: {
+      'Content-type': 'application/x-www-form-urlencoded'
+    },
+    body: UtilitiesService.prepareUrl(body, false)
+  });
+
+  const responseBody = await response.json();
+  return responseBody.hasUserPaid;
 };
 
 export const Actions = {
@@ -1232,5 +1264,7 @@ export const Actions = {
   initCurrentQuestionScaffold,
   setLtiState,
   checkLtiState,
-  setEnrolledCourses
+  setEnrolledCourses,
+  initializeLtiState,
+  hasUserPaid
 };

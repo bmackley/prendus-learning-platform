@@ -26,8 +26,6 @@ class PrendusViewQuizRouter {
     public ltiState: LTIState;
     public action: Action;
     public quizOrigin: QuizOrigin;
-    public userId: string;
-    public consumerKey: string;
     public displayLink: boolean;
     public properties: any;
     public ltiJwt: string;
@@ -59,41 +57,13 @@ class PrendusViewQuizRouter {
 
         await Actions.checkUserAuth(this);
         if(this.quizOrigin === 'LTI') {
-          const ltiJwt: string = UtilitiesService.getCookie('jwt');
-
-          const ltiState: LTIState = {
-            courseId: data.courseId,
-            quizId: data.quizId,
-            quizOrigin: data.quizOrigin,
-            userEmail: data.userEmail,
-            userFullName: data.userFullName,
-            ltiJwt
-          };
-
+          this.action = Actions.initializeLtiState(data.courseId, data.quizId, data.quizOrigin, data.userEmail, data.userFullName);
           const loggedInUser = await FirebaseService.getLoggedInUser();
-          this.action = Actions.setLtiState(ltiState);
           if(!loggedInUser) {
             this.querySelector('#sign-up-sign-in-dialog').open();
           } else {
-
-            this.userId = data.userId;
-            this.consumerKey = data.consumerKey;
-
-            const body: any = {
-              courseId: data.courseId,
-              jwt: this.jwt
-            };
-            const response = await fetch(`${UtilitiesService.getPrendusServerEndpointDomain()}/api/payment/has-user-paid`, {
-              method: 'POST',
-              headers: {
-                'Content-type': 'application/x-www-form-urlencoded'
-              },
-              body: UtilitiesService.prepareUrl(body, false)
-            });
-
-            const responseBody = await response.json();
-            if(!responseBody.hasUserPaid) {
-              Actions.showNotification(this, 'info', 'Please pay for this course before taking a quiz.');
+            const hasUserPaid: boolean = await Actions.hasUserPaid(data.courseId, this.jwt);
+            if(!hasUserPaid) {
               this.querySelector('#payment').open();
             }
           }
