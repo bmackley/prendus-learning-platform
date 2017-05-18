@@ -55,7 +55,7 @@ class PrendusQuestionScaffoldComments {
 	mapStateToThis(e: StatechangeEvent): void {
 		const state: State = e.detail.state;
     this.currentQuestionScaffold = state.currentQuestionScaffold;
-    this.answers = state.questionScaffoldAnswers;
+    this.answers = state.currentQuestionScaffold ? UtilitiesService.getQuestionScaffoldAnswers(state.currentQuestionScaffold) : this.answers;
 	}
 }
 

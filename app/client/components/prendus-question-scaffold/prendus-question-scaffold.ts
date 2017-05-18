@@ -16,6 +16,7 @@ class PrendusQuestionScaffold {
   public questionScaffold: QuestionScaffold;
   public questionScaffoldAnswers: QuestionScaffoldAnswer[];
   public action: Action;
+  public questionScaffoldsToRate: QuestionScaffold[];
 
   beforeRegister(): void {
     this.is = 'prendus-question-scaffold';
@@ -54,8 +55,19 @@ class PrendusQuestionScaffold {
       explanation: 'To solve this problem, remember that Oxygen is diatomic as a gas, meaning it is found as O2, not O. This means we need to use 32 grams/mol to convert grams to moles. Then, multiply by the number of neutrons in an oxygen atom and multiply by 2 to get the number of neutrons in 45 grams of oxygen gas.',
       question: 'How many neutrons are in 45 grams of Oxygen gas?'
     };
-
+    this.questionScaffoldsToRate = [
+      temp, temp, temp
+    ];
     this.action = Actions.setQuestionScaffoldExample(temp);
+  }
+
+  calculateIndex(index: number): number {
+    console.log('index ', index);
+    return index + 5;
+  }
+
+  plusOne(index: number): number {
+    return index + 1;
   }
 
   /**
@@ -81,9 +93,7 @@ class PrendusQuestionScaffold {
 		const state: State = e.detail.state;
     this.disableNext = state.disableNext;
     this.exampleQuestionScaffold = state.currentQuestionScaffoldExample;
-    this.exampleQuestionScaffoldAnswers = state.exampleQuestionScaffoldAnswers;
     this.questionScaffold = state.currentQuestionScaffold;
-    this.questionScaffoldAnswers = state.questionScaffoldAnswers;
 	}
 }
 

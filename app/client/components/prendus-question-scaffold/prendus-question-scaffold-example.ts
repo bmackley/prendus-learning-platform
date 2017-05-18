@@ -4,12 +4,10 @@ import {Actions} from '../../redux/actions';
 import {QuestionScaffoldAnswer} from '../../node_modules/prendus-services/typings/question-scaffold-answer';
 import {QuestionScaffold} from '../../node_modules/prendus-services/typings/question-scaffold';
 import {Action} from '../../typings/action';
+import {UtilitiesService} from '../../node_modules/prendus-services/services/utilities-service';
 
 export class PrendusQuestionScaffoldExample {
   public is: string;
-  /**
-   * Passed in as a property
-   */
   public answers: QuestionScaffoldAnswer[];
   public properties: any;
   public myIndex: number;
@@ -31,12 +29,17 @@ export class PrendusQuestionScaffoldExample {
         type: Number
       },
       questionScaffold: {
-        type: Object
+        type: Object,
+        observer: 'questionScaffoldSet'
       },
       answers: {
         type: Object
       }
     };
+  }
+
+  questionScaffoldSet() {
+    this.answers = UtilitiesService.getQuestionScaffoldAnswers(this.questionScaffold);
   }
 
   disableNext(): void {

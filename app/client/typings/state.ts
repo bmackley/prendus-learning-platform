@@ -94,7 +94,5 @@ export interface State {
   readonly disableNext: boolean;
   readonly currentQuestionScaffold: QuestionScaffold;
   readonly currentQuestionScaffoldExample: QuestionScaffold;
-	readonly questionScaffoldAnswers: QuestionScaffoldAnswer[];
-	readonly exampleQuestionScaffoldAnswers: QuestionScaffoldAnswer[];
 	readonly enrolledCourses: Course[];
 }

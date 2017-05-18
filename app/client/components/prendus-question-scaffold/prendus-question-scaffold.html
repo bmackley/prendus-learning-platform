@@ -73,7 +73,7 @@
               upcoming exam. Here is an exam question
               to guide your thinking. -->
             </div>
-            <!-- <prendus-question-scaffold-example question-scaffold="[[exampleQuestionScaffold]]" answers="[[exampleQuestionScaffoldAnswers]]" my-index="0" selected-index="[[selectedIndex]]"></prendus-question-scaffold-example> -->
+            <!-- <prendus-question-scaffold-example question-scaffold="[[exampleQuestionScaffold]]" my-index="0" selected-index="[[selectedIndex]]"></prendus-question-scaffold-example> -->
             <div class="prendus-card" id ="process">
               <div>
                 <center>
@@ -142,17 +142,15 @@
             <div class="prendus-card centered">
               <h3>Final Question</h3>
             </div>
-            <prendus-question-scaffold-example question-scaffold="[[questionScaffold]]" answers="[[questionScaffoldAnswers]]"  my-index="5" selected-index="[[selectedIndex]]"></prendus-question-scaffold-example>
+            <prendus-question-scaffold-example question-scaffold="[[questionScaffold]]" my-index="5" selected-index="[[selectedIndex]]"></prendus-question-scaffold-example>
           </div>
-          <div>
-            Rate question 1
-          </div>
-          <div>
-            Rate question 2
-          </div>
-          <div>
-            Rate question 3
-          </div>
+          <template is="dom-repeat" items="[[questionScaffoldsToRate]]">
+            <div>
+              Rate question [[plusOne(index)]]
+              <prendus-question-scaffold-example question-scaffold="[[item]]" my-index="[[calculateIndex(index)]]" selected-index="[[selectedIndex]]"></prendus-question-scaffold-example>
+            </div>
+          </template>
+
           <div>
             Take question 1
           </div>
