@@ -36,6 +36,7 @@ class PrendusPayment {
   }
 
   ready(): void {
+    //TODO set these to real numbers and get rid of hard coded things once our price point is set
     this.subTotal = this.random(1, 100);
     this.email = 'mcrowder65@gmail.com';
     this.tax = Math.round((this.subTotal * .075) * 100) / 100;
@@ -50,11 +51,15 @@ class PrendusPayment {
     await Actions.getCourseViewCourseById(this, this.courseId);
   }
 
+  /**
+   * TODO this function will be deleted once price point is set
+   */
   random(min: number, max: number): number {
     return Math.round(((Math.random() * (max - min)) + min) * 100) / 100;
   }
 
   async submit(): Promise<void> {
+    // Disable button to prevent user from clicking this a ton of times
     this.querySelector('#pay-button').disabled = true;
     try {
       const expirationMonth: number = parseInt(this.expiration.split('/')[0]);
@@ -85,28 +90,24 @@ class PrendusPayment {
           courseId: this.courseId,
           jwt: this.jwt
         };
-        await fetch(`${UtilitiesService.getPrendusServerEndpointDomain()}/api/payment/pay`, {
+        const response = await fetch(`${UtilitiesService.getPrendusServerEndpointDomain()}/api/payment/pay`, {
           method: 'post',
           headers: {
             'Content-type': 'application/x-www-form-urlencoded; charset=UTF-8'
           },
           body: UtilitiesService.prepareUrl(paymentInfo, false)
-        }).then((response) => {
-          return response.json();
-        }).then((data: any) => {
-          if(200 <= data.status && data.status < 300) {
-            Actions.showNotification(this, 'success', 'Payment complete.');
-            // TODO Make it more apparent that the payment was successful
-            location.reload();
-          } else {
-            throw new Error(data.errorMessage);
-          }
-          this.querySelector('#dialog').close();
-        }).catch((error: string) => {
-          console.error('request failed ', error)
-          Actions.showNotification(this, 'error', 'Payment failed');
-
         });
+        const responseBody = await response.json();
+        if(200 <= responseBody.status && responseBody.status < 300) {
+          Actions.showNotification(this, 'success', 'Payment complete.');
+          // TODO Somehow make it more apparent that the payment was successful
+          // Could we use a timeout? currently the notification doesn't display.
+          this.querySelector('#dialog').close();
+          location.reload();
+        } else {
+          throw new Error(responseBody.errorMessage);
+        }
+
       }
 
     } catch(error) {
