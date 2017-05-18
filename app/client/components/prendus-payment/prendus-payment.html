@@ -63,14 +63,14 @@
       <paper-dialog-scrollable>
           <h4>You may take this quiz once you pay for the course.</h4>
           <h3>[[course.title]]</h3>
-          <paper-input label="Email address" value="{{email}}"></paper-input>
-          <paper-input name="name" label="Name on card" required autocomplete="cc-name" value="{{name}}"></paper-input>
+          <paper-input id="email" label="Email address" value="[[email]]"></paper-input>
+          <paper-input id="name" name="name" label="Name on card" required autocomplete="cc-name" value="[[name]]"></paper-input>
 
-          <gold-cc-input id="card" name="cc-number" required auto-validate card-type="{{cardType}}" value="{{cardNumber}}"></gold-cc-input>
+          <gold-cc-input id="card" name="cc-number" required auto-validate card-type="{{cardType}}" value="[[cardNumber]]"></gold-cc-input>
 
           <div class="horizontal layout">
-            <gold-cc-expiration-input id="expiration" name="cc-expiration" required label="Expiration" auto-validate value="{{expiration}}"></gold-cc-expiration-input>
-            <gold-cc-cvc-input id="cvc" name="cc-cvc" required card-type="[[cardType]]" auto-validate value="{{cvc}}"></gold-cc-cvc-input>
+            <gold-cc-expiration-input id="expiration" name="cc-expiration" required label="Expiration" auto-validate value="[[expiration]]"></gold-cc-expiration-input>
+            <gold-cc-cvc-input id="cvc" name="cc-cvc" required card-type="[[cardType]]" auto-validate value="[[cvc]]"></gold-cc-cvc-input>
           </div>
 
           <div class="horizontal layout">

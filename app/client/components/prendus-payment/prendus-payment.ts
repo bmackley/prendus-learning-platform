@@ -62,10 +62,16 @@ class PrendusPayment {
     // Disable button to prevent user from clicking this a ton of times
     this.querySelector('#pay-button').disabled = true;
     try {
-      const expirationMonth: number = parseInt(this.expiration.split('/')[0]);
-      const expirationYear: number = parseInt(this.expiration.split('/')[1]);
+      const expiration: string = this.querySelector('#expiration').value;
+      const expirationMonth: number = parseInt(expiration.split('/')[0]);
+      const expirationYear: number = parseInt(expiration.split('/')[1]);
+      const name: string = this.querySelector('#name').value;
+      const email: string = this.querySelector('#email').value;
+      const cardNumber: string = this.querySelector('#card').value;
+      const cvc: string = this.querySelector('#cvc').value;
 
-
+      // Do validations here so they're more descriptive for user
+      // Stripe does backend validation for us as well.
       if(this.querySelector('#expiration').invalid) {
         Actions.showNotification(this, 'error', 'Please enter a valid expiration');
       } else if(this.querySelector('#cvc').invalid) {
@@ -74,19 +80,19 @@ class PrendusPayment {
         // TODO this will work when this PR is merged
         // https://github.com/PolymerElements/gold-cc-input/pull/57
         Actions.showNotification(this, 'error', 'Please enter a valid card number');
-      } else if(!this.email.match(ConstantsService.EMAIL_REGEX)) {
+      } else if(!email.match(ConstantsService.EMAIL_REGEX)) {
         Actions.showNotification(this, 'error', 'Please enter a valid email');
-      } else if(this.email && this.name && this.cardNumber && this.expiration && this.cvc) {
+      } else if(email && name && cardNumber && expiration && cvc) {
         const user = await FirebaseService.getLoggedInUser();
         const paymentInfo: PaymentInfo = {
-          name: this.name,
-          cardNumber: this.cardNumber,
-          expiration: this.expiration,
-          cvc: this.cvc,
+          name,
+          cardNumber,
+          expiration,
+          cvc,
           subTotal: this.subTotal,
           tax: this.tax,
           total: this.total,
-          email: this.email,
+          email,
           courseId: this.courseId,
           jwt: this.jwt
         };
