@@ -4,8 +4,6 @@ import {StatechangeEvent} from '../../typings/statechange-event';
 import {UserMetaData} from '../../node_modules/prendus-services/typings/user-meta-data';
 import {UserType} from '../../node_modules/prendus-services/typings/user-type';
 import {State} from '../../typings/state';
-import {Course} from '../../node_modules/prendus-services/typings/course';
-import {Action} from '../../typings/action';
 
 export class PrendusProfile {
   public is: string;
@@ -19,8 +17,6 @@ export class PrendusProfile {
   public uid: string;
   public metaData: UserMetaData;
   public querySelector: any;
-  public courses: Course[];
-  public action: Action;
 
   beforeRegister(): void {
     this.is = 'prendus-profile';
@@ -117,7 +113,6 @@ export class PrendusProfile {
 		this.email = state.currentUser.metaData.email;
 		this.uid = state.currentUser.metaData.uid;
 		this.metaData = state.currentUser.metaData;
-    this.courses = state.enrolledCourses;
 	}
 }
 
