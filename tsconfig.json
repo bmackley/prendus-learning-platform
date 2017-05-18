@@ -6,7 +6,7 @@
     "removeComments": true,
     "noImplicitAny": true,
     "module": "system",
-    "types": ["polymer", "stripe-checkout"]
+    "types": ["polymer"]
   },
   "exclude": [
       "node_modules",
