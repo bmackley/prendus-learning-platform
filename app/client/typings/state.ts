@@ -19,22 +19,22 @@ export interface State {
 	readonly notificationType: Notification;
 	readonly notificationText: string;
   readonly editCourseLessons: {
-      [courseId: string]: CourseLessonData[]
+    [courseId: string]: CourseLessonData[];
   };
   readonly editLessonVideos: {
-      [lessonId: string]: Video[]
+    [lessonId: string]: Video[];
   };
   readonly editLessonQuizzes: {
-      [lessonId: string]: Quiz[]
+    [lessonId: string]: Quiz[];
   };
   readonly viewCourseLessons: {
-      [courseId: string]: CourseLessonData[]
+    [courseId: string]: CourseLessonData[];
   };
   readonly viewLessonVideos: {
-      [lessonId: string]: Video[]
+    [lessonId: string]: Video[];
   };
   readonly viewLessonQuizzes: {
-      [lessonId: string]: Quiz[]
+    [lessonId: string]: Quiz[];
   };
   readonly courses: Course[];
   readonly userCourses: Course[];
@@ -56,24 +56,24 @@ export interface State {
   readonly currentEditLessonId: string;
   readonly jwt: string;
   readonly courseCollaboratorEmails: {
-      [uid: string]: {
-          [courseId: string]: string[];
-      };
+    [uid: string]: {
+      [courseId: string]: string[];
+    };
   };
   readonly lessonCollaboratorEmails: {
-      [courseId: string]: {
-          [lessonId: string]: string[];
-      };
+    [courseId: string]: {
+      [lessonId: string]: string[];
+    };
   };
   readonly videoCollaboratorEmails: {
-      [lessonId: string]: {
-          [videoId: string]: string[];
-      };
+    [lessonId: string]: {
+      [videoId: string]: string[];
+    };
   };
   readonly quizCollaboratorEmails: {
-      [lessonId: string]: {
-          [quizId: string]: string[];
-      };
+    [lessonId: string]: {
+      [quizId: string]: string[];
+    };
   };
 	readonly userQuestionIds: [string];
 	readonly publicQuestionIds: [string];
