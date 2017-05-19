@@ -30,8 +30,7 @@ class PrendusQuestionScaffoldTakeQuiz {
         type: Number
       },
       quizId: {
-        type: String,
-        observer: 'init'
+        type: String
       }
     };
   }
