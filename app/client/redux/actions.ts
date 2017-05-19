@@ -1043,6 +1043,7 @@ const updateCourseField = async (context: any, id: string, field: string, value:
 };
 
 const logOutUser = async (context: any): Promise<void> => {
+    localStorage.removeItem('ltiState');
     await FirebaseService.logOutUser();
     window.location.href = ''; //need to reset the state instead of reloading everything.
 };
