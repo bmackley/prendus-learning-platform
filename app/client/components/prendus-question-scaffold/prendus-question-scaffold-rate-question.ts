@@ -30,14 +30,11 @@ class PrendusQuestionScaffoldRateQuestion {
         type: Number
       },
       questionScaffold: {
-        type: Object,
-        observer: 'init'
+        type: Object
       }
     };
   }
-  init(): void {
-    console.log(this.questionScaffold);
-  }
+
   ready(): void {
     this.maxSliderValue = 10;
     this.minSliderValue = 1;

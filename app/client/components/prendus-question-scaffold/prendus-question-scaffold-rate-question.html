@@ -7,8 +7,9 @@
   <template>
     <style include="prendus-styles">
       .wrapper {
+        margin-top: 10px;
         display: grid;
-        grid-template-columns: repeat(3, 1fr);
+        grid-template-columns: repeat(4, 1fr);
         grid-template-rows: repeat(1, 0fr);
       }
 
@@ -24,6 +25,11 @@
 
       .accuracy {
         grid-column: 3;
+        grid-row: 1;
+      }
+
+      .submit-button {
+        grid-column: 4;
         grid-row: 1;
       }
     </style>
