@@ -96,7 +96,7 @@ class PrendusQuestionScaffoldViewQuestion {
       });
       const responseBody = await response.json();
 
-      const answer: Answer = responseBody.answer;
+      const answer: CheckOrRadioAnswer = responseBody.answer;
       return answer;
     }
   }
