@@ -13,6 +13,12 @@ class PrendusQuestionScaffoldRateQuestion {
   public myIndex: number;
   public questionScaffold: QuestionScaffold;
   public action: Action;
+  public maxSliderValue: number;
+  public minSliderValue: number;
+  public quality: number;
+  public difficulty: number;
+  public accuracy: number;
+
   beforeRegister(): void {
     this.is = 'prendus-question-scaffold-rate-question';
     this.properties = {
@@ -24,14 +30,21 @@ class PrendusQuestionScaffoldRateQuestion {
         type: Number
       },
       questionScaffold: {
-        type: Object
-      },
-      exampleIndex: {
-        type: Number
+        type: Object,
+        observer: 'init'
       }
     };
   }
-
+  init(): void {
+    console.log(this.questionScaffold);
+  }
+  ready(): void {
+    this.maxSliderValue = 10;
+    this.minSliderValue = 1;
+    this.quality = 0;
+    this.difficulty = 0;
+    this.accuracy = 0;
+  }
   disableNext(e: any): void {
     this.action = Actions.setDisabledNext(false);
   }

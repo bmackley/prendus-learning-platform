@@ -6,19 +6,39 @@
 
   <template>
     <style include="prendus-styles">
+      .wrapper {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        grid-template-rows: repeat(1, 0fr);
+      }
 
+      .quality {
+        grid-column: 1;
+        grid-row: 1;
+      }
+
+      .difficulty {
+        grid-column: 2;
+        grid-row: 1;
+      }
+
+      .accuracy {
+        grid-column: 3;
+        grid-row: 1;
+      }
     </style>
     <redux-store on-statechange="mapStateToThis" action="[[action]]"></redux-store>
     <div>
-      Rate question [[exampleIndex]]
-      <div>
-        Quality <paper-slider></paper-slider>
-      </div>
-      <div>
-        Difficulty<paper-slider></paper-slider>
-      </div>
-      <div>
-        Accuracy<paper-slider></paper-slider>
+      <div class="wrapper">
+        <div class="quality">
+          Quality <paper-slider id="quality" value="[[quality]]" min="[[minSliderValue]]" max="[[maxSliderValue]]" pin></paper-slider>
+        </div>
+        <div class="difficulty">
+          Difficulty<paper-slider id="difficulty" value="[[difficulty]]" min="[[minSliderValue]]" max="[[maxSliderValue]]" pin></paper-slider>
+        </div>
+        <div class="accuracy">
+          Accuracy<paper-slider id="accuracy" value="[[accuracy]]" min="[[minSliderValue]]" max="[[maxSliderValue]]" pin></paper-slider>
+        </div>
       </div>
       <prendus-question-scaffold-example question-scaffold="[[questionScaffold]]"></prendus-question-scaffold-example>
     </div>

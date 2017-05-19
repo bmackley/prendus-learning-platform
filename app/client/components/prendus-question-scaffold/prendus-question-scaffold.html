@@ -146,7 +146,12 @@
             <prendus-question-scaffold-example question-scaffold="[[questionScaffold]]" my-index="5" selected-index="[[selectedIndex]]"></prendus-question-scaffold-example>
           </div> -->
           <template is="dom-repeat" items="[[questionScaffoldsToRate]]">
-            <prendus-question-scaffold-rate-question example-index="[[plusOne(index)]]" my-index="[[calculateIndex(index)]]" selected-index="[[selectedIndex]]" question-scaffold="[[item]]"></prendus-question-scaffold-rate-question>
+
+            <div class="prendus-card centered">
+              <h3> Rate question [[plusOne(index)]]</h3>
+              <!--TODO fix this description -->
+            </div>
+            <prendus-question-scaffold-rate-question my-index="[[calculateIndex(index)]]" selected-index="[[selectedIndex]]" question-scaffold="[[item]]"></prendus-question-scaffold-rate-question>
           </template>
 
           <div>
