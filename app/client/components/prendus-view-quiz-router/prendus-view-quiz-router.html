@@ -43,7 +43,7 @@
 					<template is="dom-if" if="[[displayLink]]">
 						<a class="prendus-button prendus-button--minor" href="/courses/view/[[data.courseId]]"><iron-icon icon="undo"></iron-icon><span>Back to course</span></a>
 					</template>
-						<prendus-quiz-viewer has-edit-access="[[hasEditAccess]]" quiz-origin="[[quizOrigin]]" jwt="[[jwt]]" lti-jwt="[[ltiJwt]]" course-id="[[data.courseId]]" quiz-id="[[data.quizId]]" on-quizsubmissionstarted="quizSubmissionStarted" on-quizsubmissionfinished="quizSubmissionFinished"></prendus-quiz-viewer>
+						<prendus-quiz-viewer has-edit-access="[[hasEditAccess]]" quiz-origin="[[quizOrigin]]" jwt="[[jwt]]" lti-jwt="[[ltiJwt]]" course-id="[[data.courseId]]" quiz-id="[[data.quizId]]" uid="[[uid]]" on-quizsubmissionstarted="quizSubmissionStarted" on-quizsubmissionfinished="quizSubmissionFinished"></prendus-quiz-viewer>
 				</template>
       </div>
 
