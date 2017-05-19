@@ -17,6 +17,7 @@ class PrendusQuestionScaffold {
   public questionScaffoldAnswers: QuestionScaffoldAnswer[];
   public action: Action;
   public questionScaffoldsToRate: QuestionScaffold[];
+  public questionScaffoldIdsToTake: string[];
 
   beforeRegister(): void {
     this.is = 'prendus-question-scaffold';
@@ -58,6 +59,11 @@ class PrendusQuestionScaffold {
     //TODO generate these dynamically.
     this.questionScaffoldsToRate = [
       temp, temp, temp
+    ];
+
+    //TODO generate these dynamically
+    this.questionScaffoldIdsToTake = [
+      '-KjJ6K_D96n3SBUxhUJ6', '-KjJ6K_D96n3SBUxhUJ6', '-KjJ6K_D96n3SBUxhUJ6', '-KjJ6K_D96n3SBUxhUJ6', '-KjJ6K_D96n3SBUxhUJ6'
     ];
     this.action = Actions.setQuestionScaffoldExample(temp);
   }

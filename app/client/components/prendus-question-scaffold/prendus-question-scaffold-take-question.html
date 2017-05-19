@@ -1,0 +1,17 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/prendus-styles/prendus-styles.html">
+<link rel="import" href="prendus-question-scaffold-example.html">
+<dom-module id="prendus-question-scaffold-take-question">
+
+
+  <template>
+    <style include="prendus-styles">
+
+    </style>
+    <redux-store on-statechange="mapStateToThis" action="[[action]]"></redux-store>
+    < take question component > </ take question component >
+    My question id: [[questionId]]
+  </template>
+
+  <script src="prendus-question-scaffold-take-question.ts"></script>
+</dom-module>

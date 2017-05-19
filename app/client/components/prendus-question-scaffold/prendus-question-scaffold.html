@@ -11,6 +11,8 @@
 <link rel="import" href="prendus-question-scaffold-comments.html">
 <link rel="import" href="prendus-question-scaffold-explanation.html">
 <link rel="import" href="prendus-question-scaffold-rate-question.html">
+<link rel="import" href="prendus-question-scaffold-take-question.html">
+
 <dom-module id="prendus-question-scaffold">
 
 
@@ -154,22 +156,14 @@
               <prendus-question-scaffold-rate-question my-index="[[calculateIndex(index)]]" selected-index="[[selectedIndex]]" question-scaffold="[[item]]"></prendus-question-scaffold-rate-question>
             </div>
           </template>
-
-          <div>
-            Take question 1
-          </div>
-          <div>
-            Take question 2
-          </div>
-          <div>
-            Take question 3
-          </div>
-          <div>
-            Take question 4
-          </div>
-          <div>
-            Take question 5
-          </div>
+          <template is="dom-repeat" items="[[questionScaffoldIdsToTake]]">
+            <div>
+              <div class="prendus-card centered">
+                <h3>Take question [[plusOne(index)]]</h3>
+              </div>
+              <prendus-question-scaffold-take-question question-id="[[item]]"></prendus-question-scaffold-take-question>
+            </div>
+          </template>
         </iron-pages>
       </div>
 
