@@ -16,12 +16,10 @@ class PrendusQuestionScaffoldViewQuestion {
 	public notificationText: string;
   public hideRenderMath: boolean;
   public problemText: string;
-  public problemCode: string;
   public userInputs: string[];
   public userCheckboxes: string[];
   public userRadios: string[];
   public problemUid: string;
-  public currentUser: any; //TODO once we get Firebase 3.0 typings, change this
   public hint: string;
   public answer: Answer;
   public quizId: string;
@@ -57,7 +55,10 @@ class PrendusQuestionScaffoldViewQuestion {
         }
       };
   }
+  checkAnswer(): void {
 
+  }
+  
   async vitalPropertiesChanged(): Promise<void> {
     try {
       if(this.questionId && this.jwt) {

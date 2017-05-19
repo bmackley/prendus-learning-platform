@@ -30,29 +30,12 @@
     <div class="prendus-card content">
       <paper-spinner active hidden="[[!hideRenderMath]]"></paper-spinner>
 
-      <div class="problem-content">
-        <prendus-render-math hidden="[[hideRenderMath]]" text="[[problemText]]" on-renderingbegun="mathRenderingBegun" on-renderingcomplete="mathRenderingComplete"></prendus-render-math>
-        <template is="dom-if" if="[[!concise]]">
-          <iron-autogrow-textarea id="answerInput" type="text" placeholder="type answer" class="answer-input" hidden="[[computeAnswerInputHidden(userInputs, userCheckboxes, userRadios)]]" on-input="answerTyped"></iron-autogrow-textarea>
-        </template>
-      </div>
+      <prendus-render-math hidden="[[hideRenderMath]]" text="[[problemText]]" on-renderingbegun="mathRenderingBegun" on-renderingcomplete="mathRenderingComplete"></prendus-render-math>
+      <template is="dom-if" if="[[!hideRenderMath]]">
+        <button hidden="[[hideRenderMath]]" class="prendus-button prendus-button--recommended" on-tap="checkAnswer" noink>Check</button>
+      </template>
+
     </div>
-  	<!-- <template is="dom-if" if="[[!concise]]">
-  		<div class="problem-actions">
-  			<template is="dom-if" if="[[showQuestionGenerationButtons]]">
-  				<button class="prendus-button" on-tap="regenerateClick" noink>Regenerate</button>
-  			</template>
-  			<template is="dom-if" if="[[hint]]">
-  				<button class="prendus-button" on-tap="showHint" noink>Show hint</button>
-  			</template>
-  			<template is="dom-if" if="[[answer]]">
-  				<button class="prendus-button" on-tap="showAnswer" noink>Show answer</button>
-  			</template>
-  			<template is="dom-if" if="[[showCheckAnswer]]">
-  				<button class="prendus-button" on-tap="checkAnswer" noink>Check</button>
-  			</template>
-  		</div>
-  	</template> -->
 
   </template>
 
