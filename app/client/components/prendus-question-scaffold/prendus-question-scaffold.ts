@@ -64,7 +64,7 @@ class PrendusQuestionScaffold {
 
   calculateIndex(index: number): number {
     //TODO change back to 6!
-    return index + 0;
+    return index + 1;
   }
 
   plusOne(index: number): number {

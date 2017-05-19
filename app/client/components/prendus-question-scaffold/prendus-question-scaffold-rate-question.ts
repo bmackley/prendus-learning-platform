@@ -18,6 +18,7 @@ class PrendusQuestionScaffoldRateQuestion {
   public quality: number;
   public difficulty: number;
   public accuracy: number;
+  public querySelector: any;
 
   beforeRegister(): void {
     this.is = 'prendus-question-scaffold-rate-question';
@@ -42,8 +43,25 @@ class PrendusQuestionScaffoldRateQuestion {
     this.difficulty = 0;
     this.accuracy = 0;
   }
+
   disableNext(e: any): void {
-    this.action = Actions.setDisabledNext(false);
+    if(this.selectedIndex !== undefined && this.myIndex !== undefined && this.selectedIndex === this.myIndex) {
+      this.action = Actions.setDisabledNext(true);
+    }
+  }
+
+  submit(): void {
+    try {
+      // TODO Submit values
+      const quality: number = this.querySelector('#quality').value;
+      const difficulty: number = this.querySelector('#difficulty').value;
+      const accuracy: number = this.querySelector('#accuracy').value;
+      console.log('quality ', quality, ' difficulty ', difficulty, ' accuracy ', accuracy);
+      this.action = Actions.setDisabledNext(false);
+      Actions.showNotification(this, 'success', 'Ratings submitted');
+    } catch(error) {
+      console.error(error);
+    }
   }
 
 
