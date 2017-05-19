@@ -74,7 +74,7 @@ class PrendusQuestionScaffold {
 
   calculateTakeIndex(index: number): number {
     //TODO SWITCH BACK TO 9
-    return index + 1;
+    return index + 9;
   }
 
   plusOne(index: number): number {
