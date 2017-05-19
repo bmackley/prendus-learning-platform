@@ -6,7 +6,7 @@ import {QuestionScaffold} from '../../node_modules/prendus-services/typings/ques
 import {Action} from '../../typings/action';
 import {UtilitiesService} from '../../node_modules/prendus-services/services/utilities-service';
 
-export class PrendusQuestionScaffoldExample {
+class PrendusQuestionScaffoldExample {
   public is: string;
   public answers: QuestionScaffoldAnswer[];
   public properties: any;

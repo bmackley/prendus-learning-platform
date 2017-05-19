@@ -147,22 +147,22 @@
             </div>
             <prendus-question-scaffold-example question-scaffold="[[questionScaffold]]" my-index="5" selected-index="[[selectedIndex]]"></prendus-question-scaffold-example>
           </div> -->
-          <template is="dom-repeat" items="[[questionScaffoldsToRate]]">
+          <!-- <template is="dom-repeat" items="[[questionScaffoldsToRate]]">
             <div>
               <div class="prendus-card centered">
-                <h3> Rate question [[plusOne(index)]]</h3>
+                <h3> Rate question [[plusOne(index)]]</h3> -->
                 <!--TODO fix this description -->
-              </div>
-              <prendus-question-scaffold-rate-question my-index="[[calculateIndex(index)]]" selected-index="[[selectedIndex]]" question-scaffold="[[item]]"></prendus-question-scaffold-rate-question>
+              <!-- </div>
+              <prendus-question-scaffold-rate-question my-index="[[calculateRateIndex(index)]]" selected-index="[[selectedIndex]]" question-scaffold="[[item]]"></prendus-question-scaffold-rate-question>
             </div>
-          </template>
+          </template> -->
           <template is="dom-repeat" items="[[questionScaffoldIdsToTake]]">
             <div>
               <div class="prendus-card centered">
                 <h3>Take question [[plusOne(index)]]</h3>
                 <!--TODO fix this description -->
               </div>
-              <prendus-question-scaffold-take-question question-id="[[item]]"></prendus-question-scaffold-take-question>
+              <prendus-question-scaffold-take-question my-index="[[calculateTakeIndex(index)]]" selected-index="[[selectedIndex]]" question-id="[[item]]"></prendus-question-scaffold-take-question>
             </div>
           </template>
         </iron-pages>

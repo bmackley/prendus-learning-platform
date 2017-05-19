@@ -1,0 +1,60 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/prendus-styles/prendus-styles.html">
+
+<link rel="import" href="../../bower_components/iron-autogrow-textarea/iron-autogrow-textarea.html">
+<link rel="import" href="../../bower_components/paper-spinner/paper-spinner.html">
+<link rel="import" href="../../bower_components/paper-checkbox/paper-checkbox.html">
+<link rel="import" href="../../bower_components/paper-radio-button/paper-radio-button.html">
+<link rel="import" href="../../bower_components/paper-radio-group/paper-radio-group.html">
+<link rel="import" href="../../bower_components/iron-ajax/iron-ajax.html">
+<link rel="import" href="../../bower_components/paper-toast/paper-toast.html">
+<link rel="import" href="../../bower_components/paper-dropdown-menu/paper-dropdown-menu.html">
+<link rel="import" href="../../bower_components/paper-listbox/paper-listbox.html">
+<link rel="import" href="../../bower_components/paper-item/paper-item.html">
+<link rel="import" href="../../bower_components/prendus-question-components/components/prendus-render-math/prendus-render-math.html">
+
+<dom-module id="prendus-question-scaffold-view-question">
+  <template>
+
+		<style include="prendus-styles">
+
+			.answer-input {
+				border: none;
+				box-shadow: 0 2px 2px -2px grey;
+			}
+      .content {
+        margin-top: 10px;
+      }
+
+		</style>
+    <div class="prendus-card content">
+      <paper-spinner active hidden="[[!hideRenderMath]]"></paper-spinner>
+
+      <div class="problem-content">
+        <prendus-render-math hidden="[[hideRenderMath]]" text="[[problemText]]" on-renderingbegun="mathRenderingBegun" on-renderingcomplete="mathRenderingComplete"></prendus-render-math>
+        <template is="dom-if" if="[[!concise]]">
+          <iron-autogrow-textarea id="answerInput" type="text" placeholder="type answer" class="answer-input" hidden="[[computeAnswerInputHidden(userInputs, userCheckboxes, userRadios)]]" on-input="answerTyped"></iron-autogrow-textarea>
+        </template>
+      </div>
+    </div>
+  	<!-- <template is="dom-if" if="[[!concise]]">
+  		<div class="problem-actions">
+  			<template is="dom-if" if="[[showQuestionGenerationButtons]]">
+  				<button class="prendus-button" on-tap="regenerateClick" noink>Regenerate</button>
+  			</template>
+  			<template is="dom-if" if="[[hint]]">
+  				<button class="prendus-button" on-tap="showHint" noink>Show hint</button>
+  			</template>
+  			<template is="dom-if" if="[[answer]]">
+  				<button class="prendus-button" on-tap="showAnswer" noink>Show answer</button>
+  			</template>
+  			<template is="dom-if" if="[[showCheckAnswer]]">
+  				<button class="prendus-button" on-tap="checkAnswer" noink>Check</button>
+  			</template>
+  		</div>
+  	</template> -->
+
+  </template>
+
+  <script src="prendus-question-scaffold-view-question.ts"></script>
+</dom-module>

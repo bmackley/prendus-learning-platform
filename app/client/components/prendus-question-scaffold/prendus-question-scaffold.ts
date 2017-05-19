@@ -68,8 +68,12 @@ class PrendusQuestionScaffold {
     this.action = Actions.setQuestionScaffoldExample(temp);
   }
 
-  calculateIndex(index: number): number {
-    //TODO change back to 6!
+  calculateRateIndex(index: number): number {
+    return index + 6;
+  }
+
+  calculateTakeIndex(index: number): number {
+    //TODO SWITCH BACK TO 9
     return index + 1;
   }
 
