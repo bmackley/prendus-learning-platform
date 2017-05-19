@@ -1,0 +1,18 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/paper-dialog/paper-dialog.html">
+
+<dom-module id="prendus-assignment-editor">
+    <template>
+        <style>
+        </style>
+
+        <paper-dialog id="assignmentDialog">
+            <div>
+                Title: <input id="titleInput" value="[[assignment.title]]">
+            </div>
+            <button on-tap="save">Save</button>
+        </paper-dialog>
+    </template>
+
+    <script src="prendus-assignment-editor.ts"></script>
+</dom-module>

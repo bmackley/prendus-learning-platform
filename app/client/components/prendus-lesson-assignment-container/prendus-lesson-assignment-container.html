@@ -1,0 +1,23 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/redux-store-element/redux-store.html">
+<link rel="import" href="../prendus-assignment-editor/prendus-assignment-editor.html">
+
+<dom-module id="prendus-lesson-assignment-container">
+    <template>
+        <style>
+        </style>
+
+        <redux-store action="[[action]]" on-statechange="stateChange"></redux-store>
+
+        <template is="dom-repeat" items="[[assignments]]">
+            <div style="padding: 10px; cursor: pointer" on-tap="editAssignmentClick">Assignment: [[item.title]]</div>
+            <prendus-assignment-editor id="assignmentEditor-[[item.id]]" assignment="[[item]]" lesson-id="[[lessonId]]" on-saveclick="saveAssignment"></prendus-assignment-editor>
+        </template>
+
+        <prendus-assignment-editor id="assignmentEditor" assignment="[[lastAssignmentSaved]]" lesson-id="[[lessonId]]" on-saveclick="saveAssignment"></prendus-assignment-editor>
+
+        <button on-tap="addAssignmentClick">Add Assignment</button>
+    </template>
+
+    <script src="prendus-lesson-assignment-container.ts"></script>
+</dom-module>

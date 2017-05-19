@@ -15,6 +15,7 @@ import {Subject} from '../node_modules/prendus-services/typings/subject';
 import {LTIState} from '../node_modules/prendus-services/typings/lti-state';
 import {QuestionScaffold} from '../node_modules/prendus-services/typings/question-scaffold';
 import {QuestionScaffoldAnswer} from '../node_modules/prendus-services/typings/question-scaffold-answer';
+import {Assignment} from '../node_modules/prendus-services/typings/assignment';
 
 export interface Action {
 	readonly type: string;
@@ -83,4 +84,8 @@ export interface Action {
 	readonly numberOfAnswers?: number;
 	readonly ltiState?: LTIState;
 	readonly enrolledCourses?: Course[];
+    readonly assignments?: {
+        [uuid: string]: Assignment;
+    };
+    readonly assignment?: Assignment;
 };

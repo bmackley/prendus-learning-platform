@@ -14,6 +14,7 @@ import {Subject} from '../node_modules/prendus-services/typings/subject';
 import {LTIState} from '../node_modules/prendus-services/typings/lti-state';
 import {QuestionScaffold} from '../node_modules/prendus-services/typings/question-scaffold';
 import {QuestionScaffoldAnswer} from '../node_modules/prendus-services/typings/question-scaffold-answer';
+import {Assignment} from '../node_modules/prendus-services/typings/assignment';
 
 export interface State {
 	readonly notificationType: Notification;
@@ -97,4 +98,12 @@ export interface State {
 	readonly questionScaffoldAnswers: QuestionScaffoldAnswer[];
 	readonly exampleQuestionScaffoldAnswers: QuestionScaffoldAnswer[];
 	readonly enrolledCourses: Course[];
+    readonly lessonAssignments: {
+        [lessonId: string]: {
+            [uuid: string]: Assignment;
+        };
+    };
+    readonly lessonLastAssignmentSaved: {
+        [lessonId: string]: Assignment;
+    };
 }

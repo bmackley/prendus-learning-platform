@@ -28,12 +28,25 @@ import {QuestionScaffold} from '../node_modules/prendus-services/typings/questio
 import {QuestionScaffoldAnswer} from '../node_modules/prendus-services/typings/question-scaffold-answer';
 import {Action} from '../typings/action';
 import {QuizOrigin} from '../node_modules/prendus-services/typings/quiz-origin';
+import {Assignment} from '../node_modules/prendus-services/typings/assignment';
 
 const defaultAction = (context: any): void => {
     context.action = {
         type: 'DEFAULT_ACTION'
     };
 };
+
+export async function loadLessonAssignments(lessonId: string): Promise<Action> {
+    const assignments: {
+        [uuid: string]: Assignment;
+    } = await FirebaseService.getAllBy('assignments', 'lessonId', lessonId);
+
+    return {
+        type: 'SET_LESSON_ASSIGNMENTS',
+        lessonId,
+        assignments
+    };
+}
 
 const showMainSpinner = (context: any): void => {
     context.action = {
