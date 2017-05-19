@@ -1168,6 +1168,47 @@ const initializeLtiState = (courseId: string, quizId: string, quizOrigin: QuizOr
   return Actions.setLtiState(ltiState);
 };
 
+
+const initializeQuestionScaffoldQuiz = async (quizId: string, numberOfQuestions: number): Promise<Action> => {
+  const quiz: Quiz = await QuizModel.getById(quizId);
+  const questions = getRandomQuestions(Object.keys(quiz.questions), numberOfQuestions, {}, quiz);
+  const questionScaffoldQuizWithNoId: Quiz = {
+    ...quiz,
+    questions
+  };
+  const newQuizId: string = await QuizModel.createOrUpdate(null, questionScaffoldQuizWithNoId);
+  const questionScaffoldQuiz: Quiz = {
+    ...questionScaffoldQuizWithNoId,
+    id: newQuizId
+  };
+
+  return {
+    type: 'SET_QUESTION_SCAFFOLD_QUIZ',
+    questionScaffoldQuiz
+  };
+
+  function getRandomQuestions(questionIds: string[], numberOfQuestions: number, questions: { [questionId: string]: QuestionMetaData }, quiz: Quiz): { [questionId: string]: QuestionMetaData; } {
+    if(numberOfQuestions === 0) {
+      return questions;
+    }
+
+    const index: number = Math.floor(Math.random() * questionIds.length)
+    const randomId: string = questionIds[index];
+    const newQuestions: { [questionId: string]: QuestionMetaData } = {
+      ...questions,
+      [randomId]: quiz.questions[randomId]
+    };
+
+    return getRandomQuestions(deleteElementFromArray(questionIds, randomId), numberOfQuestions - 1, newQuestions, quiz);
+  };
+
+  function deleteElementFromArray(questionIds: string[], questionId: string): string[] {
+    return questionIds.filter( (value: string) => {
+      return value !== questionId;
+    });
+  };
+};
+
 export const Actions = {
   defaultAction,
 	showMainSpinner,
@@ -1249,5 +1290,6 @@ export const Actions = {
   setLtiState,
   checkLtiState,
   setEnrolledCourses,
-  initializeLtiState
+  initializeLtiState,
+  initializeQuestionScaffoldQuiz
 };

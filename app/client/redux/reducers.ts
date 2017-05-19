@@ -446,6 +446,14 @@ export function rootReducer(state: State = InitialState, action: Action): State 
           enrolledCourses: action.enrolledCourses
         };
       }
+
+      case 'SET_QUESTION_SCAFFOLD_QUIZ': {
+        return {
+          ...state,
+          questionScaffoldQuiz: action.questionScaffoldQuiz
+        };
+      }
+      
       default: {
           return state;
       }

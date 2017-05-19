@@ -83,4 +83,5 @@ export interface Action {
 	readonly numberOfAnswers?: number;
 	readonly ltiState?: LTIState;
 	readonly enrolledCourses?: Course[];
+	readonly questionScaffoldQuiz?: Quiz;
 };

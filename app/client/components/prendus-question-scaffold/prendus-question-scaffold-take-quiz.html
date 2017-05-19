@@ -1,0 +1,22 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/prendus-styles/prendus-styles.html">
+<link rel="import" href="../../bower_components/redux-store-element/redux-store.html">
+<link rel="import" href="../../bower_components/prendus-quiz-viewer-component/prendus-take-quiz.html">
+<dom-module id="prendus-question-scaffold-take-quiz">
+
+
+  <template>
+    <style include="prendus-styles">
+
+    </style>
+    <redux-store on-statechange="mapStateToThis" action="[[action]]"></redux-store>
+    <!--TODO decide on quiz origin -->
+    <!--TODO COURSE ID WILL BE SET FROM LTI LAUNCH -->
+    <redux-store store-name="PRENDUS_QUIZ_VIEWER_COMPONENT_STORE" root-reducer="[[quizRootReducer]]"></redux-store>
+    <template is="dom-if" if="[[quizRootReducer]]">
+      <prendus-take-quiz quiz-origin="LEARNING_PLATFORM" course-id="-Khc_DJehSxXOIf4kd45" quiz-id="[[quizId]]" jwt="[[jwt]]" on-quizsubmissionstarted="quizSubmissionStarted" on-quizsubmissionfinished="quizSubmissionFinished"></prendus-take-quiz>
+    </template>
+  </template>
+
+  <script src="prendus-question-scaffold-take-quiz.ts"></script>
+</dom-module>

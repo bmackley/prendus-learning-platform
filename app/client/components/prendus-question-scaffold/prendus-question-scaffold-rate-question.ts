@@ -1,4 +1,3 @@
-import {StatechangeEvent} from '../../typings/statechange-event';
 import {State} from '../../typings/state';
 import {Actions} from '../../redux/actions';
 import {UtilitiesService} from '../../node_modules/prendus-services/services/utilities-service';
@@ -65,7 +64,7 @@ class PrendusQuestionScaffoldRateQuestion {
   }
 
 
-	mapStateToThis(e: StatechangeEvent): void {
+	mapStateToThis(e: CustomEvent): void {
 		const state: State = e.detail.state;
 	}
 }

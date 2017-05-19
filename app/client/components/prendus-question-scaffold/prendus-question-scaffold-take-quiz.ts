@@ -1,4 +1,3 @@
-import {StatechangeEvent} from '../../typings/statechange-event';
 import {State} from '../../typings/state';
 import {Actions} from '../../redux/actions';
 import {UtilitiesService} from '../../node_modules/prendus-services/services/utilities-service';
@@ -6,23 +5,22 @@ import {QuestionScaffold} from '../../node_modules/prendus-services/typings/ques
 import {Action} from '../../typings/action';
 import {QuestionScaffoldAnswer} from '../../node_modules/prendus-services/typings/question-scaffold-answer';
 import {CheckAnswerRequestBody} from '../../node_modules/prendus-services/typings/check-answer-request-body';
+import {Quiz} from '../../node_modules/prendus-services/typings/quiz';
+import {RootReducer} from '../../bower_components/prendus-quiz-viewer-component/redux/reducers';
 
-class PrendusQuestionScaffoldTakeQuestion {
+class PrendusQuestionScaffoldTakeQuiz {
   public is: string;
   public properties: any;
   public selectedIndex: number;
   public myIndex: number;
   public action: Action;
-  public questionId: string;
   public jwt: string;
-  public userFullName: string;
-  public userEmail: string;
-  public userId: string;
-  public querySelector: any;
-  public renderMe: boolean;
+  public quizId: string;
+  public dispatchEvent: any;
+  public quizRootReducer: RootReducer;
 
   beforeRegister(): void {
-    this.is = 'prendus-question-scaffold-take-question';
+    this.is = 'prendus-question-scaffold-take-quiz';
     this.properties = {
       selectedIndex: {
         type: Number,
@@ -31,26 +29,41 @@ class PrendusQuestionScaffoldTakeQuestion {
       myIndex: {
         type: Number
       },
-      questionId: {
-        type: String
+      quizId: {
+        type: String,
+        observer: 'init'
       }
     };
   }
+
+
   ready(): void {
     Actions.defaultAction(this);
+    this.quizRootReducer = RootReducer;
   }
 
   disableNext(e: any): void {
     if(this.selectedIndex !== undefined && this.myIndex !== undefined && this.selectedIndex === this.myIndex) {
       this.action = Actions.setDisabledNext(false);
-      this.renderMe = true;
     }
   }
 
-	mapStateToThis(e: StatechangeEvent): void {
+  quizSubmissionStarted() {
+      this.dispatchEvent(new CustomEvent('quizsubmissionstarted'), {
+          bubbles: false
+      });
+  }
+
+  quizSubmissionFinished() {
+      this.dispatchEvent(new CustomEvent('quizsubmissionfinished'), {
+          bubbles: false
+      });
+  }
+
+	mapStateToThis(e: CustomEvent): void {
 		const state: State = e.detail.state;
     this.jwt = state.jwt;
   }
 }
 
-Polymer(PrendusQuestionScaffoldTakeQuestion);
+Polymer(PrendusQuestionScaffoldTakeQuiz);

@@ -1,9 +1,9 @@
-import {StatechangeEvent} from '../../typings/statechange-event';
 import {State} from '../../typings/state';
 import {Actions} from '../../redux/actions';
 import {QuestionScaffold} from '../../node_modules/prendus-services/typings/question-scaffold';
 import {QuestionScaffoldAnswer} from '../../node_modules/prendus-services/typings/question-scaffold-answer';
 import {Action} from '../../typings/action';
+import {Quiz} from '../../node_modules/prendus-services/typings/quiz';
 
 class PrendusQuestionScaffold {
   public is: string;
@@ -18,7 +18,7 @@ class PrendusQuestionScaffold {
   public action: Action;
   public questionScaffoldsToRate: QuestionScaffold[];
   public questionScaffoldIdsToTake: string[];
-
+  public questionScaffoldQuizId: string;
   beforeRegister(): void {
     this.is = 'prendus-question-scaffold';
   }
@@ -61,10 +61,8 @@ class PrendusQuestionScaffold {
       temp, temp, temp
     ];
 
-    //TODO generate these dynamically
-    this.questionScaffoldIdsToTake = [
-      '-KjJ6K_D96n3SBUxhUJ6', '-KkVrKQcZY_6-EHRmuES', '-KkVrinEpAx9WNNuVPCq', '-KkVt25YU2Dvk48Ir7e-', '-KkVtGrpSK8g9skV7OD_'
-    ];
+
+    this.action = await Actions.initializeQuestionScaffoldQuiz('-KkMp8zw-YQyQwrb0OtD', 5);
     this.action = Actions.setQuestionScaffoldExample(temp);
   }
 
@@ -74,7 +72,7 @@ class PrendusQuestionScaffold {
 
   calculateTakeIndex(index: number): number {
     //TODO SWITCH BACK TO 9
-    return index + 9;
+    return index + 1;
   }
 
   plusOne(index: number): number {
@@ -100,11 +98,12 @@ class PrendusQuestionScaffold {
     }
   }
 
-	mapStateToThis(e: StatechangeEvent): void {
+	mapStateToThis(e: CustomEvent): void {
 		const state: State = e.detail.state;
     this.disableNext = state.disableNext;
     this.exampleQuestionScaffold = state.currentQuestionScaffoldExample;
     this.questionScaffold = state.currentQuestionScaffold;
+    this.questionScaffoldQuizId = state.questionScaffoldQuiz ? state.questionScaffoldQuiz.id : this.questionScaffoldQuizId;
 	}
 }
 

@@ -1,4 +1,3 @@
-import {StatechangeEvent} from '../../typings/statechange-event';
 import {State} from '../../typings/state';
 import {Actions} from '../../redux/actions';
 import {QuestionScaffoldAnswer} from '../../node_modules/prendus-services/typings/question-scaffold-answer';
@@ -48,7 +47,7 @@ class PrendusQuestionScaffoldExample {
     }
   }
 
-	mapStateToThis(e: StatechangeEvent): void {
+	mapStateToThis(e: CustomEvent): void {
 		const state: State = e.detail.state;
 	}
 }

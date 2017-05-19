@@ -95,4 +95,5 @@ export interface State {
   readonly currentQuestionScaffold: QuestionScaffold;
   readonly currentQuestionScaffoldExample: QuestionScaffold;
 	readonly enrolledCourses: Course[];
+	readonly questionScaffoldQuiz?: Quiz;
 }
