@@ -1167,23 +1167,6 @@ const initializeLtiState = (courseId: string, quizId: string, quizOrigin: QuizOr
   return Actions.setLtiState(ltiState);
 };
 
-const hasUserPaid = async (courseId: string, jwt: string): Promise<boolean> => {
-  const body: any = {
-    courseId,
-    jwt
-  };
-  const response = await fetch(`${UtilitiesService.getPrendusServerEndpointDomain()}/api/payment/has-user-paid`, {
-    method: 'POST',
-    headers: {
-      'Content-type': 'application/x-www-form-urlencoded'
-    },
-    body: UtilitiesService.prepareUrl(body, false)
-  });
-
-  const responseBody = await response.json();
-  return responseBody.hasUserPaid;
-};
-
 export const Actions = {
   defaultAction,
 	showMainSpinner,
@@ -1265,6 +1248,5 @@ export const Actions = {
   setLtiState,
   checkLtiState,
   setEnrolledCourses,
-  initializeLtiState,
-  hasUserPaid
+  initializeLtiState
 };

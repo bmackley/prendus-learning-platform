@@ -62,7 +62,7 @@ class PrendusViewQuizRouter {
           if(!loggedInUser) {
             this.querySelector('#sign-up-sign-in-dialog').open();
           } else {
-            const hasUserPaid: boolean = await Actions.hasUserPaid(data.courseId, this.jwt);
+            const hasUserPaid: boolean = await didUserPay(data.courseId, this.jwt);
             if(!hasUserPaid) {
               this.querySelector('#payment').open();
             }
@@ -84,7 +84,26 @@ class PrendusViewQuizRouter {
             prev[key] = value;
             return prev;
         }, {});
+      };
+
+      async function didUserPay(courseId: string, jwt: string): Promise<boolean> {
+        const body: any = {
+          courseId,
+          jwt
+        };
+        const response = await fetch(`${UtilitiesService.getPrendusServerEndpointDomain()}/api/payment/has-user-paid`, {
+          method: 'POST',
+          headers: {
+            'Content-type': 'application/x-www-form-urlencoded'
+          },
+          body: UtilitiesService.prepareUrl(body, false)
+        });
+
+        const responseBody = await response.json();
+        return responseBody.hasUserPaid;
       }
+
+
 		}
 
     quizSubmissionStarted(): void {
