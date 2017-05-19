@@ -61,6 +61,7 @@ class PrendusViewQuizRouter {
           const loggedInUser = await FirebaseService.getLoggedInUser();
           if(!loggedInUser) {
             this.querySelector('#sign-up-sign-in-dialog').open();
+            this.querySelector('#sign-up-sign-in-dialog').notifyResize();
           } else {
             const hasUserPaid: boolean = await didUserPay(data.courseId, this.jwt);
             if(!hasUserPaid) {
