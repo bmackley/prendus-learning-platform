@@ -27,6 +27,7 @@ import {LTIState} from '../node_modules/prendus-services/typings/lti-state';
 import {QuestionScaffold} from '../node_modules/prendus-services/typings/question-scaffold';
 import {QuestionScaffoldAnswer} from '../node_modules/prendus-services/typings/question-scaffold-answer';
 import {Action} from '../typings/action';
+import {QuizOrigin} from '../node_modules/prendus-services/typings/quiz-origin';
 
 const defaultAction = (context: any): void => {
     context.action = {
@@ -1042,6 +1043,7 @@ const updateCourseField = async (context: any, id: string, field: string, value:
 };
 
 const logOutUser = async (context: any): Promise<void> => {
+    localStorage.removeItem('ltiState');
     await FirebaseService.logOutUser();
     window.location.href = ''; //need to reset the state instead of reloading everything.
 };
@@ -1082,11 +1084,13 @@ const reloadPublicCourses = async (context: any, courses: Course[]): Promise<voi
 };
 
 const setLtiState = (ltiState: LTIState): Action => {
+  localStorage.setItem('ltiState', JSON.stringify(ltiState));
   return {
     type: 'SET_LTI_STATE',
     ltiState
   };
 };
+
 const setDisabledNext = (disableNext: boolean): Action => {
   return {
     type: 'SET_DISABLED_NEXT',
@@ -1125,6 +1129,21 @@ const updateCurrentQuestionScaffold = (questionStem: string, comments: string[],
   };
 }
 
+const checkLtiState = (ltiState: LTIState): Action => {
+  if(!ltiState && localStorage.getItem('ltiState')) {
+    const ltiState: LTIState = JSON.parse(localStorage.getItem('ltiState'));
+    return {
+      type: 'SET_LTI_STATE',
+      ltiState
+    };
+  } else {
+    return {
+      type: 'DEFAULT_ACTION'
+    };
+  }
+
+};
+
 const setEnrolledCourses = async (): Promise<Action> => {
   const user = await FirebaseService.getLoggedInUser();
   const uid: string = user.uid;
@@ -1134,6 +1153,19 @@ const setEnrolledCourses = async (): Promise<Action> => {
     type: 'SET_ENROLLED_COURSES',
     enrolledCourses
   };
+};
+
+const initializeLtiState = (courseId: string, quizId: string, quizOrigin: QuizOrigin, userEmail: string, userFullName: string): Action => {
+  const ltiJwt: string = UtilitiesService.getCookie('jwt');
+  const ltiState: LTIState = {
+    courseId,
+    quizId,
+    quizOrigin,
+    userEmail,
+    userFullName,
+    ltiJwt
+  };
+  return Actions.setLtiState(ltiState);
 };
 
 export const Actions = {
@@ -1215,5 +1247,7 @@ export const Actions = {
   updateCurrentQuestionScaffold,
   initCurrentQuestionScaffold,
   setLtiState,
-  setEnrolledCourses
+  checkLtiState,
+  setEnrolledCourses,
+  initializeLtiState
 };

@@ -26,8 +26,6 @@ class PrendusViewQuizRouter {
     public ltiState: LTIState;
     public action: Action;
     public quizOrigin: QuizOrigin;
-    public userId: string;
-    public consumerKey: string;
     public displayLink: boolean;
     public properties: any;
     public ltiJwt: string;
@@ -55,61 +53,47 @@ class PrendusViewQuizRouter {
 
 		async updateEditAccess(data: any) {
       try {
-        this.quizOrigin = data.quizOrigin;
-
+        const queryParams: any = UtilitiesService.getQueryParams();
+        this.quizOrigin = queryParams.quizOrigin;
         await Actions.checkUserAuth(this);
-        if(this.quizOrigin === 'LTI') {
-          const ltiJwt: string = UtilitiesService.getCookie('jwt');
-
-          const ltiState: LTIState = {
-            consumerKey: data.consumerKey,
-            courseId: data.courseId,
-            lessonId: data.lessonId,
-            quizId: data.quizId,
-            quizOrigin: data.quizOrigin,
-            userEmail: data.userEmail,
-            userFullName: data.userFullName,
-            userId: data.userId,
-            ltiJwt
-          };
-
+        if(queryParams.quizOrigin === 'LTI') {
+          this.action = Actions.initializeLtiState(data.courseId, data.quizId, queryParams.quizOrigin, this.userEmail, this.userFullName);
           const loggedInUser = await FirebaseService.getLoggedInUser();
-          this.action = Actions.setLtiState(ltiState);
           if(!loggedInUser) {
             this.querySelector('#sign-up-sign-in-dialog').open();
           } else {
-
-            this.userId = data.userId;
-            this.consumerKey = data.consumerKey;
-
-            const body: any = {
-              courseId: data.courseId,
-              jwt: this.jwt
-            };
-            const response = await fetch(`${UtilitiesService.getPrendusServerEndpointDomain()}/api/payment/has-user-paid`, {
-              method: 'POST',
-              headers: {
-                'Content-type': 'application/x-www-form-urlencoded'
-              },
-              body: UtilitiesService.prepareUrl(body, false)
-            });
-
-            const responseBody = await response.json();
-            if(!responseBody.hasUserPaid) {
-              Actions.showNotification(this, 'info', 'Please pay for this course before taking a quiz.');
+            const hasUserPaid: boolean = await didUserPay(data.courseId, this.jwt);
+            if(!hasUserPaid) {
               this.querySelector('#payment').open();
             }
           }
         }
-
         const quiz: Quiz = await Actions.getQuiz(data.quizId);
         this.hasEditAccess = this.uid === quiz.uid;
-        this.userEmail = data.userEmail;
         // put this back once collaborators work again
         // this.hasEditAccess = this.uid in quiz.collaborators;
       } catch(error) {
         console.error(error);
       }
+
+      async function didUserPay(courseId: string, jwt: string): Promise<boolean> {
+        const body: any = {
+          courseId,
+          jwt
+        };
+        const response = await fetch(`${UtilitiesService.getPrendusServerEndpointDomain()}/api/payment/has-user-paid`, {
+          method: 'POST',
+          headers: {
+            'Content-type': 'application/x-www-form-urlencoded'
+          },
+          body: UtilitiesService.prepareUrl(body, false)
+        });
+
+        const responseBody = await response.json();
+        return responseBody.hasUserPaid;
+      }
+
+
 		}
 
     quizSubmissionStarted(): void {
@@ -124,7 +108,7 @@ class PrendusViewQuizRouter {
       const state: State = e.detail.state;
 			this.uid = state.currentUser.metaData.uid;
       this.userFullName = `${state.currentUser.metaData.firstName} ${state.currentUser.metaData.lastName}`;
-      this.userEmail = state.currentUser.metaData.email;
+      this.userEmail = state.currentUser && state.currentUser.metaData ? state.currentUser.metaData.email : this.userEmail;
       this.jwt = state.jwt;
       this.ltiState = state.ltiState;
       this.ltiJwt = state.ltiState ? state.ltiState.ltiJwt : this.ltiJwt;
