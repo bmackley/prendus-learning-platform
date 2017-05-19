@@ -10,6 +10,7 @@
 <link rel="import" href="prendus-question-scaffold-distractors.html">
 <link rel="import" href="prendus-question-scaffold-comments.html">
 <link rel="import" href="prendus-question-scaffold-explanation.html">
+<link rel="import" href="prendus-question-scaffold-rate-question.html">
 <dom-module id="prendus-question-scaffold">
 
 
@@ -74,7 +75,7 @@
               to guide your thinking. -->
             </div>
             <!-- <prendus-question-scaffold-example question-scaffold="[[exampleQuestionScaffold]]" my-index="0" selected-index="[[selectedIndex]]"></prendus-question-scaffold-example> -->
-            <div class="prendus-card" id ="process">
+            <div class="prendus-card" id="process">
               <div>
                 <center>
                     <h2>Step 1</h2>
@@ -101,7 +102,7 @@
               </div>
             </div>
           </div>
-          <div>
+          <!-- <div>
             <div class="prendus-card big">
               <h3>Guidelines for Creating a Question</h3>
               <ol>
@@ -143,21 +144,9 @@
               <h3>Final Question</h3>
             </div>
             <prendus-question-scaffold-example question-scaffold="[[questionScaffold]]" my-index="5" selected-index="[[selectedIndex]]"></prendus-question-scaffold-example>
-          </div>
+          </div> -->
           <template is="dom-repeat" items="[[questionScaffoldsToRate]]">
-            <div>
-              Rate question [[plusOne(index)]]
-              <div>
-                Quality <paper-slider></paper-slider>
-              </div>
-              <div>
-                Difficulty<paper-slider></paper-slider>
-              </div>
-              <div>
-                Accuracy<paper-slider></paper-slider>
-              </div>
-              <prendus-question-scaffold-example question-scaffold="[[item]]" my-index="[[calculateIndex(index)]]" selected-index="[[selectedIndex]]"></prendus-question-scaffold-example>
-            </div>
+            <prendus-question-scaffold-rate-question example-index="[[plusOne(index)]]" my-index="[[calculateIndex(index)]]" selected-index="[[selectedIndex]]" question-scaffold="[[item]]"></prendus-question-scaffold-rate-question>
           </template>
 
           <div>

@@ -1,0 +1,28 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/prendus-styles/prendus-styles.html">
+<link rel="import" href="prendus-question-scaffold-example.html">
+<dom-module id="prendus-question-scaffold-rate-question">
+
+
+  <template>
+    <style include="prendus-styles">
+
+    </style>
+    <redux-store on-statechange="mapStateToThis" action="[[action]]"></redux-store>
+    <div>
+      Rate question [[exampleIndex]]
+      <div>
+        Quality <paper-slider></paper-slider>
+      </div>
+      <div>
+        Difficulty<paper-slider></paper-slider>
+      </div>
+      <div>
+        Accuracy<paper-slider></paper-slider>
+      </div>
+      <prendus-question-scaffold-example question-scaffold="[[questionScaffold]]"></prendus-question-scaffold-example>
+    </div>
+  </template>
+
+  <script src="prendus-question-scaffold-rate-question.ts"></script>
+</dom-module>
