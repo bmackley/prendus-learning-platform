@@ -110,7 +110,7 @@ class PrendusPayment {
           // Could we use a timeout? currently the notification doesn't display.
           this.querySelector('#dialog').close();
 
-          // This is hack! Ideally, we should reload the quiz from here without a page refresh
+          // TODO This is hack! Ideally, we should reload the quiz from here without a page refresh
           window.location.reload();
         } else {
           throw new Error(responseBody.errorMessage);

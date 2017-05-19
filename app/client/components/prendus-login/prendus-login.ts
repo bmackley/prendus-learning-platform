@@ -2,10 +2,13 @@ import {Actions} from '../../redux/actions';
 import {rootReducer} from '../../redux/reducers';
 import {StatechangeEvent} from '../../typings/statechange-event';
 import {ConstantsService} from '../../node_modules/prendus-services/services/constants-service';
+import {UtilitiesService} from '../../node_modules/prendus-services/services/utilities-service';
 import {FirebaseService} from '../../node_modules/prendus-services/services/firebase-service';
 import {State} from '../../typings/state';
 import {LTIState} from '../../node_modules/prendus-services/typings/lti-state';
 import {Action} from '../../typings/action';
+import {QuizOrigin} from '../../node_modules/prendus-services/typings/quiz-origin';
+
 class PrendusLogin {
   public is: string;
   public email: string;
@@ -58,7 +61,10 @@ class PrendusLogin {
       Actions.getStarredCoursesByUser(this, uid);
       Actions.getSharedCoursesByUser(this, uid);
       this.action = Actions.checkLtiState(this.ltiState);
-      const location: string = this.ltiState ? `courses/view-quiz/course/${this.ltiState.courseId}/quiz/${this.ltiState.quizId}/quiz-origin/${this.ltiState.quizOrigin}/user-full-name/${this.ltiState.userFullName}/user-email/${this.ltiState.userEmail}` : 'courses/home';
+      const body: { quizOrigin: QuizOrigin } = {
+        quizOrigin: 'LTI'
+      };
+      const location: string = this.ltiState ? `courses/view-quiz/course/${this.ltiState.courseId}/quiz/${this.ltiState.quizId}${UtilitiesService.prepareUrl(body, true)}` : 'courses/home';
       window.history.pushState({}, '', location);
       this.fire('location-changed', {}, {node: window});
     } catch(error) {
