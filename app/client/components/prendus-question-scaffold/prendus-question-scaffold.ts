@@ -63,7 +63,7 @@ class PrendusQuestionScaffold {
 
     //TODO generate these dynamically
     this.questionScaffoldIdsToTake = [
-      '-KjJ6K_D96n3SBUxhUJ6', '-KjJ6K_D96n3SBUxhUJ6', '-KjJ6K_D96n3SBUxhUJ6', '-KjJ6K_D96n3SBUxhUJ6', '-KjJ6K_D96n3SBUxhUJ6'
+      '-KjJ6K_D96n3SBUxhUJ6', '-KkVrKQcZY_6-EHRmuES', '-KkVrinEpAx9WNNuVPCq', '-KkVt25YU2Dvk48Ir7e-', '-KkVtGrpSK8g9skV7OD_'
     ];
     this.action = Actions.setQuestionScaffoldExample(temp);
   }
