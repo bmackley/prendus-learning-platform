@@ -8,6 +8,7 @@ import {QuizSession} from '../../node_modules/prendus-services/typings/quiz-sess
 import {QuestionSession} from '../../node_modules/prendus-services/typings/question-session';
 import {Notification} from '../../node_modules/prendus-services/typings/notification';
 import {Actions} from '../../redux/actions';
+import {CheckOrRadioAnswer} from '../../node_modules/prendus-services/typings/check-or-radio-answer';
 
 class PrendusQuestionScaffoldViewQuestion {
   public is: string;
@@ -55,27 +56,55 @@ class PrendusQuestionScaffoldViewQuestion {
         }
       };
   }
-  checkAnswer(): void {
 
+  async checkAnswer(): Promise<void> {
+    try {
+      const userRadiosAnswers: { [radioName: string]: boolean } = getUserRadiosAnswers(this, this.userRadios || []);
+      //TODO do the grading on the server?
+      //TODO actually no, we just have to store the fact that they did it.
+      const answer: CheckOrRadioAnswer = await getAnswer(this);
+      console.log('userRadiosAnswers ', userRadiosAnswers);
+      console.log('answer ', answer)
+      const correct: boolean = isAnswerCorrect(userRadiosAnswers, answer);
+      console.log('correct ', correct);
+      Actions.showNotification(this, correct ? 'success' : 'error', correct ? 'correct' : 'incorrect');
+
+    } catch(error) {
+      console.error('error while checking answer ', error);
+    }
+
+    function isAnswerCorrect(correctAnswer: { [radioName: string]: boolean }, userAnswer: CheckOrRadioAnswer ): boolean {
+      const correct: boolean = Object.keys(correctAnswer).reduce( (acc: any, currentKey: string, index: number) => {
+        console.log('correctAnswer[currentKey] ' + correctAnswer[currentKey] + ' userAnswer[currentKey] ' + userAnswer[currentKey]);
+        console.log('acc ', acc)
+        return acc && correctAnswer[currentKey] === userAnswer[currentKey]
+      }, false)
+      console.log('correct ', correct);
+      return false;
+    };
+    async function getAnswer(context: PrendusQuestionScaffoldViewQuestion): Promise<CheckOrRadioAnswer> {
+      const queryParams: any = {
+        questionId: context.questionId,
+        jwt: context.jwt
+      };
+      const response = await fetch(`${UtilitiesService.getPrendusServerEndpointDomain()}/api/jwt/${queryParams.jwt}/question/${queryParams.questionId}/getAnswer`, {
+        method: 'post',
+        headers: {
+          'Content-type': 'application/x-www-form-urlencoded; charset=UTF-8'
+        },
+        body: UtilitiesService.prepareUrl(queryParams, false)
+      });
+      const responseBody = await response.json();
+
+      const answer: Answer = responseBody.answer;
+      return answer;
+    }
   }
-  
+
   async vitalPropertiesChanged(): Promise<void> {
     try {
       if(this.questionId && this.jwt) {
-        const queryParams: any = {
-          questionId: this.questionId,
-          jwt: this.jwt
-        };
-        const response = await fetch(`${UtilitiesService.getPrendusServerEndpointDomain()}/api/jwt/${this.jwt}/question/${this.questionId}`, {
-          method: 'post',
-          headers: {
-            'Content-type': 'application/x-www-form-urlencoded; charset=UTF-8'
-          },
-          body: UtilitiesService.prepareUrl(queryParams, false)
-        });
-        const responseBody = await response.json();
-
-        const questionInfo: QuestionInfo = responseBody.questionInfo;
+        const questionInfo: QuestionInfo = await getQuestionInfo(this);
         console.log('questionInfo ', questionInfo);
         setQuestionInfo(this, questionInfo);
         attachRadioEventListeners(this, this.userRadios, this.uuid);
@@ -85,6 +114,24 @@ class PrendusQuestionScaffoldViewQuestion {
       Actions.showNotification(this, 'error', 'Something went wrong getting the question..');
     }
 
+    async function getQuestionInfo(context: PrendusQuestionScaffoldViewQuestion): Promise<QuestionInfo> {
+      const queryParams: any = {
+        questionId: context.questionId,
+        jwt: context.jwt
+      };
+      const response = await fetch(`${UtilitiesService.getPrendusServerEndpointDomain()}/api/jwt/${queryParams.jwt}/question/${queryParams.questionId}`, {
+        method: 'post',
+        headers: {
+          'Content-type': 'application/x-www-form-urlencoded; charset=UTF-8'
+        },
+        body: UtilitiesService.prepareUrl(queryParams, false)
+      });
+      const responseBody = await response.json();
+
+      const questionInfo: QuestionInfo = responseBody.questionInfo;
+      return questionInfo;
+
+    };
     function setQuestionInfo(context: PrendusQuestionScaffoldViewQuestion, questionInfo: QuestionInfo) {
         context.uuid = questionInfo.uuid;
         context.problemText = questionInfo.transformedText;
