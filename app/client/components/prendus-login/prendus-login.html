@@ -27,7 +27,7 @@
 
   </style>
   <template>
-    <redux-store action="[[action]]"></redux-store>
+    <redux-store action="[[action]]" on-statechange="mapStateToThis"></redux-store>
       <paper-card id="login-container" heading="Log in">
         <form id="login-form" class="card-content" is="iron-form" on-keydown="loginOnEnter">
           <paper-input id="email" name="email" label="Email" value="{{email}}" required on-change="hardValidateEmail" on-keyup="softValidateEmail" pattern="^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$" error-message="Please enter a valid email address."></paper-input>

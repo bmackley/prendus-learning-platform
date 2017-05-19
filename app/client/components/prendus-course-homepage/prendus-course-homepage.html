@@ -81,6 +81,15 @@
 					</template>
 				</div>
 			</template>
+      <!-- COURSES THEY'VE PAID FOR -->
+      <template is="dom-if" if="[[enrolledCourses.length]]">
+        <h1>Courses you're enrolled in</h1>
+        <div class="courses-container">
+          <template id="enrolled-courses" is="dom-repeat" items="[[enrolledCourses]]">
+            <prendus-course-preview class="course-preview" course="[[item]]"></prendus-course-preview>
+          </template>
+        </div>
+      </template>
 			<!-- STARRED COURSES -->
 			<template is="dom-if" if="[[starredCourses.length]]" restamp="true">
 				<h1>Starred Courses</h1>

@@ -23,9 +23,11 @@ import {EmailsToUidsModel} from '../node_modules/prendus-services/models/emails-
 import {Video} from '../node_modules/prendus-services/typings/video';
 import {ExecuteAsyncInOrderService} from '../node_modules/prendus-services/services/execute-async-in-order-service';
 import {UtilitiesService} from '../node_modules/prendus-services/services/utilities-service';
+import {LTIState} from '../node_modules/prendus-services/typings/lti-state';
 import {QuestionScaffold} from '../node_modules/prendus-services/typings/question-scaffold';
 import {QuestionScaffoldAnswer} from '../node_modules/prendus-services/typings/question-scaffold-answer';
 import {Action} from '../typings/action';
+import {QuizOrigin} from '../node_modules/prendus-services/typings/quiz-origin';
 
 const defaultAction = (context: any): void => {
     context.action = {
@@ -670,18 +672,14 @@ const loadViewCourseLessons = async (context: any, courseId: string): Promise<vo
   };
 };
 
-const createUser = async (context: any, userType: UserType, data: UserMetaData, password: string): Promise<void> => {
-    try {
-        await FirebaseService.createUserWithEmailAndPassword(data.email, password);
-        const loggedInUser: any = await FirebaseService.logInUserWithEmailAndPassword(data.email, password);
-        await UserModel.sendConfirmationEmail(loggedInUser);
-        await UserModel.setUserType(loggedInUser.uid, userType);
-        await UserModel.updateMetaData(loggedInUser.uid, data);
-        await EmailsToUidsModel.setUidByEmail(data.email, loggedInUser.uid);
-        await FirebaseService.logOutUser(); //logout so user can't do things
-    } catch(error){
-        throw error;
-    }
+const createUser = async (userType: UserType, data: UserMetaData, password: string): Promise<void> => {
+  await FirebaseService.createUserWithEmailAndPassword(data.email, password);
+  const loggedInUser: any = await FirebaseService.logInUserWithEmailAndPassword(data.email, password);
+  await UserModel.sendConfirmationEmail(loggedInUser);
+  await UserModel.setUserType(loggedInUser.uid, userType);
+  await UserModel.updateMetaData(loggedInUser.uid, data);
+  await EmailsToUidsModel.setUidByEmail(data.email, loggedInUser.uid);
+  await FirebaseService.logOutUser(); //logout so user can't do things
 };
 
 const loginUser = async (context: any, email: string, password: string): Promise<void> => {
@@ -1045,6 +1043,7 @@ const updateCourseField = async (context: any, id: string, field: string, value:
 };
 
 const logOutUser = async (context: any): Promise<void> => {
+    localStorage.removeItem('ltiState');
     await FirebaseService.logOutUser();
     window.location.href = ''; //need to reset the state instead of reloading everything.
 };
@@ -1084,6 +1083,14 @@ const reloadPublicCourses = async (context: any, courses: Course[]): Promise<voi
   }
 };
 
+const setLtiState = (ltiState: LTIState): Action => {
+  localStorage.setItem('ltiState', JSON.stringify(ltiState));
+  return {
+    type: 'SET_LTI_STATE',
+    ltiState
+  };
+};
+
 const setDisabledNext = (disableNext: boolean): Action => {
   return {
     type: 'SET_DISABLED_NEXT',
@@ -1121,6 +1128,45 @@ const updateCurrentQuestionScaffold = (questionStem: string, comments: string[],
     explanation
   };
 }
+
+const checkLtiState = (ltiState: LTIState): Action => {
+  if(!ltiState && localStorage.getItem('ltiState')) {
+    const ltiState: LTIState = JSON.parse(localStorage.getItem('ltiState'));
+    return {
+      type: 'SET_LTI_STATE',
+      ltiState
+    };
+  } else {
+    return {
+      type: 'DEFAULT_ACTION'
+    };
+  }
+
+};
+
+const setEnrolledCourses = async (): Promise<Action> => {
+  const user = await FirebaseService.getLoggedInUser();
+  const uid: string = user.uid;
+  const courseIds: string[] = await UserModel.getCoursesPaidFor(uid);
+  const enrolledCourses: Course[] = await CourseModel.resolveCourseIds(courseIds);
+  return {
+    type: 'SET_ENROLLED_COURSES',
+    enrolledCourses
+  };
+};
+
+const initializeLtiState = (courseId: string, quizId: string, quizOrigin: QuizOrigin, userEmail: string, userFullName: string): Action => {
+  const ltiJwt: string = UtilitiesService.getCookie('jwt');
+  const ltiState: LTIState = {
+    courseId,
+    quizId,
+    quizOrigin,
+    userEmail,
+    userFullName,
+    ltiJwt
+  };
+  return Actions.setLtiState(ltiState);
+};
 
 export const Actions = {
   defaultAction,
@@ -1199,5 +1245,9 @@ export const Actions = {
   setQuestionScaffold,
   setQuestionScaffoldExample,
   updateCurrentQuestionScaffold,
-  initCurrentQuestionScaffold
+  initCurrentQuestionScaffold,
+  setLtiState,
+  checkLtiState,
+  setEnrolledCourses,
+  initializeLtiState
 };

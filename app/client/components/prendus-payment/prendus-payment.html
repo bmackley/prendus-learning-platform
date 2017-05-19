@@ -1,0 +1,108 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/prendus-styles/prendus-styles.html">
+<link rel="import" href="../../bower_components/gold-cc-input/gold-cc-input.html">
+<link rel="import" href="../../bower_components/gold-cc-expiration-input/gold-cc-expiration-input.html">
+<link rel="import" href="../../bower_components/iron-flex-layout/iron-flex-layout.html">
+<link rel="import" href="../../bower_components/iron-form/iron-form.html">
+<link rel="import" href="../../bower_components/paper-styles/color.html">
+<link rel="import" href="../../bower_components/paper-input/paper-input.html">
+<link rel="import" href="../../bower_components/paper-button/paper-button.html">
+<link rel="import" href="../../bower_components/paper-dialog/paper-dialog.html">
+<link rel="import" href="../../bower_components/gold-cc-input/gold-cc-input.html">
+<link rel="import" href="../../bower_components/gold-cc-cvc-input/gold-cc-cvc-input.html">
+<link rel="import" href="../../bower_components/paper-dialog-scrollable/paper-dialog-scrollable.html">
+<link rel="import" href="../../bower_components/redux-store-element/redux-store.html">
+
+<dom-module id="prendus-payment">
+
+  <template>
+    <style include="prendus-styles">
+      :host {
+        display: block;
+      }
+      .form-title, .footer {
+        margin-bottom: 20px;
+      }
+      .avatar {
+        display: inline-block;
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        overflow: hidden;
+        background: var(--google-blue-700);
+        margin-right: 20px;
+      }
+      .company {
+        color: var(--google-blue-700);
+        font-size: 20px;
+        font-weight: 200;
+      }
+      gold-cc-expiration-input, .filler {
+        width: 50%;
+        margin-right: 20px;
+      }
+      .footer {
+        width: 50%;
+        @apply(--paper-input-container-font);
+        color:  var(--secondary-text-color);
+      }
+      .price {
+        color:  var(--primary-text-color);
+      }
+      paper-button {
+        background-color: var(--google-blue-500);
+        color: #fff;
+        margin-right: 0px;
+        margin-top: 50px;
+      }
+    </style>
+
+    <redux-store on-statechange="mapStateToThis" action="[[action]]"></redux-store>
+    <paper-dialog id="dialog">
+      <!--TODO make me pretty -->
+      <paper-dialog-scrollable>
+          <h4>You may take this quiz once you pay for the course.</h4>
+          <h3>[[course.title]]</h3>
+          <paper-input id="email" label="Email address" value="[[email]]"></paper-input>
+          <paper-input id="name" name="name" label="Name on card" required autocomplete="cc-name" value="[[name]]"></paper-input>
+
+          <gold-cc-input id="card" name="cc-number" required auto-validate card-type="[[cardType]]" value="[[cardNumber]]"></gold-cc-input>
+
+          <div class="horizontal layout">
+            <gold-cc-expiration-input id="expiration" name="cc-expiration" required label="Expiration" auto-validate value="[[expiration]]"></gold-cc-expiration-input>
+            <gold-cc-cvc-input id="cvc" name="cc-cvc" required card-type="[[cardType]]" auto-validate value="[[cvc]]"></gold-cc-cvc-input>
+          </div>
+
+          <div class="horizontal layout">
+            <div class="filler"></div>
+            <div class="footer">
+              <div class="total-item horizontal layout">
+                <div class="flex">Sub total </div>
+                <div class="price">[[subTotal]]</div>
+              </div>
+
+              <div class="total-item horizontal layout">
+                <div class="flex">Tax </div>
+                <div class="price">[[tax]]</div>
+              </div>
+
+              <div class="total-item horizontal layout">
+                <div class="flex">Your total </div>
+                <div class="price">[[total]]</div>
+              </div>
+
+              <div class="horizontal layout end-justified">
+                <paper-button id="pay-button" on-click="submit">Pay [[total]]</paper-button>
+              </div>
+            </div>
+          </div>
+
+      </paper-dialog-scrollable>
+    </paper-dialog>
+
+    <!-- <button id="customButton" on-tap="open">Purchase</button> -->
+
+  </template>
+
+  <script src="prendus-payment.ts"></script>
+</dom-module>

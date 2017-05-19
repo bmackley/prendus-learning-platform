@@ -3,6 +3,7 @@ import {FirebaseService} from '../../node_modules/prendus-services/services/fire
 import {StatechangeEvent} from '../../typings/statechange-event';
 import {UserMetaData} from '../../node_modules/prendus-services/typings/user-meta-data';
 import {UserType} from '../../node_modules/prendus-services/typings/user-type';
+import {State} from '../../typings/state';
 
 export class PrendusProfile {
   public is: string;
@@ -103,7 +104,7 @@ export class PrendusProfile {
   }
 
 	mapStateToThis(e: StatechangeEvent): void {
-		const state = e.detail.state;
+		const state: State = e.detail.state;
 		this.userType = state.currentUser.userType;
 		this.firstName = state.currentUser.metaData.firstName;
 		this.lastName = state.currentUser.metaData.lastName;

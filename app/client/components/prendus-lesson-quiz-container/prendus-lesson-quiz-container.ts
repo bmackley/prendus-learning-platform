@@ -5,7 +5,7 @@ import {Actions} from '../../redux/actions';
 import {StatechangeEvent} from '../../typings/statechange-event';
 import {FirebaseService} from '../../node_modules/prendus-services/services/firebase-service';
 import {UtilitiesService} from '../../node_modules/prendus-services/services/utilities-service';
-
+import {QuizOrigin} from '../../node_modules/prendus-services/typings/quiz-origin';
 // squish TypeScript errors
 declare let window: any;
 
@@ -67,7 +67,11 @@ class PrendusLessonQuizContainer {
 		viewQuiz(e: any) {
 
       const quizId: string = e.model.quiz.id;
-      window.history.pushState({}, '', `courses/view-quiz/course/${this.courseId}/lesson/${this.lessonId}/quiz/${quizId}`);
+      const quizOrigin: QuizOrigin = 'LEARNING_PLATFORM';
+      const queryParams: any = {
+        quizOrigin
+      };
+      window.history.pushState({}, '', `courses/view-quiz/course/${this.courseId}/quiz/${quizId}${UtilitiesService.prepareUrl(queryParams, true)}`);
 			this.fire('location-changed', {}, {node: window});
 		}
 
@@ -84,6 +88,7 @@ class PrendusLessonQuizContainer {
       this.ltiQuizId = e.target.parentElement.dataQuiz;
       this.endpointDomain = UtilitiesService.getPrendusServerEndpointDomain();
       const courseId: string = this.courseId;
+      const lessonId: string = this.lessonId;
       const jwt: string = this.jwt;
       const LTIRequest = this.querySelector("#getLTIajax");
       LTIRequest.body = {

@@ -334,6 +334,12 @@ export function rootReducer(state: State = InitialState, action: Action): State 
         };
       }
 
+      case 'SET_LTI_STATE': {
+        return {
+          ...state,
+          ltiState: action.ltiState
+        };
+      }
       case 'SET_DISABLED_NEXT': {
         return {
           ...state,
@@ -441,6 +447,12 @@ export function rootReducer(state: State = InitialState, action: Action): State 
         }
       }
 
+      case 'SET_ENROLLED_COURSES': {
+        return {
+          ...state,
+          enrolledCourses: action.enrolledCourses
+        };
+      }
       default: {
           return state;
       }

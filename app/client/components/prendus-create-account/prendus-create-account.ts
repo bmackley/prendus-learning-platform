@@ -3,6 +3,8 @@ import {ConstantsService} from '../../node_modules/prendus-services/services/con
 import {UserMetaData} from '../../node_modules/prendus-services/typings/user-meta-data';
 import {UserType} from '../../node_modules/prendus-services/typings/user-type';
 import {User} from '../../node_modules/prendus-services/typings/user';
+import {StatechangeEvent} from '../../typings/statechange-event';
+import {State} from '../../typings/state';
 
 class PrendusCreateAccount {
   public is: string;
@@ -73,7 +75,7 @@ class PrendusCreateAccount {
 		if(e.keyCode === 13 && this.enableSignup(this.userType, this.email, this.password, this.confirmPassword)) this.createUser(e);
 	}
 
-  async createUser(e: Event){
+  async createUser(e: Event) {
     try {
         const userMetaData: UserMetaData = {
             uid: '',
@@ -82,8 +84,7 @@ class PrendusCreateAccount {
             lastName: '',
             institution: ''
       	};
-
-        await Actions.createUser(this, this.userType, userMetaData, this.password);
+        await Actions.createUser(this.userType, userMetaData, this.password);
 
         // TODO decide on way to show a confirmation
         this.querySelector('#email-confirmation-dialog').open();
