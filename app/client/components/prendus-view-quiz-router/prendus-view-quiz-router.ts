@@ -53,11 +53,11 @@ class PrendusViewQuizRouter {
 
 		async updateEditAccess(data: any) {
       try {
-        this.quizOrigin = data.quizOrigin;
-
+        const queryParams: any = getQueryParams();
+        this.quizOrigin = queryParams.quizOrigin;
         await Actions.checkUserAuth(this);
-        if(this.quizOrigin === 'LTI') {
-          this.action = Actions.initializeLtiState(data.courseId, data.quizId, data.quizOrigin, data.userEmail, data.userFullName);
+        if(queryParams.quizOrigin === 'LTI') {
+          this.action = Actions.initializeLtiState(data.courseId, data.quizId, queryParams.quizOrigin, this.userEmail, this.userFullName);
           const loggedInUser = await FirebaseService.getLoggedInUser();
           if(!loggedInUser) {
             this.querySelector('#sign-up-sign-in-dialog').open();
@@ -70,11 +70,20 @@ class PrendusViewQuizRouter {
         }
         const quiz: Quiz = await Actions.getQuiz(data.quizId);
         this.hasEditAccess = this.uid === quiz.uid;
-        this.userEmail = data.userEmail;
         // put this back once collaborators work again
         // this.hasEditAccess = this.uid in quiz.collaborators;
       } catch(error) {
         console.error(error);
+      }
+
+      function getQueryParams(): any {
+        return window.location.search.slice(1).split('&').reduce((prev: any, curr: string) => {
+            const split: string[] = curr.split('=');
+            const key: string = split[0];
+            const value: string = decodeURIComponent(split[1]);
+            prev[key] = value;
+            return prev;
+        }, {});
       }
 		}
 
@@ -90,7 +99,7 @@ class PrendusViewQuizRouter {
       const state: State = e.detail.state;
 			this.uid = state.currentUser.metaData.uid;
       this.userFullName = `${state.currentUser.metaData.firstName} ${state.currentUser.metaData.lastName}`;
-      this.userEmail = state.currentUser.metaData.email;
+      this.userEmail = state.currentUser && state.currentUser.metaData ? state.currentUser.metaData.email : this.userEmail;
       this.jwt = state.jwt;
       this.ltiState = state.ltiState;
       this.ltiJwt = state.ltiState ? state.ltiState.ltiJwt : this.ltiJwt;

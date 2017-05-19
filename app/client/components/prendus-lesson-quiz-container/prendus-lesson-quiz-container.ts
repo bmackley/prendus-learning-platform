@@ -68,7 +68,10 @@ class PrendusLessonQuizContainer {
 
       const quizId: string = e.model.quiz.id;
       const quizOrigin: QuizOrigin = 'LEARNING_PLATFORM';
-      window.history.pushState({}, '', `courses/view-quiz/course/${this.courseId}/quiz/${quizId}/quiz-origin/${quizOrigin}`);
+      const queryParams: any = {
+        quizOrigin
+      };
+      window.history.pushState({}, '', `courses/view-quiz/course/${this.courseId}/quiz/${quizId}${UtilitiesService.prepareUrl(queryParams, true)}`);
 			this.fire('location-changed', {}, {node: window});
 		}
 
