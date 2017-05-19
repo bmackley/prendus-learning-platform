@@ -453,7 +453,13 @@ export function rootReducer(state: State = InitialState, action: Action): State 
           questionScaffoldQuiz: action.questionScaffoldQuiz
         };
       }
-      
+
+      case 'SET_LTI_JWT': {
+        return {
+          ...state,
+          ltiJwt: action.ltiJwt
+        };
+      }
       default: {
           return state;
       }

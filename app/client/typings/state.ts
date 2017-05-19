@@ -96,4 +96,5 @@ export interface State {
   readonly currentQuestionScaffoldExample: QuestionScaffold;
 	readonly enrolledCourses: Course[];
 	readonly questionScaffoldQuiz?: Quiz;
+	readonly ltiJwt?: string;
 }

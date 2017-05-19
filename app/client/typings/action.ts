@@ -84,4 +84,5 @@ export interface Action {
 	readonly ltiState?: LTIState;
 	readonly enrolledCourses?: Course[];
 	readonly questionScaffoldQuiz?: Quiz;
+	readonly ltiJwt?: string;
 };

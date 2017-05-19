@@ -19,7 +19,9 @@ class PrendusQuestionScaffoldTakeQuiz {
   public dispatchEvent: any;
   public quizRootReducer: any;
   public uid: string;
-  
+  public ltiJwt: string;
+  public userEmail: string;
+
   beforeRegister(): void {
     this.is = 'prendus-question-scaffold-take-quiz';
     this.properties = {
@@ -62,8 +64,10 @@ class PrendusQuestionScaffoldTakeQuiz {
 
 	mapStateToThis(e: CustomEvent): void {
 		const state: State = e.detail.state;
+    this.userEmail = state.currentUser && state.currentUser.metaData ? state.currentUser.metaData.email : this.userEmail;
     this.jwt = state.jwt;
     this.uid = state.currentUser && state.currentUser.metaData ? state.currentUser.metaData.uid : this.uid;
+    this.ltiJwt = state.ltiJwt;
   }
 }
 

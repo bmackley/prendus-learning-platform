@@ -64,6 +64,7 @@ class PrendusQuestionScaffold {
 
     this.action = await Actions.initializeQuestionScaffoldQuiz('-KkMp8zw-YQyQwrb0OtD', 5);
     this.action = Actions.setQuestionScaffoldExample(temp);
+    this.action = Actions.initLtiJwt();
   }
 
   calculateRateIndex(index: number): number {
@@ -104,6 +105,7 @@ class PrendusQuestionScaffold {
     this.exampleQuestionScaffold = state.currentQuestionScaffoldExample;
     this.questionScaffold = state.currentQuestionScaffold;
     this.questionScaffoldQuizId = state.questionScaffoldQuiz ? state.questionScaffoldQuiz.id : this.questionScaffoldQuizId;
+
 	}
 }
 

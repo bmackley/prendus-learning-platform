@@ -1164,6 +1164,7 @@ const initializeLtiState = (courseId: string, quizId: string, quizOrigin: QuizOr
     userEmail,
     userFullName,
     ltiJwt
+    //TODO add launch link
   };
   return Actions.setLtiState(ltiState);
 };
@@ -1206,6 +1207,14 @@ const initializeQuestionScaffoldQuiz = async (quizId: string, numberOfQuestions:
     return questionIds.filter( (value: string) => {
       return value !== questionId;
     });
+  };
+};
+
+const initLtiJwt = (): Action => {
+  const ltiJwt: string = UtilitiesService.getCookie('jwt');
+  return {
+    type: 'SET_LTI_JWT',
+    ltiJwt
   };
 };
 
@@ -1291,5 +1300,6 @@ export const Actions = {
   checkLtiState,
   setEnrolledCourses,
   initializeLtiState,
-  initializeQuestionScaffoldQuiz
+  initializeQuestionScaffoldQuiz,
+  initLtiJwt
 };
