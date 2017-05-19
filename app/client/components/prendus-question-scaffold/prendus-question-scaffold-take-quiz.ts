@@ -17,7 +17,7 @@ class PrendusQuestionScaffoldTakeQuiz {
   public jwt: string;
   public quizId: string;
   public dispatchEvent: any;
-  public quizRootReducer: RootReducer;
+  public quizRootReducer: any;
 
   beforeRegister(): void {
     this.is = 'prendus-question-scaffold-take-quiz';
