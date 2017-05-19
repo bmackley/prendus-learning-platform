@@ -53,7 +53,7 @@ class PrendusViewQuizRouter {
 
 		async updateEditAccess(data: any) {
       try {
-        const queryParams: any = getQueryParams();
+        const queryParams: any = UtilitiesService.getQueryParams();
         this.quizOrigin = queryParams.quizOrigin;
         await Actions.checkUserAuth(this);
         if(queryParams.quizOrigin === 'LTI') {
@@ -75,16 +75,6 @@ class PrendusViewQuizRouter {
       } catch(error) {
         console.error(error);
       }
-
-      function getQueryParams(): any {
-        return window.location.search.slice(1).split('&').reduce((prev: any, curr: string) => {
-            const split: string[] = curr.split('=');
-            const key: string = split[0];
-            const value: string = decodeURIComponent(split[1]);
-            prev[key] = value;
-            return prev;
-        }, {});
-      };
 
       async function didUserPay(courseId: string, jwt: string): Promise<boolean> {
         const body: any = {
