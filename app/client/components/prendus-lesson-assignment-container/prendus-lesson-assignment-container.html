@@ -14,6 +14,12 @@
             <prendus-assignment-editor id="assignmentEditor-[[item.id]]" assignment="[[item]]" lesson-id="[[lessonId]]" on-saveclick="saveAssignment"></prendus-assignment-editor>
         </template>
 
+        <template is="dom-if" if="[[!hasAssignments(assignments)]]">
+            <div>
+                No assignments yet
+            </div>
+        </template>
+
         <prendus-assignment-editor id="assignmentEditor" assignment="[[lastAssignmentSaved]]" lesson-id="[[lessonId]]" on-saveclick="saveAssignment"></prendus-assignment-editor>
 
         <button on-tap="addAssignmentClick">Add Assignment</button>

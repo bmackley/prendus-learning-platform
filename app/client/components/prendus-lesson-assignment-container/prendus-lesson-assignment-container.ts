@@ -72,6 +72,10 @@ class PrendusLessonAssignmentContainer {
         }
     }
 
+    hasAssignments(assignments: Assignment[]): boolean {
+        return assignments ? assignments.length !== 0 : true;
+    }
+
     stateChange(e: CustomEvent) {
         const state: State = e.detail.state;
 
