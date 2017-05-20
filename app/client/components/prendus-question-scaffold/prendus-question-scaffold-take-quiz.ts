@@ -58,14 +58,18 @@ class PrendusQuestionScaffoldTakeQuiz {
       this.dispatchEvent(new CustomEvent('quizsubmissionstarted'), {
           bubbles: false
       });
-      console.log('quizSubmissionStarted');
+      Actions.showMainSpinner(this);
   }
 
   quizSubmissionFinished() {
       this.dispatchEvent(new CustomEvent('quizsubmissionfinished'), {
           bubbles: false
       });
-      console.log('quizSubmissionFinished');
+      Actions.hideMainSpinner(this);
+      Actions.showNotification(this, 'success', 'You have finished this assignment, this tab is going to close in 4 seconds.');
+      setTimeout(() => {
+        window.close();
+      }, 4000);
   }
 
 	mapStateToThis(e: CustomEvent): void {
