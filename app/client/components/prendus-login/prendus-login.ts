@@ -60,16 +60,13 @@ class PrendusLogin {
       Actions.getStarredCoursesByUser(this, uid);
       Actions.getSharedCoursesByUser(this, uid);
       this.action = Actions.checkLtiState(this.ltiState);
-      const body: { quizOrigin: QuizOrigin } = {
-        quizOrigin: 'LTI'
-      };
       if(this.ltiState) {
         window.history.pushState({}, '', this.ltiState);
       } else {
         const location: string = 'courses/home';
         window.history.pushState({}, '', location);
       }
-      
+
       this.fire('location-changed', {}, {node: window});
     } catch(error) {
 			Actions.showNotification(this, 'error', 'Error logging in.');
