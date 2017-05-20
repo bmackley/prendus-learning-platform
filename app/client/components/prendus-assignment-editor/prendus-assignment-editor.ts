@@ -4,6 +4,14 @@ import {Concept} from '../../node_modules/prendus-services/typings/concept';
 import {FirebaseService} from '../../node_modules/prendus-services/services/firebase-service';
 import {UtilitiesService} from '../../node_modules/prendus-services/services/utilities-service';
 
+interface StateChangeAction {
+    readonly taxonomies?: {
+        [uuid: string]: Taxonomy;
+    };
+    readonly showLearningStructureComponent?: boolean;
+    readonly concepts?: Concept[];
+}
+
 class PrendusAssignmentEditor {
     public is: string;
     public properties: any;
@@ -11,7 +19,7 @@ class PrendusAssignmentEditor {
     public dispatchEvent: any;
     public lessonId: string;
     public assignment: Assignment;
-    public conceptTitles: string[];
+    public concepts: Concept[];
     public taxonomies: {
         [uuid: string]: Taxonomy;
     };
@@ -29,12 +37,6 @@ class PrendusAssignmentEditor {
                 observer: 'assignmentSet'
             }
         };
-    }
-
-    ready() {
-        this.stateChange({
-            selectConceptButtonText: 'Select Concept'
-        });
     }
 
     open() {
@@ -58,22 +60,30 @@ class PrendusAssignmentEditor {
     }
 
     async assignmentSet(newValue: Assignment, oldValue: Assignment) {
-        const conceptIds = Object.values(newValue ? newValue.taxonomies : {}).map((taxonomy: Taxonomy) => taxonomy.concept);
-        const conceptTitles = await UtilitiesService.asyncMap(conceptIds, async (conceptId: string) => {
-            const concept: Concept = await FirebaseService.get(`concepts/${conceptId}`);
-            return concept.title;
-        });
-
+        const concepts: Concept[] = await conceptsFromTaxonomies(newValue && newValue.taxonomies ? Object.values(newValue.taxonomies) : []);
         this.stateChange({
             taxonomies: newValue ? newValue.taxonomies : null,
-            conceptTitles
+            concepts
         });
     }
 
     selectConceptTap() {
         this.stateChange({
-            showLearningStructureComponent: !this.showLearningStructureComponent,
-            selectConceptButtonText: 'Close'
+            showLearningStructureComponent: !this.showLearningStructureComponent
+        });
+    }
+
+    async deleteConceptTap(e) {
+        const conceptIdToDelete: string = e.model.item.id;
+        const taxonomyIdToDelete: string = Object.entries(this.taxonomies).filter((taxonomyEntry: [string, Taxonomy]) => taxonomyEntry[1].concept === conceptIdToDelete)[0][0];
+
+        // This is how you delete a property with object spread
+        const {[taxonomyIdToDelete]: _, ...newTaxonomies} = this.taxonomies;
+        const newConcepts = await conceptsFromTaxonomies(Object.values(newTaxonomies));
+
+        this.stateChange({
+            taxonomies: newTaxonomies,
+            concepts: newConcepts
         });
     }
 
@@ -91,15 +101,11 @@ class PrendusAssignmentEditor {
         } : {
             [uuid]: newTaxonomy
         };
-        const newConceptIds = Object.values(newTaxonomies).map((taxonomy: Taxonomy) => taxonomy.concept);
-        const newConceptTitles = await UtilitiesService.asyncMap(newConceptIds, async (conceptId: string) => {
-            const concept: Concept = await FirebaseService.get(`concepts/${conceptId}`);
-            return concept.title;
-        });
+        const newConcepts = await conceptsFromTaxonomies(Object.values(newTaxonomies));
 
         this.stateChange({
             taxonomies: newTaxonomies,
-            conceptTitles: newConceptTitles,
+            concepts: newConcepts,
             showLearningStructureComponent: false
         });
     }
@@ -107,10 +113,19 @@ class PrendusAssignmentEditor {
     //TODO this is a foreshadowing of how we will handle local state changes in the future
     stateChange(stateChangeAction: StateChangeAction) {
         this.taxonomies = stateChangeAction.taxonomies || this.taxonomies;
-        this.conceptTitles = stateChangeAction.conceptTitles || this.conceptTitles;
+        this.concepts = stateChangeAction.concepts || this.concepts;
         this.showLearningStructureComponent = stateChangeAction.showLearningStructureComponent;
-        this.selectConceptButtonText = stateChangeAction.selectConceptButtonText || this.selectConceptButtonText;
+        this.selectConceptButtonText = this.showLearningStructureComponent ? 'Close' : 'Select Concept';
     }
 }
 
 Polymer(PrendusAssignmentEditor);
+
+async function conceptsFromTaxonomies(taxonomies: Taxonomy[]): Promise<Concept[]> {
+    const conceptIds: string[] = taxonomies.map((taxonomy: Taxonomy) => taxonomy ? taxonomy.concept : null);
+    const concepts: Concept[] = await UtilitiesService.asyncMap(conceptIds, async (conceptId: string) => {
+        const concept: Concept = await FirebaseService.get(`concepts/${conceptId}`);
+        return concept;
+    });
+    return concepts;
+}

@@ -14,8 +14,8 @@
 
             <div>
                 Concepts:
-                <template is="dom-repeat" items="[[conceptTitles]]">
-                    <div>[[item]]</div>
+                <template is="dom-repeat" items="[[concepts]]">
+                    <div>[[item.title]]<button on-tap="deleteConceptTap">Delete</button></div>
                 </template>
             </div>
 
