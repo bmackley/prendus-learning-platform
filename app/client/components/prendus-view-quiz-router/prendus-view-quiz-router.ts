@@ -57,7 +57,6 @@ class PrendusViewQuizRouter {
         await Actions.checkUserAuth(this);
         if(queryParams.quizOrigin === 'LTI') {
           this.action = Actions.initLtiJwt();
-          console.log('this.ltiJwt ', this.ltiJwt);
           this.action = Actions.initializeQuizLaunchLtiState(data.courseId, data.quizId, queryParams.quizOrigin, this.userEmail, this.userFullName);
           const loggedInUser = await FirebaseService.getLoggedInUser();
           if(!loggedInUser) {
