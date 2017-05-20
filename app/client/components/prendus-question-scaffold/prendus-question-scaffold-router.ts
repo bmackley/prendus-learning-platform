@@ -80,14 +80,6 @@ class PrendusQuestionScaffoldRouter {
 
 		}
 
-    quizSubmissionStarted(): void {
-        Actions.showMainSpinner(this);
-    }
-
-    quizSubmissionFinished(): void {
-        Actions.hideMainSpinner(this);
-    }
-
     mapStateToThis(e: CustomEvent): void {
       const state: State = e.detail.state;
 			this.uid = state.currentUser.metaData.uid;
