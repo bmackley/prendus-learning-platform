@@ -4,6 +4,8 @@ import {UtilitiesService} from '../../node_modules/prendus-services/services/uti
 import {QuestionScaffold} from '../../node_modules/prendus-services/typings/question-scaffold';
 import {Action} from '../../typings/action';
 import {QuestionScaffoldAnswer} from '../../node_modules/prendus-services/typings/question-scaffold-answer';
+import {QuestionRating} from '../../node_modules/prendus-services/typings/question-rating';
+import {QuestionRatingModel} from '../../node_modules/prendus-services/models/question-rating-model';
 
 class PrendusQuestionScaffoldRateQuestion {
   public is: string;
@@ -18,6 +20,7 @@ class PrendusQuestionScaffoldRateQuestion {
   public difficulty: number;
   public accuracy: number;
   public querySelector: any;
+  public uid: string;
 
   beforeRegister(): void {
     this.is = 'prendus-question-scaffold-rate-question';
@@ -49,13 +52,21 @@ class PrendusQuestionScaffoldRateQuestion {
     }
   }
 
-  submit(): void {
+  async submit(): Promise<void> {
     try {
-      // TODO Submit values
       const quality: number = this.querySelector('#quality').value;
       const difficulty: number = this.querySelector('#difficulty').value;
       const accuracy: number = this.querySelector('#accuracy').value;
-      console.log('quality ', quality, ' difficulty ', difficulty, ' accuracy ', accuracy);
+      const questionRating: QuestionRating = {
+        quality,
+        difficulty,
+        accuracy,
+        //TODO this will change once we get the dynamic question scaffold stuffs
+        questionId: this.questionScaffold.id || '-Khc_o0EUYcCF7qxRQOU',
+        uid: this.uid
+      };
+
+      await Actions.setQuestionRating(questionRating);
       this.action = Actions.setDisabledNext(false);
       Actions.showNotification(this, 'success', 'Ratings submitted');
     } catch(error) {
@@ -66,6 +77,7 @@ class PrendusQuestionScaffoldRateQuestion {
 
 	mapStateToThis(e: CustomEvent): void {
 		const state: State = e.detail.state;
+    this.uid = state.currentUser && state.currentUser.metaData ? state.currentUser.metaData.uid : this.uid;
 	}
 }
 

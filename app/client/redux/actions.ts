@@ -27,6 +27,8 @@ import {QuestionScaffold} from '../node_modules/prendus-services/typings/questio
 import {QuestionScaffoldAnswer} from '../node_modules/prendus-services/typings/question-scaffold-answer';
 import {Action} from '../typings/action';
 import {QuizOrigin} from '../node_modules/prendus-services/typings/quiz-origin';
+import {QuestionRating} from '../node_modules/prendus-services/typings/question-rating';
+import {QuestionRatingModel} from '../node_modules/prendus-services/models/question-rating-model';
 
 const defaultAction = (context: any): void => {
     context.action = {
@@ -1212,6 +1214,14 @@ const initLtiJwt = (): Action => {
   };
 };
 
+const setQuestionRating = async (questionRating: QuestionRating): Promise<void> => {
+  const temp: QuestionRating = await QuestionRatingModel.getByUidAndQuestionId(questionRating.uid, questionRating.questionId);
+
+  const id: string = await QuestionRatingModel.createOrUpdate(temp ? temp.id : null, questionRating);
+  await QuestionModel.setQuestionRating(id, questionRating.questionId);
+};
+
+
 export const Actions = {
   defaultAction,
 	showMainSpinner,
@@ -1296,5 +1306,6 @@ export const Actions = {
   setEnrolledCourses,
   initializeQuizLaunchLtiState,
   initializeQuestionScaffoldQuiz,
-  initLtiJwt
+  initLtiJwt,
+  setQuestionRating
 };

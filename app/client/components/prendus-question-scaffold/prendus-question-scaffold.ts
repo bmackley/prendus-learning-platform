@@ -64,12 +64,15 @@ class PrendusQuestionScaffold {
       explanation: 'To solve this problem, remember that Oxygen is diatomic as a gas, meaning it is found as O2, not O. This means we need to use 32 grams/mol to convert grams to moles. Then, multiply by the number of neutrons in an oxygen atom and multiply by 2 to get the number of neutrons in 45 grams of oxygen gas.',
       question: 'How many neutrons are in 45 grams of Oxygen gas?'
     };
+
+    //TODO @jordan you need to do this!!!
     //TODO generate these dynamically.
     this.questionScaffoldsToRate = [
       temp, temp, temp
     ];
 
 
+    //TODO don't hardcode this id in.. @jordan this is for you
     this.action = await Actions.initializeQuestionScaffoldQuiz('-KkMp8zw-YQyQwrb0OtD', 5);
     this.action = Actions.setQuestionScaffoldExample(temp);
 
@@ -80,8 +83,7 @@ class PrendusQuestionScaffold {
   }
 
   calculateTakeIndex(index: number): number {
-    //TODO SWITCH BACK TO 9
-    return index + 1;
+    return index + 9;
   }
 
   plusOne(index: number): number {
