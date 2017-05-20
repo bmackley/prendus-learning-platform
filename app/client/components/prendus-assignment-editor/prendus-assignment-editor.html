@@ -1,6 +1,6 @@
 <link rel="import" href="../../bower_components/polymer/polymer.html">
-<link rel="import" href="../../bower_components/paper-dialog/paper-dialog.html">
-<!-- <link rel="import" href="../../bower_components/prendus-question-components/components/prendus-learning-structure/prendus-learning-structure.html"> -->
+<link rel="import" href="../../bower_components/paper-dialog-scrollable/paper-dialog-scrollable.html">
+<link rel="import" href="../../bower_components/prendus-question-components/components/prendus-learning-structure/prendus-learning-structure.html">
 
 <dom-module id="prendus-assignment-editor">
     <template>
@@ -12,10 +12,25 @@
                 Title: <input id="titleInput" value="[[assignment.title]]">
             </div>
 
-            <!--TODO not sure how we are proceeding with concepts-->
-            <!-- <prendus-learning-structure></prendus-learning-structure> -->
+            <div>
+                Concepts:
+                <template is="dom-repeat" items="[[conceptTitles]]">
+                    <div>[[item]]</div>
+                </template>
+            </div>
 
-            <button on-tap="save">Save</button>
+            <div>
+                <button on-tap="selectConceptTap">[[selectConceptButtonText]]</button>
+            </div>
+
+            <template is="dom-if" if="[[showLearningStructureComponent]]">
+                <prendus-learning-structure id="learningStructureComponent"></prendus-learning-structure>
+                <button on-tap="addTap">Add</button>
+            </template>
+
+            <div>
+                <button on-tap="save">Save</button>
+            </div>
         </paper-dialog>
     </template>
 
