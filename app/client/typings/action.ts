@@ -12,7 +12,6 @@ import {CourseLessonData} from '../node_modules/prendus-services/typings/course-
 import {Lesson} from '../node_modules/prendus-services/typings/lesson';
 import {Discipline} from '../node_modules/prendus-services/typings/discipline';
 import {Subject} from '../node_modules/prendus-services/typings/subject';
-import {LTIState} from '../node_modules/prendus-services/typings/lti-state';
 import {QuestionScaffold} from '../node_modules/prendus-services/typings/question-scaffold';
 import {QuestionScaffoldAnswer} from '../node_modules/prendus-services/typings/question-scaffold-answer';
 
@@ -81,7 +80,7 @@ export interface Action {
 	readonly questionStem?: string;
 	readonly answerText?: string;
 	readonly numberOfAnswers?: number;
-	readonly ltiState?: LTIState;
+	readonly ltiState?: string;
 	readonly enrolledCourses?: Course[];
 	readonly questionScaffoldQuiz?: Quiz;
 	readonly ltiJwt?: string;

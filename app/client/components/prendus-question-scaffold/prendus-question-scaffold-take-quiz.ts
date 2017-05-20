@@ -21,6 +21,7 @@ class PrendusQuestionScaffoldTakeQuiz {
   public uid: string;
   public ltiJwt: string;
   public userEmail: string;
+  public courseId: string;
 
   beforeRegister(): void {
     this.is = 'prendus-question-scaffold-take-quiz';
@@ -33,6 +34,9 @@ class PrendusQuestionScaffoldTakeQuiz {
         type: Number
       },
       quizId: {
+        type: String
+      },
+      courseId: {
         type: String
       }
     };
@@ -54,12 +58,14 @@ class PrendusQuestionScaffoldTakeQuiz {
       this.dispatchEvent(new CustomEvent('quizsubmissionstarted'), {
           bubbles: false
       });
+      console.log('quizSubmissionStarted');
   }
 
   quizSubmissionFinished() {
       this.dispatchEvent(new CustomEvent('quizsubmissionfinished'), {
           bubbles: false
       });
+      console.log('quizSubmissionFinished');
   }
 
 	mapStateToThis(e: CustomEvent): void {

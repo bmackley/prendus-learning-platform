@@ -23,7 +23,6 @@ import {EmailsToUidsModel} from '../node_modules/prendus-services/models/emails-
 import {Video} from '../node_modules/prendus-services/typings/video';
 import {ExecuteAsyncInOrderService} from '../node_modules/prendus-services/services/execute-async-in-order-service';
 import {UtilitiesService} from '../node_modules/prendus-services/services/utilities-service';
-import {LTIState} from '../node_modules/prendus-services/typings/lti-state';
 import {QuestionScaffold} from '../node_modules/prendus-services/typings/question-scaffold';
 import {QuestionScaffoldAnswer} from '../node_modules/prendus-services/typings/question-scaffold-answer';
 import {Action} from '../typings/action';
@@ -1083,8 +1082,8 @@ const reloadPublicCourses = async (context: any, courses: Course[]): Promise<voi
   }
 };
 
-const setLtiState = (ltiState: LTIState): Action => {
-  localStorage.setItem('ltiState', JSON.stringify(ltiState));
+const setLtiState = (ltiState: string): Action => {
+  localStorage.setItem('ltiState', ltiState);
   return {
     type: 'SET_LTI_STATE',
     ltiState
@@ -1129,9 +1128,9 @@ const updateCurrentQuestionScaffold = (questionStem: string, comments: string[],
   };
 }
 
-const checkLtiState = (ltiState: LTIState): Action => {
+const checkLtiState = (ltiState: string): Action => {
   if(!ltiState && localStorage.getItem('ltiState')) {
-    const ltiState: LTIState = JSON.parse(localStorage.getItem('ltiState'));
+    const ltiState: string = localStorage.getItem('ltiState');
     return {
       type: 'SET_LTI_STATE',
       ltiState
@@ -1155,21 +1154,16 @@ const setEnrolledCourses = async (): Promise<Action> => {
   };
 };
 
-const initializeLtiState = (courseId: string, quizId: string, quizOrigin: QuizOrigin, userEmail: string, userFullName: string): Action => {
-  const ltiJwt: string = UtilitiesService.getCookie('jwt');
-  const ltiState: LTIState = {
-    courseId,
-    quizId,
-    quizOrigin,
-    userEmail,
-    userFullName,
-    ltiJwt
-    //TODO add launch link
-  };
-  return Actions.setLtiState(ltiState);
+const initializeQuizLaunchLtiState = (courseId: string, quizId: string, quizOrigin: QuizOrigin, userEmail: string, userFullName: string): Action => {
+  const ltiState: string = `courses/view-quiz/course/${courseId}/quiz/${quizId}?quizOrigin=LTI`
+  return setLtiState(ltiState);
 };
 
+const initializeQuestionScaffoldLtiState = (courseId: string, assignmentId: string): Action => {
 
+  const ltiState: string = `question-scaffold/course/${courseId}/assignment/${assignmentId}`;
+  return setLtiState(ltiState);
+}
 const initializeQuestionScaffoldQuiz = async (quizId: string, numberOfQuestions: number): Promise<Action> => {
   const quiz: Quiz = await QuizModel.getById(quizId);
   const questions = getRandomQuestions(Object.keys(quiz.questions), numberOfQuestions, {}, quiz);
@@ -1292,6 +1286,7 @@ export const Actions = {
   updateQuizDueDates,
   reloadPublicCourses,
   setDisabledNext,
+  initializeQuestionScaffoldLtiState,
   setQuestionScaffold,
   setQuestionScaffoldExample,
   updateCurrentQuestionScaffold,
@@ -1299,7 +1294,7 @@ export const Actions = {
   setLtiState,
   checkLtiState,
   setEnrolledCourses,
-  initializeLtiState,
+  initializeQuizLaunchLtiState,
   initializeQuestionScaffoldQuiz,
   initLtiJwt
 };

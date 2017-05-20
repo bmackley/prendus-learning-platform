@@ -19,8 +19,16 @@ class PrendusQuestionScaffold {
   public questionScaffoldsToRate: QuestionScaffold[];
   public questionScaffoldIdsToTake: string[];
   public questionScaffoldQuizId: string;
+  public properties: any;
+  public courseId: string;
+
   beforeRegister(): void {
     this.is = 'prendus-question-scaffold';
+    this.properties = {
+      courseId: {
+        type: String
+      }
+    };
   }
 
   async ready(): Promise<void> {
@@ -64,7 +72,7 @@ class PrendusQuestionScaffold {
 
     this.action = await Actions.initializeQuestionScaffoldQuiz('-KkMp8zw-YQyQwrb0OtD', 5);
     this.action = Actions.setQuestionScaffoldExample(temp);
-    this.action = Actions.initLtiJwt();
+
   }
 
   calculateRateIndex(index: number): number {

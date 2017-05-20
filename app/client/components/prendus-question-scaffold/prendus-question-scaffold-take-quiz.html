@@ -12,15 +12,12 @@
       }
     </style>
     <redux-store on-statechange="mapStateToThis" action="[[action]]"></redux-store>
-    <!--TODO decide on quiz origin -->
-    <!--TODO COURSE ID WILL BE SET FROM LTI LAUNCH -->
     <redux-store store-name="PRENDUS_QUIZ_VIEWER_COMPONENT_STORE" root-reducer="[[quizRootReducer]]"></redux-store>
 
     <template is="dom-if" if="[[quizRootReducer]]">
       <div class="quiz">
-        userEmail [[userEmail]]
-        quizId [[quizId]]
-        <prendus-take-quiz quiz-origin="LTI" user-email="[[userEmail]]" course-id="-Khc_DJehSxXOIf4kd45" quiz-id="[[quizId]]" jwt="[[jwt]]" lti-jwt="[[ltiJwt]]" uid="[[uid]]" on-quizsubmissionstarted="quizSubmissionStarted" on-quizsubmissionfinished="quizSubmissionFinished"></prendus-take-quiz>
+
+        <prendus-take-quiz quiz-origin="LTI" user-email="[[userEmail]]" course-id="[[courseId]]" quiz-id="[[quizId]]" jwt="[[jwt]]" lti-jwt="[[ltiJwt]]" uid="[[uid]]" on-quizsubmissionstarted="quizSubmissionStarted" on-quizsubmissionfinished="quizSubmissionFinished"></prendus-take-quiz>
       </div>
     </template>
   </template>
