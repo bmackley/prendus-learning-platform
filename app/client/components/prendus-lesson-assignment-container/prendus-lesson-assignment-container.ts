@@ -5,6 +5,7 @@ import {FirebaseService} from '../../node_modules/prendus-services/services/fire
 import * as Actions from '../../redux/actions';
 import {CourseModel} from '../../node_modules/prendus-services/models/course-model';
 import {Course} from '../../node_modules/prendus-services/typings/course';
+import {UtilitiesService} from '../../node_modules/prendus-services/services/utilities-service';
 
 class PrendusLessonAssignmentContainer {
     public is: string;
@@ -18,6 +19,10 @@ class PrendusLessonAssignmentContainer {
     public uid: string;
     public course: Course;
     public hasCourseEditAccess: boolean;
+    public endpointDomain: string;
+    public ltiSecret: string;
+    public ltiLink: string;
+    public jwt: string;
 
     beforeRegister() {
         this.is = 'prendus-lesson-assignment-container';
@@ -94,6 +99,32 @@ class PrendusLessonAssignmentContainer {
         return assignment.uid === this.uid;
     }
 
+    async getLTILinks(e: any): Promise<void> {
+        e.stopPropagation();
+        e.preventDefault();
+
+        const assignment: Assignment = e.model.item;
+
+      this.endpointDomain = UtilitiesService.getPrendusServerEndpointDomain();
+      const courseId: string = this.courseId;
+      const jwt: string = this.jwt;
+      const LTIRequest = this.querySelector("#getLTIajax");
+      LTIRequest.body = {
+        courseId,
+        jwt
+    };
+      const request = LTIRequest.generateRequest();
+      await request.completes;
+      this.ltiSecret = request.response.secret;
+      const env = window['PRENDUS_ENV'];
+      if (env === 'development') {
+        this.ltiLink = `http://localhost:5000/api/lti/assignment/${assignment.id}`;
+      } else {
+        this.ltiLink = `https://prenduslearning.com/api/lti/assignment/${assignment.id}`;
+      }
+      this.querySelector('#lti-link-dialog').open();
+    }
+
     stateChange(e: CustomEvent) {
         const state: State = e.detail.state;
 
@@ -101,6 +132,7 @@ class PrendusLessonAssignmentContainer {
         this.lastAssignmentSaved = state.lessonLastAssignmentSaved[this.lessonId];
         this.uid = state.currentUser.metaData.uid;
         this.hasCourseEditAccess = this.course && state.currentUser.metaData.uid === this.course.uid;
+        this.jwt = state.jwt;
     }
 }
 
