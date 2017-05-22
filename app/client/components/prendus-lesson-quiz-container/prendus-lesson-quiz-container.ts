@@ -102,7 +102,7 @@ class PrendusLessonQuizContainer {
       if(env === 'development') {
         this.ltiLink = `http://localhost:5000/api/lti/course/${this.courseId}/quiz/${this.ltiQuizId}`;
       } else {
-        this.ltiLink = `http://prenduslearning.com/api/lti/course/${this.courseId}/quiz/${this.ltiQuizId}`;
+        this.ltiLink = `https://prenduslearning.com/api/lti/course/${this.courseId}/quiz/${this.ltiQuizId}`;
       }
       this.querySelector('#get-quiz-lti-link').open()
     }

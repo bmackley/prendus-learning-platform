@@ -5,12 +5,28 @@
 <dom-module id="prendus-lesson-assignment-container">
     <template>
         <style>
+            a.nostyle {
+                text-decoration: inherit;
+                color: inherit;
+                cursor: auto;
+            }
         </style>
 
         <redux-store action="[[action]]" on-statechange="stateChange"></redux-store>
+        <iron-ajax method="get" id="getLTIajax" url="[[endpointDomain]]/api/lti/jwt/[[jwt]]/course/[[courseId]]/secret" content-type="application/json" handle-as="json"></iron-ajax>
 
         <template is="dom-repeat" items="[[assignments]]">
-            <div style="padding: 10px; cursor: pointer" on-tap="editAssignmentClick">Assignment: [[item.title]]</div>
+            <div style="padding: 10px; cursor: pointer">
+                <a class="nostyle" href="course/[[courseId]]/assignment/[[item.id]]">
+                    Assignment: [[item.title]]
+
+                    <template is="dom-if" if="[[getAssignmentEditAccess(item)]]">
+                        <!--TODO the data attributes are to hack around a bug with e.model.item not being defined on a dom-if nested inside of a dom-repeat. Hopefully will not be a problem in Polymer 2-->
+                        <button data-assignment="[[item]]" on-click="getLTILinks">LTI</button>
+                        <button data-assignment="[[item]]" on-click="editAssignmentClick">Edit</button>
+                    </template>
+                </a>
+            </div>
             <prendus-assignment-editor id="assignmentEditor-[[item.id]]" assignment="[[item]]" lesson-id="[[lessonId]]" on-saveclick="saveAssignment"></prendus-assignment-editor>
         </template>
 
@@ -22,7 +38,23 @@
 
         <prendus-assignment-editor id="assignmentEditor" assignment="[[lastAssignmentSaved]]" lesson-id="[[lessonId]]" on-saveclick="saveAssignment"></prendus-assignment-editor>
 
-        <button on-tap="addAssignmentClick">Add Assignment</button>
+        <template is="dom-if" if="[[hasCourseEditAccess]]">
+            <button on-tap="addAssignmentClick">Add Assignment</button>
+        </template>
+
+        <paper-dialog id="lti-link-dialog" with-backdrop>
+          <paper-dialog-scrollable>
+            <div class="content">
+              <h2>LTI links for</h2>
+              <h3>Key</h3>
+              <paper-textarea value="[[courseId]]"></paper-textarea>
+              <h3>Secret</h3>
+              <paper-textarea value="[[ltiSecret]]"></paper-textarea>
+              <h3>Copy this link to put in your course.</h3>
+              <paper-textarea value="[[ltiLink]]"></paper-textarea>
+            </div>
+          </paper-dialog-scrollable>
+        </paper-dialog>
     </template>
 
     <script src="prendus-lesson-assignment-container.ts"></script>

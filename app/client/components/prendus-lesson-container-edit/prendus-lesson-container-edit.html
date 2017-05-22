@@ -8,6 +8,7 @@
 <link rel="import" href="../../bower_components/paper-tooltip/paper-tooltip.html">
 <link rel="import" href="../prendus-lesson-video-container-edit/prendus-lesson-video-container-edit.html">
 <link rel="import" href="../prendus-lesson-quiz-container/prendus-lesson-quiz-container.html">
+<link rel="import" href="../prendus-lesson-assignment-container/prendus-lesson-assignment-container.html">
 
 <link rel="import" href="../../bower_components/prendus-styles/prendus-styles.html">
 
@@ -86,12 +87,14 @@
     <iron-collapse id="collapsible-section">
       <div id="collapsible-content">
         <paper-tabs id="resource-tabs" selected="{{selected}}" noink>
+            <paper-tab>Assignments</paper-tab>
             <paper-tab>Quizzes</paper-tab>
-            <paper-tab>Videos</paper-tab>
+            <!-- <paper-tab>Videos</paper-tab> -->
         </paper-tabs>
         <iron-pages selected="[[selected]]">
+            <prendus-lesson-assignment-container course-id="[[courseId]]" lesson-id="[[lessonId]]"></prendus-lesson-assignment-container>
           <prendus-lesson-quiz-container course-id="[[courseId]]" lesson-id="[[lessonId]]"></prendus-lesson-quiz-container>
-          <prendus-lesson-video-container-edit lesson-id="[[lessonId]]"></prendus-lesson-video-container-edit>
+          <!-- <prendus-lesson-video-container-edit lesson-id="[[lessonId]]"></prendus-lesson-video-container-edit> -->
         </iron-pages>
       </div>
     </iron-collapse>
