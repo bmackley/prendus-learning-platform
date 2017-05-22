@@ -143,6 +143,8 @@ class PrendusLessonAssignmentContainer {
     }
 
     async getLTILinks(e: any): Promise<void> {
+        // console.log(e);
+
         e.stopPropagation();
         e.preventDefault();
 

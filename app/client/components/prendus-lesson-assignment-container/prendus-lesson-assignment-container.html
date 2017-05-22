@@ -21,8 +21,9 @@
                     Assignment: [[item.title]]
 
                     <template is="dom-if" if="[[getAssignmentEditAccess(item)]]">
-                        <button on-click="getLTILinks">LTI</button>
-                        <button on-click="editAssignmentClick">Edit</button>
+                        <!--TODO the data attributes are to hack around a bug with e.model.item not being defined on a dom-if nested inside of a dom-repeat. Hopefully will not be a problem in Polymer 2-->
+                        <button data-assignment="[[item]]" on-click="getLTILinks">LTI</button>
+                        <button data-assignment="[[item]]" on-click="editAssignmentClick">Edit</button>
                     </template>
                 </a>
             </div>

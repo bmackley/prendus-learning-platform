@@ -48,6 +48,7 @@ class PrendusAssignmentEditor {
         const assignment: Assignment = {
             id: this.assignment ? this.assignment.id : null,
             lessonId: this.assignment ? this.assignment.lessonId : this.lessonId,
+            quizId: this.assignment ? this.assignment.quizId : 'QUIZ_ID_NOT_SET',
             uid: this.assignment ? this.assignment.uid : 'UID_NOT_SET',
             title: this.querySelector('#titleInput').value,
             taxonomies: this.taxonomies || {}
