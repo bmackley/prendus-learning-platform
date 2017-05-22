@@ -13,6 +13,7 @@ class PrendusLessonAssignmentContainer {
     public action: Action;
     public querySelector: any;
     public lastAssignmentSaved: Assignment;
+    public uid: string;
 
     beforeRegister() {
         this.is = 'prendus-lesson-assignment-container';
@@ -45,7 +46,11 @@ class PrendusLessonAssignmentContainer {
     }
 
     async saveAssignment(e: CustomEvent) {
-        const assignment: Assignment = e.detail.assignment;
+        Actions.Actions.checkUserAuth(this);
+        const assignment: Assignment = {
+            ...e.detail.assignment,
+            uid: this.uid
+        };
         const savedAssignment = await saveAssignment(assignment);
         this.action = {
             type: 'SET_LESSON_LAST_ASSIGNMENT_SAVED',
@@ -81,6 +86,7 @@ class PrendusLessonAssignmentContainer {
 
         this.assignments = Object.values(state.lessonAssignments[this.lessonId] || {});
         this.lastAssignmentSaved = state.lessonLastAssignmentSaved[this.lessonId];
+        this.uid = state.currentUser.metaData.uid;
     }
 }
 
