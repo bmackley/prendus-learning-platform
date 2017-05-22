@@ -5,14 +5,13 @@
 <link rel="import" href="../../bower_components/iron-icon/iron-icon.html">
 <link rel="import" href="../../bower_components/iron-icons/iron-icons.html">
 <link rel="import" href="../../bower_components/paper-slider/paper-slider.html">
-<link rel="import" href="prendus-question-scaffold-example.html">
 <link rel="import" href="prendus-question-scaffold-new-question.html">
 <link rel="import" href="prendus-question-scaffold-distractors.html">
 <link rel="import" href="prendus-question-scaffold-comments.html">
 <link rel="import" href="prendus-question-scaffold-explanation.html">
 <link rel="import" href="prendus-question-scaffold-rate-question.html">
 <link rel="import" href="prendus-question-scaffold-take-quiz.html">
-
+<link rel="import" href="prendus-question-scaffold-final-question.html">
 <dom-module id="prendus-question-scaffold">
 
 
@@ -76,7 +75,6 @@
               upcoming exam. Here is an exam question
               to guide your thinking. -->
             </div>
-            <!-- <prendus-question-scaffold-example question-scaffold="[[exampleQuestionScaffold]]" my-index="0" selected-index="[[selectedIndex]]"></prendus-question-scaffold-example> -->
             <div class="prendus-card" id="process">
               <div>
                 <center>
@@ -145,7 +143,7 @@
             <div class="prendus-card centered">
               <h3>Final Question</h3>
             </div>
-            <prendus-question-scaffold-example question-scaffold="[[questionScaffold]]" my-index="5" selected-index="[[selectedIndex]]"></prendus-question-scaffold-example>
+            <prendus-question-scaffold-final-question quiz-id="[[quizId]]" assignment-id="[[assignmentId]]" question-scaffold="[[questionScaffold]]" my-index="5" selected-index="[[selectedIndex]]"></prendus-question-scaffold-final-question>
           </div>
           <template is="dom-repeat" items="[[questionScaffoldsToRate]]">
             <div>

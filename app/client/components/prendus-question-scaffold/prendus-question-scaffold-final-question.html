@@ -1,0 +1,12 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/redux-store-element/redux-store.html">
+<link rel="import" href="prendus-question-scaffold-example.html">
+<dom-module id="prendus-question-scaffold-final-question">
+  <template>
+    <style include="prendus-styles">
+    </style>
+    <redux-store on-statechange="mapStateToThis" action="[[action]]"></redux-store>
+    <prendus-question-scaffold-example question-scaffold="[[questionScaffold]]"></prendus-question-scaffold-example>
+  </template>
+  <script src="prendus-question-scaffold-final-question.ts"></script>
+</dom-module>

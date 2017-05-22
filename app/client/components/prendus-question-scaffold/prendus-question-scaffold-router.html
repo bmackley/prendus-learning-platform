@@ -17,8 +17,8 @@
 	  </style>
 
     <redux-store on-statechange="mapStateToThis" action="[[action]]"></redux-store>
-    <app-route route="[[route]]" pattern="/course/:courseId/assignment/:assignmentId" data="{{data}}"></app-route>
-    <prendus-question-scaffold course-id="[[data.courseId]]"></prendus-question-scaffold>
+    <app-route route="[[route]]" pattern=":assignmentId" data="{{data}}"></app-route>
+    <prendus-question-scaffold quiz-id="[[quizId]]" assignment-id="[[assignmentId]]" course-id="[[courseId]]"></prendus-question-scaffold>
 		<paper-dialog id="sign-up-sign-in-dialog" modal>
 			<div class="content">
 				<!-- TODO decide on this -->
@@ -31,7 +31,7 @@
 				<a href="/login"><button class="prendus-button" dialog-dismiss>Login</button></a>
 			</div>
 		</paper-dialog>
-		<prendus-payment id="payment" course-id="[[data.courseId]]"></prendus-payment>
+		<prendus-payment id="payment" course-id="[[courseId]]"></prendus-payment>
   </template>
 
   <script src="prendus-question-scaffold-router.ts"></script>
