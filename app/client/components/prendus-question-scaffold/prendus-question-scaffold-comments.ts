@@ -1,4 +1,3 @@
-import {StatechangeEvent} from '../../typings/statechange-event';
 import {State} from '../../typings/state';
 import {Actions} from '../../redux/actions';
 import {UtilitiesService} from '../../node_modules/prendus-services/services/utilities-service';
@@ -52,10 +51,10 @@ class PrendusQuestionScaffoldComments {
     return index + 1;
   }
 
-	mapStateToThis(e: StatechangeEvent): void {
+	mapStateToThis(e: CustomEvent): void {
 		const state: State = e.detail.state;
     this.currentQuestionScaffold = state.currentQuestionScaffold;
-    this.answers = state.questionScaffoldAnswers;
+    this.answers = state.currentQuestionScaffold ? UtilitiesService.getQuestionScaffoldAnswers(state.currentQuestionScaffold) : this.answers;
 	}
 }
 

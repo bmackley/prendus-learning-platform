@@ -55,6 +55,7 @@
     "polymer": "^1.7.1",
     "gold-cc-input": "^1.0.7",
     "gold-cc-expiration-input": "^1.1.3",
-    "gold-cc-cvc-input": "^1.0.10"
+    "gold-cc-cvc-input": "^1.0.10",
+    "paper-slider": "^2.0.0"
   }
 }
