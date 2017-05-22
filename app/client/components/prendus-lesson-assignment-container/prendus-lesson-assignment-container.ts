@@ -6,6 +6,9 @@ import * as Actions from '../../redux/actions';
 import {CourseModel} from '../../node_modules/prendus-services/models/course-model';
 import {Course} from '../../node_modules/prendus-services/typings/course';
 import {UtilitiesService} from '../../node_modules/prendus-services/services/utilities-service';
+import {QuizModel} from '../../node_modules/prendus-services/models/quiz-model';
+import {Quiz} from '../../node_modules/prendus-services/typings/quiz';
+import {LessonModel} from '../../node_modules/prendus-services/models/lesson-model';
 
 class PrendusLessonAssignmentContainer {
     public is: string;
@@ -61,17 +64,20 @@ class PrendusLessonAssignmentContainer {
 
     async saveAssignment(e: CustomEvent) {
         Actions.Actions.checkUserAuth(this);
-        const assignment: Assignment = {
-            ...e.detail.assignment,
-            uid: this.uid
-        };
-        const savedAssignment = await saveAssignment(assignment);
+        const assignment: Assignment = e.detail.assignment;
+        const assignmentQuiz: Quiz = await getAssignmentQuiz(assignment, this.uid);
+        const savedAssignment = await saveAssignment({
+            ...assignment,
+            uid: this.uid,
+            quizId: assignmentQuiz.id
+        });
         this.action = {
             type: 'SET_LESSON_LAST_ASSIGNMENT_SAVED',
             lessonId: this.lessonId,
             assignment: savedAssignment
         };
         this.action = await Actions.loadLessonAssignments(this.lessonId);
+        await Actions.Actions.loadViewLessonQuizzes(this, this.lessonId);
 
         //TODO doing this here because I belive GraphQL will fundamentally change the way we do Models
         async function saveAssignment(assignment: Assignment) {
@@ -87,6 +93,43 @@ class PrendusLessonAssignmentContainer {
                 };
                 await FirebaseService.set(`assignments/${id}`, assignmentWithId);
                 return assignmentWithId
+            }
+        }
+
+        async function getAssignmentQuiz(assignment: Assignment, uid: string): Promise<Quiz> {
+            const assignmentQuiz: Quiz = await QuizModel.getById(assignment.quizId);
+            if (assignmentQuiz) {
+                return assignmentQuiz;
+            }
+            else {
+                const newQuiz: Quiz = {
+                    id: null,
+                    uid,
+                    title: `${assignment.title} Quiz`,
+                    visibility: 'public',
+                    quizQuestionSettings: {
+                        answerFeedback: true,
+                        showAnswer: false,
+                        showHint: true,
+                        showCode: true,
+                        graded: false,
+                        showConfidenceLevel: false,
+                        allowGeneration: false
+                    },
+                    questions: {},
+                    collaborators: {}
+                };
+
+                const newQuizId: string = await QuizModel.createOrUpdate(newQuiz.id, newQuiz);
+                await QuizModel.createOrUpdate(newQuizId, {
+                    ...newQuiz,
+                    id: newQuizId
+                });
+                await LessonModel.associateQuiz(assignment.lessonId, newQuizId);
+                return {
+                    ...newQuiz,
+                    id: newQuizId
+                };
             }
         }
     }
