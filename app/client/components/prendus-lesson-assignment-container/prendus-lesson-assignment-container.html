@@ -5,12 +5,21 @@
 <dom-module id="prendus-lesson-assignment-container">
     <template>
         <style>
+            a.nostyle {
+                text-decoration: inherit;
+                color: inherit;
+                cursor: auto;
+            }
         </style>
 
         <redux-store action="[[action]]" on-statechange="stateChange"></redux-store>
 
         <template is="dom-repeat" items="[[assignments]]">
-            <div style="padding: 10px; cursor: pointer" on-tap="editAssignmentClick">Assignment: [[item.title]]</div>
+            <div style="padding: 10px; cursor: pointer">
+                <a class="nostyle" href="course/[[courseId]]/assignment/[[item.id]]">
+                    Assignment: [[item.title]] <button on-click="editAssignmentClick">Edit</button>
+                </a>
+            </div>
             <prendus-assignment-editor id="assignmentEditor-[[item.id]]" assignment="[[item]]" lesson-id="[[lessonId]]" on-saveclick="saveAssignment"></prendus-assignment-editor>
         </template>
 

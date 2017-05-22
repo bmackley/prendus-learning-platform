@@ -41,6 +41,9 @@ class PrendusLessonAssignmentContainer {
     }
 
     editAssignmentClick(e: any) {
+        e.stopPropagation();
+        e.preventDefault();
+
         const item: Assignment = e.model.item;
         this.querySelector(`#assignmentEditor-${item.id}`).open();
     }
