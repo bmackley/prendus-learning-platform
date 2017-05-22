@@ -1196,10 +1196,10 @@ const initializeQuestionScaffoldQuiz = async (quizId: string, numberOfQuestions:
       [randomId]: quiz.questions[randomId]
     };
 
-    return getRandomQuestions(deleteElementFromArray(questionIds, randomId), numberOfQuestions - 1, newQuestions, quiz);
+    return getRandomQuestions(deleteQuestionIdFromArray(questionIds, randomId), numberOfQuestions - 1, newQuestions, quiz);
   };
 
-  function deleteElementFromArray(questionIds: string[], questionId: string): string[] {
+  function deleteQuestionIdFromArray(questionIds: string[], questionId: string): string[] {
     return questionIds.filter( (value: string) => {
       return value !== questionId;
     });
