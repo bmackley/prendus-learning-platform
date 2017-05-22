@@ -6,6 +6,9 @@ import {Actions} from '../../redux/actions';
 import {UtilitiesService} from '../../node_modules/prendus-services/services/utilities-service';
 import {Quiz} from '../../node_modules/prendus-services/typings/quiz';
 import {State} from '../../typings/state';
+import {Assignment} from '../../node_modules/prendus-services/typings/assignment';
+import {Lesson} from '../../node_modules/prendus-services/typings/lesson';
+import {LessonModel} from '../../node_modules/prendus-services/models/lesson-model';
 
 class PrendusQuestionScaffoldRouter {
     public is: string;
@@ -40,16 +43,22 @@ class PrendusQuestionScaffoldRouter {
 
 		async init(data: any) {
       try {
-        if(data.courseId && data.assignmentId) {
+        if(data.assignmentId) {
+          const assignment: Assignment = await FirebaseService.get(`assignments/${data.assignmentId}`);
+
+          const lesson: Lesson = await LessonModel.getById(assignment.lessonId);
+          const courseId: string = lesson.courseId;
+          this.courseId = courseId;
+          this.quizId = assignment.quizId;
           this.action = Actions.initLtiJwt();
           const queryParams: any = UtilitiesService.getQueryParams();
           await Actions.checkUserAuth(this);
-          this.action = Actions.initializeQuestionScaffoldLtiState(data.courseId, data.assignmentId);
+          this.action = Actions.initializeQuestionScaffoldLtiState(courseId, data.assignmentId);
           const loggedInUser = await FirebaseService.getLoggedInUser();
           if(!loggedInUser) {
             this.querySelector('#sign-up-sign-in-dialog').open();
           } else {
-            const hasUserPaid: boolean = await didUserPay(data.courseId, this.jwt);
+            const hasUserPaid: boolean = await didUserPay(courseId, this.jwt);
             if(!hasUserPaid) {
               this.querySelector('#payment').open();
             }

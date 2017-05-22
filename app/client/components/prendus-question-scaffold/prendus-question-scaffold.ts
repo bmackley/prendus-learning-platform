@@ -21,11 +21,19 @@ class PrendusQuestionScaffold {
   public questionScaffoldQuizId: string;
   public properties: any;
   public courseId: string;
+  public quizId: string;
+  public assignmentId: string;
 
   beforeRegister(): void {
     this.is = 'prendus-question-scaffold';
     this.properties = {
       courseId: {
+        type: String
+      },
+      assignmentId: {
+        type: String
+      },
+      quizId: {
         type: String
       }
     };
