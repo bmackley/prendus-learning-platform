@@ -4,7 +4,7 @@
   "dependencies": {
     "codemirror": "5.25.2",
     "jshint": "2.9.2",
-    "prendus-services": "git+ssh://git@github.com/lastmjs/prendus-services.git#review-process",
+    "prendus-services": "git+ssh://git@github.com/lastmjs/prendus-services.git#develop",
     "quill": "1.2.4",
     "redux": "^3.6.0",
     "zwitterion-production": "0.0.5"
