@@ -17,7 +17,11 @@
         <template is="dom-repeat" items="[[assignments]]">
             <div style="padding: 10px; cursor: pointer">
                 <a class="nostyle" href="course/[[courseId]]/assignment/[[item.id]]">
-                    Assignment: [[item.title]] <button on-click="editAssignmentClick">Edit</button>
+                    Assignment: [[item.title]]
+
+                    <template is="dom-if" if="[[getAssignmentEditAccess(item)]]">
+                        <button on-click="editAssignmentClick">Edit</button>
+                    </template>
                 </a>
             </div>
             <prendus-assignment-editor id="assignmentEditor-[[item.id]]" assignment="[[item]]" lesson-id="[[lessonId]]" on-saveclick="saveAssignment"></prendus-assignment-editor>
@@ -31,7 +35,9 @@
 
         <prendus-assignment-editor id="assignmentEditor" assignment="[[lastAssignmentSaved]]" lesson-id="[[lessonId]]" on-saveclick="saveAssignment"></prendus-assignment-editor>
 
-        <button on-tap="addAssignmentClick">Add Assignment</button>
+        <template is="dom-if" if="[[hasCourseEditAccess]]">
+            <button on-tap="addAssignmentClick">Add Assignment</button>
+        </template>
     </template>
 
     <script src="prendus-lesson-assignment-container.ts"></script>
