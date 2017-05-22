@@ -4,6 +4,8 @@ import {UtilitiesService} from '../../node_modules/prendus-services/services/uti
 import {QuestionScaffold} from '../../node_modules/prendus-services/typings/question-scaffold';
 import {Action} from '../../typings/action';
 import {QuestionScaffoldAnswer} from '../../node_modules/prendus-services/typings/question-scaffold-answer';
+import {QuestionModel} from '../../node_modules/prendus-services/models/question-model';
+import {FirebaseService} from '../../node_modules/prendus-services/services/firebase-service.ts';
 
 class PrendusQuestionScaffoldFinalQuestion {
   public is: string;
@@ -35,11 +37,15 @@ class PrendusQuestionScaffoldFinalQuestion {
       if(this.myIndex !== undefined && this.selectedIndex !== undefined && this.myIndex === this.selectedIndex) {
         this.action = Actions.setDisabledNext(false);
         //TODO save question here
+
       }
     } catch(error) {
       console.error(error);
     }
 
+    function addQuestionToQuiz(context: PrendusQuestionScaffoldFinalQuestion): void {
+
+    }
   }
 
 

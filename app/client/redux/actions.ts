@@ -771,7 +771,10 @@ const setUserType = async (uid: string, userType: UserType): Promise<void> => {
 
 const addLesson = async (context: any, courseId: string, newLesson: Lesson, lessonPos: number, tags: string[]): Promise<void> => {
     try {
-      const lessonId: string = await LessonModel.createOrUpdate(null, newLesson);
+      const lessonId: string = await LessonModel.createOrUpdate(null, {
+        ...newLesson,
+        courseId
+      });
       await CourseModel.associateLesson(courseId, lessonId, lessonPos);
 
       // I don't think this needs to be here
