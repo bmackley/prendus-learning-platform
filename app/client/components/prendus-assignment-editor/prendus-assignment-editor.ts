@@ -3,6 +3,7 @@ import {Taxonomy} from '../../node_modules/prendus-services/typings/taxonomy';
 import {Concept} from '../../node_modules/prendus-services/typings/concept';
 import {FirebaseService} from '../../node_modules/prendus-services/services/firebase-service';
 import {UtilitiesService} from '../../node_modules/prendus-services/services/utilities-service';
+import {ConceptModel} from '../../node_modules/prendus-services/models/concept-model';
 
 interface StateChangeAction {
     readonly taxonomies?: {
@@ -24,7 +25,7 @@ class PrendusAssignmentEditor {
         [uuid: string]: Taxonomy;
     };
     public showLearningStructureComponent: boolean;
-    public selectConceptButtonText: string;
+    public selectConceptButtonText: 'Close' | 'Select Concept';
 
     beforeRegister() {
         this.is = 'prendus-assignment-editor';
@@ -95,10 +96,8 @@ class PrendusAssignmentEditor {
             subject: learningStructureComponent.chosenSubject.id,
             concept: learningStructureComponent.chosenConcept.id
         };
-        const newTaxonomies = this.taxonomies ? {
+        const newTaxonomies = {
             ...this.taxonomies,
-            [uuid]: newTaxonomy
-        } : {
             [uuid]: newTaxonomy
         };
         const newConcepts = await conceptsFromTaxonomies(Object.values(newTaxonomies));
@@ -124,7 +123,7 @@ Polymer(PrendusAssignmentEditor);
 async function conceptsFromTaxonomies(taxonomies: Taxonomy[]): Promise<Concept[]> {
     const conceptIds: string[] = taxonomies.map((taxonomy: Taxonomy) => taxonomy ? taxonomy.concept : null);
     const concepts: Concept[] = await UtilitiesService.asyncMap(conceptIds, async (conceptId: string) => {
-        const concept: Concept = await FirebaseService.get(`concepts/${conceptId}`);
+        const concept: Concept = await ConceptModel.getById(conceptId);
         return concept;
     });
     return concepts;
