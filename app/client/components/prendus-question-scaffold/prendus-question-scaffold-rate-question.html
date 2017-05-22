@@ -1,0 +1,58 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/prendus-styles/prendus-styles.html">
+<link rel="import" href="prendus-question-scaffold-example.html">
+<dom-module id="prendus-question-scaffold-rate-question">
+
+
+  <template>
+    <style include="prendus-styles">
+      .wrapper {
+        margin-top: 10px;
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        grid-template-rows: repeat(1, 0fr);
+      }
+
+      .quality {
+        grid-column: 1;
+        grid-row: 1;
+      }
+
+      .difficulty {
+        grid-column: 2;
+        grid-row: 1;
+      }
+
+      .accuracy {
+        grid-column: 3;
+        grid-row: 1;
+      }
+
+      .submit-button {
+        justify-self: right;
+        grid-column: 4;
+        grid-row: 1;
+      }
+    </style>
+    <redux-store on-statechange="mapStateToThis" action="[[action]]"></redux-store>
+    <div>
+      <prendus-question-scaffold-example question-scaffold="[[questionScaffold]]"></prendus-question-scaffold-example>
+      <div class="wrapper">
+        <div class="quality">
+          Quality <paper-slider id="quality" value="[[quality]]" min="[[minSliderValue]]" max="[[maxSliderValue]]" pin></paper-slider>
+        </div>
+        <div class="difficulty">
+          Difficulty<paper-slider id="difficulty" value="[[difficulty]]" min="[[minSliderValue]]" max="[[maxSliderValue]]" pin></paper-slider>
+        </div>
+        <div class="accuracy">
+          Accuracy<paper-slider id="accuracy" value="[[accuracy]]" min="[[minSliderValue]]" max="[[maxSliderValue]]" pin></paper-slider>
+        </div>
+        <div class="submit-button">
+          <button class="prendus-button prendus-button--recommended" on-tap="submit">Submit</button>
+        </div>
+      </div>
+    </div>
+  </template>
+
+  <script src="prendus-question-scaffold-rate-question.ts"></script>
+</dom-module>

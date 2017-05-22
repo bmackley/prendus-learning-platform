@@ -1,14 +1,13 @@
 import {FirebaseService} from '../../node_modules/prendus-services/services/firebase-service';
 import {UserModel} from '../../node_modules/prendus-services/models/user-model';
-import {Quiz} from '../../node_modules/prendus-services/typings/quiz';
-import {Actions} from '../../redux/actions';
-import {StatechangeEvent} from '../../typings/statechange-event';
 import {Action} from '../../typings/action';
 import {QuizOrigin} from '../../node_modules/prendus-services/typings/quiz-origin';
+import {Actions} from '../../redux/actions';
 import {UtilitiesService} from '../../node_modules/prendus-services/services/utilities-service';
+import {Quiz} from '../../node_modules/prendus-services/typings/quiz';
 import {State} from '../../typings/state';
 
-class PrendusViewQuizRouter {
+class PrendusQuestionScaffoldRouter {
     public is: string;
 		public uid: string;
 		public courseId: string;
@@ -20,44 +19,32 @@ class PrendusViewQuizRouter {
     public userEmail: string;
     public jwt: string;
     public fire: any;
-    public data: any;
     public querySelector: any;
     public ltiState: string;
     public action: Action;
     public quizOrigin: QuizOrigin;
-    public displayLink: boolean;
     public properties: any;
     public ltiJwt: string;
+    public data: any;
 
     ready(): void {
       Actions.defaultAction(this);
     }
 
     beforeRegister(): void {
-      this.is = 'prendus-view-quiz-router';
+      this.is = 'prendus-question-scaffold-router';
 			this.observers = [
-				'updateEditAccess(data)'
+				'init(data)'
 			];
-      this.properties = {
-        quizOrigin: {
-          type: Object,
-          observer: 'quizOriginChange'
-        }
-      };
     }
 
-    quizOriginChange(): void {
-      this.displayLink = this.quizOrigin === 'LEARNING_PLATFORM';
-    }
-
-		async updateEditAccess(data: any) {
+		async init(data: any) {
       try {
-        const queryParams: any = UtilitiesService.getQueryParams();
-        this.quizOrigin = queryParams.quizOrigin;
-        await Actions.checkUserAuth(this);
-        if(queryParams.quizOrigin === 'LTI') {
+        if(data.courseId && data.assignmentId) {
           this.action = Actions.initLtiJwt();
-          this.action = Actions.initializeQuizLaunchLtiState(data.courseId, data.quizId, queryParams.quizOrigin, this.userEmail, this.userFullName);
+          const queryParams: any = UtilitiesService.getQueryParams();
+          await Actions.checkUserAuth(this);
+          this.action = Actions.initializeQuestionScaffoldLtiState(data.courseId, data.assignmentId);
           const loggedInUser = await FirebaseService.getLoggedInUser();
           if(!loggedInUser) {
             this.querySelector('#sign-up-sign-in-dialog').open();
@@ -66,12 +53,9 @@ class PrendusViewQuizRouter {
             if(!hasUserPaid) {
               this.querySelector('#payment').open();
             }
-          }
         }
-        const quiz: Quiz = await Actions.getQuiz(data.quizId);
-        this.hasEditAccess = this.uid === quiz.uid;
-        // put this back once collaborators work again
-        // this.hasEditAccess = this.uid in quiz.collaborators;
+        }
+
       } catch(error) {
         console.error(error);
       }
@@ -96,15 +80,7 @@ class PrendusViewQuizRouter {
 
 		}
 
-    quizSubmissionStarted(): void {
-        Actions.showMainSpinner(this);
-    }
-
-    quizSubmissionFinished(): void {
-        Actions.hideMainSpinner(this);
-    }
-
-    mapStateToThis(e: StatechangeEvent): void {
+    mapStateToThis(e: CustomEvent): void {
       const state: State = e.detail.state;
 			this.uid = state.currentUser.metaData.uid;
       this.userFullName = `${state.currentUser.metaData.firstName} ${state.currentUser.metaData.lastName}`;
@@ -114,5 +90,4 @@ class PrendusViewQuizRouter {
       this.ltiJwt = state.ltiJwt;
     }
 }
-
-Polymer(PrendusViewQuizRouter);
+Polymer(PrendusQuestionScaffoldRouter);

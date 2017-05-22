@@ -4,11 +4,14 @@
 <link rel="import" href="../../bower_components/redux-store-element/redux-store.html">
 <link rel="import" href="../../bower_components/iron-icon/iron-icon.html">
 <link rel="import" href="../../bower_components/iron-icons/iron-icons.html">
+<link rel="import" href="../../bower_components/paper-slider/paper-slider.html">
 <link rel="import" href="prendus-question-scaffold-example.html">
 <link rel="import" href="prendus-question-scaffold-new-question.html">
 <link rel="import" href="prendus-question-scaffold-distractors.html">
 <link rel="import" href="prendus-question-scaffold-comments.html">
 <link rel="import" href="prendus-question-scaffold-explanation.html">
+<link rel="import" href="prendus-question-scaffold-rate-question.html">
+<link rel="import" href="prendus-question-scaffold-take-quiz.html">
 
 <dom-module id="prendus-question-scaffold">
 
@@ -73,8 +76,8 @@
               upcoming exam. Here is an exam question
               to guide your thinking. -->
             </div>
-            <!-- <prendus-question-scaffold-example question-scaffold="[[exampleQuestionScaffold]]" answers="[[exampleQuestionScaffoldAnswers]]" my-index="0" selected-index="[[selectedIndex]]"></prendus-question-scaffold-example> -->
-            <div class="prendus-card" id ="process">
+            <!-- <prendus-question-scaffold-example question-scaffold="[[exampleQuestionScaffold]]" my-index="0" selected-index="[[selectedIndex]]"></prendus-question-scaffold-example> -->
+            <div class="prendus-card" id="process">
               <div>
                 <center>
                     <h2>Step 1</h2>
@@ -142,32 +145,26 @@
             <div class="prendus-card centered">
               <h3>Final Question</h3>
             </div>
-            <prendus-question-scaffold-example question-scaffold="[[questionScaffold]]" answers="[[questionScaffoldAnswers]]"  my-index="5" selected-index="[[selectedIndex]]"></prendus-question-scaffold-example>
+            <prendus-question-scaffold-example question-scaffold="[[questionScaffold]]" my-index="5" selected-index="[[selectedIndex]]"></prendus-question-scaffold-example>
           </div>
+          <template is="dom-repeat" items="[[questionScaffoldsToRate]]">
+            <div>
+              <div class="prendus-card centered">
+                <h3> Rate question [[plusOne(index)]]</h3>
+                <!--TODO fix this description -->
+              </div>
+              <prendus-question-scaffold-rate-question my-index="[[calculateRateIndex(index)]]" selected-index="[[selectedIndex]]" question-scaffold="[[item]]"></prendus-question-scaffold-rate-question>
+            </div>
+          </template>
+
           <div>
-            Rate question 1
+            <div class="prendus-card centered">
+              <h3>Take quiz</h3>
+              <!--TODO fix this description -->
+            </div>
+            <prendus-question-scaffold-take-quiz course-id="[[courseId]]" quiz-id="[[questionScaffoldQuizId]]" my-index="[[calculateTakeIndex(index)]]" selected-index="[[selectedIndex]]"></prendus-question-scaffold-take-quiz>
           </div>
-          <div>
-            Rate question 2
-          </div>
-          <div>
-            Rate question 3
-          </div>
-          <div>
-            Take question 1
-          </div>
-          <div>
-            Take question 2
-          </div>
-          <div>
-            Take question 3
-          </div>
-          <div>
-            Take question 4
-          </div>
-          <div>
-            Take question 5
-          </div>
+
         </iron-pages>
       </div>
 

@@ -6,7 +6,6 @@ import {Lesson} from '../node_modules/prendus-services/typings/lesson';
 import {CourseLessonData} from '../node_modules/prendus-services/typings/course-lesson-data';
 import {QuestionScaffold} from '../node_modules/prendus-services/typings/question-scaffold';
 import {QuestionScaffoldAnswer} from '../node_modules/prendus-services/typings/question-scaffold-answer';
-import {UtilitiesService} from '../node_modules/prendus-services/services/utilities-service';
 
 export function rootReducer(state: State = InitialState, action: Action): State {
     switch(action.type) {
@@ -368,11 +367,9 @@ export function rootReducer(state: State = InitialState, action: Action): State 
 
       case 'SET_CURRENT_QUESTION_SCAFFOLD': {
         const currentQuestionScaffold: QuestionScaffold = action.currentQuestionScaffold;
-        const questionScaffoldAnswers: QuestionScaffoldAnswer[] = UtilitiesService.getQuestionScaffoldAnswers(currentQuestionScaffold);
         return {
           ...state,
-          currentQuestionScaffold,
-          questionScaffoldAnswers
+          currentQuestionScaffold
         };
       }
 
@@ -381,7 +378,6 @@ export function rootReducer(state: State = InitialState, action: Action): State 
         const answers: string[] = action.answers;
         const explanation: string = action.explanation;
         const answersObj: { [questionScaffoldAnswerId: string]: QuestionScaffoldAnswer } = getAnswers(state.currentQuestionScaffold, answers, comments);
-        const questionScaffoldAnswers: QuestionScaffoldAnswer[] = UtilitiesService.getQuestionScaffoldAnswers(state.currentQuestionScaffold);
         const question: string = action.questionStem;
         return {
           ...state,
@@ -392,8 +388,7 @@ export function rootReducer(state: State = InitialState, action: Action): State 
             explanation: explanation || state.currentQuestionScaffold.explanation,
             // only take new question if given
             question: question || state.currentQuestionScaffold.question
-          },
-          questionScaffoldAnswers,
+          }
         };
 
         function getAnswers(questionScaffold: QuestionScaffold, answers: string[], comments: string[]): { [questionScaffoldAnswerId: string]: QuestionScaffoldAnswer } {
@@ -416,12 +411,10 @@ export function rootReducer(state: State = InitialState, action: Action): State 
 
       case 'SET_CURRENT_QUESTION_SCAFFOLD_EXAMPLE': {
         const currentQuestionScaffoldExample: QuestionScaffold = action.currentQuestionScaffoldExample;
-        const exampleQuestionScaffoldAnswers: QuestionScaffoldAnswer[] = UtilitiesService.getQuestionScaffoldAnswers(currentQuestionScaffoldExample);
         const disableNext: boolean = action.disableNext;
         return {
           ...state,
           currentQuestionScaffoldExample,
-          exampleQuestionScaffoldAnswers,
           disableNext
         };
       }
@@ -469,6 +462,20 @@ export function rootReducer(state: State = InitialState, action: Action): State 
         return {
           ...state,
           enrolledCourses: action.enrolledCourses
+        };
+      }
+
+      case 'SET_QUESTION_SCAFFOLD_QUIZ': {
+        return {
+          ...state,
+          questionScaffoldQuiz: action.questionScaffoldQuiz
+        };
+      }
+
+      case 'SET_LTI_JWT': {
+        return {
+          ...state,
+          ltiJwt: action.ltiJwt
         };
       }
       default: {

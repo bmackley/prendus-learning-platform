@@ -1,4 +1,3 @@
-import {StatechangeEvent} from '../../typings/statechange-event';
 import {State} from '../../typings/state';
 import {Actions} from '../../redux/actions';
 import {UtilitiesService} from '../../node_modules/prendus-services/services/utilities-service';
@@ -70,7 +69,7 @@ class PrendusQuestionScaffoldDistractors {
   plusOne(index: number): number {
     return index + 1;
   }
-	mapStateToThis(e: StatechangeEvent): void {
+	mapStateToThis(e: CustomEvent): void {
 		const state: State = e.detail.state;
     this.currentQuestionScaffold = state.currentQuestionScaffold;
     this.answer = state.currentQuestionScaffold && state.currentQuestionScaffold.answers && state.currentQuestionScaffold.answers['question0'] ? state.currentQuestionScaffold.answers['question0'].text : this.answer;

@@ -1,9 +1,9 @@
-import {StatechangeEvent} from '../../typings/statechange-event';
 import {State} from '../../typings/state';
 import {Actions} from '../../redux/actions';
 import {QuestionScaffold} from '../../node_modules/prendus-services/typings/question-scaffold';
 import {QuestionScaffoldAnswer} from '../../node_modules/prendus-services/typings/question-scaffold-answer';
 import {Action} from '../../typings/action';
+import {Quiz} from '../../node_modules/prendus-services/typings/quiz';
 
 class PrendusQuestionScaffold {
   public is: string;
@@ -16,9 +16,19 @@ class PrendusQuestionScaffold {
   public questionScaffold: QuestionScaffold;
   public questionScaffoldAnswers: QuestionScaffoldAnswer[];
   public action: Action;
+  public questionScaffoldsToRate: QuestionScaffold[];
+  public questionScaffoldIdsToTake: string[];
+  public questionScaffoldQuizId: string;
+  public properties: any;
+  public courseId: string;
 
   beforeRegister(): void {
     this.is = 'prendus-question-scaffold';
+    this.properties = {
+      courseId: {
+        type: String
+      }
+    };
   }
 
   async ready(): Promise<void> {
@@ -55,7 +65,29 @@ class PrendusQuestionScaffold {
       question: 'How many neutrons are in 45 grams of Oxygen gas?'
     };
 
+    //TODO @jordan you need to do this!!!
+    //TODO generate these dynamically.
+    this.questionScaffoldsToRate = [
+      temp, temp, temp
+    ];
+
+
+    //TODO don't hardcode this id in.. @jordan this is for you
+    this.action = await Actions.initializeQuestionScaffoldQuiz('-KkMp8zw-YQyQwrb0OtD', 5);
     this.action = Actions.setQuestionScaffoldExample(temp);
+
+  }
+
+  calculateRateIndex(index: number): number {
+    return index + 6;
+  }
+
+  calculateTakeIndex(index: number): number {
+    return index + 9;
+  }
+
+  plusOne(index: number): number {
+    return index + 1;
   }
 
   /**
@@ -77,13 +109,13 @@ class PrendusQuestionScaffold {
     }
   }
 
-	mapStateToThis(e: StatechangeEvent): void {
+	mapStateToThis(e: CustomEvent): void {
 		const state: State = e.detail.state;
     this.disableNext = state.disableNext;
     this.exampleQuestionScaffold = state.currentQuestionScaffoldExample;
-    this.exampleQuestionScaffoldAnswers = state.exampleQuestionScaffoldAnswers;
     this.questionScaffold = state.currentQuestionScaffold;
-    this.questionScaffoldAnswers = state.questionScaffoldAnswers;
+    this.questionScaffoldQuizId = state.questionScaffoldQuiz ? state.questionScaffoldQuiz.id : this.questionScaffoldQuizId;
+
 	}
 }
 

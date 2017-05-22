@@ -94,10 +94,6 @@ class PrendusRouter {
         break;
       }
 
-      case '/question-scaffold': {
-        UtilitiesService.importElement(this, 'components/prendus-question-scaffold/prendus-question-scaffold.html', 'question-scaffold');
-        break;
-      }
 			case '/teacher-approval': {
 				if(this.isAdmin) {
 					UtilitiesService.importElement(this, 'components/prendus-teacher-approval/prendus-teacher-approval.html', 'teacher-approval');

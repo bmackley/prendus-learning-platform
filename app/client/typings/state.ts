@@ -91,12 +91,10 @@ export interface State {
   readonly chosenConcept: Concept;
   readonly subjects: Subject[];
   readonly concepts: Concept[];
-	readonly ltiState: LTIState;
+	readonly ltiState: string;
   readonly disableNext: boolean;
   readonly currentQuestionScaffold: QuestionScaffold;
   readonly currentQuestionScaffoldExample: QuestionScaffold;
-	readonly questionScaffoldAnswers: QuestionScaffoldAnswer[];
-	readonly exampleQuestionScaffoldAnswers: QuestionScaffoldAnswer[];
 	readonly enrolledCourses: Course[];
     readonly lessonAssignments: {
         [lessonId: string]: {
@@ -106,4 +104,6 @@ export interface State {
     readonly lessonLastAssignmentSaved: {
         [lessonId: string]: Assignment;
     };
+	readonly questionScaffoldQuiz?: Quiz;
+	readonly ltiJwt: string;
 }
