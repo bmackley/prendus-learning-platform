@@ -2,6 +2,7 @@
 <link rel="import" href="../../bower_components/iron-collapse/iron-collapse.html">
 <link rel="import" href="../../bower_components/redux-store-element/redux-store.html">
 <link rel="import" href="../prendus-lesson-video-container/prendus-lesson-video-container.html">
+<link rel="import" href="../prendus-lesson-assignment-container/prendus-lesson-assignment-container.html">
 <link rel="import" href="../prendus-lesson-quiz-container/prendus-lesson-quiz-container.html">
 <link rel="import" href="../../bower_components/paper-tabs/paper-tabs.html">
 <link rel="import" href="../../bower_components/iron-pages/iron-pages.html">
@@ -29,12 +30,14 @@
     <h3 id="title-toggle" on-tap="toggle">[[title]]</h3>
     <iron-collapse class="lessonToggle" id="lesson-[[item.pos]]">
         <paper-tabs id="resource-tabs" selected="{{selected}}">
+          <!-- <paper-tab>Videos</paper-tab> -->
+          <paper-tab>Assignments</paper-tab>
           <paper-tab>Quizzes</paper-tab>
-          <paper-tab>Videos</paper-tab>
         </paper-tabs>
         <iron-pages selected="[[selected]]">
+            <!-- <prendus-lesson-video-container lesson-id="[[lessonId]]"></prendus-lesson-video-container> -->
+            <prendus-lesson-assignment-container course-id="[[courseId]]" lesson-id="[[lessonId]]"></prendus-lesson-assignment-container>
           <prendus-lesson-quiz-container course-id="[[courseId]]" lesson-id="[[lessonId]]"></prendus-lesson-quiz-container>
-          <prendus-lesson-video-container lesson-id="[[lessonId]]"></prendus-lesson-video-container>
         </iron-pages>
     </iron-collapse>
   </template>

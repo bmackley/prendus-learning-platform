@@ -68,5 +68,7 @@ export const InitialState: State = {
     resultingCourses: [],
     currentCourse: {},
     disciplines: [],
-    subjects: []
+    subjects: [],
+    lessonAssignments: {},
+    lessonLastAssignmentSaved: {}
 };

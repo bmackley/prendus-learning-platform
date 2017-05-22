@@ -15,6 +15,24 @@ export function rootReducer(state: State = InitialState, action: Action): State 
             mainViewToShow: 'spinner'
           };
         }
+        case 'SET_LESSON_ASSIGNMENTS': {
+            return {
+                ...state,
+                lessonAssignments: {
+                    ...state.lessonAssignments,
+                    [action.lessonId]: action.assignments
+                }
+            };
+        }
+        case 'SET_LESSON_LAST_ASSIGNMENT_SAVED': {
+            return {
+                ...state,
+                lessonLastAssignmentSaved: {
+                    ...state.lessonLastAssignmentSaved,
+                    [action.lessonId]: action.assignment
+                }
+            };
+        }
         case 'HIDE_MAIN_SPINNER': {
 					return {
 						...state,
