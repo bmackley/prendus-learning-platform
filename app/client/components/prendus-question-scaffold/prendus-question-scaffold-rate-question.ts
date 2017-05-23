@@ -61,9 +61,9 @@ class PrendusQuestionScaffoldRateQuestion {
         quality,
         difficulty,
         accuracy,
-        //TODO this will change once we get the dynamic question scaffold stuffs
-        questionId: this.questionScaffold.id || '-Khc_o0EUYcCF7qxRQOU',
-        uid: this.uid
+        questionId: this.questionScaffold.convertedQuestion.id,
+        uid: this.uid,
+        id: null
       };
 
       await Actions.setQuestionRating(questionRating);
