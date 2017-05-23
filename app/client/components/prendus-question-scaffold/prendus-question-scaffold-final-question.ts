@@ -54,12 +54,11 @@ class PrendusQuestionScaffoldFinalQuestion {
         this.action = {
             type: 'CONVERT_QUESTION_SCAFFOLD_TO_QUESTION',
             uid: this.uid,
-            questionId: null
+            questionId: this.questionScaffold.convertedQuestion ? this.questionScaffold.convertedQuestion.id : null
         };
         const questionId: string = await addQuestionToQuiz(this.quizId, this.questionScaffold.convertedQuestion);
         this.action = {
-            type: 'CONVERT_QUESTION_SCAFFOLD_TO_QUESTION',
-            uid: this.uid,
+            type: 'SET_QUESTION_SCAFFOLD_QUESTION_ID',
             questionId
         };
       }
@@ -68,7 +67,7 @@ class PrendusQuestionScaffoldFinalQuestion {
     }
 
     async function addQuestionToQuiz(quizId: string, question: Question): Promise<string> {
-      const questionId: string = await QuestionModel.save(question ? question.id : null, question);
+      const questionId: string = await QuestionModel.save(question.id, question);
       const questionIds: string[] = await QuizModel.getQuestionIds(quizId);
 
       await QuizModel.associateQuestion(quizId, questionId, questionIds.length);

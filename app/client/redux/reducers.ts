@@ -9,25 +9,36 @@ import {QuestionScaffoldAnswer} from '../node_modules/prendus-services/typings/q
 import {Question} from '../node_modules/prendus-services/typings/question';
 import {QuestionToCodeService} from '../node_modules/prendus-services/services/question-to-code-service';
 import {AnswerTypes} from '../node_modules/prendus-services/typings/answer-types';
+import {UtilitiesService} from '../node_modules/prendus-services/services/utilities-service';
 
 export function rootReducer(state: State = InitialState, action: Action): State {
     switch(action.type) {
+        case 'SET_QUESTION_SCAFFOLD_QUESTION_ID': {
+            return {
+                ...state,
+                currentQuestionScaffold: {
+                    ...state.currentQuestionScaffold,
+                    convertedQuestion: {
+                        ...state.currentQuestionScaffold.convertedQuestion,
+                        id: action.questionId
+                    }
+                }
+            };
+        }
         case 'CONVERT_QUESTION_SCAFFOLD_TO_QUESTION': {
             const convertedTextAndCode: {
                 text: string,
                 code: string
             } = QuestionToCodeService.generateMultipleChoice({
-                stem: action.questionStem,
-                answers: Object.values(state.currentQuestionScaffold.answers).map((answer: QuestionScaffoldAnswer) => {
+                stem: state.currentQuestionScaffold.question,
+                answers: UtilitiesService.shuffleArray(Object.values(state.currentQuestionScaffold.answers).map((answer: QuestionScaffoldAnswer) => {
                     return {
                         text: answer.text,
                         correct: answer.correct,
                         type: AnswerTypes.MultipleChoice
                     };
-                })
+                }))
             });
-
-            //TODO randomize the answers above
 
             const convertedQuestion: Question = {
                 ...state.currentQuestionScaffold.convertedQuestion,
