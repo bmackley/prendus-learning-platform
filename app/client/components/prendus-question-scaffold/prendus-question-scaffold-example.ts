@@ -27,7 +27,7 @@ class PrendusQuestionScaffoldExample {
       myIndex: {
         type: Number
       },
-      answers: {
+      questionScaffold: {
         type: Object
       }
     };

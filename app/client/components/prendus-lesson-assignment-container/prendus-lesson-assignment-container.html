@@ -17,7 +17,7 @@
 
         <template is="dom-repeat" items="[[assignments]]">
             <div style="padding: 10px; cursor: pointer">
-                <a class="nostyle" href="course/[[courseId]]/assignment/[[item.id]]">
+                <a class="nostyle" href="assignment/[[item.id]]">
                     Assignment: [[item.title]]
 
                     <template is="dom-if" if="[[getAssignmentEditAccess(item)]]">
