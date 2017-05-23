@@ -84,7 +84,7 @@ class PrendusQuestionScaffoldTakeQuiz {
           window.history.pushState({}, '', `/courses/view/${this.courseId}`);
         }
         this.fire('location-changed', {}, {node: window});
-        
+
       }, time);
   }
 
