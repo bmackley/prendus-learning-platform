@@ -30,6 +30,10 @@ import {QuizOrigin} from '../node_modules/prendus-services/typings/quiz-origin';
 import {Assignment} from '../node_modules/prendus-services/typings/assignment';
 import {QuestionRating} from '../node_modules/prendus-services/typings/question-rating';
 import {QuestionRatingModel} from '../node_modules/prendus-services/models/question-rating-model';
+import {Question} from '../node_modules/prendus-services/typings/question';
+import {CodeToQuestionService} from '../node_modules/prendus-services/services/code-to-question-service';
+import {GuiQuestion} from '../node_modules/prendus-services/typings/gui-question';
+import {GuiAnswer} from '../node_modules/prendus-services/typings/gui-answer';
 
 const defaultAction = (context: any): void => {
     context.action = {
@@ -1227,9 +1231,30 @@ const initializeQuestionScaffoldsToRate = async (quizId: string, amount: number)
   };
   const newQuizId: string = await QuizModel.createOrUpdate(null, questionScaffoldQuizWithNoId);
   const questionIds: string[] = Object.keys(questionScaffoldQuizWithNoId.questions || []);
-  const questionScaffoldsToRate: QuestionScaffold[] = questionIds.map((questionId: string) => {
-    //TODO convert question scaffold to question here
-    return null;
+  const questionScaffoldsToRate: QuestionScaffold[] = await UtilitiesService.asyncMap(questionIds, async (questionId: string) => {
+        const question: Question = await QuestionModel.getById(questionId);
+        const guiQuestion: GuiQuestion = CodeToQuestionService.generateGuiData({
+            text: question.text,
+            code: question.code
+        });
+        const questionScaffoldAnswers = guiQuestion.answers.reduce((result, guiAnswer: GuiAnswer, index: number) => {
+            return {
+                ...result,
+                [`question${index}`]: {
+                    text: guiAnswer.text,
+                    correct: guiAnswer.correct,
+                    comment: question.answerComments[`question${index}`],
+                    id: `question${index}`
+                }
+            };
+        }, {});
+
+        return {
+            answers: questionScaffoldAnswers,
+            question: guiQuestion.stem,
+            explanation: question.explanation,
+            convertedQuestion: question
+        };
   });
 
   return {
