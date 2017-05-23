@@ -90,4 +90,5 @@ export interface Action {
     readonly assignment?: Assignment;
 	readonly questionScaffoldQuiz?: Quiz;
 	readonly ltiJwt?: string;
+	readonly questionScaffoldsToRate?: QuestionScaffold[];
 };
