@@ -164,7 +164,7 @@ class PrendusLessonAssignmentContainer {
       } else {
         this.ltiLink = `https://prenduslearning.com/api/lti/assignment/${assignment.id}`;
       }
-      this.querySelector('#get-assignment-lti-link').open();
+      this.querySelector('#assignment-lti-link').open();
     }
 
     stateChange(e: CustomEvent) {
