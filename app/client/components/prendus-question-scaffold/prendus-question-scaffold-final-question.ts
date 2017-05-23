@@ -18,7 +18,6 @@ class PrendusQuestionScaffoldFinalQuestion {
   public numberOfAnswers: number;
   public action: Action;
   public quizId: string;
-  public assignmentId: string;
   public question: Question;
   public questionScaffold: QuestionScaffold;
   public uid: string;
@@ -33,13 +32,7 @@ class PrendusQuestionScaffoldFinalQuestion {
       myIndex: {
         type: Number
       },
-      questionScaffold: {
-        type: Object
-      },
       quizId: {
-        type: Object
-      },
-      assignmentId: {
         type: Object
       }
     };
