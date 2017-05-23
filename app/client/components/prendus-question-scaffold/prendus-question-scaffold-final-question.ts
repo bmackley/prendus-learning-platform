@@ -74,7 +74,7 @@ class PrendusQuestionScaffoldFinalQuestion {
 		const state: State = e.detail.state;
 
         this.questionScaffold = state.currentQuestionScaffold;
-        this.uid = state.currentUser.metaData.uid;
+        this.uid = state.currentUser && state.currentUser.metaData ? state.currentUser.metaData.uid : this.uid;
     }
 }
 
