@@ -17,7 +17,8 @@
 	  </style>
 
     <redux-store on-statechange="mapStateToThis" action="[[action]]"></redux-store>
-    <app-route route="[[route]]" pattern=":assignmentId" data="{{data}}"></app-route>
+    <app-route route="[[route]]" pattern="/assignment/:assignmentId" data="{{data}}"></app-route>
+
     <prendus-question-scaffold quiz-id="[[quizId]]" assignment-id="[[assignmentId]]" course-id="[[courseId]]"></prendus-question-scaffold>
 		<paper-dialog id="sign-up-sign-in-dialog" modal>
 			<div class="content">

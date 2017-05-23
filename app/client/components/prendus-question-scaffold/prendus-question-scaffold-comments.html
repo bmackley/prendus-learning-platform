@@ -33,14 +33,15 @@
     .answer-card {
       margin-right: 10px;
     }
+    .question {
+      margin-top: 20px;
+    }
     </style>
     <redux-store on-statechange="mapStateToThis" action="[[action]]"></redux-store>
     <div class="wrapper">
-      <div class="row">
-        <div class="prendus-card left-column">
-          <h3>Question</h3>
-          [[currentQuestionScaffold.question]]
-        </div>
+      <div class="prendus-card question">
+        <h3>Question</h3>
+        [[currentQuestionScaffold.question]]
       </div>
 
       <div class="row">

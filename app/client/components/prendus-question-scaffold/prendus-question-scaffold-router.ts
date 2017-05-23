@@ -53,16 +53,20 @@ class PrendusQuestionScaffoldRouter {
           this.action = Actions.initLtiJwt();
           const queryParams: any = UtilitiesService.getQueryParams();
           await Actions.checkUserAuth(this);
-          this.action = Actions.initializeQuestionScaffoldLtiState(courseId, data.assignmentId);
+          if(this.ltiJwt) {
+            this.action = Actions.initializeQuestionScaffoldLtiState(data.assignmentId);
+          }
           const loggedInUser = await FirebaseService.getLoggedInUser();
           if(!loggedInUser) {
             this.querySelector('#sign-up-sign-in-dialog').open();
-          } else {
+          } else if(this.ltiJwt) {
+
             const hasUserPaid: boolean = await didUserPay(courseId, this.jwt);
             if(!hasUserPaid) {
               this.querySelector('#payment').open();
             }
-        }
+
+          }
         }
 
       } catch(error) {
