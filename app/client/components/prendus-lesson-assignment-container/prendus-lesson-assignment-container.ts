@@ -145,7 +145,6 @@ class PrendusLessonAssignmentContainer {
     async getAssignmentLTILinks(e: any): Promise<void> {
         e.stopPropagation();
         e.preventDefault();
-      console.log('e model', e)
       const assignment: Assignment = e.model.item;
 
       this.endpointDomain = UtilitiesService.getPrendusServerEndpointDomain();
@@ -160,7 +159,6 @@ class PrendusLessonAssignmentContainer {
       await request.completes;
       this.ltiSecret = request.response.secret;
       const env = window['PRENDUS_ENV'];
-      console.log('assignment', assignment)
       if (env === 'development') {
         this.ltiLink = `http://localhost:5000/api/lti/assignment/${assignment.id}`;
       } else {
