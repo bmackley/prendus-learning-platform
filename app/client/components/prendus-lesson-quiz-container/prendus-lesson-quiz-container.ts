@@ -104,7 +104,7 @@ class PrendusLessonQuizContainer {
       } else {
         this.ltiLink = `https://prenduslearning.com/api/lti/course/${this.courseId}/quiz/${this.ltiQuizId}`;
       }
-      this.querySelector('#get-quiz-lti-link').open()
+      this.querySelector('#quiz-lti-links-modal').open()
     }
 
     openDeleteModal(e: any) {

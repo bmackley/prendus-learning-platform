@@ -142,13 +142,10 @@ class PrendusLessonAssignmentContainer {
         return assignment.uid === this.uid;
     }
 
-    async getLTILinks(e: any): Promise<void> {
-        // console.log(e);
-
+    async getAssignmentLTILinks(e: any): Promise<void> {
         e.stopPropagation();
         e.preventDefault();
-
-        const assignment: Assignment = e.model.item;
+      const assignment: Assignment = e.model.item;
 
       this.endpointDomain = UtilitiesService.getPrendusServerEndpointDomain();
       const courseId: string = this.courseId;
@@ -167,7 +164,7 @@ class PrendusLessonAssignmentContainer {
       } else {
         this.ltiLink = `https://prenduslearning.com/api/lti/assignment/${assignment.id}`;
       }
-      this.querySelector('#lti-link-dialog').open();
+      this.querySelector('#assignment-lti-links-modal').open();
     }
 
     stateChange(e: CustomEvent) {
