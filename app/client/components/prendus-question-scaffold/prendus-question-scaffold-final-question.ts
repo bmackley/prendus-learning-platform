@@ -20,7 +20,8 @@ class PrendusQuestionScaffoldFinalQuestion {
   public quizId: string;
   public assignmentId: string;
   public question: Question;
-
+  public questionScaffold: QuestionScaffold;
+  public uid: string;
 
   beforeRegister(): void {
     this.is = 'prendus-question-scaffold-final-question';
@@ -49,25 +50,40 @@ class PrendusQuestionScaffoldFinalQuestion {
     try {
       if(this.myIndex !== undefined && this.selectedIndex !== undefined && this.myIndex === this.selectedIndex) {
         this.action = Actions.setDisabledNext(false);
-        await addQuestionToQuiz(this);
+        await Actions.checkUserAuth(this);
+        this.action = {
+            type: 'CONVERT_QUESTION_SCAFFOLD_TO_QUESTION',
+            uid: this.uid,
+            questionId: null
+        };
+        const questionId: string = await addQuestionToQuiz(this.quizId, this.questionScaffold.convertedQuestion);
+        this.action = {
+            type: 'CONVERT_QUESTION_SCAFFOLD_TO_QUESTION',
+            uid: this.uid,
+            questionId
+        };
       }
     } catch(error) {
       console.error(error);
     }
 
-    async function addQuestionToQuiz(context: PrendusQuestionScaffoldFinalQuestion): Promise<void> {
-      //TODO this.question should either be null or not... and it should update this
-      const questionId: string = await QuestionModel.save(context.question ? context.question.id : null, this.question);
-      const questionIds: string[] = await QuizModel.getQuestionIds(context.quizId);
+    async function addQuestionToQuiz(quizId: string, question: Question): Promise<string> {
+      const questionId: string = await QuestionModel.save(question ? question.id : null, question);
+      const questionIds: string[] = await QuizModel.getQuestionIds(quizId);
 
-      await QuizModel.associateQuestion(context.quizId, questionId, questionIds.length);
+      await QuizModel.associateQuestion(quizId, questionId, questionIds.length);
+
+      return questionId;
     }
   }
 
 
 	mapStateToThis(e: CustomEvent): void {
 		const state: State = e.detail.state;
-	}
+
+        this.questionScaffold = state.currentQuestionScaffold;
+        this.uid = state.currentUser.metaData.uid;
+    }
 }
 
 Polymer(PrendusQuestionScaffoldFinalQuestion);

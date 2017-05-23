@@ -6,9 +6,50 @@ import {Lesson} from '../node_modules/prendus-services/typings/lesson';
 import {CourseLessonData} from '../node_modules/prendus-services/typings/course-lesson-data';
 import {QuestionScaffold} from '../node_modules/prendus-services/typings/question-scaffold';
 import {QuestionScaffoldAnswer} from '../node_modules/prendus-services/typings/question-scaffold-answer';
+import {Question} from '../node_modules/prendus-services/typings/question';
+import {QuestionToCodeService} from '../node_modules/prendus-services/services/question-to-code-service';
+import {AnswerTypes} from '../node_modules/prendus-services/typings/answer-types';
 
 export function rootReducer(state: State = InitialState, action: Action): State {
     switch(action.type) {
+        case 'CONVERT_QUESTION_SCAFFOLD_TO_QUESTION': {
+            const convertedTextAndCode: {
+                text: string,
+                code: string
+            } = QuestionToCodeService.generateMultipleChoice({
+                stem: action.questionStem,
+                answers: Object.values(state.currentQuestionScaffold.answers).map((answer: QuestionScaffoldAnswer) => {
+                    return {
+                        text: answer.text,
+                        correct: answer.correct,
+                        type: AnswerTypes.MultipleChoice
+                    };
+                })
+            });
+
+            //TODO randomize the answers above
+
+            const convertedQuestion: Question = {
+                ...state.currentQuestionScaffold.convertedQuestion,
+                id: action.questionId,
+                uid: action.uid,
+                text: convertedTextAndCode.text,
+                code: convertedTextAndCode.code,
+                visibility: 'public',
+                license: 'attribution',
+                discipline: 'NOT_IMPLEMENTED',
+                subject: 'NOT_IMPLEMENTED',
+                concept: 'NOT_IMPLEMENTED'
+            };
+
+            return {
+                ...state,
+                currentQuestionScaffold: {
+                    ...state.currentQuestionScaffold,
+                    convertedQuestion
+                }
+            };
+        }
         case 'SHOW_MAIN_SPINNER': {
           return {
             ...state,
