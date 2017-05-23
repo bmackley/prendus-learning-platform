@@ -25,7 +25,7 @@ class PrendusAssignmentEditor {
         [uuid: string]: Taxonomy;
     };
     public showLearningStructureComponent: boolean;
-    public selectConceptButtonText: 'Close' | 'Select Concept';
+    public selectConceptButtonText: 'Close' | 'Add Concept';
 
     beforeRegister() {
         this.is = 'prendus-assignment-editor';
@@ -59,6 +59,7 @@ class PrendusAssignmentEditor {
                 assignment
             }
         }));
+        this.querySelector('#assignmentDialog').close();
     }
 
     async assignmentSet(newValue: Assignment, oldValue: Assignment) {
