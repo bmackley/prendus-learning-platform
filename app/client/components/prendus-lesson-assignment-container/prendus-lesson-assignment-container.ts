@@ -142,13 +142,11 @@ class PrendusLessonAssignmentContainer {
         return assignment.uid === this.uid;
     }
 
-    async getLTILinks(e: any): Promise<void> {
-        // console.log(e);
-
+    async getAssignmentLTILinks(e: any): Promise<void> {
         e.stopPropagation();
         e.preventDefault();
-
-        const assignment: Assignment = e.model.item;
+      console.log('e model', e)
+      const assignment: Assignment = e.model.item;
 
       this.endpointDomain = UtilitiesService.getPrendusServerEndpointDomain();
       const courseId: string = this.courseId;
@@ -162,12 +160,13 @@ class PrendusLessonAssignmentContainer {
       await request.completes;
       this.ltiSecret = request.response.secret;
       const env = window['PRENDUS_ENV'];
+      console.log('assignment', assignment)
       if (env === 'development') {
         this.ltiLink = `http://localhost:5000/api/lti/assignment/${assignment.id}`;
       } else {
         this.ltiLink = `https://prenduslearning.com/api/lti/assignment/${assignment.id}`;
       }
-      this.querySelector('#lti-link-dialog').open();
+      this.querySelector('#get-assignment-lti-link').open();
     }
 
     stateChange(e: CustomEvent) {

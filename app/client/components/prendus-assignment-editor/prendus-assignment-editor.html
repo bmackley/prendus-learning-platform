@@ -1,15 +1,52 @@
 <link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/prendus-styles/prendus-styles.html">
+<link rel="import" href="../../bower_components/paper-dialog/paper-dialog.html">
+<link rel="import" href="../../bower_components/paper-input/paper-input.html">
 <link rel="import" href="../../bower_components/paper-dialog-scrollable/paper-dialog-scrollable.html">
 <link rel="import" href="../../bower_components/prendus-question-components/components/prendus-learning-structure/prendus-learning-structure.html">
 
 <dom-module id="prendus-assignment-editor">
     <template>
-        <style>
+        <style include="prendus-styles">
+          .content-section{
+            margin-top: 10px;
+          }
         </style>
 
-        <paper-dialog id="assignmentDialog">
+        <paper-dialog id="assignmentDialog" with-backdrop>
+          <paper-dialog-scrollable>
+            <div class="content">
+              <div>
+                  <paper-input id="titleInput" value="[[assignment.title]]" label ="Assignment Title"></paper-input>
+              </div>
+
+              <div class="content-section">
+                  <h2>Concepts</h2>
+                  <template is="dom-repeat" items="[[concepts]]">
+                      <div id="[[item.id]]">[[item.title]] <paper-icon-button class="prendus-icon-button" icon="delete" on-tap="deleteConceptTap"></paper-icon-button></div>
+                  </template>
+              </div>
+
+              <div>
+                  <a class="prendus-button" on-tap="selectConceptTap"><iron-icon icon="add"></iron-icon>[[selectConceptButtonText]]</a>
+                  <!-- <button on-tap="selectConceptTap">[[selectConceptButtonText]]</button> -->
+              </div>
+
+              <template is="dom-if" if="[[showLearningStructureComponent]]">
+                  <prendus-learning-structure id="learningStructureComponent"></prendus-learning-structure>
+                  <a class="prendus-button" on-tap="addTap">Add</a>
+              </template>
+
+              <div class = "buttons">
+                  <a class="prendus-button prendus-button--recommended" on-tap="save">Done</a>
+              </div>
+            </div>
+          </paper-dialog-scrollable>
+        </paper-dialog>
+
+        <!-- <paper-dialog id="assignmentDialog">
             <div>
-                Title: <input id="titleInput" value="[[assignment.title]]">
+                Title <input id="titleInput" value="[[assignment.title]]">
             </div>
 
             <div>
@@ -31,7 +68,7 @@
             <div>
                 <button on-tap="save">Save</button>
             </div>
-        </paper-dialog>
+        </paper-dialog> -->
     </template>
 
     <script src="prendus-assignment-editor.ts"></script>
