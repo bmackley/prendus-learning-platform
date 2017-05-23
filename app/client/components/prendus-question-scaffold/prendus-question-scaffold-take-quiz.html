@@ -16,8 +16,7 @@
 
     <template is="dom-if" if="[[quizRootReducer]]">
       <div class="quiz">
-
-        <prendus-take-quiz quiz-origin="LTI" user-email="[[userEmail]]" course-id="[[courseId]]" quiz-id="[[quizId]]" jwt="[[jwt]]" lti-jwt="[[ltiJwt]]" uid="[[uid]]" on-quizsubmissionstarted="quizSubmissionStarted" on-quizsubmissionfinished="quizSubmissionFinished"></prendus-take-quiz>
+        <prendus-take-quiz quiz-origin="[[quizOrigin]]" user-email="[[userEmail]]" course-id="[[courseId]]" quiz-id="[[quizId]]" jwt="[[jwt]]" lti-jwt="[[ltiJwt]]" uid="[[uid]]" on-quizsubmissionstarted="quizSubmissionStarted" on-quizsubmissionfinished="quizSubmissionFinished"></prendus-take-quiz>
       </div>
     </template>
   </template>

@@ -20,7 +20,7 @@ class PrendusQuestionScaffoldFinalQuestion {
   public quizId: string;
   public assignmentId: string;
   public question: Question;
-
+  public questionScaffold: QuestionScaffold;
 
   beforeRegister(): void {
     this.is = 'prendus-question-scaffold-final-question';
@@ -31,9 +31,6 @@ class PrendusQuestionScaffoldFinalQuestion {
       },
       myIndex: {
         type: Number
-      },
-      questionScaffold: {
-        type: Object
       },
       quizId: {
         type: Object
@@ -57,9 +54,8 @@ class PrendusQuestionScaffoldFinalQuestion {
 
     async function addQuestionToQuiz(context: PrendusQuestionScaffoldFinalQuestion): Promise<void> {
       //TODO this.question should either be null or not... and it should update this
-      const questionId: string = await QuestionModel.save(context.question ? context.question.id : null, this.question);
+      const questionId: string = await QuestionModel.save(context.question ? context.question.id : null, context.question);
       const questionIds: string[] = await QuizModel.getQuestionIds(context.quizId);
-
       await QuizModel.associateQuestion(context.quizId, questionId, questionIds.length);
     }
   }
@@ -67,6 +63,7 @@ class PrendusQuestionScaffoldFinalQuestion {
 
 	mapStateToThis(e: CustomEvent): void {
 		const state: State = e.detail.state;
+    this.questionScaffold = state.currentQuestionScaffold;
 	}
 }
 
