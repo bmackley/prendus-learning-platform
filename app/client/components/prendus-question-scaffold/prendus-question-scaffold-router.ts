@@ -57,11 +57,13 @@ class PrendusQuestionScaffoldRouter {
           const loggedInUser = await FirebaseService.getLoggedInUser();
           if(!loggedInUser) {
             this.querySelector('#sign-up-sign-in-dialog').open();
-          } else {
+          } else if(this.ltiJwt) {
+
             const hasUserPaid: boolean = await didUserPay(courseId, this.jwt);
             if(!hasUserPaid) {
               this.querySelector('#payment').open();
             }
+
         }
         }
 
