@@ -19,10 +19,10 @@
     <redux-store on-statechange="mapStateToThis" action="[[action]]"></redux-store>
     <app-route route="[[route]]" pattern="/assignment/:assignmentId" data="{{data}}"></app-route>
 
-    <template is="dom-if" if="[[quiz]]">
+    <template is="dom-if" if="[[quizId]]">
         <prendus-question-scaffold quiz-id="[[quizId]]" assignment-id="[[assignmentId]]" course-id="[[courseId]]"></prendus-question-scaffold>
     </template>
-    
+
 		<paper-dialog id="sign-up-sign-in-dialog" modal>
 			<div class="content">
 				<!-- TODO decide on this -->
