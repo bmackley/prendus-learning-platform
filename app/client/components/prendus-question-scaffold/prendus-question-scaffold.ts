@@ -18,7 +18,6 @@ class PrendusQuestionScaffold {
   public questionScaffoldAnswers: QuestionScaffoldAnswer[];
   public action: Action;
   public questionScaffoldsToRate: QuestionScaffold[];
-  public questionScaffoldIdsToTake: string[];
   public questionScaffoldQuizId: string;
   public properties: any;
   public courseId: string;
@@ -91,7 +90,3 @@ class PrendusQuestionScaffold {
 }
 
 Polymer(PrendusQuestionScaffold);
-
-function questionToQuestionScaffold(questions: Question[]): QuestionScaffold[] {
-  return null;
-}

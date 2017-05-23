@@ -50,7 +50,6 @@ class PrendusQuestionScaffoldRouter {
           const courseId: string = lesson.courseId;
           this.courseId = courseId;
           this.quizId = assignment.quizId;
-          console.log('assignment ', assignment)
           this.action = Actions.initLtiJwt();
           const queryParams: any = UtilitiesService.getQueryParams();
           await Actions.checkUserAuth(this);
