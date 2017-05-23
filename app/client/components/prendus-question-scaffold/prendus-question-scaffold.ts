@@ -16,7 +16,7 @@ class PrendusQuestionScaffold {
   public questionScaffold: QuestionScaffold;
   public questionScaffoldAnswers: QuestionScaffoldAnswer[];
   public action: Action;
-  public questionScaffoldsToRate: QuestionScaffold[];
+  public questionScaffoldsToRate: Quiz;
   public questionScaffoldIdsToTake: string[];
   public questionScaffoldQuizId: string;
   public properties: any;
@@ -43,10 +43,8 @@ class PrendusQuestionScaffold {
     this.selectedIndex = 0;
     this.numberOfAnswers = 4;
 
-
-
-    this.action = await Actions.initializeQuestionScaffoldsToRate(this.quizId, 3);
     this.action = await Actions.initializeQuestionScaffoldQuiz(this.quizId, 5);
+    this.action = await Actions.initializeQuestionScaffoldsToRate(this.quizId, 3);
 
   }
 

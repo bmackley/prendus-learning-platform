@@ -50,23 +50,24 @@ class PrendusQuestionScaffoldRouter {
           const courseId: string = lesson.courseId;
           this.courseId = courseId;
           this.quizId = assignment.quizId;
+          console.log('assignment ', assignment)
           this.action = Actions.initLtiJwt();
           const queryParams: any = UtilitiesService.getQueryParams();
           await Actions.checkUserAuth(this);
-          this.action = Actions.initializeQuestionScaffoldLtiState(courseId, data.assignmentId);
+          if(this.ltiJwt) {
+            this.action = Actions.initializeQuestionScaffoldLtiState(data.assignmentId);
+          }
           const loggedInUser = await FirebaseService.getLoggedInUser();
-          console.log('this.ltiJwt ', this.ltiJwt);
-          console.log('this.ltiState ', this.ltiState);
           if(!loggedInUser) {
             this.querySelector('#sign-up-sign-in-dialog').open();
-          } else if(this.ltiState) {
+          } else if(this.ltiJwt) {
 
             const hasUserPaid: boolean = await didUserPay(courseId, this.jwt);
             if(!hasUserPaid) {
               this.querySelector('#payment').open();
             }
 
-        }
+          }
         }
 
       } catch(error) {

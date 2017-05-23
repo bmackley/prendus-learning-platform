@@ -106,5 +106,5 @@ export interface State {
     };
 	readonly questionScaffoldQuiz?: Quiz;
 	readonly ltiJwt: string;
-	readonly questionScaffoldsToRate?: QuestionScaffold[];
+	readonly questionScaffoldsToRate?: Quiz;
 }

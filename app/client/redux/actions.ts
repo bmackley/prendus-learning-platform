@@ -1177,14 +1177,14 @@ const initializeQuizLaunchLtiState = (courseId: string, quizId: string, quizOrig
   return setLtiState(ltiState);
 };
 
-const initializeQuestionScaffoldLtiState = (courseId: string, assignmentId: string): Action => {
+const initializeQuestionScaffoldLtiState = (assignmentId: string): Action => {
 
   const ltiState: string = `/assignment/${assignmentId}`;
   return setLtiState(ltiState);
 }
 const initializeQuestionScaffoldQuiz = async (quizId: string, numberOfQuestions: number): Promise<Action> => {
   const quiz: Quiz = await QuizModel.getById(quizId);
-  const questions = UtilitiesService.getRandomQuestions(Object.keys(quiz.questions), numberOfQuestions, {}, quiz);
+  const questions = UtilitiesService.getRandomQuestions(Object.keys(quiz.questions || []), numberOfQuestions, {}, quiz);
   const questionScaffoldQuizWithNoId: Quiz = {
     ...quiz,
     questions
@@ -1220,7 +1220,9 @@ const setQuestionRating = async (questionRating: QuestionRating): Promise<void> 
 
 const initializeQuestionScaffoldsToRate = async (quizId: string, amount: number): Promise<Action> => {
   const quiz: Quiz = await QuizModel.getById(quizId);
-  const questions = UtilitiesService.getRandomQuestions(Object.keys(quiz.questions), amount, {}, quiz);
+  console.log('quizId ', quizId)
+  console.log('quiz ', quiz);
+  const questions = UtilitiesService.getRandomQuestions(Object.keys(quiz.questions || []), amount, {}, quiz);
   const questionScaffoldQuizWithNoId: Quiz = {
     ...quiz,
     questions
@@ -1230,7 +1232,7 @@ const initializeQuestionScaffoldsToRate = async (quizId: string, amount: number)
     ...questionScaffoldQuizWithNoId,
     id: newQuizId
   };
-
+  //TODO convert
   return {
     type: 'SET_QUESTION_SCAFFOLD_QUESTION_TO_RATE',
     questionScaffoldsToRate
