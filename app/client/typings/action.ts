@@ -17,6 +17,7 @@ import {QuestionScaffoldAnswer} from '../node_modules/prendus-services/typings/q
 import {Assignment} from '../node_modules/prendus-services/typings/assignment';
 
 export interface Action {
+    readonly questionId?: string;
 	readonly type: string;
 	readonly notificationType?: Notification;
 	readonly notificationText?: string;
