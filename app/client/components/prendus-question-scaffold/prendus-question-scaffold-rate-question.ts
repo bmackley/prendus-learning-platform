@@ -61,7 +61,7 @@ class PrendusQuestionScaffoldRateQuestion {
         quality,
         difficulty,
         accuracy,
-        questionId: this.questionScaffold.id,
+        questionId: this.questionScaffold.convertedQuestion.id,
         uid: this.uid,
         id: null
       };
