@@ -1220,8 +1220,6 @@ const setQuestionRating = async (questionRating: QuestionRating): Promise<void> 
 
 const initializeQuestionScaffoldsToRate = async (quizId: string, amount: number): Promise<Action> => {
   const quiz: Quiz = await QuizModel.getById(quizId);
-  console.log('quizId ', quizId)
-  console.log('quiz ', quiz);
   const questions = UtilitiesService.getRandomQuestions(Object.keys(quiz.questions || []), amount, {}, quiz);
   const questionScaffoldQuizWithNoId: Quiz = {
     ...quiz,
