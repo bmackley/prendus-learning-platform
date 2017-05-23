@@ -472,6 +472,12 @@ export function rootReducer(state: State = InitialState, action: Action): State 
         };
       }
 
+      case 'SET_QUESTION_SCAFFOLD_QUESTION_TO_RATE': {
+        return {
+          ...state,
+          questionScaffoldsToRate: action.questionScaffoldsToRate
+        }
+      }
       case 'SET_LTI_JWT': {
         return {
           ...state,

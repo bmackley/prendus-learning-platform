@@ -55,9 +55,11 @@ class PrendusQuestionScaffoldRouter {
           await Actions.checkUserAuth(this);
           this.action = Actions.initializeQuestionScaffoldLtiState(courseId, data.assignmentId);
           const loggedInUser = await FirebaseService.getLoggedInUser();
+          console.log('this.ltiJwt ', this.ltiJwt);
+          console.log('this.ltiState ', this.ltiState);
           if(!loggedInUser) {
             this.querySelector('#sign-up-sign-in-dialog').open();
-          } else if(this.ltiJwt) {
+          } else if(this.ltiState) {
 
             const hasUserPaid: boolean = await didUserPay(courseId, this.jwt);
             if(!hasUserPaid) {
