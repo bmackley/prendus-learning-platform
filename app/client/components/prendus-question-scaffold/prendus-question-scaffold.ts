@@ -4,6 +4,7 @@ import {QuestionScaffold} from '../../node_modules/prendus-services/typings/ques
 import {QuestionScaffoldAnswer} from '../../node_modules/prendus-services/typings/question-scaffold-answer';
 import {Action} from '../../typings/action';
 import {Quiz} from '../../node_modules/prendus-services/typings/quiz';
+import {Question} from '../../node_modules/prendus-services/typings/question';
 
 class PrendusQuestionScaffold {
   public is: string;
@@ -16,7 +17,7 @@ class PrendusQuestionScaffold {
   public questionScaffold: QuestionScaffold;
   public questionScaffoldAnswers: QuestionScaffoldAnswer[];
   public action: Action;
-  public questionScaffoldsToRate: Quiz;
+  public questionScaffoldsToRate: QuestionScaffold[];
   public questionScaffoldIdsToTake: string[];
   public questionScaffoldQuizId: string;
   public properties: any;
@@ -90,3 +91,7 @@ class PrendusQuestionScaffold {
 }
 
 Polymer(PrendusQuestionScaffold);
+
+function questionToQuestionScaffold(questions: Question[]): QuestionScaffold[] {
+  return null;
+}

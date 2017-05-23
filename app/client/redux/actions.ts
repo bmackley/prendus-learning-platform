@@ -1228,11 +1228,12 @@ const initializeQuestionScaffoldsToRate = async (quizId: string, amount: number)
     questions
   };
   const newQuizId: string = await QuizModel.createOrUpdate(null, questionScaffoldQuizWithNoId);
-  const questionScaffoldsToRate: Quiz = {
-    ...questionScaffoldQuizWithNoId,
-    id: newQuizId
-  };
-  //TODO convert
+  const questionIds: string[] = Object.keys(questionScaffoldQuizWithNoId.questions || []);
+  const questionScaffoldsToRate: QuestionScaffold[] = questionIds.map( (questionId: string) => {
+    //TODO convert question scaffold to question here
+    return null;
+  });
+
   return {
     type: 'SET_QUESTION_SCAFFOLD_QUESTION_TO_RATE',
     questionScaffoldsToRate
