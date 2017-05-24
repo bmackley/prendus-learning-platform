@@ -13,12 +13,8 @@ import {QuizVisibility} from '../../node_modules/prendus-services/typings/quiz-v
 import {QuizModel} from '../../node_modules/prendus-services/models/quiz-model';
 import {Quiz} from '../../node_modules/prendus-services/typings/quiz';
 
-class PrendusQuizEditor {
-    public is: string;
+class PrendusQuizEditor extends Polymer.Element {
 		public querySelector: any;
-		public fire: any;
-		public properties: any;
-		public observers: string[];
 		public data: any;
 		public hasEditAccess: boolean;
 		public quizLoaded: boolean;
@@ -41,22 +37,24 @@ class PrendusQuizEditor {
 		public errorText: string;
 		public errorLinkText: string;
 
-    beforeRegister(): void {
-        this.is = 'prendus-quiz-editor';
-        this.properties = {
-					editingTitle: {
+    static get is() { return 'prendus-quiz-editor'; }
+    static get properties() {
+        return {
+				editingTitle: {
 		        type: Boolean,
 		        value: false
 		      },
-					selected: {
-						type: Number,
-						value: 0
-					}
+	           selected: {
+					type: Number,
+					value: 0
+              }
         };
-				this.observers = [
-					'setEditorProperties(data.courseId, data.lessonId, data.quizId, route.*)',
-					'setQuizData(quizId)'
-				]
+    }
+    static get observers() {
+        return [
+            'setEditorProperties(data.courseId, data.lessonId, data.quizId, route.*)',
+            'setQuizData(quizId)'
+        ];
     }
 
     async init(quizId: string): Promise<any> {
@@ -420,4 +418,4 @@ class PrendusQuizEditor {
     }
 }
 
-Polymer(PrendusQuizEditor);
+window.customElements.define(PrendusQuizEditor.is, PrendusQuizEditor);

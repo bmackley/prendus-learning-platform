@@ -7,9 +7,7 @@ import {QuestionScaffoldAnswer} from '../../node_modules/prendus-services/typing
 import {QuestionRating} from '../../node_modules/prendus-services/typings/question-rating';
 import {QuestionRatingModel} from '../../node_modules/prendus-services/models/question-rating-model';
 
-class PrendusQuestionScaffoldRateQuestion {
-  public is: string;
-  public properties: any;
+class PrendusQuestionScaffoldRateQuestion extends Polymer.Element {
   public selectedIndex: number;
   public myIndex: number;
   public questionScaffold: QuestionScaffold;
@@ -22,28 +20,30 @@ class PrendusQuestionScaffoldRateQuestion {
   public querySelector: any;
   public uid: string;
 
-  beforeRegister(): void {
-    this.is = 'prendus-question-scaffold-rate-question';
-    this.properties = {
-      selectedIndex: {
-        type: Number,
-        observer: 'disableNext'
-      },
-      myIndex: {
-        type: Number
-      },
-      questionScaffold: {
-        type: Object
-      }
-    };
+  static get is() { return 'prendus-question-scaffold-rate-question'; }
+  static get properties() {
+      return {
+        selectedIndex: {
+          type: Number,
+          observer: 'disableNext'
+        },
+        myIndex: {
+          type: Number
+        },
+        questionScaffold: {
+          type: Object
+        }
+      };
   }
 
-  ready(): void {
-    this.maxSliderValue = 10;
-    this.minSliderValue = 1;
-    this.quality = 0;
-    this.difficulty = 0;
-    this.accuracy = 0;
+  constructor() {
+      super();
+
+      this.maxSliderValue = 10;
+      this.minSliderValue = 1;
+      this.quality = 0;
+      this.difficulty = 0;
+      this.accuracy = 0;
   }
 
   disableNext(e: any): void {
@@ -81,4 +81,4 @@ class PrendusQuestionScaffoldRateQuestion {
 	}
 }
 
-Polymer(PrendusQuestionScaffoldRateQuestion);
+window.customElements.define(PrendusQuestionScaffoldRateQuestion.is, PrendusQuestionScaffoldRateQuestion);

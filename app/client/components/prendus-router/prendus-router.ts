@@ -4,8 +4,7 @@ import {UtilitiesService} from '../../node_modules/prendus-services/services/uti
 import {State} from '../../typings/state';
 import {Notification} from '../../node_modules/prendus-services/typings/notification';
 
-class PrendusRouter {
-  public is: string;
+class PrendusRouter extends Polymer.Element {
   public username: string;
   public loggedIn: 'true' | 'false';
 	public isAdmin: boolean;
@@ -16,15 +15,14 @@ class PrendusRouter {
   public querySelector: any;
   public fire: any;
 
-  beforeRegister() {
-    this.is =  "prendus-router";
+  static get is() { return 'prendus-router'; }
+  static get observers() {
+      return [
+        '_routeChanged(route.*)',
+		'_showNotification(notificationText, notificationType)'
+      ];
+  };
 
-    this.observers = [
-      '_routeChanged(route.*)',
-			'_showNotification(notificationText, notificationType)'
-    ];
-
-  }
   async _routeChanged(routeObject: any): Promise<void> {
 		Actions.hideMainSpinner(this);
     if(!this.username || !this.loggedIn) {
@@ -128,4 +126,4 @@ class PrendusRouter {
   }
 }
 
-Polymer(PrendusRouter);
+window.customElements.define(PrendusRouter.is, PrendusRouter);

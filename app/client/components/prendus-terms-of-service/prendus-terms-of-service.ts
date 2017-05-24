@@ -1,10 +1,5 @@
-
-class PrendusTermsOfService {
-  public is: string;
-
-  beforeRegister() {
-    this.is = 'prendus-terms-of-service';
-  }
+class PrendusTermsOfService extends Polymer.Element {
+    static get is() { return 'prendus-terms-of-service'; }
 }
 
-Polymer(PrendusTermsOfService);
+window.customElements.define(PrendusTermsOfService.is, PrendusTermsOfService);

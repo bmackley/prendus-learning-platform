@@ -9,9 +9,7 @@ import {FirebaseService} from '../../node_modules/prendus-services/services/fire
 import {QuizModel} from '../../node_modules/prendus-services/models/quiz-model';
 import {Question} from '../../node_modules/prendus-services/typings/question';
 
-class PrendusQuestionScaffoldFinalQuestion {
-  public is: string;
-  public properties: any;
+class PrendusQuestionScaffoldFinalQuestion extends Polymer.Element {
   public selectedIndex: number;
   public myIndex: number;
   public querySelector: any;
@@ -22,22 +20,21 @@ class PrendusQuestionScaffoldFinalQuestion {
   public questionScaffold: QuestionScaffold;
   public uid: string;
 
-  beforeRegister(): void {
-    this.is = 'prendus-question-scaffold-final-question';
-    this.properties = {
-      selectedIndex: {
-        type: Number,
-        observer: 'disableNext'
-      },
-      myIndex: {
-        type: Number
-      },
-      quizId: {
-        type: Object
-      }
-    };
+  static get is() { return 'prendus-question-scaffold-final-question'; }
+  static get properties() {
+      return {
+        selectedIndex: {
+          type: Number,
+          observer: 'disableNext'
+        },
+        myIndex: {
+          type: Number
+        },
+        quizId: {
+          type: Object
+        }
+      };
   }
-
 
   async disableNext(e: any): Promise<void> {
     try {
@@ -78,4 +75,4 @@ class PrendusQuestionScaffoldFinalQuestion {
     }
 }
 
-Polymer(PrendusQuestionScaffoldFinalQuestion);
+window.customElements.define(PrendusQuestionScaffoldFinalQuestion.is, PrendusQuestionScaffoldFinalQuestion);

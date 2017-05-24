@@ -5,9 +5,7 @@ import {QuestionScaffold} from '../../node_modules/prendus-services/typings/ques
 import {QuestionScaffoldAnswer} from '../../node_modules/prendus-services/typings/question-scaffold-answer';
 import {Action} from '../../typings/action';
 
-class PrendusQuestionScaffoldComments {
-  public is: string;
-  public properties: any;
+class PrendusQuestionScaffoldComments extends Polymer.Element {
   public myIndex: number;
   public selectedIndex: number;
   public currentQuestionScaffold: QuestionScaffold;
@@ -15,17 +13,17 @@ class PrendusQuestionScaffoldComments {
   public answers: QuestionScaffoldAnswer[];
   public action: Action;
 
-  beforeRegister(): void {
-    this.is = 'prendus-question-scaffold-comments';
-    this.properties = {
-      myIndex: {
-        type: Number
-      },
-      selectedIndex: {
-        type: Number,
-        observer: 'disableNext'
-      }
-    };
+  static get is() { return 'prendus-question-scaffold-comments'; }
+  static get properties() {
+      return {
+        myIndex: {
+          type: Number
+        },
+        selectedIndex: {
+          type: Number,
+          observer: 'disableNext'
+        }
+      };
   }
 
   disableNext(): void {
@@ -58,4 +56,4 @@ class PrendusQuestionScaffoldComments {
 	}
 }
 
-Polymer(PrendusQuestionScaffoldComments);
+window.customElements.define(PrendusQuestionScaffoldComments.is, PrendusQuestionScaffoldComments);

@@ -2,18 +2,12 @@ import {Actions} from '../../redux/actions';
 import {Course} from '../../node_modules/prendus-services/typings/course';
 import {StatechangeEvent} from '../../typings/statechange-event';
 
-class PrendusSearchCourseTags {
-  public is: string;
-  public properties: any;
+class PrendusSearchCourseTags extends Polymer.Element {
   public resultingCourses: Course[];
   public querySelector: any;
   public courseTagNames: string[];
 
-  beforeRegister() {
-    this.is = 'prendus-search-course-tags';
-    this.properties = {
-    };
-  }
+  static get is() { return 'prendus-search-course-tags'; }
 
   //looks through course tags in database for matching tags
   async searchTagsInDB(e: any) {
@@ -26,10 +20,6 @@ class PrendusSearchCourseTags {
     }
   }
 
-  mapStateToThis(e: StatechangeEvent) {
-    const state = e.detail.state;
-    this.resultingCourses = state.resultingCourses;
-  }
 
   clearTag(e: any) {
     this.querySelector('#tag').value = '';
@@ -42,6 +32,11 @@ class PrendusSearchCourseTags {
       this.searchTagsInDB(e);
     }
   }
+
+  mapStateToThis(e: StatechangeEvent) {
+      const state = e.detail.state;
+      this.resultingCourses = state.resultingCourses;
+  }
 }
 
-Polymer(PrendusSearchCourseTags);
+window.customElements.define(PrendusSearchCourseTags.is, PrendusSearchCourseTags);

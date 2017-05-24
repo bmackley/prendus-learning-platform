@@ -5,30 +5,29 @@ import {QuestionScaffold} from '../../node_modules/prendus-services/typings/ques
 import {Action} from '../../typings/action';
 import {QuestionScaffoldAnswer} from '../../node_modules/prendus-services/typings/question-scaffold-answer';
 
-class PrendusQuestionScaffoldNewQuestion {
-  public is: string;
-  public properties: any;
+class PrendusQuestionScaffoldNewQuestion extends Polymer.Element {
   public selectedIndex: number;
   public myIndex: number;
   public querySelector: any;
   public currentQuestionScaffold: QuestionScaffold;
   public numberOfAnswers: number;
   public action: Action;
-  beforeRegister(): void {
-    this.is = 'prendus-question-scaffold-new-question';
-    this.properties = {
-      selectedIndex: {
-        type: Number,
-        observer: 'disableNext'
-      },
-      myIndex: {
-        type: Number
-      },
-      numberOfAnswers: {
-        type: Number,
-        observer: 'initCurrentQuestionScaffold'
-      }
-    };
+
+  static get is() { return 'prendus-question-scaffold-new-question'; }
+  static get properties() {
+      return {
+        selectedIndex: {
+          type: Number,
+          observer: 'disableNext'
+        },
+        myIndex: {
+          type: Number
+        },
+        numberOfAnswers: {
+          type: Number,
+          observer: 'initCurrentQuestionScaffold'
+        }
+      };
   }
 
   /**
@@ -79,4 +78,4 @@ class PrendusQuestionScaffoldNewQuestion {
 	}
 }
 
-Polymer(PrendusQuestionScaffoldNewQuestion);
+window.customElements.define(PrendusQuestionScaffoldNewQuestion.is, PrendusQuestionScaffoldNewQuestion);
