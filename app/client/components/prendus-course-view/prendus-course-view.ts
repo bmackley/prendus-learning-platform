@@ -10,8 +10,7 @@ import {UtilitiesService} from '../../node_modules/prendus-services/services/uti
 import {LessonModel} from '../../node_modules/prendus-services/models/lesson-model';
 import {State} from '../../typings/state';
 
-export class PrendusCourseView {
-  public is: string;
+export class PrendusCourseView extends Polymer.Element{
   public courseLessons: CourseLessonData[];
   public currentCourse: Course;
 	public collaboratorEmails: string[];
@@ -19,21 +18,19 @@ export class PrendusCourseView {
   public courseTags: Tag[];
   public courseId: string;
 	public courseLoaded: boolean;
-  public properties: any;
   public observers: string[];
   public username: string;
   public uid: string;
   public querySelector: any;
   public editingTitle: boolean;
   public editingDescription: boolean;
-  public listeners: any;
   public data: any;
   public hasEditAccess: boolean;
   public numberOfPublicCoursesLoaded: number;
 
-  beforeRegister(): void {
-    this.is = 'prendus-course-view';
-    this.properties = {
+  static get is() { return 'prendus-course-view'; }
+  static get properties() {
+    return {
       title: {
         type: String,
         value: 'Course Name'
@@ -57,16 +54,21 @@ export class PrendusCourseView {
         type: Boolean,
         value: false
       }
-    };
-    this.observers = [
+    }
+  }
+  static get observers() {
+    return [
       'viewCourse(route)',
       'viewCourse(data)'
     ];
-    this.listeners = {
+  }
+  static get listeners() {
+    return {
       'edit-lesson': 'openEditLessonDialog',
 			'finish-edit-lesson': 'reloadLesson'
     };
   }
+
 	reloadLesson(e: any): void {
 		this.querySelector(`#lesson${e.detail.lessonId}`).init();
 	}
@@ -279,4 +281,4 @@ export class PrendusCourseView {
   }
 }
 
-Polymer(PrendusCourseView);
+window.customElements.define(PrendusCourseView.is, PrendusCourseView);

@@ -57,7 +57,8 @@
     "gold-cc-cvc-input": "^1.0.10",
     "paper-dialog-scrollable": "^2.0.0",
     "paper-slider": "^2.0.0",
-    "app-layout": "PolymerElements/app-layout#^2.0.0"
+    "app-layout": "PolymerElements/app-layout#^2.0.0",
+    "polymer": "Polymer/polymer#^2.0.0"
   },
   "resolutions": {
     "paper-dialog": "^2.0.0",

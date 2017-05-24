@@ -17,7 +17,6 @@ export class PrendusNavbar extends Polymer.Element {
         Actions.checkUserAuth(this);
     }
 
-
   logOutUser(e: any): void {
     Actions.logOutUser(this);
   }

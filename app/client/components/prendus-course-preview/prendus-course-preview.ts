@@ -4,9 +4,7 @@ import {User} from '../../node_modules/prendus-services/typings/user';
 import {Actions} from '../../redux/actions';
 import {State} from '../../typings/state';
 
-class PrendusCoursePreview {
-    public is: string;
-    public properties: any;
+class PrendusCoursePreview extends Polymer.Element {
     public course: Course;
     public starIcon: string;
     public user: User;
@@ -17,14 +15,13 @@ class PrendusCoursePreview {
 		public style: any;
     public numberOfPublicCoursesLoaded: number;
 
-    beforeRegister(): void {
-        this.is = 'prendus-course-preview';
-        this.properties = {
-            course: {
-                type: Object,
-                observer: 'init'
-            }
-        };
+    static get is() { return 'prendus-course-preview'; }
+    static get properties() { return {
+        course: {
+            type: Object,
+            observer: 'init'
+        }
+      };
     }
 
     async init(course: Course): Promise<void> {
@@ -118,4 +115,4 @@ class PrendusCoursePreview {
     }
 }
 
-Polymer(PrendusCoursePreview);
+window.customElements.define(PrendusCoursePreview.is, PrendusCoursePreview);
