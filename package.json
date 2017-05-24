@@ -1,9 +1,9 @@
 {
   "name": "prendus-learning-platform",
-  "version": "0.4.4",
+  "version": "0.5.2",
   "description": "The tool to create and upload videos and quizzes",
   "scripts": {
-    "start": "npm install -g bower && bower install && cd app/client && node_modules/.bin/zwitterion-production",
+    "start": "npm install -g bower && bower install && cd app/client && npm install && node_modules/.bin/zwitterion-production",
     "dev": "cd app/client && node_modules/.bin/zwitterion-production --watch-files --port 8000"
   },
   "engines": {

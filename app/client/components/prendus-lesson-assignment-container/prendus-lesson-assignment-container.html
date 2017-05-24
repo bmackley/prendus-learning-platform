@@ -71,7 +71,7 @@
         </div>
         <template is="dom-repeat" items="[[assignments]]">
             <div class= "assignment-row">
-                <span id="assignment-title"><a class="nostyle" href="course/[[courseId]]/assignment/[[item.id]]">[[item.title]]</a></span>
+                <span id="assignment-title"><a class="nostyle" href="assignment/[[item.id]]">[[item.title]]</a></span>
                 <div class= "assignment-icons">
                   <template is="dom-if" if="[[getAssignmentEditAccess(item)]]">
                     <paper-icon-button id="LTI-assignment-links[[item.id]]" data-assignment="[[item]]" class="prendus-icon-button" icon="link" on-click="getAssignmentLTILinks"></paper-icon-button>
