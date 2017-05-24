@@ -4,9 +4,6 @@ import {StatechangeEvent} from '../../typings/statechange-event';
 import {FirebaseService} from '../../node_modules/prendus-services/services/firebase-service';
 
 class PrendusLessonVideoContainerEdit {
-    public is: string;
-    public properties: any;
-    public observers: string[];
     public lessonId: string;
     public videos: Video[];
     public currentVideoId: string;
@@ -15,14 +12,16 @@ class PrendusLessonVideoContainerEdit {
 		public $: any;
 		public querySelector: any;
 
-    beforeRegister() {
-        this.is = 'prendus-lesson-video-container-edit';
-        this.properties = {
+    static get is() { return 'prendus-lesson-video-container-edit'; }
+    static get properties() {
+        return {
             lessonId: {
                 type: String
             }
         };
-        this.observers = [
+    }
+    static get observers() {
+        return [
             'init(lessonId)'
         ];
     }
@@ -97,4 +96,4 @@ class PrendusLessonVideoContainerEdit {
     }
 }
 
-Polymer(PrendusLessonVideoContainerEdit);
+window.customElements.define(PrendusLessonVideoContainerEdit.is, PrendusLessonVideoContainerEdit);

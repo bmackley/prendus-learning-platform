@@ -1,20 +1,15 @@
 import {Actions} from '../../redux/actions';
 import {StatechangeEvent} from '../../typings/statechange-event';
 
-class PrendusExample {
-
-  public is: string;
+class PrendusExample extends Polymer.Element {
   public username: string;
 
-  beforeRegister() {
-    this.is = 'prendus-example';
-  }
+  static get is() { return 'prendus-example'; }
 
   mapStateToThis(e: StatechangeEvent) {
     const state = e.detail.state
     this.username = state.currentUser.metaData.email;
   }
-
 }
 
-Polymer(PrendusExample);
+window.customElements.define(PrendusExample.is, PrendusExample);

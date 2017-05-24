@@ -9,10 +9,7 @@ import {QuizOrigin} from '../../node_modules/prendus-services/typings/quiz-origi
 // squish TypeScript errors
 declare let window: any;
 
-class PrendusLessonQuizContainer {
-    public is: string;
-    public properties: any;
-    public observers: string[];
+class PrendusLessonQuizContainer extends Polymer.Element {
     public lessonId: string;
     public courseId: string;
     public quizzes: Quiz[];
@@ -28,9 +25,9 @@ class PrendusLessonQuizContainer {
 		public querySelector: any;
     public courseEditAccess: boolean
 
-    beforeRegister() {
-        this.is = 'prendus-lesson-quiz-container';
-        this.properties = {
+    static get is() { return 'prendus-lesson-quiz-container'; }
+    static get properties() {
+        return {
             lessonId: {
                 type: String
             },
@@ -43,7 +40,9 @@ class PrendusLessonQuizContainer {
             //   computed: 'computeHasEditAccess(uid, currentCourse.collaborators)'
             // },
         };
-        this.observers = [
+    }
+    static get observers() {
+        return [
             'init(lessonId)'
         ];
     }
@@ -146,4 +145,4 @@ class PrendusLessonQuizContainer {
     }
 }
 
-Polymer(PrendusLessonQuizContainer);
+window.customElements.define(PrendusLessonQuizContainer.is, PrendusLessonQuizContainer);

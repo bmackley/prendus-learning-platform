@@ -1,10 +1,5 @@
-
-class PrendusExample {
-  public is: string;
-
-  beforeRegister() {
-    this.is = 'prendus-privacy-policy';
-  }
+class PrendusPrivacyPolicy {
+    static get is() { return 'prendus-privacy-policy'; }
 }
 
-Polymer(PrendusExample);
+window.customElements.define(PrendusPrivacyPolicy.is, PrendusPrivacyPolicy);

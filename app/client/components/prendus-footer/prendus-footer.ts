@@ -1,12 +1,5 @@
-import {Actions} from '../../redux/actions';
-
-class PrendusFooter {
-  public is: string;
-  public fire: any;
-
-  beforeRegister(): void {
-    this.is = 'prendus-footer';
-  }
+class PrendusFooter extends Polymer.Element {
+    static get is() { return 'prendus-footer'; }
 
   getYear(): number {
     const currentDate: Date = new Date();
@@ -15,4 +8,4 @@ class PrendusFooter {
 
 }
 
-Polymer(PrendusFooter);
+window.customElements.define(PrendusFooter.is, PrendusFooter);

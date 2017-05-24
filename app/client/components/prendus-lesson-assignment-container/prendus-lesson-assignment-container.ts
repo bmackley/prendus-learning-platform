@@ -10,9 +10,7 @@ import {QuizModel} from '../../node_modules/prendus-services/models/quiz-model';
 import {Quiz} from '../../node_modules/prendus-services/typings/quiz';
 import {LessonModel} from '../../node_modules/prendus-services/models/lesson-model';
 
-class PrendusLessonAssignmentContainer {
-    public is: string;
-    public properties: any;
+class PrendusLessonAssignmentContainer extends Polymer.Element {
     public assignments: Assignment[];
     public courseId: string;
     public lessonId: string;
@@ -27,9 +25,9 @@ class PrendusLessonAssignmentContainer {
     public ltiLink: string;
     public jwt: string;
 
-    beforeRegister() {
-        this.is = 'prendus-lesson-assignment-container';
-        this.properties = {
+    static get is() { return 'prendus-lesson-assignment-container'; }
+    static get properties() {
+        return {
             lessonId: {
                 type: String
             },
@@ -178,4 +176,4 @@ class PrendusLessonAssignmentContainer {
     }
 }
 
-Polymer(PrendusLessonAssignmentContainer);
+window.customElements.define(PrendusLessonAssignmentContainer.is, PrendusLessonAssignmentContainer);

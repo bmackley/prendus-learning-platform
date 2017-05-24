@@ -6,27 +6,27 @@
 <link rel="import" href="../../bower_components/prendus-styles/prendus-styles.html">
 
 <dom-module id="prendus-login">
-
-  <style include="prendus-styles">
-
-    :host {
-      width: 100%;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-    }
-
-    paper-card {
-      width: 100%;
-      max-width: 320px;
-    }
-
-    #create-account {
-      padding: 16px;
-    }
-
-  </style>
   <template>
+      <style include="prendus-styles">
+
+        :host {
+          width: 100%;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+        }
+
+        paper-card {
+          width: 100%;
+          max-width: 320px;
+        }
+
+        #create-account {
+          padding: 16px;
+        }
+
+      </style>
+
     <redux-store action="[[action]]" on-statechange="mapStateToThis"></redux-store>
       <paper-card id="login-container" heading="Log in">
         <form id="login-form" class="card-content" is="iron-form" on-keydown="loginOnEnter">

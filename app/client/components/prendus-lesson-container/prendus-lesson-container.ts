@@ -5,30 +5,35 @@ import {FirebaseService} from '../../node_modules/prendus-services/services/fire
 import {Tag} from '../../node_modules/prendus-services/typings/tag';
 import {State} from '../../typings/state';
 
-class PrendusLessonContainer {
-  public is: string;
+class PrendusLessonContainer extends Polymer.Element {
   public title: string;
-  public properties: any;
   public lessonId: string;
-  public observers: string[];
   public lessonData: Lesson;
   public selected: number;
   public tags: Tag[];
   public querySelector: any;
 
-  beforeRegister(): void {
-    this.is = 'prendus-lesson-container';
-    this.properties = {
-      lessonId: {
-          type: String
-      },
-      courseId: {
-          type: String
-      }
-    };
-    this.observers = [
-        'init(lessonId)'
-    ];
+  static get is() { return 'prendus-lesson-container'; }
+  static get properties() {
+      return {
+        lessonId: {
+            type: String
+        },
+        courseId: {
+            type: String
+        }
+      };
+  }
+  static get observers() {
+      return [
+          'init(lessonId)'
+      ];
+  }
+
+  constructor() {
+      super();
+
+      this.selected = 0;
   }
 
   async init(): Promise<void> {
@@ -55,10 +60,6 @@ class PrendusLessonContainer {
     const state: State = e.detail.state;
     this.lessonData = state.currentLesson;
   }
-
-  ready(): void {
-    this.selected = 0;
-  }
 }
 
-Polymer(PrendusLessonContainer);
+window.customElements.define(PrendusLessonContainer.is, PrendusLessonContainer);

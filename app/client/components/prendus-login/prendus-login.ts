@@ -8,24 +8,22 @@ import {State} from '../../typings/state';
 import {Action} from '../../typings/action';
 import {QuizOrigin} from '../../node_modules/prendus-services/typings/quiz-origin';
 
-class PrendusLogin {
-  public is: string;
+class PrendusLogin extends Polymer.Element {
   public email: string;
   public password: string;
 	public resetPasswordEmail: string;
   public listeners: any;
   public querySelector: any;
-  public fire: any;
   public ltiState: string;
   public action: Action;
 
-  beforeRegister(): void {
-    this.is = 'prendus-login'
-  }
+  static get is() { return 'prendus-login'; }
 
-  ready(): void {
-    // Call default action since this is lazy loaded
-    Actions.defaultAction(this);
+  connectedCallback() {
+      super.connectedCallback();
+
+      // Call default action since this is lazy loaded
+      Actions.defaultAction(this);
   }
 
 	// each input has a hard validation for when focus is lost and a soft validation
@@ -67,7 +65,11 @@ class PrendusLogin {
         window.history.pushState({}, '', location);
       }
 
-      this.fire('location-changed', {}, {node: window});
+      this.dispatchEvent(new CustomEvent('location-changed', {
+          detail: {
+              node: window
+          }
+      }));
     } catch(error) {
 			Actions.showNotification(this, 'error', 'Error logging in.');
 			console.error(error);
@@ -109,4 +111,4 @@ class PrendusLogin {
   }
 }
 
-Polymer(PrendusLogin);
+window.customElements.define(PrendusLogin.is, PrendusLogin);

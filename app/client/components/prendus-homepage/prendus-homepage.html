@@ -14,12 +14,12 @@
 
 
 <dom-module id="prendus-homepage">
-
+  <template>
   <style include="prendus-styles">
 
-		:host {
-			display: block;
-		}
+        :host {
+            display: block;
+        }
 
     .homepage-courses {
       display: flex;
@@ -37,9 +37,9 @@
       vertical-align: middle;
     }
 
-		#course-list {
-			padding: 20px;
-		}
+        #course-list {
+            padding: 20px;
+        }
 
     .course-preview {
       width: 270px;
@@ -56,26 +56,25 @@
 
     }
 
-		@media (max-width: 500px) {
+        @media (max-width: 500px) {
 
-			.course-preview {
-				width: 100%;
-			}
+            .course-preview {
+                width: 100%;
+            }
 
-		}
+        }
 
   </style>
 
-
-  <template>
     <redux-store on-statechange="mapStateToThis" action="[[action]]"></redux-store>
-		<div id="scrollable">
-			<iron-list id="course-list" items="[[publicCourses]]" as="course" grid scroll-target="scrollable">
-				<template>
-					<prendus-course-preview id="[[course.id]]" class="course-preview" course="[[course]]"></prendus-course-preview>
-				</template>
-			</iron-list>
-		</div>
+    
+	<div id="scrollable">
+		<iron-list id="course-list" items="[[publicCourses]]" as="course" grid scroll-target="scrollable">
+			<template>
+				<prendus-course-preview id="[[course.id]]" class="course-preview" course="[[course]]"></prendus-course-preview>
+			</template>
+		</iron-list>
+	</div>
 
     <div class="loading-indicator" hidden$="[[!loading]]">
       <paper-spinner active$="[[loading]]"></paper-spinner> Loading Courses</b>

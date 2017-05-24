@@ -2,23 +2,19 @@ import {Video} from '../../node_modules/prendus-services/typings/video';
 import {Actions} from '../../redux/actions';
 import {StatechangeEvent} from '../../typings/statechange-event';
 
-class PrendusLessonVideoContainer {
-    public is: string;
-    public properties: any;
-    public observers: string[];
+class PrendusLessonVideoContainer extends Polymer.Element {
     public lessonId: string;
     public videos: Video[];
     public currentVideoId: string;
     public currentVideoTitle: string;
     public currentVideoUrl: string;
     public $: any;
-    public fire: any;
     public querySelector: any;
     public courseId: string;
 
-    beforeRegister() {
-        this.is = 'prendus-lesson-video-container';
-        this.properties = {
+    static get is() { return 'prendus-lesson-video-container'; }
+    static get properties() {
+        return {
             lessonId: {
                 type: String
             },
@@ -26,7 +22,9 @@ class PrendusLessonVideoContainer {
                 type: String
             }
         };
-        this.observers = [
+    }
+    static get observers() {
+        return [
             'init(lessonId)'
         ];
     }
@@ -53,7 +51,11 @@ class PrendusLessonVideoContainer {
         //go to the url
         // courses/view-video/course/:courseId/video/:videoId
         window.history.pushState({}, '', `courses/view-video/course/${this.courseId}/video/${id}`);
-        this.fire('location-changed', {}, {node: window});
+        this.dispatchEvent(new CustomEvent('location-changed', {
+            detail: {
+                node: window
+            }
+        }));
     }
 
 		pauseVideo(): void {
@@ -70,4 +72,4 @@ class PrendusLessonVideoContainer {
     }
 }
 
-Polymer(PrendusLessonVideoContainer);
+window.customElements.define(PrendusLessonVideoContainer.is, PrendusLessonVideoContainer);
