@@ -8,6 +8,6 @@
     "quill": "1.2.4",
     "redux": "^3.6.0",
     "redux-store-element": "^1.1.1",
-    "zwitterion-production": "0.0.5"
+    "zwitterion-production": "0.0.7"
   }
 }

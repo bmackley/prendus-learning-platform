@@ -1,19 +1,17 @@
 import {Actions} from '../../redux/actions';
 import {UtilitiesService} from '../../node_modules/prendus-services/services/utilities-service';
 
-class PrendusCourseRouter {
-  public is: string;
+class PrendusCourseRouter extends Polymer.Element{
   public selected: number;
   public courseId: string;
   public properties: any;
   public observers: string[];
   public querySelector: any;
 
-  beforeRegister(): void {
-      this.is = 'prendus-course-router';
-      this.observers = [
-        '_routeChanged(route.*)'
-      ];
+  static get is() { return 'prendus-course-router'; }
+  static get observers() { return [
+      '_routeChanged(route.*)'
+    ];
   }
 
   _routeChanged(routeObject: any): void {
@@ -62,4 +60,4 @@ class PrendusCourseRouter {
   }
 }
 
-Polymer(PrendusCourseRouter);
+window.customElements.define(PrendusCourseRouter.is, PrendusCourseRouter);

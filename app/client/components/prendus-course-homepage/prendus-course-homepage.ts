@@ -5,9 +5,7 @@ import {StatechangeEvent} from '../../typings/statechange-event';
 import {CourseVisibility} from '../../node_modules/prendus-services/typings/course-visibility';
 import {Action} from '../../typings/action';
 
-class PrendusCourseHomepage {
-  public is: string;
-  public properties: any;
+class PrendusCourseHomepage extends Polymer.Element{
   public courses: string[];
   public newCourse: Course;
 	public courseTitle: string;
@@ -28,13 +26,10 @@ class PrendusCourseHomepage {
   public enrolledCourses: Course[];
   public action: Action;
 
-  beforeRegister(): void {
-    this.is = 'prendus-course-homepage';
-    this.properties = {
-    };
-  }
+  static get is() { return 'prendus-course-homepage'; }
 
-  async ready(): Promise<void> {
+  async connectedCallback(): Promise<void> {
+      super.connectedCallback();
       try {
           Actions.showMainSpinner(this);
           const user = await FirebaseService.getLoggedInUser();
@@ -124,5 +119,4 @@ class PrendusCourseHomepage {
     this.enrolledCourses = state.enrolledCourses;
   }
 }
-
-Polymer(PrendusCourseHomepage);
+window.customElements.define(PrendusCourseHomepage.is, PrendusCourseHomepage);

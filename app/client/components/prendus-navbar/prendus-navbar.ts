@@ -3,18 +3,16 @@ import {rootReducer} from '../../redux/reducers';
 import {FirebaseService} from '../../node_modules/prendus-services/services/firebase-service';
 import {StatechangeEvent} from '../../typings/statechange-event';
 
-export class PrendusNavbar {
-  public is: string;
+export class PrendusNavbar extends Polymer.Element {
   public username: string;
 	public isAdmin: boolean;
 	public listeners: any;
 	public querySelector: any;
 
-  beforeRegister(): void {
-    this.is = 'prendus-navbar';
-  }
+  static get is() { return 'prendus-navbar'; }
 
-	ready(): void {
+	connectedCallback(): void {
+    super.connectedCallback();
 		Actions.checkUserAuth(this);
 	}
 
@@ -28,5 +26,4 @@ export class PrendusNavbar {
     Actions.logOutUser(this);
   }
 }
-
-Polymer(PrendusNavbar);
+window.customElements.define(PrendusNavbar.is, PrendusNavbar);

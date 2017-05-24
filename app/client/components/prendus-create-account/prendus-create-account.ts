@@ -6,24 +6,22 @@ import {User} from '../../node_modules/prendus-services/typings/user';
 import {StatechangeEvent} from '../../typings/statechange-event';
 import {State} from '../../typings/state';
 
-class PrendusCreateAccount {
-  public is: string;
+class PrendusCreateAccount extends Polymer.Element{
   public userType: UserType;
   public email: string;
   public password: string;
   public confirmPassword: string;
-  public properties: any;
   public readonly querySelector: any;
   public createAccountEmailMessage: string;
 
-  beforeRegister(): void {
-      this.is = 'prendus-create-account';
-			this.properties = {
-				userType: {
-					type: String,
-					value: ''
-				}
-			}
+  static get is() { return 'prendus-create-account'; }
+  static get properties() {
+    return {
+      userType: {
+        type: String,
+        value: ''
+      }
+    };
   }
 
 	showTeacherNote(userType: UserType): boolean {
@@ -101,6 +99,4 @@ class PrendusCreateAccount {
   }
 
 }
-
-
-Polymer(PrendusCreateAccount);
+window.customElements.define(PrendusCreateAccount.is, PrendusCreateAccount);

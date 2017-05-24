@@ -13,8 +13,7 @@ interface StateChangeAction {
     readonly concepts?: Concept[];
 }
 
-class PrendusAssignmentEditor {
-    public is: string;
+class PrendusAssignmentEditor extends Polymer.Element {
     public properties: any;
     public querySelector: any;
     public dispatchEvent: any;
@@ -27,18 +26,29 @@ class PrendusAssignmentEditor {
     public showLearningStructureComponent: boolean;
     public selectConceptButtonText: 'Close' | 'Add Concept';
 
-    beforeRegister() {
-        this.is = 'prendus-assignment-editor';
-        this.properties = {
-            lessonId: {
-                type: String
-            },
-            assignment: {
-                type: Object,
-                observer: 'assignmentSet'
-            }
-        };
+    static get is() { return 'prendus-assignment-editor'; }
+    static get properties() {
+      return { lessonId: {
+            type: String
+        },
+        assignment: {
+            type: Object,
+            observer: 'assignmentSet'
+        }
+      };
     }
+    // beforeRegister() {
+    //     this.is = 'prendus-assignment-editor';
+    //     this.properties = {
+    //         lessonId: {
+    //             type: String
+    //         },
+    //         assignment: {
+    //             type: Object,
+    //             observer: 'assignmentSet'
+    //         }
+    //     };
+    // }
 
     open() {
         this.querySelector('#assignmentDialog').open();
@@ -120,7 +130,8 @@ class PrendusAssignmentEditor {
     }
 }
 
-Polymer(PrendusAssignmentEditor);
+window.customElements.define(PrendusAssignmentEditor.is, PrendusAssignmentEditor);
+
 
 async function conceptsFromTaxonomies(taxonomies: Taxonomy[]): Promise<Concept[]> {
     const conceptIds: string[] = taxonomies.map((taxonomy: Taxonomy) => taxonomy ? taxonomy.concept : null);
