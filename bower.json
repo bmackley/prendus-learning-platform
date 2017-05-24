@@ -62,6 +62,7 @@
   "resolutions": {
     "paper-dialog": "^2.0.0",
     "paper-dialog-behavior": "^2.0.0",
-    "paper-dialog-scrollable": "^2.0.0"
+    "paper-dialog-scrollable": "^2.0.0",
+    "webcomponentsjs": "^0.7.24"
   }
 }
