@@ -6,6 +6,7 @@ import {StatechangeEvent} from '../../typings/statechange-event';
 export class PrendusNavbar {
   public is: string;
   public username: string;
+	public isAdmin: boolean;
 	public listeners: any;
 	public querySelector: any;
 
@@ -20,19 +21,7 @@ export class PrendusNavbar {
   mapStateToThis(e: StatechangeEvent): void {
     const state = e.detail.state
     this.username = state.currentUser.metaData.email;
-  }
-
-	toggleMenuWithKeyboard(e: any): void {
-		if(e.keyCode === 13 || e.keyCode === 32) {
-			e.preventDefault();
-			this.toggleMenu(e);
-		}
-	}
-
-  toggleMenu(e: any): void {
-		this.querySelector('#menu-name-button').blur();
-		this.querySelector('#menu-icon-button').blur();
-		this.querySelector('#menu-items').toggle();
+		this.isAdmin = state.currentUser.userType === 'administrator';
   }
 
   logOutUser(e: any): void {

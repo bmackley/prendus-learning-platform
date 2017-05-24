@@ -7,9 +7,9 @@ import {QuizSession} from '../../node_modules/prendus-services/typings/quiz-sess
 class PrendusEditQuestionRouter {
     public is: string;
     public jwt: string;
+    public lessonId: string;
+    public quizId: string;
     public properties: any;
-    public errorMessage: string;
-    public successMessage: string;
     public querySelector: any;
     public quizSession: QuizSession;
     public observers: string[];
@@ -54,6 +54,29 @@ class PrendusEditQuestionRouter {
     }
 
     _routeChanged(routeObject: any): void {
+      const route: string = routeObject.value.path;
+      if(!route) {
+        return;
+      }
+      const baseRoute: string = route.split('/')[1];
+      switch(baseRoute) {
+        case 'edit-question': {
+          break;
+        }
+
+        default:  {
+          //TODO this is bad and horrible, we need to change this and hope that polymer 2 will fire change events when we set something...
+          this.data = null;
+          break;
+        }
+      }
+
+    }
+    setData(): void {
+      if(this.data) {
+        this.lessonId = this.data.lessonId;
+        this.quizId = this.data.quizId;
+      }
 			// QUESTION: do we still need this function?
 
       // const route: string = routeObject.value.path;
@@ -88,16 +111,12 @@ class PrendusEditQuestionRouter {
 				// replace history so the back button goes to the quiz and not a new question
 				window.history.replaceState({}, '', `/courses/edit-question/question/${e.target.externalQuestionId}/`);
 				this.fire('location-changed', {}, {node: window});
-
-        //TODO this is evil, figure out another way to manually reload the questions without a DOM search
-        this.successMessage = '';
-        this.successMessage = 'Question saved successfully';
+				Actions.showNotification(this, 'success', 'Question saved successfully.');
         const editQuizComponent: any = document.querySelector('#edit-quiz');
+				// TODO this is evil, figure out another way to manually reload the questions without a DOM search
         if(typeof editQuizComponent.manuallyReloadQuestions === 'function') {
           editQuizComponent.manuallyReloadQuestions();
         }
-
-        //TODO this is evil, figure out another way to manually reload the questions without a DOM search
     }
 }
 

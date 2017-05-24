@@ -1,20 +1,27 @@
 import {StatechangeEvent} from '../../typings/statechange-event';
 import {Actions} from '../../redux/actions';
 import {UtilitiesService} from '../../node_modules/prendus-services/services/utilities-service';
+import {State} from '../../typings/state';
+import {Notification} from '../../node_modules/prendus-services/typings/notification';
 
 class PrendusRouter {
   public is: string;
   public username: string;
   public loggedIn: 'true' | 'false';
+	public isAdmin: boolean;
   public mainViewToShow: 'routes' | 'spinner';
+  public notificationText: string;
+  public notificationType: Notification;
   public observers: string[];
   public querySelector: any;
+  public fire: any;
 
   beforeRegister() {
     this.is =  "prendus-router";
 
     this.observers = [
-      '_routeChanged(route.*)'
+      '_routeChanged(route.*)',
+			'_showNotification(notificationText, notificationType)'
     ];
 
   }
@@ -40,12 +47,24 @@ class PrendusRouter {
       }
 
       case '/login': {
-        UtilitiesService.importElement(this, 'components/prendus-login/prendus-login.html', 'login');
+				if(this.loggedIn === 'true') {
+					// user doesn't need to log in again so redirect
+					window.history.pushState({}, '', '/courses/home');
+					this.fire('location-changed', {}, {node: window});
+				} else {
+					UtilitiesService.importElement(this, 'components/prendus-login/prendus-login.html', 'login');
+				}
         break;
       }
 
       case '/signup': {
-        UtilitiesService.importElement(this, 'components/prendus-create-account/prendus-create-account.html', 'create-account');
+				if(this.loggedIn === 'true') {
+					// user doesn't need to sign up again so redirect
+					window.history.pushState({}, '', '/courses/home');
+					this.fire('location-changed', {}, {node: window});
+				} else {
+					UtilitiesService.importElement(this, 'components/prendus-create-account/prendus-create-account.html', 'create-account');
+				}
         break;
       }
 
@@ -64,16 +83,48 @@ class PrendusRouter {
         break;
       }
 
+      case '/learning-structure': {
+				if(this.isAdmin) {
+					UtilitiesService.importElement(this, 'bower_components/prendus-question-components/components/prendus-learning-structure/prendus-learning-structure.html', 'learning-structure');
+				} else {
+					// don't allow non-admins to see this page
+					window.history.pushState({}, '', '/404');
+					this.fire('location-changed', {}, {node: window});
+				}
+        break;
+      }
+
+			case '/teacher-approval': {
+				if(this.isAdmin) {
+					UtilitiesService.importElement(this, 'components/prendus-teacher-approval/prendus-teacher-approval.html', 'teacher-approval');
+				} else {
+					// don't allow non-admins to see this page
+					window.history.pushState({}, '', '/404');
+					this.fire('location-changed', {}, {node: window});
+				}
+        break;
+			}
+
       default: break;
     }
 
   }
 
+	_showNotification(notificationType: Notification, notificationText: string): void {
+		let _this = this;
+		setTimeout(() => {
+			this.querySelector('.prendus-notification').show();
+		})
+	}
+
   mapStateToThis(e: StatechangeEvent): void {
-      const state = e.detail.state;
+      const state: State = e.detail.state;
       this.username = state.currentUser.metaData.email;
       this.loggedIn = this.username ? 'true' : 'false';
+			this.isAdmin = state.currentUser.userType === 'administrator';
       this.mainViewToShow = state.mainViewToShow;
+			this.notificationType = state.notificationType;
+			this.notificationText = state.notificationText;
   }
 }
 

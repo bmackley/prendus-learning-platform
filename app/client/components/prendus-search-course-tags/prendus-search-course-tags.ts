@@ -6,7 +6,6 @@ class PrendusSearchCourseTags {
   public is: string;
   public properties: any;
   public resultingCourses: Course[];
-  public errorMessage: string;
   public querySelector: any;
   public courseTagNames: string[];
 
@@ -22,8 +21,8 @@ class PrendusSearchCourseTags {
       const tag: string = this.querySelector('#tag').value;
       await Actions.lookUpCourseTags(this, tag);
     } catch(error) {
-      this.errorMessage = '';
-      this.errorMessage = error.message;
+			Actions.showNotification(this, 'error', 'Error searching for tags.');
+			console.error(error);
     }
   }
 

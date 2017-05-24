@@ -1,0 +1,46 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/iron-collapse/iron-collapse.html">
+<link rel="import" href="../../bower_components/redux-store-element/redux-store.html">
+<link rel="import" href="../prendus-lesson-video-container/prendus-lesson-video-container.html">
+<link rel="import" href="../prendus-lesson-assignment-container/prendus-lesson-assignment-container.html">
+<link rel="import" href="../prendus-lesson-quiz-container/prendus-lesson-quiz-container.html">
+<link rel="import" href="../../bower_components/paper-tabs/paper-tabs.html">
+<link rel="import" href="../../bower_components/iron-pages/iron-pages.html">
+<link rel="import" href="../../bower_components/prendus-styles/prendus-styles.html">
+
+<dom-module id="prendus-lesson-container">
+  <template>
+
+    <style include="prendus-styles">
+      paper-tab {
+        text-transform: uppercase;
+      }
+
+      #title-toggle {
+        margin: 10px;
+        cursor: pointer;
+      }
+
+      #resource-tabs {
+        --paper-tabs-selection-bar-color: var(--prendus-primary-color);
+      }
+    </style>
+
+    <redux-store on-statechange="mapStateToThis" action="[[action]]"></redux-store>
+    <h3 id="title-toggle" on-tap="toggle">[[title]]</h3>
+    <iron-collapse class="lessonToggle" id="lesson-[[item.pos]]">
+        <paper-tabs id="resource-tabs" selected="{{selected}}">
+          <!-- <paper-tab>Videos</paper-tab> -->
+          <paper-tab>Assignments</paper-tab>
+          <paper-tab>Quizzes</paper-tab>
+        </paper-tabs>
+        <iron-pages selected="[[selected]]">
+            <!-- <prendus-lesson-video-container lesson-id="[[lessonId]]"></prendus-lesson-video-container> -->
+            <prendus-lesson-assignment-container course-id="[[courseId]]" lesson-id="[[lessonId]]"></prendus-lesson-assignment-container>
+          <prendus-lesson-quiz-container course-id="[[courseId]]" lesson-id="[[lessonId]]"></prendus-lesson-quiz-container>
+        </iron-pages>
+    </iron-collapse>
+  </template>
+
+  <script src="prendus-lesson-container.ts"></script>
+</dom-module>

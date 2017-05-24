@@ -2,7 +2,11 @@ import {Actions} from '../../redux/actions';
 import {rootReducer} from '../../redux/reducers';
 import {StatechangeEvent} from '../../typings/statechange-event';
 import {ConstantsService} from '../../node_modules/prendus-services/services/constants-service';
+import {UtilitiesService} from '../../node_modules/prendus-services/services/utilities-service';
 import {FirebaseService} from '../../node_modules/prendus-services/services/firebase-service';
+import {State} from '../../typings/state';
+import {Action} from '../../typings/action';
+import {QuizOrigin} from '../../node_modules/prendus-services/typings/quiz-origin';
 
 class PrendusLogin {
   public is: string;
@@ -10,13 +14,18 @@ class PrendusLogin {
   public password: string;
 	public resetPasswordEmail: string;
   public listeners: any;
-  public errorMessage: string;
-  public successMessage: string;
   public querySelector: any;
   public fire: any;
+  public ltiState: string;
+  public action: Action;
 
   beforeRegister(): void {
     this.is = 'prendus-login'
+  }
+
+  ready(): void {
+    // Call default action since this is lazy loaded
+    Actions.defaultAction(this);
   }
 
 	// each input has a hard validation for when focus is lost and a soft validation
@@ -50,12 +59,18 @@ class PrendusLogin {
       Actions.getCoursesByUser(this);
       Actions.getStarredCoursesByUser(this, uid);
       Actions.getSharedCoursesByUser(this, uid);
-      const location: string = 'courses/home'
-      window.history.pushState({}, '', location);
+      this.action = Actions.checkLtiState(this.ltiState);
+      if(this.ltiState) {
+        window.history.pushState({}, '', this.ltiState);
+      } else {
+        const location: string = 'courses/home';
+        window.history.pushState({}, '', location);
+      }
+
       this.fire('location-changed', {}, {node: window});
     } catch(error) {
-      this.errorMessage = '';
-      this.errorMessage = error.message;
+			Actions.showNotification(this, 'error', 'Error logging in.');
+			console.error(error);
     }
   }
 
@@ -79,15 +94,18 @@ class PrendusLogin {
 		this.querySelector('#reset-password-dialog').close();
     try {
       await FirebaseService.sendPasswordResetEmail(this.resetPasswordEmail);
-      this.successMessage = '';
-      this.successMessage = 'Password reset link sent';
+			Actions.showNotification(this, 'success', 'Password reset link sent.');
     } catch(error) {
+			Actions.showNotification(this, 'error', 'Could not send password reset email.  Check to make sure the email address you entered is correct.');
 			console.error(error);
-      this.errorMessage = '';
-      this.errorMessage = 'Could not send password reset email.  Check to make sure the email address you entered is correct.';
     }
 		this.resetPasswordEmail = '';
 		this.querySelector('#reset-password-email').invalid = false;
+  }
+
+  mapStateToThis(e: StatechangeEvent): void {
+    const state: State = e.detail.state;
+    this.ltiState = state.ltiState;
   }
 }
 

@@ -2,9 +2,12 @@ import {Actions} from '../../redux/actions';
 import {FirebaseService} from '../../node_modules/prendus-services/services/firebase-service';
 import {StatechangeEvent} from '../../typings/statechange-event';
 import {UserMetaData} from '../../node_modules/prendus-services/typings/user-meta-data';
+import {UserType} from '../../node_modules/prendus-services/typings/user-type';
+import {State} from '../../typings/state';
 
 export class PrendusProfile {
   public is: string;
+	public userType: UserType;
   public firstName: string;
   public lastName: string;
   public institution: string;
@@ -12,25 +15,34 @@ export class PrendusProfile {
   public email: string;
   public password: string;
   public uid: string;
-  public updateProfileSuccessToastText: string;
-  public updateProfileErrorToastText: string;
-  public errorMessage: string;
-  public successMessage: string;
+  public metaData: UserMetaData;
   public querySelector: any;
 
   beforeRegister(): void {
     this.is = 'prendus-profile';
   }
 
-  mapStateToThis(e: StatechangeEvent): void {
-    const state = e.detail.state;
-    this.firstName = state.currentUser.metaData.firstName;
-    this.lastName = state.currentUser.metaData.lastName;
-    this.institution = state.currentUser.metaData.institution;
-    this.pastEmail = state.currentUser.metaData.email;
-    this.email = state.currentUser.metaData.email;
-    this.uid = state.currentUser.metaData.uid;
-  }
+	ready(): void {
+		Actions.defaultAction(this);
+	}
+
+	getUserTypeText(userType: UserType): string {
+		const userTypes: any = {
+			student: 'Student',
+			unverifiedTeacher: 'Unverified Teacher',
+			verifiedTeacher: 'Verified Teacher',
+			administrator: 'Administrator'
+		}
+		return userTypes[userType] || 'Unknown user type';
+	}
+
+	showTeacherSelection(userType: UserType): boolean {
+		return userType === 'student' || userType === 'unverifiedTeacher';
+	}
+
+	showTeacherNote(userType: UserType): boolean {
+		return userType === 'unverifiedTeacher';
+	}
 
   async changeProfile(e: any): Promise<void> {
     if(this.querySelector('#updateEmail').value != this.pastEmail) {
@@ -44,12 +56,16 @@ export class PrendusProfile {
         email: this.email
       }
       try {
+				// only attempt to change the user type if the user is allowed to
+				if(this.userType === 'student' || this.userType === 'unverifiedTeacher') {
+					await Actions.setUserType(this.uid, this.userType);
+					await Actions.loadCurrentUser(this, this.uid);
+				}
         await Actions.updateUserMetaData(this, this.uid, submitValue);
-        this.successMessage = '';
-        this.successMessage = 'Profile Updated Successfully';
+				Actions.showNotification(this, 'success', 'Profile updated successfully.');
       } catch(error) {
-        this.errorMessage = '';
-        this.errorMessage = error.message;
+				Actions.showNotification(this, 'error', 'Could not update profile.');
+				console.error(error);
       }
     }
   }
@@ -74,11 +90,9 @@ export class PrendusProfile {
 			};
 			await Actions.updateUserEmail(this, this.pastEmail, this.querySelector('#password').value, submitValue.email);
 			await Actions.updateUserMetaData(this, this.uid, submitValue);
-			this.successMessage = '';
-			this.successMessage = 'Account updated successfully.';
+			Actions.showNotification(this, 'success', 'Email updated successfully.');
 		} catch(error) {
-			this.errorMessage = '';
-			this.errorMessage = 'Could not update account.  Please try again later.';
+			Actions.showNotification(this, 'error', 'Could not update email.');
 			console.error(error);
 		}
 		// clear password form
@@ -89,11 +103,17 @@ export class PrendusProfile {
     if(e.keyCode === 13) this.changeProfile(e);
   }
 
-  ready(): void {
-    this.querySelector('#updateProfileErrorToast').fitInto = this.querySelector('#toastTarget');
-    this.querySelector('#updateProfileSuccessToast').fitInto = this.querySelector('#toastTarget');
-    Actions.defaultAction(this);
-  }
+	mapStateToThis(e: StatechangeEvent): void {
+		const state: State = e.detail.state;
+		this.userType = state.currentUser.userType;
+		this.firstName = state.currentUser.metaData.firstName;
+		this.lastName = state.currentUser.metaData.lastName;
+		this.institution = state.currentUser.metaData.institution;
+		this.pastEmail = state.currentUser.metaData.email;
+		this.email = state.currentUser.metaData.email;
+		this.uid = state.currentUser.metaData.uid;
+		this.metaData = state.currentUser.metaData;
+	}
 }
 
 Polymer(PrendusProfile);

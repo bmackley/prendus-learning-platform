@@ -1,5 +1,6 @@
 import {Question} from '../../node_modules/prendus-services/typings/question';
 import {QuestionVisibility} from '../../node_modules/prendus-services/typings/question-visibility';
+import {QuestionMetaData} from '../../node_modules/prendus-services/typings/question-meta-data';
 import {Actions} from '../../redux/actions';
 import {UtilitiesService} from '../../node_modules/prendus-services/services/utilities-service';
 import {FirebaseService} from '../../node_modules/prendus-services/services/firebase-service';
@@ -24,11 +25,11 @@ class PrendusQuizEditor {
 		public newQuiz: boolean;
 		public uid: string;
 		public quizId: string;
-		public conceptId: string;
+		public lessonId: string;
 		public courseId: string;
     public userQuestionIds: string[];
     public publicQuestionIds: string[];
-		public quizQuestionIds: string[];
+		public quizQuestionsData: QuestionMetaData[];
 		public quizSession: QuizSession;
 		public quizQuestionSettings: QuestionSettings;
     public jwt: string;
@@ -36,8 +37,6 @@ class PrendusQuizEditor {
     public editingTitle: boolean;
     public selected: number;
 		public endpointDomain: string;
-		public successMessage: string;
-		public errorMessage: string;
 		public errorLink: string;
 		public errorText: string;
 		public errorLinkText: string;
@@ -55,7 +54,7 @@ class PrendusQuizEditor {
 					}
         };
 				this.observers = [
-					'setEditorProperties(data.courseId, data.conceptId, data.quizId, route.*)',
+					'setEditorProperties(data.courseId, data.lessonId, data.quizId, route.*)',
 					'setQuizData(quizId)'
 				]
     }
@@ -99,9 +98,9 @@ class PrendusQuizEditor {
 				return initData;
     }
 
-		async setEditorProperties(courseId: string, conceptId: string, quizId: string, route: any): Promise<void> {
+		async setEditorProperties(courseId: string, lessonId: string, quizId: string, route: any): Promise<void> {
 			this.courseId = courseId;
-			this.conceptId = conceptId;
+			this.lessonId = lessonId;
 			this.quizId = quizId;
 
 			const titleDialog = this.querySelector('#title-quiz-dialog');
@@ -139,7 +138,7 @@ class PrendusQuizEditor {
 
 				await Promise.all([
 					Actions.loadQuizQuestionSettings(this, quizId),
-					this.loadQuizQuestionIds(),
+					this.loadQuizQuestionsData(),
 					this.loadUserQuestionIds(),
 					this.loadPublicQuestionIds(),
 					this.manuallyReloadQuestions()
@@ -168,14 +167,14 @@ class PrendusQuizEditor {
 		}
 
 		async createQuiz(): Promise<void> {
-			const quizId = await Actions.createNewQuiz(this, this.title, this.conceptId);
+			const quizId: string = await Actions.createNewQuiz(this, this.title, this.lessonId);
 			// reload by watching data
 			this.data = {
 				...this.data,
 				quizId
 			}
 			this.newQuiz = false;
-			Actions.loadViewConceptQuizzes(this, this.conceptId);
+			Actions.loadViewLessonQuizzes(this, this.lessonId);
 		}
 
     async loadPublicQuestionIds(): Promise<void> {
@@ -188,25 +187,50 @@ class PrendusQuizEditor {
         await Actions.loadUserQuestionIds(this, getUserQuestionIdsAjax);
     }
 
-    async loadQuizQuestionIds(): Promise<void> {
-        await Actions.loadQuizQuestionIds(this, this.quizId);
+		/**
+		 * Loads the settings and position for all questions in the quiz
+		 */
+    async loadQuizQuestionsData(): Promise<void> {
+        await Actions.loadQuizQuestionsData(this, this.quizId);
     }
 
+		/**
+		 * Adds question to the end of the quiz
+		 */
     async addQuestionToQuiz(e: any): Promise<void> {
-        const questionId: string = e.model.item;
-        await Actions.addQuestionToQuiz(this, this.quizId, questionId);
-        await this.loadQuizQuestionIds();
-        this.quizQuestionIds.forEach((questionId) => {
-            const viewQuestionElement = this.querySelector(`#quiz-question-id-${questionId}`);
-            viewQuestionElement.loadNextProblem(true);
-        });
+        const questionId: string = e.model.item || e.model.question.questionId;
+				e.newIndex = this.quizQuestionsData.length;
+				// use the length so the questions is added to the end
+        await Actions.addQuestionToQuiz(this, this.quizId, questionId, this.quizQuestionsData.length);
+        await this.loadQuizQuestionsData();
+				this.sortQuizQuestions(e);
     }
 
+		/**
+		 * Removes the question from the quiz
+		 */
     async removeQuestionFromQuiz(e: any): Promise<void> {
-        const questionId: string = e.model.item;
+        const questionId: string = e.model.item || e.model.question.questionId;
         await Actions.removeQuestionFromQuiz(this, this.quizId, questionId);
-        await this.loadQuizQuestionIds();
+        await this.loadQuizQuestionsData();
+				e.newIndex = -1;
+				this.sortQuizQuestions(e);
     }
+
+		/**
+		 * Updates the sorted questions in the database
+		 */
+		async sortQuizQuestions(e: any): Promise<void> {
+			if(typeof e.newIndex !== 'undefined') {
+				const sortedQuizQuestionsData: QuestionMetaData[] = this.quizQuestionsData.map((value, index, array) => {
+					return {
+						...value,
+						position: index
+					};
+				});
+				await Actions.setQuizQuestionsData(this.quizId, sortedQuizQuestionsData);
+			}
+		}
 
     displayDate(date: string): Date {
       // Return the current date if there is no course due date set yet.
@@ -230,28 +254,31 @@ class PrendusQuizEditor {
       this.querySelector('#settings-modal').open();
     }
 
-    showEmptyQuizQuestionsText(quizQuestionIds: string[]): boolean {
-        return !quizQuestionIds || quizQuestionIds.length === 0;
+    showEmptyQuizQuestionsText(quizQuestionsData: string[]): boolean {
+        return !quizQuestionsData || quizQuestionsData.length === 0;
     }
 
     async manuallyReloadQuestions(): Promise<void> {
         // TODO optimize this code
+
+				await this.loadQuizQuestionsData();
+
+				this.quizQuestionsData.forEach((question) => {
+					const viewQuestionElement = this.querySelector(`#quiz-question-id-${question.questionId}`);
+					viewQuestionElement.loadNextProblem(true);
+				});
+
         await this.loadUserQuestionIds();
-        await this.loadPublicQuestionIds();
-        await this.loadQuizQuestionIds();
 
         this.userQuestionIds.forEach((questionId) => {
             const viewQuestionElement = this.querySelector(`#user-question-id-${questionId}`);
             viewQuestionElement.loadNextProblem(true);
         });
 
+				await this.loadPublicQuestionIds();
+
         this.publicQuestionIds.forEach((questionId) => {
             const viewQuestionElement = this.querySelector(`#public-question-id-${questionId}`);
-            viewQuestionElement.loadNextProblem(true);
-        });
-
-        this.quizQuestionIds.forEach((questionId) => {
-            const viewQuestionElement = this.querySelector(`#quiz-question-id-${questionId}`);
             viewQuestionElement.loadNextProblem(true);
         });
     }
@@ -296,8 +323,7 @@ class PrendusQuizEditor {
         const course: Course = await CourseModel.getById(this.courseId);
         if(UTCDueDate > course.dueDate) {
           const courseDueDateAsString: string = UtilitiesService.UTCDateToLocalMMddyyyy(course.dueDate);
-          this.errorMessage = '';
-          this.errorMessage = `Quiz due date cannot be after the last day of the course. Which is currently ${courseDueDateAsString}. Quiz due date set back to original.`;
+					Actions.showNotification(this, 'error', `Quiz due date cannot be after the last day of the course (currently ${courseDueDateAsString}).`);
           // if the quiz didn't have a due date then set the quiz due date to the current date.
           // this assumes the last day of the course is after the current date.
           const date: number = !this.quizQuestionSettings.dueDate ? UtilitiesService.dateToUTCNumber(new Date()) : this.quizQuestionSettings.dueDate;
@@ -343,15 +369,14 @@ class PrendusQuizEditor {
       try {
         const value: string = e.target.value;
         await QuizModel.updateTitle(this.quizId, value);
-        this.successMessage = '';
-        this.successMessage = `${value} updated.`;
+				Actions.showNotification(this, 'success', `${value} updated successfully.`);
       } catch(error) {
-        this.errorMessage = '';
-        this.errorMessage = error.message;
+        Actions.showNotification(this, 'error', 'Error updating title');
+				console.error(error);
       }
 			// load these in the background so they're updated when the user returns to that page
-      Actions.loadEditConceptQuizzes(this, this.conceptId);
-      Actions.loadViewConceptQuizzes(this, this.conceptId);
+      Actions.loadEditLessonQuizzes(this, this.lessonId);
+      Actions.loadViewLessonQuizzes(this, this.lessonId);
     }
 
     async privateToggled(e: any): Promise<void> {
@@ -369,19 +394,18 @@ class PrendusQuizEditor {
       try {
         await Actions.setQuizQuestionSetting(this, quizId, settingName, value);
         if(updateQuestionSetting) {
-          this.quizQuestionIds.forEach(async (questionId) => {
-              await Actions.setQuestionSetting(this, quizId, questionId, settingName, value);
+          this.quizQuestionsData.forEach(async (question) => {
+              await Actions.setQuestionSetting(this, quizId, question.questionId, settingName, value);
           });
         }
 
         if(successMessageName) {
-          this.successMessage = '';
-          this.successMessage = `${successMessageName} updated.`;
+					Actions.showNotification(this, 'success', `${successMessageName} updated successfully.`);
         }
 
       } catch(error) {
-        this.errorMessage = '';
-        this.errorMessage = error.message;
+				Actions.showNotification(this, 'error', `Error updating ${successMessageName}.`);
+				console.error(error);
       }
 
     }
@@ -391,7 +415,7 @@ class PrendusQuizEditor {
 				this.uid = state.currentUser.metaData.uid;
 				this.userQuestionIds = state.userQuestionIds;
 				this.publicQuestionIds = state.publicQuestionIds;
-				this.quizQuestionIds = state.quizQuestionIds;
+				this.quizQuestionsData = state.quizQuestionsData;
         this.quizQuestionSettings = state.quizQuestionSettings;
     }
 }

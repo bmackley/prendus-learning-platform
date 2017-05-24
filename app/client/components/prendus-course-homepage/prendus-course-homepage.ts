@@ -3,6 +3,7 @@ import {FirebaseService} from '../../node_modules/prendus-services/services/fire
 import {Course} from '../../node_modules/prendus-services/typings/course';
 import {StatechangeEvent} from '../../typings/statechange-event';
 import {CourseVisibility} from '../../node_modules/prendus-services/typings/course-visibility';
+import {Action} from '../../typings/action';
 
 class PrendusCourseHomepage {
   public is: string;
@@ -24,6 +25,8 @@ class PrendusCourseHomepage {
   public querySelector: any;
   public errorMessage: string;
   public numberOfPublicCoursesLoaded: number;
+  public enrolledCourses: Course[];
+  public action: Action;
 
   beforeRegister(): void {
     this.is = 'prendus-course-homepage';
@@ -41,10 +44,13 @@ class PrendusCourseHomepage {
           Actions.getStarredCoursesByUser(this, user.uid);
           Actions.getSharedCoursesByUser(this, user.uid);
 					Actions.getCoursesByVisibility(this, 'public', 6);
+          this.action = await Actions.setEnrolledCourses();
           Actions.hideMainSpinner(this);
+
       } catch(error) {
-          this.errorMessage = '';
-          this.errorMessage = error.message;
+				Actions.hideMainSpinner(this);
+				Actions.showNotification(this, 'error', 'Error loading courses.');
+				console.error(error);
       }
   }
 
@@ -81,7 +87,7 @@ class PrendusCourseHomepage {
     const visibility: CourseVisibility = 'public';
     const newCourse: Course = {
       id: '',
-      concepts: null,
+      lessons: null,
       tags: null,
       collaborators: null,
 			dueDate: 0,
@@ -97,8 +103,8 @@ class PrendusCourseHomepage {
       // +1 because we added a course!
       await Actions.getCoursesByVisibility(this, 'public', this.numberOfPublicCoursesLoaded + 1);
     } catch(error) {
-      this.errorMessage = '';
-      this.errorMessage = error.message;
+			Actions.showNotification(this, 'error', 'Could not create course.');
+			console.error(error);
     }
     this.courseTitle = '';
     this.courseDescription = '';
@@ -115,6 +121,7 @@ class PrendusCourseHomepage {
     this.numberOfPublicCoursesLoaded = state.publicCourses ? state.publicCourses.length : 0;
     this.username = state.currentUser.metaData.email;
     this.uid = state.currentUser.metaData.uid;
+    this.enrolledCourses = state.enrolledCourses;
   }
 }
 

@@ -5,6 +5,7 @@
     "experimentalDecorators": true,
     "removeComments": true,
     "noImplicitAny": true,
+    "module": "system",
     "types": ["polymer"]
   },
   "exclude": [

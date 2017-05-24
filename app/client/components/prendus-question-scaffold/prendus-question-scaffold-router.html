@@ -1,0 +1,42 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/app-route/app-route.html">
+<link rel="import" href="../../bower_components/iron-icons/iron-icons.html">
+<link rel="import" href="../../bower_components/paper-card/paper-card.html">
+<link rel="import" href="../../bower_components/prendus-quiz-viewer-component/prendus-quiz-viewer.html">
+<link rel="import" href="../../bower_components/redux-store-element/redux-store.html">
+<link rel="import" href="../../bower_components/prendus-styles/prendus-styles.html">
+<link rel="import" href="../../bower_components/paper-dialog/paper-dialog.html">
+<link rel="import" href="../prendus-payment/prendus-payment.html">
+<link rel="import" href="../prendus-question-scaffold/prendus-question-scaffold.html">
+
+<dom-module id="prendus-question-scaffold-router">
+
+	<template>
+
+	  <style include="prendus-styles">
+	  </style>
+
+    <redux-store on-statechange="mapStateToThis" action="[[action]]"></redux-store>
+    <app-route route="[[route]]" pattern="/assignment/:assignmentId" data="{{data}}"></app-route>
+
+    <template is="dom-if" if="[[quizId]]">
+        <prendus-question-scaffold quiz-id="[[quizId]]" assignment-id="[[assignmentId]]" course-id="[[courseId]]"></prendus-question-scaffold>
+    </template>
+
+		<paper-dialog id="sign-up-sign-in-dialog" modal>
+			<div class="content">
+				<!-- TODO decide on this -->
+				<!-- TODO center the dialog -->
+				<h3>You need to register on prendus to use this! (or log in)</h3>
+
+			</div>
+			<div class="buttons">
+				<a href="/signup"><button class="prendus-button" dialog-dismiss>Sign up</button></a>
+				<a href="/login"><button class="prendus-button" dialog-dismiss>Login</button></a>
+			</div>
+		</paper-dialog>
+		<prendus-payment id="payment" course-id="[[courseId]]"></prendus-payment>
+  </template>
+
+  <script src="prendus-question-scaffold-router.ts"></script>
+</dom-module>

@@ -1,11 +1,9 @@
 <link rel="import" href="../../bower_components/polymer/polymer.html">
 <link rel="import" href="../../bower_components/paper-input/paper-input.html">
-<link rel="import" href="../../bower_components/paper-toast/paper-toast.html">
 <link rel="import" href="../../bower_components/paper-menu/paper-submenu.html">
 <link rel="import" href="../../bower_components/paper-menu-button/paper-menu-button.html">
 <link rel="import" href="../../bower_components/paper-icon-button/paper-icon-button.html">
 <link rel="import" href="../../bower_components/paper-menu/paper-menu.html">
-<link rel="import" href="../../bower_components/iron-icons/iron-icons.html">
 <link rel="import" href="../../bower_components/prendus-video-viewer-component/prendus-video-viewer.html">
 <link rel="import" href="../../bower_components/prendus-styles/prendus-styles.html">
 
@@ -29,14 +27,13 @@
 
         <!-- TODO add this back once we're ready for collaborators-->
         <!-- <paper-icon-button icon="social:group-add" on-tap="openCollaboratorsModal"></paper-icon-button> -->
-        <!-- <prendus-collaborator-modal id="collaborators-modal" concept-id="[[conceptId]]" video-id="[[videoId]]" video></prendus-collaborator-modal> -->
+        <!-- <prendus-collaborator-modal id="collaborators-modal" lesson-id="[[lessonId]]" video-id="[[videoId]]" video></prendus-collaborator-modal> -->
         <paper-icon-button icon="delete" on-tap="deleteVideo"></paper-icon-button>
       </div>
       <paper-input id="titleInput" label="Video Title" on-input="updateTitle" value="[[title]]"></paper-input>
       <paper-input id="urlInput" label="Video URL" on-input="updateUrl" value="[[url]]"></paper-input>
       <button class="prendus-button prendus-button--recommended" on-tap="saveVideo">Save</button>
       <prendus-video-viewer url="[[url]]" no-xapi></prendus-video-viewer>
-      <paper-toast id="savedToast" text="Video saved"></paper-toast>
     </template>
 
     <script src="prendus-video-editor.ts"></script>

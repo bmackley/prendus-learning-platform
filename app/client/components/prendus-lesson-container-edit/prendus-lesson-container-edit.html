@@ -1,0 +1,115 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/iron-collapse/iron-collapse.html">
+<link rel="import" href="../../bower_components/iron-icons/editor-icons.html">
+<link rel="import" href="../../bower_components/iron-icons/iron-icons.html">
+<link rel="import" href="../../bower_components/iron-icons/social-icons.html">
+<link rel="import" href="../../bower_components/paper-icon-button/paper-icon-button.html">
+<link rel="import" href="../../bower_components/paper-dialog/paper-dialog.html">
+<link rel="import" href="../../bower_components/paper-tooltip/paper-tooltip.html">
+<link rel="import" href="../prendus-lesson-video-container-edit/prendus-lesson-video-container-edit.html">
+<link rel="import" href="../prendus-lesson-quiz-container/prendus-lesson-quiz-container.html">
+<link rel="import" href="../prendus-lesson-assignment-container/prendus-lesson-assignment-container.html">
+
+<link rel="import" href="../../bower_components/prendus-styles/prendus-styles.html">
+
+<dom-module id="prendus-lesson-container-edit">
+  <template>
+
+
+  <style include="prendus-styles">
+
+    paper-tabs {
+      --paper-tabs-selection-bar-color: var(--prendus-primary-color);
+      text-transform: uppercase;
+    }
+
+    .title-buttons {
+      display: flex;
+      align-items: center;
+      padding: 10px;
+      cursor: pointer;
+    }
+
+    .title-buttons > * + * {
+      margin-left: 10px;
+    }
+
+		.title-action-buttons {
+			/* min-width: 0; keeps text from overflowing a flexbox container */
+			min-width: 0;
+			display: flex;
+			align-items: center;
+			flex-grow: 1;
+		}
+
+		#drag-handle,
+		.action-buttons {
+			flex-shrink: 0;
+		}
+
+    .lesson-title {
+			/* min-width: 0; keeps text from overflowing a flexbox container */
+			min-width: 0;
+			padding: 0 8px;
+			flex-grow: 1;
+      margin: 0;
+    }
+
+		@media (max-width: 500px) {
+
+			.title-action-buttons {
+				display: block;
+			}
+
+		}
+
+  </style>
+
+    <redux-store on-statechange="mapStateToThis" action="[[action]]"></redux-store>
+
+		<!-- <prendus-collaborator-modal id="collaborators-modal" course-id="[[courseId]]" lesson-id="[[lessonId]]" lesson></prendus-collaborator-modal> -->
+    <div class="title-buttons" on-tap="toggle">
+
+      <paper-icon-button id="drag-handle" class="prendus-icon-button" icon="editor:drag-handle"></paper-icon-button>
+      <paper-tooltip for="drag-handle" offset="0" animation-delay="300">Drag to change lesson order</paper-tooltip>
+			<div class="title-action-buttons">
+				<h3 class="lesson-title">[[title]]</h3>
+				<div class="action-buttons">
+					<paper-icon-button id="edit-button" class="prendus-icon-button" icon="create" on-tap="editLesson"></paper-icon-button>
+					<paper-tooltip for="edit-button" offset="0" animation-delay="300">Edit lesson</paper-tooltip>
+					<!-- <paper-icon-button id="collaborator-button" class="icon-button" icon="social:group-add" on-tap="openCollaboratorsModal"></paper-icon-button>
+					<paper-tooltip for="collaborator-button" offset="0" animation-delay="300">Edit collaborators</paper-tooltip> -->
+					<paper-icon-button id="delete-button" class="prendus-icon-button" icon="delete" on-tap="openDeleteModal"></paper-icon-button>
+					<paper-tooltip for="delete-button" offset="0" animation-delay="300">Delete lesson</paper-tooltip>
+				</div>
+			</div>
+    </div>
+    <iron-collapse id="collapsible-section">
+      <div id="collapsible-content">
+        <paper-tabs id="resource-tabs" selected="{{selected}}" noink>
+            <paper-tab>Assignments</paper-tab>
+            <paper-tab>Quizzes</paper-tab>
+            <!-- <paper-tab>Videos</paper-tab> -->
+        </paper-tabs>
+        <iron-pages selected="[[selected]]">
+            <prendus-lesson-assignment-container course-id="[[courseId]]" lesson-id="[[lessonId]]"></prendus-lesson-assignment-container>
+          <prendus-lesson-quiz-container course-id="[[courseId]]" lesson-id="[[lessonId]]"></prendus-lesson-quiz-container>
+          <!-- <prendus-lesson-video-container-edit lesson-id="[[lessonId]]"></prendus-lesson-video-container-edit> -->
+        </iron-pages>
+      </div>
+    </iron-collapse>
+
+    <paper-dialog id="delete-confirm-modal" with-backdrop>
+			<div class="content">
+				<h2>Delete Lesson</h2>
+				<p>Are you sure that you want to delete this lesson?</p>>
+			</div>
+			<div class="buttons">
+				<button class="prendus-button prendus-button--minor" dialog-dismiss>Cancel</button>
+				<button class="prendus-button prendus-button--destructive" on-tap="completeDelete">Delete</button>
+			</div>
+    </paper-dialog>
+
+  </template>
+  <script src="prendus-lesson-container-edit.ts"></script>
+</dom-module>
