@@ -51,7 +51,7 @@ class PrendusAssignmentEditor extends Polymer.Element {
     // }
 
     open() {
-        this.querySelector('#assignmentDialog').open();
+        this.shadowRoot.querySelector('#assignmentDialog').open();
     }
 
     async save(e: Event) {
@@ -60,7 +60,7 @@ class PrendusAssignmentEditor extends Polymer.Element {
             lessonId: this.assignment ? this.assignment.lessonId : this.lessonId,
             quizId: this.assignment ? this.assignment.quizId : 'QUIZ_ID_NOT_SET',
             uid: this.assignment ? this.assignment.uid : 'UID_NOT_SET',
-            title: this.querySelector('#titleInput').value,
+            title: this.shadowRoot.querySelector('#titleInput').value,
             taxonomies: this.taxonomies || {}
         };
 
@@ -69,7 +69,7 @@ class PrendusAssignmentEditor extends Polymer.Element {
                 assignment
             }
         }));
-        this.querySelector('#assignmentDialog').close();
+        this.shadowRoot.querySelector('#assignmentDialog').close();
     }
 
     async assignmentSet(newValue: Assignment, oldValue: Assignment) {
@@ -101,7 +101,7 @@ class PrendusAssignmentEditor extends Polymer.Element {
     }
 
     async addTap() {
-        const learningStructureComponent = this.querySelector(`#learningStructureComponent`);
+        const learningStructureComponent = this.shadowRoot.querySelector(`#learningStructureComponent`);
         const uuid: string = UtilitiesService.createUUID();
         const newTaxonomy: Taxonomy = {
             discipline: learningStructureComponent.chosenDiscipline.id,

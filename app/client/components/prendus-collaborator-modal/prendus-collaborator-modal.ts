@@ -64,7 +64,7 @@ class PrendusCollaboratorModal extends Polymer.Element {
     }
 
     async open(): Promise<void> {
-      this.querySelector('#modal').open();
+      this.shadowRoot.querySelector('#modal').open();
     }
 
     async initCourse(uid: string, courseId: string, course: boolean): Promise<void> {

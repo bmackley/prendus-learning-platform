@@ -30,12 +30,12 @@ class PrendusLogin extends Polymer.Element {
 	// for when the user is typing (to be responsive but not obnoxious)
 
 	hardValidateEmail(): void {
-		const emailElement: any = this.querySelector('#email');
+		const emailElement: any = this.shadowRoot.querySelector('#email');
 		emailElement.validate();
 	}
 
 	softValidateEmail(): void {
-		const emailElement: any = this.querySelector('#email');
+		const emailElement: any = this.shadowRoot.querySelector('#email');
 		if(this.email.match(ConstantsService.EMAIL_REGEX) !== null) emailElement.invalid = false;
 	}
 
@@ -77,7 +77,7 @@ class PrendusLogin extends Polymer.Element {
   }
 
 	openResetPasswordDialog(): void {
-		this.querySelector('#reset-password-dialog').open()
+		this.shadowRoot.querySelector('#reset-password-dialog').open()
 	}
 
 	enableResetPassword(resetPasswordEmail: string): boolean {
@@ -93,7 +93,7 @@ class PrendusLogin extends Polymer.Element {
 
   async sendResetEmail(e: any): Promise<void> {
     e.preventDefault();
-		this.querySelector('#reset-password-dialog').close();
+		this.shadowRoot.querySelector('#reset-password-dialog').close();
     try {
       await FirebaseService.sendPasswordResetEmail(this.resetPasswordEmail);
 			Actions.showNotification(this, 'success', 'Password reset link sent.');
@@ -102,7 +102,7 @@ class PrendusLogin extends Polymer.Element {
 			console.error(error);
     }
 		this.resetPasswordEmail = '';
-		this.querySelector('#reset-password-email').invalid = false;
+		this.shadowRoot.querySelector('#reset-password-email').invalid = false;
   }
 
   mapStateToThis(e: StatechangeEvent): void {

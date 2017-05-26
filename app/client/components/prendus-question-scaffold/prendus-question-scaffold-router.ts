@@ -34,9 +34,7 @@ class PrendusQuestionScaffoldRouter extends Polymer.Element {
         ];
     }
 
-    connectedCallback() {
-        super.connectedCallback();
-
+    subscribedToStore() {
         Actions.defaultAction(this);
     }
 

@@ -50,7 +50,7 @@ class PrendusCourseHomepage extends Polymer.Element{
   }
 
   openCreateCourseDialog(e: any): void {
-    this.querySelector('#create-course-dialog').open();
+    this.shadowRoot.querySelector('#create-course-dialog').open();
   }
 
 	canCreateCourse(courseTitle: string, courseDescription: string): boolean {
@@ -70,15 +70,15 @@ class PrendusCourseHomepage extends Polymer.Element{
 
 	createCourseOnEnter(e: any): void {
 		if(			e.keyCode === 13
-				&&	this.querySelector('#edit-course-name').validate()
-				&&	this.querySelector('#edit-course-description').validate()) {
+				&&	this.shadowRoot.querySelector('#edit-course-name').validate()
+				&&	this.shadowRoot.querySelector('#edit-course-description').validate()) {
 			this.createCourse(e);
 		}
 	}
 
   // Adds course to database
   async createCourse(e: any): Promise<void> {
-    this.querySelector('#create-course-dialog').close();
+    this.shadowRoot.querySelector('#create-course-dialog').close();
     const visibility: CourseVisibility = 'public';
     const newCourse: Course = {
       id: '',
@@ -103,8 +103,8 @@ class PrendusCourseHomepage extends Polymer.Element{
     }
     this.courseTitle = '';
     this.courseDescription = '';
-		this.querySelector('#edit-course-name').invalid = false;
-		this.querySelector('#edit-course-description').invalid = false;
+		this.shadowRoot.querySelector('#edit-course-name').invalid = false;
+		this.shadowRoot.querySelector('#edit-course-description').invalid = false;
   }
 
   mapStateToThis(e: StatechangeEvent): void {

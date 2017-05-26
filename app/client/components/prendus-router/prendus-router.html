@@ -57,7 +57,7 @@
 
 		<paper-toast class$="prendus-notification prendus-notification--[[notificationType]]" text="[[notificationText]]"></paper-toast>
 
-    <redux-store on-statechange="mapStateToThis" action="[[action]]"></redux-store>
+    <redux-store on-statechange="mapStateToThis" on-subscribedtostore="subscribedToStore" action="[[action]]"></redux-store>
 
     <app-location route="{{route}}"></app-location>
     <app-route route="{{route}}" pattern="/:page" data="{{pageData}}" tail="{{tail}}" active="{{pageActive}}"></app-route>
