@@ -1,10 +1,5 @@
-import {Actions} from '../../redux/actions';
-
-class PrendusLanding {
-  public is: string;
-
-  beforeRegister() {
-    this.is = 'prendus-landing';
-  }
+class PrendusLanding extends Polymer.Element {
+    static get is() { return 'prendus-landing'; }
 }
-Polymer(PrendusLanding);
+
+window.customElements.define(PrendusLanding.is, PrendusLanding);

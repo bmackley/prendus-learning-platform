@@ -10,18 +10,15 @@ import {Assignment} from '../../node_modules/prendus-services/typings/assignment
 import {Lesson} from '../../node_modules/prendus-services/typings/lesson';
 import {LessonModel} from '../../node_modules/prendus-services/models/lesson-model';
 
-class PrendusQuestionScaffoldRouter {
-    public is: string;
+class PrendusQuestionScaffoldRouter extends Polymer.Element {
 		public uid: string;
 		public courseId: string;
 		public lessonId: string;
 		public quizId: string;
-		public observers: any;
 		public hasEditAccess: boolean;
     public userFullName: string;
     public userEmail: string;
     public jwt: string;
-    public fire: any;
     public querySelector: any;
     public ltiState: string;
     public action: Action;
@@ -30,15 +27,15 @@ class PrendusQuestionScaffoldRouter {
     public ltiJwt: string;
     public data: any;
 
-    ready(): void {
-      Actions.defaultAction(this);
+    static get is() { return 'prendus-question-scaffold-router'; }
+    static get observers() {
+        return [
+            'init(data)'
+        ];
     }
 
-    beforeRegister(): void {
-      this.is = 'prendus-question-scaffold-router';
-			this.observers = [
-				'init(data)'
-			];
+    subscribedToStore() {
+        Actions.defaultAction(this);
     }
 
 		async init(data: any) {
@@ -103,4 +100,5 @@ class PrendusQuestionScaffoldRouter {
       this.ltiJwt = state.ltiJwt;
     }
 }
-Polymer(PrendusQuestionScaffoldRouter);
+
+window.customElements.define(PrendusQuestionScaffoldRouter.is, PrendusQuestionScaffoldRouter);

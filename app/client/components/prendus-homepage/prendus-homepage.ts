@@ -7,10 +7,8 @@ import {CourseModel} from '../../node_modules/prendus-services/models/course-mod
 declare let Firebase: any;
 declare let window: any;
 
-class PrendusHomepage {
-    public is: string;
+class PrendusHomepage extends Polymer.Element {
     public publicCourses: Course[];
-    public fire: any;
     public scrollRef: any;
     public baseRef: any;
     public properties: any;
@@ -23,35 +21,44 @@ class PrendusHomepage {
     public loading: boolean;
     public $: any;
 
-    beforeRegister(): void {
-        this.is = 'prendus-homepage';
+    static get is() { return 'prendus-homepage'; }
+
+    constructor() {
+        super();
+
         this.numCoursesLoadOnScroll = 36;
     }
 
-    async ready(): Promise<void> {
-      try {
-        this.loading = true;
-        await Actions.getCoursesByVisibility(this, 'public', this.numCoursesLoadOnScroll);
-        const courseList: any = this.querySelector('#course-list');
-        courseList.fire('resize');
-        // For some reason I can't figure out how to loadMoreData
-        // and have the public courses display. So I display the
-        // courses by visibility, and when the user scrolls down
-        // to the bottom, the next courses will load right away.
-        this.baseRef = new Firebase(`https://prendus-${window['PRENDUS_ENV']}.firebaseio.com/courses`);
-        this.scrollRef = new Firebase.util.Scroll(this.baseRef, 'public');
-        await this.loadMoreData(null);
-      } catch(error) {
-				Actions.showNotification(this, 'error', 'Error loading courses');
-				console.error(error);
-      }
+    async connectedCallback() {
+        super.connectedCallback();
+
+        try {
+          this.loading = true;
+          await Actions.getCoursesByVisibility(this, 'public', this.numCoursesLoadOnScroll);
+          const courseList: any = this.shadowRoot.querySelector('#course-list');
+          courseList.dispatchEvent(new CustomEvent('resize'));
+          // For some reason I can't figure out how to loadMoreData
+          // and have the public courses display. So I display the
+          // courses by visibility, and when the user scrolls down
+          // to the bottom, the next courses will load right away.
+          this.baseRef = new Firebase(`https://prendus-${window['PRENDUS_ENV']}.firebaseio.com/courses`);
+          this.scrollRef = new Firebase.util.Scroll(this.baseRef, 'public');
+          await this.loadMoreData(null);
+        } catch(error) {
+                  Actions.showNotification(this, 'error', 'Error loading courses');
+                  console.error(error);
+        }
 
     }
 
     viewCourse(e: any): void {
         const courseId: string = e.model.item.courseId;
         window.history.pushState({}, '', `/courses/view/${courseId}`);
-        this.fire('location-changed', {}, {node: window});
+        this.dispatchEvent(new CustomEvent('location-changed', {
+            detail: {
+                node: window
+            }
+        }));
     }
 
     async starCourse(e: any): Promise<void> {
@@ -92,4 +99,4 @@ class PrendusHomepage {
     }
 }
 
-Polymer(PrendusHomepage);
+window.customElements.define(PrendusHomepage.is, PrendusHomepage);

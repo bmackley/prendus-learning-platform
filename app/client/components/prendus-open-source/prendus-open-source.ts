@@ -1,9 +1,5 @@
-class PrendusOpenSource {
-  public is: string;
-
-  beforeRegister() {
-    this.is = 'prendus-open-source';
-  }
+class PrendusOpenSource extends Polymer.Element {
+    static get is() { return 'prendus-open-source'; }
 }
 
-Polymer(PrendusOpenSource);
+window.customElements.define(PrendusOpenSource.is, PrendusOpenSource);

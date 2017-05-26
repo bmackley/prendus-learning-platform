@@ -5,8 +5,7 @@ import {UserMetaData} from '../../node_modules/prendus-services/typings/user-met
 import {UserType} from '../../node_modules/prendus-services/typings/user-type';
 import {State} from '../../typings/state';
 
-export class PrendusProfile {
-  public is: string;
+export class PrendusProfile extends Polymer.Element {
 	public userType: UserType;
   public firstName: string;
   public lastName: string;
@@ -18,13 +17,13 @@ export class PrendusProfile {
   public metaData: UserMetaData;
   public querySelector: any;
 
-  beforeRegister(): void {
-    this.is = 'prendus-profile';
-  }
+  static get is() { return 'prendus-profile'; }
 
-	ready(): void {
-		Actions.defaultAction(this);
-	}
+  connectedCallback() {
+      super.connectedCallback();
+
+      Actions.defaultAction(this);
+  }
 
 	getUserTypeText(userType: UserType): string {
 		const userTypes: any = {
@@ -116,4 +115,4 @@ export class PrendusProfile {
 	}
 }
 
-Polymer(PrendusProfile);
+window.customElements.define(PrendusProfile.is, PrendusProfile);

@@ -11,9 +11,7 @@ import {QuizOrigin} from '../../node_modules/prendus-services/typings/quiz-origi
 
 declare let window: any;
 
-class PrendusQuestionScaffoldTakeQuiz {
-  public is: string;
-  public properties: any;
+class PrendusQuestionScaffoldTakeQuiz extends Polymer.Element {
   public selectedIndex: number;
   public myIndex: number;
   public action: Action;
@@ -26,32 +24,31 @@ class PrendusQuestionScaffoldTakeQuiz {
   public userEmail: string;
   public courseId: string;
   public quizOrigin: QuizOrigin;
-  public fire: any;
 
-  beforeRegister(): void {
-    this.is = 'prendus-question-scaffold-take-quiz';
-    this.properties = {
-      selectedIndex: {
-        type: Number,
-        observer: 'disableNext'
-      },
-      myIndex: {
-        type: Number
-      },
-      quizId: {
-        type: String
-      },
-      courseId: {
-        type: String
-      }
-    };
+  static get is() { return 'prendus-question-scaffold-take-quiz'; }
+  static get properties() {
+      return {
+        selectedIndex: {
+          type: Number,
+          observer: 'disableNext'
+        },
+        myIndex: {
+          type: Number
+        },
+        quizId: {
+          type: String
+        },
+        courseId: {
+          type: String
+        }
+      };
   }
 
+  connectedCallback() {
+      super.connectedCallback();
 
-  ready(): void {
-    Actions.defaultAction(this);
-    this.quizRootReducer = RootReducer;
-
+      Actions.defaultAction(this);
+      this.quizRootReducer = RootReducer;
   }
 
   disableNext(e: any): void {
@@ -83,7 +80,11 @@ class PrendusQuestionScaffoldTakeQuiz {
           // back to course
           window.history.pushState({}, '', `/courses/view/${this.courseId}`);
         }
-        this.fire('location-changed', {}, {node: window});
+        this.dispatchEvent(new CustomEvent('location-changed', {
+            detail: {
+                node: window
+            }
+        }));
 
       }, time);
   }
@@ -98,4 +99,4 @@ class PrendusQuestionScaffoldTakeQuiz {
   }
 }
 
-Polymer(PrendusQuestionScaffoldTakeQuiz);
+window.customElements.define(PrendusQuestionScaffoldTakeQuiz.is, PrendusQuestionScaffoldTakeQuiz);

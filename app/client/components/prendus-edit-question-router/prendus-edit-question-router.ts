@@ -4,31 +4,26 @@ import {UtilitiesService} from '../../node_modules/prendus-services/services/uti
 import {FirebaseService} from '../../node_modules/prendus-services/services/firebase-service';
 import {QuizSession} from '../../node_modules/prendus-services/typings/quiz-session';
 
-class PrendusEditQuestionRouter {
-    public is: string;
+class PrendusEditQuestionRouter extends Polymer.Element {
     public jwt: string;
     public lessonId: string;
     public quizId: string;
-    public properties: any;
     public querySelector: any;
     public quizSession: QuizSession;
-    public observers: string[];
-		public data: any;
-		public fire: any;
+	public data: any;
 
     private endpointDomain: string;
 
-    beforeRegister(): void {
-        this.is = 'prendus-edit-question-router';
-        this.properties = {
-
-        };
-        this.observers = [
+    static get is() { return 'prendus-edit-question-router'; }
+    static get observers() {
+        return [
         	'_routeChanged(route.*)'
         ];
     }
 
-    async ready(): Promise<void> {
+    async connectedCallback() {
+        super.connectedCallback();
+
         Actions.showMainSpinner(this);
         Actions.defaultAction(this);
         this.endpointDomain = UtilitiesService.getPrendusServerEndpointDomain();
@@ -101,16 +96,17 @@ class PrendusEditQuestionRouter {
         Actions.hideMainSpinner(this);
     }
 
-    mapStateToThis(e: StatechangeEvent): void {
-      const state = e.detail.state;
-      this.jwt = state.jwt;
-    }
 
     async questionSaved(e: any): Promise<void> {
 				// navigate to the saved question
 				// replace history so the back button goes to the quiz and not a new question
 				window.history.replaceState({}, '', `/courses/edit-question/question/${e.target.externalQuestionId}/`);
-				this.fire('location-changed', {}, {node: window});
+                this.dispatchEvent(new CustomEvent('location-changed', {
+                    detail: {
+                        node: window
+                    }
+                }));
+
 				Actions.showNotification(this, 'success', 'Question saved successfully.');
         const editQuizComponent: any = document.querySelector('#edit-quiz');
 				// TODO this is evil, figure out another way to manually reload the questions without a DOM search
@@ -118,6 +114,11 @@ class PrendusEditQuestionRouter {
           editQuizComponent.manuallyReloadQuestions();
         }
     }
+
+    mapStateToThis(e: StatechangeEvent): void {
+        const state = e.detail.state;
+        this.jwt = state.jwt;
+    }
 }
 
-Polymer(PrendusEditQuestionRouter);
+window.customElements.define(PrendusEditQuestionRouter.is, PrendusEditQuestionRouter);

@@ -1,20 +1,18 @@
 import {FirebaseService} from '../../node_modules/prendus-services/services/firebase-service';
 import {UserModel} from '../../node_modules/prendus-services/models/user-model';
 
-class PrendusViewVideoRouter {
-    public is: string;
+class PrendusViewVideoRouter extends Polymer.Element {
     public userFullName: string;
     public userEmail: string;
 
-    beforeRegister() {
-        this.is = 'prendus-view-video-router';
-    }
+    static get is() { return 'prendus-view-video-router'; }
 
-    mapStateToThis(e) {
+    mapStateToThis(e: CustomEvent) {
       const state = e.detail.state;
+
       this.userFullName = `${state.currentUser.metaData.firstName} ${state.currentUser.metaData.lastName}`;
       this.userEmail = state.currentUser.metaData.email;
     }
 }
 
-Polymer(PrendusViewVideoRouter);
+window.customElements.define(PrendusViewVideoRouter.is, PrendusViewVideoRouter);

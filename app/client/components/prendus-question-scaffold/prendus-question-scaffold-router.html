@@ -16,7 +16,7 @@
 	  <style include="prendus-styles">
 	  </style>
 
-    <redux-store on-statechange="mapStateToThis" action="[[action]]"></redux-store>
+    <redux-store on-statechange="mapStateToThis" on-subscribedtostore="subscribedToStore" action="[[action]]"></redux-store>
     <app-route route="[[route]]" pattern="/assignment/:assignmentId" data="{{data}}"></app-route>
 
     <template is="dom-if" if="[[quizId]]">

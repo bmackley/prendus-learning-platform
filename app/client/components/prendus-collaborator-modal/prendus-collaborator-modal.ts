@@ -4,7 +4,7 @@ import {ConstantsService} from '../../node_modules/prendus-services/services/con
 import {DOMRepeatEvent} from '../../node_modules/prendus-services/typings/dom-repeat-event';
 import {State} from '../../typings/state';
 
-class PrendusCollaboratorModal {
+class PrendusCollaboratorModal extends Polymer.Element {
     public is: string;
     public collaboratorEmails: string[];
     public newCollaboratorEmail: string;
@@ -21,7 +21,9 @@ class PrendusCollaboratorModal {
     beforeRegister(): void {
 
         this.is = 'prendus-collaborator-modal';
-        this.properties = {
+        static get is() { return 'prendus-collaborator-modal'; }
+        static get properties() {
+          return {
             uid: {
                 type: String
             },
@@ -49,17 +51,20 @@ class PrendusCollaboratorModal {
             quiz: {
                 type: Boolean
             }
-        };
-        this.observers = [
+          };
+        }
+        static get observers(){
+          return [
             'initCourse(uid, courseId, course)',
             'initLesson(courseId, lessonId, lesson)',
             'initVideo(lessonId, videoId, video)',
             'initQuiz(lessonId, quizId, quiz)'
-        ];
+          ];
+        }
     }
 
     async open(): Promise<void> {
-      this.querySelector('#modal').open();
+      this.shadowRoot.querySelector('#modal').open();
     }
 
     async initCourse(uid: string, courseId: string, course: boolean): Promise<void> {
@@ -181,4 +186,4 @@ class PrendusCollaboratorModal {
     }
 }
 
-Polymer(PrendusCollaboratorModal);
+window.customElements.define(PrendusCollaboratorModal.is, PrendusCollaboratorModal);

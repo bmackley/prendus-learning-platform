@@ -4,28 +4,32 @@ import {FirebaseService} from '../../node_modules/prendus-services/services/fire
 import {Lesson} from '../../node_modules/prendus-services/typings/lesson';
 import {Tag} from '../../node_modules/prendus-services/typings/tag';
 
-export class PrendusLessonContainerEdit {
-  public is: string;
+export class PrendusLessonContainerEdit extends Polymer.Element {
   public title: string;
-  public properties: any;
   public lessonId: string;
   public courseId: string;
-  public observers: string[];
   public selected: number;
   public querySelector: any;
   public tags: Tag[];
-  public fire: any;
 
-  beforeRegister(): void {
-    this.is = 'prendus-lesson-container-edit';
-    this.properties = {
-      lessonId: {
-          type: String
-      }
-    };
-    this.observers = [
-        'init(lessonId)'
-    ];
+  static get is() { return 'prendus-lesson-container-edit'; }
+  static get properties() {
+      return {
+        lessonId: {
+            type: String
+        }
+      };
+  }
+  static get observers() {
+      return [
+          'init(lessonId)'
+      ];
+  }
+
+  constructor() {
+      super();
+
+      this.selected = 0;
   }
 
   async init(): Promise<void> {
@@ -47,7 +51,11 @@ export class PrendusLessonContainerEdit {
 
   editLesson(e: any): void {
 		e.stopPropagation();
-    this.fire('edit-lesson', { lessonId: this.lessonId });
+    this.dispatchEvent(new CustomEvent('edit-lesson', {
+        detail: {
+            lessonId: this.lessonId
+        }
+    }));
   }
 
   openCollaboratorsModal(e: any): void {
@@ -57,11 +65,6 @@ export class PrendusLessonContainerEdit {
 
   toggle(e: any): void {
     this.querySelector('#collapsible-section').toggle();
-  }
-
-  mapStateToThis(e: StatechangeEvent): void {
-    const state = e.detail.state;
-    this.courseId = state.courseViewCurrentCourse.id;
   }
 
   openDeleteModal(e: any): void {
@@ -81,8 +84,10 @@ export class PrendusLessonContainerEdit {
     }
 
   }
-  ready(): void {
-    this.selected = 0;
+
+  mapStateToThis(e: StatechangeEvent): void {
+    const state = e.detail.state;
+    this.courseId = state.courseViewCurrentCourse.id;
   }
 }
 

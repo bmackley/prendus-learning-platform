@@ -8,14 +8,13 @@ import {QuizOrigin} from '../../node_modules/prendus-services/typings/quiz-origi
 import {UtilitiesService} from '../../node_modules/prendus-services/services/utilities-service';
 import {State} from '../../typings/state';
 
-class PrendusViewQuizRouter {
-    public is: string;
-		public uid: string;
-		public courseId: string;
-		public lessonId: string;
-		public quizId: string;
-		public observers: any;
-		public hasEditAccess: boolean;
+class PrendusViewQuizRouter extends Polymer.Element {
+	public uid: string;
+	public courseId: string;
+	public lessonId: string;
+	public quizId: string;
+	public observers: any;
+	public hasEditAccess: boolean;
     public userFullName: string;
     public userEmail: string;
     public jwt: string;
@@ -29,21 +28,20 @@ class PrendusViewQuizRouter {
     public properties: any;
     public ltiJwt: string;
 
-    ready(): void {
-      Actions.defaultAction(this);
+    static get is() { return 'prendus-view-quiz-router'; }
+    static get properties() {
+        return {
+          quizOrigin: {
+            type: Object,
+            observer: 'quizOriginChange'
+          }
+        };
     }
 
-    beforeRegister(): void {
-      this.is = 'prendus-view-quiz-router';
-			this.observers = [
-				'updateEditAccess(data)'
-			];
-      this.properties = {
-        quizOrigin: {
-          type: Object,
-          observer: 'quizOriginChange'
-        }
-      };
+    connectedCallback() {
+        super.connectedCallback();
+
+        Actions.defaultAction(this);
     }
 
     quizOriginChange(): void {
@@ -106,7 +104,8 @@ class PrendusViewQuizRouter {
 
     mapStateToThis(e: StatechangeEvent): void {
       const state: State = e.detail.state;
-			this.uid = state.currentUser.metaData.uid;
+
+      this.uid = state.currentUser.metaData.uid;
       this.userFullName = `${state.currentUser.metaData.firstName} ${state.currentUser.metaData.lastName}`;
       this.userEmail = state.currentUser && state.currentUser.metaData ? state.currentUser.metaData.email : this.userEmail;
       this.jwt = state.jwt;
@@ -115,4 +114,4 @@ class PrendusViewQuizRouter {
     }
 }
 
-Polymer(PrendusViewQuizRouter);
+window.customElements.define(PrendusViewQuizRouter.is, PrendusViewQuizRouter);

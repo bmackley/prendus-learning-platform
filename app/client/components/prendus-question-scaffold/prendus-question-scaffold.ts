@@ -6,8 +6,7 @@ import {Action} from '../../typings/action';
 import {Quiz} from '../../node_modules/prendus-services/typings/quiz';
 import {Question} from '../../node_modules/prendus-services/typings/question';
 
-class PrendusQuestionScaffold {
-  public is: string;
+class PrendusQuestionScaffold extends Polymer.Element {
   public selectedIndex: number;
   public querySelector: any;
   public disableNext: boolean;
@@ -19,33 +18,33 @@ class PrendusQuestionScaffold {
   public action: Action;
   public questionScaffoldsToRate: QuestionScaffold[];
   public questionScaffoldQuizId: string;
-  public properties: any;
   public courseId: string;
   public quizId: string;
   public assignmentId: string;
 
-  beforeRegister(): void {
-    this.is = 'prendus-question-scaffold';
-    this.properties = {
-      courseId: {
-        type: String
-      },
-      assignmentId: {
-        type: String
-      },
-      quizId: {
-        type: String
-      }
-    };
+  static get is() { return 'prendus-question-scaffold'; }
+  static get properties() {
+      return {
+        courseId: {
+          type: String
+        },
+        assignmentId: {
+          type: String
+        },
+        quizId: {
+          type: String
+        }
+      };
   }
 
-  async ready(): Promise<void> {
-    this.selectedIndex = 0;
-    this.numberOfAnswers = 4;
+  async connectedCallback() {
+      super.connectedCallback();
 
-    this.action = await Actions.initializeQuestionScaffoldQuiz(this.quizId, 5);
-    this.action = await Actions.initializeQuestionScaffoldsToRate(this.quizId, 3);
+      this.selectedIndex = 0;
+      this.numberOfAnswers = 4;
 
+      this.action = await Actions.initializeQuestionScaffoldQuiz(this.quizId, 5);
+      this.action = await Actions.initializeQuestionScaffoldsToRate(this.quizId, 3);
   }
 
   calculateRateIndex(index: number): number {
@@ -89,4 +88,4 @@ class PrendusQuestionScaffold {
 	}
 }
 
-Polymer(PrendusQuestionScaffold);
+window.customElements.define(PrendusQuestionScaffold.is, PrendusQuestionScaffold);

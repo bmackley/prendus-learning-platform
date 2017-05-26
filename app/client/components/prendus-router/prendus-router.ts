@@ -4,8 +4,7 @@ import {UtilitiesService} from '../../node_modules/prendus-services/services/uti
 import {State} from '../../typings/state';
 import {Notification} from '../../node_modules/prendus-services/typings/notification';
 
-class PrendusRouter {
-  public is: string;
+class PrendusRouter extends Polymer.Element {
   public username: string;
   public loggedIn: 'true' | 'false';
 	public isAdmin: boolean;
@@ -14,24 +13,23 @@ class PrendusRouter {
   public notificationType: Notification;
   public observers: string[];
   public querySelector: any;
-  public fire: any;
+  public subscribedToReduxStore: boolean;
 
-  beforeRegister() {
-    this.is =  "prendus-router";
+  static get is() { return 'prendus-router'; }
+  static get observers() {
+      return [
+        '_routeChanged(route.*)',
+		'_showNotification(notificationText, notificationType)'
+      ];
+  };
 
-    this.observers = [
-      '_routeChanged(route.*)',
-			'_showNotification(notificationText, notificationType)'
-    ];
-
-  }
   async _routeChanged(routeObject: any): Promise<void> {
-		Actions.hideMainSpinner(this);
+		if (this.subscribedToReduxStore) Actions.hideMainSpinner(this);
     if(!this.username || !this.loggedIn) {
       // Call default action to determine if the user is logged in, since
       // this route change function is called before the first mapStateToThis.
-      Actions.defaultAction(this);
-      await Actions.checkUserAuth(this);
+      if (this.subscribedToReduxStore) Actions.defaultAction(this);
+      if (this.subscribedToReduxStore) await Actions.checkUserAuth(this);
     }
     const route: string = routeObject.value.path;
     switch(route) {
@@ -50,7 +48,13 @@ class PrendusRouter {
 				if(this.loggedIn === 'true') {
 					// user doesn't need to log in again so redirect
 					window.history.pushState({}, '', '/courses/home');
-					this.fire('location-changed', {}, {node: window});
+					// this.fire('location-changed', {}, {node: window});
+                    this.dispatchEvent(new CustomEvent('location-changed', {
+                        bubbles: false,
+                        detail: {
+                            node: window
+                        }
+                    }));
 				} else {
 					UtilitiesService.importElement(this, 'components/prendus-login/prendus-login.html', 'login');
 				}
@@ -61,7 +65,13 @@ class PrendusRouter {
 				if(this.loggedIn === 'true') {
 					// user doesn't need to sign up again so redirect
 					window.history.pushState({}, '', '/courses/home');
-					this.fire('location-changed', {}, {node: window});
+					// this.fire('location-changed', {}, {node: window});
+                    this.dispatchEvent(new CustomEvent('location-changed', {
+                        bubbles: false,
+                        detail: {
+                            node: window
+                        }
+                    }));
 				} else {
 					UtilitiesService.importElement(this, 'components/prendus-create-account/prendus-create-account.html', 'create-account');
 				}
@@ -89,7 +99,13 @@ class PrendusRouter {
 				} else {
 					// don't allow non-admins to see this page
 					window.history.pushState({}, '', '/404');
-					this.fire('location-changed', {}, {node: window});
+					// this.fire('location-changed', {}, {node: window});
+                    this.dispatchEvent(new CustomEvent('location-changed', {
+                        bubbles: false,
+                        detail: {
+                            node: window
+                        }
+                    }));
 				}
         break;
       }
@@ -100,7 +116,13 @@ class PrendusRouter {
 				} else {
 					// don't allow non-admins to see this page
 					window.history.pushState({}, '', '/404');
-					this.fire('location-changed', {}, {node: window});
+					// this.fire('location-changed', {}, {node: window});
+                    this.dispatchEvent(new CustomEvent('location-changed', {
+                        bubbles: false,
+                        detail: {
+                            node: window
+                        }
+                    }));
 				}
         break;
 			}
@@ -113,9 +135,13 @@ class PrendusRouter {
 	_showNotification(notificationType: Notification, notificationText: string): void {
 		let _this = this;
 		setTimeout(() => {
-			this.querySelector('.prendus-notification').show();
+			this.shadowRoot.querySelector('.prendus-notification').show();
 		})
 	}
+
+    subscribedToStore() {
+        this.subscribedToReduxStore = true;
+    }
 
   mapStateToThis(e: StatechangeEvent): void {
       const state: State = e.detail.state;
@@ -128,4 +154,4 @@ class PrendusRouter {
   }
 }
 
-Polymer(PrendusRouter);
+window.customElements.define(PrendusRouter.is, PrendusRouter);

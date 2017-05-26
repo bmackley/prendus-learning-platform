@@ -4,7 +4,8 @@
   "description": "The tool to create and upload videos and quizzes",
   "scripts": {
     "start": "npm install -g bower && bower install && cd app/client && npm install && node_modules/.bin/zwitterion-production",
-    "dev": "cd app/client && node_modules/.bin/zwitterion-production --watch-files --port 8000"
+    "dev": "cd app/client && node_modules/.bin/zwitterion-production --watch-files --port 8000",
+    "link": "cd app/client && npm link prendus-services"
   },
   "engines": {
     "node": "6.3.1"

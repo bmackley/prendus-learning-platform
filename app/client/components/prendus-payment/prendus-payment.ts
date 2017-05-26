@@ -7,8 +7,7 @@ import {StatechangeEvent} from '../../typings/statechange-event';
 import {Actions} from '../../redux/actions';
 import {Course} from '../../node_modules/prendus-services/typings/course';
 
-class PrendusPayment {
-  public is: string;
+class PrendusPayment extends Polymer.Element {
   public subTotal: number;
   public tax: number;
   public total: number;
@@ -20,31 +19,32 @@ class PrendusPayment {
   public successMessage: string;
   public errorMessage: string;
   public querySelector: any;
-  public properties: any;
   public courseId: string;
   public jwt: string;
   public course: Course;
 
-  beforeRegister(): void {
-    this.is = 'prendus-payment';
-    this.properties = {
-      courseId: {
-        type: String,
-        observer: 'courseIdSet'
-      }
-    };
+  static get is() { return 'prendus-payment'; }
+  static get properties() {
+      return {
+        courseId: {
+          type: String,
+          observer: 'courseIdSet'
+        }
+      };
   }
 
-  ready(): void {
-    //TODO set these to real numbers and get rid of hard coded things once our price point is set
-    this.subTotal = this.random(1, 100);
-    this.email = 'mcrowder65@gmail.com';
-    this.tax = Math.round((this.subTotal * .075) * 100) / 100;
-    this.total = Math.round((this.subTotal + this.tax) * 100) / 100;
-    this.name = 'Matt Crowder';
-    this.cardNumber = '4242424242424242';
-    this.expiration = '4/18';
-    this.cvc = '082';
+  constructor() {
+      super();
+
+      //TODO set these to real numbers and get rid of hard coded things once our price point is set
+      this.subTotal = this.random(1, 100);
+      this.email = 'mcrowder65@gmail.com';
+      this.tax = Math.round((this.subTotal * .075) * 100) / 100;
+      this.total = Math.round((this.subTotal + this.tax) * 100) / 100;
+      this.name = 'Matt Crowder';
+      this.cardNumber = '4242424242424242';
+      this.expiration = '4/18';
+      this.cvc = '082';
   }
 
   async courseIdSet(): Promise<void> {
@@ -136,4 +136,4 @@ class PrendusPayment {
   }
 }
 
-Polymer(PrendusPayment);
+window.customElements.define(PrendusPayment.is, PrendusPayment);

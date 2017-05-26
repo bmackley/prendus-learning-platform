@@ -2,19 +2,17 @@ import {Actions} from '../../redux/actions';
 import {StatechangeEvent} from '../../typings/statechange-event';
 import {User} from '../../node_modules/prendus-services/typings/user';
 
-class PrendusTeacherApproval {
-
-  public is: string;
+class PrendusTeacherApproval extends Polymer.Element {
   public unverifiedTeachers: User[];
-	public verifiedTeachers: User[];
+  public verifiedTeachers: User[];
 
-  beforeRegister(): void {
-    this.is = 'prendus-teacher-approval';
-  }
+    static get is() { return 'prendus-teacher-approval'; }
 
-	ready(): void {
-		Actions.loadTeachers(this);
-	}
+    connectedCallback() {
+        super.connectedCallback();
+
+        Actions.loadTeachers(this);
+    }
 
 	showUnverifiedTeachers(unverifiedTeachers: User[]): boolean {
 		return !!unverifiedTeachers.length;
@@ -35,11 +33,12 @@ class PrendusTeacherApproval {
 	}
 
   mapStateToThis(e: StatechangeEvent): void {
-    const state = e.detail.state
-		this.unverifiedTeachers = state.unverifiedTeachers;
-		this.verifiedTeachers = state.verifiedTeachers;
+    const state = e.detail.state;
+
+	this.unverifiedTeachers = state.unverifiedTeachers;
+	this.verifiedTeachers = state.verifiedTeachers;
   }
 
 }
 
-Polymer(PrendusTeacherApproval);
+window.customElements.define(PrendusTeacherApproval.is, PrendusTeacherApproval);

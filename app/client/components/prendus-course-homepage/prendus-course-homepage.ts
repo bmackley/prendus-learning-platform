@@ -5,9 +5,7 @@ import {StatechangeEvent} from '../../typings/statechange-event';
 import {CourseVisibility} from '../../node_modules/prendus-services/typings/course-visibility';
 import {Action} from '../../typings/action';
 
-class PrendusCourseHomepage {
-  public is: string;
-  public properties: any;
+class PrendusCourseHomepage extends Polymer.Element{
   public courses: string[];
   public newCourse: Course;
 	public courseTitle: string;
@@ -28,13 +26,10 @@ class PrendusCourseHomepage {
   public enrolledCourses: Course[];
   public action: Action;
 
-  beforeRegister(): void {
-    this.is = 'prendus-course-homepage';
-    this.properties = {
-    };
-  }
+  static get is() { return 'prendus-course-homepage'; }
 
-  async ready(): Promise<void> {
+  async connectedCallback(): Promise<void> {
+      super.connectedCallback();
       try {
           Actions.showMainSpinner(this);
           const user = await FirebaseService.getLoggedInUser();
@@ -55,7 +50,7 @@ class PrendusCourseHomepage {
   }
 
   openCreateCourseDialog(e: any): void {
-    this.querySelector('#create-course-dialog').open();
+    this.shadowRoot.querySelector('#create-course-dialog').open();
   }
 
 	canCreateCourse(courseTitle: string, courseDescription: string): boolean {
@@ -75,15 +70,15 @@ class PrendusCourseHomepage {
 
 	createCourseOnEnter(e: any): void {
 		if(			e.keyCode === 13
-				&&	this.querySelector('#edit-course-name').validate()
-				&&	this.querySelector('#edit-course-description').validate()) {
+				&&	this.shadowRoot.querySelector('#edit-course-name').validate()
+				&&	this.shadowRoot.querySelector('#edit-course-description').validate()) {
 			this.createCourse(e);
 		}
 	}
 
   // Adds course to database
   async createCourse(e: any): Promise<void> {
-    this.querySelector('#create-course-dialog').close();
+    this.shadowRoot.querySelector('#create-course-dialog').close();
     const visibility: CourseVisibility = 'public';
     const newCourse: Course = {
       id: '',
@@ -108,8 +103,8 @@ class PrendusCourseHomepage {
     }
     this.courseTitle = '';
     this.courseDescription = '';
-		this.querySelector('#edit-course-name').invalid = false;
-		this.querySelector('#edit-course-description').invalid = false;
+		this.shadowRoot.querySelector('#edit-course-name').invalid = false;
+		this.shadowRoot.querySelector('#edit-course-description').invalid = false;
   }
 
   mapStateToThis(e: StatechangeEvent): void {
@@ -124,5 +119,4 @@ class PrendusCourseHomepage {
     this.enrolledCourses = state.enrolledCourses;
   }
 }
-
-Polymer(PrendusCourseHomepage);
+window.customElements.define(PrendusCourseHomepage.is, PrendusCourseHomepage);

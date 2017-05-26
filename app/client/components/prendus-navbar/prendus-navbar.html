@@ -8,34 +8,32 @@
 <link rel="import" href="../../bower_components/iron-icons/iron-icons.html">
 <link rel="import" href="../../bower_components/prendus-styles/prendus-styles.html">
 <link rel="import" href="../../bower_components/prendus-styles/components/prendus-drop-down.html">
+<link rel="import" href="../../node_modules/redux-store-element/redux-store.html">
 
 <dom-module id="prendus-navbar">
-
-  <style include="prendus-styles">
-
-		.navbar-text {
-			color: white;
-		}
-
-		a:hover {
-			text-decoration: none;
-		}
-
-		a, a:visited {
-			color: currentColor;
-		}
-
-		#logo {
-			height: 50px;
-		}
-
-    #home-link {
-      margin-right: auto;
-    }
-
-  </style>
-
   <template>
+      <style include="prendus-styles">
+            .navbar-text {
+                color: white;
+            }
+
+            a:hover {
+                text-decoration: none;
+            }
+
+            a, a:visited {
+                color: currentColor;
+            }
+
+            #logo {
+                height: 50px;
+            }
+
+        #home-link {
+          margin-right: auto;
+        }
+
+      </style>
 
     <redux-store on-statechange="mapStateToThis" action="[[action]]"></redux-store>
     <app-header>

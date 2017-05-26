@@ -1,8 +1,6 @@
 import {Actions} from '../../redux/actions';
 
-export class PrendusVideoEditor {
-    public is: string;
-    public properties: any;
+export class PrendusVideoEditor extends Polymer.Element {
     public videoId: string;
     public $: any;
     public fire: any;
@@ -11,9 +9,9 @@ export class PrendusVideoEditor {
     public title: string;
     public url: string;
 
-    beforeRegister() {
-        this.is = 'prendus-video-editor';
-        this.properties = {
+    static get is() { return 'prendus-video-editor'; }
+    static get properties() {
+        return {
             lessonId: {
                 type: String
             },
@@ -31,7 +29,9 @@ export class PrendusVideoEditor {
         };
     }
 
-    ready() {
+    connectedCallback() {
+        super.connectedCallback();
+
         this.addEventListener('mousedown', (e: any) => {
             e.stopPropagation();
         });
@@ -83,4 +83,4 @@ export class PrendusVideoEditor {
 		}
 }
 
-Polymer(PrendusVideoEditor);
+window.customElements.define(PrendusVideoEditor.is, PrendusVideoEditor);

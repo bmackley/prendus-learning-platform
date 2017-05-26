@@ -5,9 +5,7 @@ import {StatechangeEvent} from '../../typings/statechange-event';
 import {Tag} from '../../node_modules/prendus-services/typings/tag';
 import {Lesson} from '../../node_modules/prendus-services/typings/lesson';
 
-class PrendusLessonNewLesson {
-  public is: string;
-  public properties: any;
+class PrendusLessonEditModal extends Polymer.Element {
   public lessonFormName: string;
   private lessonId: string;
   private lessonHeader: string;
@@ -16,15 +14,14 @@ class PrendusLessonNewLesson {
   public courseId: string;
   public courseLessons: Lesson[];
   // public lessonTagNames: string[];
-	public fire: any;
-  beforeRegister() {
-    this.is = 'prendus-lesson-edit-modal';
-    this.properties = {
-    };
-  }
+
+  static get is() { return 'prendus-lesson-edit-modal'; }
+
   mapStateToThis(e: StatechangeEvent) {
+      //TODO I do not think that the statement below is true, look into this
     //this needs to be here so the actions will fire (this does not have a context unless the mapStateToThis function is here)
   }
+
   open() {
     this.querySelector('#dialog').open();
     this.lessonHeader = 'Add a Lesson to the Course';
@@ -53,7 +50,12 @@ class PrendusLessonNewLesson {
     try {
       await Actions.updateLessonTitle(this.lessonId, this.lessonFormName);
       // await Actions.updateLessonTag   s(this.lessonId, this.lessonTagNames);
-			this.fire('finish-edit-lesson', { lessonId: this.lessonId });
+            this.dispatchEvent(new CustomEvent('finish-edit-lesson', {
+                detail: {
+                    lessonId: this.lessonId
+                }
+            }));
+
       this.querySelector('#dialog').close();
 			Actions.showNotification(this, 'success', `${this.lessonFormName} successfully edited.`);
       // this.querySelector('#lesson-tags').tags = [];
@@ -97,4 +99,4 @@ class PrendusLessonNewLesson {
   }
 }
 
-Polymer(PrendusLessonNewLesson);
+window.customElements.define(PrendusLessonEditModal.is, PrendusLessonEditModal);
