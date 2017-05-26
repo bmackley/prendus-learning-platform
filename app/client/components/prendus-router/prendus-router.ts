@@ -135,7 +135,7 @@ class PrendusRouter extends Polymer.Element {
 	_showNotification(notificationType: Notification, notificationText: string): void {
 		let _this = this;
 		setTimeout(() => {
-			this.querySelector('.prendus-notification').show();
+			this.shadowRoot.querySelector('.prendus-notification').show();
 		})
 	}
 

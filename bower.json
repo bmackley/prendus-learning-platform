@@ -18,7 +18,7 @@
     "app-route": "PolymerElements/app-route#^2.0.0",
     "prendus-question-components": "git@github.com:lastmjs/prendus-question-components.git#polymer-2",
     "prendus-quiz-viewer-component": "git@github.com:lastmjs/prendus-quiz-viewer-component.git#polymer-2",
-    "prendus-styles": "git@github.com:bmackley/prendus-styles#master",
+    "prendus-styles": "git@github.com:bmackley/prendus-styles#polymer-2",
     "prendus-video-viewer-component": "git@github.com:lastmjs/prendus-video-viewer-component.git#develop",
     "paper-tabs": "^2.0.0",
     "paper-menu-button": "^2.0.0",
@@ -57,7 +57,8 @@
     "paper-slider": "^2.0.0",
     "app-layout": "^2.0.0",
     "polymer": "^2.0.1",
-    "iron-scroll-threshold": "^1.0.2"
+    "iron-scroll-threshold": "^1.0.2",
+    "iron-flex-layout": "^2.0.0"
   },
   "resolutions": {
     "paper-dialog": "^2.0.0",

@@ -30,13 +30,15 @@ class PrendusLogin extends Polymer.Element {
 	// for when the user is typing (to be responsive but not obnoxious)
 
 	hardValidateEmail(): void {
-		const emailElement: any = this.shadowRoot.querySelector('#email');
-		emailElement.validate();
+		const emailInput: any = this.shadowRoot.querySelector('#emailInput');
+		emailInput.validate();
 	}
 
 	softValidateEmail(): void {
-		const emailElement: any = this.shadowRoot.querySelector('#email');
-		if(this.email.match(ConstantsService.EMAIL_REGEX) !== null) emailElement.invalid = false;
+		const emailInput: any = this.shadowRoot.querySelector('#emailInput');
+        const email = emailInput.value;
+
+        if(email.match(ConstantsService.EMAIL_REGEX) !== null) emailInput.invalid = false;
 	}
 
 	enableLogIn(email: string, password: string): boolean {
@@ -45,12 +47,22 @@ class PrendusLogin extends Polymer.Element {
 	}
 
 	loginOnEnter(e: any) {
-		if(e.keyCode === 13 && this.enableLogIn(this.email, this.password)) this.login();
+        const email = this.shadowRoot.querySelector('#emailInput').value;
+        const password = this.shadowRoot.querySelector('#passwordInput').value;
+		if(e.keyCode === 13 && this.enableLogIn(email, password)) this.login();
 	}
 
   async login() {
     try {
-      await Actions.loginUser(this, this.email, this.password);
+        const email = this.shadowRoot.querySelector('#emailInput').value;
+        const password = this.shadowRoot.querySelector('#passwordInput').value;
+
+        console.dir(this.shadowRoot.querySelector('#emailInput'));
+
+        console.log(email);
+        console.log(password);
+
+      await Actions.loginUser(this, email, password);
       // use any since this is a firebase generated object
       const firebaseUser: any = await FirebaseService.getLoggedInUser();
       const uid: string = firebaseUser.uid;
