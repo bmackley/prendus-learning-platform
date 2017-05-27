@@ -12,7 +12,7 @@
 
 <dom-module id="prendus-navbar">
   <template>
-      <style include="prendus-styles">
+      <style is="custom-style" include="prendus-styles">
             .navbar-text {
                 color: white;
             }
@@ -41,13 +41,15 @@
           <a id="home-link" href="/"><img id="logo" src="../../images/navbar-logo.png" alt="Prendus"></a>
           <template is="dom-if" if="[[username]]">
 						<prendus-drop-down button-text="[[username]]" button-type="recommended" button-title="Your account and courses" horizontal-align="right" responsive>
-							<a href="/profile">Your account</a>
-							<a href="/courses/home">Your courses</a>
-							<template is="dom-if" if="[[isAdmin]]">
-								<a href="/learning-structure">Learning structure</a>
-								<a href="/teacher-approval">Teacher Approval</a>
-							</template>
-							<button on-tap="logOutUser">Log out</button>
+							<div slot="dropdown-content">
+                <a href="/profile">Your account</a>
+  							<a href="/courses/home">Your courses</a>
+  							<template is="dom-if" if="[[isAdmin]]">
+  								<a href="/learning-structure">Learning structure</a>
+  								<a href="/teacher-approval">Teacher Approval</a>
+  							</template>
+  							<button on-tap="logOutUser">Log out</button>
+              </div>
 						</prendus-drop-down>
           </template>
           <template is="dom-if" if="[[!username]]">

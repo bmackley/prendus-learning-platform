@@ -74,10 +74,10 @@
     "iron-pages": "^2.0.0",
     "paper-toast": "^2.0.0",
     "iron-selector": "^2.0.0",
-    "iron-dropdown": "1 - 2",
+    "iron-dropdown": "^2.0.0",
     "paper-button": "^2.0.0",
     "iron-list": "^2.0.0",
     "iron-input": "^2.0.0",
-    "paper-input": "1 - 2"
+    "paper-input": "^2.0.0"
   }
 }

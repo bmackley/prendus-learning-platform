@@ -11,57 +11,57 @@
 
 <dom-module id="prendus-course-homepage">
 
-  <style include="prendus-styles">
-
-		/* Don't put a margin before dom-if templates */
-		#course-types-container > *:not(template) + * {
-			margin-top: 25px;
-		}
-
-    .courses-container {
-      display: flex;
-      flex-wrap: wrap;
-      max-width: 800px;
-    }
-
-    .course-preview {
-      margin: 0 20px 20px 0;
-      flex-basis: 30%;
-			height: 350px;
-      flex-grow: 0;
-      min-width: 0;
-    }
-
-		#create-course-dialog {
-			width: 33%;
-      min-width: 300px;
-		}
-
-    @media (max-width: 768px) {
-      .course-preview {
-        flex-basis: 45%;
-      }
-    }
-
-		@media (max-width: 500px) {
-			.courses-container {
-				display: block;
-			}
-
-			.course-preview {
-				margin: 10px auto;
-			}
-		}
-
-  </style>
-
   <template>
+    <style is="custom-style" include="prendus-styles">
+
+      /* Don't put a margin before dom-if templates */
+      #course-types-container > *:not(template) + * {
+        margin-top: 25px;
+      }
+
+      .courses-container {
+        display: flex;
+        flex-wrap: wrap;
+        max-width: 800px;
+      }
+
+      .course-preview {
+        margin: 0 20px 20px 0;
+        flex-basis: 30%;
+        height: 350px;
+        flex-grow: 0;
+        min-width: 0;
+      }
+
+      #create-course-dialog {
+        width: 33%;
+        min-width: 300px;
+      }
+
+      @media (max-width: 768px) {
+        .course-preview {
+          flex-basis: 45%;
+        }
+      }
+
+      @media (max-width: 500px) {
+        .courses-container {
+          display: block;
+        }
+
+        .course-preview {
+          margin: 10px auto;
+        }
+      }
+
+    </style>
 
     <redux-store on-statechange="mapStateToThis" action="[[action]]"></redux-store>
     <iron-ajax id="sharedWithMeCourseAjax" method="post" content-type="application/json" handle-as="json"></iron-ajax>
 
 		<div id="course-types-container">
 			<!-- USER OWNED COURSES -->
+
 			<template is="dom-if" if="[[userCourses.length]]">
 				<h1>Your courses</h1>
 				<button class="prendus-button prendus-button--recommended" title="Add Course" on-tap="openCreateCourseDialog"><iron-icon icon="add"></iron-icon> Create course</button>
