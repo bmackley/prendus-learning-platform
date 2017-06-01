@@ -8,15 +8,25 @@
 <dom-module id="prendus-assignment-editor">
     <template>
         <style include="prendus-styles">
+
+          /*this is for the full-screen dialog that we want to implement after GraphQL is up and running.
+          #assignmentDialog{
+              position: fixed;
+              top: 0;
+              left: 0;
+              right: 0;
+              bottom: 0;
+              padding: 0;
+              margin: 0;
+          }*/
           .content-section{
-            margin-top: 10px;
+            margin-top: 15px;
           }
         </style>
 
         <paper-dialog id="assignmentDialog" with-backdrop>
           <paper-dialog-scrollable>
-            <div class="content">
-              <div>
+              <div class="content-section">
                   <paper-input id="titleInput" value="[[assignment.title]]" label ="Assignment Title"></paper-input>
               </div>
 
@@ -27,20 +37,19 @@
                   </template>
               </div>
 
-              <div>
-                  <a class="prendus-button" on-tap="selectConceptTap"><iron-icon icon="add"></iron-icon>[[selectConceptButtonText]]</a>
+              <div class="content-section">
+                  <a class="prendus-button" on-tap="selectConceptTap">[[selectConceptButtonText]]</a>
                   <!-- <button on-tap="selectConceptTap">[[selectConceptButtonText]]</button> -->
               </div>
 
               <template is="dom-if" if="[[showLearningStructureComponent]]">
-                  <prendus-learning-structure id="learningStructureComponent"></prendus-learning-structure>
-                  <a class="prendus-button" on-tap="addTap">Add</a>
+                  <prendus-learning-structure class="content-section" id="learningStructureComponent"></prendus-learning-structure>
+                  <a class="prendus-button content-section" on-tap="addTap"><iron-icon icon="add"></iron-icon>Add</a>
               </template>
 
-              <div class = "buttons">
+              <div class="buttons content-section">
                   <a class="prendus-button prendus-button--recommended" on-tap="save">Done</a>
               </div>
-            </div>
           </paper-dialog-scrollable>
         </paper-dialog>
 

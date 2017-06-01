@@ -137,7 +137,33 @@ class PrendusLessonAssignmentContainer {
     hasAssignments(assignments: Assignment[]): boolean {
         return assignments ? assignments.length !== 0 : true;
     }
+    copyLTIKey(e){
+      var el = this.querySelector(`#${this.courseId}`);
+      const returnedElements = this.selectElementContents(el);
+      document.execCommand('copy', false, returnedElements);
+      Actions.Actions.showNotification(this, 'success', 'LTI Key copied.');
+    }
+    copyLTISecret(e){
+      var el = this.querySelector(`#secret${this.ltiSecret}`);
+      const returnedElements = this.selectElementContents(el);
+      document.execCommand('copy', false, returnedElements);
+      Actions.Actions.showNotification(this, 'success', 'LTI Secret copied.');
+    }
+    copyLTIAssignmentLink(e){
+      var el = this.querySelector('#ltiLinkId');
+      const returnedElements = this.selectElementContents(el);
+      document.execCommand('copy', false, returnedElements);
+      Actions.Actions.showNotification(this, 'success', 'LTI Link copied.');
+    }
 
+    selectElementContents(el) {
+      var range = document.createRange();
+      range.selectNodeContents(el);
+      var sel = window.getSelection();
+      sel.removeAllRanges();
+      sel.addRange(range);
+      return sel;
+    }
     getAssignmentEditAccess(assignment: Assignment) {
         return assignment.uid === this.uid;
     }

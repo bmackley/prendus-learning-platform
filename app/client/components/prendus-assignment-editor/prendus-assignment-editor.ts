@@ -116,7 +116,7 @@ class PrendusAssignmentEditor {
         this.taxonomies = stateChangeAction.taxonomies || this.taxonomies;
         this.concepts = stateChangeAction.concepts || this.concepts;
         this.showLearningStructureComponent = stateChangeAction.showLearningStructureComponent;
-        this.selectConceptButtonText = this.showLearningStructureComponent ? 'Close' : 'Select Concept';
+        this.selectConceptButtonText = this.showLearningStructureComponent ? 'Close' : 'Add Concept';
     }
 }
 

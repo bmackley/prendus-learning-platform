@@ -49,11 +49,11 @@ class PrendusQuestionScaffold {
   }
 
   calculateRateIndex(index: number): number {
-    return index + 6;
+    return index + 7;
   }
 
   calculateTakeIndex(index: number): number {
-    return index + 9;
+    return index + 10;
   }
 
   plusOne(index: number): number {

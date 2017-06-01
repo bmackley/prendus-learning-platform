@@ -51,6 +51,27 @@
               min-width: 0;
               flex-grow: 1;
             }
+
+            .content{
+              display: grid;
+              grid-template-columns: 10% 10% 10% 10% 10% 10% 10% 10% 10% 10%;
+              grid-template-rows: 33% 33% 33%;
+              margin-top:15px;
+            }
+            .lti-title{
+              grid-column-start: 1;
+              grid-column-end: 3;
+              grid-row-start: 2;
+            }
+            .lti-link{
+              grid-column-start: 3;
+              grid-column-end: 9;
+              grid-row-start: 1;
+            }
+            .lti-button{
+              grid-column-start: 10;
+              grid-row-start: 2;
+            }
         </style>
 
         <redux-store action="[[action]]" on-statechange="stateChange"></redux-store>
@@ -94,17 +115,23 @@
           <a class="prendus-button prendus-button--recommended" on-tap="addAssignmentClick"><iron-icon icon="add"></iron-icon>Add Assignment</a>
         </template>
         <paper-dialog id="assignment-lti-links-modal" with-backdrop>
-          <paper-dialog-scrollable>
+          <br>
+          <h2 id ="dialog-header">LTI links</h2>
             <div class="content">
-              <h2>LTI links for</h2>
-              <h3>Key</h3>
-              <paper-textarea value="[[courseId]]"></paper-textarea>
-              <h3>Secret</h3>
-              <paper-textarea value="[[ltiSecret]]"></paper-textarea>
-              <h3>Copy this link to put in your course.</h3>
-              <paper-textarea value="[[ltiLink]]"></paper-textarea>
+              <h5 class = "lti-title">Key</h5>
+              <paper-textarea class="lti-link" id="[[courseId]]" value="[[courseId]]"></paper-textarea>
+              <paper-icon-button class="prendus-icon-button lti-button" icon="content-copy" on-click="copyLTIKey"></paper-icon-button>
             </div>
-          </paper-dialog-scrollable>
+            <div class="content">
+              <h5 class = "lti-title">Secret</h5>
+              <paper-textarea class="lti-link" id="secret[[ltiSecret]]"  value="[[ltiSecret]]"></paper-textarea>
+              <paper-icon-button class="prendus-icon-button lti-button" icon="content-copy" on-click="copyLTISecret"></paper-icon-button>
+            </div>
+            <div class="content">
+              <h5 class = "lti-title">Assignment Link</h5>
+              <paper-textarea class="lti-link" id="ltiLinkId" value="[[ltiLink]]"></paper-textarea>
+              <paper-icon-button class="prendus-icon-button lti-button" icon="content-copy" on-click="copyLTIAssignmentLink"></paper-icon-button>
+            </div>
         </paper-dialog>
     </template>
 
