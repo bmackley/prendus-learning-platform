@@ -1,6 +1,6 @@
 <link href="../../bower_components/polymer/polymer.html" rel="import">
-<link rel="import" href="../../bower_components/app-layout/app-header/app-header.html">
-<link rel="import" href="../../bower_components/app-layout/app-toolbar/app-toolbar.html">
+<link rel="import" href="../../bower_components/paper-header-panel/paper-header-panel.html">
+<link rel="import" href="../../bower_components/paper-toolbar/paper-toolbar.html">
 <link rel="import" href="../../bower_components/paper-listbox/paper-listbox.html">
 <link rel="import" href="../../bower_components/paper-item/paper-item.html">
 <link rel="import" href="../../bower_components/paper-card/paper-card.html">
@@ -12,34 +12,28 @@
 <dom-module id="prendus-navbar">
 
   <style include="prendus-styles">
-
 		.navbar-text {
 			color: white;
 		}
-
 		a:hover {
 			text-decoration: none;
 		}
-
 		a, a:visited {
 			color: currentColor;
 		}
-
 		#logo {
 			height: 50px;
 		}
-
     #home-link {
       margin-right: auto;
     }
-
   </style>
 
   <template>
 
     <redux-store on-statechange="mapStateToThis" action="[[action]]"></redux-store>
-    <app-header>
-        <app-toolbar>
+    <paper-header-panel>
+        <paper-toolbar>
           <a id="home-link" href="/"><img id="logo" src="../../images/navbar-logo.png" alt="Prendus"></a>
           <template is="dom-if" if="[[username]]">
 						<prendus-drop-down button-text="[[username]]" button-type="recommended" button-title="Your account and courses" horizontal-align="right" responsive>
@@ -56,8 +50,8 @@
             <a class="prendus-button prendus-button--recommended navbar-text" href="/login">Log In</a>
             <a class="prendus-button prendus-button--recommended navbar-text" href="/signup">Sign Up</a>
           </template>
-        </app-toolbar>
-    </app-header>
+        </paper-toolbar>
+    </paper-header-panel>
   </template>
 
   <script src="prendus-navbar.ts"></script>
